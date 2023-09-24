@@ -28,6 +28,7 @@
 
 /* Begin PBXFileReference section */
 		B8A20E392AC0B36C00F0CE91 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../Proj_Setting_Resources/Firebase_plist/Carmu/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B8A20E402AC0B9F400F0CE91 /* Carmunication.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmunication.entitlements; sourceTree = "<group>"; };
 		BF37D9C92AB939A3005331AD /* Carmunication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmunication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF37D9CC2AB939A3005331AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +79,7 @@
 		BF37D9CB2AB939A3005331AD /* Carmunication */ = {
 			isa = PBXGroup;
 			children = (
+				B8A20E402AC0B9F400F0CE91 /* Carmunication.entitlements */,
 				BF37D9CC2AB939A3005331AD /* AppDelegate.swift */,
 				BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */,
 				BF4A12452ABED8B500EC1B6D /* Extensions */,
@@ -371,9 +373,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Carmunication/Carmunication.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = RCM87YWJ79;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Carmunication/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -389,6 +394,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dgc.carmunication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Carmu_Development;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -400,9 +406,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Carmunication/Carmunication.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = RCM87YWJ79;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Carmunication/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -418,6 +427,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.dgc.carmunication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = Carmu_Development;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
