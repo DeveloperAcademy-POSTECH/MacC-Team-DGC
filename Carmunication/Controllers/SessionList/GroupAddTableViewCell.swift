@@ -9,13 +9,9 @@ import UIKit
 
 class GroupAddTableViewCell: UITableViewCell {
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -32,6 +28,10 @@ class GroupAddTableViewCell: UITableViewCell {
             subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
             subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
+    }
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
