@@ -19,6 +19,11 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         AddressAndTime(address: "울산", time: "10:30"),
         AddressAndTime(address: "서울", time: "14:30")
     ]
+    let tableViewComponent: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
@@ -71,6 +76,7 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         // 버튼 생성
         let button = UIButton(type: .close)
+        button.tag = section
         button.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         // StackView 생성 및 구성
@@ -94,9 +100,9 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
 
     @objc func buttonTapped(_ sender: UIButton) {
         // 버튼이 눌린 section을 식별하거나 다른 작업 수행
-        if let section = sender.superview?.tag {
-            print("버튼이 눌린 section: \(section)")
-        }
+        let section = sender.tag
+        cellData.remove(at: section)
+        tableViewComponent.reloadData()
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 셀 선택 시 화면 전환 로직 구현
@@ -119,7 +125,11 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
             mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         ])
-        // Do any additional setup after loading the view.
+        tableViewComponent.dataSource = self
+        tableViewComponent.delegate = self
+        tableViewComponent.register(GroupAddTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableViewComponent.separatorStyle = .none
+        tableViewComponent.showsVerticalScrollIndicator = false
     }
 }
 
@@ -134,17 +144,6 @@ extension GroupAddViewController {
         stackView.distribution = .fill
         return stackView
     }
-    func tableViewComponent() -> UITableView {
-        let tableView = UITableView(frame: .zero)
-        // UITableView 설정
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(GroupAddTableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.separatorStyle = .none
-        tableView.showsVerticalScrollIndicator = false
-        return tableView
-    }
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
@@ -152,7 +151,7 @@ extension GroupAddViewController {
         let stackView = mainTopButtonStack()
         let shareButton = buttonComponent("링크 공유하기", .greatestFiniteMagnitude, 60, 30, .black, .gray)
         let mainStackView = UIStackView(
-            arrangedSubviews: [stackView, tableViewComponent(), shareButton]
+            arrangedSubviews: [stackView, tableViewComponent, shareButton]
         )
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.axis = .vertical
