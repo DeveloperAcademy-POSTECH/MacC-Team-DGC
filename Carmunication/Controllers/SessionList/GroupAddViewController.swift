@@ -143,12 +143,17 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
 extension GroupAddViewController {
     func mainTopButtonStack() -> UIStackView {
         let button1 = buttonComponent("추가하기", 110, 30, 20, .blue, .cyan)
+        button1.addTarget(self, action: #selector(addGroupButtonAction), for: .touchUpInside)
         let stackView = UIStackView(arrangedSubviews: [spacer(), button1])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal // 수평 배치
         stackView.alignment = .center
         stackView.distribution = .fill
         return stackView
+    }
+    @objc func addGroupButtonAction() {
+        cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
+        tableViewComponent.reloadData()
     }
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
