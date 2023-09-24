@@ -72,7 +72,7 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         )
         // 헤더 레이블 생성
         let headerLabel = UILabel()
-        headerLabel.text = section == 0 ? "출발지" : section == tableView.numberOfSections - 1 ? "도착지" : "경유지"
+        headerLabel.text = section == 0 ? "출발지" : section == tableView.numberOfSections - 1 ? "도착지" : "경유지 \(section)"
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
         // 버튼 생성
         let button = UIButton(type: .close)
@@ -114,7 +114,7 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         // 셀 선택 시 화면 전환 로직 구현
         let detailViewController = SelectPointMapViewController()
         detailViewController.title = "장소 선택"
-        detailViewController.modalPresentationStyle = .popover
+        detailViewController.modalPresentationStyle = .fullScreen
         present(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
