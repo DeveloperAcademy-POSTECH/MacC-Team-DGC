@@ -16,6 +16,7 @@
 		BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */; };
 		BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */; };
 		BF5F3C502ABD7DB1004AFC73 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5F3C4F2ABD7DB1004AFC73 /* MyProfileViewController.swift */; };
+		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		BF5F3C4F2ABD7DB1004AFC73 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
+		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,9 +89,18 @@
 				BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */,
 				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
 				BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */,
+				C9DE7C312AC01B04005AFCC6 /* SessionList */,
 				BF5F3C4F2ABD7DB1004AFC73 /* MyProfileViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
+			isa = PBXGroup;
+			children = (
+				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
+			);
+			path = SessionList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -187,6 +198,7 @@
 			files = (
 				BF5F3C502ABD7DB1004AFC73 /* MyProfileViewController.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
+				C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
