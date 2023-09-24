@@ -75,7 +75,8 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
     // UITableView Delegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 셀 선택 시 화면 전환 로직 구현
-        let detailViewController = UIViewController()
+        let detailViewController = GroupDetailViewController()
+        detailViewController.title = cellData[indexPath.section].groupTitle
         navigationController?.pushViewController(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
