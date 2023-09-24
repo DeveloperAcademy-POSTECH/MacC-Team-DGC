@@ -80,7 +80,12 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         button.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         // StackView 생성 및 구성
-        let headerStackView = UIStackView(arrangedSubviews: [headerLabel, spacer(), button])
+        let headerStackView = UIStackView(
+            arrangedSubviews: [
+                headerLabel, spacer(),
+                button.tag > 0 && button.tag < cellData.count - 1 ? button : spacer()
+            ]
+        )
         headerStackView.translatesAutoresizingMaskIntoConstraints = false
         headerStackView.axis = .horizontal
         headerStackView.alignment = .center
@@ -103,6 +108,7 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         let section = sender.tag
         cellData.remove(at: section)
         tableViewComponent.reloadData()
+    
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 셀 선택 시 화면 전환 로직 구현
