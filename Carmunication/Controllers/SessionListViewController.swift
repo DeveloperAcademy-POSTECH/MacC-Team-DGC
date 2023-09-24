@@ -98,6 +98,7 @@ extension SessionListViewController {
         tableView.delegate = self
         tableView.register(CustomListTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
         return tableView
     }
     func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat, _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
