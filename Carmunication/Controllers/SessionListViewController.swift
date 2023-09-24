@@ -10,18 +10,20 @@ import UIKit
 struct DummyGroup {
     var groupTitle: String = "(주)좋좋소"
     var subTitle: String = "늦으면 큰일이 나요"
+    var isDriver: Bool = false
 }
 
 final class SessionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var cellData: [DummyGroup] = [
+        DummyGroup(),
         DummyGroup(groupTitle: "(주)좋좋소", subTitle: "회사"),
-        DummyGroup(groupTitle: "김배찌", subTitle: "바지사장"),
+        DummyGroup(groupTitle: "김배찌", subTitle: "바지사장", isDriver: true),
         DummyGroup(groupTitle: "우니", subTitle: "회장"),
         DummyGroup(groupTitle: "김레이", subTitle: "개발2팀장"),
         DummyGroup(groupTitle: "김테드", subTitle: "개발1팀장"),
         DummyGroup(groupTitle: "젤리빈", subTitle: "마케팅팀장"),
-        DummyGroup(groupTitle: "권지수", subTitle: "디자인팀장"),
+        DummyGroup(groupTitle: "권지수", subTitle: "디자인팀장", isDriver: true),
         DummyGroup(groupTitle: "애플아카데미", subTitle: "C5"),
         DummyGroup(groupTitle: "12시가 되었다.", subTitle: "큰일이야"),
         DummyGroup(groupTitle: "나는", subTitle: "배가고파")
@@ -60,6 +62,7 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
             // 셀에 Title, Subtitle, chevron 마크 설정
             cell.titleLabel.text = "\(cellData[indexPath.section].groupTitle)"
             cell.subtitleLabel.text = "\(cellData[indexPath.section].subTitle)"
+            cell.driverLabel.text = cellData[indexPath.section].isDriver ? "Driver" : " "
             cell.accessoryType = .disclosureIndicator
             cell.backgroundColor = UIColor(hexCode: "F1F3FF")
             cell.layer.cornerRadius = 20
