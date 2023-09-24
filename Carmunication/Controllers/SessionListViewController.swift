@@ -14,3 +14,22 @@ final class SessionListViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
 }
+
+// MARK: - Preview canvas 세팅
+import SwiftUI
+
+struct SessionListViewControllerRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = SessionListViewController
+    func makeUIViewController(context: Context) -> SessionListViewController {
+        return SessionListViewController()
+    }
+    func updateUIViewController(_ uiViewController: SessionListViewController, context: Context) {
+    }
+}
+
+@available(iOS 13.0.0, *)
+struct SecondViewPreview: PreviewProvider {
+    static var previews: some View {
+        SessionListViewControllerRepresentable()
+    }
+}
