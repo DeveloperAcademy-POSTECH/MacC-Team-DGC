@@ -1,7 +1,7 @@
 ## PR Checklist
 
-Please check if your PR fulfills the following requirements:
-<!-- 아래 체크리스트를 확인하여 PR 전 마지막으로 다시 한번 빼먹은건 없는지 점검해봅니다. - [X] 표시하면 체크됩니다. -->
+아래 체크리스트를 확인하여 PR이 아래 항목들을 충족하는지 확인합니다. **(편집기 상에서는 [X] 표시하면 체크됩니다.)**
+<!-- 아래 체크리스트를 확인하여 PR이 아래 항목들을 충족하는지 확인합니다. (편집기 상에서는 [X] 표시하면 체크됩니다.) -->
 
 - [ ] 팀원들과 약속한 커밋메세지 룰을 지켜서 작성했나요?
 - [ ] 추가/변경사항에 대한 테스트는 진행했나요?
@@ -9,8 +9,8 @@ Please check if your PR fulfills the following requirements:
 
 ## PR Type
 
-What kind of change does this PR introduce?
-<!-- PR에 해당하는 작업들을 체크해줍니다. - [X] 표시하면 체크됩니다. -->
+어떤 변경사항이 있는지 PR에 해당하는 작업들을 체크해줍니다. **(편집기 상에서는 [X] 표시하면 체크됩니다.)**
+<!-- 어떤 변경사항이 있는지 PR에 해당하는 작업들을 체크해줍니다. (편집기 상에서는 [X] 표시하면 체크됩니다.) -->
 
 - [ ] Feat: 새로운 기능을 추가
 - [ ] Fix: 버그 수정
@@ -27,8 +27,7 @@ What kind of change does this PR introduce?
 - [ ] Remove: 파일을 삭제하는 작업만 수행한 경우
 
 ## What is the current behavior?
-<!-- 이번 PR의 작업 내용에 대해 설명해줍니다. -->
-
+<!-- PR의 작업 내용에 대한 설명을 적습니다. - 추가/변경사항에 대해 작성해주세요. -->
 추가/변경사항에 대해 작성해주세요.
 
 <!-- 관련 이슈 번호도 함께 표기해주세요 ex) Issue Number: #43 -->
