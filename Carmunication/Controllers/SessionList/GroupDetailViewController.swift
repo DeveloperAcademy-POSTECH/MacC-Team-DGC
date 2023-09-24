@@ -21,6 +21,11 @@ class GroupDetailViewController: UIViewController {
             mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
         ])
     }
+}
+
+// MARK: - Component & Stacks
+
+extension GroupDetailViewController {
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
@@ -32,6 +37,9 @@ class GroupDetailViewController: UIViewController {
         mainStackView.spacing = 12
         return mainStackView
     }
+    /**
+     주행거리 표시 라벨
+     */
     func distanceLabel() -> UIStackView {
         let label1 = UILabel()
         let label2 = UILabel()
@@ -44,6 +52,9 @@ class GroupDetailViewController: UIViewController {
         stackView.distribution = .fill
         return stackView
     }
+    /**
+     운전자일 경우 표시되는 Button Stack
+     */
     func driverBottomButtonStack() -> UIStackView {
         let button1 = buttonComponent("그만 두기", 130, 40, .blue, .cyan)
         let button2 = buttonComponent("수정 하기", 130, 40, .blue, .cyan)
@@ -55,6 +66,9 @@ class GroupDetailViewController: UIViewController {
         stackView.distribution = .fill
         return stackView
     }
+    /**
+     크루일 경우 표시되는 Button Stack
+     */
     func crewBottomButtonStack() -> UIStackView {
         let button = buttonComponent("그만 두기", .greatestFiniteMagnitude, 60, .blue, .cyan)
         button.addTarget(self, action: #selector(dummyButtonAction), for: .touchUpInside)
@@ -65,8 +79,9 @@ class GroupDetailViewController: UIViewController {
         stackView.distribution = .fill
         return stackView
     }
-    @objc func dummyButtonAction() {
-    }
+    /**
+     이 뷰에서 사용되는 buttonComponent
+     */
     func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
                          _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
@@ -85,6 +100,18 @@ class GroupDetailViewController: UIViewController {
         spacerView.translatesAutoresizingMaskIntoConstraints = false
         return spacerView
     }
+}
+
+// MARK: - @objc Method
+extension GroupDetailViewController {
+    /**
+     추후 그룹 해체 기능으로 사용될 액션 메서드
+     */
+    @objc func dummyButtonAction() {
+    }
+    /**
+     그룹 만들기 화면으로 넘어가는 액션 메서드
+     */
     @objc func moveToAddGroup() {
         let groudAddViewController = GroupAddViewController()
         groudAddViewController.title = "그룹 만들기"
