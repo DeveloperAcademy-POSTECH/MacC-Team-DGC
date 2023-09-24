@@ -58,7 +58,9 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
         return 60
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? CustomListTableViewCell {
+        if let cell = tableView.dequeueReusableCell(
+            withIdentifier: "cell",
+            for: indexPath) as? CustomListTableViewCell {
             // 셀에 Title, Subtitle, chevron 마크 설정
             cell.titleLabel.text = "\(cellData[indexPath.section].groupTitle)"
             cell.subtitleLabel.text = "\(cellData[indexPath.section].subTitle)"
@@ -68,7 +70,6 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
             cell.layer.cornerRadius = 20
             return cell
         } else {
-            // 셀을 생성하는 데 실패한 경우, 기본 UITableViewCell을 반환.
             return UITableViewCell()
         }
     }
@@ -124,7 +125,8 @@ extension SessionListViewController {
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }
-    func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat, _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
+    func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
+                         _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.setTitleColor(fontColor, for: .normal)
@@ -146,7 +148,6 @@ extension SessionListViewController {
         groudAddViewController.title = "그룹 만들기"
         navigationController?.pushViewController(groudAddViewController, animated: true)
     }
-    
 }
 
 extension UIImage {

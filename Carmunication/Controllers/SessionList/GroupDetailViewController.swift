@@ -9,7 +9,6 @@ import UIKit
 
 class GroupDetailViewController: UIViewController {
     var selectedGroup: DummyGroup?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -67,9 +66,9 @@ class GroupDetailViewController: UIViewController {
         return stackView
     }
     @objc func dummyButtonAction() {
-        
     }
-    func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat, _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
+    func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
+                         _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.setTitleColor(fontColor, for: .normal)
@@ -93,21 +92,21 @@ class GroupDetailViewController: UIViewController {
     }
 }
 
-//// MARK: - Preview canvas 세팅
-//import SwiftUI
-//
-//struct GroupDetailViewControllerRepresentable: UIViewControllerRepresentable {
-//    typealias UIViewControllerType = GroupDetailViewController
-//    func makeUIViewController(context: Context) -> GroupDetailViewController {
-//        return GroupDetailViewController(coder: ) ?? <#default value#>
-//    }
-//    func updateUIViewController(_ uiViewController: GroupDetailViewController, context: Context) {
-//    }
-//}
-//
-//@available(iOS 13.0.0, *)
-//struct GroupDetailViewPreview: PreviewProvider {
-//    static var previews: some View {
-//        GroupDetailViewControllerRepresentable()
-//    }
-//}
+// MARK: - Preview canvas 세팅
+import SwiftUI
+
+struct GroupDetailViewControllerRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = GroupDetailViewController
+    func makeUIViewController(context: Context) -> GroupDetailViewController {
+        return GroupDetailViewController()
+    }
+    func updateUIViewController(_ uiViewController: GroupDetailViewController, context: Context) {
+    }
+}
+
+@available(iOS 13.0.0, *)
+struct GroupDetailViewPreview: PreviewProvider {
+    static var previews: some View {
+        GroupDetailViewControllerRepresentable()
+    }
+}

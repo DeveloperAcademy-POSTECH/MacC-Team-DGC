@@ -13,7 +13,10 @@ struct AddressAndTime {
 }
 
 class GroupAddViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var cellData: [AddressAndTime] = [AddressAndTime(address: "C5", time: "08:30"), AddressAndTime(address: "가속기", time: "09:30")]
+    var cellData: [AddressAndTime] = [
+        AddressAndTime(address: "C5", time: "08:30"),
+        AddressAndTime(address: "가속기", time: "09:30")
+    ]
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
@@ -31,7 +34,12 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let dummyViewHeight = CGFloat(40)
-        tableView.tableHeaderView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.size.width, height: dummyViewHeight))
+        tableView.tableHeaderView = UIView(
+            frame: CGRect(
+                x: 0, y: 0,
+                width: tableView.bounds.size.width,
+                height: dummyViewHeight)
+            )
         tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? GroupAddTableViewCell {
             // 셀에 Title, Subtitle, chevron 마크 설정
@@ -48,13 +56,16 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // 헤더 뷰 생성
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 44))
-        
+        let headerView = UIView(
+            frame: CGRect(
+                x: 0, y: 0,
+                width: tableView.frame.size.width,
+                height: 44)
+        )
         // 헤더 레이블 생성
         let headerLabel = UILabel()
         headerLabel.text = section == 0 ? "출발지" : section == tableView.numberOfSections - 1 ? "도착지" : "경유지"
         headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         // 버튼 생성
         let button = UIButton(type: .close)
         button.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
@@ -65,7 +76,6 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         headerStackView.axis = .horizontal
         headerStackView.alignment = .center
         headerStackView.distribution = .fill
-        
         // 헤더 뷰에 StackView 추가
         headerView.addSubview(headerStackView)
         tableView.sectionHeaderTopPadding = 0
@@ -76,7 +86,6 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
             headerStackView.topAnchor.constraint(equalTo: headerView.topAnchor),
             headerStackView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
         ])
-        
         return headerView
     }
 
@@ -145,7 +154,8 @@ extension GroupAddViewController {
         mainStackView.spacing = 12
         return mainStackView
     }
-    func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat, _ cornerRadius: CGFloat, _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
+    func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
+                         _ cornerRadius: CGFloat, _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.setTitleColor(fontColor, for: .normal)
