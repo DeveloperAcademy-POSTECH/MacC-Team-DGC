@@ -16,6 +16,8 @@ fileprivate var currentNonce: String?
 class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.view.backgroundColor = .white
         setSignInWithAppleButton()
     }
     // MARK: - 애플 로그인 버튼
@@ -56,8 +58,12 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                     return
                 }
                 print("\(authResult?.description ?? "")")
+                print("fullName: \(Auth.auth().currentUser?.displayName ?? "None")")
+                print("email: \(Auth.auth().currentUser?.email ?? "None")")
+                print("UUID: \(Auth.auth().currentUser?.uid ?? "None")")
                 // 로그인 성공 시 메인 탭 바 뷰로 이동
                 let mainTabBarView = MainTabBarViewController()
+                // TODO: - 내비게이션 처리 변경 필요
                 self.navigationController?.pushViewController(mainTabBarView, animated: true)
             }
         }
