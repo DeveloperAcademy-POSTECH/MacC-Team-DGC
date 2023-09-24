@@ -66,6 +66,7 @@ extension SessionListViewController {
     func mainTopButtonStack() -> UIStackView {
         let button1 = buttonComponent("받은 초대", 130, 40, .blue, .cyan)
         let button2 = buttonComponent("새 그룹 만들기", 130, 40, .blue, .cyan)
+        button2.addTarget(self, action: #selector(moveToAddGroup), for: .touchUpInside)
         let stackView = UIStackView(arrangedSubviews: [button1, spacer(), button2])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal // 수평 배치
@@ -116,6 +117,12 @@ extension SessionListViewController {
         spacerView.translatesAutoresizingMaskIntoConstraints = false
         return spacerView
     }
+    @objc func moveToAddGroup() {
+        let groudAddViewController = GroupAddViewController()
+        groudAddViewController.title = "그룹 만들기"
+        navigationController?.pushViewController(groudAddViewController, animated: true)
+    }
+    
 }
 
 extension UIImage {
