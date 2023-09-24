@@ -41,6 +41,10 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
                 mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
     }
+}
+
+// MARK: - TableView Method
+extension SessionListViewController {
     // UITableView DataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1 // 셀 개수 설정

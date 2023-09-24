@@ -24,6 +24,30 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+
+        let mainStackView = mainStack()
+        view.addSubview(mainStackView)
+        // Auto Layout 설정
+        NSLayoutConstraint.activate([
+            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
+            mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+        ])
+        tableViewComponent.dataSource = self
+        tableViewComponent.delegate = self
+        tableViewComponent.register(GroupAddTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableViewComponent.separatorStyle = .none
+        tableViewComponent.showsVerticalScrollIndicator = false
+    }
+}
+
+// MARK: - tableView protocol Method
+extension GroupAddViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
@@ -102,14 +126,6 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         ])
         return headerView
     }
-
-    @objc func buttonTapped(_ sender: UIButton) {
-        // 버튼이 눌린 section을 식별하거나 다른 작업 수행
-        let section = sender.tag
-        cellData.remove(at: section)
-        tableViewComponent.reloadData()
-    
-    }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 셀 선택 시 화면 전환 로직 구현
         let detailViewController = SelectPointMapViewController()
@@ -118,24 +134,15 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         present(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
+}
 
-        let mainStackView = mainStack()
-        view.addSubview(mainStackView)
-        // Auto Layout 설정
-        NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
-        ])
-        tableViewComponent.dataSource = self
-        tableViewComponent.delegate = self
-        tableViewComponent.register(GroupAddTableViewCell.self, forCellReuseIdentifier: "cell")
-        tableViewComponent.separatorStyle = .none
-        tableViewComponent.showsVerticalScrollIndicator = false
+// MARK: - @objc Method
+extension GroupAddViewController {
+    @objc func buttonTapped(_ sender: UIButton) {
+        // 버튼이 눌린 section을 식별하거나 다른 작업 수행
+        let section = sender.tag
+        cellData.remove(at: section)
+        tableViewComponent.reloadData()
     }
 }
 
