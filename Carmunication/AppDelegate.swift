@@ -5,6 +5,7 @@
 //  Created by 허준혁 on 2023/09/19.
 //
 
+import FirebaseCore
 import UIKit
 
 @main
@@ -14,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        FirebaseApp.configure() // Firebase 초기화 (연결)
         return true
     }
 
