@@ -18,8 +18,10 @@ class CustomListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        contentView.addSubview(titleLabel)
         subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.font = UIFont.systemFont(ofSize: 17)
+        subtitleLabel.font = UIFont.systemFont(ofSize: 15)
+        contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         // Auto Layout 설정(셀 내부)
         NSLayoutConstraint.activate([
