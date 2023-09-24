@@ -15,13 +15,15 @@ struct AddressAndTime {
 class GroupAddViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var cellData: [AddressAndTime] = [
         AddressAndTime(address: "C5", time: "08:30"),
-        AddressAndTime(address: "가속기", time: "09:30")
+        AddressAndTime(address: "가속기", time: "09:30"),
+        AddressAndTime(address: "울산", time: "10:30"),
+        AddressAndTime(address: "서울", time: "14:30")
     ]
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 5
+        return cellData.count
     }
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 42
@@ -41,10 +43,11 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
                 height: dummyViewHeight)
             )
         tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
+        tableView.isScrollEnabled = numberOfSections(in: tableView) <= 3 ? false : true
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? GroupAddTableViewCell {
             // 셀에 Title, Subtitle, chevron 마크 설정
-            cell.titleLabel.text = "주소 : \(cellData[cell.superview?.tag ?? 0].address)"
-            cell.subtitleLabel.text = "탑승 시간 : \(cellData[cell.superview?.tag ?? 0].time)"
+            cell.titleLabel.text = "주소 : \(cellData[indexPath.section].address)"
+            cell.subtitleLabel.text = "탑승 시간 : \(cellData[indexPath.section].time)"
             cell.accessoryType = .disclosureIndicator
             cell.backgroundColor = UIColor(hexCode: "F1F3FF")
             cell.layer.cornerRadius = 20
@@ -97,8 +100,10 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 셀 선택 시 화면 전환 로직 구현
-        let detailViewController = UIViewController()
-        navigationController?.pushViewController(detailViewController, animated: true)
+        let detailViewController = SelectPointMapViewController()
+        detailViewController.title = "장소 선택"
+        detailViewController.modalPresentationStyle = .popover
+        present(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     override func viewDidLoad() {
