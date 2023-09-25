@@ -63,8 +63,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 print("UUID: \(Auth.auth().currentUser?.uid ?? "None")")
                 // 로그인 성공 시 메인 탭 바 뷰로 이동
                 let mainTabBarView = MainTabBarViewController()
-                // TODO: - 내비게이션 처리 변경 필요
-                self.navigationController?.pushViewController(mainTabBarView, animated: true)
+                // present() 애니메이션 커스텀 (오른쪽->왼쪽)
+                let transition = CATransition()
+                transition.duration = 0.3
+                transition.type = CATransitionType.push
+                transition.subtype = CATransitionSubtype.fromRight
+                self.view.window?.layer.add(transition, forKey: kCATransition)
+                mainTabBarView.modalPresentationStyle = .fullScreen
+                self.present(mainTabBarView, animated: true)
             }
         }
     }
