@@ -1,7 +1,7 @@
 ---
 name: DGC Issue Template
 about: 좋좋소 팀의 이슈생성을 위한 기본 템플릿입니다.
-title: "[feat] issue name"
+title: "[Feat] issue name"
 labels: ''
 assignees: ''
 
