@@ -22,6 +22,17 @@ final class SessionStartViewController: UIViewController {
         GroupData(image: UIImage(systemName: "square")!, groupName: "group5"),
         GroupData(image: UIImage(systemName: "heart")!, groupName: "group6")
     ]
+    
+    let journeyTogetherButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("여정 함께하기", for: .normal)
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.backgroundColor = .systemBlue
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        btn.layer.cornerRadius = 8
+        return btn
+    }()
 
     fileprivate let groupCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -40,6 +51,7 @@ final class SessionStartViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setCollectionView()
+        setJourneyTogetherButton()
     }
 }
 
@@ -60,6 +72,22 @@ extension SessionStartViewController {
         groupCollectionView.dataSource = self
     }
     
+    private func setJourneyTogetherButton() {
+        view.addSubview(journeyTogetherButton)
+        
+        NSLayoutConstraint.activate([
+            journeyTogetherButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -120),
+            journeyTogetherButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            journeyTogetherButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            journeyTogetherButton.heightAnchor.constraint(equalToConstant: 120)  // 버튼의 높이 조절
+        ])
+        
+        journeyTogetherButton.addTarget(self, action: #selector(goToMapView), for: .touchUpInside)
+    }
+    
+    @objc private func goToMapView() {
+        print("Touch")
+    }
     
 }
 
