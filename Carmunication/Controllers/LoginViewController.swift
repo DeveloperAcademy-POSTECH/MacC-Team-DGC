@@ -16,7 +16,6 @@ fileprivate var currentNonce: String?
 class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         self.view.backgroundColor = .white
         setSignInWithAppleButton()
     }
@@ -26,8 +25,14 @@ class LoginViewController: UIViewController {
         appleSignInButton.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
         appleSignInButton.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(appleSignInButton)
-        appleSignInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        appleSignInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 300).isActive = true
+
+        NSLayoutConstraint.activate([
+            appleSignInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            appleSignInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            appleSignInButton.widthAnchor.constraint(equalToConstant: 200), // 원하는 너비로 조절
+            appleSignInButton.heightAnchor.constraint(equalToConstant: 60),
+        ])
+        appleSignInButton.cornerRadius = 20
     }
 }
 
