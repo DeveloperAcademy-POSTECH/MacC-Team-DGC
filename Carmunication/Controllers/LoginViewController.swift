@@ -30,7 +30,7 @@ class LoginViewController: UIViewController {
             appleSignInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             appleSignInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             appleSignInButton.widthAnchor.constraint(equalToConstant: 200), // 원하는 너비로 조절
-            appleSignInButton.heightAnchor.constraint(equalToConstant: 60),
+            appleSignInButton.heightAnchor.constraint(equalToConstant: 60)
         ])
         appleSignInButton.cornerRadius = 20
     }
@@ -39,7 +39,10 @@ class LoginViewController: UIViewController {
 // MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerDelegate {
     // MARK: - 승인 시 authorization을 리턴하는 메소드
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization
+    ) {
         if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
             guard let nonce = currentNonce else {
                 fatalError("Invalid state: A login callback was received, but no login request was sent.")
