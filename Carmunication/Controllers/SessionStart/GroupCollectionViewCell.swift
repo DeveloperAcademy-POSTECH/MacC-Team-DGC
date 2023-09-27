@@ -8,7 +8,7 @@
 import UIKit
 
 final class GroupCollectionViewCell: UICollectionViewCell {
-    // 데이터들(groupImage, groupNameLabel)이 fileprivate이기 때문에 위 식을 통해 뷰 컨트롤러에 데이터 전달
+    // 위 식을 통해 뷰 컨트롤러에 데이터 전달
     var groupData: GroupData? {
         didSet {
             guard let groupData = groupData else { return }
