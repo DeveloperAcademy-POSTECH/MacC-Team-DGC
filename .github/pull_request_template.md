@@ -33,6 +33,9 @@
 <!-- 관련 이슈 번호도 함께 표기해주세요 ex) Issue Number: #43 -->
 Issue Number: N/A
 
+<!-- 해당 이슈가 해결되었다면 이슈번호를 작성해주세요. ex) Resolved: #43 -->
+Resolved: #
+
 ## Other information
 <!-- 기타 참고사항이 있다면 작성해줍니다. -->
 뷰를 그린 경우 완성된 화면의 스크린샷을 같이 첨부해주세요.
