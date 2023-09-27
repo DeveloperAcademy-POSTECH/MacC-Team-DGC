@@ -43,44 +43,45 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         controller: ASAuthorizationController,
         didCompleteWithAuthorization authorization: ASAuthorization
     ) {
-        if let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential {
-            guard let nonce = currentNonce else {
-                fatalError("Invalid state: A login callback was received, but no login request was sent.")
-            }
-            guard let appleIDToken = appleIDCredential.identityToken else {
-                print("Unable to fetch identity token")
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+            fatalError("Credential을 찾을 수 없습니다.")
+        }
+        guard let nonce = currentNonce else {
+            fatalError("Invalid state: A login callback was received, but no login request was sent.")
+        }
+        guard let appleIDToken = appleIDCredential.identityToken else {
+            print("Unable to fetch identity token")
+            return
+        }
+        guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
+            print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
+            return
+        }
+        // Firebase credential 초기화
+        // → 애플 로그인에 성공했으면 해시되지 않은 nonce가 포함된 애플의 응답에서 ID 토큰을 사용하여 파이어베이스에도 인증을 수행해줍니다.
+        let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
+                                                       rawNonce: nonce,
+                                                       fullName: appleIDCredential.fullName)
+        // 파이어베이스 인증 수행
+        Auth.auth().signIn(with: credential)  { (authResult, error) in
+            if let error = error {
+                print("파이어베이스 로그인 실패: \(error.localizedDescription)")
                 return
             }
-            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-                return
-            }
-            // Firebase credential 초기화
-            // → 애플 로그인에 성공했으면 해시되지 않은 nonce가 포함된 애플의 응답에서 ID 토큰을 사용하여 파이어베이스에도 인증을 수행해줍니다.
-            let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
-                                                           rawNonce: nonce,
-                                                           fullName: appleIDCredential.fullName)
-            // 파이어베이스에 인증
-            Auth.auth().signIn(with: credential) { (authResult, error) in
-                if let error = error {
-                    print("파이어베이스 로그인 실패: \(error.localizedDescription)")
-                    return
-                }
-                print("\(authResult?.description ?? "")")
-                print("fullName: \(Auth.auth().currentUser?.displayName ?? "None")")
-                print("email: \(Auth.auth().currentUser?.email ?? "None")")
-                print("UUID: \(Auth.auth().currentUser?.uid ?? "None")")
-                // 로그인 성공 시 메인 탭 바 뷰로 이동
-                let mainTabBarView = MainTabBarViewController()
-                // present() 애니메이션 커스텀 (오른쪽->왼쪽)
-                let transition = CATransition()
-                transition.duration = 0.3
-                transition.type = CATransitionType.push
-                transition.subtype = CATransitionSubtype.fromRight
-                self.view.window?.layer.add(transition, forKey: kCATransition)
-                mainTabBarView.modalPresentationStyle = .fullScreen
-                self.present(mainTabBarView, animated: true)
-            }
+            print("\(authResult?.description ?? "")")
+            print("fullName: \(Auth.auth().currentUser?.displayName ?? "None")")
+            print("email: \(Auth.auth().currentUser?.email ?? "None")")
+            print("UUID: \(Auth.auth().currentUser?.uid ?? "None")")
+            // 로그인 성공 시 메인 탭 바 뷰로 이동
+            let mainTabBarView = MainTabBarViewController()
+            // present() 애니메이션 커스텀 (오른쪽->왼쪽)
+            let transition = CATransition()
+            transition.duration = 0.3
+            transition.type = CATransitionType.push
+            transition.subtype = CATransitionSubtype.fromRight
+            self.view.window?.layer.add(transition, forKey: kCATransition)
+            mainTabBarView.modalPresentationStyle = .fullScreen
+            self.present(mainTabBarView, animated: true)
         }
     }
     // MARK: - 인증 플로우가 정상적으로 끝나지 않았거나, credential이 존재하지 않을 때 호출
