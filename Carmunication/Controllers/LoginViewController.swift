@@ -10,7 +10,7 @@ import CryptoKit
 import FirebaseAuth
 import UIKit
 
-// Unhashed nonce.
+// 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
 fileprivate var currentNonce: String?
 
 class LoginViewController: UIViewController {
@@ -38,7 +38,7 @@ class LoginViewController: UIViewController {
 
 // MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerDelegate {
-    // MARK: - 승인 시 authorization을 리턴하는 메소드
+    // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
     func authorizationController(
         controller: ASAuthorizationController,
         didCompleteWithAuthorization authorization: ASAuthorization
@@ -56,10 +56,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
               return
             }
             // Firebase credential 초기화
+            // → 애플 로그인에 성공했으면 해시되지 않은 nonce가 포함된 애플의 응답에서 ID 토큰을 사용하여 파이어베이스에도 인증을 수행해줍니다.
             let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
                                                            rawNonce: nonce,
                                                            fullName: appleIDCredential.fullName)
-            // Sign in with Firebase
+            // 파이어베이스에 인증
             Auth.auth().signIn(with: credential) { (authResult, error) in
                 if let error = error {
                     print("파이어베이스 로그인 실패: \(error.localizedDescription)")
