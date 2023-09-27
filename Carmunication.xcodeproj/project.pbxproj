@@ -10,6 +10,7 @@
 		16DBA63F2AC1D5B900315ED7 /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */; };
 		16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C452AC40A510031486E /* ModalQueueViewController.swift */; };
 		16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* SessionMapViewController.swift */; };
+		16E42CE02AC47E900031486E /* GroupData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42CDF2AC47E900031486E /* GroupData.swift */; };
 		BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CC2AB939A3005331AD /* AppDelegate.swift */; };
 		BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */; };
 		BF37D9D62AB939A4005331AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF37D9D52AB939A4005331AD /* Assets.xcassets */; };
@@ -30,6 +31,7 @@
 		16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		16E42C452AC40A510031486E /* ModalQueueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalQueueViewController.swift; sourceTree = "<group>"; };
 		16E42C472AC411A20031486E /* SessionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapViewController.swift; sourceTree = "<group>"; };
+		16E42CDF2AC47E900031486E /* GroupData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupData.swift; sourceTree = "<group>"; };
 		BF37D9C92AB939A3005331AD /* Carmunication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmunication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF37D9CC2AB939A3005331AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -69,6 +71,14 @@
 			path = SessionStart;
 			sourceTree = "<group>";
 		};
+		16E42CDE2AC47E790031486E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				16E42CDF2AC47E900031486E /* GroupData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		BF37D9C02AB939A3005331AD = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +102,7 @@
 				BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */,
 				BF4A12452ABED8B500EC1B6D /* Extensions */,
 				BF5F3C4E2ABD779A004AFC73 /* Controllers */,
+				16E42CDE2AC47E790031486E /* Models */,
 				BF37D9D52AB939A4005331AD /* Assets.xcassets */,
 				BF37D9D72AB939A4005331AD /* LaunchScreen.storyboard */,
 				BF37D9DA2AB939A4005331AD /* Info.plist */,
@@ -226,6 +237,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
+				16E42CE02AC47E900031486E /* GroupData.swift in Sources */,
 				BF5F3C502ABD7DB1004AFC73 /* MyProfileViewController.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
 				16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */,

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GroupCollectionViewCell: UICollectionViewCell {
+final class GroupCollectionViewCell: UICollectionViewCell {
     // 데이터들(groupImage, groupNameLabel)이 fileprivate이기 때문에 위 식을 통해 뷰 컨트롤러에 데이터 전달
     var groupData: GroupData? {
         didSet {
@@ -16,14 +16,14 @@ class GroupCollectionViewCell: UICollectionViewCell {
             groupNameLabel.text = groupData.groupName
         }
     }
-    fileprivate let groupImage: UIImageView = {
+    private let groupImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
-    fileprivate let groupNameLabel: UILabel = {
+    private let groupNameLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
@@ -31,14 +31,17 @@ class GroupCollectionViewCell: UICollectionViewCell {
         label.font = UIFont.systemFont(ofSize: 14) // 원하는 폰트 및 크기로 설정
         return label
     }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setGroupCollectionViewCell()
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
 extension GroupCollectionViewCell {
     // 셀 레이아웃 설정
     private func setGroupCollectionViewCell() {

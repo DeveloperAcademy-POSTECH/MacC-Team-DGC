@@ -7,7 +7,7 @@
 
 import UIKit
 
-class SessionMapViewController: UIViewController {
+final class SessionMapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
