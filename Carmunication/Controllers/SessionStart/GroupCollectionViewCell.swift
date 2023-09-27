@@ -39,7 +39,6 @@ class GroupCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 extension GroupCollectionViewCell {
     private func setGroupCollectionViewCell() {
         contentView.addSubview(groupImage)

@@ -113,10 +113,11 @@ extension SessionStartViewController {
             journeyTogetherButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             journeyTogetherButton.heightAnchor.constraint(equalToConstant: 120)  // 버튼의 높이 조절
         ])
-        journeyTogetherButton.addTarget(self, action: #selector(goToMapView), for: .touchUpInside)
+        journeyTogetherButton.addTarget(self, action: #selector(presentModalQueue), for: .touchUpInside)
     }
-    @objc private func goToMapView() {
-        print("Touch")
+    @objc private func presentModalQueue() {
+        let modalQueueViewController = ModalQueueViewController()
+        self.present(modalQueueViewController, animated: true)
     }
 }
 
