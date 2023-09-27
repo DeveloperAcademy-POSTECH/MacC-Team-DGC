@@ -76,7 +76,6 @@ final class LoginViewController: UIViewController {
             corpLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
             corpLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16) // 간격 고정
         ])
-
     }
 }
 
