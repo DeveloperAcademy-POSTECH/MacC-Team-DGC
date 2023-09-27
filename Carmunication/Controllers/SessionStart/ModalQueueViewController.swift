@@ -34,6 +34,7 @@ extension ModalQueueViewController {
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
     }
+    // "바로 시작"버튼
     private func setStartButton() {
         view.addSubview(startButton)
         NSLayoutConstraint.activate([
@@ -43,14 +44,11 @@ extension ModalQueueViewController {
         startButton.addTarget(self, action: #selector(goToMapView), for: .touchUpInside)
     }
     @objc private func goToMapView() {
-        // SessionMapViewController의 인스턴스를 생성
         let sessionMapViewController = SessionMapViewController()
         // SessionMapViewController를 full-screen 모달로 표시
         sessionMapViewController.modalPresentationStyle = .fullScreen
-        // 현재 뷰 컨트롤러에서 모달로 표시
         self.present(sessionMapViewController, animated: true, completion: nil)
     }
-
 }
 extension ModalQueueViewController: UISheetPresentationControllerDelegate {
 }

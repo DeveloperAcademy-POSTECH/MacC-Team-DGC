@@ -40,6 +40,7 @@ class GroupCollectionViewCell: UICollectionViewCell {
     }
 }
 extension GroupCollectionViewCell {
+    // 셀 레이아웃 설정
     private func setGroupCollectionViewCell() {
         contentView.addSubview(groupImage)
         contentView.addSubview(groupNameLabel)

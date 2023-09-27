@@ -7,7 +7,7 @@
 
 import UIKit
 
-// 이름은 데이터 구축되면 바꿀 예정입니다.
+// TODO: - 데이터 구축되면 변수명 변경.
 struct GroupData {
     var image: UIImage
     var groupName: String
@@ -20,6 +20,7 @@ struct GroupData {
 }
 
 final class SessionStartViewController: UIViewController {
+    // 더미 데이터
     let groupData = [
         GroupData(image: UIImage(systemName: "heart")!, 
                   groupName: "group1",
@@ -72,7 +73,7 @@ final class SessionStartViewController: UIViewController {
         btn.layer.cornerRadius = 8
         return btn
     }()
-
+    // 상단 그룹에 대한 컬렉션뷰입니다.
     fileprivate let groupCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal    // 좌우로 스크롤
@@ -125,7 +126,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return groupData.count
     }
-func collectionView(_ collectionView: UICollectionView,
+    func collectionView(_ collectionView: UICollectionView,
                     layout collectionViewLayout: UICollectionViewLayout,
                     sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 80, height: 106)    // 변경 필요
