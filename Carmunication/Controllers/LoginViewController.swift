@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
         setLoginViewLayout()
     }
     // MARK: - 로그인 뷰 레이아웃 세팅
@@ -25,40 +25,40 @@ class LoginViewController: UIViewController {
         let logo = UIImageView(image: UIImage(systemName: "car"))
         logo.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(logo)
-        
+
         // MARK: - 로고 위 텍스트
         let logoUpperLabel = UILabel()
         logoUpperLabel.text = "여정을 연결하다."
         logoUpperLabel.font = UIFont.systemFont(ofSize: 22)
         logoUpperLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(logoUpperLabel)
-        
+
         // MARK: - 로고 아래 텍스트
         let logoLowerLabel = UILabel()
         logoLowerLabel.text = "Carmu"
         logoLowerLabel.font = UIFont.systemFont(ofSize: 36)
         logoLowerLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(logoLowerLabel)
-        
+
         // MARK: - 애플 로그인 버튼
         let appleSignInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
         appleSignInButton.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
         appleSignInButton.translatesAutoresizingMaskIntoConstraints = false
         appleSignInButton.cornerRadius = 20
         self.view.addSubview(appleSignInButton)
-        
+
         // MARK: - 하단 회사명
         let corpLabel = UILabel()
         corpLabel.text = "@Damn Good Company"
         corpLabel.font = UIFont.systemFont(ofSize: 12)
         corpLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(corpLabel)
-        
+
         // MARK: - 오토 레이아웃 세팅
         // 로고
         NSLayoutConstraint.activate([
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
-            logo.bottomAnchor.constraint(equalTo: appleSignInButton.topAnchor, constant: -202), // appleSignInButton의 상단부와 간격 고정
+            logo.bottomAnchor.constraint(equalTo: appleSignInButton.topAnchor, constant: -202), // 간격 고정
             logo.widthAnchor.constraint(equalToConstant: 282), // width 고정
             logo.heightAnchor.constraint(equalToConstant: 141) // height 고정
         ])
@@ -74,7 +74,7 @@ class LoginViewController: UIViewController {
         ])
         // 애플 로그인 버튼
         NSLayoutConstraint.activate([
-            appleSignInButton.bottomAnchor.constraint(equalTo: corpLabel.topAnchor, constant: -64), // corpLabel 상단부와 간격 고정
+            appleSignInButton.bottomAnchor.constraint(equalTo: corpLabel.topAnchor, constant: -64), // corpLabel와 간격 고정
             appleSignInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60), // 화면 왼쪽과 간격 고정
             appleSignInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60), // 화면 오른쪽과 간격 고정
             appleSignInButton.heightAnchor.constraint(equalToConstant: 50) // height 고정
@@ -82,7 +82,7 @@ class LoginViewController: UIViewController {
         // 하단 회사명
         NSLayoutConstraint.activate([
             corpLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
-            corpLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16) // 화면 하단 safe area와 간격 고정
+            corpLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16) // 간격 고정
         ])
 
     }
