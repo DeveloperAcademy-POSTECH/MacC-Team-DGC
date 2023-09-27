@@ -10,10 +10,10 @@ import CryptoKit
 import FirebaseAuth
 import UIKit
 
-// 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
-fileprivate var currentNonce: String?
-
 class LoginViewController: UIViewController {
+    // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
+    fileprivate var currentNonce: String?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
@@ -27,10 +27,11 @@ class LoginViewController: UIViewController {
         self.view.addSubview(appleSignInButton)
 
         NSLayoutConstraint.activate([
-            appleSignInButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            appleSignInButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            appleSignInButton.widthAnchor.constraint(equalToConstant: 200), // 원하는 너비로 조절
-            appleSignInButton.heightAnchor.constraint(equalToConstant: 60)
+            appleSignInButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -101),
+            appleSignInButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -101),
+            appleSignInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 61),
+            appleSignInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -61),
+            appleSignInButton.heightAnchor.constraint(equalToConstant: 50)
         ])
         appleSignInButton.cornerRadius = 20
     }
@@ -63,7 +64,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                                                        rawNonce: nonce,
                                                        fullName: appleIDCredential.fullName)
         // 파이어베이스 인증 수행
-        Auth.auth().signIn(with: credential)  { (authResult, error) in
+        Auth.auth().signIn(with: credential) { (authResult, error) in
             if let error = error {
                 print("파이어베이스 로그인 실패: \(error.localizedDescription)")
                 return
