@@ -18,7 +18,7 @@ final class MainTabBarViewController: UITabBarController {
         let vc2 = UINavigationController(rootViewController: SessionListViewController())
         vc2.tabBarItem = UITabBarItem(title: "세션 관리", image: UIImage(systemName: "list.bullet"), tag: 1)
 
-        let vc3 = UINavigationController(rootViewController: MyProfileViewController())
+        let vc3 = UINavigationController(rootViewController: MyPageViewController())
         vc3.tabBarItem = UITabBarItem(title: "내 정보", image: UIImage(systemName: "person.fill"), tag: 2)
 
         view.tintColor = UIColor.lightModePointColor

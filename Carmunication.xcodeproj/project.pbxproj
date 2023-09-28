@@ -11,6 +11,7 @@
 		B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */; };
 		B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */; };
 		B8A3EFCC2AC48F4300433F5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8A3EFCB2AC48F4300433F5C /* GoogleService-Info.plist */; };
+		B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */; };
 		BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CC2AB939A3005331AD /* AppDelegate.swift */; };
 		BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */; };
 		BF37D9D62AB939A4005331AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF37D9D52AB939A4005331AD /* Assets.xcassets */; };
@@ -19,7 +20,6 @@
 		BF4A12442ABED79F00EC1B6D /* SessionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */; };
 		BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */; };
 		BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */; };
-		BF5F3C502ABD7DB1004AFC73 /* MyProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5F3C4F2ABD7DB1004AFC73 /* MyProfileViewController.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
 		C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */; };
 		C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */; };
@@ -31,6 +31,7 @@
 		B8A20E402AC0B9F400F0CE91 /* Carmunication.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmunication.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B8A3EFCB2AC48F4300433F5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		BF37D9C92AB939A3005331AD /* Carmunication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmunication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF37D9CC2AB939A3005331AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,7 +42,6 @@
 		BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewController.swift; sourceTree = "<group>"; };
 		BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
-		BF5F3C4F2ABD7DB1004AFC73 /* MyProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyProfileViewController.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddViewController.swift; sourceTree = "<group>"; };
 		C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddTableViewCell.swift; sourceTree = "<group>"; };
@@ -62,6 +62,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B8A3EFD72AC5F27000433F5C /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
 		BF37D9C02AB939A3005331AD = {
 			isa = PBXGroup;
 			children = (
@@ -105,11 +113,11 @@
 		BF5F3C4E2ABD779A004AFC73 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B8A3EFD72AC5F27000433F5C /* MyPage */,
 				BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */,
 				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
 				BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */,
 				C9DE7C312AC01B04005AFCC6 /* SessionList */,
-				BF5F3C4F2ABD7DB1004AFC73 /* MyProfileViewController.swift */,
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
 			);
 			path = Controllers;
@@ -229,13 +237,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
-				BF5F3C502ABD7DB1004AFC73 /* MyProfileViewController.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
 				C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
+				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C9DE7C3B2AC05B65005AFCC6 /* SelectPointMapViewController.swift in Sources */,
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
