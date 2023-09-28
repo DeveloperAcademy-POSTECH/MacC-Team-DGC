@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16DBA63F2AC1D5B900315ED7 /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */; };
+		16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C452AC40A510031486E /* ModalQueueViewController.swift */; };
+		16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* SessionMapViewController.swift */; };
+		16E42CE02AC47E900031486E /* GroupData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42CDF2AC47E900031486E /* GroupData.swift */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
 		B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */; };
 		B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */; };
@@ -28,6 +32,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
+		16E42C452AC40A510031486E /* ModalQueueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalQueueViewController.swift; sourceTree = "<group>"; };
+		16E42C472AC411A20031486E /* SessionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapViewController.swift; sourceTree = "<group>"; };
+		16E42CDF2AC47E900031486E /* GroupData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupData.swift; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmunication.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmunication.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		BF37D9C92AB939A3005331AD /* Carmunication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmunication.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -62,6 +70,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		16DBA63D2AC1D07C00315ED7 /* SessionStart */ = {
+			isa = PBXGroup;
+			children = (
+				16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */,
+				16E42C452AC40A510031486E /* ModalQueueViewController.swift */,
+				16E42C472AC411A20031486E /* SessionMapViewController.swift */,
+			);
+			path = SessionStart;
+			sourceTree = "<group>";
+		};
+		16E42CDE2AC47E790031486E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				16E42CDF2AC47E900031486E /* GroupData.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		BF37D9C02AB939A3005331AD = {
 			isa = PBXGroup;
 			children = (
@@ -86,6 +112,7 @@
 				BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */,
 				BF4A12452ABED8B500EC1B6D /* Extensions */,
 				BF5F3C4E2ABD779A004AFC73 /* Controllers */,
+				16E42CDE2AC47E790031486E /* Models */,
 				BF37D9D52AB939A4005331AD /* Assets.xcassets */,
 				BF37D9D72AB939A4005331AD /* LaunchScreen.storyboard */,
 				BF37D9DA2AB939A4005331AD /* Info.plist */,
@@ -108,6 +135,7 @@
 				BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */,
 				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
 				BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */,
+				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
 				C9DE7C312AC01B04005AFCC6 /* SessionList */,
 				BF5F3C4F2ABD7DB1004AFC73 /* MyProfileViewController.swift */,
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
@@ -229,8 +257,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
+				16E42CE02AC47E900031486E /* GroupData.swift in Sources */,
 				BF5F3C502ABD7DB1004AFC73 /* MyProfileViewController.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
+				16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */,
 				C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */,
@@ -239,7 +269,9 @@
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C9DE7C3B2AC05B65005AFCC6 /* SelectPointMapViewController.swift in Sources */,
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
+				16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */,
 				BF4A12442ABED79F00EC1B6D /* SessionListViewController.swift in Sources */,
+				16DBA63F2AC1D5B900315ED7 /* GroupCollectionViewCell.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
