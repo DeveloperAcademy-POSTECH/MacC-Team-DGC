@@ -55,32 +55,24 @@ final class LoginViewController: UIViewController {
         self.view.addSubview(corpLabel)
 
         // MARK: - 오토 레이아웃 세팅
-        // 로고
         NSLayoutConstraint.activate([
+            // 로고
             logo.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
             logo.bottomAnchor.constraint(equalTo: appleSignInButton.topAnchor, constant: -202), // 간격 고정
             logo.widthAnchor.constraint(equalToConstant: 282), // width 고정
-            logo.heightAnchor.constraint(equalToConstant: 141) // height 고정
-        ])
-        // 로고 위 텍스트
-        NSLayoutConstraint.activate([
+            logo.heightAnchor.constraint(equalToConstant: 141), // height 고정
+            // 로고 위 텍스트
             logoUpperLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
-            logoUpperLabel.bottomAnchor.constraint(equalTo: logo.topAnchor, constant: -16) // logo 상단부와 간격 고정
-        ])
-        // 로고 아래 텍스트
-        NSLayoutConstraint.activate([
+            logoUpperLabel.bottomAnchor.constraint(equalTo: logo.topAnchor, constant: -16), // logo 상단부와 간격 고정
+            // 로고 아래 텍스트
             logoLowerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
-            logoLowerLabel.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 20) // logo 하단부와 간격 고정
-        ])
-        // 애플 로그인 버튼
-        NSLayoutConstraint.activate([
+            logoLowerLabel.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 20), // logo 하단부와 간격 고정
+            // 애플 로그인 버튼
             appleSignInButton.bottomAnchor.constraint(equalTo: corpLabel.topAnchor, constant: -64), // corpLabel와 간격 고정
             appleSignInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60), // 화면 왼쪽과 간격 고정
             appleSignInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60), // 화면 오른쪽과 간격 고정
-            appleSignInButton.heightAnchor.constraint(equalToConstant: 50) // height 고정
-        ])
-        // 하단 회사명
-        NSLayoutConstraint.activate([
+            appleSignInButton.heightAnchor.constraint(equalToConstant: 50), // height 고정
+            // 하단 회사명
             corpLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
             corpLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16) // 간격 고정
         ])
