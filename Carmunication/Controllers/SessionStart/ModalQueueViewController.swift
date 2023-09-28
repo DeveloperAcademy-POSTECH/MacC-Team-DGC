@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ModalQueueViewController: UIViewController {
+final class ModalQueueViewController: UIViewController {
     override var sheetPresentationController: UISheetPresentationController? {
         presentationController as? UISheetPresentationController
     }
