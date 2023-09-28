@@ -10,9 +10,9 @@ import CryptoKit
 import FirebaseAuth
 import UIKit
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
-    fileprivate var currentNonce: String?
+    private var currentNonce: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()
