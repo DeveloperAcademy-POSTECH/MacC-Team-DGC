@@ -96,6 +96,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		B8A3EFD72AC5F27000433F5C /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
 		BF37D9C02AB939A3005331AD = {
 			isa = PBXGroup;
 			children = (
