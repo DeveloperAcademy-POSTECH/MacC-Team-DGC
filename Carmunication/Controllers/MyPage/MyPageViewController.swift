@@ -1,14 +1,13 @@
 //
-//  MyProfileViewController.swift
+//  MyPageViewController.swift
 //  Carmunication
 //
-//  Created by 허준혁 on 2023/09/22.
+//  Created by 김영빈 on 2023/09/29.
 //
 
 import UIKit
 
-final class MyProfileViewController: UIViewController {
-
+final class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
