@@ -13,12 +13,6 @@ final class MyPageViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
-        // 친구 목록 버튼
-        let friendListButton = UIButton()
-        friendListButton.setImage(UIImage(systemName: "person.fill"), for: .normal)
-        friendListButton.addTarget(self, action: #selector(showFriendList), for: .touchUpInside)
-        friendListButton.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(friendListButton)
         // 설정 버튼
         let settingsButton = UIButton()
         settingsButton.setImage(UIImage(systemName: "gear"), for: .normal)
@@ -45,10 +39,6 @@ final class MyPageViewController: UIViewController {
 
         // MARK: - 오토 레이아웃 설정
         NSLayoutConstraint.activate([
-            // 친구 목록 버튼
-            friendListButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            friendListButton.widthAnchor.constraint(equalToConstant: 50),
-            friendListButton.heightAnchor.constraint(equalToConstant: 50),
             // 설정 버튼
             settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
             settingsButton.widthAnchor.constraint(equalToConstant: 50),
@@ -64,11 +54,6 @@ final class MyPageViewController: UIViewController {
             otherInfoView.widthAnchor.constraint(equalToConstant: view.frame.size.width),
             otherInfoView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
         ])
-    }
-
-    @objc func showFriendList() {
-        let friendListVC = FriendListViewController()
-        navigationController?.pushViewController(friendListVC, animated: true)
     }
     @objc func showSettings() {
         let settingsVC = SettingsViewController()
