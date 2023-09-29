@@ -76,6 +76,8 @@
 				B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */,
 			);
 			path = MyPage;
+			sourceTree = "<group>";
+		};
 		16DBA63D2AC1D07C00315ED7 /* SessionStart */ = {
 			isa = PBXGroup;
 			children = (
