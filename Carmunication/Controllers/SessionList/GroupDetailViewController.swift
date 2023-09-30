@@ -30,7 +30,7 @@ extension GroupDetailViewController {
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
-    func mainStack() -> UIStackView {
+    private func mainStack() -> UIStackView {
         let stackView = selectedGroup?.isDriver ?? false ? driverBottomButtonStack() : crewBottomButtonStack()
         let mainStackView = UIStackView(arrangedSubviews: [distanceLabel(), stackView])
         mainStackView.axis = .vertical
@@ -40,7 +40,7 @@ extension GroupDetailViewController {
     /**
      주행거리 표시 라벨
      */
-    func distanceLabel() -> UIStackView {
+    private func distanceLabel() -> UIStackView {
         let label1 = UILabel()
         let label2 = UILabel()
         label1.text = "크루가 함께한 주행거리"
@@ -55,7 +55,7 @@ extension GroupDetailViewController {
     /**
      운전자일 경우 표시되는 Button Stack
      */
-    func driverBottomButtonStack() -> UIStackView {
+    private func driverBottomButtonStack() -> UIStackView {
         let button1 = buttonComponent("그만 두기", 130, 40, .blue, .cyan)
         let button2 = buttonComponent("수정 하기", 130, 40, .blue, .cyan)
         button2.addTarget(self, action: #selector(dummyButtonAction), for: .touchUpInside)
@@ -69,7 +69,7 @@ extension GroupDetailViewController {
     /**
      크루일 경우 표시되는 Button Stack
      */
-    func crewBottomButtonStack() -> UIStackView {
+    private func crewBottomButtonStack() -> UIStackView {
         let button = buttonComponent("그만 두기", .greatestFiniteMagnitude, 60, .blue, .cyan)
         button.addTarget(self, action: #selector(dummyButtonAction), for: .touchUpInside)
         let stackView = UIStackView(arrangedSubviews: [button])
@@ -82,7 +82,7 @@ extension GroupDetailViewController {
     /**
      이 뷰에서 사용되는 buttonComponent
      */
-    func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
+    private func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
                          _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
@@ -96,7 +96,7 @@ extension GroupDetailViewController {
         }
         return button
     }
-    func spacer() -> UIView {
+    private func spacer() -> UIView {
         let spacerView = UIView()
         spacerView.translatesAutoresizingMaskIntoConstraints = false
         return spacerView
@@ -108,12 +108,12 @@ extension GroupDetailViewController {
     /**
      추후 그룹 해체 기능으로 사용될 액션 메서드
      */
-    @objc func dummyButtonAction() {
+    @objc private func dummyButtonAction() {
     }
     /**
      그룹 만들기 화면으로 넘어가는 액션 메서드
      */
-    @objc func moveToAddGroup() {
+    @objc private func moveToAddGroup() {
         let groudAddViewController = GroupAddViewController()
         groudAddViewController.title = "그룹 만들기"
         navigationController?.pushViewController(groudAddViewController, animated: true)

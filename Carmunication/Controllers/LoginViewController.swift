@@ -22,7 +22,7 @@ final class LoginViewController: UIViewController {
         setLoginViewLayout()
     }
     // MARK: - 로그인 뷰 레이아웃 세팅
-    func setLoginViewLayout() {
+    private func setLoginViewLayout() {
         // MARK: - 로고
         let logo = UIImageView(image: UIImage(systemName: "car"))
         self.view.addSubview(logo)
@@ -144,7 +144,7 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
 extension LoginViewController {
     // MARK: - 애플 로그인 버튼 클릭 시 동작
     @available(iOS 13, *)
-    @objc func startSignInWithAppleFlow() {
+    @objc private func startSignInWithAppleFlow() {
         // Sign In with Apple 요청을 수행
         let nonce = randomNonceString()
         currentNonce = nonce

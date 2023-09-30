@@ -23,20 +23,20 @@ final class SelectPointMapViewController: UIViewController {
 
 // MARK: - Component
 extension SelectPointMapViewController {
-    func vStackContainer() -> UIStackView {
+    private func vStackContainer() -> UIStackView {
         let vStack = UIStackView(arrangedSubviews: [titleLabel(), backButton()])
         vStack.axis = .vertical
         vStack.alignment = .center
         vStack.distribution = .fillEqually
         return vStack
     }
-    func titleLabel() -> UILabel {
+    private func titleLabel() -> UILabel {
         let label = UILabel()
         label.text = "맵뷰"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
-    func backButton() -> UIButton {
+    private func backButton() -> UIButton {
         let backButton = UIButton()
         backButton.setTitle("뒤로", for: .normal)
         backButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
@@ -48,7 +48,7 @@ extension SelectPointMapViewController {
 
 // MARK: - @objc Method
 extension SelectPointMapViewController {
-    @objc func backButtonAction() {
+    @objc private func backButtonAction() {
         dismiss(animated: true)
     }
 }

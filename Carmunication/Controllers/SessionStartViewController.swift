@@ -11,7 +11,7 @@ import SnapKit
 
 final class SessionStartViewController: UIViewController {
     // 더미 데이터
-    let groupData = [
+    private let groupData = [
         GroupData(
             image: UIImage(systemName: "heart")!,
             groupName: "group1",
@@ -58,7 +58,7 @@ final class SessionStartViewController: UIViewController {
             date: "주중(월 - 금)",
             total: 4)
     ]
-    let journeyTogetherButton: UIButton = {
+    private let journeyTogetherButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("여정 함께하기", for: .normal)
         btn.backgroundColor = .systemBlue
@@ -68,7 +68,7 @@ final class SessionStartViewController: UIViewController {
         return btn
     }()
     // 상단 그룹에 대한 컬렉션뷰입니다.
-    fileprivate let groupCollectionView: UICollectionView = {
+    private let groupCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal    // 좌우로 스크롤
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) // 여백 조정

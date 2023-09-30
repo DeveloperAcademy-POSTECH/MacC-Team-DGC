@@ -15,13 +15,13 @@ struct AddressAndTime {
 }
 
 final class GroupAddViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
-    var cellData: [AddressAndTime] = [
+    private var cellData: [AddressAndTime] = [
         AddressAndTime(address: "C5", time: "08:30"),
         AddressAndTime(address: "가속기", time: "09:30"),
         AddressAndTime(address: "울산", time: "10:30"),
         AddressAndTime(address: "서울", time: "14:30")
     ]
-    let tableViewComponent: UITableView = {
+    private let tableViewComponent: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -137,7 +137,7 @@ extension GroupAddViewController {
 
 // MARK: - @objc Method
 extension GroupAddViewController {
-    @objc func buttonTapped(_ sender: UIButton) {
+    @objc private func buttonTapped(_ sender: UIButton) {
         // 버튼이 눌린 section을 식별하거나 다른 작업 수행
         let section = sender.tag
         cellData.remove(at: section)
@@ -147,7 +147,7 @@ extension GroupAddViewController {
 
 // MARK: - Component
 extension GroupAddViewController {
-    func mainTopButtonStack() -> UIStackView {
+    private func mainTopButtonStack() -> UIStackView {
         let button1 = buttonComponent("추가하기", 110, 30, 20, .blue, .cyan)
         button1.addTarget(self, action: #selector(addGroupButtonAction), for: .touchUpInside)
         let stackView = UIStackView(arrangedSubviews: [spacer(), button1])
@@ -157,14 +157,14 @@ extension GroupAddViewController {
         stackView.distribution = .fill
         return stackView
     }
-    @objc func addGroupButtonAction() {
+    @objc private func addGroupButtonAction() {
         cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
         tableViewComponent.reloadData()
     }
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
-    func mainStack() -> UIStackView {
+    private func mainStack() -> UIStackView {
         let stackView = mainTopButtonStack()
         let shareButton = buttonComponent("링크 공유하기", .greatestFiniteMagnitude, 60, 30, .black, .gray)
         let mainStackView = UIStackView(
@@ -174,7 +174,7 @@ extension GroupAddViewController {
         mainStackView.spacing = 12
         return mainStackView
     }
-    func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
+    private func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
                          _ cornerRadius: CGFloat, _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
@@ -188,7 +188,7 @@ extension GroupAddViewController {
         }
         return button
     }
-    func spacer() -> UIView {
+    private func spacer() -> UIView {
         let spacerView = UIView()
         spacerView.translatesAutoresizingMaskIntoConstraints = false
         return spacerView

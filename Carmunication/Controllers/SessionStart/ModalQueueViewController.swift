@@ -13,7 +13,7 @@ final class ModalQueueViewController: UIViewController {
     override var sheetPresentationController: UISheetPresentationController? {
         presentationController as? UISheetPresentationController
     }
-    var startButton: UIButton = {
+    private var startButton: UIButton = {
         let startBtn = UIButton()
         startBtn.setTitle("바로 시작", for: .normal)
         startBtn.backgroundColor = .systemBlue

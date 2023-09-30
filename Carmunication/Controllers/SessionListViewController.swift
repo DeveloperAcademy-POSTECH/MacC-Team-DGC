@@ -17,7 +17,7 @@ struct DummyGroup {
 
 final class SessionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
-    var cellData: [DummyGroup] = [
+    private var cellData: [DummyGroup] = [
         DummyGroup(),
         DummyGroup(groupTitle: "(주)좋좋소", subTitle: "회사"),
         DummyGroup(groupTitle: "김배찌", subTitle: "바지사장", isDriver: true),
@@ -92,7 +92,7 @@ extension SessionListViewController {
 
 // MARK: - Stack
 extension SessionListViewController {
-    func mainTopButtonStack() -> UIStackView {
+    private func mainTopButtonStack() -> UIStackView {
         let button1 = buttonComponent("받은 초대", 130, 40, .blue, .cyan)
         let button2 = buttonComponent("새 그룹 만들기", 130, 40, .blue, .cyan)
         button2.addTarget(self, action: #selector(moveToAddGroup), for: .touchUpInside)
@@ -106,7 +106,7 @@ extension SessionListViewController {
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
-    func mainStack() -> UIStackView {
+    private func mainStack() -> UIStackView {
         let tableView = tableViewComponent()
         let stackView = mainTopButtonStack()
         let mainStackView = UIStackView(arrangedSubviews: [stackView, tableView])
@@ -118,7 +118,7 @@ extension SessionListViewController {
 
 // MARK: - Component
 extension SessionListViewController {
-    func tableViewComponent() -> UITableView {
+    private func tableViewComponent() -> UITableView {
         let tableView = UITableView()
         // UITableView 설정
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -129,7 +129,7 @@ extension SessionListViewController {
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }
-    func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
+    private func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
                          _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
@@ -143,12 +143,12 @@ extension SessionListViewController {
         }
         return button
     }
-    func spacer() -> UIView {
+    private func spacer() -> UIView {
         let spacerView = UIView()
         spacerView.translatesAutoresizingMaskIntoConstraints = false
         return spacerView
     }
-    @objc func moveToAddGroup() {
+    @objc private func moveToAddGroup() {
         let groudAddViewController = GroupAddViewController()
         groudAddViewController.title = "그룹 만들기"
         navigationController?.pushViewController(groudAddViewController, animated: true)
