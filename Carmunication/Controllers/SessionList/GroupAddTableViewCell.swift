@@ -29,10 +29,12 @@ final class GroupAddTableViewCell: UITableViewCell {
             make.bottom.equalToSuperview().inset(8)
         }
     }
+
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

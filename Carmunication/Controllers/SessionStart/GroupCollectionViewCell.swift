@@ -18,12 +18,14 @@ final class GroupCollectionViewCell: UICollectionViewCell {
             groupNameLabel.text = groupData.groupName
         }
     }
+
     private let groupImage: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
+
     private let groupNameLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .center

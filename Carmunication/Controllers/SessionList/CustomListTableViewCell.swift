@@ -15,9 +15,11 @@ final class CustomListTableViewCell: UITableViewCell {
         super.awakeFromNib()
         // Initialization code
     }
+
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()
     let driverLabel = UILabel()
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         titleLabel.font = UIFont.systemFont(ofSize: 17)
@@ -41,6 +43,7 @@ final class CustomListTableViewCell: UITableViewCell {
             make.trailing.equalToSuperview().inset(16)
         }
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

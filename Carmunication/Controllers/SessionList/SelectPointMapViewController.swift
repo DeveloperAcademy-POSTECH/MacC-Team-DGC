@@ -30,12 +30,14 @@ extension SelectPointMapViewController {
         vStack.distribution = .fillEqually
         return vStack
     }
+
     private func titleLabel() -> UILabel {
         let label = UILabel()
         label.text = "맵뷰"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
+
     private func backButton() -> UIButton {
         let backButton = UIButton()
         backButton.setTitle("뒤로", for: .normal)

@@ -11,6 +11,7 @@ import SnapKit
 
 final class GroupDetailViewController: UIViewController {
     var selectedGroup: DummyGroup?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -37,6 +38,7 @@ extension GroupDetailViewController {
         mainStackView.spacing = 12
         return mainStackView
     }
+
     /**
      주행거리 표시 라벨
      */
@@ -52,6 +54,7 @@ extension GroupDetailViewController {
         stackView.distribution = .fill
         return stackView
     }
+
     /**
      운전자일 경우 표시되는 Button Stack
      */
@@ -66,6 +69,7 @@ extension GroupDetailViewController {
         stackView.distribution = .fill
         return stackView
     }
+
     /**
      크루일 경우 표시되는 Button Stack
      */
@@ -79,11 +83,17 @@ extension GroupDetailViewController {
         stackView.distribution = .fill
         return stackView
     }
+
     /**
      이 뷰에서 사용되는 buttonComponent
      */
-    private func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
-                         _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
+    private func buttonComponent(
+        _ title: String,
+        _ width: CGFloat,
+        _ height: CGFloat,
+        _ fontColor: UIColor,
+        _ backgroundColor: UIColor
+    ) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.setTitleColor(fontColor, for: .normal)
@@ -96,6 +106,7 @@ extension GroupDetailViewController {
         }
         return button
     }
+
     private func spacer() -> UIView {
         let spacerView = UIView()
         spacerView.translatesAutoresizingMaskIntoConstraints = false
@@ -108,8 +119,8 @@ extension GroupDetailViewController {
     /**
      추후 그룹 해체 기능으로 사용될 액션 메서드
      */
-    @objc private func dummyButtonAction() {
-    }
+    @objc private func dummyButtonAction() {}
+
     /**
      그룹 만들기 화면으로 넘어가는 액션 메서드
      */
@@ -128,8 +139,7 @@ struct GroupDetailViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> GroupDetailViewController {
         return GroupDetailViewController()
     }
-    func updateUIViewController(_ uiViewController: GroupDetailViewController, context: Context) {
-    }
+    func updateUIViewController(_ uiViewController: GroupDetailViewController, context: Context) {}
 }
 
 @available(iOS 13.0.0, *)

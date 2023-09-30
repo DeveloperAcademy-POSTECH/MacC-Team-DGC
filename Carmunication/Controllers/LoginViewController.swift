@@ -21,6 +21,7 @@ final class LoginViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         setLoginViewLayout()
     }
+
     // MARK: - 로그인 뷰 레이아웃 세팅
     private func setLoginViewLayout() {
         // MARK: - 로고
@@ -101,9 +102,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         }
         // Firebase credential 초기화
         // → 애플 로그인에 성공했으면 해시되지 않은 nonce가 포함된 애플의 응답에서 ID 토큰을 사용하여 파이어베이스에도 인증을 수행해줍니다.
-        let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
-                                                       rawNonce: nonce,
-                                                       fullName: appleIDCredential.fullName)
+        let credential = OAuthProvider.appleCredential(
+            withIDToken: idTokenString,
+            rawNonce: nonce,
+            fullName: appleIDCredential.fullName
+        )
         // 파이어베이스 인증 수행
         Auth.auth().signIn(with: credential) { (authResult, error) in
             if let error = error {
@@ -126,6 +129,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             self.present(mainTabBarView, animated: true)
         }
     }
+
     // MARK: - 인증 플로우가 정상적으로 끝나지 않았거나, credential이 존재하지 않을 때 호출
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("애플 로그인 실패: \(error.localizedDescription)")
@@ -170,14 +174,11 @@ extension LoginViewController {
             )
         }
 
-        let charset: [Character] =
-            Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
-
+        let charset = [Character]("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         let nonce = randomBytes.map { byte in
             // Pick a random character from the set, wrapping around if needed.
             charset[Int(byte) % charset.count]
         }
-
         return String(nonce)
     }
 
@@ -202,8 +203,7 @@ struct LoginViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> LoginViewController {
         return LoginViewController()
     }
-    func updateUIViewController(_ uiViewController: LoginViewController, context: Context) {
-    }
+    func updateUIViewController(_ uiViewController: LoginViewController, context: Context) {}
 }
 @available(iOS 13.0.0, *)
 struct LoginViewPreview: PreviewProvider {

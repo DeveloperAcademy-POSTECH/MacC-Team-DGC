@@ -21,6 +21,7 @@ final class GroupAddViewController: UIViewController, UITableViewDataSource, UIT
         AddressAndTime(address: "울산", time: "10:30"),
         AddressAndTime(address: "서울", time: "14:30")
     ]
+
     private let tableViewComponent: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -52,18 +53,23 @@ extension GroupAddViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return cellData.count
     }
+
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 42
     }
+
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return " "
     }
+
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 20
     }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let dummyViewHeight = CGFloat(40)
         tableView.tableHeaderView = UIView(
@@ -88,13 +94,15 @@ extension GroupAddViewController {
             return UITableViewCell()
         }
     }
+
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // 헤더 뷰 생성
         let headerView = UIView(
             frame: CGRect(
                 x: 0, y: 0,
                 width: tableView.frame.size.width,
-                height: 44)
+                height: 44
+            )
         )
         // 헤더 레이블 생성
         let headerLabel = UILabel()
@@ -125,6 +133,7 @@ extension GroupAddViewController {
         }
         return headerView
     }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 셀 선택 시 화면 전환 로직 구현
         let detailViewController = SelectPointMapViewController()
@@ -157,10 +166,12 @@ extension GroupAddViewController {
         stackView.distribution = .fill
         return stackView
     }
+
     @objc private func addGroupButtonAction() {
         cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
         tableViewComponent.reloadData()
     }
+
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
@@ -174,8 +185,15 @@ extension GroupAddViewController {
         mainStackView.spacing = 12
         return mainStackView
     }
-    private func buttonComponent(_ title: String, _ width: CGFloat, _ height: CGFloat,
-                         _ cornerRadius: CGFloat, _ fontColor: UIColor, _ backgroundColor: UIColor) -> UIButton {
+
+    private func buttonComponent(
+        _ title: String,
+        _ width: CGFloat,
+        _ height: CGFloat,
+        _ cornerRadius: CGFloat,
+        _ fontColor: UIColor,
+        _ backgroundColor: UIColor
+    ) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.setTitleColor(fontColor, for: .normal)
@@ -188,6 +206,7 @@ extension GroupAddViewController {
         }
         return button
     }
+
     private func spacer() -> UIView {
         let spacerView = UIView()
         spacerView.translatesAutoresizingMaskIntoConstraints = false
@@ -204,8 +223,7 @@ struct GroupAddViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> GroupAddViewController {
         return GroupAddViewController()
     }
-    func updateUIViewController(_ uiViewController: GroupAddViewController, context: Context) {
-    }
+    func updateUIViewController(_ uiViewController: GroupAddViewController, context: Context) {}
 }
 
 @available(iOS 13.0.0, *)

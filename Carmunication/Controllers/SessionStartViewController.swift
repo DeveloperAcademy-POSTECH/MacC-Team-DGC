@@ -58,6 +58,7 @@ final class SessionStartViewController: UIViewController {
             date: "주중(월 - 금)",
             total: 4)
     ]
+
     private let journeyTogetherButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("여정 함께하기", for: .normal)
@@ -67,6 +68,7 @@ final class SessionStartViewController: UIViewController {
         btn.layer.cornerRadius = 8
         return btn
     }()
+
     // 상단 그룹에 대한 컬렉션뷰입니다.
     private let groupCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -78,6 +80,7 @@ final class SessionStartViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false   // 스크롤바 숨기기
         return collectionView
     }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -98,6 +101,7 @@ extension SessionStartViewController {
         groupCollectionView.delegate = self
         groupCollectionView.dataSource = self
     }
+
     private func setJourneyTogetherButton() {
         view.addSubview(journeyTogetherButton)
         journeyTogetherButton.snp.makeConstraints { make in
@@ -107,6 +111,7 @@ extension SessionStartViewController {
         }
         journeyTogetherButton.addTarget(self, action: #selector(presentModalQueue), for: .touchUpInside)
     }
+
     @objc private func presentModalQueue() {
         let modalQueueViewController = ModalQueueViewController()
         self.present(modalQueueViewController, animated: true)
@@ -131,8 +136,10 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension SessionStartViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         let cell = groupCollectionView.dequeueReusableCell(
             withReuseIdentifier: "groupCell",
             for: indexPath
