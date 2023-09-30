@@ -22,6 +22,13 @@ final class LoginViewController: UIViewController {
         setLoginViewLayout()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        // 로그아웃 확인용 출력
+        print("fullName: \(Auth.auth().currentUser?.displayName ?? "None")")
+        print("email: \(Auth.auth().currentUser?.email ?? "None")")
+        print("UUID: \(Auth.auth().currentUser?.uid ?? "None")")
+    }
+
     // MARK: - 로그인 뷰 레이아웃 세팅
     private func setLoginViewLayout() {
         // MARK: - 로고
