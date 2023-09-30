@@ -7,16 +7,17 @@
 
 import UIKit
 
+import SnapKit
+
 class SelectPointMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         let vStack = vStackContainer()
         view.addSubview(vStack)
-        NSLayoutConstraint.activate([
-            vStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            vStack.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        vStack.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
 }
 
@@ -24,7 +25,6 @@ class SelectPointMapViewController: UIViewController {
 extension SelectPointMapViewController {
     func vStackContainer() -> UIStackView {
         let vStack = UIStackView(arrangedSubviews: [titleLabel(), backButton()])
-        vStack.translatesAutoresizingMaskIntoConstraints = false
         vStack.axis = .vertical
         vStack.alignment = .center
         vStack.distribution = .fillEqually

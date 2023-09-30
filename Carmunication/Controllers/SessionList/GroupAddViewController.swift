@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 struct AddressAndTime {
     var address: String = "포항시 남구 지곡로 80"
     var time: String = "09:30"
@@ -32,12 +34,11 @@ class GroupAddViewController: UIViewController, UITableViewDataSource, UITableVi
         let mainStackView = mainStack()
         view.addSubview(mainStackView)
         // Auto Layout 설정
-        NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
-        ])
+        mainStackView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalToSuperview().inset(50)
+        }
         tableViewComponent.dataSource = self
         tableViewComponent.delegate = self
         tableViewComponent.register(GroupAddTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -110,7 +111,6 @@ extension GroupAddViewController {
                 button.tag > 0 && button.tag < cellData.count - 1 ? button : spacer()
             ]
         )
-        headerStackView.translatesAutoresizingMaskIntoConstraints = false
         headerStackView.axis = .horizontal
         headerStackView.alignment = .center
         headerStackView.distribution = .fill
@@ -118,12 +118,10 @@ extension GroupAddViewController {
         headerView.addSubview(headerStackView)
         tableView.sectionHeaderTopPadding = 0
         // StackView 레이아웃 설정
-        NSLayoutConstraint.activate([
-            headerStackView.leadingAnchor.constraint(equalTo: headerView.leadingAnchor, constant: 16),
-            headerStackView.trailingAnchor.constraint(equalTo: headerView.trailingAnchor),
-            headerStackView.topAnchor.constraint(equalTo: headerView.topAnchor),
-            headerStackView.bottomAnchor.constraint(equalTo: headerView.bottomAnchor)
-        ])
+        headerStackView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(16)
+            make.trailing.top.bottom.equalToSuperview()
+        }
         return headerView
     }
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -171,7 +169,6 @@ extension GroupAddViewController {
         let mainStackView = UIStackView(
             arrangedSubviews: [stackView, tableViewComponent, shareButton]
         )
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.axis = .vertical
         mainStackView.spacing = 12
         return mainStackView
@@ -184,9 +181,10 @@ extension GroupAddViewController {
         button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
         button.layer.cornerRadius = cornerRadius
         button.layer.masksToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalToConstant: width).isActive = true
-        button.heightAnchor.constraint(equalToConstant: height).isActive = true
+        button.snp.makeConstraints { make in
+            make.width.equalTo(width)
+            make.height.equalTo(height)
+        }
         return button
     }
     func spacer() -> UIView {

@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 struct DummyGroup {
     var groupTitle: String = "(주)좋좋소"
     var subTitle: String = "늦으면 큰일이 나요"
@@ -34,12 +36,11 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
             let mainStackView = mainStack()
             view.addSubview(mainStackView)
             // Auto Layout 설정
-            NSLayoutConstraint.activate([
-                mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-                mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-                mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-                mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
+        mainStackView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalToSuperview()
+        }
     }
 }
 
@@ -109,7 +110,6 @@ extension SessionListViewController {
         let tableView = tableViewComponent()
         let stackView = mainTopButtonStack()
         let mainStackView = UIStackView(arrangedSubviews: [stackView, tableView])
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.axis = .vertical
         mainStackView.spacing = 12
         return mainStackView
@@ -137,9 +137,10 @@ extension SessionListViewController {
         button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
         button.layer.cornerRadius = 20
         button.layer.masksToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalToConstant: width).isActive = true
-        button.heightAnchor.constraint(equalToConstant: height).isActive = true
+        button.snp.makeConstraints { make in
+            make.width.equalTo(width)
+            make.height.equalTo(height)
+        }
         return button
     }
     func spacer() -> UIView {

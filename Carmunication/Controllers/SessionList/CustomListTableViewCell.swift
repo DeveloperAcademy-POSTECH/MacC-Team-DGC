@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 class CustomListTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
@@ -18,9 +20,6 @@ class CustomListTableViewCell: UITableViewCell {
     let driverLabel = UILabel()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        subtitleLabel.translatesAutoresizingMaskIntoConstraints = false
-        driverLabel.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.font = UIFont.systemFont(ofSize: 17)
         subtitleLabel.font = UIFont.systemFont(ofSize: 15)
         driverLabel.font = UIFont.systemFont(ofSize: 15)
@@ -28,17 +27,19 @@ class CustomListTableViewCell: UITableViewCell {
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(driverLabel)
         // Auto Layout 설정(셀 내부)
-        NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            subtitleLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 4),
-            subtitleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            subtitleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            subtitleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            driverLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor), // centerY에 배치
-            driverLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16) // trailing에 배치
-        ])
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(12)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+        subtitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().inset(8)
+        }
+        driverLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(16)
+        }
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")

@@ -5,10 +5,12 @@
 //  Created by 김영빈 on 2023/09/25.
 //
 
+import UIKit
+
 import AuthenticationServices
 import CryptoKit
 import FirebaseAuth
-import UIKit
+import SnapKit
 
 final class LoginViewController: UIViewController {
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
@@ -23,27 +25,23 @@ final class LoginViewController: UIViewController {
     func setLoginViewLayout() {
         // MARK: - 로고
         let logo = UIImageView(image: UIImage(systemName: "car"))
-        logo.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(logo)
 
         // MARK: - 로고 위 텍스트
         let logoUpperLabel = UILabel()
         logoUpperLabel.text = "여정을 연결하다."
         logoUpperLabel.font = UIFont.systemFont(ofSize: 22)
-        logoUpperLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(logoUpperLabel)
 
         // MARK: - 로고 아래 텍스트
         let logoLowerLabel = UILabel()
         logoLowerLabel.text = "Carmu"
         logoLowerLabel.font = UIFont.systemFont(ofSize: 36)
-        logoLowerLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(logoLowerLabel)
 
         // MARK: - 애플 로그인 버튼
         let appleSignInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
         appleSignInButton.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
-        appleSignInButton.translatesAutoresizingMaskIntoConstraints = false
         appleSignInButton.cornerRadius = 20
         self.view.addSubview(appleSignInButton)
 
@@ -51,32 +49,32 @@ final class LoginViewController: UIViewController {
         let corpLabel = UILabel()
         corpLabel.text = "@Damn Good Company"
         corpLabel.font = UIFont.systemFont(ofSize: 12)
-        corpLabel.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(corpLabel)
 
         // MARK: - 오토 레이아웃 세팅
-        NSLayoutConstraint.activate([
-            // 로고
-            logo.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
-            logo.bottomAnchor.constraint(equalTo: appleSignInButton.topAnchor, constant: -202), // 간격 고정
-            logo.widthAnchor.constraint(equalToConstant: 282), // width 고정
-            logo.heightAnchor.constraint(equalToConstant: 141), // height 고정
-            // 로고 위 텍스트
-            logoUpperLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
-            logoUpperLabel.bottomAnchor.constraint(equalTo: logo.topAnchor, constant: -16), // logo 상단부와 간격 고정
-            // 로고 아래 텍스트
-            logoLowerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
-            logoLowerLabel.topAnchor.constraint(equalTo: logo.bottomAnchor, constant: 20), // logo 하단부와 간격 고정
-            // 애플 로그인 버튼
-            appleSignInButton.bottomAnchor.constraint(equalTo: corpLabel.topAnchor, constant: -64), // corpLabel와 간격 고정
-            appleSignInButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 60), // 화면 왼쪽과 간격 고정
-            appleSignInButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -60), // 화면 오른쪽과 간격 고정
-            appleSignInButton.heightAnchor.constraint(equalToConstant: 50), // height 고정
-            // 하단 회사명
-            corpLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
-            corpLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16) // 간격 고정
-        ])
-
+        logo.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(appleSignInButton.snp.top).offset(-202)
+            make.width.equalTo(282)
+            make.height.equalTo(141)
+        }
+        logoUpperLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(logo.snp.top).offset(-16)
+        }
+        logoLowerLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(logo.snp.bottom).offset(20)
+        }
+        appleSignInButton.snp.makeConstraints { make in
+            make.bottom.equalTo(corpLabel.snp.top).offset(-64)
+            make.leading.trailing.equalToSuperview().inset(60)
+            make.height.equalTo(50)
+        }
+        corpLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(16)
+        }
     }
 }
 

@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 class GroupDetailViewController: UIViewController {
     var selectedGroup: DummyGroup?
     override func viewDidLoad() {
@@ -14,12 +16,11 @@ class GroupDetailViewController: UIViewController {
         view.backgroundColor = .white
         let mainStackView = mainStack()
         view.addSubview(mainStackView)
-        NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0),
-            mainStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
-        ])
+        mainStackView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalToSuperview().inset(50)
+        }
     }
 }
 
@@ -32,7 +33,6 @@ extension GroupDetailViewController {
     func mainStack() -> UIStackView {
         let stackView = selectedGroup?.isDriver ?? false ? driverBottomButtonStack() : crewBottomButtonStack()
         let mainStackView = UIStackView(arrangedSubviews: [distanceLabel(), stackView])
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
         mainStackView.axis = .vertical
         mainStackView.spacing = 12
         return mainStackView
@@ -90,9 +90,10 @@ extension GroupDetailViewController {
         button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
         button.layer.cornerRadius = 20
         button.layer.masksToBounds = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalToConstant: width).isActive = true
-        button.heightAnchor.constraint(equalToConstant: height).isActive = true
+        button.snp.makeConstraints { make in
+            make.width.equalTo(width)
+            make.height.equalTo(height)
+        }
         return button
     }
     func spacer() -> UIView {
