@@ -39,12 +39,13 @@ final class SettingsViewController: UIViewController {
         let signOutOK = UIAlertAction(title: "확인", style: .destructive) { _ in
             let firebaseAuth = Auth.auth()
             do {
+                // 로그아웃 수행
                 try firebaseAuth.signOut()
+                // 최초 화면으로 돌아가기
                 if let windowScene = UIApplication.shared.connectedScenes
                     .compactMap({ $0 as? UIWindowScene })
                     .first(where: { $0.activationState == .foregroundActive }),
                    let window = windowScene.windows.first {
-                    // 최초 화면으로 돌아가기
                     window.rootViewController = LoginViewController()
                     window.makeKeyAndVisible()
                     print("로그아웃 성공!!")
@@ -153,14 +154,16 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
         Task {
             do {
+                // 애플 서버의 사용자 토큰 삭제
                 try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
                 let user = Auth.auth().currentUser
+                // 파이어베이스 서버의 계정 삭제
                 try await user?.delete()
+                // 최초 화면으로 돌아가기
                 if let windowScene = UIApplication.shared.connectedScenes
                     .compactMap({ $0 as? UIWindowScene })
                     .first(where: { $0.activationState == .foregroundActive }),
                    let window = windowScene.windows.first {
-                    // 최초 화면으로 돌아가기
                     window.rootViewController = LoginViewController()
                     window.makeKeyAndVisible()
                     print("계정이 삭제되었습니다!!")
