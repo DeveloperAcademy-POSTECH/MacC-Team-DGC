@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class GroupAddTableViewCell: UITableViewCell {
+final class GroupAddTableViewCell: UITableViewCell {
 
     let titleLabel = UILabel()
     let subtitleLabel = UILabel()

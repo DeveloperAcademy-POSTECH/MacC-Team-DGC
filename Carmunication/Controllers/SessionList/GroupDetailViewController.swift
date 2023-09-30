@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class GroupDetailViewController: UIViewController {
+final class GroupDetailViewController: UIViewController {
     var selectedGroup: DummyGroup?
     override func viewDidLoad() {
         super.viewDidLoad()

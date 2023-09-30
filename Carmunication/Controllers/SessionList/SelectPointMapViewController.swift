@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class SelectPointMapViewController: UIViewController {
+final class SelectPointMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white

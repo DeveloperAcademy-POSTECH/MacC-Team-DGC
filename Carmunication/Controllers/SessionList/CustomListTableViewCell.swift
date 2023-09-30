@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-class CustomListTableViewCell: UITableViewCell {
+final class CustomListTableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()

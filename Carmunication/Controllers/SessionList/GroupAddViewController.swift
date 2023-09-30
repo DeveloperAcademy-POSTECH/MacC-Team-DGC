@@ -14,7 +14,7 @@ struct AddressAndTime {
     var time: String = "09:30"
 }
 
-class GroupAddViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+final class GroupAddViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     var cellData: [AddressAndTime] = [
         AddressAndTime(address: "C5", time: "08:30"),
         AddressAndTime(address: "가속기", time: "09:30"),
