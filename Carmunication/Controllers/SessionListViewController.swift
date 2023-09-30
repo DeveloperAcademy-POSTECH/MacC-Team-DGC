@@ -31,11 +31,11 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
         DummyGroup(groupTitle: "나는", subTitle: "배가고파")
     ]
     override func viewDidLoad() {
-            super.viewDidLoad()
-            view.backgroundColor = .systemBackground
-            let mainStackView = mainStack()
-            view.addSubview(mainStackView)
-            // Auto Layout 설정
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+        let mainStackView = mainStack()
+        view.addSubview(mainStackView)
+        // Auto Layout 설정
         mainStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -156,19 +156,19 @@ extension SessionListViewController {
 }
 
 extension UIImage {
-  public static func pixel(ofColor color: UIColor) -> UIImage {
-    let pixel = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
+    public static func pixel(ofColor color: UIColor) -> UIImage {
+        let pixel = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
 
-    UIGraphicsBeginImageContext(pixel.size)
-    defer { UIGraphicsEndImageContext() }
+        UIGraphicsBeginImageContext(pixel.size)
+        defer { UIGraphicsEndImageContext() }
 
-    guard let context = UIGraphicsGetCurrentContext() else { return UIImage() }
+        guard let context = UIGraphicsGetCurrentContext() else { return UIImage() }
 
-    context.setFillColor(color.cgColor)
-    context.fill(pixel)
+        context.setFillColor(color.cgColor)
+        context.fill(pixel)
 
-    return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
-  }
+        return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
+    }
 }
 
 // MARK: - Preview canvas 세팅

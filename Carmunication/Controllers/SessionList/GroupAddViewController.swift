@@ -70,8 +70,9 @@ extension GroupAddViewController {
             frame: CGRect(
                 x: 0, y: 0,
                 width: tableView.bounds.size.width,
-                height: dummyViewHeight)
+                height: dummyViewHeight
             )
+        )
         tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
         tableView.isScrollEnabled = numberOfSections(in: tableView) <= 3 ? false : true
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? GroupAddTableViewCell {

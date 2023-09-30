@@ -138,6 +138,6 @@ extension SessionStartViewController: UICollectionViewDataSource {
             for: indexPath
         ) as? GroupCollectionViewCell
         cell?.groupData = self.groupData[indexPath.row]
-        return  cell!
+        return cell!
     }
 }
