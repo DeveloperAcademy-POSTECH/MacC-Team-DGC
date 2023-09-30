@@ -19,6 +19,12 @@ final class LoginViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         setLoginViewLayout()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        // 로그아웃 확인용 출력
+        print("fullName: \(Auth.auth().currentUser?.displayName ?? "None")")
+        print("email: \(Auth.auth().currentUser?.email ?? "None")")
+        print("UUID: \(Auth.auth().currentUser?.uid ?? "None")")
+    }
     // MARK: - 로그인 뷰 레이아웃 세팅
     func setLoginViewLayout() {
         // MARK: - 로고
@@ -76,7 +82,6 @@ final class LoginViewController: UIViewController {
             corpLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor), // 수평 중앙 정렬
             corpLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16) // 간격 고정
         ])
-
     }
 }
 

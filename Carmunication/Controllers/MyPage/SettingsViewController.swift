@@ -1,0 +1,258 @@
+//
+//  SettingsViewController.swift
+//  Carmunication
+//
+//  Created by 김영빈 on 2023/09/29.
+//
+
+import AuthenticationServices
+import CryptoKit
+import FirebaseAuth
+import UIKit
+
+final class SettingsViewController: UIViewController {
+    // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
+    private var currentNonce: String?
+
+    // 테이블 뷰 섹션과 row의 데이터
+    let sections = ["친구 관리", "기타"]
+    let friendManagementOptions = ["친구 관리"]
+    let otherOptions = ["개인정보 처리방침", "문의하기", "로그아웃", "회원 탈퇴"]
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .systemBackground
+
+        navigationItem.title = "설정"
+
+        // 테이블 뷰 생성
+        let tableView = UITableView(frame: view.bounds, style: .grouped)
+        tableView.dataSource = self
+        tableView.delegate = self
+        view.addSubview(tableView)
+    }
+
+    // MARK: - 로그아웃 알럿
+    func showSignOutAlert() {
+        let signOutAlert = UIAlertController(title: "로그아웃", message: "정말 로그아웃 하시겠습니까?", preferredStyle: .alert)
+        let signOutCancel = UIAlertAction(title: "취소", style: .cancel)
+        let signOutOK = UIAlertAction(title: "확인", style: .destructive) { _ in
+            let firebaseAuth = Auth.auth()
+            do {
+                // 로그아웃 수행
+                try firebaseAuth.signOut()
+                // 최초 화면으로 돌아가기
+                if let windowScene = UIApplication.shared.connectedScenes
+                    .compactMap({ $0 as? UIWindowScene })
+                    .first(where: { $0.activationState == .foregroundActive }),
+                   let window = windowScene.windows.first {
+                    window.rootViewController = LoginViewController()
+                    window.makeKeyAndVisible()
+                    print("로그아웃 성공!!")
+                }
+            } catch let signOutError as NSError {
+                print("로그아웃 에러: \(signOutError)")
+            }
+        }
+        signOutAlert.addAction(signOutCancel)
+        signOutAlert.addAction(signOutOK)
+        self.present(signOutAlert, animated: false)
+    }
+    // MARK: - 회원 탈퇴 알럿
+    func showDeleteAccountAlert() {
+        let deleteAccountAlert = UIAlertController(title: "회원 탈퇴", message: "정말 계정을 삭제하시겠습니까?", preferredStyle: .alert)
+        let deleteAccountCancel = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAccountOK = UIAlertAction(title: "확인", style: .destructive) { _ in
+            self.deleteAccount()
+        }
+        deleteAccountAlert.addAction(deleteAccountCancel)
+        deleteAccountAlert.addAction(deleteAccountOK)
+        self.present(deleteAccountAlert, animated: false)
+    }
+    // MARK: - 계정 삭제 메소드
+    private func deleteAccount() {
+        let nonce = randomNonceString()
+        currentNonce = nonce
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = sha256(nonce)
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+}
+
+// MARK: - 테이블 뷰 관련 델리게이트 메소드
+extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
+    // 섹션 수 반환
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+    // 각 섹션의 row 수 반환
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return friendManagementOptions.count
+        } else {
+            return otherOptions.count
+        }
+    }
+    // 각 row에 대한 셀 구성
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+
+        if indexPath.section == 0 {
+            cell.textLabel?.text = friendManagementOptions[indexPath.row]
+        } else {
+            cell.textLabel?.text = otherOptions[indexPath.row]
+        }
+
+        return cell
+    }
+    // 테이블 뷰 셀을 눌렀을 때에 대한 동작
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.section == 0 {
+            if indexPath.row == 0 {
+                let friendListVC = FriendListViewController()
+                navigationController?.pushViewController(friendListVC, animated: true)
+            }
+        } else {
+            if indexPath.row == 2 {
+                // 로그아웃 버튼 눌렀을 때
+                showSignOutAlert()
+            } else if indexPath.row == 3 {
+                // 회원탈퇴 버튼 눌렀을 때
+                showDeleteAccountAlert()
+            }
+        }
+    }
+}
+
+// MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현
+extension SettingsViewController: ASAuthorizationControllerDelegate {
+    // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
+    func authorizationController(
+        controller: ASAuthorizationController,
+        didCompleteWithAuthorization authorization: ASAuthorization
+    ) {
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+            fatalError("Credential을 찾을 수 없습니다.")
+        }
+        guard currentNonce != nil else {
+            fatalError("Invalid state: A login callback was received, but no login request was sent.")
+        }
+        guard let appleAuthCode = appleIDCredential.authorizationCode else {
+            print("Unable to fetch authorization code")
+            return
+        }
+        guard let authCodeString = String(data: appleAuthCode, encoding: .utf8) else {
+            print("Unable to serialize auth code string from data: \(appleAuthCode.debugDescription)")
+            return
+        }
+
+        Task {
+            do {
+                // 애플 서버의 사용자 토큰 삭제
+                try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
+                let user = Auth.auth().currentUser
+                // 파이어베이스 서버의 계정 삭제
+                try await user?.delete()
+                // 최초 화면으로 돌아가기
+                if let windowScene = UIApplication.shared.connectedScenes
+                    .compactMap({ $0 as? UIWindowScene })
+                    .first(where: { $0.activationState == .foregroundActive }),
+                   let window = windowScene.windows.first {
+                    window.rootViewController = LoginViewController()
+                    window.makeKeyAndVisible()
+                    print("계정이 삭제되었습니다!!")
+                }
+            }
+        }
+    }
+    // MARK: - 인증 플로우가 정상적으로 끝나지 않았거나, credential이 존재하지 않을 때 호출
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        print("인증이 정상적으로 마무리되지 않음: \(error.localizedDescription)")
+    }
+}
+
+// MARK: - 로그인 UI 표시 관련 델리게이트 프로토콜 구현
+extension SettingsViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return self.view.window!
+    }
+}
+
+// MARK: - Firebase 인증 관련 익스텐션
+/// https://firebase.google.com/docs/auth/ios/apple?hl=ko 참고
+extension SettingsViewController {
+    // MARK: - 애플 로그인 버튼 클릭 시 동작
+    @available(iOS 13, *)
+    @objc func startSignInWithAppleFlow() {
+        // Sign In with Apple 요청을 수행
+        let nonce = randomNonceString()
+        currentNonce = nonce
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        request.nonce = sha256(nonce)
+
+        let authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.delegate = self
+        authorizationController.presentationContextProvider = self
+        authorizationController.performRequests()
+    }
+
+    // MARK: - 암호화된 nonce 생성 함수
+    private func randomNonceString(length: Int = 32) -> String {
+        precondition(length > 0)
+        var randomBytes = [UInt8](repeating: 0, count: length)
+        let errorCode = SecRandomCopyBytes(kSecRandomDefault, randomBytes.count, &randomBytes)
+        if errorCode != errSecSuccess {
+            fatalError(
+                "Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
+            )
+        }
+
+        let charset: [Character] =
+            Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+
+        let nonce = randomBytes.map { byte in
+            // Pick a random character from the set, wrapping around if needed.
+            charset[Int(byte) % charset.count]
+        }
+
+        return String(nonce)
+    }
+
+    // MARK: - SHA256 해시 함수
+    @available(iOS 13, *)
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashedData = SHA256.hash(data: inputData)
+        let hashString = hashedData.compactMap {
+            String(format: "%02x", $0)
+        }.joined()
+
+        return hashString
+    }
+}
+
+// MARK: - 프리뷰 canvas 세팅
+import SwiftUI
+
+struct SettingsViewControllerRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = SettingsViewController
+    func makeUIViewController(context: Context) -> SettingsViewController {
+        return SettingsViewController()
+    }
+    func updateUIViewController(_ uiViewController: SettingsViewController, context: Context) {
+    }
+}
+@available(iOS 13.0.0, *)
+struct SettingsViewPreview: PreviewProvider {
+    static var previews: some View {
+        SettingsViewControllerRepresentable()
+    }
+}
