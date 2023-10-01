@@ -50,7 +50,7 @@ final class MyPageViewController: UIViewController {
         return label
     }()
     // 닉네임 편집 버튼
-    lazy var configButton: UIButton = {
+    lazy var editButton: UIButton = {
         let button = UIButton()
         button.setTitle("닉네임 편집하기✏️", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
@@ -64,6 +64,7 @@ final class MyPageViewController: UIViewController {
             bottom: verticalPad,
             right: horizontalPad
         )
+        button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -80,6 +81,36 @@ final class MyPageViewController: UIViewController {
         button.setImage(UIImage(named: "cameraBtn"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
+    }()
+    // MARK: - 텍스트 필드
+    lazy var textField: UITextField = {
+        let textField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
+        textField.placeholder = "입력하세요"
+        textField.textAlignment = .center
+        textField.textColor = .white
+        textField.tintColor = .white
+        textField.clearButtonMode = .always
+        textField.borderStyle = .none
+
+        if let placeholder = textField.placeholder {
+            textField.attributedPlaceholder = NSAttributedString(
+                string: placeholder,
+                attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray]
+            )
+        }
+        if let clearButton = textField.value(forKey: "_clearButton") as? UIButton {
+            clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+            clearButton.tintColor = .white
+        }
+        return textField
+    }()
+    // MARK: - 텍스트 필드 활성화 시 어두운 배경
+    lazy var darkOverlayView: UIView = {
+        let darkOverlayView = UIView(frame: self.view.bounds)
+        darkOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
+        darkOverlayView.addGestureRecognizer(tapGesture)
+        return darkOverlayView
     }()
 
     override func viewDidLoad() {
@@ -115,10 +146,19 @@ final class MyPageViewController: UIViewController {
         userInfoView.addSubview(nicknameStack)
 
         nicknameStack.addArrangedSubview(nicknameLabel)
-        nicknameStack.addArrangedSubview(configButton)
+        nicknameStack.addArrangedSubview(editButton)
 
         userInfoView.addSubview(imageView)
         userInfoView.addSubview(addButton)
+
+        darkOverlayView.isHidden = true
+        view.addSubview(darkOverlayView)
+        textField.isHidden = true
+        textField.delegate = self
+        view.addSubview(textField)
+        let bottomLine = UIView()
+        bottomLine.backgroundColor = .white
+        textField.addSubview(bottomLine)
 
         // MARK: - 오토 레이아웃
         userInfoView.snp.makeConstraints { make in
@@ -141,14 +181,46 @@ final class MyPageViewController: UIViewController {
             make.leading.equalToSuperview().inset(20)
             make.bottom.equalTo(userInfoView).inset(62)
         }
-        configButton.snp.makeConstraints { make in
+        editButton.snp.makeConstraints { make in
             make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
+        }
+        textField.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(userInfoView.snp.bottom).inset(5)
+        }
+        bottomLine.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(8)
+            make.height.equalTo(1)
         }
     }
     // 설정 페이지 이동 메소드
     @objc func showSettings() {
         let settingsVC = SettingsViewController()
         navigationController?.pushViewController(settingsVC, animated: true)
+    }
+    // 어두운 뷰 탭하면 텍스트 필드 활성화
+    @objc func dismissTextField() {
+        textField.isHidden = true
+        darkOverlayView.isHidden = true
+        textField.resignFirstResponder()
+    }
+    // 닉네임 편집 버튼을 누르면 텍스트 필드 비활성화
+    @objc func editButtonTapped() {
+        textField.text = nicknameLabel.text
+        textField.isHidden = false
+        darkOverlayView.isHidden = false
+        textField.becomeFirstResponder()
+    }
+}
+
+// MARK: - 텍스트 필드 델리게이트 메소드
+extension MyPageViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // TODO: - DB 상에 닉네임 저장하는 로직 추가 필요
+        nicknameLabel.text = textField.text
+        dismissTextField()
+        return true
     }
 }
 
