@@ -11,7 +11,7 @@ extension UIFont {
     /**
      let label = UILabel()
      label.text = "텍스트"
-     CarmuFont.subhead1.applyFont(to: label)
+     UIFont.CarmuFont.subhead1.applyFont(to: label)
      형식으로 사용
      */
     enum CarmuFont {

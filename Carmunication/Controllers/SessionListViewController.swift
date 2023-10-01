@@ -42,13 +42,6 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalToSuperview()
         }
-        UIFont.familyNames.sorted().forEach { familyName in
-            print("*** \(familyName) ***")
-            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
-                print("\(fontName)")
-            }
-            print("---------------------")
-        }
     }
 }
 
