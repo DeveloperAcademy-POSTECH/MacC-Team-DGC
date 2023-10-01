@@ -7,36 +7,38 @@
 
 import UIKit
 
-class SelectPointMapViewController: UIViewController {
+import SnapKit
+
+final class SelectPointMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         let vStack = vStackContainer()
         view.addSubview(vStack)
-        NSLayoutConstraint.activate([
-            vStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            vStack.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        vStack.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
 }
 
 // MARK: - Component
 extension SelectPointMapViewController {
-    func vStackContainer() -> UIStackView {
+    private func vStackContainer() -> UIStackView {
         let vStack = UIStackView(arrangedSubviews: [titleLabel(), backButton()])
-        vStack.translatesAutoresizingMaskIntoConstraints = false
         vStack.axis = .vertical
         vStack.alignment = .center
         vStack.distribution = .fillEqually
         return vStack
     }
-    func titleLabel() -> UILabel {
+
+    private func titleLabel() -> UILabel {
         let label = UILabel()
         label.text = "맵뷰"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
-    func backButton() -> UIButton {
+
+    private func backButton() -> UIButton {
         let backButton = UIButton()
         backButton.setTitle("뒤로", for: .normal)
         backButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
@@ -48,7 +50,7 @@ extension SelectPointMapViewController {
 
 // MARK: - @objc Method
 extension SelectPointMapViewController {
-    @objc func backButtonAction() {
+    @objc private func backButtonAction() {
         dismiss(animated: true)
     }
 }

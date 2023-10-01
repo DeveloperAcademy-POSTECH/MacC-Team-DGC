@@ -7,13 +7,15 @@
 
 import UIKit
 
+import SnapKit
+
 final class ModalQueueViewController: UIViewController {
     override var sheetPresentationController: UISheetPresentationController? {
         presentationController as? UISheetPresentationController
     }
-    var startButton: UIButton = {
+
+    private var startButton: UIButton = {
         let startBtn = UIButton()
-        startBtn.translatesAutoresizingMaskIntoConstraints = false
         startBtn.setTitle("바로 시작", for: .normal)
         startBtn.backgroundColor = .systemBlue
         startBtn.setTitleColor(.white, for: .normal)
@@ -21,6 +23,7 @@ final class ModalQueueViewController: UIViewController {
         startBtn.layer.cornerRadius = 8
         return startBtn
     }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -34,15 +37,16 @@ extension ModalQueueViewController {
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
     }
+
     // "바로 시작"버튼
     private func setStartButton() {
         view.addSubview(startButton)
-        NSLayoutConstraint.activate([
-            startButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            startButton.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        startButton.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
         startButton.addTarget(self, action: #selector(goToMapView), for: .touchUpInside)
     }
+
     @objc private func goToMapView() {
         let sessionMapViewController = SessionMapViewController()
         // SessionMapViewController를 full-screen 모달로 표시
@@ -50,5 +54,5 @@ extension ModalQueueViewController {
         self.present(sessionMapViewController, animated: true, completion: nil)
     }
 }
-extension ModalQueueViewController: UISheetPresentationControllerDelegate {
-}
+
+extension ModalQueueViewController: UISheetPresentationControllerDelegate {}
