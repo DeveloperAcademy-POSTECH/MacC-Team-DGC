@@ -86,7 +86,7 @@ extension GroupAddViewController {
             cell.titleLabel.text = "주소 : \(cellData[indexPath.section].address)"
             cell.subtitleLabel.text = "탑승 시간 : \(cellData[indexPath.section].time)"
             cell.accessoryType = .disclosureIndicator
-            cell.backgroundColor = UIColor(hexCode: "F1F3FF")
+            cell.backgroundColor = UIColor.theme.blue8
             cell.layer.cornerRadius = 20
             return cell
         } else {

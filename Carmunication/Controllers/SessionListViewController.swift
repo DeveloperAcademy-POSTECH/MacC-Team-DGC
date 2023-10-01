@@ -77,7 +77,7 @@ extension SessionListViewController {
             cell.subtitleLabel.text = "\(cellData[indexPath.section].subTitle)"
             cell.driverLabel.text = cellData[indexPath.section].isDriver ? "Driver" : " "
             cell.accessoryType = .disclosureIndicator
-            cell.backgroundColor = UIColor(hexCode: "F1F3FF")
+            cell.backgroundColor = UIColor.theme.gray5
             cell.layer.cornerRadius = 20
             return cell
         } else {

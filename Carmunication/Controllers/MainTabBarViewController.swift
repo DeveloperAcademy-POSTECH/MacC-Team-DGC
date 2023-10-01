@@ -21,7 +21,7 @@ final class MainTabBarViewController: UITabBarController {
         let vc3 = UINavigationController(rootViewController: MyPageViewController())
         vc3.tabBarItem = UITabBarItem(title: "내 정보", image: UIImage(systemName: "person.fill"), tag: 2)
 
-        view.tintColor = UIColor.lightModePointColor
+        view.tintColor = UIColor.theme.white
 
         setViewControllers([vc1, vc2, vc3], animated: true)
     }
