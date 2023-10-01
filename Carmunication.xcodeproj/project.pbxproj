@@ -29,6 +29,8 @@
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
+		C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB322AC9B6760068273A /* ColorTheme.swift */; };
+		C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB342AC9B6830068273A /* SemanticColor.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
 		C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */; };
 		C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */; };
@@ -59,6 +61,8 @@
 		BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
+		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
+		C92CFB342AC9B6830068273A /* SemanticColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticColor.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddViewController.swift; sourceTree = "<group>"; };
 		C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddTableViewCell.swift; sourceTree = "<group>"; };
@@ -93,6 +97,7 @@
 		16E42CDE2AC47E790031486E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C92CFB362AC9B6CD0068273A /* Color */,
 				16E42CDF2AC47E900031486E /* GroupData.swift */,
 			);
 			path = Models;
@@ -171,6 +176,15 @@
 				C92CFB302AC93C470068273A /* SF-Pro.ttf */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		C92CFB362AC9B6CD0068273A /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				C92CFB322AC9B6760068273A /* ColorTheme.swift */,
+				C92CFB342AC9B6830068273A /* SemanticColor.swift */,
+			);
+			path = Color;
 			sourceTree = "<group>";
 		};
 		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
@@ -298,9 +312,11 @@
 				C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
+				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
+				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
 				B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */,
 				C9DE7C3B2AC05B65005AFCC6 /* SelectPointMapViewController.swift in Sources */,
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
