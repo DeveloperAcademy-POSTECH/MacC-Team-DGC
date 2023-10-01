@@ -15,6 +15,7 @@ final class MyPageViewController: UIViewController {
         let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
         let symbol = UIImage(systemName: "gearshape", withConfiguration: symbolConfig)
         button.setImage(symbol, for: .normal)
+        button.tintColor = .white
         button.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -23,7 +24,6 @@ final class MyPageViewController: UIViewController {
     // MARK: - 상단 유저 정보 뷰
     lazy var userInfoView: UIView = {
         let view = UIView()
-        view.backgroundColor = .cyan
         view.layer.cornerRadius = 16
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.5
@@ -31,6 +31,18 @@ final class MyPageViewController: UIViewController {
         view.layer.shadowRadius = 5
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
+    }()
+    lazy var gradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.frame = userInfoView.bounds
+        gradient.colors = [
+            UIColor(hexCode: "627AF3").cgColor,
+            UIColor(hexCode: "2CFFDC").cgColor
+        ]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 1)
+        return gradient
     }()
     // MARK: - 닉네임 스택
     lazy var nicknameStack: UIStackView = {
@@ -45,6 +57,7 @@ final class MyPageViewController: UIViewController {
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
         label.text = "홍길동"
+        label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 28)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -54,7 +67,7 @@ final class MyPageViewController: UIViewController {
         let button = UIButton()
         button.setTitle("닉네임 편집하기✏️", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        button.backgroundColor = .gray
+        button.backgroundColor = UIColor(hexCode: "F1F3FF", alpha: 0.2)
         button.layer.cornerRadius = 12
         let verticalPad: CGFloat = 4.0
         let horizontalPad: CGFloat = 8.0
@@ -72,7 +85,6 @@ final class MyPageViewController: UIViewController {
     lazy var imageView: UIImageView = {
         let imgView = UIImageView()
         imgView.image = UIImage(named: "profile")
-        imgView.backgroundColor = .yellow
         imgView.contentMode = .scaleAspectFill
         // TODO: - 추후 오토 레이아웃 비율에 맞게 수정 필요
         let size = CGFloat(80)
@@ -136,20 +148,15 @@ final class MyPageViewController: UIViewController {
         // 마이페이지에서 설정 화면으로 넘어갈 때는 내비게이션 바가 보이도록 해준다.
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    override func viewDidLayoutSubviews() {
+        gradient.frame = userInfoView.bounds
+    }
     // MARK: - 뷰 레이아웃 세팅 메소드
     private func setupLayout() {
         view.backgroundColor = .systemBackground
         view.addSubview(userInfoView)
 
-        // TODO: - userInfoView에 그라데이션 적용 (전체 뷰에 하면 적용되는데 userInfoView에는 적용되지 않는 문제)
-        let gradient = CAGradientLayer()
-        gradient.frame = userInfoView.bounds
-        gradient.colors = [UIColor(hexCode: "627AF3").cgColor, UIColor(hexCode: "2CFFDC").cgColor]
-        gradient.locations = [0.0, 1.0]
-        gradient.startPoint = CGPoint(x: 0.5, y: 0)
-        gradient.endPoint = CGPoint(x: 1, y: 1)
         userInfoView.layer.addSublayer(gradient)
-
         userInfoView.addSubview(settingsButton)
         userInfoView.addSubview(nicknameStack)
 
@@ -263,6 +270,7 @@ extension MyPageViewController: UIImagePickerControllerDelegate {
     ) {
         picker.dismiss(animated: false) { () in
             if let editedImage = info[.editedImage] as? UIImage {
+                // TODO: - DB 상에 프로필 이미지 저장하는 로직 추가 필요
                 self.imageView.image = editedImage
             }
         }
