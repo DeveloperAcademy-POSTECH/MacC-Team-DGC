@@ -72,6 +72,13 @@ final class MyPageViewController: UIViewController {
     lazy var imageView: UIImageView = {
         let imgView = UIImageView()
         imgView.image = UIImage(named: "profile")
+        imgView.backgroundColor = .yellow
+        imgView.contentMode = .scaleAspectFill
+        // TODO: - 추후 오토 레이아웃 비율에 맞게 수정 필요
+        let size = CGFloat(80)
+        imgView.frame = CGRect(x: 0, y: 0, width: size, height: size)
+        imgView.layer.cornerRadius = size / 2
+        imgView.clipsToBounds = true
         imgView.translatesAutoresizingMaskIntoConstraints = false
         return imgView
     }()
@@ -79,6 +86,7 @@ final class MyPageViewController: UIViewController {
     lazy var addButton: UIButton = {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "cameraBtn"), for: .normal)
+        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -212,9 +220,29 @@ final class MyPageViewController: UIViewController {
         darkOverlayView.isHidden = false
         textField.becomeFirstResponder()
     }
+    // 이미지 추가 버튼 클릭 시 액션 시트 호출
+    @objc func addButtonTapped() {
+        let alert = UIAlertController(
+            title: "프로필 사진 설정",
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        let album = UIAlertAction(title: "앨범에서 사진/동영상 선택", style: .default) { _ in
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.allowsEditing = true
+            picker.delegate = self
+            self.present(picker, animated: true)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
+        }
+        alert.addAction(album)
+        alert.addAction(cancel)
+        self.present(alert, animated: true)
+    }
 }
 
-// MARK: - 텍스트 필드 델리게이트 메소드
+// MARK: - 텍스트 필드 델리게이트 구현
 extension MyPageViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // TODO: - DB 상에 닉네임 저장하는 로직 추가 필요
@@ -223,6 +251,24 @@ extension MyPageViewController: UITextFieldDelegate {
         return true
     }
 }
+
+// MARK: - 이미지 피커 델리게이트 구현
+extension MyPageViewController: UIImagePickerControllerDelegate {
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: false)
+    }
+    func imagePickerController(
+        _ picker: UIImagePickerController,
+        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
+    ) {
+        picker.dismiss(animated: false) { () in
+            if let editedImage = info[.editedImage] as? UIImage {
+                self.imageView.image = editedImage
+            }
+        }
+    }
+}
+extension MyPageViewController: UINavigationControllerDelegate {}
 
 // MARK: - 프리뷰 canvas 세팅
 import SwiftUI
