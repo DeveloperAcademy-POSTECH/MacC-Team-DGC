@@ -35,6 +35,7 @@ final class MyPageViewController: UIViewController {
     lazy var gradient: CAGradientLayer = {
         let gradient = CAGradientLayer()
         gradient.frame = userInfoView.bounds
+        gradient.cornerRadius = 16
         gradient.colors = [
             UIColor(hexCode: "627AF3").cgColor,
             UIColor(hexCode: "2CFFDC").cgColor
@@ -148,6 +149,7 @@ final class MyPageViewController: UIViewController {
         // 마이페이지에서 설정 화면으로 넘어갈 때는 내비게이션 바가 보이도록 해준다.
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+    // subView들까지 모두 그려지면 호출되는 메소드
     override func viewDidLayoutSubviews() {
         gradient.frame = userInfoView.bounds
     }
