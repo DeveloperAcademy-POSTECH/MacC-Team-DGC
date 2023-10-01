@@ -17,9 +17,9 @@ final class SettingsViewController: UIViewController {
     private var currentNonce: String?
 
     // 테이블 뷰 섹션과 row의 데이터
-    let sections = ["친구 관리", "기타"]
-    let friendManagementOptions = ["친구 관리"]
-    let otherOptions = ["개인정보 처리방침", "문의하기", "로그아웃", "회원 탈퇴"]
+    let sections = ["친구 및 기타", "계정 관리"]
+    let upperSection = ["친구 관리", "개인정보 처리방침", "문의하기"]
+    let lowerSection = ["로그아웃", "회원 탈퇴"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +32,7 @@ final class SettingsViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         view.addSubview(tableView)
+
     }
 
     // MARK: - 로그아웃 알럿
@@ -96,35 +97,60 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     // 각 섹션의 row 수 반환
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return friendManagementOptions.count
+            return upperSection.count
         } else {
-            return otherOptions.count
+            return lowerSection.count
         }
     }
     // 각 row에 대한 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-
-        if indexPath.section == 0 {
-            cell.textLabel?.text = friendManagementOptions[indexPath.row]
-        } else {
-            cell.textLabel?.text = otherOptions[indexPath.row]
+        
+        switch indexPath.section {
+        case 0:
+            cell.textLabel?.text = upperSection[indexPath.row]
+            cell.accessoryType = .disclosureIndicator
+        case 1:
+            cell.textLabel?.text = lowerSection[indexPath.row]
+            if indexPath.row == 1 {
+                cell.textLabel?.textColor = .red
+            }
+        default:
+            break
         }
 
         return cell
     }
+    // 테이블 뷰 섹션 헤더 설정
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch section {
+        case 1:
+            return "계정 관리"
+        default:
+            return nil
+        }
+    }
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {
-            if indexPath.row == 0 {
+            switch indexPath.row {
+            case 0:
                 let friendListVC = FriendListViewController()
                 navigationController?.pushViewController(friendListVC, animated: true)
+            case 1:
+                let privacyVC = PrivacyViewController()
+                navigationController?.pushViewController(privacyVC, animated: true)
+            case 2:
+                let inquiryVC = InquiryViewController()
+                navigationController?.pushViewController(inquiryVC, animated: true)
+            default:
+                break
             }
         } else {
-            if indexPath.row == 2 {
+            if indexPath.row == 0 {
                 // 로그아웃 버튼 눌렀을 때
                 showSignOutAlert()
-            } else if indexPath.row == 3 {
+            } else if indexPath.row == 1 {
                 // 회원탈퇴 버튼 눌렀을 때
                 showDeleteAccountAlert()
             }

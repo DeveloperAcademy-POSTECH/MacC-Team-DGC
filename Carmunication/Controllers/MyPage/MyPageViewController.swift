@@ -84,8 +84,18 @@ final class MyPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setupLayout()
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 마이페이지에서는 내비게이션 바가 보이지 않도록 한다.
+        navigationController?.setNavigationBarHidden(true, animated: false)
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // 마이페이지에서 설정 화면으로 넘어갈 때는 내비게이션 바가 보이도록 해준다.
+        navigationController?.setNavigationBarHidden(false, animated: false)
     }
     // MARK: - 뷰 레이아웃 세팅 메소드
     private func setupLayout() {
@@ -116,7 +126,7 @@ final class MyPageViewController: UIViewController {
             make.height.equalTo(320)
         }
         settingsButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(12)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(12)
             make.trailing.equalToSuperview().inset(20)
         }
         imageView.snp.makeConstraints { make in
