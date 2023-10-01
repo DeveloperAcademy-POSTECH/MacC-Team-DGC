@@ -110,28 +110,30 @@ final class MyPageViewController: UIViewController {
         userInfoView.addSubview(imageView)
         userInfoView.addSubview(addButton)
 
-        NSLayoutConstraint.activate([
-            // 상단 유저 정보 뷰
-            userInfoView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0),
-            userInfoView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0),
-            userInfoView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0),
-            userInfoView.heightAnchor.constraint(equalToConstant: 320),
-
-            // 설정 버튼
-            settingsButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 12),
-            settingsButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            // 프로필 이미지
-            imageView.widthAnchor.constraint(equalToConstant: 80),
-            imageView.heightAnchor.constraint(equalToConstant: 80),
-            imageView.trailingAnchor.constraint(equalTo: userInfoView.trailingAnchor, constant: -27),
-            imageView.bottomAnchor.constraint(equalTo: userInfoView.bottomAnchor, constant: -59),
-            addButton.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-            addButton.bottomAnchor.constraint(equalTo: imageView.bottomAnchor),
-            // 닉네임
-            nicknameStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            nicknameStack.bottomAnchor.constraint(equalTo: userInfoView.bottomAnchor, constant: -62),
-            configButton.topAnchor.constraint(equalTo: nicknameLabel.bottomAnchor, constant: 5)
-        ])
+        // MARK: - 오토 레이아웃
+        userInfoView.snp.makeConstraints { make in
+            make.top.leading.trailing.equalToSuperview()
+            make.height.equalTo(320)
+        }
+        settingsButton.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(12)
+            make.trailing.equalToSuperview().inset(20)
+        }
+        imageView.snp.makeConstraints { make in
+            make.width.height.equalTo(80)
+            make.trailing.equalTo(userInfoView.snp.trailing).inset(27)
+            make.bottom.equalTo(userInfoView.snp.bottom).inset(59)
+        }
+        addButton.snp.makeConstraints { make in
+            make.trailing.bottom.equalTo(imageView)
+        }
+        nicknameStack.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.bottom.equalTo(userInfoView).inset(62)
+        }
+        configButton.snp.makeConstraints { make in
+            make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
+        }
     }
     // 설정 페이지 이동 메소드
     @objc func showSettings() {

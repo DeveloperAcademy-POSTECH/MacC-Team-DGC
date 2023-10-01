@@ -7,8 +7,10 @@
 
 import AuthenticationServices
 import CryptoKit
-import FirebaseAuth
 import UIKit
+
+import FirebaseAuth
+import SnapKit
 
 final class SettingsViewController: UIViewController {
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
@@ -33,7 +35,7 @@ final class SettingsViewController: UIViewController {
     }
 
     // MARK: - 로그아웃 알럿
-    func showSignOutAlert() {
+    private func showSignOutAlert() {
         let signOutAlert = UIAlertController(title: "로그아웃", message: "정말 로그아웃 하시겠습니까?", preferredStyle: .alert)
         let signOutCancel = UIAlertAction(title: "취소", style: .cancel)
         let signOutOK = UIAlertAction(title: "확인", style: .destructive) { _ in
@@ -59,7 +61,7 @@ final class SettingsViewController: UIViewController {
         self.present(signOutAlert, animated: false)
     }
     // MARK: - 회원 탈퇴 알럿
-    func showDeleteAccountAlert() {
+    private func showDeleteAccountAlert() {
         let deleteAccountAlert = UIAlertController(title: "회원 탈퇴", message: "정말 계정을 삭제하시겠습니까?", preferredStyle: .alert)
         let deleteAccountCancel = UIAlertAction(title: "취소", style: .cancel)
         let deleteAccountOK = UIAlertAction(title: "확인", style: .destructive) { _ in
