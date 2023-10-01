@@ -13,13 +13,36 @@ extension UIColor {
      이렇게 사용할 경우 Black, White 와 같이 시스템과 비슷한 이름을 사용해도 충돌이 없다.
      ex)
      view.backgroundColor = UIColor.theme.red1
+     
+     시멘틱으로 정하지 않은 기본 컬러의 경우 theme을 쓴다.
+     시멘틱컬러의 경우 semantic을 붙이고 그에 맞는 컬러를 쓴다.
      */
     static let theme = ColorTheme()
+    static let semantic = SemanticColor()
 }
 
+/**
+ 시멘틱 컬러 색상
+ */
+struct SemanticColor {
+    let backgroundDefault = UIColor.theme.white
+    let textPrimary = UIColor.theme.darkblue8
+    let textBody = UIColor.theme.darkblue8
+    let textSecondary = UIColor.theme.white
+    let backgroundSecond = UIColor.theme.blue1
+    let negative = UIColor.theme.red7
+    let error = UIColor.theme.red7
+    let accPrimary = UIColor.theme.blue6
+    let accSecondary = UIColor.theme.acua6
+    let backgroundDisableBT = UIColor.theme.blue1
+    let textDisableBT = UIColor.theme.blue3
+    let textNewCrew = UIColor.theme.red5
+}
+
+/**
+ 기본 컬러 색상
+ */
 struct ColorTheme {
-    // MARK: Color Usage
-    /// 자주 사용되는 Color 추가 예정
     // MARK: Black & White
     let black = UIColor(named: "Black")
     let white = UIColor(named: "White")
