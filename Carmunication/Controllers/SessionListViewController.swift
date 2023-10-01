@@ -42,6 +42,13 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.bottom.equalToSuperview()
         }
+        UIFont.familyNames.sorted().forEach { familyName in
+            print("*** \(familyName) ***")
+            UIFont.fontNames(forFamilyName: familyName).forEach { fontName in
+                print("\(fontName)")
+            }
+            print("---------------------")
+        }
     }
 }
 
@@ -74,7 +81,9 @@ extension SessionListViewController {
             for: indexPath) as? CustomListTableViewCell {
             // 셀에 Title, Subtitle, chevron 마크 설정
             cell.titleLabel.text = "\(cellData[indexPath.section].groupTitle)"
+            UIFont.CarmuFont.display2.applyFont(to: cell.titleLabel)
             cell.subtitleLabel.text = "\(cellData[indexPath.section].subTitle)"
+            UIFont.CarmuFont.subhead1.applyFont(to: cell.subtitleLabel)
             cell.driverLabel.text = cellData[indexPath.section].isDriver ? "Driver" : " "
             cell.accessoryType = .disclosureIndicator
             cell.backgroundColor = UIColor.theme.gray5
