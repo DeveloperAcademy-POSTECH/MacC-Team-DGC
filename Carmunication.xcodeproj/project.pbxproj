@@ -29,6 +29,10 @@
 		BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */; };
 		BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
+		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
+		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
+		C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB322AC9B6760068273A /* ColorTheme.swift */; };
+		C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB342AC9B6830068273A /* SemanticColor.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
 		C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */; };
 		C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */; };
@@ -59,6 +63,10 @@
 		BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewController.swift; sourceTree = "<group>"; };
 		BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
+		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
+		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
+		C92CFB342AC9B6830068273A /* SemanticColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticColor.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddViewController.swift; sourceTree = "<group>"; };
 		C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddTableViewCell.swift; sourceTree = "<group>"; };
@@ -93,6 +101,7 @@
 		16E42CDE2AC47E790031486E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C92CFB362AC9B6CD0068273A /* Color */,
 				16E42CDF2AC47E900031486E /* GroupData.swift */,
 			);
 			path = Models;
@@ -135,6 +144,7 @@
 				BF4A12452ABED8B500EC1B6D /* Extensions */,
 				16E42CDE2AC47E790031486E /* Models */,
 				BF5F3C4E2ABD779A004AFC73 /* Controllers */,
+				C92CFB2B2AC9398B0068273A /* Resources */,
 				BF37D9D52AB939A4005331AD /* Assets.xcassets */,
 				BF37D9D72AB939A4005331AD /* LaunchScreen.storyboard */,
 				BF37D9DA2AB939A4005331AD /* Info.plist */,
@@ -147,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */,
+				C92CFB292AC92E420068273A /* UIFont+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -163,6 +174,23 @@
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		C92CFB2B2AC9398B0068273A /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C92CFB302AC93C470068273A /* SF-Pro.ttf */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		C92CFB362AC9B6CD0068273A /* Color */ = {
+			isa = PBXGroup;
+			children = (
+				C92CFB322AC9B6760068273A /* ColorTheme.swift */,
+				C92CFB342AC9B6830068273A /* SemanticColor.swift */,
+			);
+			path = Color;
 			sourceTree = "<group>";
 		};
 		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
@@ -246,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF37D9D92AB939A4005331AD /* LaunchScreen.storyboard in Resources */,
+				C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */,
 				BF37D9D62AB939A4005331AD /* Assets.xcassets in Resources */,
 				B8A3EFDF2AC9090C00433F5C /* GoogleService-Info.plist in Resources */,
 			);
@@ -290,9 +319,11 @@
 				C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
+				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
+				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
 				B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */,
 				C9DE7C3B2AC05B65005AFCC6 /* SelectPointMapViewController.swift in Sources */,
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
@@ -300,6 +331,7 @@
 				B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */,
 				BF4A12442ABED79F00EC1B6D /* SessionListViewController.swift in Sources */,
 				16DBA63F2AC1D5B900315ED7 /* GroupCollectionViewCell.swift in Sources */,
+				C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
