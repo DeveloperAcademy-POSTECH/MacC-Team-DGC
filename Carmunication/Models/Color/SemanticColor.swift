@@ -6,10 +6,12 @@
 //
 
 import UIKit
+
 /**
  시멘틱 컬러 색상
  */
 struct SemanticColor {
+
     let backgroundDefault = UIColor.theme.white
     let textPrimary = UIColor.theme.darkblue8
     let textBody = UIColor.theme.darkblue8
