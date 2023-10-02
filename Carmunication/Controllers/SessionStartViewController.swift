@@ -140,8 +140,9 @@ extension SessionStartViewController {
         view.addSubview(groupCollectionView)
         groupCollectionView.backgroundColor = .white
         groupCollectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(200)    // TODO: - 크기 조정
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(110)    // TODO: - 크기 조정
         }
         groupCollectionView.delegate = self
         groupCollectionView.dataSource = self
@@ -159,16 +160,12 @@ extension SessionStartViewController {
 
     private func setViewWithoutGroup() {
         view.addSubview(viewWithoutCrew)
-        let safeArea = view.safeAreaLayoutGuide
 
-        // TODO: - 스냅킷 적용하기
-        NSLayoutConstraint.activate([
-            viewWithoutCrew.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            viewWithoutCrew.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            viewWithoutCrew.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -20),
-            // 작은 화면 버전도 나타나면 height 수정
-            viewWithoutCrew.heightAnchor.constraint(equalToConstant: 110)
-        ])
+        viewWithoutCrew.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(110)
+        }
 
         // 해당 뷰 안에 있는 라벨 추가
         let label = UILabel()
@@ -182,23 +179,21 @@ extension SessionStartViewController {
 
         // UILabel을 viewWithoutCrew의 서브뷰로 추가
         viewWithoutCrew.addSubview(label)
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: viewWithoutCrew.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: viewWithoutCrew.centerYAnchor)
-        ])
+
+        label.snp.makeConstraints { make in
+            make.centerX.equalTo(viewWithoutCrew)
+            make.centerY.equalTo(viewWithoutCrew)
+        }
     }
 
     private func setSummaryView() {
         view.addSubview(summaryView)
 
-        // TODO: - 여기부터 하기!
-
-        NSLayoutConstraint.activate([
-            summaryView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            summaryView.topAnchor.constraint(equalTo: groupCollectionView.bottomAnchor, constant: 16),
-            summaryView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            summaryView.bottomAnchor.constraint(equalTo: journeyTogetherButton.topAnchor, constant: -36)
-        ])
+        summaryView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(groupCollectionView.snp.bottom).inset(-16)
+            make.bottom.equalTo(journeyTogetherButton.snp.top).inset(-36)
+        }
 
         setGroupNameView()
     }
@@ -225,6 +220,7 @@ extension SessionStartViewController {
             imageView.image = UIImage(systemName: "circle.fill")  // 시스템 이미지 중 하나를 사용합니다.
             imageView.tintColor = .white
             imageView.translatesAutoresizingMaskIntoConstraints = false
+
             return imageView
         }()
         let whiteCircleImageViewRight: UIImageView = {
@@ -232,6 +228,7 @@ extension SessionStartViewController {
             imageView.image = UIImage(systemName: "circle.fill")
             imageView.tintColor = .white
             imageView.translatesAutoresizingMaskIntoConstraints = false
+
             return imageView
         }()
 
@@ -239,35 +236,37 @@ extension SessionStartViewController {
         groupNameView.addSubview(groupNameLabel)
         groupNameView.addSubview(whiteCircleImageViewLeft)
         groupNameView.addSubview(whiteCircleImageViewRight)
-        NSLayoutConstraint.activate([
-            groupNameView.leadingAnchor.constraint(equalTo: summaryView.leadingAnchor),
-            groupNameView.topAnchor.constraint(equalTo: summaryView.topAnchor),
-            groupNameView.trailingAnchor.constraint(equalTo: summaryView.trailingAnchor),
-            groupNameView.heightAnchor.constraint(equalToConstant: 48),  // 크기 고정 시킬지 의논해보기
 
-            groupNameLabel.centerXAnchor.constraint(equalTo: groupNameView.centerXAnchor),
-            groupNameLabel.centerYAnchor.constraint(equalTo: groupNameView.centerYAnchor),
+        groupNameView.snp.makeConstraints { make in
+            make.leading.top.trailing.equalTo(summaryView)
+            make.height.equalTo(48)
+        }
 
-            whiteCircleImageViewLeft.leadingAnchor.constraint(equalTo: groupNameView.leadingAnchor, constant: 20),
-            whiteCircleImageViewLeft.centerYAnchor.constraint(equalTo: groupNameView.centerYAnchor),
-            whiteCircleImageViewLeft.widthAnchor.constraint(equalToConstant: 10),
-            whiteCircleImageViewLeft.heightAnchor.constraint(equalToConstant: 10),
+        groupNameLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(groupNameView)
+            make.centerY.equalTo(groupNameView)
+        }
 
-            whiteCircleImageViewRight.trailingAnchor.constraint(equalTo: groupNameView.trailingAnchor, constant: -20),
-            whiteCircleImageViewRight.centerYAnchor.constraint(equalTo: groupNameView.centerYAnchor),
-            whiteCircleImageViewRight.widthAnchor.constraint(equalToConstant: 10),
-            whiteCircleImageViewRight.heightAnchor.constraint(equalToConstant: 10)
-        ])
+        whiteCircleImageViewLeft.snp.makeConstraints { make in
+            make.leading.equalTo(groupNameView).inset(20)
+            make.centerY.equalTo(groupNameView)
+            make.width.height.equalTo(10)
+        }
+        whiteCircleImageViewRight.snp.makeConstraints { make in
+            make.trailing.equalTo(groupNameView).inset(20)
+            make.centerY.equalTo(groupNameView)
+            make.width.height.equalTo(10)
+        }
     }
 
     private func setJourneySummaryView() {
-            summaryView.addSubview(journeySummaryView)
-            NSLayoutConstraint.activate([
-                journeySummaryView.leadingAnchor.constraint(equalTo: summaryView.leadingAnchor),
-                journeySummaryView.topAnchor.constraint(equalTo: groupNameView.bottomAnchor),
-                journeySummaryView.trailingAnchor.constraint(equalTo: summaryView.trailingAnchor),
-                journeySummaryView.bottomAnchor.constraint(equalTo: summaryView.bottomAnchor)
-            ])
+
+        summaryView.addSubview(journeySummaryView)
+
+        journeySummaryView.snp.makeConstraints { make in
+            make.top.equalTo(groupNameView.snp.bottom)
+            make.leading.trailing.bottom.equalTo(summaryView)
+        }
 
             // 오늘의 날짜를 보여주는 메서드
             setTodayDate()
@@ -295,12 +294,12 @@ extension SessionStartViewController {
                 lbl.translatesAutoresizingMaskIntoConstraints = false
                 return lbl
             }()
+            
             journeySummaryView.addSubview(dateLabel)
 
-            NSLayoutConstraint.activate([
-                dateLabel.leadingAnchor.constraint(equalTo: journeySummaryView.leadingAnchor, constant: 20),
-                dateLabel.topAnchor.constraint(equalTo: journeySummaryView.topAnchor, constant: 20)
-            ])
+            dateLabel.snp.makeConstraints { make in
+                make.leading.top.equalTo(journeySummaryView).inset(20)
+            }
         }
 
         private func setSentence() {
@@ -320,7 +319,7 @@ extension SessionStartViewController {
 
             // Auto Layout을 이용해 점선의 위치와 하단 패딩을 설정
             dottedLineLayer.anchorPoint = CGPoint(x: 0, y: 0)
-            dottedLineLayer.position = CGPoint(x: 0, y: 300)    // constraint 잡기 (가장 큰 난제,,)
+            dottedLineLayer.position = CGPoint(x: 0, y: 300)    // TODO: - Constraint 설정하기
 
             // 문구
             let bottomLabel: UILabel = {
@@ -333,10 +332,11 @@ extension SessionStartViewController {
             }()
 
             journeySummaryView.addSubview(bottomLabel)
-            NSLayoutConstraint.activate([
-                bottomLabel.centerXAnchor.constraint(equalTo: journeySummaryView.centerXAnchor),
-                bottomLabel.bottomAnchor.constraint(equalTo: journeySummaryView.bottomAnchor, constant: -20)
-            ])
+
+            bottomLabel.snp.makeConstraints { make in
+                make.centerX.equalTo(journeySummaryView)
+                make.bottom.equalTo(journeySummaryView).inset(20)
+            }
 
             if groupData.count == 0 {   // 데이터 없다면
                 bottomLabel.text = "세션관리에서 여정을 만들어 보세요."
@@ -348,7 +348,7 @@ extension SessionStartViewController {
         private func countGroupData() {
             if groupData.count == 0 {
                 setViewWithoutGroup()
-            } else { }
+            }
         }
 
     @objc private func presentModalQueue() {
