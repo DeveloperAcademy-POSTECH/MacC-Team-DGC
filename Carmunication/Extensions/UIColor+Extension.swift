@@ -7,30 +7,17 @@
 
 import UIKit
 
+/**
+ Asset에 추가한 색상 컬러 사용 방법
+ 이렇게 사용할 경우 Black, White 와 같이 시스템과 비슷한 이름을 사용해도 충돌이 없다.
+ ex)
+ view.backgroundColor = UIColor.theme.red1
+
+ 시멘틱으로 정하지 않은 기본 컬러의 경우 theme을 쓴다.
+ 시멘틱컬러의 경우 semantic을 붙이고 그에 맞는 컬러를 쓴다.
+ */
 extension UIColor {
-    static let lightModePointColor = UIColor(hexCode: "#627AF3")
-    static let darkModePointColor = UIColor(hexCode: "#2CFFDC")
-}
 
-extension UIColor {
-
-    convenience init(hexCode: String, alpha: CGFloat = 1.0) {
-        var hexFormatted = hexCode.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).uppercased()
-
-        if hexFormatted.hasPrefix("#") {
-            hexFormatted = String(hexFormatted.dropFirst())
-        }
-
-        assert(hexFormatted.count == 6, "Invalid hex code used.")
-
-        var rgbValue: UInt64 = 0
-        Scanner(string: hexFormatted).scanHexInt64(&rgbValue)
-
-        self.init(
-            red: CGFloat((rgbValue & 0xFF0000) >> 16) / 255.0,
-            green: CGFloat((rgbValue & 0x00FF00) >> 8) / 255.0,
-            blue: CGFloat(rgbValue & 0x0000FF) / 255.0,
-            alpha: alpha
-        )
-    }
+    static let theme = ColorTheme()
+    static let semantic = SemanticColor()
 }
