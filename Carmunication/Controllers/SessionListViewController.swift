@@ -33,9 +33,10 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
         let mainStackView = mainStack()
+        view.backgroundColor = .systemBackground
         view.addSubview(mainStackView)
+
         // Auto Layout 설정
         mainStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
@@ -73,14 +74,16 @@ extension SessionListViewController {
             withIdentifier: "cell",
             for: indexPath) as? CustomListTableViewCell {
             // 셀에 Title, Subtitle, chevron 마크 설정
+            cell.backgroundColor = UIColor.theme.gray5
+            cell.layer.cornerRadius = 20
+            cell.accessoryType = .disclosureIndicator
+
             cell.titleLabel.text = "\(cellData[indexPath.section].groupTitle)"
             UIFont.CarmuFont.display2.applyFont(to: cell.titleLabel)
             cell.subtitleLabel.text = "\(cellData[indexPath.section].subTitle)"
             UIFont.CarmuFont.subhead1.applyFont(to: cell.subtitleLabel)
             cell.driverLabel.text = cellData[indexPath.section].isDriver ? "Driver" : " "
-            cell.accessoryType = .disclosureIndicator
-            cell.backgroundColor = UIColor.theme.gray5
-            cell.layer.cornerRadius = 20
+
             return cell
         } else {
             return UITableViewCell()
@@ -92,6 +95,7 @@ extension SessionListViewController {
         // 셀 선택 시 화면 전환 로직 구현
         let selectedGroup = cellData[indexPath.section]
         let detailViewController = GroupDetailViewController()
+
         detailViewController.title = cellData[indexPath.section].groupTitle
         detailViewController.selectedGroup = selectedGroup
         navigationController?.pushViewController(detailViewController, animated: true)
@@ -101,6 +105,7 @@ extension SessionListViewController {
 
 // MARK: - Stack
 extension SessionListViewController {
+
     private func mainTopButtonStack() -> UIStackView {
         let button1 = buttonComponent("받은 초대", 130, 40, .blue, .cyan)
         let button2 = buttonComponent("새 그룹 만들기", 130, 40, .blue, .cyan)
@@ -128,6 +133,7 @@ extension SessionListViewController {
 
 // MARK: - Component
 extension SessionListViewController {
+
     private func tableViewComponent() -> UITableView {
         let tableView = UITableView()
         // UITableView 설정
@@ -137,6 +143,7 @@ extension SessionListViewController {
         tableView.register(CustomListTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
+
         return tableView
     }
 
@@ -153,16 +160,19 @@ extension SessionListViewController {
         button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
         button.layer.cornerRadius = 20
         button.layer.masksToBounds = true
+
         button.snp.makeConstraints { make in
             make.width.equalTo(width)
             make.height.equalTo(height)
         }
+
         return button
     }
 
     private func spacer() -> UIView {
         let spacerView = UIView()
         spacerView.translatesAutoresizingMaskIntoConstraints = false
+
         return spacerView
     }
 
@@ -174,17 +184,21 @@ extension SessionListViewController {
 }
 
 extension UIImage {
+
     public static func pixel(ofColor color: UIColor) -> UIImage {
         let pixel = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
         UIGraphicsBeginImageContext(pixel.size)
+
         defer {
             UIGraphicsEndImageContext()
         }
+
         guard let context = UIGraphicsGetCurrentContext() else {
             return UIImage()
         }
         context.setFillColor(color.cgColor)
         context.fill(pixel)
+
         return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
     }
 }
@@ -193,15 +207,19 @@ extension UIImage {
 import SwiftUI
 
 struct SessionListViewControllerRepresentable: UIViewControllerRepresentable {
+
     typealias UIViewControllerType = SessionListViewController
+
     func makeUIViewController(context: Context) -> SessionListViewController {
         return SessionListViewController()
     }
+
     func updateUIViewController(_ uiViewController: SessionListViewController, context: Context) {}
 }
 
 @available(iOS 13.0.0, *)
 struct SecondViewPreview: PreviewProvider {
+
     static var previews: some View {
         SessionListViewControllerRepresentable()
     }

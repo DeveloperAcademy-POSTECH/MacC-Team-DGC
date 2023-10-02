@@ -4,10 +4,8 @@
 //
 //  Created by 김동현 on 2023/09/24.
 //
-
-import UIKit
-
 import SnapKit
+import UIKit
 
 final class CustomListTableViewCell: UITableViewCell {
 
@@ -21,13 +19,16 @@ final class CustomListTableViewCell: UITableViewCell {
     let driverLabel = UILabel()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+
         titleLabel.font = UIFont.systemFont(ofSize: 17)
         subtitleLabel.font = UIFont.systemFont(ofSize: 15)
         driverLabel.font = UIFont.systemFont(ofSize: 15)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(driverLabel)
+
         // Auto Layout 설정(셀 내부)
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(12)

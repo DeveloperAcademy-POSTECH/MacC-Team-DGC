@@ -4,10 +4,8 @@
 //
 //  Created by 김동현 on 2023/09/24.
 //
-
-import UIKit
-
 import SnapKit
+import UIKit
 
 final class GroupAddTableViewCell: UITableViewCell {
 
@@ -18,6 +16,7 @@ final class GroupAddTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
+
         // Auto Layout 설정(셀 내부)
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(12)

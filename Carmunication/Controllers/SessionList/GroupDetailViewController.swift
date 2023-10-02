@@ -4,19 +4,20 @@
 //
 //  Created by 김동현 on 2023/09/24.
 //
-
+import SnapKit
 import UIKit
 
-import SnapKit
-
 final class GroupDetailViewController: UIViewController {
+
     var selectedGroup: DummyGroup?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         let mainStackView = mainStack()
+
+        view.backgroundColor = .white
         view.addSubview(mainStackView)
+
         mainStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(view.safeAreaLayoutGuide)
@@ -26,8 +27,8 @@ final class GroupDetailViewController: UIViewController {
 }
 
 // MARK: - Component & Stacks
-
 extension GroupDetailViewController {
+
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
@@ -47,11 +48,13 @@ extension GroupDetailViewController {
         let label2 = UILabel()
         label1.text = "크루가 함께한 주행거리"
         label2.text = "\("0000") km"
+
         let stackView = UIStackView(arrangedSubviews: [label1, spacer(), label2])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal // 수평 배치
         stackView.alignment = .center
         stackView.distribution = .fill
+
         return stackView
     }
 
@@ -62,11 +65,13 @@ extension GroupDetailViewController {
         let button1 = buttonComponent("그만 두기", 130, 40, .blue, .cyan)
         let button2 = buttonComponent("수정 하기", 130, 40, .blue, .cyan)
         button2.addTarget(self, action: #selector(dummyButtonAction), for: .touchUpInside)
+
         let stackView = UIStackView(arrangedSubviews: [button1, spacer(), button2])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal // 수평 배치
         stackView.alignment = .center
         stackView.distribution = .fill
+
         return stackView
     }
 
@@ -76,11 +81,13 @@ extension GroupDetailViewController {
     private func crewBottomButtonStack() -> UIStackView {
         let button = buttonComponent("그만 두기", .greatestFiniteMagnitude, 60, .blue, .cyan)
         button.addTarget(self, action: #selector(dummyButtonAction), for: .touchUpInside)
+
         let stackView = UIStackView(arrangedSubviews: [button])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal // 수평 배치
         stackView.alignment = .center
         stackView.distribution = .fill
+
         return stackView
     }
 
@@ -100,22 +107,24 @@ extension GroupDetailViewController {
         button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
         button.layer.cornerRadius = 20
         button.layer.masksToBounds = true
+
         button.snp.makeConstraints { make in
             make.width.equalTo(width)
             make.height.equalTo(height)
         }
+
         return button
     }
 
     private func spacer() -> UIView {
         let spacerView = UIView()
-        spacerView.translatesAutoresizingMaskIntoConstraints = false
         return spacerView
     }
 }
 
 // MARK: - @objc Method
 extension GroupDetailViewController {
+
     /**
      추후 그룹 해체 기능으로 사용될 액션 메서드
      */
@@ -135,15 +144,19 @@ extension GroupDetailViewController {
 import SwiftUI
 
 struct GroupDetailViewControllerRepresentable: UIViewControllerRepresentable {
+
     typealias UIViewControllerType = GroupDetailViewController
+
     func makeUIViewController(context: Context) -> GroupDetailViewController {
         return GroupDetailViewController()
     }
+
     func updateUIViewController(_ uiViewController: GroupDetailViewController, context: Context) {}
 }
 
 @available(iOS 13.0.0, *)
 struct GroupDetailViewPreview: PreviewProvider {
+
     static var previews: some View {
         GroupDetailViewControllerRepresentable()
     }
