@@ -12,56 +12,56 @@ import SnapKit
 final class SessionStartViewController: UIViewController {
 
     // 더미 데이터
-//    private let groupData = [
-//        GroupData(
-//            image: UIImage(systemName: "heart")!,
-//            groupName: "group1",
-//            start: "양덕",
-//            end: "C5",
-//            startTime: "08:30",
-//            endTime: "9:00",
-//            date: "주중(월 - 금)",
-//            total: 4),
-//        GroupData(
-//            image: UIImage(systemName: "circle")!,
-//            groupName: "group2",
-//            start: "포항",
-//            end: "부산",
-//            startTime: "08:30",
-//            endTime: "9:00",
-//            date: "주중(월 - 금)",
-//            total: 4),
-//        GroupData(
-//            image: UIImage(systemName: "heart.fill")!,
-//            groupName: "group3",
-//            start: "인천",
-//            end: "서울",
-//            startTime: "08:30",
-//            endTime: "9:00",
-//            date: "주중(월 - 금)",
-//            total: 4),
-//        GroupData(
-//            image: UIImage(systemName: "circle.fill")!,
-//            groupName: "group4",
-//            start: "부평",
-//            end: "일산",
-//            startTime: "08:30",
-//            endTime: "9:00",
-//            date: "주중(월 - 금)",
-//            total: 4),
-//        GroupData(
-//            image: UIImage(systemName: "square")!,
-//            groupName: "group5",
-//            start: "서울",
-//            end: "포항",
-//            startTime: "08:30",
-//            endTime: "9:00",
-//            date: "주중(월 - 금)",
-//            total: 4)
-//    ]
+        private let groupData = [
+            GroupData(
+                image: UIImage(systemName: "heart")!,
+                groupName: "group1",
+                start: "양덕",
+                end: "C5",
+                startTime: "08:30",
+                endTime: "9:00",
+                date: "주중(월 - 금)",
+                total: 4),
+            GroupData(
+                image: UIImage(systemName: "circle")!,
+                groupName: "group2",
+                start: "포항",
+                end: "부산",
+                startTime: "08:30",
+                endTime: "9:00",
+                date: "주중(월 - 금)",
+                total: 4),
+            GroupData(
+                image: UIImage(systemName: "heart.fill")!,
+                groupName: "group3",
+                start: "인천",
+                end: "서울",
+                startTime: "08:30",
+                endTime: "9:00",
+                date: "주중(월 - 금)",
+                total: 4),
+            GroupData(
+                image: UIImage(systemName: "circle.fill")!,
+                groupName: "group4",
+                start: "부평",
+                end: "일산",
+                startTime: "08:30",
+                endTime: "9:00",
+                date: "주중(월 - 금)",
+                total: 4),
+            GroupData(
+                image: UIImage(systemName: "square")!,
+                groupName: "group5",
+                start: "서울",
+                end: "포항",
+                startTime: "08:30",
+                endTime: "9:00",
+                date: "주중(월 - 금)",
+                total: 4)
+        ]
 
     // 데이터 없을 때
-        let groupData = [GroupData]()
+//    let groupData = [GroupData]()
 
     private let journeyTogetherButton: UIButton = {
         let btn = UIButton()
@@ -118,13 +118,27 @@ final class SessionStartViewController: UIViewController {
         return view
     }()
 
+    // 점선
+    private let dottedLineLayer = CAShapeLayer()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         setCollectionView()
         setJourneyTogetherButton()
+        countGroupData()
         setSummaryView()
         setJourneySummaryView()
+
+    }
+
+    override func viewDidLayoutSubviews() {
+
+        summaryView.layoutIfNeeded()
+
+        // 점선 그리기
+        journeySummaryView.layer.addSublayer(dottedLineLayer)
+        dottedLineLayer.position = CGPoint(x: 0, y: journeySummaryView.frame.maxY - 100)
     }
 }
 
@@ -183,7 +197,13 @@ extension SessionStartViewController {
 
         summaryView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(groupCollectionView.snp.bottom).inset(-16)
+            if groupData.count == 0 {
+                // 데이터가 없을 때
+                make.top.equalTo(viewWithoutCrew.snp.bottom).inset(-16)
+            } else {
+                // 데이터가 있을 때
+                make.top.equalTo(groupCollectionView.snp.bottom).inset(-16)
+            }
             make.bottom.equalTo(journeyTogetherButton.snp.top).inset(-36)
         }
 
@@ -289,22 +309,14 @@ extension SessionStartViewController {
 
     private func setSentence() {
         // 점선을 그리기 위한 CALayer 생성
-        let dottedLineLayer = CAShapeLayer()
         dottedLineLayer.strokeColor = UIColor.gray.cgColor
         dottedLineLayer.lineWidth = 1
         dottedLineLayer.lineDashPattern = [10, 10]  // 점선의 패턴을 설정
 
         let path = CGMutablePath()
         path.addLines(between: [CGPoint(x: 0, y: 0), CGPoint(x: view.bounds.width - 40, y: 0)])
-        // CAShapeLayer의 path 설정
         dottedLineLayer.path = path
-
-        // CAShapeLayer를 journeySummaryView의 layer에 추가
-        journeySummaryView.layer.addSublayer(dottedLineLayer)
-
-        // Auto Layout을 이용해 점선의 위치와 하단 패딩을 설정
         dottedLineLayer.anchorPoint = CGPoint(x: 0, y: 0)
-        dottedLineLayer.position = CGPoint(x: 0, y: 300)    // TODO: - Constraint 설정하기
 
         // 문구
         let bottomLabel: UILabel = {
@@ -346,9 +358,6 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-
-        countGroupData()
-
         return groupData.count
     }
 
