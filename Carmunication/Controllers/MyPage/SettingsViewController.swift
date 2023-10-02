@@ -13,13 +13,17 @@ import FirebaseAuth
 import SnapKit
 
 final class SettingsViewController: UIViewController {
+
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
     private var currentNonce: String?
 
     // 테이블 뷰 섹션과 row의 데이터
-    let sections = ["친구 및 기타", "계정 관리"]
-    let upperSection = ["친구 관리", "개인정보 처리방침", "문의하기"]
-    let lowerSection = ["로그아웃", "회원 탈퇴"]
+    enum Section: CaseIterable {
+        case friendAndOthers // 친구 및 기타 섹션
+        case accountManagement // 계정 관리 섹션
+    }
+    let friendAndOthersContents = ["친구 관리", "개인정보 처리방침", "문의하기"]
+    let accountManagementContents = ["로그아웃", "회원 탈퇴"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,28 +94,29 @@ final class SettingsViewController: UIViewController {
 
 // MARK: - 테이블 뷰 관련 델리게이트 메소드
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
+
     // 섹션 수 반환
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sections.count
+        return Section.allCases.count
     }
     // 각 섹션의 row 수 반환
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
-            return upperSection.count
+            return friendAndOthersContents.count
         } else {
-            return lowerSection.count
+            return accountManagementContents.count
         }
     }
     // 각 row에 대한 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        
+
         switch indexPath.section {
         case 0:
-            cell.textLabel?.text = upperSection[indexPath.row]
+            cell.textLabel?.text = friendAndOthersContents[indexPath.row]
             cell.accessoryType = .disclosureIndicator
         case 1:
-            cell.textLabel?.text = lowerSection[indexPath.row]
+            cell.textLabel?.text = accountManagementContents[indexPath.row]
             if indexPath.row == 1 {
                 cell.textLabel?.textColor = .red
             }
@@ -123,12 +128,10 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     // 테이블 뷰 섹션 헤더 설정
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 1:
-            return "계정 관리"
-        default:
+        guard section == 1 else {
             return nil
         }
+        return "계정 관리"
     }
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -160,6 +163,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
 // MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현
 extension SettingsViewController: ASAuthorizationControllerDelegate {
+
     // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
     func authorizationController(
         controller: ASAuthorizationController,
@@ -207,6 +211,7 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
 // MARK: - 로그인 UI 표시 관련 델리게이트 프로토콜 구현
 extension SettingsViewController: ASAuthorizationControllerPresentationContextProviding {
+
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
@@ -215,6 +220,7 @@ extension SettingsViewController: ASAuthorizationControllerPresentationContextPr
 // MARK: - Firebase 인증 관련 익스텐션
 /// https://firebase.google.com/docs/auth/ios/apple?hl=ko 참고
 extension SettingsViewController {
+
     // MARK: - 애플 로그인 버튼 클릭 시 동작
     @available(iOS 13, *)
     @objc func startSignInWithAppleFlow() {
@@ -271,6 +277,7 @@ extension SettingsViewController {
 import SwiftUI
 
 struct SettingsViewControllerRepresentable: UIViewControllerRepresentable {
+
     typealias UIViewControllerType = SettingsViewController
     func makeUIViewController(context: Context) -> SettingsViewController {
         return SettingsViewController()
@@ -278,8 +285,10 @@ struct SettingsViewControllerRepresentable: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: SettingsViewController, context: Context) {
     }
 }
+
 @available(iOS 13.0.0, *)
 struct SettingsViewPreview: PreviewProvider {
+
     static var previews: some View {
         SettingsViewControllerRepresentable()
     }

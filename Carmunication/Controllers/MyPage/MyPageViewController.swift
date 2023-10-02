@@ -9,6 +9,7 @@ import UIKit
 
 // MARK: - 내 정보 탭 화면 뷰 컨트롤러
 final class MyPageViewController: UIViewController {
+
     // MARK: - 설정 버튼
     lazy var settingsButton: UIButton = {
         let button = UIButton()
@@ -17,10 +18,8 @@ final class MyPageViewController: UIViewController {
         button.setImage(symbol, for: .normal)
         button.tintColor = .white
         button.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
     // MARK: - 상단 유저 정보 뷰
     lazy var userInfoView: UIView = {
         let view = UIView()
@@ -29,7 +28,6 @@ final class MyPageViewController: UIViewController {
         view.layer.shadowOpacity = 0.5
         view.layer.shadowOffset = CGSize(width: 0, height: 1)
         view.layer.shadowRadius = 5
-        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     lazy var gradient: CAGradientLayer = {
@@ -48,7 +46,6 @@ final class MyPageViewController: UIViewController {
     // MARK: - 닉네임 스택
     lazy var nicknameStack: UIStackView = {
         let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .vertical
         stack.alignment = .leading
         stack.distribution = .fillProportionally
@@ -60,7 +57,6 @@ final class MyPageViewController: UIViewController {
         label.text = "홍길동"
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 28)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     // 닉네임 편집 버튼
@@ -79,7 +75,6 @@ final class MyPageViewController: UIViewController {
             right: horizontalPad
         )
         button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     // MARK: - 프로필 이미지
@@ -92,7 +87,6 @@ final class MyPageViewController: UIViewController {
         imgView.frame = CGRect(x: 0, y: 0, width: size, height: size)
         imgView.layer.cornerRadius = size / 2
         imgView.clipsToBounds = true
-        imgView.translatesAutoresizingMaskIntoConstraints = false
         return imgView
     }()
     // MARK: - 이미지 추가 버튼
@@ -100,7 +94,6 @@ final class MyPageViewController: UIViewController {
         let button = UIButton(type: .custom)
         button.setImage(UIImage(named: "cameraBtn"), for: .normal)
         button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     // MARK: - 텍스트 필드
@@ -153,6 +146,7 @@ final class MyPageViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         gradient.frame = userInfoView.bounds
     }
+
     // MARK: - 뷰 레이아웃 세팅 메소드
     private func setupLayout() {
         view.backgroundColor = .systemBackground
@@ -243,8 +237,7 @@ final class MyPageViewController: UIViewController {
             picker.delegate = self
             self.present(picker, animated: true)
         }
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
-        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(album)
         alert.addAction(cancel)
         self.present(alert, animated: true)
