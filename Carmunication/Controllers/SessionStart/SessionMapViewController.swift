@@ -7,10 +7,22 @@
 
 import UIKit
 
+import NMapsMap
+import SnapKit
+
 final class SessionMapViewController: UIViewController {
+
+    private let mapView = NMFMapView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        showNaverMap()
+    }
+
+    private func showNaverMap() {
+        view.addSubview(mapView)
+        mapView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 }

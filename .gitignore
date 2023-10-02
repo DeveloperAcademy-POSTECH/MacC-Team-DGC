@@ -136,3 +136,6 @@ iOSInjectionProject/
 
 # Firebase plist
 GoogleService-Info.plist
+
+# API-KEY plist
+SecureKey-Info.plist
