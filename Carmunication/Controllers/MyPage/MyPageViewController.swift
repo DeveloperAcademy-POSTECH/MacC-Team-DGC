@@ -37,8 +37,8 @@ final class MyPageViewController: UIViewController {
         gradient.frame = userInfoView.bounds
         gradient.cornerRadius = 16
         gradient.colors = [
-            UIColor(hexCode: "627AF3").cgColor,
-            UIColor(hexCode: "2CFFDC").cgColor
+            UIColor.theme.blue6!.cgColor,
+            UIColor.theme.acua5!.cgColor
         ]
         gradient.locations = [0.0, 1.0]
         gradient.startPoint = CGPoint(x: 0, y: 0.5)
@@ -68,7 +68,7 @@ final class MyPageViewController: UIViewController {
         let button = UIButton()
         button.setTitle("닉네임 편집하기✏️", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        button.backgroundColor = UIColor(hexCode: "F1F3FF", alpha: 0.2)
+        button.backgroundColor = UIColor.theme.blue1?.withAlphaComponent(0.2)
         button.layer.cornerRadius = 12
         let verticalPad: CGFloat = 4.0
         let horizontalPad: CGFloat = 8.0
