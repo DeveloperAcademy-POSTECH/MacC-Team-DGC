@@ -173,8 +173,10 @@ final class MyPageViewController: UIViewController {
 
         // MARK: - 오토 레이아웃
         userInfoView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
-            make.height.equalTo(320)
+            // userInfoView에 cornerRadius를 주면서 상단 모서리가 잘리는 부분을 없애주기 위해 화면 크기보다 위로 조금 넘치게 설정
+            make.top.equalToSuperview().inset(-20)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(340)
         }
         settingsButton.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(12)
