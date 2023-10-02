@@ -12,56 +12,56 @@ import SnapKit
 final class SessionStartViewController: UIViewController {
 
     // 더미 데이터
-        private let groupData = [
-            GroupData(
-                image: UIImage(systemName: "heart")!,
-                groupName: "group1",
-                start: "양덕",
-                end: "C5",
-                startTime: "08:30",
-                endTime: "9:00",
-                date: "주중(월 - 금)",
-                total: 4),
-            GroupData(
-                image: UIImage(systemName: "circle")!,
-                groupName: "group2",
-                start: "포항",
-                end: "부산",
-                startTime: "08:30",
-                endTime: "9:00",
-                date: "주중(월 - 금)",
-                total: 4),
-            GroupData(
-                image: UIImage(systemName: "heart.fill")!,
-                groupName: "group3",
-                start: "인천",
-                end: "서울",
-                startTime: "08:30",
-                endTime: "9:00",
-                date: "주중(월 - 금)",
-                total: 4),
-            GroupData(
-                image: UIImage(systemName: "circle.fill")!,
-                groupName: "group4",
-                start: "부평",
-                end: "일산",
-                startTime: "08:30",
-                endTime: "9:00",
-                date: "주중(월 - 금)",
-                total: 4),
-            GroupData(
-                image: UIImage(systemName: "square")!,
-                groupName: "group5",
-                start: "서울",
-                end: "포항",
-                startTime: "08:30",
-                endTime: "9:00",
-                date: "주중(월 - 금)",
-                total: 4)
-        ]
+    private let groupData = [
+        GroupData(
+            image: UIImage(systemName: "heart")!,
+            groupName: "group1",
+            start: "양덕",
+            end: "C5",
+            startTime: "08:30",
+            endTime: "9:00",
+            date: "주중(월 - 금)",
+            total: 4),
+        GroupData(
+            image: UIImage(systemName: "circle")!,
+            groupName: "group2",
+            start: "포항",
+            end: "부산",
+            startTime: "08:30",
+            endTime: "9:00",
+            date: "주중(월 - 금)",
+            total: 4),
+        GroupData(
+            image: UIImage(systemName: "heart.fill")!,
+            groupName: "group3",
+            start: "인천",
+            end: "서울",
+            startTime: "08:30",
+            endTime: "9:00",
+            date: "주중(월 - 금)",
+            total: 4),
+        GroupData(
+            image: UIImage(systemName: "circle.fill")!,
+            groupName: "group4",
+            start: "부평",
+            end: "일산",
+            startTime: "08:30",
+            endTime: "9:00",
+            date: "주중(월 - 금)",
+            total: 4),
+        GroupData(
+            image: UIImage(systemName: "square")!,
+            groupName: "group5",
+            start: "서울",
+            end: "포항",
+            startTime: "08:30",
+            endTime: "9:00",
+            date: "주중(월 - 금)",
+            total: 4)
+    ]
 
     // 데이터 없을 때
-//    let groupData = [GroupData]()
+    //    let groupData = [GroupData]()
 
     private let journeyTogetherButton: UIButton = {
         let btn = UIButton()
