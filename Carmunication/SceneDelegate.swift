@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = MyPageViewController()
+        window.rootViewController = LoginViewController()
         window.makeKeyAndVisible()
         self.window = window
     }
