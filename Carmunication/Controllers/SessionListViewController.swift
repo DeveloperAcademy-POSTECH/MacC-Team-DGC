@@ -135,32 +135,32 @@ extension SessionListViewController {
 // MARK: - Stack
 extension SessionListViewController {
 
-    private func mainTopButtonStack() -> UIButton {
-        let button2 = buttonComponent("+ 새 그룹 만들기", 174, 62, UIColor.semantic.textSecondary!, UIColor.semantic.accPrimary!)
-        button2.titleLabel?.font = UIFont.carmuFont.subhead3
-        button2.addTarget(self, action: #selector(moveToAddGroup), for: .touchUpInside)
-        return button2
+    private func addNewGroupButton() -> UIStackView {
+        let stackView = UIStackView()
+        let button = buttonComponent("+ 새 그룹 만들기", 174, 62, UIColor.semantic.textSecondary!, UIColor.semantic.accPrimary!)
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
+        button.addTarget(self, action: #selector(moveToAddGroup), for: .touchUpInside)
+        stackView.addArrangedSubview(button)
+        return stackView
     }
 
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
     private func mainStack() -> UIStackView {
-        let stackView = mainTopButtonStack()
-        let tableView = tableViewComponent()
         let mainStackView = UIStackView()
+        let stackView = addNewGroupButton()
+        let tableView = tableViewComponent()
         mainStackView.axis = .vertical
-        // TableView를 최대한 확장하고 버튼을 아래에 추가합니다.
         mainStackView.addArrangedSubview(tableView)
         mainStackView.addArrangedSubview(stackView)
-        stackView.backgroundColor = .clear
+
         tableView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.top.equalToSuperview()
+            make.leading.top.trailing.equalToSuperview()
         }
 
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(tableView.snp.bottom)
+            make.centerX.equalToSuperview()
         }
 
         return mainStackView
@@ -201,13 +201,6 @@ extension SessionListViewController {
         }
 
         return button
-    }
-
-    private func spacer() -> UIView {
-        let spacerView = UIView()
-        spacerView.translatesAutoresizingMaskIntoConstraints = false
-
-        return spacerView
     }
 
     @objc private func moveToAddGroup() {
