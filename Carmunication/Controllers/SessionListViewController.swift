@@ -147,6 +147,7 @@ extension SessionListViewController {
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
+    // TODO: 버튼 크기 조절과 셀과 함께 유동적으로 움직이는 버튼 구현
     private func mainStack() -> UIStackView {
         let mainStackView = UIStackView()
         let stackView = addNewGroupButton()
@@ -182,6 +183,7 @@ extension SessionListViewController {
         return tableView
     }
 
+    // TODO: - button 크기 조절
     private func buttonComponent(
         _ title: String,
         _ width: CGFloat,
