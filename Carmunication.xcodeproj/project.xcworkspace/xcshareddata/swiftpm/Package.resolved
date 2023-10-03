@@ -91,6 +91,15 @@
       }
     },
     {
+      "identity" : "nmapsmap",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jaemyeong/NMapsMap",
+      "state" : {
+        "revision" : "f9850a18d73f9438c622e308623b77709e3cd00a",
+        "version" : "3.16.2"
+      }
+    },
+    {
       "identity" : "promises",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/google/promises.git",

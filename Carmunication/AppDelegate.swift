@@ -5,8 +5,10 @@
 //  Created by 허준혁 on 2023/09/19.
 //
 
-import FirebaseCore
 import UIKit
+
+import FirebaseCore
+import NMapsMap
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
         FirebaseApp.configure() // Firebase 초기화 (연결)
+        NMFAuthManager.shared().clientId = Bundle.main.naverMapClientID
         return true
     }
 
