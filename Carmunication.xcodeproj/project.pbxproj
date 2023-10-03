@@ -33,6 +33,7 @@
 		C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB342AC9B6830068273A /* SemanticColor.swift */; };
 		C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB382ACBC9180068273A /* CarmuFont.swift */; };
 		C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB3A2ACBF6C40068273A /* UIImage+Extension.swift */; };
+		C92CFB3D2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
 		C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */; };
 		C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */; };
@@ -67,6 +68,7 @@
 		C92CFB342AC9B6830068273A /* SemanticColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemanticColor.swift; sourceTree = "<group>"; };
 		C92CFB382ACBC9180068273A /* CarmuFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarmuFont.swift; sourceTree = "<group>"; };
 		C92CFB3A2ACBF6C40068273A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
+		C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotFoundCrewTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddViewController.swift; sourceTree = "<group>"; };
 		C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddTableViewCell.swift; sourceTree = "<group>"; };
@@ -205,6 +207,7 @@
 			isa = PBXGroup;
 			children = (
 				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
+				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
 				C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */,
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
 				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
@@ -338,6 +341,7 @@
 				C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */,
 				16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */,
 				BF4A12442ABED79F00EC1B6D /* SessionListViewController.swift in Sources */,
+				C92CFB3D2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift in Sources */,
 				16DBA63F2AC1D5B900315ED7 /* GroupCollectionViewCell.swift in Sources */,
 				C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,

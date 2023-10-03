@@ -14,7 +14,7 @@ struct SemanticColor {
 
     let backgroundDefault = UIColor.theme.white
     let textPrimary = UIColor.theme.darkblue8
-    let textBody = UIColor.theme.darkblue8
+    let textBody = UIColor.theme.darkblue5
     let textSecondary = UIColor.theme.white
     let backgroundSecond = UIColor.theme.blue1
     let negative = UIColor.theme.red7

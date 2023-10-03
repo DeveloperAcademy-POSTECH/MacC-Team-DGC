@@ -20,39 +20,18 @@ struct DummyGroup {
 final class SessionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private var cellData: [DummyGroup] = [
-        DummyGroup(
-            groupTitle: "(주)좋좋소",
-            subTitle: "회사",
-            startPoint: "배찌의 스윗한 홈",
-            endPoint: "칠포2리 간이해수욕장",
-            crewCount: 3
-        ),
-        DummyGroup(
-            groupTitle: "김배찌",
-            subTitle: "바지사장",
-            isDriver: true
-        ),
-        DummyGroup(
-            groupTitle: "환장의 카풀",
-            startPoint: "서울시 봉천동",
-            endPoint: "부산광역시 남천동 살제",
-            startTime: "13:30",
-            crewCount: 2
-        ),
-        DummyGroup(
-            groupTitle: "환장의 카풀",
-            startPoint: "서울시 봉천동",
-            endPoint: "부산광역시 남천동 살제",
-            startTime: "13:30",
-            crewCount: 2
-        ),
-        DummyGroup(
-            groupTitle: "환장의 카풀",
-            startPoint: "서울시 봉천동",
-            endPoint: "부산광역시 남천동 살제",
-            startTime: "13:30",
-            crewCount: 2
-        )
+//        DummyGroup(
+//            groupTitle: "(주)좋좋소",
+//            subTitle: "회사",
+//            startPoint: "배찌의 스윗한 홈",
+//            endPoint: "칠포2리 간이해수욕장",
+//            crewCount: 3
+//        )
+//        DummyGroup(
+//            groupTitle: "김배찌",
+//            subTitle: "바지사장",
+//            isDriver: true
+//        )
     ]
 
     override func viewDidLoad() {
@@ -94,29 +73,42 @@ extension SessionListViewController {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(
-            withIdentifier: "cell",
-            for: indexPath) as? CustomListTableViewCell {
-            // 셀에 Title, Subtitle, chevron 마크 설정
-            let cellData = cellData[indexPath.section]
-            cell.backgroundColor = UIColor.semantic.backgroundSecond
-            cell.layer.cornerRadius = 16
-            cell.titleLabel.text = "\(cellData.groupTitle)"
-            cell.startPointLabel.text = "\(cellData.startPoint)"
-            cell.endPointLabel.text = "\(cellData.endPoint)"
-            cell.startTimeLabel.text = "\(cellData.startTime)"
-            cell.leftImageView.image = {
-                if !cellData.isDriver {
-                    UIImage(named: "ImCrewButton")
-                } else {
-                    UIImage(named: "ImCaptainButton")
-                }
-            }()
-            cell.crewCount = cellData.crewCount
-            return cell
+        if cellData.isEmpty {
+            // cellData가 비어있을 때 NotFoundCrewTableViewCell을 반환합니다.
+            if let cell = tableView.dequeueReusableCell(
+                withIdentifier: "notFoundCell",
+                for: indexPath
+            ) as? NotFoundCrewTableViewCell {
+                // 필요한 설정 작업을 수행하세요.
+                return cell
+            }
         } else {
-            return UITableViewCell()
+            // cellData가 비어있지 않을 때 기존의 CustomListTableViewCell을 반환합니다.
+            if let cell = tableView.dequeueReusableCell(
+                withIdentifier: "cell",
+                for: indexPath
+            ) as? CustomListTableViewCell {
+
+                // 기존 셀에 데이터 설정을 수행하세요.
+                let cellData = cellData[indexPath.row]
+                cell.backgroundColor = UIColor.semantic.backgroundSecond
+                cell.layer.cornerRadius = 16
+                cell.titleLabel.text = "\(cellData.groupTitle)"
+                cell.startPointLabel.text = "\(cellData.startPoint)"
+                cell.endPointLabel.text = "\(cellData.endPoint)"
+                cell.startTimeLabel.text = "\(cellData.startTime)"
+                cell.leftImageView.image = {
+                    if !cellData.isDriver {
+                        UIImage(named: "ImCrewButton")
+                    } else {
+                        UIImage(named: "ImCaptainButton")
+                    }
+                }()
+                cell.crewCount = cellData.crewCount
+                return cell
+            }
         }
+        return UITableViewCell()
     }
 
     // UITableView Delegate
@@ -137,16 +129,20 @@ extension SessionListViewController {
 
     private func addNewGroupButton() -> UIStackView {
         let stackView = UIStackView()
-        let button = buttonComponent("+ 새 그룹 만들기", 174, 62, UIColor.semantic.textSecondary!, UIColor.semantic.accPrimary!)
+        let button = buttonComponent(
+            title: "+ 새 그룹 만들기",
+            width: 174,
+            height: 62,
+            fontColor: UIColor.semantic.textSecondary!,
+            backgroundColor: UIColor.semantic.accPrimary!
+        )
         button.titleLabel?.font = UIFont.carmuFont.subhead3
         button.addTarget(self, action: #selector(moveToAddGroup), for: .touchUpInside)
         stackView.addArrangedSubview(button)
         return stackView
     }
 
-    /**
-     Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
-     */
+    // Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
     // TODO: 버튼 크기 조절과 셀과 함께 유동적으로 움직이는 버튼 구현
     private func mainStack() -> UIStackView {
         let mainStackView = UIStackView()
@@ -177,6 +173,7 @@ extension SessionListViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CustomListTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(NotFoundCrewTableViewCell.self, forCellReuseIdentifier: "notFoundCell")
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
 
@@ -185,11 +182,11 @@ extension SessionListViewController {
 
     // TODO: - button 크기 조절
     private func buttonComponent(
-        _ title: String,
-        _ width: CGFloat,
-        _ height: CGFloat,
-        _ fontColor: UIColor,
-        _ backgroundColor: UIColor
+        title: String,
+        width: CGFloat,
+        height: CGFloat,
+        fontColor: UIColor,
+        backgroundColor: UIColor
     ) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
