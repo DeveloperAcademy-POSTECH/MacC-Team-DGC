@@ -20,8 +20,8 @@ final class SessionMapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        showNaverMap()
         startUpdatingLocation()
+        showNaverMap()
     }
 
     private func showNaverMap() {
