@@ -4,31 +4,24 @@
 //
 //  Created by 허준혁 on 2023/09/23.
 //
-
-import UIKit
-
 import SnapKit
+import UIKit
 
 struct DummyGroup {
     var groupTitle: String = "(주)좋좋소"
     var subTitle: String = "늦으면 큰일이 나요"
     var isDriver: Bool = false
+    var startPoint = "울산"
+    var endPoint = "C5"
+    var startTime = "08:30"
+    var crewCount = 4
 }
 
 final class SessionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private var cellData: [DummyGroup] = [
-        DummyGroup(),
         DummyGroup(groupTitle: "(주)좋좋소", subTitle: "회사"),
-        DummyGroup(groupTitle: "김배찌", subTitle: "바지사장", isDriver: true),
-        DummyGroup(groupTitle: "우니", subTitle: "회장"),
-        DummyGroup(groupTitle: "김레이", subTitle: "개발2팀장"),
-        DummyGroup(groupTitle: "김테드", subTitle: "개발1팀장"),
-        DummyGroup(groupTitle: "젤리빈", subTitle: "마케팅팀장"),
-        DummyGroup(groupTitle: "권지수", subTitle: "디자인팀장", isDriver: true),
-        DummyGroup(groupTitle: "애플아카데미", subTitle: "C5"),
-        DummyGroup(groupTitle: "12시가 되었다.", subTitle: "큰일이야"),
-        DummyGroup(groupTitle: "나는", subTitle: "배가고파")
+        DummyGroup(groupTitle: "김배찌", subTitle: "바지사장", isDriver: true)
     ]
 
     override func viewDidLoad() {
@@ -54,7 +47,7 @@ extension SessionListViewController {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return cellData.count
+        return cellData.count == 0 ? 1 : cellData.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -66,7 +59,7 @@ extension SessionListViewController {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 60
+        return 134
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -74,15 +67,12 @@ extension SessionListViewController {
             withIdentifier: "cell",
             for: indexPath) as? CustomListTableViewCell {
             // 셀에 Title, Subtitle, chevron 마크 설정
-            cell.backgroundColor = UIColor.theme.gray5
-            cell.layer.cornerRadius = 20
-            cell.accessoryType = .disclosureIndicator
+            cell.backgroundColor = UIColor.semantic.backgroundSecond
+            cell.layer.cornerRadius = 16
 
             cell.titleLabel.text = "\(cellData[indexPath.section].groupTitle)"
-            UIFont.CarmuFont.display2.applyFont(to: cell.titleLabel)
-            cell.subtitleLabel.text = "\(cellData[indexPath.section].subTitle)"
-            UIFont.CarmuFont.subhead1.applyFont(to: cell.subtitleLabel)
-            cell.driverLabel.text = cellData[indexPath.section].isDriver ? "Driver" : " "
+//            UIFont.CarmuFont.subhead3.applyFont(to: cell.titleLabel)
+//            UIFont.CarmuFont.subhead1.applyFont(to: cell.subtitleLabel)
 
             return cell
         } else {
@@ -107,10 +97,9 @@ extension SessionListViewController {
 extension SessionListViewController {
 
     private func mainTopButtonStack() -> UIStackView {
-        let button1 = buttonComponent("받은 초대", 130, 40, .blue, .cyan)
         let button2 = buttonComponent("새 그룹 만들기", 130, 40, .blue, .cyan)
         button2.addTarget(self, action: #selector(moveToAddGroup), for: .touchUpInside)
-        let stackView = UIStackView(arrangedSubviews: [button1, spacer(), button2])
+        let stackView = UIStackView(arrangedSubviews: [button2])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal // 수평 배치
         stackView.alignment = .center
@@ -122,11 +111,10 @@ extension SessionListViewController {
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
     private func mainStack() -> UIStackView {
-        let tableView = tableViewComponent()
         let stackView = mainTopButtonStack()
-        let mainStackView = UIStackView(arrangedSubviews: [stackView, tableView])
+        let tableView = tableViewComponent()
+        let mainStackView = UIStackView(arrangedSubviews: [tableView, stackView])
         mainStackView.axis = .vertical
-        mainStackView.spacing = 12
         return mainStackView
     }
 }
@@ -200,6 +188,60 @@ extension UIImage {
         context.fill(pixel)
 
         return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
+    }
+}
+
+final class CustomListTableViewCell: UITableViewCell {
+
+    let leftImageView = UIImageView(image: UIImage(named: "ImCaptainButton"))
+    let titleLabel = UILabel()
+    let rightImageView = UIImageView(image: UIImage(systemName: "chevron.right"))
+
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+        setupConstraints()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupUI()
+        setupConstraints()
+    }
+
+    private func setupUI() {
+        contentView.addSubview(leftImageView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(rightImageView)
+
+        leftImageView.contentMode = .scaleAspectFill
+        titleLabel.font = UIFont.carmuFont.subhead3
+        rightImageView.tintColor = UIColor.semantic.accPrimary
+        // Add any additional setup for your labels and image views here
+        // For example, you can set font, text color, content mode, etc.
+    }
+
+    private func setupConstraints() {
+        let padding: CGFloat = 20
+        let imageLabelSpacing: CGFloat = 8
+
+        leftImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
+            make.height.equalTo(16)
+            make.width.equalTo(45)
+        }
+
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(20)
+            make.leading.equalTo(leftImageView.snp.trailing).offset(imageLabelSpacing)
+            make.centerY.equalTo(leftImageView.snp.centerY)
+        }
+
+        rightImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(padding)
+            make.trailing.equalToSuperview().inset(padding)
+        }
     }
 }
 

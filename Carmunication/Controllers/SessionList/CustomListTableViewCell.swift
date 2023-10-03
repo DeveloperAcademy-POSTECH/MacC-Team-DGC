@@ -7,45 +7,38 @@
 import SnapKit
 import UIKit
 
-final class CustomListTableViewCell: UITableViewCell {
+// MARK: - Preview canvas 세팅
+import SwiftUI
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
+struct CustomListTableViewCellRepresentable: UIViewControllerRepresentable {
 
-    let titleLabel = UILabel()
-    let subtitleLabel = UILabel()
-    let driverLabel = UILabel()
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-
-        titleLabel.font = UIFont.systemFont(ofSize: 17)
-        subtitleLabel.font = UIFont.systemFont(ofSize: 15)
-        driverLabel.font = UIFont.systemFont(ofSize: 15)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(subtitleLabel)
-        contentView.addSubview(driverLabel)
-
-        // Auto Layout 설정(셀 내부)
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(12)
-            make.leading.trailing.equalToSuperview().inset(16)
+    // Create a UIViewController that contains your UITableViewCell
+    class UIViewControllerType: UIViewController {
+        let tableViewCell = CustomListTableViewCell() // Initialize your custom cell
+        override func viewDidLoad() {
+            super.viewDidLoad()
+            tableViewCell.titleLabel.text = "타이틀"
+            view.addSubview(tableViewCell)
         }
-        subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(4)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview().inset(8)
-        }
-        driverLabel.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().inset(16)
+
+        override func viewDidLayoutSubviews() {
+            super.viewDidLayoutSubviews()
+            tableViewCell.frame = view.bounds
         }
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    func makeUIViewController(context: Context) -> UIViewControllerType {
+        return UIViewControllerType()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
+}
+
+@available(iOS 13.0.0, *)
+struct CustomListTableViewCellPreview: PreviewProvider {
+
+    static var previews: some View {
+        CustomListTableViewCellRepresentable()
+            .previewLayout(.fixed(width: 320, height: 134)) // Set an appropriate size
     }
 }
