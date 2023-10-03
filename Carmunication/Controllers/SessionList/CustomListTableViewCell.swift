@@ -32,6 +32,8 @@ final class CustomListTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         setupConstraints()
+        self.backgroundColor = UIColor.semantic.backgroundSecond
+        self.layer.cornerRadius = 16
     }
 
     required init?(coder aDecoder: NSCoder) {

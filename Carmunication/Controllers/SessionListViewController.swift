@@ -7,26 +7,16 @@
 import SnapKit
 import UIKit
 
-struct DummyGroup {
-    var groupTitle: String = "(주)좋좋소"
-    var subTitle: String = "늦으면 큰일이 나요"
-    var isDriver: Bool = false
-    var startPoint = "출발지"
-    var endPoint = "도착지"
-    var startTime = "08:30"
-    var crewCount = 4
-}
-
 final class SessionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private var cellData: [DummyGroup] = [
-//        DummyGroup(
-//            groupTitle: "(주)좋좋소",
-//            subTitle: "회사",
-//            startPoint: "배찌의 스윗한 홈",
-//            endPoint: "칠포2리 간이해수욕장",
-//            crewCount: 3
-//        )
+        DummyGroup(
+            groupTitle: "(주)좋좋소",
+            subTitle: "회사",
+            startPoint: "배찌의 스윗한 홈",
+            endPoint: "칠포2리 간이해수욕장",
+            crewCount: 3
+        )
 //        DummyGroup(
 //            groupTitle: "김배찌",
 //            subTitle: "바지사장",
@@ -91,8 +81,8 @@ extension SessionListViewController {
 
                 // 기존 셀에 데이터 설정을 수행하세요.
                 let cellData = cellData[indexPath.row]
-                cell.backgroundColor = UIColor.semantic.backgroundSecond
-                cell.layer.cornerRadius = 16
+//                cell.backgroundColor = UIColor.semantic.backgroundSecond
+//                cell.layer.cornerRadius = 16
                 cell.titleLabel.text = "\(cellData.groupTitle)"
                 cell.startPointLabel.text = "\(cellData.startPoint)"
                 cell.endPointLabel.text = "\(cellData.endPoint)"
