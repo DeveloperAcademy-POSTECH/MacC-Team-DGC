@@ -4,17 +4,17 @@
 //
 //  Created by 김동현 on 2023/09/24.
 //
-
+import SnapKit
 import UIKit
 
-import SnapKit
-
 final class SelectPointMapViewController: UIViewController {
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         let vStack = vStackContainer()
+        view.backgroundColor = .white
         view.addSubview(vStack)
+
         vStack.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
@@ -28,6 +28,7 @@ extension SelectPointMapViewController {
         vStack.axis = .vertical
         vStack.alignment = .center
         vStack.distribution = .fillEqually
+
         return vStack
     }
 
@@ -35,6 +36,7 @@ extension SelectPointMapViewController {
         let label = UILabel()
         label.text = "맵뷰"
         label.translatesAutoresizingMaskIntoConstraints = false
+
         return label
     }
 
@@ -44,12 +46,14 @@ extension SelectPointMapViewController {
         backButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
         backButton.setBackgroundImage(.pixel(ofColor: .blue), for: .normal)
         backButton.translatesAutoresizingMaskIntoConstraints = false
+
         return backButton
     }
 }
 
 // MARK: - @objc Method
 extension SelectPointMapViewController {
+
     @objc private func backButtonAction() {
         dismiss(animated: true)
     }
