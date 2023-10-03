@@ -11,8 +11,8 @@ struct DummyGroup {
     var groupTitle: String = "(주)좋좋소"
     var subTitle: String = "늦으면 큰일이 나요"
     var isDriver: Bool = false
-    var startPoint = "울산"
-    var endPoint = "C5"
+    var startPoint = "출발지"
+    var endPoint = "도착지"
     var startTime = "08:30"
     var crewCount = 4
 }
@@ -20,7 +20,7 @@ struct DummyGroup {
 final class SessionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private var cellData: [DummyGroup] = [
-        DummyGroup(groupTitle: "(주)좋좋소", subTitle: "회사"),
+        DummyGroup(groupTitle: "(주)좋좋소", subTitle: "회사", startPoint: "배찌의 스윗한 홈", endPoint: "칠포2리 간이해수욕장"),
         DummyGroup(groupTitle: "김배찌", subTitle: "바지사장", isDriver: true)
     ]
 
@@ -67,13 +67,21 @@ extension SessionListViewController {
             withIdentifier: "cell",
             for: indexPath) as? CustomListTableViewCell {
             // 셀에 Title, Subtitle, chevron 마크 설정
+            let cellData = cellData[indexPath.section]
             cell.backgroundColor = UIColor.semantic.backgroundSecond
             cell.layer.cornerRadius = 16
 
-            cell.titleLabel.text = "\(cellData[indexPath.section].groupTitle)"
-//            UIFont.CarmuFont.subhead3.applyFont(to: cell.titleLabel)
-//            UIFont.CarmuFont.subhead1.applyFont(to: cell.subtitleLabel)
-
+            cell.titleLabel.text = "\(cellData.groupTitle)"
+            cell.startPointLabel.text = "\(cellData.startPoint)"
+            cell.endPointLabel.text = "\(cellData.endPoint)"
+            cell.startTimeLabel.text = "\(cellData.startTime)"
+            cell.leftImageView.image = {
+                if !cellData.isDriver {
+                    UIImage(named: "ImCrewButton")
+                } else {
+                    UIImage(named: "ImCaptainButton")
+                }
+            }()
             return cell
         } else {
             return UITableViewCell()
@@ -196,6 +204,12 @@ final class CustomListTableViewCell: UITableViewCell {
     let leftImageView = UIImageView(image: UIImage(named: "ImCaptainButton"))
     let titleLabel = UILabel()
     let rightImageView = UIImageView(image: UIImage(systemName: "chevron.right"))
+    let startPointLabel = UILabel()
+    let directionLabel = UILabel()
+    let endPointLabel = UILabel()
+    let startTimeTextLabel = UILabel()
+    let startTimeLabel = UILabel()
+    let crewImage = UIStackView()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -210,12 +224,31 @@ final class CustomListTableViewCell: UITableViewCell {
     }
 
     private func setupUI() {
+        startTimeTextLabel.text = "출발 시간: "
+        directionLabel.text = "→"
+
         contentView.addSubview(leftImageView)
         contentView.addSubview(titleLabel)
         contentView.addSubview(rightImageView)
+        contentView.addSubview(startPointLabel)
+        contentView.addSubview(directionLabel)
+        contentView.addSubview(endPointLabel)
+        contentView.addSubview(startTimeTextLabel)
+        contentView.addSubview(startTimeLabel)
+        contentView.addSubview(crewImage)
 
         leftImageView.contentMode = .scaleAspectFill
         titleLabel.font = UIFont.carmuFont.subhead3
+        startPointLabel.font = UIFont.carmuFont.subhead2
+        startPointLabel.textColor = UIColor.semantic.accPrimary
+        endPointLabel.font = UIFont.carmuFont.subhead2
+        endPointLabel.textColor = UIColor.semantic.accPrimary
+        startTimeTextLabel.textColor = UIColor.theme.darkblue6
+        startTimeTextLabel.font = UIFont.carmuFont.body2
+        startTimeLabel.font = UIFont.carmuFont.subhead2
+        startTimeLabel.textColor = UIColor.semantic.accPrimary
+        directionLabel.font = UIFont.carmuFont.body2
+        directionLabel.textColor = UIColor.theme.darkblue6
         rightImageView.tintColor = UIColor.semantic.accPrimary
         // Add any additional setup for your labels and image views here
         // For example, you can set font, text color, content mode, etc.
@@ -241,6 +274,34 @@ final class CustomListTableViewCell: UITableViewCell {
         rightImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(padding)
             make.trailing.equalToSuperview().inset(padding)
+        }
+
+        startTimeTextLabel.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(padding)
+            make.leading.equalToSuperview().inset(padding)
+        }
+
+        startTimeLabel.snp.makeConstraints { make in
+            make.leading.equalTo(leftImageView.snp.trailing).offset(15)
+            make.centerY.equalTo(startTimeTextLabel.snp.centerY)
+        }
+
+        startPointLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(padding)
+            make.bottom.equalTo(startTimeTextLabel.snp.top).offset(-4)
+            make.width.lessThanOrEqualTo(120)
+        }
+
+        directionLabel.snp.makeConstraints { make in
+            make.leading.greaterThanOrEqualTo(startPointLabel.snp.trailing).offset(4)
+            make.centerY.equalTo(startPointLabel.snp.centerY)
+
+        }
+
+        endPointLabel.snp.makeConstraints { make in
+            make.leading.equalTo(directionLabel.snp.trailing).offset(4)
+            make.centerY.equalTo(startPointLabel.snp.centerY)
+            make.width.lessThanOrEqualTo(120)
         }
     }
 }
