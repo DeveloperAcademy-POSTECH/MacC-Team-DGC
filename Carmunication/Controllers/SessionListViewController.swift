@@ -38,6 +38,20 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
             endPoint: "부산광역시 남천동 살제",
             startTime: "13:30",
             crewCount: 2
+        ),
+        DummyGroup(
+            groupTitle: "환장의 카풀",
+            startPoint: "서울시 봉천동",
+            endPoint: "부산광역시 남천동 살제",
+            startTime: "13:30",
+            crewCount: 2
+        ),
+        DummyGroup(
+            groupTitle: "환장의 카풀",
+            startPoint: "서울시 봉천동",
+            endPoint: "부산광역시 남천동 살제",
+            startTime: "13:30",
+            crewCount: 2
         )
     ]
 
@@ -51,7 +65,7 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
         mainStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
     }
 }
@@ -121,15 +135,11 @@ extension SessionListViewController {
 // MARK: - Stack
 extension SessionListViewController {
 
-    private func mainTopButtonStack() -> UIStackView {
-        let button2 = buttonComponent("새 그룹 만들기", 130, 40, .blue, .cyan)
+    private func mainTopButtonStack() -> UIButton {
+        let button2 = buttonComponent("+ 새 그룹 만들기", 174, 62, UIColor.semantic.textSecondary!, UIColor.semantic.accPrimary!)
+        button2.titleLabel?.font = UIFont.carmuFont.subhead3
         button2.addTarget(self, action: #selector(moveToAddGroup), for: .touchUpInside)
-        let stackView = UIStackView(arrangedSubviews: [button2])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal // 수평 배치
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        return stackView
+        return button2
     }
 
     /**
@@ -138,8 +148,21 @@ extension SessionListViewController {
     private func mainStack() -> UIStackView {
         let stackView = mainTopButtonStack()
         let tableView = tableViewComponent()
-        let mainStackView = UIStackView(arrangedSubviews: [tableView, stackView])
+        let mainStackView = UIStackView()
         mainStackView.axis = .vertical
+        // TableView를 최대한 확장하고 버튼을 아래에 추가합니다.
+        mainStackView.addArrangedSubview(tableView)
+        mainStackView.addArrangedSubview(stackView)
+        stackView.backgroundColor = .clear
+        tableView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.top.equalToSuperview()
+        }
+
+        stackView.snp.makeConstraints { make in
+            make.top.equalTo(tableView.snp.bottom)
+        }
+
         return mainStackView
     }
 }
@@ -150,7 +173,6 @@ extension SessionListViewController {
     private func tableViewComponent() -> UITableView {
         let tableView = UITableView()
         // UITableView 설정
-        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(CustomListTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -171,9 +193,8 @@ extension SessionListViewController {
         button.setTitle(title, for: .normal)
         button.setTitleColor(fontColor, for: .normal)
         button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 30
         button.layer.masksToBounds = true
-
         button.snp.makeConstraints { make in
             make.width.equalTo(width)
             make.height.equalTo(height)
