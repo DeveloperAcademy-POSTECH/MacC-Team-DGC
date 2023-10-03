@@ -36,6 +36,8 @@ final class SessionMapViewController: UIViewController {
         locationManager.delegate = self
         // 배터리 동작시 가장 높은 수준의 거리 정확도
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        // 백그라운드에서도 위치 정보 업데이트 허용
+        locationManager.allowsBackgroundLocationUpdates = true
         // 위치 허용 alert 표시
         locationManager.requestWhenInUseAuthorization()
         // 위도, 경도 정보 가져오기 시작
