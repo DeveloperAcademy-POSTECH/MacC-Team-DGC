@@ -20,8 +20,25 @@ struct DummyGroup {
 final class SessionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     private var cellData: [DummyGroup] = [
-        DummyGroup(groupTitle: "(주)좋좋소", subTitle: "회사", startPoint: "배찌의 스윗한 홈", endPoint: "칠포2리 간이해수욕장"),
-        DummyGroup(groupTitle: "김배찌", subTitle: "바지사장", isDriver: true)
+        DummyGroup(
+            groupTitle: "(주)좋좋소",
+            subTitle: "회사",
+            startPoint: "배찌의 스윗한 홈",
+            endPoint: "칠포2리 간이해수욕장",
+            crewCount: 3
+        ),
+        DummyGroup(
+            groupTitle: "김배찌",
+            subTitle: "바지사장",
+            isDriver: true
+        ),
+        DummyGroup(
+            groupTitle: "환장의 카풀",
+            startPoint: "서울시 봉천동",
+            endPoint: "부산광역시 남천동 살제",
+            startTime: "13:30",
+            crewCount: 2
+        )
     ]
 
     override func viewDidLoad() {
@@ -70,7 +87,6 @@ extension SessionListViewController {
             let cellData = cellData[indexPath.section]
             cell.backgroundColor = UIColor.semantic.backgroundSecond
             cell.layer.cornerRadius = 16
-
             cell.titleLabel.text = "\(cellData.groupTitle)"
             cell.startPointLabel.text = "\(cellData.startPoint)"
             cell.endPointLabel.text = "\(cellData.endPoint)"
@@ -82,6 +98,7 @@ extension SessionListViewController {
                     UIImage(named: "ImCaptainButton")
                 }
             }()
+            cell.crewCount = cellData.crewCount
             return cell
         } else {
             return UITableViewCell()
@@ -210,6 +227,12 @@ final class CustomListTableViewCell: UITableViewCell {
     let startTimeTextLabel = UILabel()
     let startTimeLabel = UILabel()
     let crewImage = UIStackView()
+    let elipseImage = UIImageView(image: UIImage(named: "elipse"))
+    var crewCount: Int = 0 {
+        didSet {
+            updateCrewImages()
+        }
+    }
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -223,9 +246,33 @@ final class CustomListTableViewCell: UITableViewCell {
         setupConstraints()
     }
 
+    private func updateCrewImages() {
+        // 스택뷰의 모든 서브뷰를 제거하여 이미지를 다시 추가합니다.
+        for subview in crewImage.arrangedSubviews {
+            crewImage.removeArrangedSubview(subview)
+            subview.removeFromSuperview()
+        }
+
+        // crewCount 값에 따라 이미지를 반복해서 추가합니다.
+        for index in 0..<crewCount {
+            let imageView = UIImageView(image: UIImage(named: "CrewImageDefalut")) // crewImage 대신 사용할 이미지 이름을 넣으세요.
+            imageView.contentMode = .scaleAspectFit
+            imageView.clipsToBounds = true
+            crewImage.addArrangedSubview(imageView)
+
+            if index > 2 { break }
+        }
+    }
+
     private func setupUI() {
         startTimeTextLabel.text = "출발 시간: "
         directionLabel.text = "→"
+
+        // Customize crewImage (UIStackView)
+        crewImage.axis = .horizontal
+        crewImage.spacing = -12 // 이미지 간격 조절
+        crewImage.alignment = .leading
+        crewImage.distribution = .fillEqually
 
         contentView.addSubview(leftImageView)
         contentView.addSubview(titleLabel)
@@ -236,7 +283,6 @@ final class CustomListTableViewCell: UITableViewCell {
         contentView.addSubview(startTimeTextLabel)
         contentView.addSubview(startTimeLabel)
         contentView.addSubview(crewImage)
-
         leftImageView.contentMode = .scaleAspectFill
         titleLabel.font = UIFont.carmuFont.subhead3
         startPointLabel.font = UIFont.carmuFont.subhead2
@@ -289,7 +335,7 @@ final class CustomListTableViewCell: UITableViewCell {
         startPointLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(padding)
             make.bottom.equalTo(startTimeTextLabel.snp.top).offset(-4)
-            make.width.lessThanOrEqualTo(120)
+            make.width.lessThanOrEqualTo(100)
         }
 
         directionLabel.snp.makeConstraints { make in
@@ -301,7 +347,15 @@ final class CustomListTableViewCell: UITableViewCell {
         endPointLabel.snp.makeConstraints { make in
             make.leading.equalTo(directionLabel.snp.trailing).offset(4)
             make.centerY.equalTo(startPointLabel.snp.centerY)
-            make.width.lessThanOrEqualTo(120)
+            make.width.lessThanOrEqualTo(100)
+        }
+
+        crewImage.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(20)
+            make.height.equalTo(30)
+            make.width.equalTo(84)
+
         }
     }
 }
