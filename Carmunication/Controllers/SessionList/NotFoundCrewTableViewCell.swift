@@ -4,15 +4,14 @@
 //
 //  Created by 김동현 on 2023/10/03.
 //
-
 import UIKit
 
 final class NotFoundCrewTableViewCell: UITableViewCell {
 
-    let firstLineLabel = UILabel()
-    let secondLineLabel = UILabel()
-    let labelStack = UIStackView()
-    let borderLayer = CAShapeLayer()
+    private let firstLineLabel = UILabel()
+    private let secondLineLabel = UILabel()
+    private let labelStack = UIStackView()
+    private let borderLayer = CAShapeLayer()
 
     // MARK: - 기본 override function
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

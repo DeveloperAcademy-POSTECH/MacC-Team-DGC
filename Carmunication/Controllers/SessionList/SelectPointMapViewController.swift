@@ -4,10 +4,8 @@
 //
 //  Created by 김동현 on 2023/09/24.
 //
-
-import UIKit
-
 import SnapKit
+import UIKit
 
 final class SelectPointMapViewController: UIViewController {
 
