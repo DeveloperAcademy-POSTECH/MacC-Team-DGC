@@ -74,10 +74,12 @@ extension SessionListViewController {
             for: indexPath) as? CustomListTableViewCell {
             // 셀에 Title, Subtitle, chevron 마크 설정
             cell.titleLabel.text = "\(cellData[indexPath.section].groupTitle)"
+            UIFont.CarmuFont.display2.applyFont(to: cell.titleLabel)
             cell.subtitleLabel.text = "\(cellData[indexPath.section].subTitle)"
+            UIFont.CarmuFont.subhead1.applyFont(to: cell.subtitleLabel)
             cell.driverLabel.text = cellData[indexPath.section].isDriver ? "Driver" : " "
             cell.accessoryType = .disclosureIndicator
-            cell.backgroundColor = UIColor(hexCode: "F1F3FF")
+            cell.backgroundColor = UIColor.theme.gray5
             cell.layer.cornerRadius = 20
             return cell
         } else {
