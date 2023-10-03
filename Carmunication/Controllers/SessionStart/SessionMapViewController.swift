@@ -14,6 +14,8 @@ import SnapKit
 final class SessionMapViewController: UIViewController {
 
     private let mapView = NMFMapView()
+    // 자동차 위치를 표시하기 위한 마커
+    private let carMarker = NMFMarker()
     private let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
@@ -46,8 +48,11 @@ extension SessionMapViewController: CLLocationManagerDelegate {
     // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
-        print("위도: \(location.coordinate.latitude)")
-        print("경도: \(location.coordinate.longitude)")
+        // 지도상의 자동차 위치 갱신
+        carMarker.position = NMGLatLng(from: location.coordinate)
+        carMarker.mapView = mapView
+        // 카메라 시점도 자동차 위치로 변경
+        mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: location.coordinate)))
     }
 
     // 에러시 호출되는 함수
