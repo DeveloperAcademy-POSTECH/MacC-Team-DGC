@@ -106,6 +106,7 @@ extension SessionListViewController {
 // MARK: - Stack
 extension SessionListViewController {
 
+    // TODO: - 뒷 배경 흐리게 하여 뒷 셀 보이도록 처리하기
     private func addNewGroupButton() -> UIStackView {
         let stackView = UIStackView()
         let button = buttonComponent(
@@ -159,7 +160,6 @@ extension SessionListViewController {
         return tableView
     }
 
-    // TODO: - button 크기 조절
     private func buttonComponent(
         title: String,
         width: CGFloat,

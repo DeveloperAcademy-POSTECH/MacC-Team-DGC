@@ -33,7 +33,7 @@ final class CustomListTableViewCell: UITableViewCell {
         }
     }
 
-    // MARK : - Override Function
+    // MARK: - Override Function
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -48,7 +48,7 @@ final class CustomListTableViewCell: UITableViewCell {
         setupConstraints()
     }
 
-    // MARK : - UI Setup function
+    // MARK: - UI Setup function
     /**
      스택에 이미지를 추가하는 메서드
      */
@@ -59,6 +59,7 @@ final class CustomListTableViewCell: UITableViewCell {
             subview.removeFromSuperview()
         }
 
+        // TODO: - 3인 이상일 경우 외 2명 레이블 추가 표시
         // crewCount 값에 따라 이미지를 반복해서 추가
         for index in 0..<crewCount {
             let imageView = UIImageView(image: UIImage(named: "CrewImageDefalut")) // 사용자 이미지로 이름 바꿔 사용
