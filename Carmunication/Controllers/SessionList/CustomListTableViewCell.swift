@@ -12,22 +12,28 @@ import SwiftUI
 
 final class CustomListTableViewCell: UITableViewCell {
 
-    let leftImageView = UIImageView(image: UIImage(named: "ImCaptainButton"))
-    let titleLabel = UILabel()
-    let rightImageView = UIImageView(image: UIImage(systemName: "chevron.right"))
+    // CustomListTableViewCell의 상단 레이블, 이미지
+    let isCaptainBadge = UIImageView(image: UIImage(named: "ImCaptainButton"))
+    let groupName = UILabel()
+    let chevronLabel = UIImageView(image: UIImage(systemName: "chevron.right"))
+
+    // CustomListTableViewCell의 왼쪽 하단 레이블
     let startPointLabel = UILabel()
     let directionLabel = UILabel()
     let endPointLabel = UILabel()
     let startTimeTextLabel = UILabel()
     let startTimeLabel = UILabel()
-    let crewImage = UIStackView()
+
+    // CustomListTableViewCell의 오른쪽 하단 이미지 스택
     let elipseImage = UIImageView(image: UIImage(named: "elipse"))
+    let crewImage = UIStackView()
     var crewCount: Int = 0 {
         didSet {
             updateCrewImages()
         }
     }
 
+    // MARK : - Override Function
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
@@ -42,16 +48,20 @@ final class CustomListTableViewCell: UITableViewCell {
         setupConstraints()
     }
 
+    // MARK : - UI Setup function
+    /**
+     스택에 이미지를 추가하는 메서드
+     */
     private func updateCrewImages() {
-        // 스택뷰의 모든 서브뷰를 제거하여 이미지를 다시 추가합니다.
+        // 스택뷰의 모든 서브뷰를 제거하여 이미지를 다시 추가
         for subview in crewImage.arrangedSubviews {
             crewImage.removeArrangedSubview(subview)
             subview.removeFromSuperview()
         }
 
-        // crewCount 값에 따라 이미지를 반복해서 추가합니다.
+        // crewCount 값에 따라 이미지를 반복해서 추가
         for index in 0..<crewCount {
-            let imageView = UIImageView(image: UIImage(named: "CrewImageDefalut")) // crewImage 대신 사용할 이미지 이름을 넣으세요.
+            let imageView = UIImageView(image: UIImage(named: "CrewImageDefalut")) // 사용자 이미지로 이름 바꿔 사용
             imageView.contentMode = .scaleAspectFit
             imageView.clipsToBounds = true
             crewImage.addArrangedSubview(imageView)
@@ -61,26 +71,23 @@ final class CustomListTableViewCell: UITableViewCell {
     }
 
     private func setupUI() {
+        // 기본 레이블 텍스트 세팅
         startTimeTextLabel.text = "출발 시간: "
         directionLabel.text = "→"
 
-        // Customize crewImage (UIStackView)
+        // image ContentMode 설정
+        isCaptainBadge.contentMode = .scaleAspectFill
+
+        // Crew Image 스택 관련 설정
         crewImage.axis = .horizontal
         crewImage.spacing = -12 // 이미지 간격 조절
         crewImage.alignment = .leading
         crewImage.distribution = .fillEqually
 
-        contentView.addSubview(leftImageView)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(rightImageView)
-        contentView.addSubview(startPointLabel)
-        contentView.addSubview(directionLabel)
-        contentView.addSubview(endPointLabel)
-        contentView.addSubview(startTimeTextLabel)
-        contentView.addSubview(startTimeLabel)
-        contentView.addSubview(crewImage)
-        leftImageView.contentMode = .scaleAspectFill
-        titleLabel.font = UIFont.carmuFont.subhead3
+        // Font, TextColor 설정
+        groupName.font = UIFont.carmuFont.subhead3
+        groupName.textColor = UIColor.semantic.textPrimary
+        chevronLabel.tintColor = UIColor.semantic.accPrimary
         startPointLabel.font = UIFont.carmuFont.subhead2
         startPointLabel.textColor = UIColor.semantic.accPrimary
         endPointLabel.font = UIFont.carmuFont.subhead2
@@ -91,29 +98,36 @@ final class CustomListTableViewCell: UITableViewCell {
         startTimeLabel.textColor = UIColor.semantic.accPrimary
         directionLabel.font = UIFont.carmuFont.body2
         directionLabel.textColor = UIColor.theme.darkblue6
-        rightImageView.tintColor = UIColor.semantic.accPrimary
-        // Add any additional setup for your labels and image views here
-        // For example, you can set font, text color, content mode, etc.
+
+        contentView.addSubview(isCaptainBadge)
+        contentView.addSubview(groupName)
+        contentView.addSubview(chevronLabel)
+        contentView.addSubview(startPointLabel)
+        contentView.addSubview(directionLabel)
+        contentView.addSubview(endPointLabel)
+        contentView.addSubview(startTimeTextLabel)
+        contentView.addSubview(startTimeLabel)
+        contentView.addSubview(crewImage)
     }
 
     private func setupConstraints() {
         let padding: CGFloat = 20
         let imageLabelSpacing: CGFloat = 8
 
-        leftImageView.snp.makeConstraints { make in
+        isCaptainBadge.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(20)
             make.leading.equalToSuperview().inset(20)
             make.height.equalTo(16)
             make.width.equalTo(45)
         }
 
-        titleLabel.snp.makeConstraints { make in
+        groupName.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(20)
-            make.leading.equalTo(leftImageView.snp.trailing).offset(imageLabelSpacing)
-            make.centerY.equalTo(leftImageView.snp.centerY)
+            make.leading.equalTo(isCaptainBadge.snp.trailing).offset(imageLabelSpacing)
+            make.centerY.equalTo(isCaptainBadge.snp.centerY)
         }
 
-        rightImageView.snp.makeConstraints { make in
+        chevronLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(padding)
             make.trailing.equalToSuperview().inset(padding)
         }
@@ -124,7 +138,7 @@ final class CustomListTableViewCell: UITableViewCell {
         }
 
         startTimeLabel.snp.makeConstraints { make in
-            make.leading.equalTo(leftImageView.snp.trailing).offset(15)
+            make.leading.equalTo(isCaptainBadge.snp.trailing).offset(15)
             make.centerY.equalTo(startTimeTextLabel.snp.centerY)
         }
 
@@ -151,38 +165,5 @@ final class CustomListTableViewCell: UITableViewCell {
             make.height.equalTo(30)
             make.width.equalTo(84)
         }
-    }
-}
-
-struct CustomListTableViewCellRepresentable: UIViewControllerRepresentable {
-
-    // Create a UIViewController that contains your UITableViewCell
-    class UIViewControllerType: UIViewController {
-        let tableViewCell = CustomListTableViewCell() // Initialize your custom cell
-        override func viewDidLoad() {
-            super.viewDidLoad()
-            tableViewCell.titleLabel.text = "타이틀"
-            view.addSubview(tableViewCell)
-        }
-
-        override func viewDidLayoutSubviews() {
-            super.viewDidLayoutSubviews()
-            tableViewCell.frame = view.bounds
-        }
-    }
-
-    func makeUIViewController(context: Context) -> UIViewControllerType {
-        return UIViewControllerType()
-    }
-
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {}
-}
-
-@available(iOS 13.0.0, *)
-struct CustomListTableViewCellPreview: PreviewProvider {
-
-    static var previews: some View {
-        CustomListTableViewCellRepresentable()
-            .previewLayout(.fixed(width: 320, height: 134)) // Set an appropriate size
     }
 }

@@ -17,11 +17,6 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
             endPoint: "칠포2리 간이해수욕장",
             crewCount: 3
         )
-//        DummyGroup(
-//            groupTitle: "김배찌",
-//            subTitle: "바지사장",
-//            isDriver: true
-//        )
     ]
 
     override func viewDidLoad() {
@@ -64,30 +59,25 @@ extension SessionListViewController {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if cellData.isEmpty {
-            // cellData가 비어있을 때 NotFoundCrewTableViewCell을 반환합니다.
+            // cellData가 비어있을 때 NotFoundCrewTableViewCell을 반환
             if let cell = tableView.dequeueReusableCell(
                 withIdentifier: "notFoundCell",
                 for: indexPath
             ) as? NotFoundCrewTableViewCell {
-                // 필요한 설정 작업을 수행하세요.
                 return cell
             }
         } else {
-            // cellData가 비어있지 않을 때 기존의 CustomListTableViewCell을 반환합니다.
+            // cellData가 비어있지 않을 때 기존의 CustomListTableViewCell을 반환
             if let cell = tableView.dequeueReusableCell(
                 withIdentifier: "cell",
                 for: indexPath
             ) as? CustomListTableViewCell {
-
-                // 기존 셀에 데이터 설정을 수행하세요.
                 let cellData = cellData[indexPath.row]
-//                cell.backgroundColor = UIColor.semantic.backgroundSecond
-//                cell.layer.cornerRadius = 16
-                cell.titleLabel.text = "\(cellData.groupTitle)"
+                cell.groupName.text = "\(cellData.groupTitle)"
                 cell.startPointLabel.text = "\(cellData.startPoint)"
                 cell.endPointLabel.text = "\(cellData.endPoint)"
                 cell.startTimeLabel.text = "\(cellData.startTime)"
-                cell.leftImageView.image = {
+                cell.isCaptainBadge.image = {
                     if !cellData.isDriver {
                         UIImage(named: "ImCrewButton")
                     } else {
@@ -101,7 +91,6 @@ extension SessionListViewController {
         return UITableViewCell()
     }
 
-    // UITableView Delegate
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // 셀 선택 시 화면 전환 로직 구현
         let selectedGroup = cellData[indexPath.section]
