@@ -232,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
+				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
 			);
 			path = GroupAdd;
 			sourceTree = "<group>";
@@ -273,7 +274,6 @@
 			isa = PBXGroup;
 			children = (
 				C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */,
-				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
 				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
 				C9DE7C3A2AC05B65005AFCC6 /* SelectPointMapViewController.swift */,
 			);
