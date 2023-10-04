@@ -21,29 +21,21 @@ final class GroupAddViewController: UIViewController, UITableViewDataSource, UIT
         AddressAndTime(address: "서울", time: "14:30")
     ]
 
-    private let tableViewComponent: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        return tableView
-    }()
+    private let groupAddView = GroupAddView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
 
-        let mainStackView = mainStack()
-        view.addSubview(mainStackView)
-        // Auto Layout 설정
-        mainStackView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalToSuperview().inset(50)
+        view.addSubview(groupAddView)
+        groupAddView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
-        tableViewComponent.dataSource = self
-        tableViewComponent.delegate = self
-        tableViewComponent.register(GroupAddTableViewCell.self, forCellReuseIdentifier: "cell")
-        tableViewComponent.separatorStyle = .none
-        tableViewComponent.showsVerticalScrollIndicator = false
+
+        groupAddView.tableViewComponent.dataSource = self
+        groupAddView.tableViewComponent.delegate = self
+
+        groupAddView.addButton.addTarget(self, action: #selector(addGroupButtonAction), for: .touchUpInside)
     }
 }
 
@@ -165,69 +157,17 @@ extension GroupAddViewController {
 
         let section = sender.tag
         cellData.remove(at: section)
-        tableViewComponent.reloadData()
+        groupAddView.tableViewComponent.reloadData()
     }
 }
 
 // MARK: - Component
 extension GroupAddViewController {
 
-    private func mainTopButtonStack() -> UIStackView {
-
-        let button1 = buttonComponent("추가하기", 110, 30, 20, .blue, .cyan)
-        button1.addTarget(self, action: #selector(addGroupButtonAction), for: .touchUpInside)
-
-        let stackView = UIStackView(arrangedSubviews: [spacer(), button1])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal // 수평 배치
-        stackView.alignment = .center
-        stackView.distribution = .fill
-
-        return stackView
-    }
-
     @objc private func addGroupButtonAction() {
 
         cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
-        tableViewComponent.reloadData()
-    }
-
-    /**
-     Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
-     */
-    private func mainStack() -> UIStackView {
-
-        let stackView = mainTopButtonStack()
-        let shareButton = buttonComponent("링크 공유하기", .greatestFiniteMagnitude, 60, 30, .black, .gray)
-        let mainStackView = UIStackView(
-            arrangedSubviews: [stackView, tableViewComponent, shareButton]
-        )
-        mainStackView.axis = .vertical
-        mainStackView.spacing = 12
-        return mainStackView
-    }
-
-    private func buttonComponent(
-        _ title: String,
-        _ width: CGFloat,
-        _ height: CGFloat,
-        _ cornerRadius: CGFloat,
-        _ fontColor: UIColor,
-        _ backgroundColor: UIColor
-    ) -> UIButton {
-
-        let button = UIButton(type: .system)
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(fontColor, for: .normal)
-        button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
-        button.layer.cornerRadius = cornerRadius
-        button.layer.masksToBounds = true
-        button.snp.makeConstraints { make in
-            make.width.equalTo(width)
-            make.height.equalTo(height)
-        }
-
-        return button
+        groupAddView.tableViewComponent.reloadData()
     }
 
     private func spacer() -> UIView {

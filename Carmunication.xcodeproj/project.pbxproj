@@ -35,6 +35,7 @@
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
 		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
 		BF9BCFEA2ACDCD14009DAECD /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */; };
+		BF9BCFEF2ACE2BEF009DAECD /* GroupAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
@@ -80,6 +81,7 @@
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
+		BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddView.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -210,9 +212,28 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
-				BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */,
+				BF9BCFEB2ACE2B80009DAECD /* SessionList */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		BF9BCFEB2ACE2B80009DAECD /* SessionList */ = {
+			isa = PBXGroup;
+			children = (
+				BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */,
+				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
+				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
+				BF9BCFED2ACE2BDF009DAECD /* GroupAdd */,
+			);
+			path = SessionList;
+			sourceTree = "<group>";
+		};
+		BF9BCFED2ACE2BDF009DAECD /* GroupAdd */ = {
+			isa = PBXGroup;
+			children = (
+				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
+			);
+			path = GroupAdd;
 			sourceTree = "<group>";
 		};
 		C92CFB2B2AC9398B0068273A /* Resources */ = {
@@ -251,8 +272,6 @@
 		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
 			isa = PBXGroup;
 			children = (
-				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
-				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
 				C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */,
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
 				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
@@ -388,6 +407,7 @@
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
+				BF9BCFEF2ACE2BEF009DAECD /* GroupAddView.swift in Sources */,
 				B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */,
 				C9DE7C3B2AC05B65005AFCC6 /* SelectPointMapViewController.swift in Sources */,
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
