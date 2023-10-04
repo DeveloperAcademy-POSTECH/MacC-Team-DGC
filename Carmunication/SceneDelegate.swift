@@ -7,10 +7,13 @@
 
 import UIKit
 
+import FirebaseAuth
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
+    // 앱의 Scene이 처음으로 연결될 때 호출되는 메소드
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -20,10 +23,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
 
+        // 현재 Scene에 연결할 창 설정
         let window = UIWindow(windowScene: windowScene)
-        window.rootViewController = LoginViewController()
-        window.makeKeyAndVisible()
         self.window = window
+
+        var rootViewController: UIViewController = LoginViewController()
+        // 로그인한 사용자가 있는지 체크
+        if Auth.auth().currentUser != nil {
+            rootViewController = MainTabBarViewController()
+        }
+        window.rootViewController = rootViewController
+        window.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}
