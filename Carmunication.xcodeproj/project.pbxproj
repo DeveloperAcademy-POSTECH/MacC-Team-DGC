@@ -34,6 +34,7 @@
 		BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */; };
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
 		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
+		BF9BCFEA2ACDCD14009DAECD /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
@@ -78,6 +79,7 @@
 		BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SecureKey-Info.plist"; sourceTree = "<group>"; };
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -208,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
+				BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -377,6 +380,7 @@
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
+				BF9BCFEA2ACDCD14009DAECD /* SessionListView.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
