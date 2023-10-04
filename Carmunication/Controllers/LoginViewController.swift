@@ -114,6 +114,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 print("파이어베이스 로그인 실패: \(error.localizedDescription)")
                 return
             }
+            // 파이어베이스의 user identifier(uid)를 키체인에 저장
+            if let userIdentifier = authResult?.user.uid {
+                self.saveUserInKeychain(userIdentifier)
+            }
 
             // 로그인 성공 시 메인 탭 바 뷰로 이동
             let mainTabBarView = MainTabBarViewController()
@@ -131,6 +135,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     // MARK: - 인증 플로우가 정상적으로 끝나지 않았거나, credential이 존재하지 않을 때 호출
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("애플 로그인 실패: \(error.localizedDescription)")
+    }
+    
+    private func saveUserInKeychain(_ userIdentifier: String) {
+        do {
+            try KeychainItem(service: "com.dgc.carmunication", account: "userIdentifier").saveItem(userIdentifier)
+        } catch {
+            print("키체인에 userIdentifier를 저장하지 못했습니다.")
+        }
     }
 }
 
