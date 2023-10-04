@@ -22,13 +22,6 @@ final class LoginViewController: UIViewController {
         setLoginViewLayout()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        // 로그아웃 확인용 출력
-        print("fullName: \(Auth.auth().currentUser?.displayName ?? "None")")
-        print("email: \(Auth.auth().currentUser?.email ?? "None")")
-        print("UUID: \(Auth.auth().currentUser?.uid ?? "None")")
-    }
-
     // MARK: - 로그인 뷰 레이아웃 세팅
     private func setLoginViewLayout() {
         // MARK: - 로고
@@ -107,6 +100,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return
         }
+
         // Firebase credential 초기화
         // → 애플 로그인에 성공했으면 해시되지 않은 nonce가 포함된 애플의 응답에서 ID 토큰을 사용하여 파이어베이스에도 인증을 수행해줍니다.
         let credential = OAuthProvider.appleCredential(
@@ -120,10 +114,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 print("파이어베이스 로그인 실패: \(error.localizedDescription)")
                 return
             }
-            print("\(authResult?.description ?? "")")
-            print("fullName: \(Auth.auth().currentUser?.displayName ?? "None")")
-            print("email: \(Auth.auth().currentUser?.email ?? "None")")
-            print("UUID: \(Auth.auth().currentUser?.uid ?? "None")")
+
             // 로그인 성공 시 메인 탭 바 뷰로 이동
             let mainTabBarView = MainTabBarViewController()
             // present() 애니메이션 커스텀 (오른쪽->왼쪽)

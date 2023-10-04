@@ -7,6 +7,8 @@
 
 import UIKit
 
+import FirebaseAuth
+
 // MARK: - 내 정보 탭 화면 뷰 컨트롤러
 final class MyPageViewController: UIViewController {
 
@@ -54,7 +56,11 @@ final class MyPageViewController: UIViewController {
     // 닉네임 라벨
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-        label.text = "홍길동"
+        if Auth.auth().currentUser != nil {
+            label.text = Auth.auth().currentUser?.displayName
+        } else {
+            label.text = "홍길동"
+        }
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
@@ -80,7 +86,7 @@ final class MyPageViewController: UIViewController {
     // MARK: - 프로필 이미지
     lazy var imageView: UIImageView = {
         let imgView = UIImageView()
-        imgView.image = UIImage(named: "profile")
+        imgView.image = UIImage(named: "Profile") // TODO: 이미지 해상도 맞추기
         imgView.contentMode = .scaleAspectFill
         // TODO: - 추후 오토 레이아웃 비율에 맞게 수정 필요
         let size = CGFloat(80)
