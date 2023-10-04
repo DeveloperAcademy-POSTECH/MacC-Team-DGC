@@ -33,6 +33,7 @@
 		BF7DF9C12ACA6D27001178AF /* SecureKey-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */; };
 		BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */; };
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
+		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
@@ -76,6 +77,7 @@
 		BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SecureKey-Info.plist"; sourceTree = "<group>"; };
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
+		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */,
 				BF4A12452ABED8B500EC1B6D /* Extensions */,
 				16E42CDE2AC47E790031486E /* Models */,
+				BF9BCFE62ACDCBEE009DAECD /* Views */,
 				BF5F3C4E2ABD779A004AFC73 /* Controllers */,
 				C92CFB2B2AC9398B0068273A /* Resources */,
 				BF37D9D52AB939A4005331AD /* Assets.xcassets */,
@@ -199,6 +202,14 @@
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BF9BCFE62ACDCBEE009DAECD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		C92CFB2B2AC9398B0068273A /* Resources */ = {
@@ -377,6 +388,7 @@
 				C9DE7C3B2AC05B65005AFCC6 /* SelectPointMapViewController.swift in Sources */,
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
 				C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */,
+				BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */,
 				16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */,
 				B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */,
 				BF4A12442ABED79F00EC1B6D /* SessionListViewController.swift in Sources */,
