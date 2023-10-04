@@ -29,7 +29,7 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
         mainStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(36)
         }
     }
 }
@@ -96,7 +96,6 @@ extension SessionListViewController {
         let selectedGroup = cellData[indexPath.section]
         let detailViewController = GroupDetailViewController()
 
-        detailViewController.title = cellData[indexPath.section].groupTitle
         detailViewController.selectedGroup = selectedGroup
         navigationController?.pushViewController(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -123,7 +122,6 @@ extension SessionListViewController {
     }
 
     // Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
-    // TODO: 버튼 크기 조절과 셀과 함께 유동적으로 움직이는 버튼 구현
     private func mainStack() -> UIStackView {
         let mainStackView = UIStackView()
         let stackView = addNewGroupButton()
@@ -137,7 +135,8 @@ extension SessionListViewController {
         }
 
         stackView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.top.equalTo(tableView.snp.bottom).offset(16)
         }
 
         return mainStackView

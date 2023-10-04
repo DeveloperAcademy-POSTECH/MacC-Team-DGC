@@ -13,79 +13,168 @@ final class GroupDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let mainStackView = mainStack()
+        let mainStackView = topLabelStack()
+        let pointTableView = tableViewComponent()
+        let crewExitButton = buttonComponent(
+            buttonWidth: .greatestFiniteMagnitude,
+            buttonHeight: 60
+        )
 
+        navigationBarSetting()
         view.backgroundColor = .white
         view.addSubview(mainStackView)
-
+        view.addSubview(pointTableView)
+        view.addSubview(crewExitButton)
+        
         mainStackView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(view.safeAreaLayoutGuide)
-            make.bottom.equalToSuperview().inset(50)
         }
+
+        pointTableView.snp.makeConstraints { make in
+            make.top.equalTo(mainStackView.snp.bottom).offset(20) // mainStackView 바로 아래에 20 포인트 간격으로 배치
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
+
+        crewExitButton.snp.makeConstraints { make in
+            make.top.equalTo(pointTableView.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(36)
+        }
+    }
+}
+
+extension GroupDetailViewController: UITableViewDataSource, UITableViewDelegate {
+
+    private func tableViewComponent() -> UITableView {
+        let tableView = UITableView()
+        // UITableView 설정
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(CustomListTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+
+        return tableView
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1 // 셀 개수 설정
+    }
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return selectedGroup?.stopoverPoint.count == 0 ? 2 : (2 + (selectedGroup?.stopoverPoint.count ?? 0))
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return " "
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 134
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // cellData가 비어있지 않을 때 기존의 CustomListTableViewCell을 반환
+        if let cell = tableView.dequeueReusableCell(
+            withIdentifier: "cell",
+            for: indexPath
+        ) as? CustomListTableViewCell {
+
+            return cell
+        }
+
+        return UITableViewCell()
     }
 }
 
 // MARK: - Component & Stacks
 extension GroupDetailViewController {
 
+    private func backButton() -> UIBarButtonItem {
+        let backButton = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.backward"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        return backButton
+    }
+
+    private func navigationBarSetting() {
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+        navigationItem.leftBarButtonItem = backButton()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .edit,
+            target: self,
+            action: #selector(moveToAddGroup)
+        )
+
+    }
+
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
-    private func mainStack() -> UIStackView {
-        let stackView = selectedGroup?.isDriver ?? false ? driverBottomButtonStack() : crewBottomButtonStack()
-        let mainStackView = UIStackView(arrangedSubviews: [distanceLabel(), stackView])
+    private func topLabelStack() -> UIStackView {
+        let crewNameStack = crewNameLabel(selectedGroup?.groupTitle ?? "배찌의 행복여행")
+        let distanceLabelStack = distanceLabel(selectedGroup?.accumulateDistance ?? 20)
+
+        let mainStackView = UIStackView(
+             arrangedSubviews: [crewNameStack, distanceLabelStack]
+        )
         mainStackView.axis = .vertical
-        mainStackView.spacing = 12
+
+        crewNameStack.snp.makeConstraints { make in
+            make.bottom.equalTo(distanceLabelStack.snp.top).offset(-8)
+        }
         return mainStackView
     }
 
     /**
-     주행거리 표시 라벨
+     크루의 이름을 표시하는 라벨 스택
      */
-    private func distanceLabel() -> UIStackView {
+    private func crewNameLabel(_ crewName: String) -> UIStackView {
+        let stackView = UIStackView()
+        let crewNameLabel = UILabel()
+        crewNameLabel.text = crewName
+        crewNameLabel.font = UIFont.carmuFont.headline2
+        crewNameLabel.textColor = UIColor.semantic.textPrimary
+        stackView.addArrangedSubview(crewNameLabel)
+
+        return stackView
+    }
+
+    /**
+     주행거리 표시 라벨 스택
+     */
+    private func distanceLabel(_ distance: Int) -> UIStackView {
         let label1 = UILabel()
         let label2 = UILabel()
-        label1.text = "크루가 함께한 주행거리"
-        label2.text = "\("0000") km"
+        let label3 = UILabel()
+        let stackView = UIStackView(arrangedSubviews: [label1, label2, label3, spacer()])
 
-        let stackView = UIStackView(arrangedSubviews: [label1, spacer(), label2])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        label1.text = "이 크루와 함께한 여정은 "
+        label2.text = "\(distance)km "
+        label3.text = "입니다."
+
+        label1.font = UIFont.carmuFont.subhead3
+        label2.font = UIFont.carmuFont.subhead3
+        label3.font = UIFont.carmuFont.subhead3
+        label1.textColor = UIColor.semantic.textBody
+        label2.textColor = UIColor.semantic.accPrimary
+        label3.textColor = UIColor.semantic.textBody
+
+
         stackView.axis = .horizontal // 수평 배치
-        stackView.alignment = .center
-        stackView.distribution = .fill
-
-        return stackView
-    }
-
-    /**
-     운전자일 경우 표시되는 Button Stack
-     */
-    private func driverBottomButtonStack() -> UIStackView {
-        let button1 = buttonComponent("그만 두기", 130, 40, .blue, .cyan)
-        let button2 = buttonComponent("수정 하기", 130, 40, .blue, .cyan)
-        button2.addTarget(self, action: #selector(dummyButtonAction), for: .touchUpInside)
-
-        let stackView = UIStackView(arrangedSubviews: [button1, spacer(), button2])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal // 수평 배치
-        stackView.alignment = .center
-        stackView.distribution = .fill
-
-        return stackView
-    }
-
-    /**
-     크루일 경우 표시되는 Button Stack
-     */
-    private func crewBottomButtonStack() -> UIStackView {
-        let button = buttonComponent("그만 두기", .greatestFiniteMagnitude, 60, .blue, .cyan)
-        button.addTarget(self, action: #selector(dummyButtonAction), for: .touchUpInside)
-
-        let stackView = UIStackView(arrangedSubviews: [button])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal // 수평 배치
-        stackView.alignment = .center
+        stackView.alignment = .leading
         stackView.distribution = .fill
 
         return stackView
@@ -95,17 +184,16 @@ extension GroupDetailViewController {
      이 뷰에서 사용되는 buttonComponent
      */
     private func buttonComponent(
-        _ title: String,
-        _ width: CGFloat,
-        _ height: CGFloat,
-        _ fontColor: UIColor,
-        _ backgroundColor: UIColor
+        buttonWidth width: CGFloat,
+        buttonHeight height: CGFloat
     ) -> UIButton {
         let button = UIButton(type: .system)
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(fontColor, for: .normal)
-        button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
-        button.layer.cornerRadius = 20
+
+        button.setTitle("크루 나가기", for: .normal)
+        button.setTitleColor(UIColor.theme.white, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
+        button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.negative!), for: .normal)
+        button.layer.cornerRadius = 30
         button.layer.masksToBounds = true
 
         button.snp.makeConstraints { make in
@@ -131,12 +219,11 @@ extension GroupDetailViewController {
     @objc private func dummyButtonAction() {}
 
     /**
-     그룹 만들기 화면으로 넘어가는 액션 메서드
+     크루 편집 화면으로 들어가는 메서드
      */
     @objc private func moveToAddGroup() {
-        let groudAddViewController = GroupAddViewController()
-        groudAddViewController.title = "그룹 만들기"
-        navigationController?.pushViewController(groudAddViewController, animated: true)
+        let groudAddViewController = GroupAddViewController() // 추후 EditView 따로 만들어서 관리해야 함.
+        present(groudAddViewController, animated: true)
     }
 }
 
