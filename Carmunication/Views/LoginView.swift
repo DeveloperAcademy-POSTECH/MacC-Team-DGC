@@ -10,10 +10,35 @@ import UIKit
 
 final class LoginView: UIView {
 
+    var logo = {
+        UIImageView(image: UIImage(systemName: "car"))
+    }()
+
+    var logoUpperLabel = {
+        let logoUpperLabel = UILabel()
+        logoUpperLabel.text = "여정을 연결하다."
+        logoUpperLabel.font = UIFont.systemFont(ofSize: 22)
+        return logoUpperLabel
+    }()
+
+    var logoLowerLabel = {
+        let logoLowerLabel = UILabel()
+        logoLowerLabel.text = "Carmu"
+        logoLowerLabel.font = UIFont.systemFont(ofSize: 36)
+        return logoLowerLabel
+    }()
+
     var appleSignInButton = {
         let appleSignInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
         appleSignInButton.cornerRadius = 20
         return appleSignInButton
+    }()
+
+    var corpName = {
+        let corpName = UILabel()
+        corpName.text = "@Damn Good Company"
+        corpName.font = UIFont.systemFont(ofSize: 12)
+        return corpName
     }()
 
     override init(frame: CGRect) {
@@ -25,52 +50,34 @@ final class LoginView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        // MARK: - 로고
-        let logo = UIImageView(image: UIImage(systemName: "car"))
         addSubview(logo)
-
-        // MARK: - 로고 위 텍스트
-        let logoUpperLabel = UILabel()
-        logoUpperLabel.text = "여정을 연결하다."
-        logoUpperLabel.font = UIFont.systemFont(ofSize: 22)
-        addSubview(logoUpperLabel)
-
-        // MARK: - 로고 아래 텍스트
-        let logoLowerLabel = UILabel()
-        logoLowerLabel.text = "Carmu"
-        logoLowerLabel.font = UIFont.systemFont(ofSize: 36)
-        addSubview(logoLowerLabel)
-
-        // MARK: - 애플 로그인 버튼
-        addSubview(appleSignInButton)
-
-        // MARK: - 하단 회사명
-        let corpLabel = UILabel()
-        corpLabel.text = "@Damn Good Company"
-        corpLabel.font = UIFont.systemFont(ofSize: 12)
-        addSubview(corpLabel)
-
-        // MARK: - 오토 레이아웃 세팅
         logo.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalTo(appleSignInButton.snp.top).offset(-202)
+            make.center.equalToSuperview()
             make.width.equalTo(282)
             make.height.equalTo(141)
         }
+
+        addSubview(logoUpperLabel)
         logoUpperLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(logo.snp.top).offset(-16)
         }
+
+        addSubview(logoLowerLabel)
         logoLowerLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(logo.snp.bottom).offset(20)
         }
+
+        addSubview(appleSignInButton)
         appleSignInButton.snp.makeConstraints { make in
-            make.bottom.equalTo(corpLabel.snp.top).offset(-64)
             make.leading.trailing.equalToSuperview().inset(60)
             make.height.equalTo(50)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(92)
         }
-        corpLabel.snp.makeConstraints { make in
+
+        addSubview(corpName)
+        corpName.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide).inset(16)
         }
