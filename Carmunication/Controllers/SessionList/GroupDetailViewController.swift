@@ -89,6 +89,11 @@ extension GroupDetailViewController: UITableViewDataSource, UITableViewDelegate 
 
 //        return UITableViewCell()
     }
+
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+
 }
 
 class GroupDetailTableViewCell: UITableViewCell {
