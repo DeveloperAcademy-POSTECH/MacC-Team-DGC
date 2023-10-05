@@ -14,38 +14,24 @@ final class ModalQueueViewController: UIViewController {
         presentationController as? UISheetPresentationController
     }
 
-    private var startButton: UIButton = {
-        let startBtn = UIButton()
-        startBtn.setTitle("바로 시작", for: .normal)
-        startBtn.backgroundColor = .systemBlue
-        startBtn.setTitleColor(.white, for: .normal)
-        startBtn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        startBtn.layer.cornerRadius = 8
-        return startBtn
-    }()
+    private let modalQueueView = ModalQueueView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        setSheetPresentationController()
-        setStartButton()
-    }
-}
-extension ModalQueueViewController {
-    private func setSheetPresentationController() {
+
+        view.addSubview(modalQueueView)
+        modalQueueView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        modalQueueView.startButton.addTarget(self, action: #selector(goToMapView), for: .touchUpInside)
+
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
     }
-
-    // "바로 시작"버튼
-    private func setStartButton() {
-        view.addSubview(startButton)
-        startButton.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        startButton.addTarget(self, action: #selector(goToMapView), for: .touchUpInside)
-    }
+}
+extension ModalQueueViewController {
 
     @objc private func goToMapView() {
         let sessionMapViewController = SessionMapViewController()
