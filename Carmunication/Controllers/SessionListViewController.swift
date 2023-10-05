@@ -99,7 +99,7 @@ extension SessionListViewController {
         let detailViewController = GroupDetailViewController()
 
         detailViewController.title = cellData[indexPath.section].groupTitle
-        detailViewController.selectedGroup = selectedGroup
+        detailViewController.groupDetailView.selectedGroup = selectedGroup
         navigationController?.pushViewController(detailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
