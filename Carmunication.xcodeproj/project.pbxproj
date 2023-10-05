@@ -123,7 +123,6 @@
 		16DBA63D2AC1D07C00315ED7 /* SessionStart */ = {
 			isa = PBXGroup;
 			children = (
-				16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */,
 				16E42C452AC40A510031486E /* ModalQueueViewController.swift */,
 				16E42C472AC411A20031486E /* SessionMapViewController.swift */,
 			);
@@ -253,6 +252,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */,
+				16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
