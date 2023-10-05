@@ -85,8 +85,6 @@ extension GroupDetailViewController: UITableViewDataSource, UITableViewDelegate 
         )
 //        cell.cellCount = CGFloat((selectedGroup?.stopoverPoint.count ?? 0) + 2)
 //        cell.index = CGFloat(indexPath.row)
-        print("delegate 내부 cell.cellCount : ", cell.cellCount)
-        print("delegate 내부 cell.index : ", cell.index)
         return cell
 
 //        return UITableViewCell()
