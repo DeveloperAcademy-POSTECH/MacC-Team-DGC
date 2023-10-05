@@ -37,6 +37,7 @@
 		BF9BCFEA2ACDCD14009DAECD /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */; };
 		BF9BCFEF2ACE2BEF009DAECD /* GroupAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */; };
 		BF9BCFF12ACE2FB8009DAECD /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFF02ACE2FB8009DAECD /* GroupDetailView.swift */; };
+		BF9BCFF32ACE379C009DAECD /* SelectPointMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
@@ -84,6 +85,7 @@
 		BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddView.swift; sourceTree = "<group>"; };
 		BF9BCFF02ACE2FB8009DAECD /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
+		BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPointMapView.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
 				BF9BCFF02ACE2FB8009DAECD /* GroupDetailView.swift */,
+				BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */,
 			);
 			path = GroupAdd;
 			sourceTree = "<group>";
@@ -391,6 +394,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF9BCFF32ACE379C009DAECD /* SelectPointMapView.swift in Sources */,
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
 				16E42CE02AC47E900031486E /* GroupData.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,

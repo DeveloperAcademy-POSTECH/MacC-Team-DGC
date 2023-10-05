@@ -9,45 +9,18 @@ import UIKit
 
 final class SelectPointMapViewController: UIViewController {
 
+    let selectPointMapView = SelectPointMapView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        let vStack = vStackContainer()
         view.backgroundColor = .white
-        view.addSubview(vStack)
 
-        vStack.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+        view.addSubview(selectPointMapView)
+        selectPointMapView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
-    }
-}
 
-// MARK: - Component
-extension SelectPointMapViewController {
-    private func vStackContainer() -> UIStackView {
-        let vStack = UIStackView(arrangedSubviews: [titleLabel(), backButton()])
-        vStack.axis = .vertical
-        vStack.alignment = .center
-        vStack.distribution = .fillEqually
-
-        return vStack
-    }
-
-    private func titleLabel() -> UILabel {
-        let label = UILabel()
-        label.text = "맵뷰"
-        label.translatesAutoresizingMaskIntoConstraints = false
-
-        return label
-    }
-
-    private func backButton() -> UIButton {
-        let backButton = UIButton()
-        backButton.setTitle("뒤로", for: .normal)
-        backButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
-        backButton.setBackgroundImage(.pixel(ofColor: .blue), for: .normal)
-        backButton.translatesAutoresizingMaskIntoConstraints = false
-
-        return backButton
+        selectPointMapView.backButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
     }
 }
 
