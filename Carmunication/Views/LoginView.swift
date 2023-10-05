@@ -10,31 +10,31 @@ import UIKit
 
 final class LoginView: UIView {
 
-    var logo = {
+    private let logo = {
         UIImageView(image: UIImage(systemName: "car"))
     }()
 
-    var logoUpperLabel = {
+    private let logoUpperLabel = {
         let logoUpperLabel = UILabel()
         logoUpperLabel.text = "여정을 연결하다."
         logoUpperLabel.font = UIFont.systemFont(ofSize: 22)
         return logoUpperLabel
     }()
 
-    var logoLowerLabel = {
+    private let logoLowerLabel = {
         let logoLowerLabel = UILabel()
         logoLowerLabel.text = "Carmu"
         logoLowerLabel.font = UIFont.systemFont(ofSize: 36)
         return logoLowerLabel
     }()
 
-    var appleSignInButton = {
+    let appleSignInButton = {
         let appleSignInButton = ASAuthorizationAppleIDButton(type: .signIn, style: .black)
         appleSignInButton.cornerRadius = 20
         return appleSignInButton
     }()
 
-    var corpName = {
+    private let corpName = {
         let corpName = UILabel()
         corpName.text = "@Damn Good Company"
         corpName.font = UIFont.systemFont(ofSize: 12)

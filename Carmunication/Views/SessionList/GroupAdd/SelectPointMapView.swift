@@ -9,7 +9,7 @@ import UIKit
 
 final class SelectPointMapView: UIView {
 
-    lazy var vStackContainer = {
+    private lazy var vStackContainer = {
         let vStack = UIStackView(arrangedSubviews: [titleLabel, backButton])
         vStack.axis = .vertical
         vStack.alignment = .center
@@ -17,13 +17,13 @@ final class SelectPointMapView: UIView {
         return vStack
     }()
 
-    var titleLabel = {
+    private let titleLabel = {
         let label = UILabel()
         label.text = "맵뷰"
         return label
     }()
 
-    var backButton = {
+    let backButton = {
         let backButton = UIButton()
         backButton.setTitle("뒤로", for: .normal)
         backButton.setBackgroundImage(.pixel(ofColor: .blue), for: .normal)

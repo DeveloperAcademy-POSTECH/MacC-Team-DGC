@@ -12,7 +12,7 @@ final class GroupAddView: UIView {
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
-    lazy var mainStack = {
+    private lazy var mainStack = {
         let shareButton = buttonComponent("링크 공유하기", .greatestFiniteMagnitude, 60, 30, .black, .gray)
         let mainStackView = UIStackView(
             arrangedSubviews: [mainTopButtonStack, tableViewComponent, shareButton]
@@ -26,7 +26,7 @@ final class GroupAddView: UIView {
         buttonComponent("추가하기", 110, 30, 20, .blue, .cyan)
     }()
 
-    lazy var mainTopButtonStack = {
+    private lazy var mainTopButtonStack = {
         let stackView = UIStackView(arrangedSubviews: [UIView(), addButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal // 수평 배치
@@ -35,7 +35,7 @@ final class GroupAddView: UIView {
         return stackView
     }()
 
-    var tableViewComponent = {
+    let tableViewComponent = {
         let tableView = UITableView()
         tableView.register(GroupAddTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none

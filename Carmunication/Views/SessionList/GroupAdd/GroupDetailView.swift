@@ -14,7 +14,7 @@ final class GroupDetailView: UIView {
     /**
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
-    lazy var mainStack = {
+    private lazy var mainStack = {
         let stackView = selectedGroup?.isDriver ?? false ? driverBottomButtonStack : crewBottomButtonStack
         let mainStackView = UIStackView(arrangedSubviews: [distanceLabel, stackView])
         mainStackView.axis = .vertical
@@ -29,7 +29,7 @@ final class GroupDetailView: UIView {
         buttonComponent("수정 하기", 130, 40, .blue, .cyan)
     }()
 
-    lazy var driverBottomButtonStack = {
+    private lazy var driverBottomButtonStack = {
         let button1 = buttonComponent("그만 두기", 130, 40, .blue, .cyan)
 
         let stackView = UIStackView(arrangedSubviews: [button1, spacer(), editButton])
@@ -48,7 +48,7 @@ final class GroupDetailView: UIView {
         buttonComponent("그만 두기", .greatestFiniteMagnitude, 60, .blue, .cyan)
     }()
 
-    lazy var crewBottomButtonStack = {
+    private lazy var crewBottomButtonStack = {
         let stackView = UIStackView(arrangedSubviews: [quitButton])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal // 수평 배치
@@ -60,7 +60,7 @@ final class GroupDetailView: UIView {
     /**
      주행거리 표시 라벨
      */
-    lazy var distanceLabel = {
+    private lazy var distanceLabel = {
         let label1 = UILabel()
         let label2 = UILabel()
         label1.text = "크루가 함께한 주행거리"

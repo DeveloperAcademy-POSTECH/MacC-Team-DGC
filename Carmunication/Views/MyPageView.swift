@@ -47,7 +47,7 @@ final class MyPageView: UIView {
     }()
 
     // MARK: - 닉네임 스택
-    lazy var nicknameStack: UIStackView = {
+    private lazy var nicknameStack: UIStackView = {
         let stack = UIStackView()
         stack.axis = .vertical
         stack.alignment = .leading
@@ -130,7 +130,7 @@ final class MyPageView: UIView {
         return textField
     }()
 
-    var bottomLine = {
+    private var bottomLine = {
         let bottomLine = UIView()
         bottomLine.backgroundColor = .white
         return bottomLine

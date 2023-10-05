@@ -9,7 +9,7 @@ import UIKit
 
 final class ModalQueueView: UIView {
 
-    var startButton: UIButton = {
+    let startButton: UIButton = {
         let startBtn = UIButton()
         startBtn.setTitle("바로 시작", for: .normal)
         startBtn.backgroundColor = .systemBlue
