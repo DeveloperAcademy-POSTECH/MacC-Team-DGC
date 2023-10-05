@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 
 final class GroupCollectionViewCell: UICollectionViewCell {
+
     // 위 식을 통해 뷰 컨트롤러에 데이터 전달
     var groupData: GroupData? {
         didSet {
@@ -36,25 +37,20 @@ final class GroupCollectionViewCell: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setGroupCollectionViewCell()
-    }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-extension GroupCollectionViewCell {
-    // 셀 레이아웃 설정
-    private func setGroupCollectionViewCell() {
         contentView.addSubview(groupImage)
-        contentView.addSubview(groupNameLabel)
         groupImage.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
         }
+
+        contentView.addSubview(groupNameLabel)
         groupNameLabel.snp.makeConstraints { make in
             make.top.equalTo(groupImage.snp.bottom).offset(12)
             make.leading.trailing.bottom.equalToSuperview()
         }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
