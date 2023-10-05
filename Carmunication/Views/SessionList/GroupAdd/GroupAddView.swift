@@ -24,7 +24,6 @@ final class GroupAddView: UIView {
 
     lazy var addButton = {
         buttonComponent("추가하기", 110, 30, 20, .blue, .cyan)
-        //        button1.addTarget(self, action: #selector(addGroupButtonAction), for: .touchUpInside)
     }()
 
     lazy var mainTopButtonStack = {
