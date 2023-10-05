@@ -12,131 +12,24 @@ import FirebaseAuth
 // MARK: - 내 정보 탭 화면 뷰 컨트롤러
 final class MyPageViewController: UIViewController {
 
-    // MARK: - 설정 버튼
-    lazy var settingsButton: UIButton = {
-        let button = UIButton()
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
-        let symbol = UIImage(systemName: "gearshape", withConfiguration: symbolConfig)
-        button.setImage(symbol, for: .normal)
-        button.tintColor = .white
-        button.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
-        return button
-    }()
-    // MARK: - 상단 유저 정보 뷰
-    lazy var userInfoView: UIView = {
-        let view = UIView()
-        view.layer.cornerRadius = 16
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOpacity = 0.5
-        view.layer.shadowOffset = CGSize(width: 0, height: 1)
-        view.layer.shadowRadius = 5
-        return view
-    }()
-    lazy var gradient: CAGradientLayer = {
-        let gradient = CAGradientLayer()
-        gradient.frame = userInfoView.bounds
-        gradient.cornerRadius = 16
-        gradient.colors = [
-            UIColor.theme.blue6!.cgColor,
-            UIColor.theme.acua5!.cgColor
-        ]
-        gradient.locations = [0.0, 1.0]
-        gradient.startPoint = CGPoint(x: 0, y: 0.5)
-        gradient.endPoint = CGPoint(x: 1, y: 1)
-        return gradient
-    }()
-    // MARK: - 닉네임 스택
-    lazy var nicknameStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .leading
-        stack.distribution = .fillProportionally
-        return stack
-    }()
-    // 닉네임 라벨
-    lazy var nicknameLabel: UILabel = {
-        let label = UILabel()
-        if Auth.auth().currentUser != nil {
-            label.text = Auth.auth().currentUser?.displayName
-        } else {
-            label.text = "홍길동"
-        }
-        label.textColor = .white
-        label.font = UIFont.boldSystemFont(ofSize: 28)
-        return label
-    }()
-    // 닉네임 편집 버튼
-    lazy var editButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("닉네임 편집하기✏️", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        button.backgroundColor = UIColor.theme.blue1?.withAlphaComponent(0.2)
-        button.layer.cornerRadius = 12
-        let verticalPad: CGFloat = 4.0
-        let horizontalPad: CGFloat = 8.0
-        button.contentEdgeInsets = UIEdgeInsets(
-            top: verticalPad,
-            left: horizontalPad,
-            bottom: verticalPad,
-            right: horizontalPad
-        )
-        button.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    // MARK: - 프로필 이미지
-    lazy var imageView: UIImageView = {
-        let imgView = UIImageView()
-        imgView.image = UIImage(named: "Profile") // TODO: 이미지 해상도 맞추기
-        imgView.contentMode = .scaleAspectFill
-        // TODO: - 추후 오토 레이아웃 비율에 맞게 수정 필요
-        let size = CGFloat(80)
-        imgView.frame = CGRect(x: 0, y: 0, width: size, height: size)
-        imgView.layer.cornerRadius = size / 2
-        imgView.clipsToBounds = true
-        return imgView
-    }()
-    // MARK: - 이미지 추가 버튼
-    lazy var addButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "cameraBtn"), for: .normal)
-        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    // MARK: - 텍스트 필드
-    lazy var textField: UITextField = {
-        let textField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
-        textField.placeholder = "입력하세요"
-        textField.textAlignment = .center
-        textField.textColor = .white
-        textField.tintColor = .white
-        textField.clearButtonMode = .always
-        textField.borderStyle = .none
-
-        if let placeholder = textField.placeholder {
-            textField.attributedPlaceholder = NSAttributedString(
-                string: placeholder,
-                attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray]
-            )
-        }
-        if let clearButton = textField.value(forKey: "_clearButton") as? UIButton {
-            clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
-            clearButton.tintColor = .white
-        }
-        return textField
-    }()
-    // MARK: - 텍스트 필드 활성화 시 어두운 배경
-    lazy var darkOverlayView: UIView = {
-        let darkOverlayView = UIView(frame: self.view.bounds)
-        darkOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
-        darkOverlayView.addGestureRecognizer(tapGesture)
-        return darkOverlayView
-    }()
+    private let myPageView = MyPageView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
 
-        setupLayout()
+        view.addSubview(myPageView)
+        myPageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        myPageView.settingsButton.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
+        myPageView.editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
+        myPageView.addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
+        myPageView.darkOverlayView.addGestureRecognizer(tapGesture)
+
+        myPageView.textField.delegate = self
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -150,69 +43,9 @@ final class MyPageViewController: UIViewController {
     }
     // subView들까지 모두 그려지면 호출되는 메소드
     override func viewDidLayoutSubviews() {
-        gradient.frame = userInfoView.bounds
+        myPageView.gradient.frame = myPageView.userInfoView.bounds
     }
 
-    // MARK: - 뷰 레이아웃 세팅 메소드
-    private func setupLayout() {
-        view.backgroundColor = .systemBackground
-        view.addSubview(userInfoView)
-
-        userInfoView.layer.addSublayer(gradient)
-        userInfoView.addSubview(settingsButton)
-        userInfoView.addSubview(nicknameStack)
-
-        nicknameStack.addArrangedSubview(nicknameLabel)
-        nicknameStack.addArrangedSubview(editButton)
-
-        userInfoView.addSubview(imageView)
-        userInfoView.addSubview(addButton)
-
-        darkOverlayView.isHidden = true
-        view.addSubview(darkOverlayView)
-        textField.isHidden = true
-        textField.delegate = self
-        view.addSubview(textField)
-        let bottomLine = UIView()
-        bottomLine.backgroundColor = .white
-        textField.addSubview(bottomLine)
-
-        // MARK: - 오토 레이아웃
-        userInfoView.snp.makeConstraints { make in
-            // userInfoView에 cornerRadius를 주면서 상단 모서리가 잘리는 부분을 없애주기 위해 화면 크기보다 위로 조금 넘치게 설정
-            make.top.equalToSuperview().inset(-20)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(340)
-        }
-        settingsButton.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(12)
-            make.trailing.equalToSuperview().inset(20)
-        }
-        imageView.snp.makeConstraints { make in
-            make.width.height.equalTo(80)
-            make.trailing.equalTo(userInfoView.snp.trailing).inset(27)
-            make.bottom.equalTo(userInfoView.snp.bottom).inset(59)
-        }
-        addButton.snp.makeConstraints { make in
-            make.trailing.bottom.equalTo(imageView)
-        }
-        nicknameStack.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(20)
-            make.bottom.equalTo(userInfoView).inset(62)
-        }
-        editButton.snp.makeConstraints { make in
-            make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
-        }
-        textField.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(userInfoView.snp.bottom).inset(5)
-        }
-        bottomLine.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(8)
-            make.height.equalTo(1)
-        }
-    }
     // 설정 페이지 이동 메소드
     @objc func showSettings() {
         let settingsVC = SettingsViewController()
@@ -220,16 +53,16 @@ final class MyPageViewController: UIViewController {
     }
     // 어두운 뷰 탭하면 텍스트 필드 활성화
     @objc func dismissTextField() {
-        textField.isHidden = true
-        darkOverlayView.isHidden = true
-        textField.resignFirstResponder()
+        myPageView.textField.isHidden = true
+        myPageView.darkOverlayView.isHidden = true
+        myPageView.textField.resignFirstResponder()
     }
     // 닉네임 편집 버튼을 누르면 텍스트 필드 비활성화
     @objc func editButtonTapped() {
-        textField.text = nicknameLabel.text
-        textField.isHidden = false
-        darkOverlayView.isHidden = false
-        textField.becomeFirstResponder()
+        myPageView.textField.text = myPageView.nicknameLabel.text
+        myPageView.textField.isHidden = false
+        myPageView.darkOverlayView.isHidden = false
+        myPageView.textField.becomeFirstResponder()
     }
     // 이미지 추가 버튼 클릭 시 액션 시트 호출
     @objc func addButtonTapped() {
@@ -256,7 +89,7 @@ final class MyPageViewController: UIViewController {
 extension MyPageViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // TODO: - DB 상에 닉네임 저장하는 로직 추가 필요
-        nicknameLabel.text = textField.text
+        myPageView.nicknameLabel.text = textField.text
         dismissTextField()
         return true
     }
@@ -274,7 +107,7 @@ extension MyPageViewController: UIImagePickerControllerDelegate {
         picker.dismiss(animated: false) { () in
             if let editedImage = info[.editedImage] as? UIImage {
                 // TODO: - DB 상에 프로필 이미지 저장하는 로직 추가 필요
-                self.imageView.image = editedImage
+                self.myPageView.imageView.image = editedImage
             }
         }
     }
