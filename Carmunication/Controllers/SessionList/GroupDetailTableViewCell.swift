@@ -9,19 +9,6 @@ import UIKit
 
 class GroupDetailTableViewCell: UITableViewCell {
 
-    init(
-        index: CGFloat,
-        cellCount: CGFloat,
-        style: UITableViewCell.CellStyle = .default,
-        reuseIdentifier: String? = nil
-    ) {
-        self.index = index
-        self.cellCount = cellCount
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupUI()
-        setupConstraints()
-    }
-
     var index: CGFloat
     var cellCount: CGFloat
 
@@ -43,6 +30,19 @@ class GroupDetailTableViewCell: UITableViewCell {
         didSet {
             updateCrewImages()
         }
+    }
+
+    init(
+        index: CGFloat,
+        cellCount: CGFloat,
+        style: UITableViewCell.CellStyle = .default,
+        reuseIdentifier: String? = nil
+    ) {
+        self.index = index
+        self.cellCount = cellCount
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupUI()
+        setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -125,8 +125,7 @@ class GroupDetailTableViewCell: UITableViewCell {
 
         stopPointImage.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(1)
-            make.width.lessThanOrEqualTo(16)
-            make.height.lessThanOrEqualTo(16)
+            make.width.height.lessThanOrEqualTo(16)
         }
 
         cellBackground.snp.makeConstraints { make in

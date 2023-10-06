@@ -17,6 +17,13 @@ import UIKit
  시멘틱컬러의 경우 semantic을 붙이고 그에 맞는 컬러를 쓴다.
  */
 extension UIColor {
+
+    static let theme = ColorTheme()
+    static let semantic = SemanticColor()
+}
+
+extension UIColor {
+
     convenience init?(hex: String, alpha: CGFloat = 1.0) {
         var cleanedHex = hex.trimmingCharacters(in: .whitespacesAndNewlines)
         cleanedHex = cleanedHex.replacingOccurrences(of: "#", with: "")
@@ -31,6 +38,12 @@ extension UIColor {
 
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
-    static let theme = ColorTheme()
-    static let semantic = SemanticColor()
+
+    // RGB 값을 16진수 Hex 코드로 변환하는 함수
+    static func rgbToHex(red: CGFloat, green: CGFloat, blue: CGFloat) -> String {
+        let redInt = Int(red * 255)
+        let greenInt = Int(green * 255)
+        let blueInt = Int(blue * 255)
+        return String(format: "#%02X%02X%02X", redInt, greenInt, blueInt)
+    }
 }

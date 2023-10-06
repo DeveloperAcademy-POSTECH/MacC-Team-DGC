@@ -9,8 +9,8 @@ import UIKit
 
 final class GradientLineView: UIView {
 
-    var index: CGFloat
-    var cellCount: CGFloat
+    private let index: CGFloat
+    private let cellCount: CGFloat
 
     init(index: CGFloat, cellCount: CGFloat) {
         self.index = index
@@ -23,8 +23,6 @@ final class GradientLineView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        super.draw(rect)
-
         // 그래디언트 레이어 생성
         let gradientLayer = CAGradientLayer()
         let color = calculateColor(indexPath: index, cellCount: cellCount)
@@ -43,14 +41,6 @@ final class GradientLineView: UIView {
         path.lineWidth = 2.0
         let dashes: [CGFloat] = [4, 4]
         path.setLineDash(dashes, count: dashes.count, phase: 0)
-
-        // 그래디언트 레이어에 실선 패스를 마스크로 적용
-        let shapeLayer = CAShapeLayer()
-        shapeLayer.path = path.cgPath
-        shapeLayer.strokeColor = UIColor.black.cgColor
-        shapeLayer.lineWidth = 2.0
-        shapeLayer.fillColor = UIColor.clear.cgColor
-        gradientLayer.mask = shapeLayer
 
         // 그래디언트 레이어를 뷰에 추가
         self.layer.addSublayer(gradientLayer)
@@ -74,25 +64,17 @@ final class GradientLineView: UIView {
         }
 
         // 계산된 RGB 값을 16진수 Hex 코드로 변환
-        let startColorHex = rgbToHex(
+        let startColorHex = UIColor.rgbToHex(
             red: round(startColorRGB[0]) / 255,
             green: round(startColorRGB[1]) / 255,
             blue: round(startColorRGB[2]) / 255
         )
-        let endColorHex = rgbToHex(
+        let endColorHex = UIColor.rgbToHex(
             red: round(endColorRGB[0]) / 255,
             green: round(endColorRGB[1]) / 255,
             blue: round(endColorRGB[2]) / 255
         )
 
         return [startColorHex, endColorHex]
-    }
-
-    // RGB 값을 16진수 Hex 코드로 변환하는 함수
-    func rgbToHex(red: CGFloat, green: CGFloat, blue: CGFloat) -> String {
-        let redInt = Int(red * 255)
-        let greenInt = Int(green * 255)
-        let blueInt = Int(blue * 255)
-        return String(format: "#%02X%02X%02X", redInt, greenInt, blueInt)
     }
 }
