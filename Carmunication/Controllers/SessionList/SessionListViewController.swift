@@ -19,20 +19,18 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
         )
     ]
 
-    private let sessionListView = SessionListView()
-
     override func viewDidLoad() {
         super.viewDidLoad()
+        let mainStackView = mainStack()
         view.backgroundColor = .systemBackground
+        view.addSubview(mainStackView)
 
-        view.addSubview(sessionListView)
-        sessionListView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+        // Auto Layout 설정
+        mainStackView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(20)
         }
-
-        sessionListView.addNewGroupButton.addTarget(self, action: #selector(moveToAddGroup), for: .touchUpInside)
-        sessionListView.tableViewComponent.dataSource = self
-        sessionListView.tableViewComponent.delegate = self
     }
 }
 
@@ -105,8 +103,83 @@ extension SessionListViewController {
     }
 }
 
+// MARK: - Stack
+extension SessionListViewController {
+
+    // TODO: - 뒷 배경 흐리게 하여 뒷 셀 보이도록 처리하기
+    private func addNewGroupButton() -> UIStackView {
+        let stackView = UIStackView()
+        let button = buttonComponent(
+            title: "+ 새 그룹 만들기",
+            width: 174,
+            height: 62,
+            fontColor: UIColor.semantic.textSecondary!,
+            backgroundColor: UIColor.semantic.accPrimary!
+        )
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
+        button.addTarget(self, action: #selector(moveToAddGroup), for: .touchUpInside)
+        stackView.addArrangedSubview(button)
+        return stackView
+    }
+
+    // Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
+    // TODO: 버튼 크기 조절과 셀과 함께 유동적으로 움직이는 버튼 구현
+    private func mainStack() -> UIStackView {
+        let mainStackView = UIStackView()
+        let stackView = addNewGroupButton()
+        let tableView = tableViewComponent()
+        mainStackView.axis = .vertical
+        mainStackView.addArrangedSubview(tableView)
+        mainStackView.addArrangedSubview(stackView)
+
+        tableView.snp.makeConstraints { make in
+            make.leading.top.trailing.equalToSuperview()
+        }
+
+        stackView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+        }
+
+        return mainStackView
+    }
+}
+
 // MARK: - Component
 extension SessionListViewController {
+
+    private func tableViewComponent() -> UITableView {
+        let tableView = UITableView()
+        // UITableView 설정
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(CustomListTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(NotFoundCrewTableViewCell.self, forCellReuseIdentifier: "notFoundCell")
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+
+        return tableView
+    }
+
+    private func buttonComponent(
+        title: String,
+        width: CGFloat,
+        height: CGFloat,
+        fontColor: UIColor,
+        backgroundColor: UIColor
+    ) -> UIButton {
+        let button = UIButton(type: .system)
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(fontColor, for: .normal)
+        button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
+        button.snp.makeConstraints { make in
+            make.width.equalTo(width)
+            make.height.equalTo(height)
+        }
+
+        return button
+    }
 
     @objc private func moveToAddGroup() {
         let groudAddViewController = GroupAddViewController()
