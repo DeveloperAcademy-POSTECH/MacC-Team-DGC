@@ -24,9 +24,9 @@ struct CarmuFont {
 
     // Body 폰트
     let body1 = UIFont(name: "SFPro-Regular", size: 12) ?? UIFont.systemFont(ofSize: 12)
-    let body1Long = UIFont(name: "SFPro-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18)
+    let body1Long = UIFont(name: "SFPro-Regular", size: 12) ?? UIFont.systemFont(ofSize: 12)
     let body2 = UIFont(name: "SFPro-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14)
-    let body2Long = UIFont(name: "SFPro-Regular", size: 18) ?? UIFont.systemFont(ofSize: 18)
+    let body2Long = UIFont(name: "SFPro-Regular", size: 14) ?? UIFont.systemFont(ofSize: 14)
     let body3 = UIFont(name: "SFPro-Regular", size: 16) ?? UIFont.systemFont(ofSize: 16)
-    let body3Long = UIFont(name: "SFPro-Regular", size: 22) ?? UIFont.systemFont(ofSize: 22)
+    let body3Long = UIFont(name: "SFPro-Regular", size: 16) ?? UIFont.systemFont(ofSize: 16)
 }

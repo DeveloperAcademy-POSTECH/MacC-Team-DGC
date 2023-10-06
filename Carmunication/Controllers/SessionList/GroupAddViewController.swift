@@ -4,8 +4,10 @@
 //
 //  Created by 김동현 on 2023/09/24.
 //
-import SnapKit
+
 import UIKit
+
+import SnapKit
 
 struct AddressAndTime {
     var address: String = "포항시 남구 지곡로 80"
