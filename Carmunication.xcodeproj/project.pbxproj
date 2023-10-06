@@ -34,9 +34,7 @@
 		BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */; };
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
 		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
-		BF9BCFEA2ACDCD14009DAECD /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */; };
 		BF9BCFEF2ACE2BEF009DAECD /* GroupAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */; };
-		BF9BCFF12ACE2FB8009DAECD /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFF02ACE2FB8009DAECD /* GroupDetailView.swift */; };
 		BF9BCFF32ACE379C009DAECD /* SelectPointMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */; };
 		BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */; };
 		BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */; };
@@ -87,9 +85,7 @@
 		BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SecureKey-Info.plist"; sourceTree = "<group>"; };
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddView.swift; sourceTree = "<group>"; };
-		BF9BCFF02ACE2FB8009DAECD /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
 		BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPointMapView.swift; sourceTree = "<group>"; };
 		BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartView.swift; sourceTree = "<group>"; };
@@ -234,7 +230,6 @@
 		BF9BCFEB2ACE2B80009DAECD /* SessionList */ = {
 			isa = PBXGroup;
 			children = (
-				BF9BCFE92ACDCD14009DAECD /* SessionListView.swift */,
 				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
 				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
 				BF9BCFED2ACE2BDF009DAECD /* GroupAdd */,
@@ -247,7 +242,6 @@
 			children = (
 				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
-				BF9BCFF02ACE2FB8009DAECD /* GroupDetailView.swift */,
 				BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */,
 			);
 			path = GroupAdd;
@@ -439,7 +433,6 @@
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
 				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
-				BF9BCFF12ACE2FB8009DAECD /* GroupDetailView.swift in Sources */,
 				BF9BCFEF2ACE2BEF009DAECD /* GroupAddView.swift in Sources */,
 				B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */,
 				C9DE7C3B2AC05B65005AFCC6 /* SelectPointMapViewController.swift in Sources */,
