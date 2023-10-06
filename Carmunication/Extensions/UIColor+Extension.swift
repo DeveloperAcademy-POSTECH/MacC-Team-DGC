@@ -21,3 +21,29 @@ extension UIColor {
     static let theme = ColorTheme()
     static let semantic = SemanticColor()
 }
+
+extension UIColor {
+
+    convenience init?(hex: String, alpha: CGFloat = 1.0) {
+        var cleanedHex = hex.trimmingCharacters(in: .whitespacesAndNewlines)
+        cleanedHex = cleanedHex.replacingOccurrences(of: "#", with: "")
+
+        var rgb: UInt64 = 0
+
+        Scanner(string: cleanedHex).scanHexInt64(&rgb)
+
+        let red = CGFloat((rgb & 0xFF0000) >> 16) / 255.0
+        let green = CGFloat((rgb & 0x00FF00) >> 8) / 255.0
+        let blue = CGFloat(rgb & 0x0000FF) / 255.0
+
+        self.init(red: red, green: green, blue: blue, alpha: alpha)
+    }
+
+    // RGB 값을 16진수 Hex 코드로 변환하는 함수
+    static func rgbToHex(red: CGFloat, green: CGFloat, blue: CGFloat) -> String {
+        let redInt = Int(red * 255)
+        let greenInt = Int(green * 255)
+        let blueInt = Int(blue * 255)
+        return String(format: "#%02X%02X%02X", redInt, greenInt, blueInt)
+    }
+}
