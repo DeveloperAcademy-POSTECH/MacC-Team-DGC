@@ -46,11 +46,11 @@ final class GroupDetailViewController: UIViewController {
     }
 }
 
+// MARK: - TableView 관련 Delegate 메서드
 extension GroupDetailViewController: UITableViewDataSource, UITableViewDelegate {
 
     private func tableViewComponent() -> UITableView {
         let tableView = UITableView()
-        // UITableView 설정
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(GroupDetailTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -73,7 +73,7 @@ extension GroupDetailViewController: UITableViewDataSource, UITableViewDelegate 
             index: CGFloat(indexPath.row),
             cellCount: CGFloat((selectedGroup?.stopoverPoint.count ?? 0) + 2)
         )
-        // 셀 데이터 입력 부분. 리팩토링 필요
+        // TODO: - 셀 데이터 입력 부분. 리팩토링 필요
         cell.crewCount = 3
         cell.pointNameLabel.text = {
             switch indexPath.row {
@@ -139,10 +139,6 @@ extension GroupDetailViewController {
             action: #selector(moveToAddGroup)
         )
 
-    }
-
-    @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
     }
 
     /**
@@ -248,6 +244,13 @@ extension GroupDetailViewController {
     @objc private func moveToAddGroup() {
         let groudAddViewController = GroupAddViewController() // 추후 EditView 따로 만들어서 관리해야 함.
         present(groudAddViewController, animated: true)
+    }
+
+    /**
+     backButton을 누를 때 적용되는 액션 메서드
+     */
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
 }
 

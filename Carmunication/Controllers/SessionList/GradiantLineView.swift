@@ -28,17 +28,12 @@ class GradientLineView: UIView {
         // 그래디언트 레이어 생성
         let gradientLayer = CAGradientLayer()
         let color = calculateColor(indexPath: index, cellCount: cellCount)
-        print("hexcode로 변환한 시작 color : ", color[0])
-        print("hexcode로 변환한 끝 color : ", color[1])
 
         gradientLayer.frame = rect
-        gradientLayer.colors = [UIColor(hex: color[0])?.cgColor, UIColor(hex: color[1])?.cgColor]
+        gradientLayer.colors = [UIColor(hex: color[0])?.cgColor as Any, UIColor(hex: color[1])?.cgColor as Any]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
 
-        print("index : ", index)
-        print("startPoint y : ", gradientLayer.startPoint)
-        print("endPoint y : ", gradientLayer.endPoint)
         // 실선을 그릴 베지어 패스 생성
         let path = UIBezierPath()
         path.move(to: CGPoint(x: rect.midX, y: rect.minY))
@@ -61,39 +56,10 @@ class GradientLineView: UIView {
         self.layer.addSublayer(gradientLayer)
     }
 
-    //    private func calculateColor(_ indexPath: CGFloat, _ cellCount: CGFloat, _ isEnd: Bool = false) -> String {
-    //
-    //        // 그래디언트 시작 색상 및 끝 색상 설정
-    //        let constantStartColor = UIColor.semantic.accSecondary
-    //        let constantEndColor = UIColor.semantic.accPrimary
-    //
-    //        // UIColor 객체의 CGColor 가져오기
-    //        guard let startCGColor = constantStartColor?.cgColor,
-    //              let endCGColor = constantEndColor?.cgColor else {
-    //            return ""
-    //        }
-    //
-    //        // CGColor 객체로부터 RGB 값을 추출
-    //        let startComponents = startCGColor.components
-    //        let endComponents = endCGColor.components
-    //
-    //        // RGB 값 계산
-    //        let startRed = (startComponents?[0] ?? 0 + endComponents?[0] ?? 0) * 1 / cellCount * indexPath
-    //        let startGreen = (startComponents?[1] ?? 0 + endComponents?[1] ?? 0) * 1 / cellCount * indexPath
-    //        let startBlue = (startComponents?[2] ?? 0 + endComponents?[2] ?? 0) * 1 / cellCount * (isEnd ? indexPath + 1 : indexPath)
-    //        // 나머지 값들도 위와 같은 방식으로 계산
-    //
-    //        // 계산된 RGB 값을 Hex 코드로 변환
-    //        let startColorHex = rgbToHex(red: startRed, green: startGreen, blue: startBlue)
-    //
-    //        return startColorHex
-    //    }
-
     private func calculateColor(indexPath: CGFloat, cellCount: CGFloat) -> [String] {
-
         // 상수 색 RGB 값으로 변경(RGBA 순)
-        var startColor: [CGFloat] = [44, 255, 220]
-        var endColor: [CGFloat] = [98, 122, 243]
+        let startColor: [CGFloat] = [44, 255, 220]
+        let endColor: [CGFloat] = [98, 122, 243]
 
         // 시작 및 끝 색상의 RGB 값을 계산
         var startColorRGB: [CGFloat] = []
@@ -107,11 +73,17 @@ class GradientLineView: UIView {
             endColorRGB.append(endColorStd)
         }
 
-        print("startColorRGB 값: ", startColorRGB)
-        print("endColorRGB 값: ",endColorRGB)
         // 계산된 RGB 값을 16진수 Hex 코드로 변환
-        let startColorHex = rgbToHex(red: round(startColorRGB[0]) / 255, green: round(startColorRGB[1]) / 255, blue: round(startColorRGB[2]) / 255)
-        let endColorHex = rgbToHex(red: round(endColorRGB[0]) / 255, green: round(endColorRGB[1]) / 255, blue: round(endColorRGB[2]) / 255)
+        let startColorHex = rgbToHex(
+            red: round(startColorRGB[0]) / 255,
+            green: round(startColorRGB[1]) / 255,
+            blue: round(startColorRGB[2]) / 255
+        )
+        let endColorHex = rgbToHex(
+            red: round(endColorRGB[0]) / 255,
+            green: round(endColorRGB[1]) / 255,
+            blue: round(endColorRGB[2]) / 255
+        )
 
         return [startColorHex, endColorHex]
     }

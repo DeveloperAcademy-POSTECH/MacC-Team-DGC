@@ -4,8 +4,10 @@
 //
 //  Created by 김동현 on 2023/09/24.
 //
-import SnapKit
+
 import UIKit
+
+import SnapKit
 
 // MARK: - Preview canvas 세팅
 import SwiftUI
