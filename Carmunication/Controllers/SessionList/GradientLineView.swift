@@ -7,7 +7,7 @@
 
 import UIKit
 
-class GradientLineView: UIView {
+final class GradientLineView: UIView {
 
     var index: CGFloat
     var cellCount: CGFloat
