@@ -23,6 +23,7 @@
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
 		BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */; };
 		BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF29DF282ACFF9CD00430031 /* SessionListView.swift */; };
+		BF29DF2B2ACFFDBC00430031 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */; };
 		BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CC2AB939A3005331AD /* AppDelegate.swift */; };
 		BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */; };
 		BF37D9D62AB939A4005331AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF37D9D52AB939A4005331AD /* Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		BF29DF282ACFF9CD00430031 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
+		BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
 		BF37D9C92AB939A3005331AD /* Carmunication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmunication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF37D9CC2AB939A3005331AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 			children = (
 				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
+				BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */,
 				BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */,
 			);
 			path = GroupAdd;
@@ -441,6 +444,7 @@
 				B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */,
 				C9DE7C3B2AC05B65005AFCC6 /* SelectPointMapViewController.swift in Sources */,
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
+				BF29DF2B2ACFFDBC00430031 /* GroupDetailView.swift in Sources */,
 				C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */,
 				BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */,
 				C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */,
