@@ -4,8 +4,10 @@
 //
 //  Created by 허준혁 on 2023/09/23.
 //
-import SnapKit
+
 import UIKit
+
+import SnapKit
 
 final class SessionListViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
