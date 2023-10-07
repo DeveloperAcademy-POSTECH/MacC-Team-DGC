@@ -40,3 +40,14 @@ final class GroupAddTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 }
+
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct GroupAddTableViewCellPreview: PreviewProvider {
+
+    static var previews: some View {
+        GroupAddViewControllerRepresentable()
+    }
+
+}

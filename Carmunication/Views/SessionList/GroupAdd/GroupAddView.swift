@@ -83,3 +83,15 @@ final class GroupAddView: UIView {
         return button
     }
 }
+
+// MARK: - Preview
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct GroupAddViewPreview: PreviewProvider {
+
+    static var previews: some View {
+        GroupAddViewControllerRepresentable()
+    }
+
+}

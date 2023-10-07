@@ -112,7 +112,7 @@ extension SessionListViewController {
 
     @objc private func moveToAddGroup() {
         let groudAddViewController = GroupAddViewController()
-        groudAddViewController.title = "그룹 만들기"
+        groudAddViewController.title = "크루 만들기"
         navigationController?.pushViewController(groudAddViewController, animated: true)
     }
 }

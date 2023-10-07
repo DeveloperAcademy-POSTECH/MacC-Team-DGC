@@ -149,6 +149,27 @@ extension GroupAddViewController {
     }
 }
 
+// MARK: - Component
+extension GroupAddViewController {
+
+    private func navigationBarSetting() {
+        let backButton = UIBarButtonItem(
+            image: UIImage(systemName: "xmark"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+        navigationItem.leftBarButtonItem = backButton
+    }
+
+    private func spacer() -> UIView {
+        let spacerView = UIView()
+        spacerView.translatesAutoresizingMaskIntoConstraints = false
+        return spacerView
+    }
+}
+
 // MARK: - @objc Method
 extension GroupAddViewController {
 
@@ -161,10 +182,6 @@ extension GroupAddViewController {
         cellData.remove(at: section)
         groupAddView.tableViewComponent.reloadData()
     }
-}
-
-// MARK: - Component
-extension GroupAddViewController {
 
     @objc private func addGroupButtonAction() {
 
@@ -172,12 +189,17 @@ extension GroupAddViewController {
         groupAddView.tableViewComponent.reloadData()
     }
 
-    private func spacer() -> UIView {
-        let spacerView = UIView()
-        spacerView.translatesAutoresizingMaskIntoConstraints = false
-        return spacerView
-    }
+    /**
+     추후 그룹 해체 기능으로 사용될 액션 메서드
+     */
+    @objc private func dummyButtonAction() {}
 
+    /**
+     backButton을 누를 때 적용되는 액션 메서드
+     */
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
 }
 
 // MARK: - Previewer
