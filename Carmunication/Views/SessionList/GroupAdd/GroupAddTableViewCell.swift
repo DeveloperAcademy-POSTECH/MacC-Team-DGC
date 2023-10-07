@@ -25,16 +25,30 @@ final class GroupAddTableViewCell: UITableViewCell {
 
     // Detail 셀 내부 레이블
     private let pointNameLabel = UILabel()
-    let addressSearchButton = UIButton()
+    let addressSearchButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("주소를 검색하세요", for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.body2Long
+        button.setTitleColor(UIColor.semantic.textPrimary, for: .normal)
+        button.layer.borderColor = UIColor.theme.blue3?.cgColor
+        button.layer.borderWidth = 1
+        button.layer.cornerRadius = 15
+        button.contentHorizontalAlignment = .left
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
+
+        return button
+    }()
+
     let timeLabel = UILabel()
     let startTime: UIButton = {
-        let startTime = UIButton()
-        startTime.backgroundColor = UIColor(red: 0.877, green: 0.896, blue: 0.991, alpha: 1)
-        startTime.layer.cornerRadius = 4
-        startTime.setTitleColor(UIColor.black, for: .normal)
-        startTime.setTitle("StartTime", for: .normal)
+        let button = UIButton()
+        button.backgroundColor = UIColor.semantic.backgroundTouchable
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
+        button.layer.cornerRadius = 4
+        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitle("00:00 AM", for: .normal)
 
-        return startTime
+        return button
     }()
 
     // 탑승 크루 이미지 스택 변수
@@ -80,8 +94,8 @@ final class GroupAddTableViewCell: UITableViewCell {
             let imageView = UIImageView(image: UIImage(named: "crewImageDefalut")) // 사용자 이미지로 이름 바꿔 사용
             imageView.contentMode = .scaleAspectFit
             imageView.clipsToBounds = true
-            imageView.widthAnchor.constraint(equalToConstant: 30).isActive = true // 너비를 30으로 설정
-            imageView.heightAnchor.constraint(equalToConstant: 30).isActive = true // 높이를 30으로 설정
+            imageView.widthAnchor.constraint(equalToConstant: 24).isActive = true // 너비를 30으로 설정
+            imageView.heightAnchor.constraint(equalToConstant: 24).isActive = true // 높이를 30으로 설정
             crewImage.addArrangedSubview(imageView)
 
             if index > 2 { break }
@@ -103,33 +117,27 @@ final class GroupAddTableViewCell: UITableViewCell {
 
         // Crew Image 스택 관련 설정
         crewImage.axis = .horizontal
-        crewImage.alignment = .leading
+        crewImage.alignment = .center
         crewImage.distribution = .fillEqually
 
         pointNameLabel.text = "출발지"
-        timeLabel.text = "출발 시간"
-        boardingCrewLabel.text = "탑승 크루"
+        timeLabel.text = "출발시간"
+        boardingCrewLabel.text = "탑승자"
+
         // Font, TextColor 설정
         pointNameLabel.font = UIFont.carmuFont.subhead3
         pointNameLabel.textColor = UIColor.semantic.textPrimary
-//        addressSearchButton.font = UIFont.carmuFont.subhead3
-//        addressSearchButton.textColor = UIColor.semantic.textPrimary
-//        detailAddress.font = UIFont.carmuFont.body1Long
-//        detailAddress.textColor = UIColor.semantic.textBody
         boardingCrewLabel.font = UIFont.carmuFont.body1
         boardingCrewLabel.textColor = UIColor.theme.blue8
         timeLabel.font = UIFont.carmuFont.body1
         timeLabel.textColor = UIColor.theme.blue8
-//        startTime.font = UIFont.carmuFont.subhead2
-//        startTime.textColor = UIColor.semantic.accPrimary
-        crewImage.backgroundColor = .blue
+
         // 뷰 추가
         contentView.addSubview(cellBackground)
         contentView.addSubview(gradiantLine)
         contentView.addSubview(stopPointImage)
         contentView.addSubview(pointNameLabel)
-//        contentView.addSubview(pointName)
-//        contentView.addSubview(detailAddress)
+        contentView.addSubview(addressSearchButton)
         contentView.addSubview(boardingCrewLabel)
         contentView.addSubview(timeLabel)
         contentView.addSubview(startTime)
@@ -161,21 +169,16 @@ final class GroupAddTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().inset(24)
         }
 
-//        addressSearchButton.snp.makeConstraints { make in
-//            make.leading.equalTo(pointNameLabel.snp.trailing).offset(8)
-//            make.centerY.equalTo(pointNameLabel.snp.centerY)
-//        }
-
-//        detailAddress.snp.makeConstraints { make in
-//            make.leading.equalToSuperview().inset(48)
-//            make.top.equalTo(pointName.snp.bottom).offset(4)
-//            make.width.lessThanOrEqualTo(282)
-//        }
-//
+        addressSearchButton.snp.makeConstraints { make in
+            make.width.greaterThanOrEqualTo(200)
+            make.leading.equalTo(pointNameLabel.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().inset(20)
+            make.centerY.equalTo(pointNameLabel.snp.centerY)
+        }
 
         startTime.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(20) // 원하는 상단 여백 설정
-            make.trailing.equalToSuperview().inset(24) // 원하는 오른쪽 여백 설정
+            make.centerY.equalTo(boardingCrewLabel.snp.centerY) // 원하는 상단 여백 설정
+            make.trailing.equalToSuperview().inset(20) // 원하는 오른쪽 여백 설정
             make.width.equalTo(92) // 너비 설정
             make.height.equalTo(30) // 높이 설정
         }
@@ -184,9 +187,10 @@ final class GroupAddTableViewCell: UITableViewCell {
             make.leading.equalToSuperview().inset(24)
             make.bottom.equalToSuperview().inset(45)
         }
-//
+
         timeLabel.snp.makeConstraints { make in
-            make.leading.greaterThanOrEqualTo(crewImage.snp.trailing).offset(20)
+            make.leading.greaterThanOrEqualTo(crewImage.snp.trailing).offset(2)
+            make.trailing.lessThanOrEqualTo(startTime.snp.leading).offset(-4)
             make.centerY.equalTo(boardingCrewLabel.snp.centerY)
         }
 //

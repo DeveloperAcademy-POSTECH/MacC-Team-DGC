@@ -60,6 +60,7 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
             index: CGFloat(indexPath.row),
             cellCount: CGFloat(cellData.count)
         )
+        cell.crewCount = 2
         return cell
     }
     /**
