@@ -31,6 +31,7 @@ final class GroupAddViewController: UIViewController {
         navigationBarSetting()
         groupAddView.tableViewComponent.dataSource = self
         groupAddView.tableViewComponent.delegate = self
+        groupAddView.textField.delegate = self
 
         groupAddView.stopoverPointAddButton.addTarget(self, action: #selector(addStopoverPoint), for: .touchUpInside)
 
@@ -120,6 +121,13 @@ extension GroupAddViewController {
 
         cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
         groupAddView.tableViewComponent.reloadData()
+    }
+}
+
+extension GroupAddViewController: UITextFieldDelegate {
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        return true
     }
 }
 

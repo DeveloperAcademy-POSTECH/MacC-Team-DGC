@@ -16,12 +16,12 @@ final class GroupAddView: UIView {
         textField.textAlignment = .left
         textField.font = UIFont.carmuFont.body2Long
         textField.textColor = UIColor.semantic.textPrimary
-        textField.tintColor = UIColor.semantic.textPrimary
         textField.clearButtonMode = .always
         textField.borderStyle = .none
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 38))
         textField.leftViewMode = .always
-        textField.keyboardType = .default
+        textField.keyboardType = .namePhonePad
+        textField.autocapitalizationType = .none
 
         // 폰트 설정을 NSAttributedString 내부로 이동
         let placeholderAttributes: [NSAttributedString.Key: Any] = [
