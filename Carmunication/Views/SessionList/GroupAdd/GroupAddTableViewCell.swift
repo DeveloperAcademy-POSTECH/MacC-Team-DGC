@@ -11,12 +11,12 @@ import SnapKit
 
 final class GroupAddTableViewCell: UITableViewCell {
 
-    var index: CGFloat
-    var cellCount: CGFloat
+    private let index: CGFloat
+    private let cellCount: CGFloat
 
     // Add 셀 레이아웃
-    let cellBackground = UIView()
-    let stopPointImage = UIImageView(image: UIImage(named: "AddViewSidebarDot"))
+    private let cellBackground = UIView()
+    private let stopPointImage = UIImageView(image: UIImage(named: "AddViewSidebarDot"))
     lazy var gradiantLine = GradientLineView(
         index: index,
         cellCount: cellCount,
@@ -24,35 +24,40 @@ final class GroupAddTableViewCell: UITableViewCell {
     )
 
     // Detail 셀 내부 레이블
-    private let pointNameLabel = UILabel()
+    let pointNameLabel = UILabel()
     let addressSearchButton = {
         let button = UIButton(type: .system)
-        button.setTitle("    주소를 검색하세요", for: .normal)
+        button.setTitle("     주소를 검색하세요", for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.body2Long
         button.setTitleColor(UIColor.semantic.textPrimary, for: .normal)
         button.layer.borderColor = UIColor.theme.blue3?.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
         button.contentHorizontalAlignment = .left
+        button.isSpringLoaded = true
 
         return button
     }()
 
     let timeLabel = UILabel()
     let startTime: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = UIColor.semantic.backgroundTouchable
+        let button = UIButton(type: .system)
+        button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.backgroundTouchable!), for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.subhead3
-        button.layer.cornerRadius = 4
+        button.layer.cornerRadius = 8
+        button.layer.masksToBounds = true
         button.setTitleColor(UIColor.black, for: .normal)
         button.setTitle("00:00 AM", for: .normal)
+        button.isSpringLoaded = true
 
         return button
     }()
 
     // 탑승 크루 이미지 스택 변수
     private let boardingCrewLabel = UILabel()
+    private let crewImageBackground = UIView()
     let crewImage = UIStackView()
+    let crewImageButton = UIButton()
     var crewCount: Int = 0 {
         didSet {
             updateCrewImages()
@@ -70,6 +75,7 @@ final class GroupAddTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         setupConstraints()
+        setupCrewImageConstraint()
     }
 
     required init?(coder: NSCoder) {
@@ -117,10 +123,13 @@ final class GroupAddTableViewCell: UITableViewCell {
         // Crew Image 스택 관련 설정
         crewImage.axis = .horizontal
         crewImage.alignment = .center
-        crewImage.distribution = .fillEqually
+        crewImage.distribution = .equalCentering
+
+        crewImageBackground.layer.cornerRadius = 18
+        crewImageBackground.backgroundColor = UIColor.semantic.backgroundTouchable
 
         pointNameLabel.text = "출발지"
-        timeLabel.text = "출발시간"
+        timeLabel.text = "도착시간"
         boardingCrewLabel.text = "탑승자"
 
         // Font, TextColor 설정
@@ -140,11 +149,12 @@ final class GroupAddTableViewCell: UITableViewCell {
         contentView.addSubview(boardingCrewLabel)
         contentView.addSubview(timeLabel)
         contentView.addSubview(startTime)
+        contentView.addSubview(crewImageBackground)
         contentView.addSubview(crewImage)
+        contentView.addSubview(crewImageButton)
     }
 
     private func setupConstraints() {
-
         cellBackground.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 7, left: 0, bottom: 14, right: 6))
             make.height.equalTo(114)
@@ -192,14 +202,34 @@ final class GroupAddTableViewCell: UITableViewCell {
             make.trailing.lessThanOrEqualTo(startTime.snp.leading).offset(-4)
             make.centerY.equalTo(boardingCrewLabel.snp.centerY)
         }
-//
+    }
+
+    private func setupCrewImageConstraint() {
         crewImage.snp.makeConstraints { make in
+            make.centerY.equalTo(boardingCrewLabel.snp.centerY)
+            make.leading.equalTo(boardingCrewLabel.snp.trailing).offset(12)
+            make.width.equalTo(80)
+            make.height.equalTo(32)
+        }
+
+        crewImageBackground.snp.makeConstraints { make in
+            make.centerY.equalTo(boardingCrewLabel.snp.centerY)
+            make.leading.equalTo(boardingCrewLabel.snp.trailing).offset(4)
+            make.width.equalTo(96)
+            make.height.equalTo(32)
+        }
+
+        crewImageButton.snp.makeConstraints { make in
             make.centerY.equalTo(boardingCrewLabel.snp.centerY)
             make.leading.equalTo(boardingCrewLabel.snp.trailing).offset(4)
             make.width.equalTo(96)
             make.height.equalTo(32)
         }
     }
+}
+
+extension GroupAddTableViewCell {
+
 }
 
 import SwiftUI

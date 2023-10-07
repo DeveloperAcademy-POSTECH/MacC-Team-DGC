@@ -33,7 +33,11 @@ final class GroupAddViewController: UIViewController {
         groupAddView.tableViewComponent.delegate = self
         groupAddView.textField.delegate = self
 
-        groupAddView.stopoverPointAddButton.addTarget(self, action: #selector(addStopoverPoint), for: .touchUpInside)
+        groupAddView.stopoverPointAddButton.addTarget(
+            self,
+            action: #selector(addStopoverPointTapped),
+            for: .touchUpInside
+        )
 
         view.addSubview(groupAddView)
 
@@ -60,20 +64,16 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
             index: CGFloat(indexPath.row),
             cellCount: CGFloat(cellData.count)
         )
-        cell.crewCount = 2
+        cell.crewCount = 3
+        cell.addressSearchButton.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
+        cell.crewImageButton.addTarget(self, action: #selector(addBoardingCrewButtonTapped), for: .touchUpInside)
+        cell.startTime.addTarget(self, action: #selector(setStartTimeButtonTapped), for: .touchUpInside)
         return cell
     }
-    /**
-     셀 선택 시 화면 전환 로직 구현
-     */
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        let detailViewController = SelectPointMapViewController()
-        detailViewController.title = "장소 선택"
-        detailViewController.modalPresentationStyle = .fullScreen
-
-        present(detailViewController, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        // 특정 조건을 만족하는 경우에만 셀을 선택 가능하도록 설정
+        return false
     }
 }
 
@@ -97,6 +97,14 @@ extension GroupAddViewController {
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
+
+    @objc func findAddressButtonTapped() {
+        let detailViewController = SelectPointMapViewController()
+        detailViewController.title = "장소 선택"
+        detailViewController.modalPresentationStyle = .fullScreen
+
+        present(detailViewController, animated: true)
+    }
 }
 
 // MARK: - @objc Method
@@ -112,16 +120,28 @@ extension GroupAddViewController {
         groupAddView.tableViewComponent.reloadData()
     }
 
-    @objc private func addStopoverPoint() {
+    @objc private func addStopoverPointTapped() {
 
         cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
         groupAddView.tableViewComponent.reloadData()
+    }
+
+    @objc private func addBoardingCrewButtonTapped(_ sender: UIButton) {
+        print("탑승자 추가 버튼 클릭")
+    }
+
+    @objc private func setStartTimeButtonTapped(_ sender: UIButton) {
+        print("도착 시간 버튼 클릭")
     }
 }
 
 extension GroupAddViewController: UITextFieldDelegate {
 
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
         return true
     }
 }
