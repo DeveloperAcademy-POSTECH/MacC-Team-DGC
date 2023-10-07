@@ -143,6 +143,41 @@ final class MyPageView: UIView {
         return darkOverlayView
     }()
 
+    // MARK: - 텍스트 필드 활성화 시 상단 편집 바
+    lazy var textFieldEditStack: UIStackView = {
+        let textFieldEditStack = UIStackView()
+        textFieldEditStack.axis = .horizontal
+        textFieldEditStack.alignment = .center
+        textFieldEditStack.distribution = .equalCentering
+
+        textFieldEditStack.addArrangedSubview(textFieldEditCancelButton)
+        textFieldEditStack.addArrangedSubview(textFieldEditTitle)
+        textFieldEditStack.addArrangedSubview(textFieldEditDoneButton)
+        return textFieldEditStack
+    }()
+    // 취소 버튼
+    lazy var textFieldEditCancelButton: UIButton = {
+        let textFieldCancelButton = UIButton()
+        textFieldCancelButton.setTitle("취소", for: .normal)
+        textFieldCancelButton.setTitleColor(.white, for: .normal)
+        return textFieldCancelButton
+    }()
+    lazy var textFieldEditTitle: UILabel = {
+        let textFieldEditTitle = UILabel()
+        textFieldEditTitle.text = "닉네임 편집하기"
+        textFieldEditTitle.textColor = .white
+        textFieldEditTitle.font = UIFont.boldSystemFont(ofSize: 17)
+        textFieldEditTitle.textAlignment = .center
+        return textFieldEditTitle
+    }()
+    // 확인 버튼
+    lazy var textFieldEditDoneButton: UIButton = {
+        let textFieldEditDoneButton = UIButton()
+        textFieldEditDoneButton.setTitle("확인", for: .normal)
+        textFieldEditDoneButton.setTitleColor(.white, for: .normal)
+        return textFieldEditDoneButton
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -171,7 +206,9 @@ final class MyPageView: UIView {
         }
 
         textField.isHidden = true
+        textFieldEditStack.isHidden = true
         addSubview(textField)
+        addSubview(textFieldEditStack)
 
         // MARK: - 오토 레이아웃
         userInfoView.snp.makeConstraints { make in
@@ -201,12 +238,35 @@ final class MyPageView: UIView {
         }
         textField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(userInfoView.snp.bottom).inset(5)
+            make.bottom.equalTo(userInfoView.snp.bottom).offset(-30)
         }
         bottomLine.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(8)
+            make.top.equalTo(textField.snp.bottom).inset(-5)
             make.height.equalTo(1)
         }
+        textFieldEditStack.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(2)
+            make.leading.trailing.equalToSuperview().inset(30)
+            make.height.equalTo(42)
+        }
+    }
+}
+
+// MARK: - 프리뷰 canvas 세팅
+import SwiftUI
+
+struct MyPageViewControllerRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = MyPageViewController
+    func makeUIViewController(context: Context) -> MyPageViewController {
+        return MyPageViewController()
+    }
+    func updateUIViewController(_ uiViewController: MyPageViewController, context: Context) {
+    }
+}
+@available(iOS 13.0.0, *)
+struct MyPageViewPreview: PreviewProvider {
+    static var previews: some View {
+        MyPageViewControllerRepresentable()
     }
 }
