@@ -11,10 +11,12 @@ final class GradientLineView: UIView {
 
     private let index: CGFloat
     private let cellCount: CGFloat
+    private let lineWidth: CGFloat
 
-    init(index: CGFloat, cellCount: CGFloat) {
+    init(index: CGFloat, cellCount: CGFloat, lineWidth: CGFloat = 2.0) {
         self.index = index
         self.cellCount = cellCount
+        self.lineWidth = lineWidth
         super.init(frame: .zero)
     }
 
@@ -38,7 +40,7 @@ final class GradientLineView: UIView {
         path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
 
         // 실선 스타일 설정
-        path.lineWidth = 2.0
+        path.lineWidth = lineWidth
         let dashes: [CGFloat] = [4, 4]
         path.setLineDash(dashes, count: dashes.count, phase: 0)
 
