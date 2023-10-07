@@ -39,6 +39,14 @@ final class GroupAddTableViewCell: UITableViewCell {
         return button
     }()
 
+    let stopoverPointRemoveButton: UIButton = {
+        let button = UIButton(type: .system)
+        let buttonImage = UIImage(named: "stopoverRemove")
+        button.setBackgroundImage(buttonImage, for: .normal)
+        
+        return button
+    }()
+
     let timeLabel = UILabel()
     let startTime: UIButton = {
         let button = UIButton(type: .system)
@@ -146,6 +154,7 @@ final class GroupAddTableViewCell: UITableViewCell {
         contentView.addSubview(stopPointImage)
         contentView.addSubview(pointNameLabel)
         contentView.addSubview(addressSearchButton)
+        contentView.addSubview(stopoverPointRemoveButton)
         contentView.addSubview(boardingCrewLabel)
         contentView.addSubview(timeLabel)
         contentView.addSubview(startTime)
@@ -185,6 +194,12 @@ final class GroupAddTableViewCell: UITableViewCell {
             make.centerY.equalTo(pointNameLabel.snp.centerY)
         }
 
+        stopoverPointRemoveButton.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.width.height.equalTo(25)
+
+        }
         startTime.snp.makeConstraints { make in
             make.centerY.equalTo(boardingCrewLabel.snp.centerY) // 원하는 상단 여백 설정
             make.trailing.equalToSuperview().inset(20) // 원하는 오른쪽 여백 설정
@@ -226,10 +241,6 @@ final class GroupAddTableViewCell: UITableViewCell {
             make.height.equalTo(32)
         }
     }
-}
-
-extension GroupAddTableViewCell {
-
 }
 
 import SwiftUI
