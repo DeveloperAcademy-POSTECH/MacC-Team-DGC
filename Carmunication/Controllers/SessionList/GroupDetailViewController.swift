@@ -13,7 +13,7 @@ final class GroupDetailViewController: UIViewController {
 
     var selectedGroup: DummyGroup?
 
-    let groupDetailView = GroupDetailView()
+    private let groupDetailView = GroupDetailView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
