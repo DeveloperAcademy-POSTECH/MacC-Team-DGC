@@ -27,14 +27,13 @@ final class GroupAddTableViewCell: UITableViewCell {
     private let pointNameLabel = UILabel()
     let addressSearchButton = {
         let button = UIButton(type: .system)
-        button.setTitle("주소를 검색하세요", for: .normal)
+        button.setTitle("    주소를 검색하세요", for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.body2Long
         button.setTitleColor(UIColor.semantic.textPrimary, for: .normal)
         button.layer.borderColor = UIColor.theme.blue3?.cgColor
         button.layer.borderWidth = 1
         button.layer.cornerRadius = 15
         button.contentHorizontalAlignment = .left
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
 
         return button
     }()
