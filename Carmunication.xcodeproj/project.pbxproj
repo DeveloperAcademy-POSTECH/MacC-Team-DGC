@@ -234,11 +234,9 @@
 		BF9BCFEB2ACE2B80009DAECD /* SessionList */ = {
 			isa = PBXGroup;
 			children = (
-				BF29DF282ACFF9CD00430031 /* SessionListView.swift */,
-				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
-				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
-				C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */,
-				C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */,
+				C9F208662AD122C500EAA173 /* Common */,
+				C9F208652AD122A200EAA173 /* SessionList */,
+				C9F208642AD1227D00EAA173 /* GroupDetail */,
 				BF9BCFED2ACE2BDF009DAECD /* GroupAdd */,
 			);
 			path = SessionList;
@@ -249,7 +247,6 @@
 			children = (
 				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
-				BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */,
 				BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */,
 			);
 			path = GroupAdd;
@@ -307,6 +304,33 @@
 				C9DE7C3A2AC05B65005AFCC6 /* SelectPointMapViewController.swift */,
 			);
 			path = SessionList;
+			sourceTree = "<group>";
+		};
+		C9F208642AD1227D00EAA173 /* GroupDetail */ = {
+			isa = PBXGroup;
+			children = (
+				BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */,
+				C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */,
+			);
+			path = GroupDetail;
+			sourceTree = "<group>";
+		};
+		C9F208652AD122A200EAA173 /* SessionList */ = {
+			isa = PBXGroup;
+			children = (
+				BF29DF282ACFF9CD00430031 /* SessionListView.swift */,
+				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
+				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
+			);
+			path = SessionList;
+			sourceTree = "<group>";
+		};
+		C9F208662AD122C500EAA173 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
