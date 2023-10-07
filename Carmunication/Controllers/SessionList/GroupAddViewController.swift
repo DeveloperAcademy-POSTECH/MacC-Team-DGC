@@ -68,6 +68,19 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
         cell.addressSearchButton.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
         cell.crewImageButton.addTarget(self, action: #selector(addBoardingCrewButtonTapped), for: .touchUpInside)
         cell.startTime.addTarget(self, action: #selector(setStartTimeButtonTapped), for: .touchUpInside)
+        cell.stopoverPointRemoveButton.addTarget(
+            self,
+            action: #selector(stopoverRemoveButtonTapped),
+            for: .touchUpInside
+        )
+        if indexPath.row == 0 || indexPath.row == cellData.count - 1 {
+            cell.stopoverPointRemoveButton.isEnabled = false
+            cell.stopoverPointRemoveButton.isHidden = true
+            cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
+        } else {
+            cell.pointNameLabel.text = "경유지 \(indexPath.row)"
+        }
+
         return cell
     }
 
@@ -110,16 +123,6 @@ extension GroupAddViewController {
 // MARK: - @objc Method
 extension GroupAddViewController {
 
-    /**
-     버튼이 눌린 section을 식별하거나 다른 작업 수행
-     */
-    @objc private func buttonTapped(_ sender: UIButton) {
-
-        let section = sender.tag
-        cellData.remove(at: section)
-        groupAddView.tableViewComponent.reloadData()
-    }
-
     @objc private func addStopoverPointTapped() {
 
         cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
@@ -132,6 +135,13 @@ extension GroupAddViewController {
 
     @objc private func setStartTimeButtonTapped(_ sender: UIButton) {
         print("도착 시간 버튼 클릭")
+    }
+
+    @objc func stopoverRemoveButtonTapped(_ sender: UIButton) {
+        print("경유지 삭제 버튼 클릭")
+        let row = sender.tag
+        cellData.remove(at: row)
+        groupAddView.tableViewComponent.reloadData()
     }
 }
 

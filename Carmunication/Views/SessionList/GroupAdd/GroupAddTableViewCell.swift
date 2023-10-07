@@ -43,7 +43,6 @@ final class GroupAddTableViewCell: UITableViewCell {
         let button = UIButton(type: .system)
         let buttonImage = UIImage(named: "stopoverRemove")
         button.setBackgroundImage(buttonImage, for: .normal)
-        
         return button
     }()
 
