@@ -210,7 +210,11 @@ final class MyPageView: UIView {
         addSubview(textField)
         addSubview(textFieldEditStack)
 
-        // MARK: - 오토 레이아웃
+        setAutoLayout()
+    }
+
+    // MARK: - 오토 레이아웃 설정 메서드
+    func setAutoLayout() {
         userInfoView.snp.makeConstraints { make in
             // userInfoView에 cornerRadius를 주면서 상단 모서리가 잘리는 부분을 없애주기 위해 화면 크기보다 위로 조금 넘치게 설정
             make.top.equalToSuperview().inset(-20)
