@@ -9,32 +9,6 @@ import UIKit
 
 final class GroupAddView: UIView {
 
-    /**
-     Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
-     */
-    private lazy var mainStack = {
-        let shareButton = buttonComponent("링크 공유하기", .greatestFiniteMagnitude, 60, 30, .black, .gray)
-        let mainStackView = UIStackView(
-            arrangedSubviews: [mainTopButtonStack, tableViewComponent, shareButton]
-        )
-        mainStackView.axis = .vertical
-        mainStackView.spacing = 12
-        return mainStackView
-    }()
-
-    lazy var addButton = {
-        buttonComponent("추가하기", 110, 30, 20, .blue, .cyan)
-    }()
-
-    private lazy var mainTopButtonStack = {
-        let stackView = UIStackView(arrangedSubviews: [UIView(), addButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal // 수평 배치
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        return stackView
-    }()
-
     let tableViewComponent = {
         let tableView = UITableView()
         tableView.register(GroupAddTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -42,6 +16,26 @@ final class GroupAddView: UIView {
         tableView.showsVerticalScrollIndicator = false
         return tableView
     }()
+
+    let stopoverPointAddButton: UIButton = {
+        let button = UIButton(type: .system)
+
+        button.setTitle("경유지 추가", for: .normal)
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
+        button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.accPrimary!), for: .normal)
+        button.layer.cornerRadius = 40
+        button.layer.masksToBounds = true
+
+        button.snp.makeConstraints { make in
+            make.width.equalTo(120)
+            make.height.equalTo(38)
+        }
+
+        return button
+    }()
+
+    var selectedGroup: DummyGroup?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,29 +46,42 @@ final class GroupAddView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        addSubview(mainStack)
-        mainStack.snp.makeConstraints { make in
+        let crewCreateButton = crewCreateButton(
+            buttonWidth: .greatestFiniteMagnitude,
+            buttonHeight: 60
+        )
+
+        addSubview(tableViewComponent)
+        addSubview(crewCreateButton)
+
+        tableViewComponent.snp.makeConstraints { make in
+
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(safeAreaLayoutGuide)
-            make.bottom.equalToSuperview().inset(50)
+        }
+
+        crewCreateButton.snp.makeConstraints { make in
+            make.top.equalTo(tableViewComponent.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(36)
         }
     }
 
-    private func buttonComponent(
-        _ title: String,
-        _ width: CGFloat,
-        _ height: CGFloat,
-        _ cornerRadius: CGFloat,
-        _ fontColor: UIColor,
-        _ backgroundColor: UIColor
+    /**
+     크루 만들기 버튼
+     */
+    private func crewCreateButton(
+        buttonWidth width: CGFloat,
+        buttonHeight height: CGFloat
     ) -> UIButton {
-
         let button = UIButton(type: .system)
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(fontColor, for: .normal)
-        button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
-        button.layer.cornerRadius = cornerRadius
+
+        button.setTitle("크루 만들기", for: .normal)
+        button.setTitleColor(UIColor.theme.white, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
+        button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.accPrimary!), for: .normal)
+        button.layer.cornerRadius = 30
         button.layer.masksToBounds = true
+
         button.snp.makeConstraints { make in
             make.width.equalTo(width)
             make.height.equalTo(height)

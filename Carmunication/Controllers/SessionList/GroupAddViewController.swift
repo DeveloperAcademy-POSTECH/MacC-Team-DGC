@@ -32,7 +32,7 @@ final class GroupAddViewController: UIViewController {
         groupAddView.tableViewComponent.dataSource = self
         groupAddView.tableViewComponent.delegate = self
 
-        groupAddView.addButton.addTarget(self, action: #selector(addStopoverPoint), for: .touchUpInside)
+        groupAddView.stopoverPointAddButton.addTarget(self, action: #selector(addStopoverPoint), for: .touchUpInside)
 
         view.addSubview(groupAddView)
 
@@ -49,6 +49,10 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
         return cellData.count
     }
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 135
+    }
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -56,12 +60,6 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? GroupAddTableViewCell {
-            // 셀에 Title, Subtitle, chevron 마크 설정
-            cell.titleLabel.text = "주소 : \(cellData[indexPath.section].address)"
-            cell.subtitleLabel.text = "탑승 시간 : \(cellData[indexPath.section].time)"
-            cell.accessoryType = .disclosureIndicator
-            cell.backgroundColor = UIColor.theme.blue8
-            cell.layer.cornerRadius = 20
             return cell
 
         } else {
