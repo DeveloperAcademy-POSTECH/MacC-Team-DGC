@@ -16,6 +16,7 @@ final class GroupAddTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+
         contentView.addSubview(titleLabel)
         contentView.addSubview(subtitleLabel)
 
