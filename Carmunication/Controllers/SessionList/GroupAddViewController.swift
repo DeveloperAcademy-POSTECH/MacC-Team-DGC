@@ -54,19 +54,13 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
         return 135
     }
 
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? GroupAddTableViewCell {
-            return cell
-
-        } else {
-            // 셀을 생성하는 데 실패한 경우, 기본 UITableViewCell을 반환.
-            return UITableViewCell()
-        }
+        let cell = GroupAddTableViewCell(
+            index: CGFloat(indexPath.row),
+            cellCount: CGFloat(cellData.count)
+        )
+        return cell
     }
     /**
      셀 선택 시 화면 전환 로직 구현

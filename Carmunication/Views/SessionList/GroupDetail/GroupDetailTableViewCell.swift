@@ -72,7 +72,6 @@ class GroupDetailTableViewCell: UITableViewCell {
 
             if index > 2 { break }
         }
-
     }
 
     private func setupUI() {
