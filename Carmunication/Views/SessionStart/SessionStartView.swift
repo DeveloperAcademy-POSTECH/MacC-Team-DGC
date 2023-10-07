@@ -1,80 +1,30 @@
 //
-//  SessionStartViewController.swift
+//  SessionStartView.swift
 //  Carmunication
 //
-//  Created by 허준혁 on 2023/09/23.
+//  Created by 허준혁 on 10/5/23.
 //
 
 import UIKit
 
-import SnapKit
-
-final class SessionStartViewController: UIViewController {
+final class SessionStartView: UIView {
 
     // 더미 데이터
-    private let groupData = [
-        GroupData(
-            image: UIImage(systemName: "heart")!,
-            groupName: "group1",
-            start: "양덕",
-            end: "C5",
-            startTime: "08:30",
-            endTime: "9:00",
-            date: "주중(월 - 금)",
-            total: 4),
-        GroupData(
-            image: UIImage(systemName: "circle")!,
-            groupName: "group2",
-            start: "포항",
-            end: "부산",
-            startTime: "08:30",
-            endTime: "9:00",
-            date: "주중(월 - 금)",
-            total: 4),
-        GroupData(
-            image: UIImage(systemName: "heart.fill")!,
-            groupName: "group3",
-            start: "인천",
-            end: "서울",
-            startTime: "08:30",
-            endTime: "9:00",
-            date: "주중(월 - 금)",
-            total: 4),
-        GroupData(
-            image: UIImage(systemName: "circle.fill")!,
-            groupName: "group4",
-            start: "부평",
-            end: "일산",
-            startTime: "08:30",
-            endTime: "9:00",
-            date: "주중(월 - 금)",
-            total: 4),
-        GroupData(
-            image: UIImage(systemName: "square")!,
-            groupName: "group5",
-            start: "서울",
-            end: "포항",
-            startTime: "08:30",
-            endTime: "9:00",
-            date: "주중(월 - 금)",
-            total: 4)
+    let groupData = [
+        GroupData(image: UIImage(systemName: "heart")!, groupName: "group1", start: "양덕", end: "C5",
+                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+        GroupData(image: UIImage(systemName: "circle")!, groupName: "group2", start: "포항", end: "부산",
+                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+        GroupData(image: UIImage(systemName: "heart.fill")!, groupName: "group3", start: "인천", end: "서울",
+                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+        GroupData(image: UIImage(systemName: "circle.fill")!, groupName: "group4", start: "부평", end: "일산",
+                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+        GroupData(image: UIImage(systemName: "square")!, groupName: "group5", start: "서울", end: "포항",
+                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
     ]
 
-    // 데이터 없을 때
-    //    let groupData = [GroupData]()
-
-    private let journeyTogetherButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("여정 함께하기", for: .normal)
-        btn.backgroundColor = .systemBlue
-        btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        btn.layer.cornerRadius = 30
-        return btn
-    }()
-
     // 상단 그룹에 대한 컬렉션뷰입니다.
-    private let groupCollectionView: UICollectionView = {
+    let groupCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal    // 좌우로 스크롤
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) // 여백 조정
@@ -83,6 +33,16 @@ final class SessionStartViewController: UIViewController {
         collectionView.register(GroupCollectionViewCell.self, forCellWithReuseIdentifier: "groupCell")
         collectionView.showsHorizontalScrollIndicator = false   // 스크롤바 숨기기
         return collectionView
+    }()
+
+    let journeyTogetherButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("여정 함께하기", for: .normal)
+        btn.backgroundColor = .systemBlue
+        btn.setTitleColor(.white, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        btn.layer.cornerRadius = 30
+        return btn
     }()
 
     // 그룹이 없을 때 보여주는 뷰입니다.
@@ -95,7 +55,7 @@ final class SessionStartViewController: UIViewController {
     }()
 
     // 그룸 이름을 알려주는 뷰와 여정을 요약해주는 뷰의 상위 뷰입니다.
-    private let summaryView: UIView = {
+    let summaryView: UIView = {
         let view = UIView()
         return view
     }()
@@ -110,7 +70,7 @@ final class SessionStartViewController: UIViewController {
     }()
 
     // 여정을 요약해주는 뷰입니다.
-    private let journeySummaryView: UIView = {
+    let journeySummaryView: UIView = {
         let view = UIView()
         view.backgroundColor = .green
         view.layer.cornerRadius = 12
@@ -119,58 +79,54 @@ final class SessionStartViewController: UIViewController {
     }()
 
     // 점선
-    private let dottedLineLayer = CAShapeLayer()
+    let dottedLineLayer = CAShapeLayer()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override func draw(_ rect: CGRect) {
         setCollectionView()
         setJourneyTogetherButton()
         countGroupData()
         setSummaryView()
         setJourneySummaryView()
-
     }
-
-    override func viewDidLayoutSubviews() {
-
-        summaryView.layoutIfNeeded()
-
-        // 점선 그리기
-        journeySummaryView.layer.addSublayer(dottedLineLayer)
-        dottedLineLayer.position = CGPoint(x: 0, y: journeySummaryView.frame.maxY - 100)
-    }
-}
-
-extension SessionStartViewController {
 
     private func setCollectionView() {
-        view.addSubview(groupCollectionView)
+        addSubview(groupCollectionView)
         groupCollectionView.backgroundColor = .white
         groupCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(110)    // TODO: - 크기 조정
         }
-        groupCollectionView.delegate = self
-        groupCollectionView.dataSource = self
     }
 
     private func setJourneyTogetherButton() {
-        view.addSubview(journeyTogetherButton)
+        addSubview(journeyTogetherButton)
         journeyTogetherButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(120)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(60) // TODO: - 크기 조정
         }
-        journeyTogetherButton.addTarget(self, action: #selector(presentModalQueue), for: .touchUpInside)
+    }
+
+    private func countGroupData() {
+        if groupData.count == 0 {
+            setViewWithoutGroup()
+        }
     }
 
     private func setViewWithoutGroup() {
-        view.addSubview(viewWithoutCrew)
+        addSubview(viewWithoutCrew)
 
         viewWithoutCrew.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(110)
         }
@@ -193,15 +149,13 @@ extension SessionStartViewController {
     }
 
     private func setSummaryView() {
-        view.addSubview(summaryView)
+        addSubview(summaryView)
 
         summaryView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             if groupData.count == 0 {
-                // 데이터가 없을 때
                 make.top.equalTo(viewWithoutCrew.snp.bottom).inset(-16)
             } else {
-                // 데이터가 있을 때
                 make.top.equalTo(groupCollectionView.snp.bottom).inset(-16)
             }
             make.bottom.equalTo(journeyTogetherButton.snp.top).inset(-36)
@@ -314,7 +268,7 @@ extension SessionStartViewController {
         dottedLineLayer.lineDashPattern = [10, 10]  // 점선의 패턴을 설정
 
         let path = CGMutablePath()
-        path.addLines(between: [CGPoint(x: 0, y: 0), CGPoint(x: view.bounds.width - 40, y: 0)])
+        path.addLines(between: [CGPoint(x: 0, y: 0), CGPoint(x: bounds.width - 40, y: 0)])
         dottedLineLayer.path = path
         dottedLineLayer.anchorPoint = CGPoint(x: 0, y: 0)
 
@@ -339,47 +293,5 @@ extension SessionStartViewController {
         } else {
             bottomLabel.text = "오늘도 즐거운 여정을 시작해 보세요!"
         }
-    }
-
-    private func countGroupData() {
-        if groupData.count == 0 {
-            setViewWithoutGroup()
-        }
-    }
-
-    @objc private func presentModalQueue() {
-        let modalQueueViewController = ModalQueueViewController()
-        self.present(modalQueueViewController, animated: true)
-    }
-}
-
-extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        return groupData.count
-    }
-
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        return CGSize(width: 80, height: 106)
-    }
-}
-
-extension SessionStartViewController: UICollectionViewDataSource {
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        let cell = groupCollectionView.dequeueReusableCell(
-            withReuseIdentifier: "groupCell",
-            for: indexPath
-        ) as? GroupCollectionViewCell
-        cell?.groupData = self.groupData[indexPath.row]
-        return cell!
     }
 }

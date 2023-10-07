@@ -22,6 +22,8 @@
 		B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */; };
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
 		BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */; };
+		BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF29DF282ACFF9CD00430031 /* SessionListView.swift */; };
+		BF29DF2B2ACFFDBC00430031 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */; };
 		BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CC2AB939A3005331AD /* AppDelegate.swift */; };
 		BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */; };
 		BF37D9D62AB939A4005331AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BF37D9D52AB939A4005331AD /* Assets.xcassets */; };
@@ -33,6 +35,12 @@
 		BF7DF9C12ACA6D27001178AF /* SecureKey-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */; };
 		BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */; };
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
+		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
+		BF9BCFEF2ACE2BEF009DAECD /* GroupAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */; };
+		BF9BCFF32ACE379C009DAECD /* SelectPointMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */; };
+		BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */; };
+		BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */; };
+		BF9BD0022ACE5093009DAECD /* ModalQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BD0012ACE5093009DAECD /* ModalQueueView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
@@ -66,6 +74,8 @@
 		B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		BF29DF282ACFF9CD00430031 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
+		BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
 		BF37D9C92AB939A3005331AD /* Carmunication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmunication.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF37D9CC2AB939A3005331AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +88,12 @@
 		BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SecureKey-Info.plist"; sourceTree = "<group>"; };
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
+		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddView.swift; sourceTree = "<group>"; };
+		BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectPointMapView.swift; sourceTree = "<group>"; };
+		BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
+		BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartView.swift; sourceTree = "<group>"; };
+		BF9BD0012ACE5093009DAECD /* ModalQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalQueueView.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -113,7 +129,7 @@
 		16DBA63D2AC1D07C00315ED7 /* SessionStart */ = {
 			isa = PBXGroup;
 			children = (
-				16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */,
+				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
 				16E42C452AC40A510031486E /* ModalQueueViewController.swift */,
 				16E42C472AC411A20031486E /* SessionMapViewController.swift */,
 			);
@@ -169,6 +185,7 @@
 				BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */,
 				BF4A12452ABED8B500EC1B6D /* Extensions */,
 				16E42CDE2AC47E790031486E /* Models */,
+				BF9BCFE62ACDCBEE009DAECD /* Views */,
 				BF5F3C4E2ABD779A004AFC73 /* Controllers */,
 				C92CFB2B2AC9398B0068273A /* Resources */,
 				BF37D9D52AB939A4005331AD /* Assets.xcassets */,
@@ -194,15 +211,58 @@
 		BF5F3C4E2ABD779A004AFC73 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				B8A3EFD72AC5F27000433F5C /* MyPage */,
+				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
 				BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */,
-				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
-				BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */,
 				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
 				C9DE7C312AC01B04005AFCC6 /* SessionList */,
-				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
+				B8A3EFD72AC5F27000433F5C /* MyPage */,
 			);
 			path = Controllers;
+			sourceTree = "<group>";
+		};
+		BF9BCFE62ACDCBEE009DAECD /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
+				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
+				BF9BCFEB2ACE2B80009DAECD /* SessionList */,
+				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BF9BCFEB2ACE2B80009DAECD /* SessionList */ = {
+			isa = PBXGroup;
+			children = (
+				BF29DF282ACFF9CD00430031 /* SessionListView.swift */,
+				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
+				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
+				C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */,
+				C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */,
+				BF9BCFED2ACE2BDF009DAECD /* GroupAdd */,
+			);
+			path = SessionList;
+			sourceTree = "<group>";
+		};
+		BF9BCFED2ACE2BDF009DAECD /* GroupAdd */ = {
+			isa = PBXGroup;
+			children = (
+				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
+				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
+				BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */,
+				BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */,
+			);
+			path = GroupAdd;
+			sourceTree = "<group>";
+		};
+		BF9BCFFE2ACE4888009DAECD /* SessionStart */ = {
+			isa = PBXGroup;
+			children = (
+				BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */,
+				16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */,
+				BF9BD0012ACE5093009DAECD /* ModalQueueView.swift */,
+			);
+			path = SessionStart;
 			sourceTree = "<group>";
 		};
 		C92CFB2B2AC9398B0068273A /* Resources */ = {
@@ -241,14 +301,10 @@
 		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
 			isa = PBXGroup;
 			children = (
-				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
-				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
+				BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */,
 				C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */,
-				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
 				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
 				C9DE7C3A2AC05B65005AFCC6 /* SelectPointMapViewController.swift */,
-				C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */,
-				C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */,
 			);
 			path = SessionList;
 			sourceTree = "<group>";
@@ -361,16 +417,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF9BCFF32ACE379C009DAECD /* SelectPointMapView.swift in Sources */,
+				BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */,
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
 				16E42CE02AC47E900031486E /* GroupData.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
 				B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */,
+				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
 				16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */,
 				C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */,
+				BF9BD0022ACE5093009DAECD /* ModalQueueView.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
@@ -379,10 +439,14 @@
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
+				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
+				BF9BCFEF2ACE2BEF009DAECD /* GroupAddView.swift in Sources */,
 				B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */,
 				C9DE7C3B2AC05B65005AFCC6 /* SelectPointMapViewController.swift in Sources */,
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
+				BF29DF2B2ACFFDBC00430031 /* GroupDetailView.swift in Sources */,
 				C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */,
+				BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */,
 				C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */,
 				16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */,
 				B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */,

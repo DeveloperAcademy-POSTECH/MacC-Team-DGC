@@ -9,26 +9,23 @@ import UIKit
 
 import SnapKit
 
-// MARK: - Preview canvas 세팅
-import SwiftUI
-
 final class CustomListTableViewCell: UITableViewCell {
 
     // CustomListTableViewCell의 상단 레이블, 이미지
     let isCaptainBadge = UIImageView(image: UIImage(named: "ImCaptainButton"))
     let groupName = UILabel()
-    let chevronLabel = UIImageView(image: UIImage(systemName: "chevron.right"))
+    private let chevronLabel = UIImageView(image: UIImage(systemName: "chevron.right"))
 
     // CustomListTableViewCell의 왼쪽 하단 레이블
     let startPointLabel = UILabel()
-    let directionLabel = UILabel()
+    private let directionLabel = UILabel()
     let endPointLabel = UILabel()
-    let startTimeTextLabel = UILabel()
+    private let startTimeTextLabel = UILabel()
     let startTimeLabel = UILabel()
 
     // CustomListTableViewCell의 오른쪽 하단 이미지 스택
-    let elipseImage = UIImageView(image: UIImage(named: "elipse"))
-    let crewImage = UIStackView()
+    private let elipseImage = UIImageView(image: UIImage(named: "elipse"))
+    private let crewImage = UIStackView()
     var crewCount: Int = 0 {
         didSet {
             updateCrewImages()
