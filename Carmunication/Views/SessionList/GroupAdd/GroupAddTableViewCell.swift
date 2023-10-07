@@ -26,8 +26,16 @@ final class GroupAddTableViewCell: UITableViewCell {
     // Detail 셀 내부 레이블
     private let pointNameLabel = UILabel()
     let addressSearchButton = UIButton()
-    private let timeLabel = UILabel()
-    let startTime = UIButton()
+    let timeLabel = UILabel()
+    let startTime: UIButton = {
+        let startTime = UIButton()
+        startTime.backgroundColor = UIColor(red: 0.877, green: 0.896, blue: 0.991, alpha: 1)
+        startTime.layer.cornerRadius = 4
+        startTime.setTitleColor(UIColor.black, for: .normal)
+        startTime.setTitle("StartTime", for: .normal)
+
+        return startTime
+    }()
 
     // 탑승 크루 이미지 스택 변수
     private let boardingCrewLabel = UILabel()
@@ -98,18 +106,23 @@ final class GroupAddTableViewCell: UITableViewCell {
         crewImage.alignment = .leading
         crewImage.distribution = .fillEqually
 
+        pointNameLabel.text = "출발지"
+        timeLabel.text = "출발 시간"
+        boardingCrewLabel.text = "탑승 크루"
         // Font, TextColor 설정
         pointNameLabel.font = UIFont.carmuFont.subhead3
-        pointNameLabel.textColor = UIColor.theme.blue8
+        pointNameLabel.textColor = UIColor.semantic.textPrimary
 //        addressSearchButton.font = UIFont.carmuFont.subhead3
 //        addressSearchButton.textColor = UIColor.semantic.textPrimary
 //        detailAddress.font = UIFont.carmuFont.body1Long
 //        detailAddress.textColor = UIColor.semantic.textBody
-        boardingCrewLabel.font = UIFont.carmuFont.subhead1
+        boardingCrewLabel.font = UIFont.carmuFont.body1
         boardingCrewLabel.textColor = UIColor.theme.blue8
+        timeLabel.font = UIFont.carmuFont.body1
+        timeLabel.textColor = UIColor.theme.blue8
 //        startTime.font = UIFont.carmuFont.subhead2
 //        startTime.textColor = UIColor.semantic.accPrimary
-
+        crewImage.backgroundColor = .blue
         // 뷰 추가
         contentView.addSubview(cellBackground)
         contentView.addSubview(gradiantLine)
@@ -119,13 +132,14 @@ final class GroupAddTableViewCell: UITableViewCell {
 //        contentView.addSubview(detailAddress)
         contentView.addSubview(boardingCrewLabel)
         contentView.addSubview(timeLabel)
+        contentView.addSubview(startTime)
         contentView.addSubview(crewImage)
     }
 
     private func setupConstraints() {
 
         cellBackground.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 7, left: 4, bottom: 14, right: 6))
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 7, left: 0, bottom: 14, right: 6))
             make.height.equalTo(114)
         }
 
@@ -143,8 +157,8 @@ final class GroupAddTableViewCell: UITableViewCell {
         }
 
         pointNameLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(22)
-            make.leading.equalToSuperview().inset(48)
+            make.top.equalTo(cellBackground.snp.top).inset(20)
+            make.leading.equalToSuperview().inset(24)
         }
 
 //        addressSearchButton.snp.makeConstraints { make in
@@ -158,22 +172,29 @@ final class GroupAddTableViewCell: UITableViewCell {
 //            make.width.lessThanOrEqualTo(282)
 //        }
 //
+
+        startTime.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(20) // 원하는 상단 여백 설정
+            make.trailing.equalToSuperview().inset(24) // 원하는 오른쪽 여백 설정
+            make.width.equalTo(92) // 너비 설정
+            make.height.equalTo(30) // 높이 설정
+        }
+
         boardingCrewLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(48)
+            make.leading.equalToSuperview().inset(24)
             make.bottom.equalToSuperview().inset(45)
         }
 //
         timeLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(16)
-            make.trailing.equalToSuperview().inset(26)
-            make.centerY.equalTo(pointNameLabel.snp.centerY)
+            make.leading.greaterThanOrEqualTo(crewImage.snp.trailing).offset(20)
+            make.centerY.equalTo(boardingCrewLabel.snp.centerY)
         }
 //
         crewImage.snp.makeConstraints { make in
             make.centerY.equalTo(boardingCrewLabel.snp.centerY)
-            make.leading.equalTo(boardingCrewLabel.snp.trailing).offset(12)
-            make.width.equalTo(105)
-            make.height.equalTo(30)
+            make.leading.equalTo(boardingCrewLabel.snp.trailing).offset(4)
+            make.width.equalTo(96)
+            make.height.equalTo(32)
         }
     }
 }
