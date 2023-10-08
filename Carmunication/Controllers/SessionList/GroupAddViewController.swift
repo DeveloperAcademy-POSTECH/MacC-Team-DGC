@@ -32,6 +32,8 @@ final class GroupAddViewController: UIViewController {
         groupAddView.tableViewComponent.dataSource = self
         groupAddView.tableViewComponent.delegate = self
         groupAddView.textField.delegate = self
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
 
         groupAddView.stopoverPointAddButton.addTarget(
             self,
@@ -77,6 +79,7 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
             cell.stopoverPointRemoveButton.isEnabled = false
             cell.stopoverPointRemoveButton.isHidden = true
             cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
+            cell.timeLabel.text = indexPath.row == 0 ? "출발시간" : "도착시간"
         } else {
             cell.pointNameLabel.text = "경유지 \(indexPath.row)"
         }
@@ -145,6 +148,7 @@ extension GroupAddViewController {
     }
 }
 
+// TODO: - 키보드 관련 액션 추가하기
 extension GroupAddViewController: UITextFieldDelegate {
 
     func textField(
@@ -153,6 +157,18 @@ extension GroupAddViewController: UITextFieldDelegate {
         replacementString string: String
     ) -> Bool {
         return true
+    }
+
+    // 텍스트 필드에서 리턴 키를 누를 때 호출되는 메서드
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // 키보드를 내립니다.
+        textField.resignFirstResponder()
+        return true
+    }
+
+    // 화면의 다른 곳을 탭할 때 호출되는 메서드
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
 }
 
