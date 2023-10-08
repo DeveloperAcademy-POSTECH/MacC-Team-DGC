@@ -13,6 +13,7 @@ class SelectBoardingCrewModalView: UIView {
         let label = UILabel()
         label.text = "탑승 크루를 설정해주세요"
         label.font = UIFont.boldSystemFont(ofSize: 18)
+
         return label
     }()
 
@@ -22,17 +23,41 @@ class SelectBoardingCrewModalView: UIView {
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.gray
         label.numberOfLines = 0
+
         return label
     }()
 
     let closeButton: UIButton = {
         let button = UIButton()
         let backgroundImage = UIImage(named: "stopoverRemove")
-
         button.setBackgroundImage(backgroundImage, for: .normal)
-
         button.setTitleColor(UIColor.blue, for: .normal)
+
         return button
+    }()
+
+    let selectedCrewCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal    // 좌우로 스크롤
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) // 여백 조정
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(GroupAddModalCollectionViewCell.self, forCellWithReuseIdentifier: "selectedCrewCell")
+        collectionView.showsHorizontalScrollIndicator = false   // 스크롤바 숨기기
+
+        return collectionView
+    }()
+
+    let friendsListCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal    // 좌우로 스크롤
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) // 여백 조정
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(GroupAddModalCollectionViewCell.self, forCellWithReuseIdentifier: "friendCell")
+        collectionView.showsHorizontalScrollIndicator = false   // 스크롤바 숨기기
+
+        return collectionView
     }()
 
     private let saveButton: UIButton = {
@@ -61,6 +86,8 @@ class SelectBoardingCrewModalView: UIView {
         addSubview(titleLabel)
         addSubview(subtitleLabel)
         addSubview(closeButton)
+        addSubview(selectedCrewCollectionView)
+        addSubview(friendsListCollectionView)
         addSubview(saveButton)
 
         titleLabel.snp.makeConstraints { make in
@@ -77,6 +104,18 @@ class SelectBoardingCrewModalView: UIView {
             make.top.equalToSuperview().inset(32)
             make.trailing.equalToSuperview().offset(-20)
             make.width.height.equalTo(28)
+        }
+
+        selectedCrewCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(subtitleLabel.snp.bottom).offset(32)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(90)
+        }
+
+        friendsListCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(selectedCrewCollectionView.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(60)
         }
 
         saveButton.snp.makeConstraints { make in

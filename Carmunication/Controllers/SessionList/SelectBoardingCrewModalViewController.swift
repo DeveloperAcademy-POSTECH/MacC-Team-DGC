@@ -23,8 +23,16 @@ class SelectBoardingCrewModalViewController: UIViewController {
         selectBoardingCrewModalView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        selectBoardingCrewModalView.friendsListCollectionView.delegate = self
+        selectBoardingCrewModalView.selectedCrewCollectionView.delegate = self
+        selectBoardingCrewModalView.friendsListCollectionView.dataSource = self
+        selectBoardingCrewModalView.selectedCrewCollectionView.dataSource = self
 
-        selectBoardingCrewModalView.closeButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
+        selectBoardingCrewModalView.closeButton.addTarget(
+            self,
+            action: #selector(backButtonAction),
+            for: .touchUpInside
+        )
 
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
@@ -41,3 +49,51 @@ extension SelectBoardingCrewModalViewController {
 }
 
 extension SelectBoardingCrewModalViewController: UISheetPresentationControllerDelegate {}
+
+extension SelectBoardingCrewModalViewController: UICollectionViewDelegate {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        if collectionView == selectBoardingCrewModalView.selectedCrewCollectionView {
+            return 3
+        } else {
+            return 28
+        }
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: 45, height: 65)
+    }
+}
+
+extension SelectBoardingCrewModalViewController: UICollectionViewDataSource {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        if let cell = selectBoardingCrewModalView.selectedCrewCollectionView.dequeueReusableCell(
+            withReuseIdentifier: "selectedCrewCell",
+            for: indexPath
+        ) as? GroupAddModalCollectionViewCell {
+            cell.personImage.image = UIImage(named: "crewImageDefalut")
+            cell.personNameLabel.text = "홍길동"
+            return cell
+        }
+
+        if let cell = selectBoardingCrewModalView.friendsListCollectionView.dequeueReusableCell(
+            withReuseIdentifier: "friendCell",
+            for: indexPath
+        ) as? GroupAddModalCollectionViewCell {
+            cell.personImage.image = UIImage(named: "crewImageDefalut")
+            cell.personNameLabel.text = "홍길동"
+            return cell
+        }
+
+        return UICollectionViewCell()
+    }
+}
