@@ -1,2 +1,4 @@
 disabled_rules:
-    - todo
+  - todo
+  - unneeded_override
+  - function_parameter_count
