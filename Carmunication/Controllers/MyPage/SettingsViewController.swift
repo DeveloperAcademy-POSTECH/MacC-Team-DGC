@@ -14,6 +14,7 @@ import SnapKit
 
 final class SettingsViewController: UIViewController {
 
+    private let settingsView = SettingsView()
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
     private var currentNonce: String?
 
@@ -31,12 +32,12 @@ final class SettingsViewController: UIViewController {
 
         navigationItem.title = "설정"
 
-        // 테이블 뷰 생성
-        let tableView = UITableView(frame: view.bounds, style: .insetGrouped)
-        tableView.dataSource = self
-        tableView.delegate = self
-        view.addSubview(tableView)
-
+        view.addSubview(settingsView)
+        settingsView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        settingsView.settingsTableView.dataSource = self
+        settingsView.settingsTableView.delegate = self
     }
     override func viewWillAppear(_ animated: Bool) {
         // 설정 화면에서는 탭 바가 보이지 않도록 한다.
@@ -279,26 +280,5 @@ extension SettingsViewController {
         }.joined()
 
         return hashString
-    }
-}
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct SettingsViewControllerRepresentable: UIViewControllerRepresentable {
-
-    typealias UIViewControllerType = SettingsViewController
-    func makeUIViewController(context: Context) -> SettingsViewController {
-        return SettingsViewController()
-    }
-    func updateUIViewController(_ uiViewController: SettingsViewController, context: Context) {
-    }
-}
-
-@available(iOS 13.0.0, *)
-struct SettingsViewPreview: PreviewProvider {
-
-    static var previews: some View {
-        SettingsViewControllerRepresentable()
     }
 }
