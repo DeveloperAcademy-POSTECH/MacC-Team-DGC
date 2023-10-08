@@ -89,7 +89,7 @@ final class MyPageView: UIView {
     // MARK: - 프로필 이미지
     lazy var imageView: UIImageView = {
         let imgView = UIImageView()
-        imgView.image = UIImage(named: "Profile") // TODO: 이미지 해상도 맞추기
+        imgView.image = UIImage(named: "profile")
         imgView.contentMode = .scaleAspectFill
         // TODO: - 추후 오토 레이아웃 비율에 맞게 수정 필요
         let size = CGFloat(80)

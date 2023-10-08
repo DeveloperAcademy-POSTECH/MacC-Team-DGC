@@ -166,6 +166,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
                 showDeleteAccountAlert()
             }
         }
+        // 클릭 후에는 셀의 선택이 해제된다.
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
