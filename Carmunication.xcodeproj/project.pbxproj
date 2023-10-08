@@ -52,6 +52,8 @@
 		C92CFB402ACC24F50068273A /* DummyGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB3F2ACC24F50068273A /* DummyGroup.swift */; };
 		C93D2CD42AD24F4600CF4735 /* StartTimeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD32AD24F4600CF4735 /* StartTimeSelectView.swift */; };
 		C93D2CD62AD2528F00CF4735 /* StartTimeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD52AD2528F00CF4735 /* StartTimeSelectViewController.swift */; };
+		C93D2CD82AD28F7400CF4735 /* SelectBoardingCrewModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD72AD28F7400CF4735 /* SelectBoardingCrewModalView.swift */; };
+		C93D2CDA2AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */; };
 		C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */; };
 		C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
@@ -106,6 +108,8 @@
 		C92CFB3F2ACC24F50068273A /* DummyGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyGroup.swift; sourceTree = "<group>"; };
 		C93D2CD32AD24F4600CF4735 /* StartTimeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTimeSelectView.swift; sourceTree = "<group>"; };
 		C93D2CD52AD2528F00CF4735 /* StartTimeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTimeSelectViewController.swift; sourceTree = "<group>"; };
+		C93D2CD72AD28F7400CF4735 /* SelectBoardingCrewModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBoardingCrewModalView.swift; sourceTree = "<group>"; };
+		C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBoardingCrewModalViewController.swift; sourceTree = "<group>"; };
 		C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLineView.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
@@ -253,6 +257,7 @@
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
 				BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */,
 				C93D2CD32AD24F4600CF4735 /* StartTimeSelectView.swift */,
+				C93D2CD72AD28F7400CF4735 /* SelectBoardingCrewModalView.swift */,
 			);
 			path = GroupAdd;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
 				C9DE7C3A2AC05B65005AFCC6 /* SelectPointMapViewController.swift */,
 				C93D2CD52AD2528F00CF4735 /* StartTimeSelectViewController.swift */,
+				C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */,
 			);
 			path = SessionList;
 			sourceTree = "<group>";
@@ -464,6 +470,8 @@
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
+				C93D2CDA2AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift in Sources */,
+				C93D2CD82AD28F7400CF4735 /* SelectBoardingCrewModalView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,

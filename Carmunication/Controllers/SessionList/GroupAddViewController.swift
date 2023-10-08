@@ -129,7 +129,8 @@ extension GroupAddViewController: UIViewControllerTransitioningDelegate {
     }
 
     @objc private func addBoardingCrewButtonTapped(_ sender: UIButton) {
-        print("탑승자 추가 버튼 클릭")
+        let detailViewController = SelectBoardingCrewModalViewController()
+        present(detailViewController, animated: true)
     }
 
     @objc private func setStartTimeButtonTapped(_ sender: UIButton) {
