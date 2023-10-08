@@ -116,18 +116,14 @@ extension GroupAddViewController {
 
     @objc func findAddressButtonTapped() {
         let detailViewController = SelectPointMapViewController()
-        detailViewController.title = "장소 선택"
-        detailViewController.modalPresentationStyle = .fullScreen
-
         present(detailViewController, animated: true)
     }
 }
 
 // MARK: - @objc Method
-extension GroupAddViewController {
+extension GroupAddViewController: UIViewControllerTransitioningDelegate {
 
     @objc private func addStopoverPointTapped() {
-
         cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
         groupAddView.tableViewComponent.reloadData()
     }
@@ -137,18 +133,17 @@ extension GroupAddViewController {
     }
 
     @objc private func setStartTimeButtonTapped(_ sender: UIButton) {
-        print("도착 시간 버튼 클릭")
+        let detailViewController = StartTimeSelectViewController()
+        present(detailViewController, animated: true)
     }
 
     @objc func stopoverRemoveButtonTapped(_ sender: UIButton) {
-        print("경유지 삭제 버튼 클릭")
         let row = sender.tag
         cellData.remove(at: row)
         groupAddView.tableViewComponent.reloadData()
     }
 }
 
-// TODO: - 키보드 관련 액션 추가하기
 extension GroupAddViewController: UITextFieldDelegate {
 
     func textField(

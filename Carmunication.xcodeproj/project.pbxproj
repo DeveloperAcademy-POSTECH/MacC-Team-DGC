@@ -50,6 +50,8 @@
 		C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB3A2ACBF6C40068273A /* UIImage+Extension.swift */; };
 		C92CFB3D2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */; };
 		C92CFB402ACC24F50068273A /* DummyGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB3F2ACC24F50068273A /* DummyGroup.swift */; };
+		C93D2CD42AD24F4600CF4735 /* StartTimeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD32AD24F4600CF4735 /* StartTimeSelectView.swift */; };
+		C93D2CD62AD2528F00CF4735 /* StartTimeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD52AD2528F00CF4735 /* StartTimeSelectViewController.swift */; };
 		C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */; };
 		C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
@@ -102,6 +104,8 @@
 		C92CFB3A2ACBF6C40068273A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotFoundCrewTableViewCell.swift; sourceTree = "<group>"; };
 		C92CFB3F2ACC24F50068273A /* DummyGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyGroup.swift; sourceTree = "<group>"; };
+		C93D2CD32AD24F4600CF4735 /* StartTimeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTimeSelectView.swift; sourceTree = "<group>"; };
+		C93D2CD52AD2528F00CF4735 /* StartTimeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTimeSelectViewController.swift; sourceTree = "<group>"; };
 		C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLineView.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
@@ -248,6 +252,7 @@
 				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
 				BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */,
+				C93D2CD32AD24F4600CF4735 /* StartTimeSelectView.swift */,
 			);
 			path = GroupAdd;
 			sourceTree = "<group>";
@@ -302,6 +307,7 @@
 				C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */,
 				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
 				C9DE7C3A2AC05B65005AFCC6 /* SelectPointMapViewController.swift */,
+				C93D2CD52AD2528F00CF4735 /* StartTimeSelectViewController.swift */,
 			);
 			path = SessionList;
 			sourceTree = "<group>";
@@ -470,6 +476,7 @@
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
 				BF29DF2B2ACFFDBC00430031 /* GroupDetailView.swift in Sources */,
 				C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */,
+				C93D2CD42AD24F4600CF4735 /* StartTimeSelectView.swift in Sources */,
 				BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */,
 				C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */,
 				16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */,
@@ -480,6 +487,7 @@
 				C92CFB402ACC24F50068273A /* DummyGroup.swift in Sources */,
 				C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,
+				C93D2CD62AD2528F00CF4735 /* StartTimeSelectViewController.swift in Sources */,
 				C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
