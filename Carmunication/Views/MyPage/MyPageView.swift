@@ -251,7 +251,7 @@ final class MyPageView: UIView {
         }
         textFieldEditStack.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(2)
-            make.leading.trailing.equalToSuperview().inset(30)
+            make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(42)
         }
     }

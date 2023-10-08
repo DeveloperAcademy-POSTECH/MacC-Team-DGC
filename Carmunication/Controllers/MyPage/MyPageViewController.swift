@@ -37,6 +37,8 @@ final class MyPageViewController: UIViewController {
         super.viewWillAppear(animated)
         // 마이페이지에서는 내비게이션 바가 보이지 않도록 한다.
         navigationController?.setNavigationBarHidden(true, animated: false)
+        // 마이페이지에서는 탭 바가 보이도록 한다.
+        tabBarController?.tabBar.isHidden = false
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)

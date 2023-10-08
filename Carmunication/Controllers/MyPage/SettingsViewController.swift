@@ -32,11 +32,15 @@ final class SettingsViewController: UIViewController {
         navigationItem.title = "설정"
 
         // 테이블 뷰 생성
-        let tableView = UITableView(frame: view.bounds, style: .grouped)
+        let tableView = UITableView(frame: view.bounds, style: .insetGrouped)
         tableView.dataSource = self
         tableView.delegate = self
         view.addSubview(tableView)
 
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        // 설정 화면에서는 탭 바가 보이지 않도록 한다.
+        tabBarController?.tabBar.isHidden = true
     }
 
     // MARK: - 로그아웃 알럿

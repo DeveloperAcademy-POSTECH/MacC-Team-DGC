@@ -160,6 +160,14 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		B8D73ABB2AD2899200D211DE /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
 		BF37D9C02AB939A3005331AD = {
 			isa = PBXGroup;
 			children = (
@@ -226,7 +234,7 @@
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
 				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
 				BF9BCFEB2ACE2B80009DAECD /* SessionList */,
-				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
+				B8D73ABB2AD2899200D211DE /* MyPage */,
 			);
 			path = Views;
 			sourceTree = "<group>";
