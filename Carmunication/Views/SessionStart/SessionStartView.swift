@@ -1,27 +1,23 @@
-//
-//  SessionStartView.swift
-//  Carmunication
-//
-//  Created by 허준혁 on 10/5/23.
-//
-
 import UIKit
 
 final class SessionStartView: UIView {
 
     // 더미 데이터
-    let groupData = [
-        GroupData(image: UIImage(systemName: "heart")!, groupName: "group1", start: "양덕", end: "C5",
-                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-        GroupData(image: UIImage(systemName: "circle")!, groupName: "group2", start: "포항", end: "부산",
-                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-        GroupData(image: UIImage(systemName: "heart.fill")!, groupName: "group3", start: "인천", end: "서울",
-                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-        GroupData(image: UIImage(systemName: "circle.fill")!, groupName: "group4", start: "부평", end: "일산",
-                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-        GroupData(image: UIImage(systemName: "square")!, groupName: "group5", start: "서울", end: "포항",
-                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
-    ]
+//        let groupData: [GroupData]? = [
+//            GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+//            GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+//            GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+//            GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+//            GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
+//        ]
+
+    // 데이터가 없을 때
+    let groupData: [GroupData]? = nil
 
     // 상단 그룹에 대한 컬렉션뷰입니다.
     let groupCollectionView: UICollectionView = {
@@ -37,33 +33,34 @@ final class SessionStartView: UIView {
 
     let journeyTogetherButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("여정 함께하기", for: .normal)
-        btn.backgroundColor = .systemBlue
+        btn.setTitle("여정 시작하기", for: .normal)
+        btn.backgroundColor = SemanticColor().accPrimary
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        btn.titleLabel?.font = CarmuFont().headline2
         btn.layer.cornerRadius = 30
         return btn
     }()
 
     // 그룹이 없을 때 보여주는 뷰입니다.
-    private let viewWithoutCrew: UIView = {
+    let sessionStartBorderLayer = CAShapeLayer()
+    lazy var viewWithoutCrew: UIView = {
         let view = UIView()
-        view.backgroundColor = .black   // TODO: - 색상 변경하기
-        view.layer.cornerRadius = 20
+        view.backgroundColor = .systemBackground
         view.clipsToBounds = true
+
         return view
     }()
 
-    // 그룸 이름을 알려주는 뷰와 여정을 요약해주는 뷰의 상위 뷰입니다.
+    // 그룹 이름을 알려주는 뷰와 여정을 요약해주는 뷰의 상위 뷰입니다.
     let summaryView: UIView = {
         let view = UIView()
         return view
     }()
 
     // 그룹 이름을 알려주는 뷰입니다.
-    private let groupNameView: UIView = {
+    let groupNameView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemPink  // TODO: - 색상 변경하기
+        view.backgroundColor = .systemBackground  // TODO: - 색상 변경하기
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         return view
@@ -72,14 +69,88 @@ final class SessionStartView: UIView {
     // 여정을 요약해주는 뷰입니다.
     let journeySummaryView: UIView = {
         let view = UIView()
-        view.backgroundColor = .green
+        view.backgroundColor = .systemBackground
         view.layer.cornerRadius = 12
-        view.clipsToBounds = true
+        view.layer.shadowColor = ColorTheme().blue3?.cgColor
+        view.layer.shadowOpacity = 0.7
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowRadius = 6
+        return view
+    }()
+
+    // 해당 그룹의 여정 요일에 대한 뷰입니다.
+    let dayView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white // 배경색을 설정할 수 있습니다.
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = SemanticColor().textDisableBT?.cgColor
+        view.layer.cornerRadius = 20 // 원하는 모양으로 뷰를 꾸밀 수 있습니다.
+        return view
+    }()
+
+    // 해당 그룹의 인원 수에 대한 뷰입니다.
+    let personCountView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white // 배경색을 설정할 수 있습니다.
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = SemanticColor().textDisableBT?.cgColor
+        view.layer.cornerRadius = 20 // 원하는 모양으로 뷰를 꾸밀 수 있습니다.
         return view
     }()
 
     // 점선
     let dottedLineLayer = CAShapeLayer()
+
+    let startView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ColorTheme().blue4
+        view.layer.cornerRadius = 14
+
+        return view
+    }()
+    let startLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "출발"
+        lbl.textColor = .white
+        lbl.font = CarmuFont().subhead2
+        return lbl
+    }()
+    let arrowLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "→"
+        lbl.textAlignment = .center
+        lbl.font = UIFont.systemFont(ofSize: 24)
+        lbl.textColor = .black
+        return lbl
+    }()
+    let endView: UIView = {
+        let view = UIView()
+        view.backgroundColor = ColorTheme().blue4
+        view.layer.cornerRadius = 14
+
+        return view
+    }()
+    let endLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "도착"
+        lbl.textColor = .white
+        lbl.font = CarmuFont().subhead2
+        return lbl
+    }()
+
+    lazy var gradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.frame = groupNameView.bounds
+        gradient.cornerRadius = 16
+        gradient.colors = [
+            UIColor.theme.blue6!.cgColor,
+            UIColor.theme.acua5!.cgColor
+        ]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 1)
+        return gradient
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -97,27 +168,34 @@ final class SessionStartView: UIView {
         setJourneySummaryView()
     }
 
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        sessionStartBorderLayer.frame = viewWithoutCrew.bounds
+        sessionStartBorderLayer.path = UIBezierPath(roundedRect: viewWithoutCrew.bounds, cornerRadius: 20).cgPath
+    }
+
     private func setCollectionView() {
         addSubview(groupCollectionView)
         groupCollectionView.backgroundColor = .white
         groupCollectionView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(110)    // TODO: - 크기 조정
+            make.height.equalTo(102)    // TODO: - 크기 조정
         }
     }
-
+    let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
     private func setJourneyTogetherButton() {
         addSubview(journeyTogetherButton)
         journeyTogetherButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(120)
+            make.bottom.equalToSuperview().multipliedBy(1.0 - insetRatio) // inset 비율을 적용합니다.
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60) // TODO: - 크기 조정
+            make.height.equalTo(60)
         }
     }
 
     private func countGroupData() {
-        if groupData.count == 0 {
+
+        if groupData == nil {
             setViewWithoutGroup()
         }
     }
@@ -134,33 +212,38 @@ final class SessionStartView: UIView {
         // 해당 뷰 안에 있는 라벨 추가
         let label = UILabel()
         label.text = "아직 만들어진 여정이 없어요...\n친구와 함께 여정을 시작해보세요!"
-        label.textColor = .white
+        label.textColor = UIColor.semantic.textBody
         label.textAlignment = .center
         label.numberOfLines = 0  // 0으로 설정하면 자동으로 줄 바꿈이 됩니다.
-        label.font = UIFont.systemFont(ofSize: 14)  // TODO: - 폰트 크기 및 폰트 설정하기
+        label.font = CarmuFont().subhead3
 
         // UILabel을 viewWithoutCrew의 서브뷰로 추가
         viewWithoutCrew.addSubview(label)
 
         label.snp.makeConstraints { make in
-            make.centerX.equalTo(viewWithoutCrew)
-            make.centerY.equalTo(viewWithoutCrew)
+            make.centerX.centerY.equalTo(viewWithoutCrew)
         }
+        // 점선 설정
+        setupDashLine()
     }
 
     private func setSummaryView() {
         addSubview(summaryView)
 
-        summaryView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            if groupData.count == 0 {
-                make.top.equalTo(viewWithoutCrew.snp.bottom).inset(-16)
-            } else {
-                make.top.equalTo(groupCollectionView.snp.bottom).inset(-16)
-            }
-            make.bottom.equalTo(journeyTogetherButton.snp.top).inset(-36)
+        let bottomInset: CGFloat
+        if UIScreen.main.bounds.height >= 800 {
+            // iPhone 14와 같이 큰 화면
+            bottomInset = -36
+        } else {
+            // iPhone SE와 같이 작은 화면
+            bottomInset = -4
         }
 
+        summaryView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(journeyTogetherButton.snp.top).inset(bottomInset)   // 수정
+            make.top.equalTo(groupData == nil ? viewWithoutCrew.snp.bottom : groupCollectionView.snp.bottom).inset(-16)
+        }
         setGroupNameView()
     }
 
@@ -170,12 +253,7 @@ final class SessionStartView: UIView {
             let lbl = UILabel()
             lbl.textColor = UIColor.black
             lbl.font = UIFont.systemFont(ofSize: 14)
-
-            if groupData.count == 0 {
-                lbl.text = "------"
-            } else {
-                lbl.text = "1개 이상"
-            }
+            lbl.text = groupData == nil ? "------" : "1개 이상"
             return lbl
         }()
 
@@ -193,6 +271,7 @@ final class SessionStartView: UIView {
         }()
 
         summaryView.addSubview(groupNameView)
+        groupNameView.layer.addSublayer(gradient)
         groupNameView.addSubview(groupNameLabel)
         groupNameView.addSubview(whiteCircleImageViewLeft)
         groupNameView.addSubview(whiteCircleImageViewRight)
@@ -224,74 +303,18 @@ final class SessionStartView: UIView {
         summaryView.addSubview(journeySummaryView)
 
         journeySummaryView.snp.makeConstraints { make in
-            make.top.equalTo(groupNameView.snp.bottom)
+            make.top.equalTo(groupNameView.snp.bottom).inset(-3)
             make.leading.trailing.bottom.equalTo(summaryView)
         }
 
+        // MARK: - SessionStartView+Extension에 정의
         // 오늘의 날짜를 보여주는 메서드
         setTodayDate()
 
+        // 요일과 인원을 알려주는 뷰
+        setDayAndPerson()
+
         // 문구를 관리하는 메서드
         setSentence()
-    }
-
-    private func setTodayDate() {
-        // 현재 날짜를 표시할 DateFormatter 생성
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd EEEE"  // 원하는 날짜 형식으로 설정
-        dateFormatter.locale = Locale(identifier: "ko_KR")  // 한글 요일로 설정
-
-        // 현재 날짜를 가져와서 원하는 형식으로 변환
-        let today = Date()
-        let formattedDate = dateFormatter.string(from: today)
-
-        // 변환된 날짜를 UILabel에 표시
-        let dateLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.text = formattedDate
-            lbl.textColor = UIColor.black
-            lbl.font = UIFont.systemFont(ofSize: 14)
-            return lbl
-        }()
-
-        journeySummaryView.addSubview(dateLabel)
-
-        dateLabel.snp.makeConstraints { make in
-            make.leading.top.equalTo(journeySummaryView).inset(20)
-        }
-    }
-
-    private func setSentence() {
-        // 점선을 그리기 위한 CALayer 생성
-        dottedLineLayer.strokeColor = UIColor.gray.cgColor
-        dottedLineLayer.lineWidth = 1
-        dottedLineLayer.lineDashPattern = [10, 10]  // 점선의 패턴을 설정
-
-        let path = CGMutablePath()
-        path.addLines(between: [CGPoint(x: 0, y: 0), CGPoint(x: bounds.width - 40, y: 0)])
-        dottedLineLayer.path = path
-        dottedLineLayer.anchorPoint = CGPoint(x: 0, y: 0)
-
-        // 문구
-        let bottomLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.textColor = UIColor.black
-            lbl.font = UIFont.systemFont(ofSize: 14)
-            lbl.textAlignment = .center
-            return lbl
-        }()
-
-        journeySummaryView.addSubview(bottomLabel)
-
-        bottomLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(journeySummaryView)
-            make.bottom.equalTo(journeySummaryView).inset(20)
-        }
-
-        if groupData.count == 0 {   // 데이터 없다면
-            bottomLabel.text = "세션관리에서 여정을 만들어 보세요."
-        } else {
-            bottomLabel.text = "오늘도 즐거운 여정을 시작해 보세요!"
-        }
     }
 }
