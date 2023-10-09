@@ -36,6 +36,8 @@ final class SettingsViewController: UIViewController {
         settingsView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        // 기본 UITableViewCell 셀을 재사용 식별자와 함께 테이블 뷰에 등록
+        settingsView.settingsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
         settingsView.settingsTableView.dataSource = self
         settingsView.settingsTableView.delegate = self
     }
@@ -117,7 +119,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
     // 각 row에 대한 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
 
         switch indexPath.section {
         case 0:
