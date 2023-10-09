@@ -3,18 +3,18 @@ import UIKit
 final class SessionStartView: UIView {
 
     // 더미 데이터
-//    let groupData: [GroupData]? = [
-//        GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
-//                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//        GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
-//                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//        GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
-//                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//        GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
-//                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//        GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
-//                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
-//    ]
+    //    let groupData: [GroupData]? = [
+    //        GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
+    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+    //        GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
+    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+    //        GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
+    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+    //        GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
+    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+    //        GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
+    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
+    //    ]
 
     // 데이터가 없을 때
     let groupData: [GroupData]? = nil
@@ -42,15 +42,16 @@ final class SessionStartView: UIView {
     }()
 
     // 그룹이 없을 때 보여주는 뷰입니다.
-    let viewWithoutCrew: UIView = {
+    private let borderLayer = CAShapeLayer()
+    lazy var viewWithoutCrew: UIView = {
         let view = UIView()
-        view.backgroundColor = .black   // TODO: - 색상 변경하기
-        view.layer.cornerRadius = 20
+        view.backgroundColor = .systemBackground
         view.clipsToBounds = true
+
         return view
     }()
 
-    // 그룸 이름을 알려주는 뷰와 여정을 요약해주는 뷰의 상위 뷰입니다.
+    // 그룹 이름을 알려주는 뷰와 여정을 요약해주는 뷰의 상위 뷰입니다.
     let summaryView: UIView = {
         let view = UIView()
         return view
@@ -150,6 +151,12 @@ final class SessionStartView: UIView {
         setJourneySummaryView()
     }
 
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        borderLayer.frame = viewWithoutCrew.bounds
+        borderLayer.path = UIBezierPath(roundedRect: viewWithoutCrew.bounds, cornerRadius: 20).cgPath
+    }
+
     private func setCollectionView() {
         addSubview(groupCollectionView)
         groupCollectionView.backgroundColor = .white
@@ -188,10 +195,10 @@ final class SessionStartView: UIView {
         // 해당 뷰 안에 있는 라벨 추가
         let label = UILabel()
         label.text = "아직 만들어진 여정이 없어요...\n친구와 함께 여정을 시작해보세요!"
-        label.textColor = .white
+        label.textColor = .black
         label.textAlignment = .center
         label.numberOfLines = 0  // 0으로 설정하면 자동으로 줄 바꿈이 됩니다.
-        label.font = UIFont.systemFont(ofSize: 14)  // TODO: - 폰트 크기 및 폰트 설정하기
+        label.font = UIFont.systemFont(ofSize: 16)  // TODO: - 폰트 크기 및 폰트 설정하기
 
         // UILabel을 viewWithoutCrew의 서브뷰로 추가
         viewWithoutCrew.addSubview(label)
@@ -199,6 +206,8 @@ final class SessionStartView: UIView {
         label.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(viewWithoutCrew)
         }
+        // 점선 설정
+        setupDashLine()
     }
 
     private func setSummaryView() {
@@ -280,5 +289,14 @@ final class SessionStartView: UIView {
 
         // 문구를 관리하는 메서드
         setSentence()
+    }
+
+    private func setupDashLine() {
+        borderLayer.strokeColor = UIColor.theme.blue3?.cgColor
+        borderLayer.lineDashPattern = [6, 6] // 점선 설정
+        borderLayer.frame = viewWithoutCrew.bounds
+        borderLayer.fillColor = nil
+        borderLayer.path = UIBezierPath(rect: viewWithoutCrew.bounds).cgPath
+        viewWithoutCrew.layer.addSublayer(borderLayer)
     }
 }
