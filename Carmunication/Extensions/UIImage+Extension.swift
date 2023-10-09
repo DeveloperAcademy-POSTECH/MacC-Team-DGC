@@ -25,20 +25,3 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
     }
 }
-
-extension UIImage {
-    // 이미지 비율 유지하면서 사이즈를 줄여주는 메소드
-    func aspectFit(toSize newSize: CGSize) -> UIImage {
-        let widthRatio = newSize.width / size.width
-        let heightRatio = newSize.height / size.height
-        let scaleFactor = min(widthRatio, heightRatio)
-
-        let scaledSize = CGSize(width: size.width * scaleFactor, height: size.height * scaleFactor)
-
-        UIGraphicsBeginImageContextWithOptions(scaledSize, false, 0.0)
-        draw(in: CGRect(origin: .zero, size: scaledSize))
-        let scaledImage = UIGraphicsGetImageFromCurrentImageContext()
-
-        return scaledImage ?? self
-    }
-}
