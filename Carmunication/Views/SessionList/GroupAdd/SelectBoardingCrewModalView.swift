@@ -115,7 +115,7 @@ class SelectBoardingCrewModalView: UIView {
         }
 
         friendsListCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(selectedCrewCollectionView.snp.bottom).offset(0)
+            make.top.equalTo(selectedCrewCollectionView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(90)
         }

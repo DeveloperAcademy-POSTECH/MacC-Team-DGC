@@ -69,6 +69,15 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDelegate, UICol
     ) -> CGSize {
         return CGSize(width: 45, height: 65)
     }
+
+    // 셀 간 최소 간격
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumLineSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        return 20
+    }
 }
 
 extension SelectBoardingCrewModalViewController: UICollectionViewDataSource {
