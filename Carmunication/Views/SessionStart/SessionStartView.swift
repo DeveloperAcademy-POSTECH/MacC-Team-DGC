@@ -3,21 +3,21 @@ import UIKit
 final class SessionStartView: UIView {
 
     // 더미 데이터
-        let groupData: [GroupData]? = [
-            GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-            GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-            GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-            GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-            GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
-        ]
+//        let groupData: [GroupData]? = [
+//            GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+//            GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+//            GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+//            GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+//            GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
+//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
+//        ]
 
     // 데이터가 없을 때
-//    let groupData: [GroupData]? = nil
+    let groupData: [GroupData]? = nil
 
     // 상단 그룹에 대한 컬렉션뷰입니다.
     let groupCollectionView: UICollectionView = {
@@ -103,8 +103,8 @@ final class SessionStartView: UIView {
 
     let startView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemMint
-        view.layer.cornerRadius = 16
+        view.backgroundColor = ColorTheme().blue4
+        view.layer.cornerRadius = 14
 
         return view
     }()
@@ -112,12 +112,12 @@ final class SessionStartView: UIView {
         let lbl = UILabel()
         lbl.text = "출발"
         lbl.textColor = .white
-        lbl.font = UIFont.systemFont(ofSize: 14)
+        lbl.font = CarmuFont().subhead2
         return lbl
     }()
     let arrowLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "->"
+        lbl.text = "→"
         lbl.textAlignment = .center
         lbl.font = UIFont.systemFont(ofSize: 24)
         lbl.textColor = .black
@@ -125,8 +125,8 @@ final class SessionStartView: UIView {
     }()
     let endView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemMint
-        view.layer.cornerRadius = 16
+        view.backgroundColor = ColorTheme().blue4
+        view.layer.cornerRadius = 14
 
         return view
     }()
@@ -134,7 +134,7 @@ final class SessionStartView: UIView {
         let lbl = UILabel()
         lbl.text = "도착"
         lbl.textColor = .white
-        lbl.font = UIFont.systemFont(ofSize: 14)
+        lbl.font = CarmuFont().subhead2
         return lbl
     }()
 

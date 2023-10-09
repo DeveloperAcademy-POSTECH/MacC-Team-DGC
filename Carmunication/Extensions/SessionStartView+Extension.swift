@@ -155,7 +155,7 @@ extension SessionStartView {
             let lbl = UILabel()
             lbl.text = "양덕" // 출발지
             lbl.textColor = .black
-            lbl.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+            lbl.font = CarmuFont().display2
             lbl.textAlignment = .center
             return lbl
         }()
@@ -163,8 +163,8 @@ extension SessionStartView {
         let startTime: UILabel = {
             let lbl = UILabel()
             lbl.text = "00 : 00"
-            lbl.textColor = .gray
-            lbl.font = UIFont.systemFont(ofSize: 22)
+            lbl.textColor = ColorTheme().darkblue4
+            lbl.font = CarmuFont().body3
             lbl.textAlignment = .center
             return lbl
         }()
@@ -174,7 +174,7 @@ extension SessionStartView {
             make.leading.equalTo(journeySummaryView).inset(57)
             make.top.equalTo(journeySummaryView).inset(60)
             make.width.equalTo(48)
-            make.height.equalTo(25)
+            make.height.equalTo(26)
         }
         startView.addSubview(startLabel)
         startLabel.snp.makeConstraints { make in
@@ -206,7 +206,7 @@ extension SessionStartView {
             let lbl = UILabel()
             lbl.text = "C5" // 출발지
             lbl.textColor = .black
-            lbl.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+            lbl.font = CarmuFont().display2
             lbl.textAlignment = .center
             return lbl
         }()
@@ -214,8 +214,8 @@ extension SessionStartView {
         let endTime: UILabel = {
             let lbl = UILabel()
             lbl.text = "00 : 00"
-            lbl.textColor = .gray
-            lbl.font = UIFont.systemFont(ofSize: 22)
+            lbl.textColor = ColorTheme().darkblue4
+            lbl.font = CarmuFont().body3
             lbl.textAlignment = .center
             return lbl
         }()
