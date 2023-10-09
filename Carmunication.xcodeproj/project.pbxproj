@@ -53,6 +53,11 @@
 		C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB3A2ACBF6C40068273A /* UIImage+Extension.swift */; };
 		C92CFB3D2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */; };
 		C92CFB402ACC24F50068273A /* DummyGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB3F2ACC24F50068273A /* DummyGroup.swift */; };
+		C93D2CD42AD24F4600CF4735 /* StartTimeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD32AD24F4600CF4735 /* StartTimeSelectView.swift */; };
+		C93D2CD62AD2528F00CF4735 /* StartTimeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD52AD2528F00CF4735 /* StartTimeSelectViewController.swift */; };
+		C93D2CD82AD28F7400CF4735 /* SelectBoardingCrewModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD72AD28F7400CF4735 /* SelectBoardingCrewModalView.swift */; };
+		C93D2CDA2AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */; };
+		C93D2CDC2AD298C400CF4735 /* GroupAddModalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */; };
 		C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */; };
 		C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
@@ -108,6 +113,11 @@
 		C92CFB3A2ACBF6C40068273A /* UIImage+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotFoundCrewTableViewCell.swift; sourceTree = "<group>"; };
 		C92CFB3F2ACC24F50068273A /* DummyGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyGroup.swift; sourceTree = "<group>"; };
+		C93D2CD32AD24F4600CF4735 /* StartTimeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTimeSelectView.swift; sourceTree = "<group>"; };
+		C93D2CD52AD2528F00CF4735 /* StartTimeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTimeSelectViewController.swift; sourceTree = "<group>"; };
+		C93D2CD72AD28F7400CF4735 /* SelectBoardingCrewModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBoardingCrewModalView.swift; sourceTree = "<group>"; };
+		C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBoardingCrewModalViewController.swift; sourceTree = "<group>"; };
+		C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddModalCollectionViewCell.swift; sourceTree = "<group>"; };
 		C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLineView.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
@@ -251,11 +261,9 @@
 		BF9BCFEB2ACE2B80009DAECD /* SessionList */ = {
 			isa = PBXGroup;
 			children = (
-				BF29DF282ACFF9CD00430031 /* SessionListView.swift */,
-				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
-				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
-				C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */,
-				C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */,
+				C9F208662AD122C500EAA173 /* Common */,
+				C9F208652AD122A200EAA173 /* SessionList */,
+				C9F208642AD1227D00EAA173 /* GroupDetail */,
 				BF9BCFED2ACE2BDF009DAECD /* GroupAdd */,
 			);
 			path = SessionList;
@@ -266,8 +274,10 @@
 			children = (
 				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
-				BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */,
 				BF9BCFF22ACE379C009DAECD /* SelectPointMapView.swift */,
+				C93D2CD32AD24F4600CF4735 /* StartTimeSelectView.swift */,
+				C93D2CD72AD28F7400CF4735 /* SelectBoardingCrewModalView.swift */,
+				C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */,
 			);
 			path = GroupAdd;
 			sourceTree = "<group>";
@@ -322,8 +332,37 @@
 				C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */,
 				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
 				C9DE7C3A2AC05B65005AFCC6 /* SelectPointMapViewController.swift */,
+				C93D2CD52AD2528F00CF4735 /* StartTimeSelectViewController.swift */,
+				C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */,
 			);
 			path = SessionList;
+			sourceTree = "<group>";
+		};
+		C9F208642AD1227D00EAA173 /* GroupDetail */ = {
+			isa = PBXGroup;
+			children = (
+				BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */,
+				C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */,
+			);
+			path = GroupDetail;
+			sourceTree = "<group>";
+		};
+		C9F208652AD122A200EAA173 /* SessionList */ = {
+			isa = PBXGroup;
+			children = (
+				BF29DF282ACFF9CD00430031 /* SessionListView.swift */,
+				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
+				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
+			);
+			path = SessionList;
+			sourceTree = "<group>";
+		};
+		C9F208662AD122C500EAA173 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -452,8 +491,11 @@
 				C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */,
 				BF9BD0022ACE5093009DAECD /* ModalQueueView.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
+				C93D2CDC2AD298C400CF4735 /* GroupAddModalCollectionViewCell.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
+				C93D2CDA2AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift in Sources */,
+				C93D2CD82AD28F7400CF4735 /* SelectBoardingCrewModalView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,
@@ -466,6 +508,7 @@
 				C9DE7C392AC04AF8005AFCC6 /* GroupDetailViewController.swift in Sources */,
 				BF29DF2B2ACFFDBC00430031 /* GroupDetailView.swift in Sources */,
 				C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */,
+				C93D2CD42AD24F4600CF4735 /* StartTimeSelectView.swift in Sources */,
 				BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */,
 				C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */,
 				16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */,
@@ -476,6 +519,7 @@
 				C92CFB402ACC24F50068273A /* DummyGroup.swift in Sources */,
 				C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,
+				C93D2CD62AD2528F00CF4735 /* StartTimeSelectViewController.swift in Sources */,
 				C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
