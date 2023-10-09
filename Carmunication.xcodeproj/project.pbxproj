@@ -18,6 +18,9 @@
 		B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */; };
 		B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */; };
 		B8A3EFDF2AC9090C00433F5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8A3EFDE2AC9090C00433F5C /* GoogleService-Info.plist */; };
+		B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73ABE2AD2914200D211DE /* SettingsView.swift */; };
+		B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */; };
+		B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC22AD2FBE600D211DE /* InquiryView.swift */; };
 		B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE992AC96B5F004D310C /* InquiryViewController.swift */; };
 		B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */; };
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
@@ -70,6 +73,9 @@
 		B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewController.swift; sourceTree = "<group>"; };
 		B8A3EFDE2AC9090C00433F5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B8D73ABE2AD2914200D211DE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
+		B8D73AC22AD2FBE600D211DE /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
 		B8EECE992AC96B5F004D310C /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
@@ -160,6 +166,17 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		B8D73ABB2AD2899200D211DE /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
+				B8D73ABE2AD2914200D211DE /* SettingsView.swift */,
+				B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */,
+				B8D73AC22AD2FBE600D211DE /* InquiryView.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
 		BF37D9C02AB939A3005331AD = {
 			isa = PBXGroup;
 			children = (
@@ -226,7 +243,7 @@
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
 				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
 				BF9BCFEB2ACE2B80009DAECD /* SessionList */,
-				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
+				B8D73ABB2AD2899200D211DE /* MyPage */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -422,6 +439,9 @@
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
 				16E42CE02AC47E900031486E /* GroupData.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
+				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
+				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
+				B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */,
 				B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
@@ -613,7 +633,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dgc.carmunication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -650,7 +670,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.dgc.carmunication;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

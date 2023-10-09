@@ -23,8 +23,10 @@ final class MyPageViewController: UIViewController {
             make.edges.equalToSuperview()
         }
         myPageView.settingsButton.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
-        myPageView.editButton.addTarget(self, action: #selector(editButtonTapped), for: .touchUpInside)
-        myPageView.addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        myPageView.editButton.addTarget(self, action: #selector(showTextField), for: .touchUpInside)
+        myPageView.addButton.addTarget(self, action: #selector(showImagePicker), for: .touchUpInside)
+        myPageView.textFieldEditCancelButton.addTarget(self, action: #selector(dismissTextField), for: .touchUpInside)
+        myPageView.textFieldEditDoneButton.addTarget(self, action: #selector(changeNickname), for: .touchUpInside)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
         myPageView.darkOverlayView.addGestureRecognizer(tapGesture)
@@ -35,6 +37,8 @@ final class MyPageViewController: UIViewController {
         super.viewWillAppear(animated)
         // 마이페이지에서는 내비게이션 바가 보이지 않도록 한다.
         navigationController?.setNavigationBarHidden(true, animated: false)
+        // 마이페이지에서는 탭 바가 보이도록 한다.
+        tabBarController?.tabBar.isHidden = false
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -51,21 +55,28 @@ final class MyPageViewController: UIViewController {
         let settingsVC = SettingsViewController()
         navigationController?.pushViewController(settingsVC, animated: true)
     }
-    // 어두운 뷰 탭하면 텍스트 필드 활성화
+    // 어두운 뷰 탭하면 텍스트 필드 비활성화
     @objc func dismissTextField() {
         myPageView.textField.isHidden = true
         myPageView.darkOverlayView.isHidden = true
+        myPageView.textFieldEditStack.isHidden = true
         myPageView.textField.resignFirstResponder()
     }
-    // 닉네임 편집 버튼을 누르면 텍스트 필드 비활성화
-    @objc func editButtonTapped() {
+    // 닉네임 편집 버튼을 누르면 텍스트 필드 활성화
+    @objc func showTextField() {
         myPageView.textField.text = myPageView.nicknameLabel.text
         myPageView.textField.isHidden = false
         myPageView.darkOverlayView.isHidden = false
+        myPageView.textFieldEditStack.isHidden = false
         myPageView.textField.becomeFirstResponder()
     }
+    @objc func changeNickname() {
+        // TODO: - DB 상에 닉네임 저장하는 로직 추가 필요
+        myPageView.nicknameLabel.text = myPageView.textField.text
+        dismissTextField()
+    }
     // 이미지 추가 버튼 클릭 시 액션 시트 호출
-    @objc func addButtonTapped() {
+    @objc func showImagePicker() {
         let alert = UIAlertController(
             title: "프로필 사진 설정",
             message: nil,
@@ -88,9 +99,7 @@ final class MyPageViewController: UIViewController {
 // MARK: - 텍스트 필드 델리게이트 구현
 extension MyPageViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // TODO: - DB 상에 닉네임 저장하는 로직 추가 필요
-        myPageView.nicknameLabel.text = textField.text
-        dismissTextField()
+        changeNickname()
         return true
     }
 }
@@ -113,21 +122,3 @@ extension MyPageViewController: UIImagePickerControllerDelegate {
     }
 }
 extension MyPageViewController: UINavigationControllerDelegate {}
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct MyPageViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyPageViewController
-    func makeUIViewController(context: Context) -> MyPageViewController {
-        return MyPageViewController()
-    }
-    func updateUIViewController(_ uiViewController: MyPageViewController, context: Context) {
-    }
-}
-@available(iOS 13.0.0, *)
-struct MyPageViewPreview: PreviewProvider {
-    static var previews: some View {
-        MyPageViewControllerRepresentable()
-    }
-}

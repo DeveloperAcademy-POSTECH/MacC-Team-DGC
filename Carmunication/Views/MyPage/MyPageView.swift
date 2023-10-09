@@ -89,7 +89,7 @@ final class MyPageView: UIView {
     // MARK: - 프로필 이미지
     lazy var imageView: UIImageView = {
         let imgView = UIImageView()
-        imgView.image = UIImage(named: "Profile") // TODO: 이미지 해상도 맞추기
+        imgView.image = UIImage(named: "profile")
         imgView.contentMode = .scaleAspectFill
         // TODO: - 추후 오토 레이아웃 비율에 맞게 수정 필요
         let size = CGFloat(80)
@@ -143,6 +143,41 @@ final class MyPageView: UIView {
         return darkOverlayView
     }()
 
+    // MARK: - 텍스트 필드 활성화 시 상단 편집 바
+    lazy var textFieldEditStack: UIStackView = {
+        let textFieldEditStack = UIStackView()
+        textFieldEditStack.axis = .horizontal
+        textFieldEditStack.alignment = .center
+        textFieldEditStack.distribution = .equalCentering
+
+        textFieldEditStack.addArrangedSubview(textFieldEditCancelButton)
+        textFieldEditStack.addArrangedSubview(textFieldEditTitle)
+        textFieldEditStack.addArrangedSubview(textFieldEditDoneButton)
+        return textFieldEditStack
+    }()
+    // 취소 버튼
+    lazy var textFieldEditCancelButton: UIButton = {
+        let textFieldCancelButton = UIButton()
+        textFieldCancelButton.setTitle("취소", for: .normal)
+        textFieldCancelButton.setTitleColor(.white, for: .normal)
+        return textFieldCancelButton
+    }()
+    lazy var textFieldEditTitle: UILabel = {
+        let textFieldEditTitle = UILabel()
+        textFieldEditTitle.text = "닉네임 편집하기"
+        textFieldEditTitle.textColor = .white
+        textFieldEditTitle.font = UIFont.boldSystemFont(ofSize: 17)
+        textFieldEditTitle.textAlignment = .center
+        return textFieldEditTitle
+    }()
+    // 확인 버튼
+    lazy var textFieldEditDoneButton: UIButton = {
+        let textFieldEditDoneButton = UIButton()
+        textFieldEditDoneButton.setTitle("확인", for: .normal)
+        textFieldEditDoneButton.setTitleColor(.white, for: .normal)
+        return textFieldEditDoneButton
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -171,9 +206,15 @@ final class MyPageView: UIView {
         }
 
         textField.isHidden = true
+        textFieldEditStack.isHidden = true
         addSubview(textField)
+        addSubview(textFieldEditStack)
 
-        // MARK: - 오토 레이아웃
+        setAutoLayout()
+    }
+
+    // MARK: - 오토 레이아웃 설정 메서드
+    func setAutoLayout() {
         userInfoView.snp.makeConstraints { make in
             // userInfoView에 cornerRadius를 주면서 상단 모서리가 잘리는 부분을 없애주기 위해 화면 크기보다 위로 조금 넘치게 설정
             make.top.equalToSuperview().inset(-20)
@@ -201,12 +242,35 @@ final class MyPageView: UIView {
         }
         textField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(userInfoView.snp.bottom).inset(5)
+            make.bottom.equalTo(userInfoView.snp.bottom).offset(-30)
         }
         bottomLine.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().offset(8)
+            make.top.equalTo(textField.snp.bottom).inset(-5)
             make.height.equalTo(1)
         }
+        textFieldEditStack.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(2)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(42)
+        }
+    }
+}
+
+// MARK: - 프리뷰 canvas 세팅
+import SwiftUI
+
+struct MyPageViewControllerRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = MyPageViewController
+    func makeUIViewController(context: Context) -> MyPageViewController {
+        return MyPageViewController()
+    }
+    func updateUIViewController(_ uiViewController: MyPageViewController, context: Context) {
+    }
+}
+@available(iOS 13.0.0, *)
+struct MyPageViewPreview: PreviewProvider {
+    static var previews: some View {
+        MyPageViewControllerRepresentable()
     }
 }

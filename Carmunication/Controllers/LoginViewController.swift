@@ -155,20 +155,3 @@ extension LoginViewController {
         return hashString
     }
 }
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct LoginViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = LoginViewController
-    func makeUIViewController(context: Context) -> LoginViewController {
-        return LoginViewController()
-    }
-    func updateUIViewController(_ uiViewController: LoginViewController, context: Context) {}
-}
-@available(iOS 13.0.0, *)
-struct LoginViewPreview: PreviewProvider {
-    static var previews: some View {
-        LoginViewControllerRepresentable()
-    }
-}
