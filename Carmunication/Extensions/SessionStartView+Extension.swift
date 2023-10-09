@@ -272,4 +272,13 @@ extension SessionStartView {
             make.bottom.equalTo(journeySummaryView).inset(20)
         }
     }
+
+    func setupDashLine() {
+        sessionStartBorderLayer.strokeColor = UIColor.theme.blue3?.cgColor
+        sessionStartBorderLayer.lineDashPattern = [6, 6] // 점선 설정
+        sessionStartBorderLayer.frame = viewWithoutCrew.bounds
+        sessionStartBorderLayer.fillColor = nil
+        sessionStartBorderLayer.path = UIBezierPath(rect: viewWithoutCrew.bounds).cgPath
+        viewWithoutCrew.layer.addSublayer(sessionStartBorderLayer)
+    }
 }

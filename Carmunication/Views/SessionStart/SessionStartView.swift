@@ -42,7 +42,7 @@ final class SessionStartView: UIView {
     }()
 
     // 그룹이 없을 때 보여주는 뷰입니다.
-    private let borderLayer = CAShapeLayer()
+    let sessionStartBorderLayer = CAShapeLayer()
     lazy var viewWithoutCrew: UIView = {
         let view = UIView()
         view.backgroundColor = .systemBackground
@@ -153,8 +153,8 @@ final class SessionStartView: UIView {
 
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
-        borderLayer.frame = viewWithoutCrew.bounds
-        borderLayer.path = UIBezierPath(roundedRect: viewWithoutCrew.bounds, cornerRadius: 20).cgPath
+        sessionStartBorderLayer.frame = viewWithoutCrew.bounds
+        sessionStartBorderLayer.path = UIBezierPath(roundedRect: viewWithoutCrew.bounds, cornerRadius: 20).cgPath
     }
 
     private func setCollectionView() {
@@ -289,14 +289,5 @@ final class SessionStartView: UIView {
 
         // 문구를 관리하는 메서드
         setSentence()
-    }
-
-    private func setupDashLine() {
-        borderLayer.strokeColor = UIColor.theme.blue3?.cgColor
-        borderLayer.lineDashPattern = [6, 6] // 점선 설정
-        borderLayer.frame = viewWithoutCrew.bounds
-        borderLayer.fillColor = nil
-        borderLayer.path = UIBezierPath(rect: viewWithoutCrew.bounds).cgPath
-        viewWithoutCrew.layer.addSublayer(borderLayer)
     }
 }
