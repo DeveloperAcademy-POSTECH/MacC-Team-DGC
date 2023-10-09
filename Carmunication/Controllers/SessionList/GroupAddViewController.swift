@@ -121,7 +121,7 @@ extension GroupAddViewController {
 }
 
 // MARK: - @objc Method
-extension GroupAddViewController: UIViewControllerTransitioningDelegate {
+extension GroupAddViewController {
 
     @objc private func addStopoverPointTapped() {
         cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)

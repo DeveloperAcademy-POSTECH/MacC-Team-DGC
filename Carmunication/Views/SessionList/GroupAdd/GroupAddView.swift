@@ -12,7 +12,6 @@ final class GroupAddView: UIView {
     // MARK: - 텍스트 필드
     lazy var textField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "크루 이름을 입력하세요"
         textField.textAlignment = .left
         textField.font = UIFont.carmuFont.body2Long
         textField.textColor = UIColor.semantic.textPrimary
