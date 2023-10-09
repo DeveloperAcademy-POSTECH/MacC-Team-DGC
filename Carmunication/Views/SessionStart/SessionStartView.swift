@@ -3,21 +3,21 @@ import UIKit
 final class SessionStartView: UIView {
 
     // 더미 데이터
-    //    let groupData: [GroupData]? = [
-    //        GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
-    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-    //        GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
-    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-    //        GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
-    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-    //        GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
-    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-    //        GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
-    //                  startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
-    //    ]
+        let groupData: [GroupData]? = [
+            GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+            GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+            GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+            GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+            GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
+        ]
 
     // 데이터가 없을 때
-    let groupData: [GroupData]? = nil
+//    let groupData: [GroupData]? = nil
 
     // 상단 그룹에 대한 컬렉션뷰입니다.
     let groupCollectionView: UICollectionView = {
@@ -33,7 +33,7 @@ final class SessionStartView: UIView {
 
     let journeyTogetherButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("여정 함께하기", for: .normal)
+        btn.setTitle("여정 시작하기", for: .normal)
         btn.backgroundColor = SemanticColor().accPrimary
         btn.setTitleColor(.white, for: .normal)
         btn.titleLabel?.font = CarmuFont().headline2
@@ -180,16 +180,16 @@ final class SessionStartView: UIView {
         groupCollectionView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(110)    // TODO: - 크기 조정
+            make.height.equalTo(102)    // TODO: - 크기 조정
         }
     }
-
+    let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
     private func setJourneyTogetherButton() {
         addSubview(journeyTogetherButton)
         journeyTogetherButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(107)
+            make.bottom.equalToSuperview().multipliedBy(1.0 - insetRatio) // inset 비율을 적용합니다.
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60) // TODO: - 크기 조정
+            make.height.equalTo(60)
         }
     }
 
@@ -230,9 +230,18 @@ final class SessionStartView: UIView {
     private func setSummaryView() {
         addSubview(summaryView)
 
+        let bottomInset: CGFloat
+        if UIScreen.main.bounds.height >= 800 {
+            // iPhone 14와 같이 큰 화면
+            bottomInset = -36
+        } else {
+            // iPhone SE와 같이 작은 화면
+            bottomInset = -4
+        }
+
         summaryView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(journeyTogetherButton.snp.top).inset(-36)
+            make.bottom.equalTo(journeyTogetherButton.snp.top).inset(bottomInset)   // 수정
             make.top.equalTo(groupData == nil ? viewWithoutCrew.snp.bottom : groupCollectionView.snp.bottom).inset(-16)
         }
         setGroupNameView()

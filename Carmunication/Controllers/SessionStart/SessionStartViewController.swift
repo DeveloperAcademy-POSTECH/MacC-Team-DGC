@@ -67,7 +67,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        return CGSize(width: 80, height: 106)
+        return CGSize(width: 80, height: 102)
     }
 }
 

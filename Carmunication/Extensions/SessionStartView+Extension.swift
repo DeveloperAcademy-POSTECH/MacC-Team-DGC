@@ -47,10 +47,11 @@ extension SessionStartView {
                 lbl.numberOfLines = 0
                 return lbl
             }()
+
             journeySummaryView.addSubview(comment)
             comment.snp.makeConstraints { make in
                 make.centerX.equalTo(journeySummaryView)
-                make.top.equalTo(journeySummaryView).inset(120)
+                make.top.equalTo(journeySummaryView).inset(80)
             }
         } else {
             setRouteComponent()
