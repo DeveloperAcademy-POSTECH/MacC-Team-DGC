@@ -195,10 +195,10 @@ final class SessionStartView: UIView {
         // 해당 뷰 안에 있는 라벨 추가
         let label = UILabel()
         label.text = "아직 만들어진 여정이 없어요...\n친구와 함께 여정을 시작해보세요!"
-        label.textColor = .black
+        label.textColor = UIColor.semantic.textBody
         label.textAlignment = .center
         label.numberOfLines = 0  // 0으로 설정하면 자동으로 줄 바꿈이 됩니다.
-        label.font = UIFont.systemFont(ofSize: 16)  // TODO: - 폰트 크기 및 폰트 설정하기
+        label.font = CarmuFont().subhead3
 
         // UILabel을 viewWithoutCrew의 서브뷰로 추가
         viewWithoutCrew.addSubview(label)
