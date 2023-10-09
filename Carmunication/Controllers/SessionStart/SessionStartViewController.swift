@@ -58,7 +58,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return sessionStartView.groupData.count
+        return sessionStartView.groupData?.count ?? 0
     }
 
     func collectionView(
@@ -79,7 +79,7 @@ extension SessionStartViewController: UICollectionViewDataSource {
             withReuseIdentifier: "groupCell",
             for: indexPath
         ) as? GroupCollectionViewCell
-        cell?.groupData = self.sessionStartView.groupData[indexPath.row]
+        cell?.groupData = self.sessionStartView.groupData?[indexPath.row]
         return cell!
     }
 }
