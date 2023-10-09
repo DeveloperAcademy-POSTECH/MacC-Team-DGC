@@ -27,14 +27,15 @@ final class GroupAddViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+
         view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.addGestureRecognizer(tapGesture)
         navigationBarSetting()
+
         groupAddView.tableViewComponent.dataSource = self
         groupAddView.tableViewComponent.delegate = self
         groupAddView.textField.delegate = self
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
-
         groupAddView.stopoverPointAddButton.addTarget(
             self,
             action: #selector(addStopoverPointTapped),
@@ -42,7 +43,6 @@ final class GroupAddViewController: UIViewController {
         )
 
         view.addSubview(groupAddView)
-
         groupAddView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }

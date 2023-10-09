@@ -48,9 +48,10 @@ extension SelectBoardingCrewModalViewController {
     }
 }
 
+// 모달 높이 조절을 위한 델리게이트
 extension SelectBoardingCrewModalViewController: UISheetPresentationControllerDelegate {}
 
-extension SelectBoardingCrewModalViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension SelectBoardingCrewModalViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
