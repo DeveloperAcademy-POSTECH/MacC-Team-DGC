@@ -50,13 +50,13 @@ extension SelectBoardingCrewModalViewController {
 
 extension SelectBoardingCrewModalViewController: UISheetPresentationControllerDelegate {}
 
-extension SelectBoardingCrewModalViewController: UICollectionViewDelegate {
+extension SelectBoardingCrewModalViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
         if collectionView == selectBoardingCrewModalView.selectedCrewCollectionView {
-            return 3
+            return 25
         } else {
             return 28
         }

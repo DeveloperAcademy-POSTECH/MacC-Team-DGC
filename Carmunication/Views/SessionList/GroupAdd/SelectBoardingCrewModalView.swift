@@ -41,10 +41,12 @@ class SelectBoardingCrewModalView: UIView {
         layout.scrollDirection = .horizontal    // 좌우로 스크롤
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) // 여백 조정
 
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        let collectionView = UICollectionView(frame: .infinite, collectionViewLayout: layout)
         collectionView.register(GroupAddModalCollectionViewCell.self, forCellWithReuseIdentifier: "selectedCrewCell")
         collectionView.showsHorizontalScrollIndicator = false   // 스크롤바 숨기기
-
+        collectionView.backgroundColor = UIColor.semantic.backgroundSecond
+        collectionView.layer.cornerRadius = 16
+        collectionView.layer.masksToBounds = true
         return collectionView
     }()
 
@@ -113,9 +115,9 @@ class SelectBoardingCrewModalView: UIView {
         }
 
         friendsListCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(selectedCrewCollectionView.snp.bottom).offset(20)
+            make.top.equalTo(selectedCrewCollectionView.snp.bottom).offset(0)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60)
+            make.height.equalTo(90)
         }
 
         saveButton.snp.makeConstraints { make in

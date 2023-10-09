@@ -13,8 +13,8 @@ class GroupAddModalCollectionViewCell: UICollectionViewCell {
 
     let personImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = false
         return imageView
     }()
 
@@ -22,8 +22,8 @@ class GroupAddModalCollectionViewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "홍길동"
         label.textAlignment = .center
-        label.textColor = .black // 원하는 텍스트 색상으로 설정
-        label.font = UIFont.systemFont(ofSize: 14) // 원하는 폰트 및 크기로 설정
+        label.textColor = UIColor.semantic.textPrimary
+        label.font = UIFont.carmuFont.body1
         return label
     }()
 
@@ -32,13 +32,15 @@ class GroupAddModalCollectionViewCell: UICollectionViewCell {
 
         contentView.addSubview(personImage)
         personImage.snp.makeConstraints { make in
-            make.top.leading.trailing.equalToSuperview()
+            make.width.height.equalTo(45)
         }
 
         contentView.addSubview(personNameLabel)
         personNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(personImage.snp.bottom).offset(12)
-            make.leading.trailing.bottom.equalToSuperview()
+            make.top.equalTo(personImage.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(12)
+            make.width.equalTo(45)
         }
     }
 
