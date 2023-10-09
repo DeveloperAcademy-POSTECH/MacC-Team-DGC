@@ -25,8 +25,8 @@ extension SessionStartView {
         let dateLabel: UILabel = {
             let lbl = UILabel()
             lbl.text = formattedDate
-            lbl.textColor = UIColor.black
-            lbl.font = UIFont.systemFont(ofSize: 14)
+            lbl.textColor = ColorTheme().blue8
+            lbl.font = CarmuFont().body2Long
             return lbl
         }()
 
@@ -41,9 +41,9 @@ extension SessionStartView {
             let comment: UILabel = {
                 let lbl = UILabel()
                 lbl.text = "초대하거나 받은 여정이 없어요...\n친구와 함께 여정을 시작해 보세요!"
-                lbl.font = UIFont.boldSystemFont(ofSize: 20)
+                lbl.font = CarmuFont().headline1
                 lbl.textAlignment = .center
-                lbl.textColor = .gray   // TODO: - 색상 변경
+                lbl.textColor = SemanticColor().textBody
                 lbl.numberOfLines = 0
                 return lbl
             }()
@@ -86,15 +86,15 @@ extension SessionStartView {
             let imageView = UIImageView()
             if let image = UIImage(systemName: "calendar") {
                 imageView.image = image
-                imageView.tintColor = .black // 이미지 색상 설정
+                imageView.tintColor = SemanticColor().accPrimary
             }
             return imageView
         }()
         let dayLabel: UILabel = {
             let lbl = UILabel()
             lbl.textAlignment = .center
-            lbl.textColor = .black
-            lbl.font = UIFont.systemFont(ofSize: 14)
+            lbl.textColor = SemanticColor().textPrimary
+            lbl.font = CarmuFont().body2Long
             lbl.text = groupData == nil ? "---" : "주중 (월 ~ 금)"
             return lbl
         }()
@@ -115,15 +115,15 @@ extension SessionStartView {
             let imageView = UIImageView()
             if let image = UIImage(systemName: "person.2") {
                 imageView.image = image
-                imageView.tintColor = .black // 이미지 색상 설정
+                imageView.tintColor = SemanticColor().accPrimary
             }
             return imageView
         }()
         let personLabel: UILabel = {
             let lbl = UILabel()
             lbl.textAlignment = .center
-            lbl.textColor = .black
-            lbl.font = UIFont.systemFont(ofSize: 14)
+            lbl.textColor = SemanticColor().textPrimary
+            lbl.font = CarmuFont().body2Long
             lbl.text = groupData == nil ? "---" : "n 명"
             return lbl
         }()
@@ -258,8 +258,8 @@ extension SessionStartView {
         // 문구
         let bottomLabel: UILabel = {
             let lbl = UILabel()
-            lbl.textColor = UIColor.black
-            lbl.font = UIFont.systemFont(ofSize: 14)
+            lbl.textColor = SemanticColor().textBody
+            lbl.font = CarmuFont().body2
             lbl.textAlignment = .center
             lbl.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"
             return lbl

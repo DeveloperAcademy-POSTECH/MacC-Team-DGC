@@ -34,9 +34,9 @@ final class SessionStartView: UIView {
     let journeyTogetherButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("여정 함께하기", for: .normal)
-        btn.backgroundColor = .systemBlue
+        btn.backgroundColor = SemanticColor().accPrimary
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        btn.titleLabel?.font = CarmuFont().headline2
         btn.layer.cornerRadius = 30
         return btn
     }()
@@ -60,7 +60,7 @@ final class SessionStartView: UIView {
     // 그룹 이름을 알려주는 뷰입니다.
     let groupNameView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemPink  // TODO: - 색상 변경하기
+        view.backgroundColor = .systemBackground  // TODO: - 색상 변경하기
         view.layer.cornerRadius = 20
         view.clipsToBounds = true
         return view
@@ -69,9 +69,12 @@ final class SessionStartView: UIView {
     // 여정을 요약해주는 뷰입니다.
     let journeySummaryView: UIView = {
         let view = UIView()
-        view.backgroundColor = .green
+        view.backgroundColor = .systemBackground
         view.layer.cornerRadius = 12
-        view.clipsToBounds = true
+        view.layer.shadowColor = ColorTheme().blue3?.cgColor
+        view.layer.shadowOpacity = 0.7
+        view.layer.shadowOffset = CGSize(width: 0, height: 2)
+        view.layer.shadowRadius = 6
         return view
     }()
 
@@ -80,7 +83,7 @@ final class SessionStartView: UIView {
         let view = UIView()
         view.backgroundColor = .white // 배경색을 설정할 수 있습니다.
         view.layer.borderWidth = 1.0
-        view.layer.borderColor = UIColor.red.cgColor
+        view.layer.borderColor = SemanticColor().textDisableBT?.cgColor
         view.layer.cornerRadius = 20 // 원하는 모양으로 뷰를 꾸밀 수 있습니다.
         return view
     }()
@@ -90,7 +93,7 @@ final class SessionStartView: UIView {
         let view = UIView()
         view.backgroundColor = .white // 배경색을 설정할 수 있습니다.
         view.layer.borderWidth = 1.0
-        view.layer.borderColor = UIColor.red.cgColor
+        view.layer.borderColor = SemanticColor().textDisableBT?.cgColor
         view.layer.cornerRadius = 20 // 원하는 모양으로 뷰를 꾸밀 수 있습니다.
         return view
     }()
@@ -135,6 +138,20 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
+    lazy var gradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.frame = groupNameView.bounds
+        gradient.cornerRadius = 16
+        gradient.colors = [
+            UIColor.theme.blue6!.cgColor,
+            UIColor.theme.acua5!.cgColor
+        ]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 1)
+        return gradient
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -170,7 +187,7 @@ final class SessionStartView: UIView {
     private func setJourneyTogetherButton() {
         addSubview(journeyTogetherButton)
         journeyTogetherButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(120)
+            make.bottom.equalToSuperview().inset(107)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(60) // TODO: - 크기 조정
         }
@@ -245,6 +262,7 @@ final class SessionStartView: UIView {
         }()
 
         summaryView.addSubview(groupNameView)
+        groupNameView.layer.addSublayer(gradient)
         groupNameView.addSubview(groupNameLabel)
         groupNameView.addSubview(whiteCircleImageViewLeft)
         groupNameView.addSubview(whiteCircleImageViewRight)
@@ -276,7 +294,7 @@ final class SessionStartView: UIView {
         summaryView.addSubview(journeySummaryView)
 
         journeySummaryView.snp.makeConstraints { make in
-            make.top.equalTo(groupNameView.snp.bottom)
+            make.top.equalTo(groupNameView.snp.bottom).inset(-3)
             make.leading.trailing.bottom.equalTo(summaryView)
         }
 

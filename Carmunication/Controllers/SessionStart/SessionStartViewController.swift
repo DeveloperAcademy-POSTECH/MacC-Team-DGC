@@ -42,6 +42,7 @@ final class SessionStartViewController: UIViewController {
             x: 0,
             y: sessionStartView.journeySummaryView.frame.maxY - 100
         )
+        sessionStartView.gradient.frame = sessionStartView.groupNameView.bounds
     }
 }
 
