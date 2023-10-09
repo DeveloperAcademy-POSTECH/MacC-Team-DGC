@@ -9,30 +9,39 @@ import UIKit
 
 final class GroupAddView: UIView {
 
-    /**
-     Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
-     */
-    private lazy var mainStack = {
-        let shareButton = buttonComponent("링크 공유하기", .greatestFiniteMagnitude, 60, 30, .black, .gray)
-        let mainStackView = UIStackView(
-            arrangedSubviews: [mainTopButtonStack, tableViewComponent, shareButton]
+    // MARK: - 텍스트 필드
+    lazy var textField: UITextField = {
+        let textField = UITextField()
+        textField.textAlignment = .left
+        textField.font = UIFont.carmuFont.body2Long
+        textField.textColor = UIColor.semantic.textPrimary
+        textField.clearButtonMode = .always
+        textField.borderStyle = .none
+        textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 38))
+        textField.leftViewMode = .always
+        textField.keyboardType = .namePhonePad
+        textField.autocapitalizationType = .none
+
+        // 폰트 설정을 NSAttributedString 내부로 이동
+        let placeholderAttributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor.semantic.textBody?.cgColor as Any,
+            .font: UIFont.carmuFont.body2Long // 원하는 폰트 지정
+        ]
+        textField.attributedPlaceholder = NSAttributedString(
+            string: "크루 이름을 입력하세요",
+            attributes: placeholderAttributes
         )
-        mainStackView.axis = .vertical
-        mainStackView.spacing = 12
-        return mainStackView
-    }()
 
-    lazy var addButton = {
-        buttonComponent("추가하기", 110, 30, 20, .blue, .cyan)
-    }()
+        // 실선 스타일의 테두리와 cornerRadius 설정
+        textField.layer.cornerRadius = 20
+        textField.layer.borderWidth = 1.0
+        textField.layer.borderColor = UIColor.theme.blue3?.cgColor
 
-    private lazy var mainTopButtonStack = {
-        let stackView = UIStackView(arrangedSubviews: [UIView(), addButton])
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal // 수평 배치
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        return stackView
+        textField.snp.makeConstraints { make in
+            make.height.equalTo(38)
+        }
+
+        return textField
     }()
 
     let tableViewComponent = {
@@ -43,6 +52,43 @@ final class GroupAddView: UIView {
         return tableView
     }()
 
+    let stopoverPointAddButton: UIButton = {
+        let button = UIButton(type: .system)
+
+        button.setTitle("경유지 추가", for: .normal)
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
+        button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.accPrimary!), for: .normal)
+        button.layer.cornerRadius = 20
+        button.layer.masksToBounds = true
+
+        button.snp.makeConstraints { make in
+            make.width.equalTo(120)
+            make.height.equalTo(38)
+        }
+
+        return button
+    }()
+
+    let crewCreateButton: UIButton = {
+        let button = UIButton(type: .system)
+
+        button.setTitle("크루 만들기", for: .normal)
+        button.setTitleColor(UIColor.theme.white, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
+        button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.accPrimary!), for: .normal)
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
+
+        button.snp.makeConstraints { make in
+            make.height.equalTo(60)
+        }
+
+        return button
+    }()
+
+    var selectedGroup: DummyGroup?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -52,34 +98,42 @@ final class GroupAddView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        addSubview(mainStack)
-        mainStack.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
+        addSubview(textField)
+        addSubview(stopoverPointAddButton)
+        addSubview(tableViewComponent)
+        addSubview(crewCreateButton)
+
+        textField.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
-            make.bottom.equalToSuperview().inset(50)
-        }
-    }
-
-    private func buttonComponent(
-        _ title: String,
-        _ width: CGFloat,
-        _ height: CGFloat,
-        _ cornerRadius: CGFloat,
-        _ fontColor: UIColor,
-        _ backgroundColor: UIColor
-    ) -> UIButton {
-
-        let button = UIButton(type: .system)
-        button.setTitle(title, for: .normal)
-        button.setTitleColor(fontColor, for: .normal)
-        button.setBackgroundImage(.pixel(ofColor: backgroundColor), for: .normal)
-        button.layer.cornerRadius = cornerRadius
-        button.layer.masksToBounds = true
-        button.snp.makeConstraints { make in
-            make.width.equalTo(width)
-            make.height.equalTo(height)
+            make.leading.trailing.equalToSuperview().inset(20)
         }
 
-        return button
+        stopoverPointAddButton.snp.makeConstraints { make in
+            make.top.equalTo(textField.snp.bottom).offset(10)
+            make.trailing.equalToSuperview().inset(20)
+        }
+
+        tableViewComponent.snp.makeConstraints { make in
+            make.top.equalTo(stopoverPointAddButton.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview().inset(20)
+        }
+
+        crewCreateButton.snp.makeConstraints { make in
+            make.top.equalTo(tableViewComponent.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(36)
+        }
     }
+}
+
+// MARK: - Preview
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct GroupAddViewPreview: PreviewProvider {
+
+    static var previews: some View {
+        GroupAddViewControllerRepresentable()
+    }
+
 }

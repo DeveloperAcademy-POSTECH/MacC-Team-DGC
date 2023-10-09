@@ -14,7 +14,7 @@ struct AddressAndTime {
     var time: String = "09:30"
 }
 
-final class GroupAddViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+final class GroupAddViewController: UIViewController {
 
     private var cellData: [AddressAndTime] = [
         AddressAndTime(address: "C5", time: "08:30"),
@@ -27,157 +27,145 @@ final class GroupAddViewController: UIViewController, UITableViewDataSource, UIT
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+
+        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.addGestureRecognizer(tapGesture)
+        navigationBarSetting()
+
+        groupAddView.tableViewComponent.dataSource = self
+        groupAddView.tableViewComponent.delegate = self
+        groupAddView.textField.delegate = self
+        groupAddView.stopoverPointAddButton.addTarget(
+            self,
+            action: #selector(addStopoverPointTapped),
+            for: .touchUpInside
+        )
 
         view.addSubview(groupAddView)
         groupAddView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
-        groupAddView.tableViewComponent.dataSource = self
-        groupAddView.tableViewComponent.delegate = self
-
-        groupAddView.addButton.addTarget(self, action: #selector(addGroupButtonAction), for: .touchUpInside)
     }
 }
 
 // MARK: - tableView protocol Method
-extension GroupAddViewController {
+extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
-    }
-
-    func numberOfSections(in tableView: UITableView) -> Int {
         return cellData.count
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 42
-    }
-
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        return " "
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return 20
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 135
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let dummyViewHeight = CGFloat(40)
-        tableView.tableHeaderView = UIView(
-            frame: CGRect(
-                x: 0, y: 0,
-                width: tableView.bounds.size.width,
-                height: dummyViewHeight
-            )
+        let cell = GroupAddTableViewCell(
+            index: CGFloat(indexPath.row),
+            cellCount: CGFloat(cellData.count)
         )
-        tableView.contentInset = UIEdgeInsets(top: -dummyViewHeight, left: 0, bottom: 0, right: 0)
-        tableView.isScrollEnabled = numberOfSections(in: tableView) <= 3 ? false : true
-
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? GroupAddTableViewCell {
-            // 셀에 Title, Subtitle, chevron 마크 설정
-            cell.titleLabel.text = "주소 : \(cellData[indexPath.section].address)"
-            cell.subtitleLabel.text = "탑승 시간 : \(cellData[indexPath.section].time)"
-            cell.accessoryType = .disclosureIndicator
-            cell.backgroundColor = UIColor.theme.blue8
-            cell.layer.cornerRadius = 20
-            return cell
+        cell.crewCount = 3
+        cell.addressSearchButton.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
+        cell.crewImageButton.addTarget(self, action: #selector(addBoardingCrewButtonTapped), for: .touchUpInside)
+        cell.startTime.addTarget(self, action: #selector(setStartTimeButtonTapped), for: .touchUpInside)
+        cell.stopoverPointRemoveButton.addTarget(
+            self,
+            action: #selector(stopoverRemoveButtonTapped),
+            for: .touchUpInside
+        )
+        if indexPath.row == 0 || indexPath.row == cellData.count - 1 {
+            cell.stopoverPointRemoveButton.isEnabled = false
+            cell.stopoverPointRemoveButton.isHidden = true
+            cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
+            cell.timeLabel.text = indexPath.row == 0 ? "출발시간" : "도착시간"
         } else {
-            // 셀을 생성하는 데 실패한 경우, 기본 UITableViewCell을 반환.
-            return UITableViewCell()
-        }
-    }
-
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-
-        // 헤더 뷰 생성
-        let headerView = UIView(
-            frame: CGRect(
-                x: 0, y: 0,
-                width: tableView.frame.size.width,
-                height: 44
-            )
-        )
-
-        // 헤더 레이블 생성
-        let headerLabel = UILabel()
-        headerLabel.text = section == 0 ? "출발지" : section == tableView.numberOfSections - 1 ? "도착지" : "경유지 \(section)"
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
-
-        // 버튼 생성
-        let button = UIButton(type: .close)
-        button.tag = section
-        button.frame = CGRect(x: 0, y: 0, width: 10, height: 10)
-        button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
-
-        // StackView 생성 및 구성
-        let headerStackView = UIStackView(
-            arrangedSubviews: [
-                headerLabel, spacer(),
-                button.tag > 0 && button.tag < cellData.count - 1 ? button : spacer()
-            ]
-        )
-        headerStackView.axis = .horizontal
-        headerStackView.alignment = .center
-        headerStackView.distribution = .fill
-        headerView.addSubview(headerStackView) // 헤더 뷰에 StackView 추가
-        tableView.sectionHeaderTopPadding = 0
-
-        // StackView 레이아웃 설정
-        headerStackView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
-            make.trailing.top.bottom.equalToSuperview()
+            cell.pointNameLabel.text = "경유지 \(indexPath.row)"
         }
 
-        return headerView
+        return cell
     }
 
-    /**
-     셀 선택 시 화면 전환 로직 구현
-     */
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
-        let detailViewController = SelectPointMapViewController()
-        detailViewController.title = "장소 선택"
-        detailViewController.modalPresentationStyle = .fullScreen
-
-        present(detailViewController, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-// MARK: - @objc Method
-extension GroupAddViewController {
-
-    /**
-     버튼이 눌린 section을 식별하거나 다른 작업 수행
-     */
-    @objc private func buttonTapped(_ sender: UIButton) {
-
-        let section = sender.tag
-        cellData.remove(at: section)
-        groupAddView.tableViewComponent.reloadData()
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        // 특정 조건을 만족하는 경우에만 셀을 선택 가능하도록 설정
+        return false
     }
 }
 
 // MARK: - Component
 extension GroupAddViewController {
 
-    @objc private func addGroupButtonAction() {
+    private func navigationBarSetting() {
+        let backButton = UIBarButtonItem(
+            image: UIImage(systemName: "xmark"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+        navigationItem.leftBarButtonItem = backButton
+    }
 
+    /**
+     backButton을 누를 때 적용되는 액션 메서드
+     */
+    @objc func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
+    }
+
+    @objc func findAddressButtonTapped() {
+        let detailViewController = SelectPointMapViewController()
+        present(detailViewController, animated: true)
+    }
+}
+
+// MARK: - @objc Method
+extension GroupAddViewController {
+
+    @objc private func addStopoverPointTapped() {
         cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
         groupAddView.tableViewComponent.reloadData()
     }
 
-    private func spacer() -> UIView {
-        let spacerView = UIView()
-        spacerView.translatesAutoresizingMaskIntoConstraints = false
-        return spacerView
+    @objc private func addBoardingCrewButtonTapped(_ sender: UIButton) {
+        let detailViewController = SelectBoardingCrewModalViewController()
+        present(detailViewController, animated: true)
     }
 
+    @objc private func setStartTimeButtonTapped(_ sender: UIButton) {
+        let detailViewController = StartTimeSelectViewController()
+        present(detailViewController, animated: true)
+    }
+
+    @objc func stopoverRemoveButtonTapped(_ sender: UIButton) {
+        let row = sender.tag
+        cellData.remove(at: row)
+        groupAddView.tableViewComponent.reloadData()
+    }
+}
+
+extension GroupAddViewController: UITextFieldDelegate {
+
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        return true
+    }
+
+    // 텍스트 필드에서 리턴 키를 누를 때 호출되는 메서드
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // 키보드를 내립니다.
+        textField.resignFirstResponder()
+        return true
+    }
+
+    // 화면의 다른 곳을 탭할 때 호출되는 메서드
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
 // MARK: - Previewer

@@ -11,10 +11,12 @@ final class GradientLineView: UIView {
 
     private let index: CGFloat
     private let cellCount: CGFloat
+    private let cornerRadius: CGFloat
 
-    init(index: CGFloat, cellCount: CGFloat) {
+    init(index: CGFloat, cellCount: CGFloat, cornerRadius: CGFloat = 0.0) {
         self.index = index
         self.cellCount = cellCount
+        self.cornerRadius = cornerRadius
         super.init(frame: .zero)
     }
 
@@ -31,16 +33,7 @@ final class GradientLineView: UIView {
         gradientLayer.colors = [UIColor(hex: color[0])?.cgColor as Any, UIColor(hex: color[1])?.cgColor as Any]
         gradientLayer.startPoint = CGPoint(x: 0.5, y: 0)
         gradientLayer.endPoint = CGPoint(x: 0.5, y: 1)
-
-        // 실선을 그릴 베지어 패스 생성
-        let path = UIBezierPath()
-        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.midX, y: rect.maxY))
-
-        // 실선 스타일 설정
-        path.lineWidth = 2.0
-        let dashes: [CGFloat] = [4, 4]
-        path.setLineDash(dashes, count: dashes.count, phase: 0)
+        gradientLayer.cornerRadius = cornerRadius
 
         // 그래디언트 레이어를 뷰에 추가
         self.layer.addSublayer(gradientLayer)

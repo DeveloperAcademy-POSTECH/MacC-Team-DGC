@@ -30,7 +30,7 @@ final class SessionListView: UIView {
     // TODO: - 뒷 배경 흐리게 하여 뒷 셀 보이도록 처리하기
     lazy var addNewGroupButton = {
         let button = UIButton(type: .system)
-        button.setTitle("+ 새 그룹 만들기", for: .normal)
+        button.setTitle("+ 새 크루 만들기", for: .normal)
         button.setTitleColor(UIColor.semantic.textSecondary!, for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.subhead3
         button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.accPrimary!), for: .normal)
