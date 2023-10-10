@@ -50,6 +50,16 @@ final class SessionStartView: UIView {
 
         return view
     }()
+    // viewWithoutCrew 안에 있는 라벨 추가
+    let noGroupCommentlabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "아직 만들어진 여정이 없어요...\n친구와 함께 여정을 시작해보세요!"
+        lbl.textColor = UIColor.semantic.textBody
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 0
+        lbl.font = UIFont.carmuFont.subhead3
+        return lbl
+    }()
 
     // 그룹 이름을 알려주는 뷰와 여정을 요약해주는 뷰의 상위 뷰입니다.
     let summaryView: UIView = {
@@ -66,6 +76,28 @@ final class SessionStartView: UIView {
         return view
     }()
 
+    let groupNameLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.textColor = UIColor.black
+        lbl.font = UIFont.systemFont(ofSize: 14)
+//        lbl.text = groupData == nil ? "------" : "1개 이상"  // TODO: - text 연산하기
+        lbl.text = "------"
+        return lbl
+    }()
+
+    let whiteCircleImageViewLeft: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "circle.fill")
+        imageView.tintColor = .white
+        return imageView
+    }()
+    let whiteCircleImageViewRight: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "circle.fill")
+        imageView.tintColor = .white
+        return imageView
+    }()
+
     // 여정을 요약해주는 뷰입니다.
     let journeySummaryView: UIView = {
         let view = UIView()
@@ -77,29 +109,6 @@ final class SessionStartView: UIView {
         view.layer.shadowRadius = 6
         return view
     }()
-
-    // 해당 그룹의 여정 요일에 대한 뷰입니다.
-    let dayView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white // 배경색을 설정할 수 있습니다.
-        view.layer.borderWidth = 1.0
-        view.layer.borderColor = UIColor.semantic.textDisableBT?.cgColor
-        view.layer.cornerRadius = 20 // 원하는 모양으로 뷰를 꾸밀 수 있습니다.
-        return view
-    }()
-
-    // 해당 그룹의 인원 수에 대한 뷰입니다.
-    let personCountView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white // 배경색을 설정할 수 있습니다.
-        view.layer.borderWidth = 1.0
-        view.layer.borderColor = UIColor.semantic.textDisableBT?.cgColor
-        view.layer.cornerRadius = 20 // 원하는 모양으로 뷰를 꾸밀 수 있습니다.
-        return view
-    }()
-
-    // 점선
-    let dottedLineLayer = CAShapeLayer()
 
     let startView: UIView = {
         let view = UIView()
@@ -115,6 +124,23 @@ final class SessionStartView: UIView {
         lbl.font = UIFont.carmuFont.subhead2
         return lbl
     }()
+    let startLocation: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "양덕" // 출발지
+        lbl.textColor = .black
+        lbl.font = UIFont.carmuFont.display2
+        lbl.textAlignment = .center
+        return lbl
+    }()
+    let startTime: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "00 : 00"
+        lbl.textColor = UIColor.theme.darkblue4
+        lbl.font = UIFont.carmuFont.body3
+        lbl.textAlignment = .center
+        return lbl
+    }()
+
     let arrowLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "→"
@@ -135,6 +161,105 @@ final class SessionStartView: UIView {
         lbl.text = "도착"
         lbl.textColor = .white
         lbl.font = UIFont.carmuFont.subhead2
+        return lbl
+    }()
+    let endLocation: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "C5" // 출발지
+        lbl.textColor = .black
+        lbl.font = UIFont.carmuFont.display2
+        lbl.textAlignment = .center
+        return lbl
+    }()
+
+    let endTime: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "00 : 00"
+        lbl.textColor = UIColor.theme.darkblue4
+        lbl.font = UIFont.carmuFont.body3
+        lbl.textAlignment = .center
+        return lbl
+    }()
+
+    // 변환된 날짜를 UILabel에 표시 -> 필요 없을 수도 있음
+    let dateLabel: UILabel = {
+        let lbl = UILabel()
+//        lbl.text = formattedDate  //TODO: - Text 변경하기
+        lbl.textColor = UIColor.theme.blue8
+        lbl.font = UIFont.carmuFont.body2Long
+        return lbl
+    }()
+
+    let noGroupComment: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "초대하거나 받은 여정이 없어요...\n친구와 함께 여정을 시작해 보세요!"   // TODO: - Text 변경하기
+        lbl.textColor = UIColor.semantic.textBody
+        lbl.font = UIFont.carmuFont.headline1
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 0
+        return lbl
+    }()
+
+    // 해당 그룹의 여정 요일에 대한 뷰입니다.
+    let dayView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = UIColor.semantic.textDisableBT?.cgColor
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    let calendarImage: UIImageView = {
+        let imageView = UIImageView()
+        if let image = UIImage(systemName: "calendar") {
+            imageView.image = image
+            imageView.tintColor = UIColor.semantic.accPrimary
+        }
+        return imageView
+    }()
+    let dayLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.textAlignment = .center
+        lbl.textColor = UIColor.semantic.textPrimary
+        lbl.font = UIFont.carmuFont.body2Long
+//        lbl.text = groupData == nil ? "---" : "주중 (월 ~ 금)"    // TODO: - 변경하기
+        return lbl
+    }()
+
+    // 해당 그룹의 인원 수에 대한 뷰입니다.
+    let personCountView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white // 배경색을 설정할 수 있습니다.
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = UIColor.semantic.textDisableBT?.cgColor
+        view.layer.cornerRadius = 20 // 원하는 모양으로 뷰를 꾸밀 수 있습니다.
+        return view
+    }()
+    let personImage: UIImageView = {
+        let imageView = UIImageView()
+        if let image = UIImage(systemName: "person.2") {
+            imageView.image = image
+            imageView.tintColor = UIColor.semantic.accPrimary
+        }
+        return imageView
+    }()
+    let personLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.textAlignment = .center
+        lbl.textColor = UIColor.semantic.textPrimary
+        lbl.font = UIFont.carmuFont.body2Long
+//        lbl.text = groupData == nil ? "---" : "n 명"   // TODO: - 변경하기
+        return lbl
+    }()
+
+    // 점선과 문구
+    let dottedLineLayer = CAShapeLayer()
+    let bottomLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.textColor = UIColor.semantic.textBody
+        lbl.font = UIFont.carmuFont.body2
+        lbl.textAlignment = .center
+//        lbl.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"  // TODO: - 번경하기
         return lbl
     }()
 
@@ -209,18 +334,10 @@ final class SessionStartView: UIView {
             make.height.equalTo(110)
         }
 
-        // 해당 뷰 안에 있는 라벨 추가
-        let label = UILabel()
-        label.text = "아직 만들어진 여정이 없어요...\n친구와 함께 여정을 시작해보세요!"
-        label.textColor = UIColor.semantic.textBody
-        label.textAlignment = .center
-        label.numberOfLines = 0  // 0으로 설정하면 자동으로 줄 바꿈이 됩니다.
-        label.font = UIFont.carmuFont.subhead3
-
         // UILabel을 viewWithoutCrew의 서브뷰로 추가
-        viewWithoutCrew.addSubview(label)
+        viewWithoutCrew.addSubview(noGroupCommentlabel)
 
-        label.snp.makeConstraints { make in
+        noGroupCommentlabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(viewWithoutCrew)
         }
         // 점선 설정
@@ -248,27 +365,6 @@ final class SessionStartView: UIView {
     }
 
     private func setGroupNameView() {
-
-        let groupNameLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.textColor = UIColor.black
-            lbl.font = UIFont.systemFont(ofSize: 14)
-            lbl.text = groupData == nil ? "------" : "1개 이상"
-            return lbl
-        }()
-
-        let whiteCircleImageViewLeft: UIImageView = {
-            let imageView = UIImageView()
-            imageView.image = UIImage(systemName: "circle.fill")
-            imageView.tintColor = .white
-            return imageView
-        }()
-        let whiteCircleImageViewRight: UIImageView = {
-            let imageView = UIImageView()
-            imageView.image = UIImage(systemName: "circle.fill")
-            imageView.tintColor = .white
-            return imageView
-        }()
 
         summaryView.addSubview(groupNameView)
         groupNameView.layer.addSublayer(gradient)

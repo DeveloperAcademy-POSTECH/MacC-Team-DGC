@@ -16,15 +16,7 @@ extension SessionStartView {
         // 현재 날짜를 가져와서 원하는 형식으로 변환
         let today = Date()
         let formattedDate = Date.formattedDate(from: today)
-
-        // 변환된 날짜를 UILabel에 표시
-        let dateLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.text = formattedDate
-            lbl.textColor = UIColor.theme.blue8
-            lbl.font = UIFont.carmuFont.body2Long
-            return lbl
-        }()
+        dateLabel.text = formattedDate
 
         journeySummaryView.addSubview(dateLabel)
 
@@ -34,18 +26,10 @@ extension SessionStartView {
 
         // 여정 요약 (중앙 부분)
         if groupData == nil {
-            let comment: UILabel = {
-                let lbl = UILabel()
-                lbl.text = "초대하거나 받은 여정이 없어요...\n친구와 함께 여정을 시작해 보세요!"
-                lbl.textColor = UIColor.semantic.textBody
-                lbl.font = UIFont.carmuFont.headline1
-                lbl.textAlignment = .center
-                lbl.numberOfLines = 0
-                return lbl
-            }()
 
-            journeySummaryView.addSubview(comment)
-            comment.snp.makeConstraints { make in
+            bottomLabel.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"
+            journeySummaryView.addSubview(noGroupComment)
+            noGroupComment.snp.makeConstraints { make in
                 make.centerX.equalTo(journeySummaryView)
                 make.top.equalTo(journeySummaryView).inset(80)
             }
@@ -79,23 +63,8 @@ extension SessionStartView {
     }
 
     func setDayViewComponent() {
-        let calendarImage: UIImageView = {
-            let imageView = UIImageView()
-            if let image = UIImage(systemName: "calendar") {
-                imageView.image = image
-                imageView.tintColor = UIColor.semantic.accPrimary
-            }
-            return imageView
-        }()
-        let dayLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.textAlignment = .center
-            lbl.textColor = UIColor.semantic.textPrimary
-            lbl.font = UIFont.carmuFont.body2Long
-            lbl.text = groupData == nil ? "---" : "주중 (월 ~ 금)"
-            return lbl
-        }()
 
+        dayLabel.text = groupData == nil ? "---" : "주중 (월 ~ 금)" // TODO: - Text 변경
         dayView.addSubview(calendarImage)
         calendarImage.snp.makeConstraints { make in
             make.leading.equalTo(dayView).offset(12)
@@ -108,23 +77,8 @@ extension SessionStartView {
     }
 
     func setPersonCountViewComponent() {
-        let personImage: UIImageView = {
-            let imageView = UIImageView()
-            if let image = UIImage(systemName: "person.2") {
-                imageView.image = image
-                imageView.tintColor = UIColor.semantic.accPrimary
-            }
-            return imageView
-        }()
-        let personLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.textAlignment = .center
-            lbl.textColor = UIColor.semantic.textPrimary
-            lbl.font = UIFont.carmuFont.body2Long
-            lbl.text = groupData == nil ? "---" : "n 명"
-            return lbl
-        }()
 
+        personLabel.text = groupData == nil ? "---" : "n 명"
         personCountView.addSubview(personImage)
         personImage.snp.makeConstraints { make in
             make.leading.equalTo(personCountView).offset(12)
@@ -146,24 +100,6 @@ extension SessionStartView {
     }
 
     private func setStartRouteComponent() {
-
-        let startLocation: UILabel = {
-            let lbl = UILabel()
-            lbl.text = "양덕" // 출발지
-            lbl.textColor = .black
-            lbl.font = UIFont.carmuFont.display2
-            lbl.textAlignment = .center
-            return lbl
-        }()
-
-        let startTime: UILabel = {
-            let lbl = UILabel()
-            lbl.text = "00 : 00"
-            lbl.textColor = UIColor.theme.darkblue4
-            lbl.font = UIFont.carmuFont.body3
-            lbl.textAlignment = .center
-            return lbl
-        }()
 
         journeySummaryView.addSubview(startView)
         startView.snp.makeConstraints { make in
@@ -197,24 +133,6 @@ extension SessionStartView {
     }
 
     private func setEndRouteComponent() {
-
-        let endLocation: UILabel = {
-            let lbl = UILabel()
-            lbl.text = "C5" // 출발지
-            lbl.textColor = .black
-            lbl.font = UIFont.carmuFont.display2
-            lbl.textAlignment = .center
-            return lbl
-        }()
-
-        let endTime: UILabel = {
-            let lbl = UILabel()
-            lbl.text = "00 : 00"
-            lbl.textColor = UIColor.theme.darkblue4
-            lbl.font = UIFont.carmuFont.body3
-            lbl.textAlignment = .center
-            return lbl
-        }()
 
         journeySummaryView.addSubview(endView)
         endView.snp.makeConstraints { make in
@@ -251,16 +169,6 @@ extension SessionStartView {
         path.addLines(between: [CGPoint(x: 0, y: 0), CGPoint(x: bounds.width - 40, y: 0)])
         dottedLineLayer.path = path
         dottedLineLayer.anchorPoint = CGPoint(x: 0, y: 0)
-
-        // 문구
-        let bottomLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.textColor = UIColor.semantic.textBody
-            lbl.font = UIFont.carmuFont.body2
-            lbl.textAlignment = .center
-            lbl.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"
-            return lbl
-        }()
 
         journeySummaryView.addSubview(bottomLabel)
 
