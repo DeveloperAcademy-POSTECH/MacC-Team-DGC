@@ -11,6 +11,14 @@ import SnapKit
 
 extension SessionStartView {
 
+    override func draw(_ rect: CGRect) {
+        setCollectionView()
+        setJourneyTogetherButton()
+        countGroupData()
+        setSummaryView()
+        setJourneySummaryView()
+    }
+
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         sessionStartBorderLayer.frame = viewWithoutCrew.bounds
@@ -45,13 +53,17 @@ extension SessionStartView {
         personCountView.addSubview(personLabel)
         journeySummaryView.addSubview(startView)
 
+        startView.layer.addSublayer(startGradient)
         startView.addSubview(startLabel)
+
         journeySummaryView.addSubview(startLocation)
         journeySummaryView.addSubview(startTime)
         journeySummaryView.addSubview(arrowLabel)
         journeySummaryView.addSubview(endView)
 
+        endView.layer.addSublayer(endGradient)
         endView.addSubview(endLabel)
+
         journeySummaryView.addSubview(endLocation)
         journeySummaryView.addSubview(endTime)
         journeySummaryView.addSubview(bottomLabel)
@@ -241,7 +253,7 @@ extension SessionStartView {
             make.leading.equalToSuperview().inset(57)
             make.top.equalToSuperview().inset(60)
             make.width.equalTo(48)
-            make.height.equalTo(26)
+            make.height.equalTo(25)
         }
 
         startLabel.snp.makeConstraints { make in
@@ -314,6 +326,8 @@ extension SessionStartView {
     }
 
     func setJourneyTogetherButton() {
+
+        let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
         journeyTogetherButton.snp.makeConstraints { make in
             make.bottom.equalToSuperview().multipliedBy(1.0 - insetRatio) // inset 비율을 적용합니다.
             make.leading.trailing.equalToSuperview().inset(20)

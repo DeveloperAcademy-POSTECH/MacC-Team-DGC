@@ -101,9 +101,22 @@ final class SessionStartView: UIView {
     let startView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.theme.blue4
-        view.layer.cornerRadius = 14
+        view.layer.cornerRadius = 12
 
         return view
+    }()
+    lazy var startGradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.frame = startView.bounds
+        gradient.cornerRadius = 12
+        gradient.colors = [
+            UIColor.theme.blue6!.cgColor,
+            UIColor.theme.acua5!.cgColor
+        ]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 1)
+        return gradient
     }()
     let startLabel: UILabel = {
         let lbl = UILabel()
@@ -142,6 +155,19 @@ final class SessionStartView: UIView {
         view.layer.cornerRadius = 14
 
         return view
+    }()
+    lazy var endGradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.frame = endView.bounds
+        gradient.cornerRadius = 12
+        gradient.colors = [
+            UIColor.theme.blue6!.cgColor,
+            UIColor.theme.acua5!.cgColor
+        ]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 1)
+        return gradient
     }()
     let endLabel: UILabel = {
         let lbl = UILabel()
@@ -234,7 +260,6 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    // 점선과 문구
     let dottedLineLayer = CAShapeLayer()
     let bottomLabel: UILabel = {
         let lbl = UILabel()
@@ -255,9 +280,6 @@ final class SessionStartView: UIView {
         return btn
     }()
 
-    // 기타 부수 사항
-    let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -267,13 +289,4 @@ final class SessionStartView: UIView {
         super.init(coder: coder)
         setupUI()
     }
-
-    override func draw(_ rect: CGRect) {
-        setCollectionView()
-        setJourneyTogetherButton()
-        countGroupData()
-        setSummaryView()
-        setJourneySummaryView()
-    }
-
 }
