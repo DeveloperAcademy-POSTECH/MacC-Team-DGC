@@ -12,14 +12,10 @@ import SnapKit
 extension SessionStartView {
 
     func setTodayDate() {
-        // 현재 날짜를 표시할 DateFormatter 생성
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd EEEE"  // 원하는 날짜 형식으로 설정
-        dateFormatter.locale = Locale(identifier: "ko_KR")  // 한글 요일로 설정
 
         // 현재 날짜를 가져와서 원하는 형식으로 변환
         let today = Date()
-        let formattedDate = dateFormatter.string(from: today)
+        let formattedDate = Date.formattedDate(from: today)
 
         // 변환된 날짜를 UILabel에 표시
         let dateLabel: UILabel = {
