@@ -21,6 +21,8 @@
 		B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73ABE2AD2914200D211DE /* SettingsView.swift */; };
 		B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */; };
 		B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC22AD2FBE600D211DE /* InquiryView.swift */; };
+		B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15DD2AD4619B00685E48 /* FriendListView.swift */; };
+		B8DD15E02AD4677800685E48 /* FriendListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15DF2AD4677800685E48 /* FriendListTableViewCell.swift */; };
 		B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE992AC96B5F004D310C /* InquiryViewController.swift */; };
 		B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */; };
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
@@ -81,6 +83,8 @@
 		B8D73ABE2AD2914200D211DE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		B8D73AC22AD2FBE600D211DE /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
+		B8DD15DD2AD4619B00685E48 /* FriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListView.swift; sourceTree = "<group>"; };
+		B8DD15DF2AD4677800685E48 /* FriendListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListTableViewCell.swift; sourceTree = "<group>"; };
 		B8EECE992AC96B5F004D310C /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
@@ -183,6 +187,8 @@
 				B8D73ABE2AD2914200D211DE /* SettingsView.swift */,
 				B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */,
 				B8D73AC22AD2FBE600D211DE /* InquiryView.swift */,
+				B8DD15DD2AD4619B00685E48 /* FriendListView.swift */,
+				B8DD15DF2AD4677800685E48 /* FriendListTableViewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -476,6 +482,7 @@
 				BF9BCFF32ACE379C009DAECD /* SelectPointMapView.swift in Sources */,
 				BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */,
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
+				B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */,
 				16E42CE02AC47E900031486E /* GroupData.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
@@ -485,6 +492,7 @@
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
+				B8DD15E02AD4677800685E48 /* FriendListTableViewCell.swift in Sources */,
 				16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */,
 				C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
