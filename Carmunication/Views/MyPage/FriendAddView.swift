@@ -9,6 +9,31 @@ import UIKit
 
 final class FriendAddView: UIView {
 
+    // MARK: - 친구 추가 모달 상단 바
+    lazy var headerBar: UIView = {
+        let headerStackView = UIView()
+        return headerStackView
+    }()
+
+    // 상단 바 제목
+    lazy var headerTitleLabel: UILabel = {
+        let headerTitleLabel = UILabel()
+        headerTitleLabel.text = "친구추가"
+        headerTitleLabel.textAlignment = .center
+        // TODO: 폰트 적용 필요
+        headerTitleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+        headerTitleLabel.textColor = UIColor.semantic.textPrimary
+        return headerTitleLabel
+    }()
+
+    // 모달 닫기 버튼
+    lazy var closeButton: UIButton = {
+        let closeButton = UIButton()
+        closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
+        closeButton.tintColor = UIColor.semantic.accPrimary
+        return closeButton
+    }()
+
     // MARK: - 텍스트 필드 배경
     lazy var friendSearchTextFieldView: UIView = {
         let friendSearchTextFieldView = UIView()
@@ -67,6 +92,19 @@ final class FriendAddView: UIView {
         return friendSearchButton
     }()
 
+    // MARK: - 친구 추가하기 버튼
+    lazy var friendAddButton: UIButton = {
+        let friendAddButton = UIButton()
+        friendAddButton.backgroundColor = UIColor.theme.blue6
+        friendAddButton.setTitle("친구 추가하기", for: .normal)
+        friendAddButton.titleLabel?.font = UIFont.carmuFont.subhead3
+        friendAddButton.setTitleColor(UIColor.theme.white, for: .normal)
+        friendAddButton.layer.cornerRadius = 30
+
+        friendAddButton.setTitleColor(UIColor.semantic.textDisableBT, for: .disabled)
+        return friendAddButton
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -81,7 +119,12 @@ final class FriendAddView: UIView {
     }
 
     func setupViews() {
+        addSubview(headerBar)
         addSubview(friendSearchTextFieldView)
+        addSubview(friendAddButton)
+
+        headerBar.addSubview(headerTitleLabel)
+        headerBar.addSubview(closeButton)
 
         friendSearchTextFieldView.addSubview(friendSearchTextField)
 
@@ -91,8 +134,24 @@ final class FriendAddView: UIView {
 
     // MARK: - 오토 레이아웃 설정 메서드
     func setAutoLayout() {
+        headerBar.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(16)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(42)
+        }
+        headerTitleLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(130)
+        }
+        closeButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(16)
+            make.centerY.equalToSuperview()
+            make.width.height.equalTo(22)
+        }
         friendSearchTextFieldView.snp.makeConstraints { make in
-            make.top.leading.trailing.equalTo(safeAreaLayoutGuide).inset(20)
+            make.top.equalTo(headerBar.snp.bottom).offset(20)
+            make.leading.trailing.equalTo(safeAreaLayoutGuide).inset(20)
             make.height.equalTo(38)
         }
         friendSearchTextField.snp.makeConstraints { make in
@@ -101,6 +160,11 @@ final class FriendAddView: UIView {
         }
         clearButton.snp.makeConstraints { make in
             make.trailing.equalTo(friendSearchButton.snp.leading).offset(-10)
+        }
+        friendAddButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(48)
+            make.height.equalTo(60)
         }
     }
 }

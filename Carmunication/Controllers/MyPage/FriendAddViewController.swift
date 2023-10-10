@@ -21,18 +21,51 @@ final class FriendAddViewController: UIViewController {
             make.edges.equalToSuperview()
         }
 
+        friendAddView.closeButton.addTarget(self, action: #selector(closeFriendAddView), for: .touchUpInside)
         friendAddView.friendSearchButton.addTarget(self, action: #selector(performFriendSearch), for: .touchUpInside)
         friendAddView.clearButton.addTarget(self, action: #selector(clearButtonPressed), for: .touchUpInside)
+        friendAddView.friendAddButton.addTarget(self, action: #selector(sendFriendRequest), for: .touchUpInside)
 
         friendAddView.friendSearchTextField.delegate = self
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
         view.addGestureRecognizer(tapGesture)
+
+        // 키보드 노티피케이션 옵저버 등록
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+
+    // 클래스의 인스턴스가 메모리에서 해제되기 전에 호출되는 메서드
+    deinit {
+        // 옵저버 해제
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setButtonState(hasText: false)
     }
 }
 
 // MARK: - @objc 메서드
 extension FriendAddViewController {
+
+    // 상단 닫기 버튼 클릭 시 동작
+    @objc private func closeFriendAddView() {
+        self.dismiss(animated: true)
+    }
 
     // [검색] 버튼을 눌렀을 때 동작
     @objc private func performFriendSearch() {
@@ -51,6 +84,32 @@ extension FriendAddViewController {
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 1.0
         friendAddView.friendSearchTextField.resignFirstResponder() // 최초 응답자 해제
     }
+
+    // [친구 추가하기] 버튼 눌렀을 때 동작
+    @objc func sendFriendRequest() {
+        // TODO: - 친구 추가 구현 필요
+        print("친구 추가하기 버튼 클릭됨")
+    }
+
+    // 키보드가 나타날 때 호출되는 메서드
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo else { return }
+        guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+
+        // 애니메이션을 사용하여 레이아웃 업데이트 → 친구 추가하기 버튼을 위로 올려준다.
+        UIView.animate(withDuration: 0.3) {
+            self.friendAddView.friendAddButton.transform = CGAffineTransform(
+                translationX: 0,
+                y: -keyboardFrame.height+24
+            )
+        }
+    }
+    // 키보드가 사라질 때 호출되는 메서드
+    @objc func keyboardWillHide(notification: Notification) {
+        self.friendAddView.friendAddButton.transform = .identity
+    }
 }
 
 // MARK: - 텍스트 필드 관련 델리게이트 메서드 구현
@@ -66,5 +125,29 @@ extension FriendAddViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         dismissTextField()
         return true
+    }
+
+    // 텍스트 필드 텍스트가 변경될 때 호출되는 메서드
+    func textFieldDidChangeSelection(_ textField: UITextField) {
+        if let text = textField.text, !text.isEmpty {
+            // 텍스트가 있는 경우
+            setButtonState(hasText: true)
+        } else {
+            // 텍스트가 없는 경우
+            setButtonState(hasText: false)
+        }
+    }
+
+    // 텍스트필드 입력 값에 따라 친구 추가 버튼의 활성화/비활성화를 처리해주는 함수
+    func setButtonState(hasText: Bool) {
+        if hasText {
+            // 활성화
+            friendAddView.friendAddButton.backgroundColor = UIColor.theme.blue6
+            friendAddView.friendAddButton.isEnabled = true
+        } else {
+            // 비활성화
+            friendAddView.friendAddButton.backgroundColor = UIColor.semantic.backgroundSecond
+            friendAddView.friendAddButton.isEnabled = false
+        }
     }
 }

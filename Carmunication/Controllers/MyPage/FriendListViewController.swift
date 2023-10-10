@@ -42,7 +42,9 @@ final class FriendListViewController: UIViewController {
     // [친구추가] 내비게이션 바 버튼 클릭 시 동작
     @objc private func showFriendAddView() {
         let friendAddVC = FriendAddViewController()
-        navigationController?.pushViewController(friendAddVC, animated: true)
+        friendAddVC.modalPresentationStyle = .formSheet
+
+        self.present(friendAddVC, animated: true)
     }
 }
 
