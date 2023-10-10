@@ -42,6 +42,7 @@ final class SessionStartViewController: UIViewController {
             x: 0,
             y: sessionStartView.journeySummaryView.frame.maxY - 100
         )
+        sessionStartView.gradient.frame = sessionStartView.groupNameView.bounds
     }
 }
 
@@ -58,7 +59,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return sessionStartView.groupData.count
+        return sessionStartView.groupData?.count ?? 0
     }
 
     func collectionView(
@@ -66,7 +67,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        return CGSize(width: 80, height: 106)
+        return CGSize(width: 80, height: 102)
     }
 }
 
@@ -79,7 +80,9 @@ extension SessionStartViewController: UICollectionViewDataSource {
             withReuseIdentifier: "groupCell",
             for: indexPath
         ) as? GroupCollectionViewCell
-        cell?.groupData = self.sessionStartView.groupData[indexPath.row]
-        return cell!
+        if let groupData = self.sessionStartView.groupData?[indexPath.row] {
+            cell?.groupData = groupData
+        }
+        return cell ?? UICollectionViewCell()
     }
 }
