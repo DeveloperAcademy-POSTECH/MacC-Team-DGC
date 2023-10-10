@@ -83,7 +83,7 @@ final class SessionStartView: UIView {
         let view = UIView()
         view.backgroundColor = .white // 배경색을 설정할 수 있습니다.
         view.layer.borderWidth = 1.0
-        view.layer.borderColor = SemanticColor().textDisableBT?.cgColor
+        view.layer.borderColor = UIColor.semantic.textDisableBT?.cgColor
         view.layer.cornerRadius = 20 // 원하는 모양으로 뷰를 꾸밀 수 있습니다.
         return view
     }()
@@ -93,7 +93,7 @@ final class SessionStartView: UIView {
         let view = UIView()
         view.backgroundColor = .white // 배경색을 설정할 수 있습니다.
         view.layer.borderWidth = 1.0
-        view.layer.borderColor = SemanticColor().textDisableBT?.cgColor
+        view.layer.borderColor = UIColor.semantic.textDisableBT?.cgColor
         view.layer.cornerRadius = 20 // 원하는 모양으로 뷰를 꾸밀 수 있습니다.
         return view
     }()
