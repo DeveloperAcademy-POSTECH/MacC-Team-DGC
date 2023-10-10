@@ -80,7 +80,9 @@ extension SessionStartViewController: UICollectionViewDataSource {
             withReuseIdentifier: "groupCell",
             for: indexPath
         ) as? GroupCollectionViewCell
-        cell?.groupData = self.sessionStartView.groupData?[indexPath.row]
-        return cell!
+        if let groupData = self.sessionStartView.groupData?[indexPath.row] {
+            cell?.groupData = groupData
+        }
+        return cell ?? UICollectionViewCell()
     }
 }
