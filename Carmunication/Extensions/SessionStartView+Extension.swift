@@ -11,6 +11,49 @@ import SnapKit
 
 extension SessionStartView {
 
+    func setupUI() {
+
+        // addSubView
+        addSubview(groupCollectionView)
+
+        addSubview(viewWithoutCrew)
+        viewWithoutCrew.addSubview(noGroupCommentlabel)
+
+        addSubview(summaryView)
+        summaryView.addSubview(groupNameView)
+        summaryView.addSubview(journeySummaryView)
+
+        groupNameView.layer.addSublayer(gradient)
+        groupNameView.addSubview(groupNameLabel)
+        groupNameView.addSubview(whiteCircleImageViewLeft)
+        groupNameView.addSubview(whiteCircleImageViewRight)
+
+        journeySummaryView.addSubview(dateLabel)
+        journeySummaryView.addSubview(noGroupComment)
+        journeySummaryView.addSubview(dayView)
+        journeySummaryView.addSubview(personCountView)
+
+        dayView.addSubview(calendarImage)
+        dayView.addSubview(dayLabel)
+
+        personCountView.addSubview(personImage)
+        personCountView.addSubview(personLabel)
+        journeySummaryView.addSubview(startView)
+
+        startView.addSubview(startLabel)
+        journeySummaryView.addSubview(startLocation)
+        journeySummaryView.addSubview(startTime)
+        journeySummaryView.addSubview(arrowLabel)
+        journeySummaryView.addSubview(endView)
+
+        endView.addSubview(endLabel)
+        journeySummaryView.addSubview(endLocation)
+        journeySummaryView.addSubview(endTime)
+        journeySummaryView.addSubview(bottomLabel)
+
+        addSubview(journeyTogetherButton)
+    }
+
     func setCollectionView() {
         groupCollectionView.backgroundColor = .white
         groupCollectionView.snp.makeConstraints { make in
