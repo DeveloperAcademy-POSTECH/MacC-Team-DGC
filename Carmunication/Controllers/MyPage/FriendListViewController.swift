@@ -29,6 +29,20 @@ final class FriendListViewController: UIViewController {
         )
         friendListView.friendListTableView.dataSource = self
         friendListView.friendListTableView.delegate = self
+
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "친구추가",
+            style: .plain,
+            target: self,
+            action: #selector(showFriendAddView)
+        )
+    }
+
+    // [친구추가] 내비게이션 바 버튼 클릭 시 동작
+    @objc private func showFriendAddView() {
+        let friendAddVC = FriendAddViewController()
+        navigationController?.pushViewController(friendAddVC, animated: true)
     }
 }
 
