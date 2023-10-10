@@ -29,7 +29,6 @@ extension SessionStartView {
         summaryView.addSubview(groupNameView)
         summaryView.addSubview(journeySummaryView)
 
-        groupNameView.layer.addSublayer(gradient)
         groupNameView.addSubview(groupNameLabel)
         groupNameView.addSubview(whiteCircleImageViewLeft)
         groupNameView.addSubview(whiteCircleImageViewRight)

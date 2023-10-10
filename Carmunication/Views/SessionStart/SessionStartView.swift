@@ -255,19 +255,6 @@ final class SessionStartView: UIView {
     }()
 
     // 기타 부수 사항
-    lazy var gradient: CAGradientLayer = {
-        let gradient = CAGradientLayer()
-        gradient.frame = groupNameView.bounds
-        gradient.cornerRadius = 16
-        gradient.colors = [
-            UIColor.theme.blue6!.cgColor,
-            UIColor.theme.acua5!.cgColor
-        ]
-        gradient.locations = [0.0, 1.0]
-        gradient.startPoint = CGPoint(x: 0, y: 0.5)
-        gradient.endPoint = CGPoint(x: 1, y: 1)
-        return gradient
-    }()
     let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
 
     override init(frame: CGRect) {
