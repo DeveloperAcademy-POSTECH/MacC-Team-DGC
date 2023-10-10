@@ -67,6 +67,9 @@ extension FriendListViewController: UITableViewDataSource, UITableViewDelegate {
         ) as? FriendListTableViewCell {
             // TODO: - 셀에 친구 정보 넣어주기
             cell.nicknameLabel.text = dummyFriends[indexPath.section]
+            let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
+            chevronImage.tintColor = UIColor.semantic.textBody
+            cell.accessoryView = chevronImage
             return cell
         }
         return UITableViewCell()
@@ -76,5 +79,23 @@ extension FriendListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: - 친구 상세보기 페이지로 이동 구현하기
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - 프리뷰 canvas 세팅
+import SwiftUI
+
+struct FriendListViewControllerRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = FriendListViewController
+    func makeUIViewController(context: Context) -> FriendListViewController {
+        return FriendListViewController()
+    }
+    func updateUIViewController(_ uiViewController: FriendListViewController, context: Context) {
+    }
+}
+@available(iOS 13.0.0, *)
+struct FriendListViewPreview: PreviewProvider {
+    static var previews: some View {
+        FriendListViewControllerRepresentable()
     }
 }

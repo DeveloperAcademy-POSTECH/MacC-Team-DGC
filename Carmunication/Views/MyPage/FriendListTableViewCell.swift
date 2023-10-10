@@ -35,15 +35,6 @@ final class FriendListTableViewCell: UITableViewCell {
         return nicknameLabel
     }()
 
-    // MARK: - disclosureIndicator(>) 표시
-    let chevronImage: UIImageView = {
-        let chevronImage = UIImageView(
-            image: UIImage(systemName: "chevron.right")
-        )
-        chevronImage.tintColor = UIColor.semantic.textBody!
-        return chevronImage
-    }()
-
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
@@ -62,7 +53,6 @@ final class FriendListTableViewCell: UITableViewCell {
 
     func setupViews() {
         addSubview(profileStack)
-        addSubview(chevronImage)
 
         profileStack.addArrangedSubview(profileImageView)
         profileStack.addArrangedSubview(nicknameLabel)
@@ -79,27 +69,5 @@ final class FriendListTableViewCell: UITableViewCell {
             make.width.height.equalTo(50)
             make.trailing.equalTo(nicknameLabel.snp.leading).offset(-12)
         }
-        chevronImage.snp.makeConstraints { make in
-            make.top.trailing.bottom.equalToSuperview().inset(25)
-            make.width.height.equalTo(12)
-        }
-    }
-}
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct FriendListViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = FriendListViewController
-    func makeUIViewController(context: Context) -> FriendListViewController {
-        return FriendListViewController()
-    }
-    func updateUIViewController(_ uiViewController: FriendListViewController, context: Context) {
-    }
-}
-@available(iOS 13.0.0, *)
-struct FriendListViewPreview: PreviewProvider {
-    static var previews: some View {
-        FriendListViewControllerRepresentable()
     }
 }
