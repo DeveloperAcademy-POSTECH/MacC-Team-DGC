@@ -14,8 +14,8 @@ import Foundation
  crew_list : 그룹(크루)에 등록된 유저 id 배열
  crew_status : 당일 여정에 참여하겠다는 의사를 담은 status. 여정 종료시 모두 false로 초기화 되어야 함.
  */
-struct Crew: DummyData {
-    var crew_id: Int
-    var crew_list: [Int]
-    var crew_status: [Int: Bool]
+struct Crew {
+    var crewId: Int
+    var crewList: [Int]
+    var crewStatus: [Int: Bool]
 }

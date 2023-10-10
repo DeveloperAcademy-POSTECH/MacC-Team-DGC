@@ -19,20 +19,21 @@ import Foundation
  start_point : 출발지의 point_id
  end_point : 도착지의 point_id
  stopover_point : 경유지의 point_id를 모아둔 배열
- accumulate_distance : 이 크루가 진행한 세션의 총 누적 거리(세션이 끝날 때 마다 더해줌.) -> 여유가 된다면, captain - crew 간의 friendship에 accumulate_distance 추가해줘야 함.
+ accumulate_distance : 이 크루가 진행한 세션의 총 누적 거리(세션이 끝날 때 마다 더해줌.) 
+ -> 여유가 된다면, captain - crew 간의 friendship에 accumulate_distance 추가해줘야 함.
  session_array : 이 크루가 진행한 세션들의 id 배열 -> cf. 초기 ERD에 반영되지 않음
 
  cf. is_permitted의 경우 ERD에 있으나, 수락 부분이 빠지기 때문에, 속성에서 제외함
  */
-struct Group: DummyData {
-    var group_id: Int
-    var group_name: String
-    var group_image: String
-    var captain_id: Int
-    var crew_list: Int
-    var start_point: Int
-    var end_point: Int
-    var stopover_point: [Int] = []
-    var accumulate_distance: Int = 0
-    var session_array: [Int] = []
+struct Group {
+    var groupId: Int
+    var groupName: String
+    var groupImage: String
+    var captainId: Int
+    var crewList: Int
+    var startPoint: Int
+    var endPoint: Int
+    var stopoverPoint: [Int] = []
+    var accumulateDistance: Int = 0
+    var sessionArray: [Int] = []
 }

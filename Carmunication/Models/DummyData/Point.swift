@@ -19,12 +19,12 @@ import Foundation
  point_lng : 포인트의 경도
  boarding_crew : 그 장소에서 탑승하는 크루의 고유 id
  */
-struct Point: DummyData {
-    var point_id: Int
-    var point_sequence: Int
-    var point_name: String
-    var point_arrival_time: Date
-    var point_lat: Double
-    var point_lng: Double
-    var boarding_Crew: [Int]
+struct Point {
+    var pointId: Int
+    var pointSequence: Int
+    var pointName: String
+    var pointArrivalTime: Date
+    var pointLat: Double
+    var pointLng: Double
+    var boardingCrew: [Int]
 }

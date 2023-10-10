@@ -15,8 +15,8 @@ import Foundation
  friends : Friends 저장소(static 배열)에 들어가있는 Friendship 고유 번호
  group : Group 저장소(static 배열)에 들어가있는 group 고유 번호
  */
-struct User: DummyData {
-    var user_id: Int
+struct User {
+    var userId: Int
     var username: String
     var email: String
     var imageURL: String

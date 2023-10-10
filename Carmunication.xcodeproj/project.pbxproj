@@ -49,7 +49,6 @@
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		C904D1562AD5786A008BF5CE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1552AD5786A008BF5CE /* User.swift */; };
 		C904D1582AD57942008BF5CE /* Friendship.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1572AD57942008BF5CE /* Friendship.swift */; };
-		C904D15A2AD57956008BF5CE /* DummyDataProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1592AD57956008BF5CE /* DummyDataProtocol.swift */; };
 		C904D15C2AD57ACB008BF5CE /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D15B2AD57ACB008BF5CE /* Point.swift */; };
 		C904D15E2AD57AD8008BF5CE /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D15D2AD57AD8008BF5CE /* Crew.swift */; };
 		C904D1612AD57AE8008BF5CE /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1602AD57AE8008BF5CE /* Group.swift */; };
@@ -118,7 +117,6 @@
 		BF9BD0012ACE5093009DAECD /* ModalQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalQueueView.swift; sourceTree = "<group>"; };
 		C904D1552AD5786A008BF5CE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C904D1572AD57942008BF5CE /* Friendship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friendship.swift; sourceTree = "<group>"; };
-		C904D1592AD57956008BF5CE /* DummyDataProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyDataProtocol.swift; sourceTree = "<group>"; };
 		C904D15B2AD57ACB008BF5CE /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		C904D15D2AD57AD8008BF5CE /* Crew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
 		C904D1602AD57AE8008BF5CE /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
@@ -341,7 +339,6 @@
 			isa = PBXGroup;
 			children = (
 				C92CFB3F2ACC24F50068273A /* DummyGroup.swift */,
-				C904D1592AD57956008BF5CE /* DummyDataProtocol.swift */,
 				C904D1552AD5786A008BF5CE /* User.swift */,
 				C904D1572AD57942008BF5CE /* Friendship.swift */,
 				C904D15B2AD57ACB008BF5CE /* Point.swift */,
@@ -504,7 +501,6 @@
 				BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */,
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
 				16E42CE02AC47E900031486E /* GroupData.swift in Sources */,
-				C904D15A2AD57956008BF5CE /* DummyDataProtocol.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,

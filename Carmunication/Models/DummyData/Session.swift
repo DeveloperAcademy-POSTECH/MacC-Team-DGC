@@ -28,17 +28,17 @@ import Foundation
  stopover_point의 경우, 내부에 Point를 가리키는 id가 들어있고, point 데이터로 가면 point_arrival_time이 들어있는데,
  전체 point 데이터의 array에서 특정 인덱스를 id로 데이터를 골라와서 도착 예정 시간을 추출해와야 함.
  */
-struct Session: DummyData {
-    var session_id: Int
-    var session_day_of_week: [Int]
-    var session_start_time: Date
-    var session_end_time: Date
-    var group_id: Int
-    var boss_id: Int
-    var stopover_point: [Int]
-    var boss_current_lat: Double
-    var boss_current_lng: Double
-    var delay_time: Int
-    var is_finish: Bool
-    var session_distance: Int
+struct Session {
+    var sessionId: Int
+    var sessionDayofweek: [Int]
+    var sessionStartTime: Date
+    var sessionEndTime: Date
+    var groupId: Int
+    var bossId: Int
+    var stopoverPoint: [Int]
+    var bossCurrentLat: Double
+    var bossCurrentLng: Double
+    var delayTime: Int
+    var isFinish: Bool
+    var sessionDistance: Int
 }
