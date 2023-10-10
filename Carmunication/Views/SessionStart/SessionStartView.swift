@@ -31,17 +31,7 @@ final class SessionStartView: UIView {
         return collectionView
     }()
 
-    let journeyTogetherButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("여정 시작하기", for: .normal)
-        btn.backgroundColor = UIColor.semantic.accPrimary
-        btn.titleLabel?.font = UIFont.carmuFont.headline2
-        btn.setTitleColor(.white, for: .normal)
-        btn.layer.cornerRadius = 30
-        return btn
-    }()
-
-    // 그룹이 없을 때 보여주는 뷰입니다.
+    // 그룹이 없을 때 컬렉션 뷰 대신 보여주는 뷰입니다. -> 삭제?
     let sessionStartBorderLayer = CAShapeLayer()
     lazy var viewWithoutCrew: UIView = {
         let view = UIView()
@@ -50,7 +40,7 @@ final class SessionStartView: UIView {
 
         return view
     }()
-    // viewWithoutCrew 안에 있는 라벨 추가
+    // viewWithoutCrew 안에 있는 라벨 추가  -> 삭제?
     let noGroupCommentlabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "아직 만들어진 여정이 없어요...\n친구와 함께 여정을 시작해보세요!"
@@ -61,7 +51,7 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    // 그룹 이름을 알려주는 뷰와 여정을 요약해주는 뷰의 상위 뷰입니다.
+    // 그룹 이름을 알려주는 뷰(groupNameView)와 여정을 요약해주는 뷰(journeySummaryView)의 상위 뷰입니다.
     let summaryView: UIView = {
         let view = UIView()
         return view
@@ -75,7 +65,6 @@ final class SessionStartView: UIView {
         view.clipsToBounds = true
         return view
     }()
-
     let groupNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.textColor = UIColor.black
@@ -84,7 +73,6 @@ final class SessionStartView: UIView {
         lbl.text = "------"
         return lbl
     }()
-
     let whiteCircleImageViewLeft: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "circle.fill")
@@ -110,6 +98,7 @@ final class SessionStartView: UIView {
         return view
     }()
 
+    // journeySummaryView의 컴포넌트
     let startView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.theme.blue4
@@ -140,7 +129,6 @@ final class SessionStartView: UIView {
         lbl.textAlignment = .center
         return lbl
     }()
-
     let arrowLabel: UILabel = {
         let lbl = UILabel()
         lbl.text = "→"
@@ -171,7 +159,6 @@ final class SessionStartView: UIView {
         lbl.textAlignment = .center
         return lbl
     }()
-
     let endTime: UILabel = {
         let lbl = UILabel()
         lbl.text = "00 : 00"
@@ -181,7 +168,7 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    // 변환된 날짜를 UILabel에 표시 -> 필요 없을 수도 있음
+    // 변환된 날짜를 UILabel에 표시 -> 삭제?
     let dateLabel: UILabel = {
         let lbl = UILabel()
 //        lbl.text = formattedDate  //TODO: - Text 변경하기
@@ -190,7 +177,7 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    let noGroupComment: UILabel = {
+    let noGroupComment: UILabel = { // 삭제?
         let lbl = UILabel()
         lbl.text = "초대하거나 받은 여정이 없어요...\n친구와 함께 여정을 시작해 보세요!"   // TODO: - Text 변경하기
         lbl.textColor = UIColor.semantic.textBody
@@ -261,6 +248,17 @@ final class SessionStartView: UIView {
         lbl.textAlignment = .center
 //        lbl.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"  // TODO: - 번경하기
         return lbl
+    }()
+
+    // 여정 시작하기 버튼
+    let journeyTogetherButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("여정 시작하기", for: .normal)
+        btn.backgroundColor = UIColor.semantic.accPrimary
+        btn.titleLabel?.font = UIFont.carmuFont.headline2
+        btn.setTitleColor(.white, for: .normal)
+        btn.layer.cornerRadius = 30
+        return btn
     }()
 
     lazy var gradient: CAGradientLayer = {
