@@ -106,6 +106,7 @@ extension SessionStartView {
 
     func setGroupNameView() {
 
+        groupNameLabel.text = groupData == nil ? "------" : "1개 이상"
         groupNameView.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
             make.height.equalTo(48)
@@ -155,11 +156,11 @@ extension SessionStartView {
         dateLabel.snp.makeConstraints { make in
             make.leading.top.equalToSuperview().inset(20)
         }
+        bottomLabel.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"
 
         // 여정 요약 (중앙 부분)
         if groupData == nil {
 
-            bottomLabel.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"
             noGroupComment.snp.makeConstraints { make in
                 make.centerX.equalToSuperview()
                 make.top.equalToSuperview().inset(80)

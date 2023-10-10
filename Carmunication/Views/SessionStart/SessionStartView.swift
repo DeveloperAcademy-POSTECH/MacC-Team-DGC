@@ -70,7 +70,6 @@ final class SessionStartView: UIView {
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 14)
 //        lbl.text = groupData == nil ? "------" : "1개 이상"  // TODO: - text 연산하기
-        lbl.text = "------"
         return lbl
     }()
     let whiteCircleImageViewLeft: UIImageView = {
