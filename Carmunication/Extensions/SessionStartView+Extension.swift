@@ -11,6 +11,12 @@ import SnapKit
 
 extension SessionStartView {
 
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        sessionStartBorderLayer.frame = viewWithoutCrew.bounds
+        sessionStartBorderLayer.path = UIBezierPath(roundedRect: viewWithoutCrew.bounds, cornerRadius: 20).cgPath
+    }
+
     func setupUI() {
 
         // addSubView

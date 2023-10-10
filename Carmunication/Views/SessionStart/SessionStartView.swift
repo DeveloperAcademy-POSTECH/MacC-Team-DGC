@@ -15,7 +15,6 @@ final class SessionStartView: UIView {
             GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
                       startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
         ]
-
     // 데이터가 없을 때
 //    let groupData: [GroupData]? = nil
 
@@ -69,7 +68,6 @@ final class SessionStartView: UIView {
         let lbl = UILabel()
         lbl.textColor = UIColor.black
         lbl.font = UIFont.systemFont(ofSize: 14)
-//        lbl.text = groupData == nil ? "------" : "1개 이상"  // TODO: - text 연산하기
         return lbl
     }()
     let whiteCircleImageViewLeft: UIImageView = {
@@ -170,12 +168,10 @@ final class SessionStartView: UIView {
     // 변환된 날짜를 UILabel에 표시 -> 삭제?
     let dateLabel: UILabel = {
         let lbl = UILabel()
-//        lbl.text = formattedDate  //TODO: - Text 변경하기
         lbl.textColor = UIColor.theme.blue8
         lbl.font = UIFont.carmuFont.body2Long
         return lbl
     }()
-
     let noGroupComment: UILabel = { // 삭제?
         let lbl = UILabel()
         lbl.text = "초대하거나 받은 여정이 없어요...\n친구와 함께 여정을 시작해 보세요!"   // TODO: - Text 변경하기
@@ -208,7 +204,6 @@ final class SessionStartView: UIView {
         lbl.textAlignment = .center
         lbl.textColor = UIColor.semantic.textPrimary
         lbl.font = UIFont.carmuFont.body2Long
-//        lbl.text = groupData == nil ? "---" : "주중 (월 ~ 금)"    // TODO: - 변경하기
         return lbl
     }()
 
@@ -234,7 +229,6 @@ final class SessionStartView: UIView {
         lbl.textAlignment = .center
         lbl.textColor = UIColor.semantic.textPrimary
         lbl.font = UIFont.carmuFont.body2Long
-//        lbl.text = groupData == nil ? "---" : "n 명"   // TODO: - 변경하기
         return lbl
     }()
 
@@ -245,7 +239,6 @@ final class SessionStartView: UIView {
         lbl.textColor = UIColor.semantic.textBody
         lbl.font = UIFont.carmuFont.body2
         lbl.textAlignment = .center
-//        lbl.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"  // TODO: - 번경하기
         return lbl
     }()
 
@@ -294,9 +287,4 @@ final class SessionStartView: UIView {
         setJourneySummaryView()
     }
 
-    override func layoutSublayers(of layer: CALayer) {
-        super.layoutSublayers(of: layer)
-        sessionStartBorderLayer.frame = viewWithoutCrew.bounds
-        sessionStartBorderLayer.path = UIBezierPath(roundedRect: viewWithoutCrew.bounds, cornerRadius: 20).cgPath
-    }
 }
