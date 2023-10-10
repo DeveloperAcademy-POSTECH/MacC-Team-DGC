@@ -2,6 +2,7 @@ import UIKit
 
 final class SessionStartView: UIView {
 
+    //TODO: - DB 형식 나오면 GroupData 모델 변경, 추후 setupConstraints() 생성
     // 더미 데이터
         let groupData: [GroupData]? = [
             GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
