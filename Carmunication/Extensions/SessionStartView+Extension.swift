@@ -11,26 +11,147 @@ import SnapKit
 
 extension SessionStartView {
 
+    func setupUI() {
+
+        // addSubView
+        addSubview(groupCollectionView)
+
+        addSubview(viewWithoutCrew)
+        viewWithoutCrew.addSubview(noGroupCommentlabel)
+
+        addSubview(summaryView)
+        summaryView.addSubview(groupNameView)
+        summaryView.addSubview(journeySummaryView)
+
+        groupNameView.layer.addSublayer(gradient)
+        groupNameView.addSubview(groupNameLabel)
+        groupNameView.addSubview(whiteCircleImageViewLeft)
+        groupNameView.addSubview(whiteCircleImageViewRight)
+
+        journeySummaryView.addSubview(dateLabel)
+        journeySummaryView.addSubview(noGroupComment)
+        journeySummaryView.addSubview(dayView)
+        journeySummaryView.addSubview(personCountView)
+
+        dayView.addSubview(calendarImage)
+        dayView.addSubview(dayLabel)
+
+        personCountView.addSubview(personImage)
+        personCountView.addSubview(personLabel)
+        journeySummaryView.addSubview(startView)
+
+        startView.addSubview(startLabel)
+        journeySummaryView.addSubview(startLocation)
+        journeySummaryView.addSubview(startTime)
+        journeySummaryView.addSubview(arrowLabel)
+        journeySummaryView.addSubview(endView)
+
+        endView.addSubview(endLabel)
+        journeySummaryView.addSubview(endLocation)
+        journeySummaryView.addSubview(endTime)
+        journeySummaryView.addSubview(bottomLabel)
+
+        addSubview(journeyTogetherButton)
+    }
+
+    func setCollectionView() {
+        groupCollectionView.backgroundColor = .white
+        groupCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(102)    // TODO: - 크기 조정
+        }
+    }
+
+    func countGroupData() {
+
+        if groupData == nil {
+            setViewWithoutGroup()
+        }
+    }
+
+    func setViewWithoutGroup() {
+
+        viewWithoutCrew.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(110)
+        }
+
+        noGroupCommentlabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalTo(viewWithoutCrew)
+        }
+        // 점선 설정
+        setupDashLine()
+    }
+
+    func setSummaryView() {
+
+        let bottomInset: CGFloat
+        if UIScreen.main.bounds.height >= 800 {
+            // iPhone 14와 같이 큰 화면
+            bottomInset = -36
+        } else {
+            // iPhone SE와 같이 작은 화면
+            bottomInset = -4
+        }
+
+        summaryView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(journeyTogetherButton.snp.top).inset(bottomInset)   // 수정
+            make.top.equalTo(groupData == nil ? viewWithoutCrew.snp.bottom : groupCollectionView.snp.bottom).inset(-16)
+        }
+        setGroupNameView()
+    }
+
+    func setGroupNameView() {
+
+        groupNameView.snp.makeConstraints { make in
+            make.leading.top.trailing.equalTo(summaryView)
+            make.height.equalTo(48)
+        }
+
+        groupNameLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(groupNameView)
+            make.centerY.equalTo(groupNameView)
+        }
+
+        whiteCircleImageViewLeft.snp.makeConstraints { make in
+            make.leading.equalTo(groupNameView).inset(20)
+            make.centerY.equalTo(groupNameView)
+            make.width.height.equalTo(10)
+        }
+        whiteCircleImageViewRight.snp.makeConstraints { make in
+            make.trailing.equalTo(groupNameView).inset(20)
+            make.centerY.equalTo(groupNameView)
+            make.width.height.equalTo(10)
+        }
+    }
+
+    func setJourneySummaryView() {
+
+        journeySummaryView.snp.makeConstraints { make in
+            make.top.equalTo(groupNameView.snp.bottom).inset(-3)
+            make.leading.trailing.bottom.equalTo(summaryView)
+        }
+
+        // MARK: - SessionStartView+Extension에 정의
+        // 오늘의 날짜를 보여주는 메서드
+        setTodayDate()
+
+        // 요일과 인원을 알려주는 뷰
+        setDayAndPerson()
+
+        // 문구를 관리하는 메서드
+        setSentence()
+    }
+
     func setTodayDate() {
-        // 현재 날짜를 표시할 DateFormatter 생성
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy.MM.dd EEEE"  // 원하는 날짜 형식으로 설정
-        dateFormatter.locale = Locale(identifier: "ko_KR")  // 한글 요일로 설정
 
         // 현재 날짜를 가져와서 원하는 형식으로 변환
         let today = Date()
-        let formattedDate = dateFormatter.string(from: today)
-
-        // 변환된 날짜를 UILabel에 표시
-        let dateLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.text = formattedDate
-            lbl.textColor = ColorTheme().blue8
-            lbl.font = CarmuFont().body2Long
-            return lbl
-        }()
-
-        journeySummaryView.addSubview(dateLabel)
+        let formattedDate = Date.formattedDate(from: today)
+        dateLabel.text = formattedDate
 
         dateLabel.snp.makeConstraints { make in
             make.leading.top.equalTo(journeySummaryView).inset(20)
@@ -38,18 +159,9 @@ extension SessionStartView {
 
         // 여정 요약 (중앙 부분)
         if groupData == nil {
-            let comment: UILabel = {
-                let lbl = UILabel()
-                lbl.text = "초대하거나 받은 여정이 없어요...\n친구와 함께 여정을 시작해 보세요!"
-                lbl.font = CarmuFont().headline1
-                lbl.textAlignment = .center
-                lbl.textColor = SemanticColor().textBody
-                lbl.numberOfLines = 0
-                return lbl
-            }()
 
-            journeySummaryView.addSubview(comment)
-            comment.snp.makeConstraints { make in
+            bottomLabel.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"
+            noGroupComment.snp.makeConstraints { make in
                 make.centerX.equalTo(journeySummaryView)
                 make.top.equalTo(journeySummaryView).inset(80)
             }
@@ -62,14 +174,12 @@ extension SessionStartView {
         setDayViewComponent()
         setPersonCountViewComponent()
 
-        journeySummaryView.addSubview(dayView)
         dayView.snp.makeConstraints { make in
             make.leading.equalTo(journeySummaryView).inset(12)
             make.bottom.equalTo(journeySummaryView).inset(70)
             make.height.equalTo(40) // 높이를 설정할 수 있습니다.
         }
 
-        journeySummaryView.addSubview(personCountView)
         personCountView.snp.makeConstraints { make in
             make.trailing.equalTo(journeySummaryView).inset(12)
             make.bottom.equalTo(journeySummaryView).inset(70)
@@ -83,58 +193,24 @@ extension SessionStartView {
     }
 
     func setDayViewComponent() {
-        let calendarImage: UIImageView = {
-            let imageView = UIImageView()
-            if let image = UIImage(systemName: "calendar") {
-                imageView.image = image
-                imageView.tintColor = SemanticColor().accPrimary
-            }
-            return imageView
-        }()
-        let dayLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.textAlignment = .center
-            lbl.textColor = SemanticColor().textPrimary
-            lbl.font = CarmuFont().body2Long
-            lbl.text = groupData == nil ? "---" : "주중 (월 ~ 금)"
-            return lbl
-        }()
 
-        dayView.addSubview(calendarImage)
+        dayLabel.text = groupData == nil ? "---" : "주중 (월 ~ 금)" // TODO: - Text 변경
         calendarImage.snp.makeConstraints { make in
             make.leading.equalTo(dayView).offset(12)
             make.centerY.equalTo(dayView)
         }
-        dayView.addSubview(dayLabel)
         dayLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(dayView)
         }
     }
 
     func setPersonCountViewComponent() {
-        let personImage: UIImageView = {
-            let imageView = UIImageView()
-            if let image = UIImage(systemName: "person.2") {
-                imageView.image = image
-                imageView.tintColor = SemanticColor().accPrimary
-            }
-            return imageView
-        }()
-        let personLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.textAlignment = .center
-            lbl.textColor = SemanticColor().textPrimary
-            lbl.font = CarmuFont().body2Long
-            lbl.text = groupData == nil ? "---" : "n 명"
-            return lbl
-        }()
 
-        personCountView.addSubview(personImage)
+        personLabel.text = groupData == nil ? "---" : "n 명"
         personImage.snp.makeConstraints { make in
             make.leading.equalTo(personCountView).offset(12)
             make.centerY.equalTo(personCountView)
         }
-        personCountView.addSubview(personLabel)
         personLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(personCountView)
         }
@@ -151,49 +227,27 @@ extension SessionStartView {
 
     private func setStartRouteComponent() {
 
-        let startLocation: UILabel = {
-            let lbl = UILabel()
-            lbl.text = "양덕" // 출발지
-            lbl.textColor = .black
-            lbl.font = CarmuFont().display2
-            lbl.textAlignment = .center
-            return lbl
-        }()
-
-        let startTime: UILabel = {
-            let lbl = UILabel()
-            lbl.text = "00 : 00"
-            lbl.textColor = ColorTheme().darkblue4
-            lbl.font = CarmuFont().body3
-            lbl.textAlignment = .center
-            return lbl
-        }()
-
-        journeySummaryView.addSubview(startView)
         startView.snp.makeConstraints { make in
             make.leading.equalTo(journeySummaryView).inset(57)
             make.top.equalTo(journeySummaryView).inset(60)
             make.width.equalTo(48)
             make.height.equalTo(26)
         }
-        startView.addSubview(startLabel)
+
         startLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(startView)
         }
 
-        journeySummaryView.addSubview(startLocation)
         startLocation.snp.makeConstraints { make in
             make.centerX.equalTo(startView)
             make.top.equalTo(startView).inset(32)
         }
 
-        journeySummaryView.addSubview(startTime)
         startTime.snp.makeConstraints { make in
             make.centerX.equalTo(startView)
             make.top.equalTo(startLocation.snp.bottom).inset(-16)
         }
 
-        journeySummaryView.addSubview(arrowLabel)
         arrowLabel.snp.makeConstraints { make in
             make.centerX.equalTo(journeySummaryView)
             make.centerY.equalTo(startLocation)
@@ -202,43 +256,21 @@ extension SessionStartView {
 
     private func setEndRouteComponent() {
 
-        let endLocation: UILabel = {
-            let lbl = UILabel()
-            lbl.text = "C5" // 출발지
-            lbl.textColor = .black
-            lbl.font = CarmuFont().display2
-            lbl.textAlignment = .center
-            return lbl
-        }()
-
-        let endTime: UILabel = {
-            let lbl = UILabel()
-            lbl.text = "00 : 00"
-            lbl.textColor = ColorTheme().darkblue4
-            lbl.font = CarmuFont().body3
-            lbl.textAlignment = .center
-            return lbl
-        }()
-
-        journeySummaryView.addSubview(endView)
         endView.snp.makeConstraints { make in
             make.trailing.equalTo(journeySummaryView).inset(57)
             make.top.equalTo(journeySummaryView).inset(60)
             make.width.equalTo(48)
             make.height.equalTo(25)
         }
-        endView.addSubview(endLabel)
         endLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(endView)
         }
 
-        journeySummaryView.addSubview(endLocation)
         endLocation.snp.makeConstraints { make in
             make.centerX.equalTo(endView)
             make.top.equalTo(endView).inset(32)
         }
 
-        journeySummaryView.addSubview(endTime)
         endTime.snp.makeConstraints { make in
             make.centerX.equalTo(endView)
             make.top.equalTo(endLocation.snp.bottom).inset(-16)
@@ -256,18 +288,6 @@ extension SessionStartView {
         dottedLineLayer.path = path
         dottedLineLayer.anchorPoint = CGPoint(x: 0, y: 0)
 
-        // 문구
-        let bottomLabel: UILabel = {
-            let lbl = UILabel()
-            lbl.textColor = SemanticColor().textBody
-            lbl.font = CarmuFont().body2
-            lbl.textAlignment = .center
-            lbl.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"
-            return lbl
-        }()
-
-        journeySummaryView.addSubview(bottomLabel)
-
         bottomLabel.snp.makeConstraints { make in
             make.centerX.equalTo(journeySummaryView)
             make.bottom.equalTo(journeySummaryView).inset(20)
@@ -281,5 +301,13 @@ extension SessionStartView {
         sessionStartBorderLayer.fillColor = nil
         sessionStartBorderLayer.path = UIBezierPath(rect: viewWithoutCrew.bounds).cgPath
         viewWithoutCrew.layer.addSublayer(sessionStartBorderLayer)
+    }
+
+    func setJourneyTogetherButton() {
+        journeyTogetherButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().multipliedBy(1.0 - insetRatio) // inset 비율을 적용합니다.
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(60)
+        }
     }
 }
