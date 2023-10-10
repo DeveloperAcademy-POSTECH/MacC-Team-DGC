@@ -11,14 +11,30 @@ import SnapKit
 
 extension SessionStartView {
 
+    func setJourneySummaryView() {
+
+        journeySummaryView.snp.makeConstraints { make in
+            make.top.equalTo(groupNameView.snp.bottom).inset(-3)
+            make.leading.trailing.bottom.equalTo(summaryView)
+        }
+
+        // MARK: - SessionStartView+Extension에 정의
+        // 오늘의 날짜를 보여주는 메서드
+        setTodayDate()
+
+        // 요일과 인원을 알려주는 뷰
+        setDayAndPerson()
+
+        // 문구를 관리하는 메서드
+        setSentence()
+    }
+
     func setTodayDate() {
 
         // 현재 날짜를 가져와서 원하는 형식으로 변환
         let today = Date()
         let formattedDate = Date.formattedDate(from: today)
         dateLabel.text = formattedDate
-
-        journeySummaryView.addSubview(dateLabel)
 
         dateLabel.snp.makeConstraints { make in
             make.leading.top.equalTo(journeySummaryView).inset(20)
@@ -28,7 +44,6 @@ extension SessionStartView {
         if groupData == nil {
 
             bottomLabel.text = groupData == nil ? "세션관리에서 여정을 만들어 보세요." : "오늘도 즐거운 여정을 시작해 보세요!"
-            journeySummaryView.addSubview(noGroupComment)
             noGroupComment.snp.makeConstraints { make in
                 make.centerX.equalTo(journeySummaryView)
                 make.top.equalTo(journeySummaryView).inset(80)
@@ -42,14 +57,12 @@ extension SessionStartView {
         setDayViewComponent()
         setPersonCountViewComponent()
 
-        journeySummaryView.addSubview(dayView)
         dayView.snp.makeConstraints { make in
             make.leading.equalTo(journeySummaryView).inset(12)
             make.bottom.equalTo(journeySummaryView).inset(70)
             make.height.equalTo(40) // 높이를 설정할 수 있습니다.
         }
 
-        journeySummaryView.addSubview(personCountView)
         personCountView.snp.makeConstraints { make in
             make.trailing.equalTo(journeySummaryView).inset(12)
             make.bottom.equalTo(journeySummaryView).inset(70)
@@ -65,12 +78,10 @@ extension SessionStartView {
     func setDayViewComponent() {
 
         dayLabel.text = groupData == nil ? "---" : "주중 (월 ~ 금)" // TODO: - Text 변경
-        dayView.addSubview(calendarImage)
         calendarImage.snp.makeConstraints { make in
             make.leading.equalTo(dayView).offset(12)
             make.centerY.equalTo(dayView)
         }
-        dayView.addSubview(dayLabel)
         dayLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(dayView)
         }
@@ -79,12 +90,10 @@ extension SessionStartView {
     func setPersonCountViewComponent() {
 
         personLabel.text = groupData == nil ? "---" : "n 명"
-        personCountView.addSubview(personImage)
         personImage.snp.makeConstraints { make in
             make.leading.equalTo(personCountView).offset(12)
             make.centerY.equalTo(personCountView)
         }
-        personCountView.addSubview(personLabel)
         personLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(personCountView)
         }
@@ -101,31 +110,27 @@ extension SessionStartView {
 
     private func setStartRouteComponent() {
 
-        journeySummaryView.addSubview(startView)
         startView.snp.makeConstraints { make in
             make.leading.equalTo(journeySummaryView).inset(57)
             make.top.equalTo(journeySummaryView).inset(60)
             make.width.equalTo(48)
             make.height.equalTo(26)
         }
-        startView.addSubview(startLabel)
+
         startLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(startView)
         }
 
-        journeySummaryView.addSubview(startLocation)
         startLocation.snp.makeConstraints { make in
             make.centerX.equalTo(startView)
             make.top.equalTo(startView).inset(32)
         }
 
-        journeySummaryView.addSubview(startTime)
         startTime.snp.makeConstraints { make in
             make.centerX.equalTo(startView)
             make.top.equalTo(startLocation.snp.bottom).inset(-16)
         }
 
-        journeySummaryView.addSubview(arrowLabel)
         arrowLabel.snp.makeConstraints { make in
             make.centerX.equalTo(journeySummaryView)
             make.centerY.equalTo(startLocation)
@@ -134,25 +139,21 @@ extension SessionStartView {
 
     private func setEndRouteComponent() {
 
-        journeySummaryView.addSubview(endView)
         endView.snp.makeConstraints { make in
             make.trailing.equalTo(journeySummaryView).inset(57)
             make.top.equalTo(journeySummaryView).inset(60)
             make.width.equalTo(48)
             make.height.equalTo(25)
         }
-        endView.addSubview(endLabel)
         endLabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(endView)
         }
 
-        journeySummaryView.addSubview(endLocation)
         endLocation.snp.makeConstraints { make in
             make.centerX.equalTo(endView)
             make.top.equalTo(endView).inset(32)
         }
 
-        journeySummaryView.addSubview(endTime)
         endTime.snp.makeConstraints { make in
             make.centerX.equalTo(endView)
             make.top.equalTo(endLocation.snp.bottom).inset(-16)
@@ -170,8 +171,6 @@ extension SessionStartView {
         dottedLineLayer.path = path
         dottedLineLayer.anchorPoint = CGPoint(x: 0, y: 0)
 
-        journeySummaryView.addSubview(bottomLabel)
-
         bottomLabel.snp.makeConstraints { make in
             make.centerX.equalTo(journeySummaryView)
             make.bottom.equalTo(journeySummaryView).inset(20)
@@ -185,5 +184,13 @@ extension SessionStartView {
         sessionStartBorderLayer.fillColor = nil
         sessionStartBorderLayer.path = UIBezierPath(rect: viewWithoutCrew.bounds).cgPath
         viewWithoutCrew.layer.addSublayer(sessionStartBorderLayer)
+    }
+
+    func setJourneyTogetherButton() {
+        journeyTogetherButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().multipliedBy(1.0 - insetRatio) // inset 비율을 적용합니다.
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(60)
+        }
     }
 }

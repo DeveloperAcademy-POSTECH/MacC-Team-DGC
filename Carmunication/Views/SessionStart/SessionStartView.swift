@@ -3,21 +3,21 @@ import UIKit
 final class SessionStartView: UIView {
 
     // 더미 데이터
-//        let groupData: [GroupData]? = [
-//            GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
-//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//            GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
-//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//            GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
-//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//            GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
-//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//            GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
-//                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
-//        ]
+        let groupData: [GroupData]? = [
+            GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+            GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+            GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+            GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
+            GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
+                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
+        ]
 
     // 데이터가 없을 때
-    let groupData: [GroupData]? = nil
+//    let groupData: [GroupData]? = nil
 
     // 상단 그룹에 대한 컬렉션뷰입니다.
     let groupCollectionView: UICollectionView = {
@@ -51,7 +51,7 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    // 그룹 이름을 알려주는 뷰(groupNameView)와 여정을 요약해주는 뷰(journeySummaryView)의 상위 뷰입니다.
+    // 그룹 이름을 알려주는 뷰(groupNameView)와 여정을 요약해주는 뷰(journeySummaryView)의 상위 뷰입니다. -> MVP 개발 이후에 변경 예정
     let summaryView: UIView = {
         let view = UIView()
         return view
@@ -261,6 +261,7 @@ final class SessionStartView: UIView {
         return btn
     }()
 
+    // 기타 부수 사항
     lazy var gradient: CAGradientLayer = {
         let gradient = CAGradientLayer()
         gradient.frame = groupNameView.bounds
@@ -274,13 +275,16 @@ final class SessionStartView: UIView {
         gradient.endPoint = CGPoint(x: 1, y: 1)
         return gradient
     }()
+    let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupUI()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setupUI()
     }
 
     override func draw(_ rect: CGRect) {
@@ -297,22 +301,55 @@ final class SessionStartView: UIView {
         sessionStartBorderLayer.path = UIBezierPath(roundedRect: viewWithoutCrew.bounds, cornerRadius: 20).cgPath
     }
 
-    private func setCollectionView() {
+    private func setupUI() {
+
+        // addSubView
         addSubview(groupCollectionView)
+
+        addSubview(viewWithoutCrew)
+        viewWithoutCrew.addSubview(noGroupCommentlabel)
+
+        addSubview(summaryView)
+        summaryView.addSubview(groupNameView)
+        summaryView.addSubview(journeySummaryView)
+
+        groupNameView.layer.addSublayer(gradient)
+        groupNameView.addSubview(groupNameLabel)
+        groupNameView.addSubview(whiteCircleImageViewLeft)
+        groupNameView.addSubview(whiteCircleImageViewRight)
+
+        journeySummaryView.addSubview(dateLabel)
+        journeySummaryView.addSubview(noGroupComment)
+        journeySummaryView.addSubview(dayView)
+        journeySummaryView.addSubview(personCountView)
+
+        dayView.addSubview(calendarImage)
+        dayView.addSubview(dayLabel)
+
+        personCountView.addSubview(personImage)
+        personCountView.addSubview(personLabel)
+        journeySummaryView.addSubview(startView)
+
+        startView.addSubview(startLabel)
+        journeySummaryView.addSubview(startLocation)
+        journeySummaryView.addSubview(startTime)
+        journeySummaryView.addSubview(arrowLabel)
+        journeySummaryView.addSubview(endView)
+
+        endView.addSubview(endLabel)
+        journeySummaryView.addSubview(endLocation)
+        journeySummaryView.addSubview(endTime)
+        journeySummaryView.addSubview(bottomLabel)
+
+        addSubview(journeyTogetherButton)
+    }
+
+    private func setCollectionView() {
         groupCollectionView.backgroundColor = .white
         groupCollectionView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(102)    // TODO: - 크기 조정
-        }
-    }
-    let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
-    private func setJourneyTogetherButton() {
-        addSubview(journeyTogetherButton)
-        journeyTogetherButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().multipliedBy(1.0 - insetRatio) // inset 비율을 적용합니다.
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(60)
         }
     }
 
@@ -324,16 +361,12 @@ final class SessionStartView: UIView {
     }
 
     private func setViewWithoutGroup() {
-        addSubview(viewWithoutCrew)
 
         viewWithoutCrew.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(110)
         }
-
-        // UILabel을 viewWithoutCrew의 서브뷰로 추가
-        viewWithoutCrew.addSubview(noGroupCommentlabel)
 
         noGroupCommentlabel.snp.makeConstraints { make in
             make.centerX.centerY.equalTo(viewWithoutCrew)
@@ -343,7 +376,6 @@ final class SessionStartView: UIView {
     }
 
     private func setSummaryView() {
-        addSubview(summaryView)
 
         let bottomInset: CGFloat
         if UIScreen.main.bounds.height >= 800 {
@@ -363,12 +395,6 @@ final class SessionStartView: UIView {
     }
 
     private func setGroupNameView() {
-
-        summaryView.addSubview(groupNameView)
-        groupNameView.layer.addSublayer(gradient)
-        groupNameView.addSubview(groupNameLabel)
-        groupNameView.addSubview(whiteCircleImageViewLeft)
-        groupNameView.addSubview(whiteCircleImageViewRight)
 
         groupNameView.snp.makeConstraints { make in
             make.leading.top.trailing.equalTo(summaryView)
@@ -390,25 +416,5 @@ final class SessionStartView: UIView {
             make.centerY.equalTo(groupNameView)
             make.width.height.equalTo(10)
         }
-    }
-
-    private func setJourneySummaryView() {
-
-        summaryView.addSubview(journeySummaryView)
-
-        journeySummaryView.snp.makeConstraints { make in
-            make.top.equalTo(groupNameView.snp.bottom).inset(-3)
-            make.leading.trailing.bottom.equalTo(summaryView)
-        }
-
-        // MARK: - SessionStartView+Extension에 정의
-        // 오늘의 날짜를 보여주는 메서드
-        setTodayDate()
-
-        // 요일과 인원을 알려주는 뷰
-        setDayAndPerson()
-
-        // 문구를 관리하는 메서드
-        setSentence()
     }
 }
