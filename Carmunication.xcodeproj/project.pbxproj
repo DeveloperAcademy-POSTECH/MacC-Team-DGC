@@ -53,6 +53,7 @@
 		C904D15E2AD57AD8008BF5CE /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D15D2AD57AD8008BF5CE /* Crew.swift */; };
 		C904D1612AD57AE8008BF5CE /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1602AD57AE8008BF5CE /* Group.swift */; };
 		C904D1632AD57B21008BF5CE /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1622AD57B21008BF5CE /* Session.swift */; };
+		C904D1652AD597C8008BF5CE /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1642AD597C8008BF5CE /* DummyData.swift */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
 		C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB322AC9B6760068273A /* ColorTheme.swift */; };
@@ -121,6 +122,7 @@
 		C904D15D2AD57AD8008BF5CE /* Crew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
 		C904D1602AD57AE8008BF5CE /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		C904D1622AD57B21008BF5CE /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		C904D1642AD597C8008BF5CE /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -339,6 +341,7 @@
 			isa = PBXGroup;
 			children = (
 				C92CFB3F2ACC24F50068273A /* DummyGroup.swift */,
+				C904D1642AD597C8008BF5CE /* DummyData.swift */,
 				C904D1552AD5786A008BF5CE /* User.swift */,
 				C904D1572AD57942008BF5CE /* Friendship.swift */,
 				C904D15B2AD57ACB008BF5CE /* Point.swift */,
@@ -506,6 +509,7 @@
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
 				B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */,
 				B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */,
+				C904D1652AD597C8008BF5CE /* DummyData.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C904D1632AD57B21008BF5CE /* Session.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
