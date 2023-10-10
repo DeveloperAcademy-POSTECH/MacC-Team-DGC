@@ -101,13 +101,12 @@ final class PrivacyView: UIView {
     func setAutoLayout() {
         privacyIntroStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(80)
-            make.leading.equalToSuperview().inset(20)
-            make.trailing.equalToSuperview().inset(79)
-            make.bottom.equalTo(privacyContentView.snp.top).offset(-36)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(161)
         }
         appLogoView.snp.makeConstraints { make in
             make.leading.top.equalToSuperview()
-            make.trailing.equalToSuperview().inset(197)
+            make.width.equalTo(94)
             make.height.equalTo(47)
             make.bottom.equalTo(greetingStack.snp.top).offset(-20)
         }
@@ -119,11 +118,12 @@ final class PrivacyView: UIView {
             make.bottom.equalTo(privacyDescription.snp.top).offset(-12)
         }
         privacyDescription.snp.makeConstraints { make in
-            make.leading.bottom.equalToSuperview()
+            make.leading.bottom.trailing.equalToSuperview()
         }
 
         privacyContentView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(privacyIntroStackView.snp.bottom).offset(36)
             make.bottom.equalToSuperview().inset(48)
         }
         privacyContent.snp.makeConstraints { make in
