@@ -2,7 +2,8 @@ import UIKit
 
 final class SessionStartView: UIView {
 
-    //TODO: - DB 형식 나오면 GroupData 모델 변경, 추후 setupConstraints() 생성
+    // TODO: - DB 형식 나오면 GroupData 모델 변경, 추후 setupConstraints() 생성
+
     // 더미 데이터
         let groupData: [GroupData]? = [
             GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
@@ -68,19 +69,19 @@ final class SessionStartView: UIView {
     let groupNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.textColor = UIColor.black
-        lbl.font = UIFont.systemFont(ofSize: 14)
+        lbl.font = UIFont.carmuFont.headline1
         return lbl
     }()
     let whiteCircleImageViewLeft: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "circle.fill")
-        imageView.tintColor = .white
+        imageView.tintColor = UIColor.semantic.accPrimary
         return imageView
     }()
     let whiteCircleImageViewRight: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "circle.fill")
-        imageView.tintColor = .white
+        imageView.tintColor = UIColor.semantic.accPrimary
         return imageView
     }()
 

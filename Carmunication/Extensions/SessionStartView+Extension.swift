@@ -111,7 +111,12 @@ extension SessionStartView {
 
     func setGroupNameView() {
 
-        groupNameLabel.text = groupData == nil ? "------" : "1개 이상"
+        groupNameLabel.text = groupData == nil ? "------" : groupData?[0].groupName
+        if groupData == nil {
+            groupNameView.layer.borderWidth = 1.0
+            groupNameView.layer.borderColor = UIColor.semantic.backgroundTouchable?.cgColor
+        } else { groupNameView.backgroundColor = UIColor.semantic.backgroundTouchable }
+
         groupNameView.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
             make.height.equalTo(48)
