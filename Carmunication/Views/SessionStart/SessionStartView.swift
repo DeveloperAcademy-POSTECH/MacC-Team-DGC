@@ -34,9 +34,9 @@ final class SessionStartView: UIView {
     let journeyTogetherButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("여정 시작하기", for: .normal)
-        btn.backgroundColor = SemanticColor().accPrimary
+        btn.backgroundColor = UIColor.semantic.accPrimary
+        btn.titleLabel?.font = UIFont.carmuFont.headline2
         btn.setTitleColor(.white, for: .normal)
-        btn.titleLabel?.font = CarmuFont().headline2
         btn.layer.cornerRadius = 30
         return btn
     }()
@@ -71,7 +71,7 @@ final class SessionStartView: UIView {
         let view = UIView()
         view.backgroundColor = .systemBackground
         view.layer.cornerRadius = 12
-        view.layer.shadowColor = ColorTheme().blue3?.cgColor
+        view.layer.shadowColor = UIColor.theme.blue3?.cgColor
         view.layer.shadowOpacity = 0.7
         view.layer.shadowOffset = CGSize(width: 0, height: 2)
         view.layer.shadowRadius = 6
@@ -103,7 +103,7 @@ final class SessionStartView: UIView {
 
     let startView: UIView = {
         let view = UIView()
-        view.backgroundColor = ColorTheme().blue4
+        view.backgroundColor = UIColor.theme.blue4
         view.layer.cornerRadius = 14
 
         return view
@@ -112,7 +112,7 @@ final class SessionStartView: UIView {
         let lbl = UILabel()
         lbl.text = "출발"
         lbl.textColor = .white
-        lbl.font = CarmuFont().subhead2
+        lbl.font = UIFont.carmuFont.subhead2
         return lbl
     }()
     let arrowLabel: UILabel = {
@@ -125,7 +125,7 @@ final class SessionStartView: UIView {
     }()
     let endView: UIView = {
         let view = UIView()
-        view.backgroundColor = ColorTheme().blue4
+        view.backgroundColor = UIColor.theme.blue4
         view.layer.cornerRadius = 14
 
         return view
@@ -134,7 +134,7 @@ final class SessionStartView: UIView {
         let lbl = UILabel()
         lbl.text = "도착"
         lbl.textColor = .white
-        lbl.font = CarmuFont().subhead2
+        lbl.font = UIFont.carmuFont.subhead2
         return lbl
     }()
 
@@ -215,7 +215,7 @@ final class SessionStartView: UIView {
         label.textColor = UIColor.semantic.textBody
         label.textAlignment = .center
         label.numberOfLines = 0  // 0으로 설정하면 자동으로 줄 바꿈이 됩니다.
-        label.font = CarmuFont().subhead3
+        label.font = UIFont.carmuFont.subhead3
 
         // UILabel을 viewWithoutCrew의 서브뷰로 추가
         viewWithoutCrew.addSubview(label)
