@@ -11,6 +11,80 @@ import SnapKit
 
 extension SessionStartView {
 
+    func setCollectionView() {
+        groupCollectionView.backgroundColor = .white
+        groupCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(102)    // TODO: - 크기 조정
+        }
+    }
+
+    func countGroupData() {
+
+        if groupData == nil {
+            setViewWithoutGroup()
+        }
+    }
+
+    func setViewWithoutGroup() {
+
+        viewWithoutCrew.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(110)
+        }
+
+        noGroupCommentlabel.snp.makeConstraints { make in
+            make.centerX.centerY.equalTo(viewWithoutCrew)
+        }
+        // 점선 설정
+        setupDashLine()
+    }
+
+    func setSummaryView() {
+
+        let bottomInset: CGFloat
+        if UIScreen.main.bounds.height >= 800 {
+            // iPhone 14와 같이 큰 화면
+            bottomInset = -36
+        } else {
+            // iPhone SE와 같이 작은 화면
+            bottomInset = -4
+        }
+
+        summaryView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(journeyTogetherButton.snp.top).inset(bottomInset)   // 수정
+            make.top.equalTo(groupData == nil ? viewWithoutCrew.snp.bottom : groupCollectionView.snp.bottom).inset(-16)
+        }
+        setGroupNameView()
+    }
+
+    func setGroupNameView() {
+
+        groupNameView.snp.makeConstraints { make in
+            make.leading.top.trailing.equalTo(summaryView)
+            make.height.equalTo(48)
+        }
+
+        groupNameLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(groupNameView)
+            make.centerY.equalTo(groupNameView)
+        }
+
+        whiteCircleImageViewLeft.snp.makeConstraints { make in
+            make.leading.equalTo(groupNameView).inset(20)
+            make.centerY.equalTo(groupNameView)
+            make.width.height.equalTo(10)
+        }
+        whiteCircleImageViewRight.snp.makeConstraints { make in
+            make.trailing.equalTo(groupNameView).inset(20)
+            make.centerY.equalTo(groupNameView)
+            make.width.height.equalTo(10)
+        }
+    }
+
     func setJourneySummaryView() {
 
         journeySummaryView.snp.makeConstraints { make in
