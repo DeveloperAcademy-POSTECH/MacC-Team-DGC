@@ -20,3 +20,7 @@ struct User: Codable {
     var userName: String
     var email: String
 }
+
+extension User {
+    static let databasePath = "users"
+}
