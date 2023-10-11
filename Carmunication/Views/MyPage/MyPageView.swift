@@ -34,7 +34,6 @@ final class MyPageView: UIView {
 
     lazy var gradient: CAGradientLayer = {
         let gradient = CAGradientLayer()
-        gradient.frame = userInfoView.bounds
         gradient.cornerRadius = 16
         gradient.colors = [
             UIColor.theme.blue6!.cgColor,
@@ -207,6 +206,13 @@ final class MyPageView: UIView {
         addSubview(textFieldEditStack)
 
         setAutoLayout()
+    }
+
+    // 상위 뷰의 크기가 변경되었을 때 하위 뷰에 적용되는 변경사항을 반영
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        // userInfoView의 사이즈가 정해지고 나면 gradient.frame을 맞춰준다.
+        gradient.frame = userInfoView.bounds
     }
 
     // MARK: - 오토 레이아웃 설정 메서드

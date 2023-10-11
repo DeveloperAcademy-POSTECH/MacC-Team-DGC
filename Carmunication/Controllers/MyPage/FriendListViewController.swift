@@ -37,6 +37,8 @@ final class FriendListViewController: UIViewController {
             target: self,
             action: #selector(showFriendAddView)
         )
+        let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButtonItem
     }
 
     // [친구추가] 내비게이션 바 버튼 클릭 시 동작
@@ -94,6 +96,8 @@ extension FriendListViewController: UITableViewDataSource, UITableViewDelegate {
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         // TODO: - 친구 상세보기 페이지로 이동 구현하기
+        let friendDetailVC = FriendDetailViewController()
+        navigationController?.pushViewController(friendDetailVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

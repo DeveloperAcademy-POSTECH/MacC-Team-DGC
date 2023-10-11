@@ -48,10 +48,6 @@ final class MyPageViewController: UIViewController {
         // 마이페이지에서 설정 화면으로 넘어갈 때는 내비게이션 바가 보이도록 해준다.
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
-    // subView들까지 모두 그려지면 호출되는 메소드
-    override func viewDidLayoutSubviews() {
-        myPageView.gradient.frame = myPageView.userInfoView.bounds
-    }
 
     // 설정 페이지 이동 메소드
     @objc func showSettings() {
