@@ -41,6 +41,12 @@ let group1Point: [Point] = [
 let groupData: [Group]? = [
     Group(groupId: "1", groupName: "그룹 1", captainId: "1",
           crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
+         ),
+    Group(groupId: "1", groupName: "그룹 1", captainId: "1",
+          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
+         ),
+    Group(groupId: "1", groupName: "그룹 1", captainId: "1",
+          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
          )
 ]
 
