@@ -29,6 +29,10 @@ final class InquiryViewController: UIViewController {
         inquiryView.inquiryTableView.delegate = self
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+    }
+
     // MARK: - 이메일 작성 화면 띄우기
     private func showEmailInquiryView() {
         // 이메일을 사용 가능한 지 체크 (디바이스 내 Mail앱을 이용할 수 있는지)

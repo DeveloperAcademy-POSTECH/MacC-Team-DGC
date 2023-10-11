@@ -30,7 +30,6 @@ final class FriendListViewController: UIViewController {
         friendListView.friendListTableView.dataSource = self
         friendListView.friendListTableView.delegate = self
 
-        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "친구추가",
             style: .plain,
@@ -39,6 +38,10 @@ final class FriendListViewController: UIViewController {
         )
         let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButtonItem
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
     }
 
     // [친구추가] 내비게이션 바 버튼 클릭 시 동작

@@ -21,4 +21,8 @@ final class PrivacyViewController: UIViewController {
             make.edges.equalTo(view.safeAreaLayoutGuide)
         }
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+    }
 }

@@ -19,8 +19,6 @@ final class FriendDetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
-        navigationController?.navigationBar.tintColor = UIColor.semantic.textSecondary
-
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "친구삭제",
             style: .plain,
@@ -39,6 +37,10 @@ final class FriendDetailViewController: UIViewController {
         )
         friendDetailView.giftCollectionView.delegate = self
         friendDetailView.giftCollectionView.dataSource = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = UIColor.semantic.textSecondary
     }
 }
 

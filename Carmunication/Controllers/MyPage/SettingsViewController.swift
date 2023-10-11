@@ -45,6 +45,7 @@ final class SettingsViewController: UIViewController {
         settingsView.settingsTableView.delegate = self
     }
     override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
         // 설정 화면에서는 탭 바가 보이지 않도록 한다.
         tabBarController?.tabBar.isHidden = true
     }
