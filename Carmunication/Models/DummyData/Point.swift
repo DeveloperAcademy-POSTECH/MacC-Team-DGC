@@ -29,7 +29,12 @@ struct Point {
     var pointLng: Double
     var boardingCrew: [String]  // [userId]
 
-    init(pointId: Int, pointSequence: Int, pointName: String, pointDetailAddress: String, hour: Int, minute: Int, second: Int, pointLat: Double, pointLng: Double, boardingCrew: [String]) {
+    // 시간 데이터 생성을 위한 이니셜라이저
+    init(
+        pointId: Int, pointSequence: Int, pointName: String, pointDetailAddress: String,
+        hour: Int, minute: Int, second: Int,
+        pointLat: Double, pointLng: Double, boardingCrew: [String]
+    ) {
         self.pointId = pointId
         self.pointSequence = pointSequence
         self.pointName = pointName
