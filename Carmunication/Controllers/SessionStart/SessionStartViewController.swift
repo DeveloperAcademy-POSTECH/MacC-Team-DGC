@@ -61,7 +61,8 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        return sessionStartView.groupData?.count ?? 0
+//        return sessionStartView.groupData?.count ?? 0 // groupData 위치 이동으로 인한 임시 주석
+        return groupData?.count ?? 0
     }
 
     func collectionView(
@@ -82,7 +83,10 @@ extension SessionStartViewController: UICollectionViewDataSource {
             withReuseIdentifier: "groupCell",
             for: indexPath
         ) as? GroupCollectionViewCell
-        if let groupData = self.sessionStartView.groupData?[indexPath.row] {
+//        if let groupData = self.sessionStartView.groupData?[indexPath.row] {
+//            cell?.groupData = groupData
+//        } // groupData 위치 이동으로 인한 임시 주석
+        if let groupData = groupData?[indexPath.row] {
             cell?.groupData = groupData
         }
         return cell ?? UICollectionViewCell()
