@@ -16,10 +16,10 @@ import Foundation
  group : Group 저장소(static 배열)에 들어가있는 group 고유 번호
  */
 struct User {
-    var userId: String
+    var userId: Int
     var username: String
     var email: String
     var imageURL: String?
-    var friends: [Friendship]
+    var friends: [Int]
     var group: [Group]
 }
