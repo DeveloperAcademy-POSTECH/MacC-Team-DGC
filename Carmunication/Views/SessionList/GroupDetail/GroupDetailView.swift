@@ -13,7 +13,7 @@ final class GroupDetailView: UIView {
 
     var tableViewComponent: UITableView = {
         let tableView = UITableView()
-        tableView.register(GroupDetailTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(GroupDetailTableViewCell.self, forCellReuseIdentifier: "groupDetailViewCell")
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         return tableView
