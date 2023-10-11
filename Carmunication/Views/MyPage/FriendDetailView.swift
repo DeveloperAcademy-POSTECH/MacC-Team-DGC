@@ -107,7 +107,14 @@ final class FriendDetailView: UIView {
         recommendDescription.textColor = UIColor.semantic.textPrimary
         return recommendDescription
     }()
-
+    // 추천 선물 콜렉션 뷰
+    lazy var giftCollectionView: UICollectionView = {
+        let giftCollectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: UICollectionViewFlowLayout()
+        )
+        return giftCollectionView
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -146,6 +153,7 @@ final class FriendDetailView: UIView {
         distanceLabelStack.addArrangedSubview(distanceLabel2)
 
         recommendGiftView.addSubview(recommendDescription)
+        recommendGiftView.addSubview(giftCollectionView)
     }
 
     // MARK: - 오토 레이아웃 설정 메서드
@@ -190,6 +198,11 @@ final class FriendDetailView: UIView {
             make.top.equalTo(friendImage.snp.bottom).offset(21)
             make.leading.trailing.equalToSuperview().inset(20)
         }
+        giftCollectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(recommendDescription.snp.bottom).offset(20)
+            make.bottom.equalToSuperview().inset(48)
+        }
     }
 }
 
@@ -210,88 +223,3 @@ struct FriendDetailViewPreview: PreviewProvider {
         FriendDetailViewControllerRepresentable()
     }
 }
-
-class CustomIntensityVisualEffectView: UIVisualEffectView {
-
-    /// Create visual effect view with given effect and its intensity
-    ///
-    /// - Parameters:
-    ///   - effect: visual effect, eg UIBlurEffect(style: .dark)
-    ///   - intensity: custom intensity from 0.0 (no effect) to 1.0 (full effect) using linear scale
-    init(effect: UIVisualEffect, intensity: CGFloat) {
-        super.init(effect: nil)
-        animator = UIViewPropertyAnimator(duration: 1, curve: .linear) { [unowned self] in self.effect = effect }
-        animator.fractionComplete = intensity
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError()
-    }
-
-    // MARK: Private
-    private var animator: UIViewPropertyAnimator!
-
-}
-
-//class GiftCardView: UIView {
-//
-//    private let giftImageView: UIImageView = {
-//        let giftImageView = UIImageView()
-//        giftImageView.contentMode = .scaleAspectFit
-//        return giftImageView
-//    }()
-//
-//    private let distanceLabel: UILabel = {
-//        let distanceLabel = UILabel()
-//        distanceLabel.textColor = .red
-//        return distanceLabel
-//    }()
-//
-//    private let giftNameLabel: UILabel = {
-//        let giftNameLabel = UILabel()
-//        giftNameLabel.textColor = .green
-//        return giftNameLabel
-//    }()
-//
-//    init(img: String, distance: Int, giftName: String) {
-//        super.init(frame: .zero)
-//        setupViews()
-//        setAutoLayout()
-//
-//        if let giftImage = UIImage(named: img) {
-//            giftImageView.image = giftImage
-//        }
-//
-//        distanceLabel.text = "\(distance)km"
-//        giftNameLabel.text = giftName
-//    }
-//
-//    required init?(coder: NSCoder) {
-//        super.init(coder: coder)
-//    }
-//
-//    func setupViews() {
-//        self.backgroundColor = .gray
-//
-//        addSubview(giftImageView)
-//        addSubview(distanceLabel)
-//        addSubview(giftNameLabel)
-//    }
-//
-//    func setAutoLayout() {
-//        giftImageView.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.top.equalToSuperview().inset(28.5)
-//            make.width.equalTo(72)
-//            make.height.equalTo(68)
-//        }
-//        distanceLabel.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.top.equalTo(giftImageView.snp.bottom).offset(8)
-//        }
-//        giftNameLabel.snp.makeConstraints { make in
-//            make.centerX.equalToSuperview()
-//            make.top.equalTo(distanceLabel.snp.bottom).offset(4)
-//        }
-//    }
-//}
