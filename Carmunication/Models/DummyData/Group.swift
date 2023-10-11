@@ -15,25 +15,20 @@ import Foundation
  group_name : 그룹의 이름
  group_image : 그룹의 이미지(1차 스프린트에는 들어가지 않음. 기본 데이터로 들어갈 예정)
  captain_id : 캡틴의 user_id
- crew_list : 이 그룹에 속한 crew의 crew_id
- start_point : 출발지의 point_id
- end_point : 도착지의 point_id
- stopover_point : 경유지의 point_id를 모아둔 배열
- accumulate_distance : 이 크루가 진행한 세션의 총 누적 거리(세션이 끝날 때 마다 더해줌.) 
+ crew_list : 이 그룹에 속한 crew원의 userId
+ points : Point 모델에서 각각의 장소에 대한 정보를 불러옴
+ accumulate_distance : 이 크루가 진행한 세션의 총 누적 거리(세션이 끝날 때 마다 더해줌.)
  -> 여유가 된다면, captain - crew 간의 friendship에 accumulate_distance 추가해줘야 함.
- session_array : 이 크루가 진행한 세션들의 id 배열 -> cf. 초기 ERD에 반영되지 않음
 
  cf. is_permitted의 경우 ERD에 있으나, 수락 부분이 빠지기 때문에, 속성에서 제외함
  */
 struct Group {
-    var groupId: Int
+    var groupId: String
     var groupName: String
-    var groupImage: String
-    var captainId: Int
-    var crewList: Int
-    var startPoint: Int
-    var endPoint: Int
-    var stopoverPoint: [Int] = []
+    var groupImage: String?
+    var captainId: String
+    var crewList: [String]  // [userId]
+    var sessionDay: [Int]   // 그룹이 시작되는 요일
+    var points: [Point]
     var accumulateDistance: Int = 0
-    var sessionArray: [Int] = []
 }
