@@ -17,14 +17,15 @@ import Foundation
  point_arrival_time : 포인트에 도착하는 시간(출발지는 출발시간)
  point_lat : 포인트의 위도
  point_lng : 포인트의 경도
- boarding_crew : 그 장소에서 탑승하는 크루의 고유 id
+ boarding_crew : 그 장소에서 탑승하는 크루의 고유 id (userId)
  */
 struct Point {
     var pointId: Int
     var pointSequence: Int
     var pointName: String
+    var pointDetailAddress: String
     var pointArrivalTime: Date
     var pointLat: Double
     var pointLng: Double
-    var boardingCrew: [Int]
+    var boardingCrew: [String]  // [userId]
 }
