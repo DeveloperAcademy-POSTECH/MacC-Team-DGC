@@ -82,7 +82,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 
             // Firebase DB에 유저 정보 추가
             if let currentUser = Auth.auth().currentUser {
-                self.uploadMyUserData(currentUser)
+                self.saveToDB(user: currentUser)
             }
 
             // 로그인 성공 시 메인 탭 바 뷰로 이동
@@ -111,15 +111,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         }
     }
 
-    private func uploadMyUserData(_ currentUser: FirebaseAuth.User) {
+    private func saveToDB(user firebaseUser: FirebaseAuth.User) {
         guard let databasePath = databasePath else {
             return
         }
-        guard let userName = currentUser.displayName,
-              let email = currentUser.email else {
+        guard let userName = firebaseUser.displayName,
+              let email = firebaseUser.email else {
             return
         }
-        let user = User(id: currentUser.uid, nickname: userName, email: email)
+        let user = User(id: firebaseUser.uid, nickname: userName, email: email)
 
         do {
             let data = try encoder.encode(user)
