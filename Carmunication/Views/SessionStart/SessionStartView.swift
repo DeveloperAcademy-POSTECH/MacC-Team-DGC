@@ -2,21 +2,7 @@ import UIKit
 
 final class SessionStartView: UIView {
 
-    // 더미 데이터
-        let groupData: [GroupData]? = [
-            GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-            GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-            GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-            GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-            GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
-                      startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
-        ]
-    // 데이터가 없을 때
-//    let groupData: [GroupData]? = nil
+    // TODO: - DB 형식 나오면 GroupData 모델 변경, 추후 setupConstraints() 생성
 
     // 상단 그룹에 대한 컬렉션뷰입니다.
     let groupCollectionView: UICollectionView = {
@@ -67,19 +53,19 @@ final class SessionStartView: UIView {
     let groupNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.textColor = UIColor.black
-        lbl.font = UIFont.systemFont(ofSize: 14)
+        lbl.font = UIFont.carmuFont.headline1
         return lbl
     }()
     let whiteCircleImageViewLeft: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "circle.fill")
-        imageView.tintColor = .white
+        imageView.tintColor = UIColor.semantic.accPrimary
         return imageView
     }()
     let whiteCircleImageViewRight: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "circle.fill")
-        imageView.tintColor = .white
+        imageView.tintColor = UIColor.semantic.accPrimary
         return imageView
     }()
 
@@ -99,9 +85,22 @@ final class SessionStartView: UIView {
     let startView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.theme.blue4
-        view.layer.cornerRadius = 14
+        view.layer.cornerRadius = 12
 
         return view
+    }()
+    lazy var startGradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.frame = startView.bounds
+        gradient.cornerRadius = 12
+        gradient.colors = [
+            UIColor.theme.blue6!.cgColor,
+            UIColor.theme.acua5!.cgColor
+        ]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 1)
+        return gradient
     }()
     let startLabel: UILabel = {
         let lbl = UILabel()
@@ -140,6 +139,19 @@ final class SessionStartView: UIView {
         view.layer.cornerRadius = 14
 
         return view
+    }()
+    lazy var endGradient: CAGradientLayer = {
+        let gradient = CAGradientLayer()
+        gradient.frame = endView.bounds
+        gradient.cornerRadius = 12
+        gradient.colors = [
+            UIColor.theme.blue6!.cgColor,
+            UIColor.theme.acua5!.cgColor
+        ]
+        gradient.locations = [0.0, 1.0]
+        gradient.startPoint = CGPoint(x: 0, y: 0.5)
+        gradient.endPoint = CGPoint(x: 1, y: 1)
+        return gradient
     }()
     let endLabel: UILabel = {
         let lbl = UILabel()
@@ -232,7 +244,6 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    // 점선과 문구
     let dottedLineLayer = CAShapeLayer()
     let bottomLabel: UILabel = {
         let lbl = UILabel()
@@ -253,22 +264,6 @@ final class SessionStartView: UIView {
         return btn
     }()
 
-    // 기타 부수 사항
-    lazy var gradient: CAGradientLayer = {
-        let gradient = CAGradientLayer()
-        gradient.frame = groupNameView.bounds
-        gradient.cornerRadius = 16
-        gradient.colors = [
-            UIColor.theme.blue6!.cgColor,
-            UIColor.theme.acua5!.cgColor
-        ]
-        gradient.locations = [0.0, 1.0]
-        gradient.startPoint = CGPoint(x: 0, y: 0.5)
-        gradient.endPoint = CGPoint(x: 1, y: 1)
-        return gradient
-    }()
-    let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -278,13 +273,4 @@ final class SessionStartView: UIView {
         super.init(coder: coder)
         setupUI()
     }
-
-    override func draw(_ rect: CGRect) {
-        setCollectionView()
-        setJourneyTogetherButton()
-        countGroupData()
-        setSummaryView()
-        setJourneySummaryView()
-    }
-
 }
