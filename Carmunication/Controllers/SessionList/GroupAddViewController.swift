@@ -138,7 +138,7 @@ extension GroupAddViewController {
     }
 
     @objc private func setStartTimeButtonTapped(_ sender: UIButton) {
-        let detailViewController = StartTimeSelectViewController()
+        let detailViewController = SelectStartTimeViewController()
         present(detailViewController, animated: true)
     }
 

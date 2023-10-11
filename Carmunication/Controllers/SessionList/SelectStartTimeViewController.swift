@@ -7,9 +7,9 @@
 
 import UIKit
 
-class StartTimeSelectViewController: UIViewController {
+class SelectStartTimeViewController: UIViewController {
 
-    let startTimeSelectView = StartTimeSelectView()
+    let selectStartTimeView = SelectStartTimeModalView()
 
     override var sheetPresentationController: UISheetPresentationController? {
         presentationController as? UISheetPresentationController
@@ -19,13 +19,13 @@ class StartTimeSelectViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
-        view.addSubview(startTimeSelectView)
-        startTimeSelectView.snp.makeConstraints { make in
+        view.addSubview(selectStartTimeView)
+        selectStartTimeView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
 
-        startTimeSelectView.closeButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
-        startTimeSelectView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
+        selectStartTimeView.closeButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
+        selectStartTimeView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
@@ -33,7 +33,7 @@ class StartTimeSelectViewController: UIViewController {
 }
 
 // MARK: - @objc Method
-extension StartTimeSelectViewController {
+extension SelectStartTimeViewController {
 
     @objc private func backButtonAction() {
         dismiss(animated: true)
@@ -44,4 +44,4 @@ extension StartTimeSelectViewController {
     }
 }
 
-extension StartTimeSelectViewController: UISheetPresentationControllerDelegate {}
+extension SelectStartTimeViewController: UISheetPresentationControllerDelegate {}

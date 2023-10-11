@@ -1,5 +1,5 @@
 //
-//  StartTimeSelectView.swift
+//  SelectStartTimeModalView.swift
 //  Carmunication
 //
 //  Created by 김동현 on 2023/10/08.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class StartTimeSelectView: UIView {
+final class SelectStartTimeModalView: UIView {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
