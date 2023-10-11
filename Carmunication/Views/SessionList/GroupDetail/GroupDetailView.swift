@@ -11,12 +11,24 @@ import SnapKit
 
 final class GroupDetailView: UIView {
 
-    var tableViewComponent = {
+    var tableViewComponent: UITableView = {
         let tableView = UITableView()
         tableView.register(GroupDetailTableViewCell.self, forCellReuseIdentifier: "cell")
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
         return tableView
+    }()
+
+    let crewExitButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("크루 나가기", for: .normal)
+        button.setTitleColor(UIColor.theme.white, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
+        button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.negative!), for: .normal)
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
+
+        return button
     }()
 
     var selectedGroup: DummyGroup?
@@ -31,10 +43,6 @@ final class GroupDetailView: UIView {
 
     override func draw(_ rect: CGRect) {
         let mainStackView = topLabelStack()
-        let crewExitButton = buttonComponent(
-            buttonWidth: .greatestFiniteMagnitude,
-            buttonHeight: 60
-        )
 
         addSubview(mainStackView)
         addSubview(tableViewComponent)
@@ -53,6 +61,7 @@ final class GroupDetailView: UIView {
         crewExitButton.snp.makeConstraints { make in
             make.top.equalTo(tableViewComponent.snp.bottom).offset(16)
             make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(60)
             make.bottom.equalTo(safeAreaLayoutGuide).inset(36)
         }
     }
@@ -71,30 +80,6 @@ final class GroupDetailView: UIView {
             make.bottom.equalTo(distanceLabelStack.snp.top).offset(-8)
         }
         return mainStackView
-    }
-
-    /**
-     이 뷰에서 사용되는 buttonComponent
-     */
-    private func buttonComponent(
-        buttonWidth width: CGFloat,
-        buttonHeight height: CGFloat
-    ) -> UIButton {
-        let button = UIButton(type: .system)
-
-        button.setTitle("크루 나가기", for: .normal)
-        button.setTitleColor(UIColor.theme.white, for: .normal)
-        button.titleLabel?.font = UIFont.carmuFont.subhead3
-        button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.negative!), for: .normal)
-        button.layer.cornerRadius = 30
-        button.layer.masksToBounds = true
-
-        button.snp.makeConstraints { make in
-            make.width.equalTo(width)
-            make.height.equalTo(height)
-        }
-
-        return button
     }
 
     /**

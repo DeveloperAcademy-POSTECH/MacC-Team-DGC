@@ -27,7 +27,7 @@ final class GroupDetailViewController: UIViewController {
 
         groupDetailView.tableViewComponent.dataSource = self
         groupDetailView.tableViewComponent.delegate = self
-
+        groupDetailView.crewExitButton.addTarget(self, action: #selector(crewExitButtonAction), for: .touchUpInside)
         navigationBarSetting()
     }
 }
@@ -122,7 +122,9 @@ extension GroupDetailViewController {
     /**
      추후 그룹 해체 기능으로 사용될 액션 메서드
      */
-    @objc private func dummyButtonAction() {}
+    @objc private func crewExitButtonAction() {
+        navigationController?.popViewController(animated: true)
+    }
 
     /**
      크루 편집 화면으로 들어가는 메서드
