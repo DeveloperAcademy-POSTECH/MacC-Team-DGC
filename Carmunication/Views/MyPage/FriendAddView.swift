@@ -109,6 +109,8 @@ final class FriendAddView: UIView {
         return noResultLabel
     }()
 
+    // TODO: - 검색된 친구 셀 보여주기 구현 필요
+
     // MARK: - 친구 추가하기 버튼
     lazy var friendAddButton: UIButton = {
         let friendAddButton = UIButton()

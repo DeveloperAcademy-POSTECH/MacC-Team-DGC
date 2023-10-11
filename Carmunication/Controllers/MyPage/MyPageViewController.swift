@@ -18,6 +18,9 @@ final class MyPageViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
+        let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButtonItem
+
         view.addSubview(myPageView)
         myPageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

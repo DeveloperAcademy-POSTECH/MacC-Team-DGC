@@ -31,10 +31,13 @@ final class SettingsViewController: UIViewController {
         view.backgroundColor = .systemBackground
 
         navigationItem.title = "설정"
+        let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
+        navigationItem.backBarButtonItem = backButtonItem
 
         view.addSubview(settingsView)
         settingsView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.bottom.equalToSuperview()
         }
         // 기본 UITableViewCell 셀을 재사용 식별자와 함께 테이블 뷰에 등록
         settingsView.settingsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
