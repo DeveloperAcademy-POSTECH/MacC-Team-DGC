@@ -46,7 +46,7 @@ final class StartTimeSelectView: UIView {
         return picker
     }()
 
-    private let saveButton: UIButton = {
+    let saveButton: UIButton = {
         let button = UIButton()
         button.setTitle("저장하기", for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.subhead3

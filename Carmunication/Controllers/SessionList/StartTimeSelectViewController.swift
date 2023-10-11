@@ -25,7 +25,7 @@ class StartTimeSelectViewController: UIViewController {
         }
 
         startTimeSelectView.closeButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
-
+        startTimeSelectView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
@@ -36,6 +36,10 @@ class StartTimeSelectViewController: UIViewController {
 extension StartTimeSelectViewController {
 
     @objc private func backButtonAction() {
+        dismiss(animated: true)
+    }
+
+    @objc private func saveButtonAction() {
         dismiss(animated: true)
     }
 }

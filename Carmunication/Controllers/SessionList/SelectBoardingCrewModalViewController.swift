@@ -33,6 +33,7 @@ class SelectBoardingCrewModalViewController: UIViewController {
             action: #selector(backButtonAction),
             for: .touchUpInside
         )
+        selectBoardingCrewModalView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
 
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
@@ -44,6 +45,10 @@ class SelectBoardingCrewModalViewController: UIViewController {
 extension SelectBoardingCrewModalViewController {
 
     @objc private func backButtonAction() {
+        dismiss(animated: true)
+    }
+
+    @objc private func saveButtonAction() {
         dismiss(animated: true)
     }
 }
