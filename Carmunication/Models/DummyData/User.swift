@@ -16,8 +16,8 @@ import Foundation
  group : Group 저장소(static 배열)에 들어가있는 group 고유 번호
  */
 struct User: Codable {
-    var userID: String
-    var userName: String
+    var id: String
+    var nickname: String
     var email: String
 }
 

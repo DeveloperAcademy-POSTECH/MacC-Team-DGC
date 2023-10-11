@@ -10,53 +10,53 @@ import Foundation
 struct DummyData {
     static let users: [User] = [
         User(
-            userID: "0",
-            userName: "김배찌",
+            id: "0",
+            nickname: "김배찌",
             email: "beerandsoju@gmail.com"
         ),
         User(
-            userID: "1",
-            userName: "김테드",
+            id: "1",
+            nickname: "김테드",
             email: "vandijk@gmail.com"
         ),
         User(
-            userID: "2",
-            userName: "김레이",
+            id: "2",
+            nickname: "김레이",
             email: "pokemon767@gmail.com"
         ),
         User(
-            userID: "3",
-            userName: "회장님",
+            id: "3",
+            nickname: "회장님",
             email: "unisushi@gmail.com"
         ),
         User(
-            userID: "4",
-            userName: "권지수",
+            id: "4",
+            nickname: "권지수",
             email: "sulJji@gmail.com"
         ),
         User(
-            userID: "5",
-            userName: "젤리빈",
+            id: "5",
+            nickname: "젤리빈",
             email: "sofa@gmail.com"
         ),
         User(
-            userID: "6",
-            userName: "제이슨",
+            id: "6",
+            nickname: "제이슨",
             email: "jsonparsing@gmail.com"
         ),
         User(
-            userID: "7",
-            userName: "이안",
+            id: "7",
+            nickname: "이안",
             email: "tallPerson@gmail.com"
         ),
         User(
-            userID: "8",
-            userName: "좋아요좋아요",
+            id: "8",
+            nickname: "좋아요좋아요",
             email: "likelike@gmail.com"
         ),
         User(
-            userID: "9",
-            userName: "중소기업",
+            id: "9",
+            nickname: "중소기업",
             email: "jungso@gmail.com"
         )
     ]

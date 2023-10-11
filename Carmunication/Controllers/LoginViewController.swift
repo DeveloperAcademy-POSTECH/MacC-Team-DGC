@@ -119,7 +119,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
               let email = currentUser.email else {
             return
         }
-        let user = User(userID: currentUser.uid, userName: userName, email: email)
+        let user = User(id: currentUser.uid, nickname: userName, email: email)
 
         do {
             let data = try encoder.encode(user)
