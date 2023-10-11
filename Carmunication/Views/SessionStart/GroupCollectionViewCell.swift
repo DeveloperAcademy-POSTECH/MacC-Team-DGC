@@ -12,10 +12,15 @@ import SnapKit
 final class GroupCollectionViewCell: UICollectionViewCell {
 
     // 위 식을 통해 뷰 컨트롤러에 데이터 전달
-    var groupData: GroupData? {
+    var groupData: Group? {
         didSet {
             guard let groupData = groupData else { return }
-            groupImage.image = groupData.image
+            if let imageString = groupData.groupImage, let image = UIImage(named: imageString) {
+                groupImage.image = image
+            } else {
+                // 이미지가 로드되지 않았거나 nil인 경우 기본 이미지를 설정할 수 있습니다.
+                groupImage.image = UIImage(systemName: "heart.fill")
+            }
             groupNameLabel.text = groupData.groupName
         }
     }

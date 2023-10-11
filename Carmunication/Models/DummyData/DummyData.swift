@@ -10,84 +10,54 @@ import Foundation
 struct DummyData {
     static let users: [User] = [
         User(
-            userId: 0,
-            username: "김배찌",
-            email: "beerandsoju@gmail.com",
-            imageURL: "",
-            friends: [0, 1, 2, 3],
-            group: []
+            id: "0",
+            nickname: "김배찌",
+            email: "beerandsoju@gmail.com"
         ),
         User(
-            userId: 1,
-            username: "김테드",
-            email: "vandijk@gmail.com",
-            imageURL: "",
-            friends: [1],
-            group: []
+            id: "1",
+            nickname: "김테드",
+            email: "vandijk@gmail.com"
         ),
         User(
-            userId: 2,
-            username: "김레이",
-            email: "pokemon767@gmail.com",
-            imageURL: "",
-            friends: [2],
-            group: []
+            id: "2",
+            nickname: "김레이",
+            email: "pokemon767@gmail.com"
         ),
         User(
-            userId: 3,
-            username: "회장님",
-            email: "unisushi@gmail.com",
-            imageURL: "",
-            friends: [3],
-            group: []
+            id: "3",
+            nickname: "회장님",
+            email: "unisushi@gmail.com"
         ),
         User(
-            userId: 4,
-            username: "권지수",
-            email: "sulJji@gmail.com",
-            imageURL: "",
-            friends: [4],
-            group: []
+            id: "4",
+            nickname: "권지수",
+            email: "sulJji@gmail.com"
         ),
         User(
-            userId: 5,
-            username: "젤리빈",
-            email: "sofa@gmail.com",
-            imageURL: "",
-            friends: [4],
-            group: []
+            id: "5",
+            nickname: "젤리빈",
+            email: "sofa@gmail.com"
         ),
         User(
-            userId: 6,
-            username: "제이슨",
-            email: "jsonparsing@gmail.com",
-            imageURL: "",
-            friends: [],
-            group: []
+            id: "6",
+            nickname: "제이슨",
+            email: "jsonparsing@gmail.com"
         ),
         User(
-            userId: 7,
-            username: "이안",
-            email: "tallPerson@gmail.com",
-            imageURL: "",
-            friends: [],
-            group: []
+            id: "7",
+            nickname: "이안",
+            email: "tallPerson@gmail.com"
         ),
         User(
-            userId: 8,
-            username: "좋아요좋아요",
-            email: "likelike@gmail.com",
-            imageURL: "",
-            friends: [],
-            group: []
+            id: "8",
+            nickname: "좋아요좋아요",
+            email: "likelike@gmail.com"
         ),
         User(
-            userId: 9,
-            username: "중소기업",
-            email: "jungso@gmail.com",
-            imageURL: "",
-            friends: [],
-            group: []
+            id: "9",
+            nickname: "중소기업",
+            email: "jungso@gmail.com"
         )
     ]
 

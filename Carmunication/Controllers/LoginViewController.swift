@@ -10,6 +10,7 @@ import CryptoKit
 import UIKit
 
 import FirebaseAuth
+import FirebaseDatabase
 import SnapKit
 
 final class LoginViewController: UIViewController {
@@ -17,6 +18,15 @@ final class LoginViewController: UIViewController {
     private var currentNonce: String?
 
     private let loginView = LoginView()
+
+    private lazy var databasePath: DatabaseReference? = {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return nil
+        }
+        return Database.database().reference().child("\(User.databasePath)/\(uid)")
+    }()
+
+    private let encoder = JSONEncoder()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,6 +80,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 self.saveUserInKeychain(userIdentifier)
             }
 
+            // Firebase DB에 유저 정보 추가
+            if let currentUser = Auth.auth().currentUser {
+                self.saveToDB(user: currentUser)
+            }
+
             // 로그인 성공 시 메인 탭 바 뷰로 이동
             let mainTabBarView = MainTabBarViewController()
             // present() 애니메이션 커스텀 (오른쪽->왼쪽)
@@ -93,6 +108,27 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             try KeychainItem(service: "com.dgc.carmunication", account: "userIdentifier").saveItem(userIdentifier)
         } catch {
             print("키체인에 userIdentifier를 저장하지 못했습니다.")
+        }
+    }
+
+    private func saveToDB(user firebaseUser: FirebaseAuth.User) {
+        guard let databasePath = databasePath else {
+            return
+        }
+        guard let userName = firebaseUser.displayName,
+              let email = firebaseUser.email else {
+            return
+        }
+        let user = User(id: firebaseUser.uid, nickname: userName, email: email)
+
+        do {
+            let data = try encoder.encode(user)
+
+            let json = try JSONSerialization.jsonObject(with: data)
+
+            databasePath.setValue(json)
+        } catch {
+            print("an error occurred", error)
         }
     }
 }
