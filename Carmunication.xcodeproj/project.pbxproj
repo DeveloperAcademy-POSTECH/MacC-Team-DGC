@@ -26,6 +26,7 @@
 		B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */; };
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
 		BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */; };
+		BF24481D2AD6D66200F4089A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = BF24481C2AD6D66200F4089A /* FirebaseDatabase */; };
 		BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF29DF282ACFF9CD00430031 /* SessionListView.swift */; };
 		BF29DF2B2ACFFDBC00430031 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */; };
 		BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CC2AB939A3005331AD /* AppDelegate.swift */; };
@@ -148,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF24481D2AD6D66200F4089A /* FirebaseDatabase in Frameworks */,
 				BFE876B82AC809A300573B92 /* SnapKit in Frameworks */,
 				BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */,
 				B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */,
@@ -202,12 +204,20 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		BF24481B2AD6D66200F4089A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		BF37D9C02AB939A3005331AD = {
 			isa = PBXGroup;
 			children = (
 				BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */,
 				BF37D9CB2AB939A3005331AD /* Carmunication */,
 				BF37D9CA2AB939A3005331AD /* Products */,
+				BF24481B2AD6D66200F4089A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -411,6 +421,7 @@
 				B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */,
 				BFE876B72AC809A300573B92 /* SnapKit */,
 				BF7DF9C52ACA6E21001178AF /* NMapsMap */,
+				BF24481C2AD6D66200F4089A /* FirebaseDatabase */,
 			);
 			productName = Carmunication;
 			productReference = BF37D9C92AB939A3005331AD /* Carmunication.app */;
@@ -825,6 +836,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B8A20E3B2AC0B46E00F0CE91 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		BF24481C2AD6D66200F4089A /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8A20E3B2AC0B46E00F0CE91 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
 		};
 		BF7DF9C52ACA6E21001178AF /* NMapsMap */ = {
 			isa = XCSwiftPackageProductDependency;
