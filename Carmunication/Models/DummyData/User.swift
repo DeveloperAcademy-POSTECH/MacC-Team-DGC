@@ -15,11 +15,8 @@ import Foundation
  friends : Friends 저장소(static 배열)에 들어가있는 Friendship 고유 번호
  group : Group 저장소(static 배열)에 들어가있는 group 고유 번호
  */
-struct User {
-    var userId: Int
-    var username: String
+struct User: Codable {
+    var userID: String
+    var userName: String
     var email: String
-    var imageURL: String?
-    var friends: [Int]
-    var group: [Group]
 }
