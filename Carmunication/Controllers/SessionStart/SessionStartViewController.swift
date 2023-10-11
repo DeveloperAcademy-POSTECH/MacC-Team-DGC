@@ -88,6 +88,7 @@ extension SessionStartViewController: UICollectionViewDataSource {
 //        } // groupData 위치 이동으로 인한 임시 주석
         if let groupData = groupData?[indexPath.row] {
             cell?.groupData = groupData
+            print("Group Data -> ", groupData)
         }
         return cell ?? UICollectionViewCell()
     }

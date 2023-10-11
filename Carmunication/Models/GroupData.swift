@@ -20,20 +20,29 @@ struct GroupData {
     var total: Int?          // 총 인원
 }
 
-// 더미 데이터
+let group1Point: [Point] = [
+    Point(
+        pointId: 0, pointSequence: 0, pointName: "출발지", pointDetailAddress: "출발지 주소",
+        hour: 8, minute: 0, second: 0, pointLat: 12.21, pointLng: 124.521,
+        boardingCrew: ["1", "2", "3", "4"]
+    ),
+    Point(
+        pointId: 1, pointSequence: 1, pointName: "경유지 1", pointDetailAddress: "경유지 1 주소",
+        hour: 8, minute: 40, second: 0, pointLat: 235.235, pointLng: 12.412,
+        boardingCrew: ["1", "2", "3", "4"]
+    ),
+    Point(
+        pointId: 2, pointSequence: 2, pointName: "도착지", pointDetailAddress: "도착지 주소",
+        hour: 9, minute: 0, second: 0, pointLat: 124.12, pointLng: 53.23,
+        boardingCrew: ["1", "2", "3", "4"]
+    )
+]
 
-// let groupData: [GroupData]? = [
-//    GroupData(image: UIImage(systemName: "heart"), groupName: "group1", start: "양덕", end: "C5",
-//              startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//    GroupData(image: UIImage(systemName: "circle"), groupName: "group2", start: "포항", end: "부산",
-//              startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//    GroupData(image: UIImage(systemName: "heart.fill"), groupName: "group3", start: "인천", end: "서울",
-//              startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//    GroupData(image: UIImage(systemName: "circle.fill"), groupName: "group4", start: "부평", end: "일산",
-//              startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4),
-//    GroupData(image: UIImage(systemName: "square"), groupName: "group5", start: "서울", end: "포항",
-//              startTime: "08:30", endTime: "9:00", date: "주중(월 - 금)", total: 4)
-// ]
+let groupData: [Group]? = [
+    Group(groupId: "1", groupName: "그룹 1", captainId: "1",
+          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
+         )
+]
 
 // 데이터가 없을 때
-let groupData: [GroupData]? = nil
+//let groupData: [Group]? = nil

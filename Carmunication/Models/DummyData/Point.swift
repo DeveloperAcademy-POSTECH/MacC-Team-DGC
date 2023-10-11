@@ -28,4 +28,22 @@ struct Point {
     var pointLat: Double
     var pointLng: Double
     var boardingCrew: [String]  // [userId]
+
+    init(pointId: Int, pointSequence: Int, pointName: String, pointDetailAddress: String, hour: Int, minute: Int, second: Int, pointLat: Double, pointLng: Double, boardingCrew: [String]) {
+        self.pointId = pointId
+        self.pointSequence = pointSequence
+        self.pointName = pointName
+        self.pointDetailAddress = pointDetailAddress
+
+        // Calendar 객체를 생성하여 시간대를 설정합니다.
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone(identifier: "GMT")! // 시간대를 GMT로 설정합니다.
+
+        // 시간, 분, 초에 해당하는 Date를 생성합니다.
+        self.pointArrivalTime = calendar.date(bySettingHour: hour, minute: minute, second: second, of: Date())!
+
+        self.pointLat = pointLat
+        self.pointLng = pointLng
+        self.boardingCrew = boardingCrew
+    }
 }
