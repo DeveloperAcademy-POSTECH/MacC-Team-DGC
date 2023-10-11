@@ -41,7 +41,11 @@ final class GroupAddViewController: UIViewController {
             action: #selector(addStopoverPointTapped),
             for: .touchUpInside
         )
-
+        groupAddView.crewCreateButton.addTarget(
+            self,
+            action: #selector(createCrewButtonTapped),
+            for: .touchUpInside
+        )
         view.addSubview(groupAddView)
         groupAddView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -136,6 +140,10 @@ extension GroupAddViewController {
     @objc private func setStartTimeButtonTapped(_ sender: UIButton) {
         let detailViewController = StartTimeSelectViewController()
         present(detailViewController, animated: true)
+    }
+
+    @objc private func createCrewButtonTapped(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
     }
 
     @objc func stopoverRemoveButtonTapped(_ sender: UIButton) {
