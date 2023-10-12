@@ -19,13 +19,6 @@ final class LoginViewController: UIViewController {
 
     private let loginView = LoginView()
 
-    private lazy var databasePath: DatabaseReference? = {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return nil
-        }
-        return Database.database().reference().child("\(User.databasePath)/\(uid)")
-    }()
-
     private let encoder = JSONEncoder()
 
     override func viewDidLoad() {
@@ -112,7 +105,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     }
 
     private func saveToDB(user firebaseUser: FirebaseAuth.User) {
-        guard let databasePath = databasePath else {
+        guard let databasePath = User.databasePathWithUID else {
             return
         }
         guard let userName = firebaseUser.displayName,

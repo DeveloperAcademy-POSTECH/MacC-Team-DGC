@@ -149,7 +149,7 @@ struct KeychainItem {
     /*
      You should store the user identifier in your account management system.
      */
-    static var currentUserIdentifier: String {
+    static var currentUserIdentifier: String? {
         do {
             let storedIdentifier = try KeychainItem(
                 service: "com.dgc.carmunication",
@@ -157,7 +157,7 @@ struct KeychainItem {
             ).readItem()
             return storedIdentifier
         } catch {
-            return ""
+            return nil
         }
     }
 
