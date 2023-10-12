@@ -19,13 +19,6 @@ final class SettingsViewController: UIViewController {
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
     private var currentNonce: String?
 
-    private lazy var databasePath: DatabaseReference? = {
-        guard let uid = Auth.auth().currentUser?.uid else {
-            return nil
-        }
-        return Database.database().reference().child("\(User.databasePath)/\(uid)")
-    }()
-
     // 테이블 뷰 섹션과 row의 데이터
     enum Section: CaseIterable {
         case friendAndOthers // 친구 및 기타 섹션
@@ -226,7 +219,7 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
         Task {
             do {
                 // Firebase DB에서 유저 정보 삭제
-                try await databasePath?.removeValue()
+                try await User.databasePathWithUID?.removeValue()
 
                 // 애플 서버의 사용자 토큰 삭제
                 try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)

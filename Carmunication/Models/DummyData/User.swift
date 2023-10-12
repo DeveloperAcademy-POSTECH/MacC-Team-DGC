@@ -7,6 +7,8 @@
 
 import Foundation
 
+import FirebaseDatabase
+
 /**
  user_id : user에게 고유하게 부여되는 번호(UUID로 변경예정)
  username: 유저 닉네임
@@ -22,5 +24,11 @@ struct User: Codable {
 }
 
 extension User {
-    static let databasePath = "users"
+
+    static let databasePathWithUID: DatabaseReference? = {
+        guard let uid = KeychainItem.currentUserIdentifier else {
+            return nil
+        }
+        return Database.database().reference().child("users/\(uid)")
+    }()
 }

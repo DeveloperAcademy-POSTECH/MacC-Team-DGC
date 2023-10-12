@@ -153,7 +153,7 @@ struct KeychainItem {
     /*
      You should store the user identifier in your account management system.
      */
-    static var currentUserIdentifier: String {
+    static var currentUserIdentifier: String? {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             return ""
         }
@@ -164,7 +164,7 @@ struct KeychainItem {
             ).readItem()
             return storedIdentifier
         } catch {
-            return ""
+            return nil
         }
     }
 
