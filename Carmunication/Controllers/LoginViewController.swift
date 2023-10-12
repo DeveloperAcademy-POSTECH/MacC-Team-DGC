@@ -14,6 +14,7 @@ import FirebaseDatabase
 import SnapKit
 
 final class LoginViewController: UIViewController {
+
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
     private var currentNonce: String?
 
@@ -35,6 +36,7 @@ final class LoginViewController: UIViewController {
 
 // MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerDelegate {
+
     // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
     func authorizationController(
         controller: ASAuthorizationController,
@@ -107,15 +109,31 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         }
     }
 
+    // 인증 후 사용자 정보를 DB에 저장하는 메서드
     private func saveToDB(user firebaseUser: FirebaseAuth.User) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        guard let userName = firebaseUser.displayName,
+        // 파이어베이스에 저장된 닉네임이 있는지 여부에 따라서 CREATE 혹은 UPDATE
+        checkNickname(databasePath: databasePath) { storedNickname in
+            guard let storedNickname = storedNickname else {
+                self.createUser(user: firebaseUser)
+                return
+            }
+            self.updateUser(user: firebaseUser, nickname: storedNickname)
+        }
+    }
+
+    // 유저 신규 등록 (CREATE)
+    private func createUser(user firebaseUser: FirebaseAuth.User) {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        guard let nickname = firebaseUser.displayName,
               let email = firebaseUser.email else {
             return
         }
-        let user = User(id: firebaseUser.uid, nickname: userName, email: email)
+        let user = User(id: firebaseUser.uid, nickname: nickname, email: email)
 
         do {
             let data = try encoder.encode(user)
@@ -123,8 +141,44 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             let json = try JSONSerialization.jsonObject(with: data)
 
             databasePath.setValue(json)
+            print("User CREATE success!!")
         } catch {
-            print("an error occurred", error)
+            print("User CREATE fail..", error)
+        }
+    }
+
+    // 유저 업데이트 (UPDATE)
+    private func updateUser(user firebaseUser: FirebaseAuth.User, nickname: String) {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        guard let email = firebaseUser.email else {
+            return
+        }
+        let user = User(id: firebaseUser.uid, nickname: nickname, email: email)
+
+        do {
+            let data = try encoder.encode(user)
+
+            let json = try JSONSerialization.jsonObject(with: data)
+
+            databasePath.setValue(json)
+            print("User UPDATE success!!")
+        } catch {
+            print("User UPDATE fail..", error)
+        }
+    }
+
+    // 파이어베이스에 저장된 닉네임 확인 메서드
+    private func checkNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
+        databasePath.child("nickname").getData { error, snapshot in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                completion(nil)
+                return
+            }
+            let nickname = snapshot?.value as? String
+            completion(nickname)
         }
     }
 }
