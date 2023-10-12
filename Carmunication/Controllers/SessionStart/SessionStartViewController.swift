@@ -16,6 +16,7 @@ final class SessionStartViewController: UIViewController {
 
     // 기기 크기에 따른 collectionView 높이 설정
     private var collectionViewHeight: CGFloat = 0
+    private var collectionViewWidth: CGFloat = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,9 +28,11 @@ final class SessionStartViewController: UIViewController {
         if UIScreen.main.bounds.height >= 800 {
             // iPhone 14와 같이 큰 화면
             collectionViewHeight = 104
+            collectionViewWidth = 80
         } else {
             // iPhone SE와 같이 작은 화면
             collectionViewHeight = 84
+            collectionViewWidth = 64
         }
 
         sessionStartView.snp.makeConstraints { make in
@@ -103,7 +106,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        return CGSize(width: 80, height: collectionViewHeight)
+        return CGSize(width: collectionViewWidth, height: collectionViewHeight)
     }
 }
 
