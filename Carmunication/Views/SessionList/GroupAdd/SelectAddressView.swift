@@ -119,11 +119,11 @@ final class SelectAddressView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        setupViews()
-        setAutoLayout()
+        setupUI()
+        setupConstraints()
     }
 
-    private func setupViews() {
+    private func setupUI() {
         addSubview(headerBar)
         addSubview(friendSearchTextFieldView)
         headerBar.addSubview(headerTitleLabel)
@@ -136,7 +136,7 @@ final class SelectAddressView: UIView {
     }
 
     // MARK: - 오토 레이아웃 설정 메서드
-    private func setAutoLayout() {
+    private func setupConstraints() {
         headerBar.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(16)
             make.leading.trailing.equalToSuperview()
