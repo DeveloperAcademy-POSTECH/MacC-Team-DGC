@@ -61,8 +61,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-//        return sessionStartView.groupData?.count ?? 0 // groupData 위치 이동으로 인한 임시 주석
-        return groupData?.count ?? 0
+        return 5
     }
 
     func collectionView(
@@ -75,6 +74,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
 }
 
 extension SessionStartViewController: UICollectionViewDataSource {
+
     func collectionView(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
@@ -83,13 +83,25 @@ extension SessionStartViewController: UICollectionViewDataSource {
             withReuseIdentifier: "groupCell",
             for: indexPath
         ) as? GroupCollectionViewCell
-//        if let groupData = self.sessionStartView.groupData?[indexPath.row] {
-//            cell?.groupData = groupData
-//        } // groupData 위치 이동으로 인한 임시 주석
-        if let groupData = groupData?[indexPath.row] {
-            cell?.groupData = groupData
-            print("Group Data -> ", groupData)
+
+        if indexPath.row < groupData?.count ?? 0 {
+            // 데이터가 존재하는 경우, 해당 데이터를 표시
+            cell?.groupData = groupData?[indexPath.row]
+        } else {
+            // 데이터가 없는 경우, 기본 값을 설정
+            cell?.groupData = Group(
+                groupId: nil,
+                groupName: nil,
+                groupImage: nil,
+                captainId: nil,
+                crewList: nil,
+                sessionDay: nil,
+                points: nil,
+                accumulateDistance: nil
+            )
         }
+
+        print("Group Data -> ", cell?.groupData as Any)
         return cell ?? UICollectionViewCell()
     }
 }
