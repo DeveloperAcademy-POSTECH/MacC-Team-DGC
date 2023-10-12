@@ -38,6 +38,11 @@ final class SelectAddressViewController: UIViewController {
             action: #selector(clearButtonPressed),
             for: .touchUpInside
         )
+        selectAddressView.friendSearchTextField.addTarget(
+            self,
+            action: #selector(textFieldDidChange),
+            for: .editingChanged
+        )
 
         selectAddressView.friendSearchTextField.delegate = self
         selectAddressView.tableViewComponent.delegate = self
@@ -45,14 +50,6 @@ final class SelectAddressViewController: UIViewController {
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
         view.addGestureRecognizer(tapGesture)
-
-        // 키보드 노티피케이션 옵저버 등록
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
     }
 
     // 클래스의 인스턴스가 메모리에서 해제되기 전에 호출되는 메서드
@@ -63,7 +60,7 @@ final class SelectAddressViewController: UIViewController {
     }
 }
 
-// MARK: - @objc 메서드
+// MARK: - @objc Method
 extension SelectAddressViewController {
 
     // 상단 닫기 버튼 클릭 시 동작
@@ -79,7 +76,8 @@ extension SelectAddressViewController {
 
     // 텍스트필드 clear 버튼 눌렀을 때 동작
     @objc private func clearButtonPressed() {
-        selectAddressView.friendSearchTextField.text = ""
+        selectAddressView.friendSearchTextField.text = nil
+        selectAddressView.tableViewComponent.reloadData()
     }
 
     // 텍스트 필드 비활성화 시 동작
@@ -89,32 +87,31 @@ extension SelectAddressViewController {
         selectAddressView.friendSearchTextField.resignFirstResponder() // 최초 응답자 해제
     }
 
-    // 키보드가 나타날 때 호출되는 메서드
-    @objc private func keyboardWillShow(notification: Notification) {
-        guard let userInfo = notification.userInfo else { return }
-        guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
+    @objc private func textFieldDidChange() {
+        // 텍스트 필드 내용이 변경될 때마다 호출되는 메서드
+        selectAddressView.tableViewComponent.reloadData()
     }
 }
 
-// MARK: - UITextFieldDelegate 델리게이트 구현
+// MARK: - UITextFieldDelegate Method
 extension SelectAddressViewController: UITextFieldDelegate {
 
     // 텍스트 필드의 편집이 시작될 때 호출되는 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
         selectAddressView.friendSearchTextFieldView.backgroundColor = UIColor.semantic.backgroundSecond
         selectAddressView.friendSearchTextFieldView.layer.borderWidth = 0
+        selectAddressView.tableViewComponent.reloadData()
     }
 
     // 리턴 키를 눌렀을 때 호출되는 메서드
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         dismissTextField()
+        selectAddressView.tableViewComponent.reloadData()
         return true
     }
 }
 
-// MARK: - tableView protocol Method
+// MARK: - TableView Delegate Method
 extension SelectAddressViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -126,19 +123,29 @@ extension SelectAddressViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - Tableview DataSource Method
 extension SelectAddressViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return selectAddressView.friendSearchTextField.hasText ? 10 : 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let cell = tableView.dequeueReusableCell(
-            withIdentifier: "selectAddressCell",
-            for: indexPath
-        ) as? SelectAddressTableViewCell {
-            return cell
+        if selectAddressView.friendSearchTextField.hasText {
+            if let cell = tableView.dequeueReusableCell(
+                withIdentifier: "selectAddressCell",
+                for: indexPath
+            ) as? SelectAddressTableViewCell {
+                return cell
+            }
+        } else {
+            if let cell = tableView.dequeueReusableCell(
+                withIdentifier: "defaultAddressCell",
+                for: indexPath
+            ) as? DefaultAddressTableViewCell {
+                return cell
+            }
         }
         return UITableViewCell()
     }

@@ -12,6 +12,7 @@ final class SelectAddressView: UIView {
     // MARK: - 친구 추가 모달 상단 바
     private lazy var headerBar: UIView = {
         let headerStackView = UIView()
+
         return headerStackView
     }()
 
@@ -19,10 +20,10 @@ final class SelectAddressView: UIView {
     private lazy var headerTitleLabel: UILabel = {
         let headerTitleLabel = UILabel()
         headerTitleLabel.text = "주소 설정"
-        headerTitleLabel.textAlignment = .center
-        // TODO: 폰트 적용 필요
         headerTitleLabel.font = UIFont.boldSystemFont(ofSize: 17)
+        headerTitleLabel.textAlignment = .center
         headerTitleLabel.textColor = UIColor.semantic.textPrimary
+
         return headerTitleLabel
     }()
 
@@ -43,6 +44,7 @@ final class SelectAddressView: UIView {
         friendSearchTextFieldView.layer.cornerRadius = 20
         friendSearchTextFieldView.layer.borderWidth = 1.0
         friendSearchTextFieldView.layer.borderColor = UIColor.theme.blue3?.cgColor
+
         return friendSearchTextFieldView
     }()
 
@@ -70,11 +72,12 @@ final class SelectAddressView: UIView {
     }()
 
     // MARK: - 텍스트 필드 우측 스택
-    lazy var textFieldUtilityStackView: UIStackView = {
+    private lazy var textFieldUtilityStackView: UIStackView = {
         let textFieldUtilityStackView = UIStackView()
         textFieldUtilityStackView.axis = .horizontal
         textFieldUtilityStackView.alignment = .center
         textFieldUtilityStackView.distribution = .fill
+
         return textFieldUtilityStackView
     }()
 
@@ -83,6 +86,7 @@ final class SelectAddressView: UIView {
         let clearButton = UIButton(type: .custom)
         clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         clearButton.tintColor = UIColor.semantic.accPrimary
+
         return clearButton
     }()
 
@@ -92,16 +96,17 @@ final class SelectAddressView: UIView {
         friendSearchButton.setTitle("검색", for: .normal)
         friendSearchButton.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
         friendSearchButton.titleLabel?.font = UIFont.carmuFont.body2Long
+
         return friendSearchButton
     }()
 
-    // TODO: - 검색된 장소 셀 보여주기 구현 필요
     let tableViewComponent: UITableView = {
         let tableView = UITableView()
         tableView.register(SelectAddressTableViewCell.self, forCellReuseIdentifier: "selectAddressCell")
-//        tableView.register(DefaultAddressTableViewCell.self, forCellReuseIdentifier: "defaultAddressCell")
+        tableView.register(DefaultAddressTableViewCell.self, forCellReuseIdentifier: "defaultAddressCell")
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
+
         return tableView
     }()
 
@@ -118,7 +123,7 @@ final class SelectAddressView: UIView {
         setAutoLayout()
     }
 
-    func setupViews() {
+    private func setupViews() {
         addSubview(headerBar)
         addSubview(friendSearchTextFieldView)
         headerBar.addSubview(headerTitleLabel)
@@ -131,7 +136,7 @@ final class SelectAddressView: UIView {
     }
 
     // MARK: - 오토 레이아웃 설정 메서드
-    func setAutoLayout() {
+    private func setAutoLayout() {
         headerBar.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(16)
             make.leading.trailing.equalToSuperview()
@@ -146,7 +151,7 @@ final class SelectAddressView: UIView {
         closeButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(7)
             make.centerY.equalToSuperview()
-            make.width.equalTo(18)
+            make.width.equalTo(15)
             make.height.equalTo(24)
         }
 
