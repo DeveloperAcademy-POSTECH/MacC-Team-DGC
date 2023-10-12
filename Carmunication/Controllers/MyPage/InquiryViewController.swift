@@ -24,8 +24,14 @@ final class InquiryViewController: UIViewController {
             make.edges.equalToSuperview()
         }
 
+        inquiryView.inquiryTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
         inquiryView.inquiryTableView.dataSource = self
         inquiryView.inquiryTableView.delegate = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.backButtonTitle = ""
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
     }
 
     // MARK: - 이메일 작성 화면 띄우기
@@ -60,6 +66,7 @@ final class InquiryViewController: UIViewController {
 
 // MARK: - 메일 보내기 관련 델리게이트 구현
 extension InquiryViewController: MFMailComposeViewControllerDelegate {
+
     // 메일 보내기 버튼을 눌렀을 때 호출되는 델리게이트 메서드
     func mailComposeController(
         _ controller: MFMailComposeViewController,
@@ -70,21 +77,27 @@ extension InquiryViewController: MFMailComposeViewControllerDelegate {
     }
 }
 
-// MARK: - 테이블 뷰 관련 델리게이트 구현
-extension InquiryViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - UITableViewDataSource 델리게이트 구현
+extension InquiryViewController: UITableViewDataSource {
 
     // 각 섹션의 row 수 반환
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return inquiryContents.count
     }
+
     // 테이블 뷰 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
 
         cell.textLabel?.text = inquiryContents[indexPath.row]
         cell.accessoryType = .disclosureIndicator
         return cell
     }
+}
+
+// MARK: - UITableViewDelegate 델리게이트 구현
+extension InquiryViewController: UITableViewDelegate {
+
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {

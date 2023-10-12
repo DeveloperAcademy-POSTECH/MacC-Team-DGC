@@ -14,9 +14,8 @@ final class LoginView: UIView {
     lazy var appLogoView: UIImageView = {
         let appLogoView = UIImageView()
         if let appLogo = UIImage(named: "appLogo") {
-            let targetSize = CGSize(width: 282, height: 141)
-            let scaledImage = appLogo.aspectFit(toSize: targetSize)
-            appLogoView.image = scaledImage
+            appLogoView.contentMode = .scaleAspectFit
+            appLogoView.image = appLogo
         }
         return appLogoView
     }()
@@ -93,7 +92,9 @@ final class LoginView: UIView {
 
     func setAutoLayout() {
         appLogoView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.leading.trailing.equalToSuperview().inset(54)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(141)
         }
 
         logoUpperLabelStack.snp.makeConstraints { make in

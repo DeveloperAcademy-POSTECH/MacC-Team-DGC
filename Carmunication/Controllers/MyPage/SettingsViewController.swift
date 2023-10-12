@@ -42,12 +42,17 @@ final class SettingsViewController: UIViewController {
 
         view.addSubview(settingsView)
         settingsView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.leading.trailing.bottom.equalToSuperview()
         }
+        // 기본 UITableViewCell 셀을 재사용 식별자와 함께 테이블 뷰에 등록
+        settingsView.settingsTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
         settingsView.settingsTableView.dataSource = self
         settingsView.settingsTableView.delegate = self
     }
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.backButtonTitle = ""
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
         // 설정 화면에서는 탭 바가 보이지 않도록 한다.
         tabBarController?.tabBar.isHidden = true
     }
@@ -108,13 +113,14 @@ final class SettingsViewController: UIViewController {
     }
 }
 
-// MARK: - 테이블 뷰 관련 델리게이트 메소드
-extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - UITableViewDataSource 프로토콜 구현
+extension SettingsViewController: UITableViewDataSource {
 
     // 섹션 수 반환
     func numberOfSections(in tableView: UITableView) -> Int {
         return Section.allCases.count
     }
+
     // 각 섹션의 row 수 반환
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
@@ -123,9 +129,10 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             return accountManagementContents.count
         }
     }
+
     // 각 row에 대한 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
 
         switch indexPath.section {
         case 0:
@@ -142,6 +149,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
         return cell
     }
+
     // 테이블 뷰 섹션 헤더 설정
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard section == 1 else {
@@ -149,6 +157,19 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return "계정 관리"
     }
+}
+
+// MARK: - UITableViewDelegate 프로토콜 구현
+extension SettingsViewController: UITableViewDelegate {
+
+    // 테이블 뷰 섹션 높이 설정
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        guard section == 1 else {
+            return 0
+        }
+        return 23
+    }
+
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.section == 0 {

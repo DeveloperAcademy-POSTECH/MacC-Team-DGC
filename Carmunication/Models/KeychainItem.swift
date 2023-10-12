@@ -58,8 +58,12 @@ struct KeychainItem {
         }
 
         // 결과 처리
-        guard status != errSecItemNotFound else { throw KeychainError.noPassword }
-        guard status == noErr else { throw KeychainError.unhandledError }
+        guard status != errSecItemNotFound else {
+            throw KeychainError.noPassword
+        }
+        guard status == noErr else {
+            throw KeychainError.unhandledError
+        }
 
         // 쿼리 결과로 얻어낸 password(키체인 item)에서 원하는 값을 파싱합니다.
         guard let existingItem = queryResult as? [String: AnyObject],
@@ -150,9 +154,12 @@ struct KeychainItem {
      You should store the user identifier in your account management system.
      */
     static var currentUserIdentifier: String {
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            return ""
+        }
         do {
             let storedIdentifier = try KeychainItem(
-                service: "com.dgc.carmunication",
+                service: bundleIdentifier,
                 account: "userIdentifier"
             ).readItem()
             return storedIdentifier
@@ -162,8 +169,14 @@ struct KeychainItem {
     }
 
     static func deleteUserIdentifierFromKeychain() {
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            return
+        }
         do {
-            try KeychainItem(service: "com.dgc.carmunication", account: "userIdentifier").deleteItem()
+            try KeychainItem(
+                service: bundleIdentifier,
+                account: "userIdentifier"
+            ).deleteItem()
         } catch {
             print("키체인으로부터 userIdentifier를 삭제하지 못했습니다.")
         }
