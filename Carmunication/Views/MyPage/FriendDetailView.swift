@@ -10,12 +10,13 @@ import UIKit
 final class FriendDetailView: UIView {
 
     // MARK: - 상단 유저 정보 뷰
-    lazy var conicGradientView: UIView = {
+    private lazy var conicGradientView: UIView = {
         let conicGradientView = UIView()
         return conicGradientView
     }()
+
     // TODO: - 그라데이션 정확한 값 알아내서 표현하기
-    lazy var conicGradientLayer: CAGradientLayer = {
+    private lazy var conicGradientLayer: CAGradientLayer = {
         let conicGradientLayer = CAGradientLayer()
         conicGradientLayer.type = .conic
         conicGradientLayer.colors = [
@@ -27,19 +28,21 @@ final class FriendDetailView: UIView {
         conicGradientLayer.endPoint = CGPoint(x: 1, y: 1)
         return conicGradientLayer
     }()
-    lazy var blurView: CustomIntensityVisualEffectView = {
+
+    private lazy var blurView: CustomIntensityVisualEffectView = {
         let blurEffect = UIBlurEffect(style: .regular)
         let blurView = CustomIntensityVisualEffectView(effect: blurEffect, intensity: 0.4)
         return blurView
     }()
 
     // MARK: - 친구 정보 스택
-    lazy var friendInfoStack: UIStackView = {
+    private lazy var friendInfoStack: UIStackView = {
         let friendInfoStack = UIStackView()
         friendInfoStack.axis = .vertical
         friendInfoStack.alignment = .leading
         return friendInfoStack
     }()
+
     // MARK: - 친구 닉네임
     lazy var friendNickname: UILabel = {
         let nicknameLabel = UILabel()
@@ -48,6 +51,7 @@ final class FriendDetailView: UIView {
         nicknameLabel.textColor = UIColor.semantic.textSecondary
         return nicknameLabel
     }()
+
     // MARK: - 친구 칭호
     lazy var friendTitle: UILabel = {
         let friendTitle = UILabel()
@@ -56,26 +60,30 @@ final class FriendDetailView: UIView {
         friendTitle.textColor = UIColor.semantic.textSecondary
         return friendTitle
     }()
+
     // MARK: - 함께한 여정 배지
-    lazy var distanceBadge: UIView = {
+    private lazy var distanceBadge: UIView = {
         let distanceBadge = UIView()
         distanceBadge.backgroundColor = UIColor.theme.white
         distanceBadge.layer.cornerRadius = 16.56
         return distanceBadge
     }()
-    lazy var distanceLabelStack: UIStackView = {
+
+    private lazy var distanceLabelStack: UIStackView = {
         let distanceLabelStack = UIStackView()
         distanceLabelStack.axis = .horizontal
         distanceLabelStack.alignment = .center
         return distanceLabelStack
     }()
-    lazy var distanceLabel1: UILabel = {
+
+    private lazy var distanceLabel1: UILabel = {
         let distanceLabel1 = UILabel()
         distanceLabel1.text = "함께한 여정"
         distanceLabel1.font = UIFont.carmuFont.body1
         distanceLabel1.textColor = UIColor.semantic.accPrimary
         return distanceLabel1
     }()
+
     lazy var distanceLabel2: UILabel = {
         let distanceLabel2 = UILabel()
         distanceLabel2.text = "2000km"
@@ -94,19 +102,21 @@ final class FriendDetailView: UIView {
     }()
 
     // MARK: - 하단 마음 표현 추천 뷰
-    lazy var recommendGiftView: UIView = {
+    private lazy var recommendGiftView: UIView = {
         let recommendGiftView = UIView()
         recommendGiftView.backgroundColor = UIColor.semantic.backgroundDefault
         recommendGiftView.layer.cornerRadius = 16
         return recommendGiftView
     }()
-    lazy var recommendDescription: UILabel = {
+
+    private lazy var recommendDescription: UILabel = {
         let recommendDescription = UILabel()
         recommendDescription.text = "아래와 같이 마음 표현을 추천해드려요"
         recommendDescription.font = UIFont.carmuFont.headline1
         recommendDescription.textColor = UIColor.semantic.textPrimary
         return recommendDescription
     }()
+
     // 추천 선물 콜렉션 뷰
     lazy var giftCollectionView: UICollectionView = {
         let giftCollectionView = UICollectionView(

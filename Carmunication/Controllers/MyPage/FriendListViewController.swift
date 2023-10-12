@@ -43,6 +43,10 @@ final class FriendListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
     }
+}
+
+// MARK: @objc 메서드
+extension FriendListViewController {
 
     // [친구추가] 내비게이션 바 버튼 클릭 시 동작
     @objc private func showFriendAddView() {
@@ -53,8 +57,8 @@ final class FriendListViewController: UIViewController {
     }
 }
 
-// MARK: - 테이블 뷰 관련 델리게이트 구현
-extension FriendListViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - UITableViewDataSource 델리게이트 구현
+extension FriendListViewController: UITableViewDataSource {
 
     // 섹션 당 셀의 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -66,34 +70,38 @@ extension FriendListViewController: UITableViewDataSource, UITableViewDelegate {
         return dummyFriends.count
     }
 
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return " "
+    }
+
+    // 셀 구성
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "friendListTableViewCell",
+            for: indexPath
+        ) as? FriendListTableViewCell else {
+            return UITableViewCell()
+        }
+        // TODO: - 셀에 친구 정보 넣어주기
+        cell.nicknameLabel.text = dummyFriends[indexPath.section]
+        let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
+        chevronImage.tintColor = UIColor.semantic.textBody
+        cell.accessoryView = chevronImage
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate 델리게이트 구현
+extension FriendListViewController: UITableViewDelegate {
+
     // 각 섹션 사이의 간격
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return " "
-    }
-
     // 각 셀의 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 74
-    }
-
-    // 셀 구성
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(
-            withIdentifier: "friendListTableViewCell",
-            for: indexPath
-        ) as? FriendListTableViewCell {
-            // TODO: - 셀에 친구 정보 넣어주기
-            cell.nicknameLabel.text = dummyFriends[indexPath.section]
-            let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
-            chevronImage.tintColor = UIColor.semantic.textBody
-            cell.accessoryView = chevronImage
-            return cell
-        }
-        return UITableViewCell()
     }
 
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작

@@ -154,9 +154,12 @@ struct KeychainItem {
      You should store the user identifier in your account management system.
      */
     static var currentUserIdentifier: String {
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            return ""
+        }
         do {
             let storedIdentifier = try KeychainItem(
-                service: Bundle.main.bundleIdentifier!,
+                service: bundleIdentifier,
                 account: "userIdentifier"
             ).readItem()
             return storedIdentifier
@@ -166,9 +169,12 @@ struct KeychainItem {
     }
 
     static func deleteUserIdentifierFromKeychain() {
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            return
+        }
         do {
             try KeychainItem(
-                service: Bundle.main.bundleIdentifier!,
+                service: bundleIdentifier,
                 account: "userIdentifier"
             ).deleteItem()
         } catch {

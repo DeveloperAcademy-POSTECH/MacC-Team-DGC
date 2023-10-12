@@ -10,13 +10,13 @@ import UIKit
 final class FriendAddView: UIView {
 
     // MARK: - 친구 추가 모달 상단 바
-    lazy var headerBar: UIView = {
+    private lazy var headerBar: UIView = {
         let headerStackView = UIView()
         return headerStackView
     }()
 
     // 상단 바 제목
-    lazy var headerTitleLabel: UILabel = {
+    private lazy var headerTitleLabel: UILabel = {
         let headerTitleLabel = UILabel()
         headerTitleLabel.text = "친구추가"
         headerTitleLabel.textAlignment = .center
@@ -162,8 +162,7 @@ final class FriendAddView: UIView {
             make.height.equalTo(42)
         }
         headerTitleLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
+            make.center.equalToSuperview()
             make.width.equalTo(130)
         }
         closeButton.snp.makeConstraints { make in

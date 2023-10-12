@@ -104,8 +104,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     }
 
     private func saveUserInKeychain(_ userIdentifier: String) {
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            return
+        }
         do {
-            try KeychainItem(service: Bundle.main.bundleIdentifier!, account: "userIdentifier").saveItem(userIdentifier)
+            try KeychainItem(service: bundleIdentifier, account: "userIdentifier").saveItem(userIdentifier)
         } catch {
             print("키체인에 userIdentifier를 저장하지 못했습니다.")
         }

@@ -76,8 +76,8 @@ extension InquiryViewController: MFMailComposeViewControllerDelegate {
     }
 }
 
-// MARK: - 테이블 뷰 관련 델리게이트 구현
-extension InquiryViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - UITableViewDataSource 델리게이트 구현
+extension InquiryViewController: UITableViewDataSource {
 
     // 각 섹션의 row 수 반환
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,6 +92,10 @@ extension InquiryViewController: UITableViewDataSource, UITableViewDelegate {
         cell.accessoryType = .disclosureIndicator
         return cell
     }
+}
+
+// MARK: - UITableViewDelegate 델리게이트 구현
+extension InquiryViewController: UITableViewDelegate {
 
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

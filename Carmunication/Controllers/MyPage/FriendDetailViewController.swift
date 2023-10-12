@@ -62,11 +62,8 @@ extension FriendDetailViewController {
     }
 }
 
-// MARK: - 컬렉션 뷰 관련 델리게이트 구현
-extension FriendDetailViewController:
-    UICollectionViewDataSource,
-    UICollectionViewDelegate,
-    UICollectionViewDelegateFlowLayout {
+// MARK: - UICollectionViewDataSource 델리게이트 구현
+extension FriendDetailViewController: UICollectionViewDataSource {
 
     // 컬렉션 뷰의 아이템이 몇개인지
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -89,6 +86,10 @@ extension FriendDetailViewController:
         cell.giftNameLabel.text = dummyName[indexPath.row]
         return cell
     }
+}
+
+// MARK: - UICollectionViewDelegateFlowLayout 델리게이트 구현 (UICollectionViewDelegate는 해당 프로토콜에서 채택 중)
+extension FriendDetailViewController: UICollectionViewDelegateFlowLayout {
 
     // 위 아래 간격
     func collectionView(

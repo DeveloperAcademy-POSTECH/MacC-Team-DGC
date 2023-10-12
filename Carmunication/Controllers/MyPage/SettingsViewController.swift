@@ -114,8 +114,8 @@ final class SettingsViewController: UIViewController {
     }
 }
 
-// MARK: - 테이블 뷰 관련 델리게이트 메소드
-extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - UITableViewDataSource 프로토콜 구현
+extension SettingsViewController: UITableViewDataSource {
 
     // 섹션 수 반환
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -158,6 +158,10 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         return "계정 관리"
     }
+}
+
+// MARK: - UITableViewDelegate 프로토콜 구현
+extension SettingsViewController: UITableViewDelegate {
 
     // 테이블 뷰 섹션 높이 설정
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -74,25 +74,25 @@ extension FriendAddViewController {
     }
 
     // 텍스트필드 clear 버튼 눌렀을 때 동작
-    @objc func clearButtonPressed() {
+    @objc private func clearButtonPressed() {
         friendAddView.friendSearchTextField.text = ""
     }
 
     // 텍스트 필드 비활성화 시 동작
-    @objc func dismissTextField() {
+    @objc private func dismissTextField() {
         friendAddView.friendSearchTextFieldView.backgroundColor = .clear
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 1.0
         friendAddView.friendSearchTextField.resignFirstResponder() // 최초 응답자 해제
     }
 
     // [친구 추가하기] 버튼 눌렀을 때 동작
-    @objc func sendFriendRequest() {
+    @objc private func sendFriendRequest() {
         // TODO: - 친구 추가 구현 필요
         print("친구 추가하기 버튼 클릭됨")
     }
 
     // 키보드가 나타날 때 호출되는 메서드
-    @objc func keyboardWillShow(notification: Notification) {
+    @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
         guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
@@ -106,13 +106,14 @@ extension FriendAddViewController {
             )
         }
     }
+
     // 키보드가 사라질 때 호출되는 메서드
-    @objc func keyboardWillHide(notification: Notification) {
+    @objc private func keyboardWillHide(notification: Notification) {
         self.friendAddView.friendAddButton.transform = .identity
     }
 }
 
-// MARK: - 텍스트 필드 관련 델리게이트 메서드 구현
+// MARK: - UITextFieldDelegate 델리게이트 구현
 extension FriendAddViewController: UITextFieldDelegate {
 
     // 텍스트 필드의 편집이 시작될 때 호출되는 메서드
