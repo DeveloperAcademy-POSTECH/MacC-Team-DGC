@@ -23,14 +23,14 @@ import Foundation
  cf. is_permitted의 경우 ERD에 있으나, 수락 부분이 빠지기 때문에, 속성에서 제외함
  */
 struct Group {
-    var groupId: String
-    var groupName: String
+    var groupId: String?
+    var groupName: String?
     var groupImage: String?
-    var captainId: String
-    var crewList: [String]  // [userId]
-    var sessionDay: [Int]   // 그룹이 시작되는 요일
-    var points: [Point]
-    var accumulateDistance: Int = 0
+    var captainId: String?
+    var crewList: [String]?  // [userId]
+    var sessionDay: [Int]?   // 그룹이 시작되는 요일
+    var points: [Point]?
+    var accumulateDistance: Int?
 }
 
 // 데이터 확인을 위한 예시입니다.
@@ -53,13 +53,13 @@ let group1Point: [Point] = [
 ]
 
 let groupData: [Group]? = [
-    Group(groupId: "1", groupName: "그룹 1", captainId: "1",
+    Group(groupId: "1", groupName: "그룹 1", groupImage: "heart", captainId: "1",
           crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
          ),
-    Group(groupId: "1", groupName: "그룹 1", captainId: "1",
+    Group(groupId: "1", groupName: "그룹 2", groupImage: "heart", captainId: "1",
           crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
          ),
-    Group(groupId: "1", groupName: "그룹 1", captainId: "1",
+    Group(groupId: "1", groupName: "그룹 3", groupImage: "heart", captainId: "1",
           crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
          )
 ]
