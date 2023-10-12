@@ -8,6 +8,7 @@
 import UIKit
 
 import FirebaseAuth
+import FirebaseDatabase
 
 // MARK: - 내 정보 탭 화면 뷰 컨트롤러
 final class MyPageViewController: UIViewController {
@@ -17,6 +18,16 @@ final class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        // 닉네임 불러오기
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        readNickname(databasePath: databasePath) { storedNickname in
+            guard let storedNickname = storedNickname else {
+                return
+            }
+            self.myPageView.nicknameLabel.text = storedNickname
+        }
 
         let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButtonItem
@@ -49,6 +60,23 @@ final class MyPageViewController: UIViewController {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
+    // MARK: - DB에서 닉네임 불러오는 메서드
+    func readNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
+        databasePath.child("nickname").getData { error, snapshot in
+            guard error == nil else {
+                print(error!.localizedDescription)
+                completion(nil)
+                return
+            }
+            let nickname = snapshot?.value as? String
+            completion(nickname)
+        }
+    }
+}
+
+// MARK: - @objc 메서드
+extension MyPageViewController {
+
     // 설정 페이지 이동 메소드
     @objc func showSettings() {
         let settingsVC = SettingsViewController()
@@ -69,8 +97,16 @@ final class MyPageViewController: UIViewController {
         myPageView.textFieldEditStack.isHidden = false
         myPageView.textField.becomeFirstResponder()
     }
+    // [확인] 혹은 키보드의 엔터 버튼을 눌렀을 때 닉네임 수정사항을 DB에 반영해주는 메서드
     @objc func changeNickname() {
-        // TODO: - DB 상에 닉네임 저장하는 로직 추가 필요
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        guard let newNickname = myPageView.textField.text else {
+            return
+        }
+        databasePath.child("nickname").setValue(newNickname as NSString)
+
         myPageView.nicknameLabel.text = myPageView.textField.text
         dismissTextField()
     }

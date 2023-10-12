@@ -57,7 +57,7 @@ final class MyPageView: UIView {
     // 닉네임 라벨
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-        label.text = Auth.auth().currentUser?.displayName ?? "홍길동"
+        label.text = "..."
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
