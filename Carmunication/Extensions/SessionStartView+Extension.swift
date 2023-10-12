@@ -13,9 +13,9 @@ extension SessionStartView {
 
     override func draw(_ rect: CGRect) {
         setCollectionView()
-        setJourneyTogetherButton()
-        setSummaryView()
-        setJourneySummaryView()
+//        setJourneyTogetherButton()
+//        setSummaryView()
+//        setJourneySummaryView()
     }
 
     override func layoutSublayers(of layer: CALayer) {
@@ -27,50 +27,60 @@ extension SessionStartView {
         // addSubView
         addSubview(groupCollectionView)
 
-        addSubview(summaryView)
-        summaryView.addSubview(groupNameView)
-        summaryView.addSubview(journeySummaryView)
-
-        groupNameView.addSubview(groupNameLabel)
-        groupNameView.addSubview(whiteCircleImageViewLeft)
-        groupNameView.addSubview(whiteCircleImageViewRight)
-
-        journeySummaryView.addSubview(dateLabel)
-        journeySummaryView.addSubview(noGroupComment)
-        journeySummaryView.addSubview(dayView)
-        journeySummaryView.addSubview(personCountView)
-
-        dayView.addSubview(calendarImage)
-        dayView.addSubview(dayLabel)
-
-        personCountView.addSubview(personImage)
-        personCountView.addSubview(personLabel)
-        journeySummaryView.addSubview(startView)
-
-        startView.layer.addSublayer(startGradient)
-        startView.addSubview(startLabel)
-
-        journeySummaryView.addSubview(startLocation)
-        journeySummaryView.addSubview(startTime)
-        journeySummaryView.addSubview(arrowLabel)
-        journeySummaryView.addSubview(endView)
-
-        endView.layer.addSublayer(endGradient)
-        endView.addSubview(endLabel)
-
-        journeySummaryView.addSubview(endLocation)
-        journeySummaryView.addSubview(endTime)
-        journeySummaryView.addSubview(bottomLabel)
+//        addSubview(summaryView)
+//        summaryView.addSubview(groupNameView)
+//        summaryView.addSubview(journeySummaryView)
+//
+//        groupNameView.addSubview(groupNameLabel)
+//        groupNameView.addSubview(whiteCircleImageViewLeft)
+//        groupNameView.addSubview(whiteCircleImageViewRight)
+//
+//        journeySummaryView.addSubview(dateLabel)
+//        journeySummaryView.addSubview(noGroupComment)
+//        journeySummaryView.addSubview(dayView)
+//        journeySummaryView.addSubview(personCountView)
+//
+//        dayView.addSubview(calendarImage)
+//        dayView.addSubview(dayLabel)
+//
+//        personCountView.addSubview(personImage)
+//        personCountView.addSubview(personLabel)
+//        journeySummaryView.addSubview(startView)
+//
+//        startView.layer.addSublayer(startGradient)
+//        startView.addSubview(startLabel)
+//
+//        journeySummaryView.addSubview(startLocation)
+//        journeySummaryView.addSubview(startTime)
+//        journeySummaryView.addSubview(arrowLabel)
+//        journeySummaryView.addSubview(endView)
+//
+//        endView.layer.addSublayer(endGradient)
+//        endView.addSubview(endLabel)
+//
+//        journeySummaryView.addSubview(endLocation)
+//        journeySummaryView.addSubview(endTime)
+//        journeySummaryView.addSubview(bottomLabel)
 
         addSubview(journeyTogetherButton)
     }
 
     func setCollectionView() {
         groupCollectionView.backgroundColor = .white
+
+        let collectionViewHeight: CGFloat
+        if UIScreen.main.bounds.height >= 800 {
+            // iPhone 14와 같이 큰 화면
+            collectionViewHeight = 104
+        } else {
+            // iPhone SE와 같이 작은 화면
+            collectionViewHeight = 84
+        }
+
         groupCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(collectionViewHeight)
             make.top.lessThanOrEqualTo(safeAreaLayoutGuide).inset(20)
             make.leading.trailing.equalToSuperview()
-            make.height.lessThanOrEqualTo(102)    // TODO: - 크기 조정
         }
     }
 
@@ -290,10 +300,8 @@ extension SessionStartView {
 
     func setJourneyTogetherButton() {
 
-        let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
         journeyTogetherButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().multipliedBy(1.0 - insetRatio) // inset 비율을 적용합니다.
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.bottom.equalToSuperview().inset(20)
             make.height.equalTo(60)
         }
     }
