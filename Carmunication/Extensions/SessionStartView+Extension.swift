@@ -14,24 +14,18 @@ extension SessionStartView {
     override func draw(_ rect: CGRect) {
         setCollectionView()
         setJourneyTogetherButton()
-        countGroupData()
         setSummaryView()
         setJourneySummaryView()
     }
 
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
-        sessionStartBorderLayer.frame = viewWithoutCrew.bounds
-        sessionStartBorderLayer.path = UIBezierPath(roundedRect: viewWithoutCrew.bounds, cornerRadius: 20).cgPath
     }
 
     func setupUI() {
 
         // addSubView
         addSubview(groupCollectionView)
-
-        addSubview(viewWithoutCrew)
-        viewWithoutCrew.addSubview(noGroupCommentlabel)
 
         addSubview(summaryView)
         summaryView.addSubview(groupNameView)
@@ -80,28 +74,6 @@ extension SessionStartView {
         }
     }
 
-    func countGroupData() {
-
-        if groupData == nil {
-            setViewWithoutGroup()
-        }
-    }
-
-    func setViewWithoutGroup() {
-
-        viewWithoutCrew.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(110)
-        }
-
-        noGroupCommentlabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-        }
-        // 점선 설정
-        setupDashLine()
-    }
-
     func setSummaryView() {
 
         let bottomInset: CGFloat
@@ -116,7 +88,7 @@ extension SessionStartView {
         summaryView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalTo(journeyTogetherButton.snp.top).inset(bottomInset)   // 수정
-            make.top.equalTo(groupData == nil ? viewWithoutCrew.snp.bottom : groupCollectionView.snp.bottom).inset(-16)
+            make.top.equalTo(groupCollectionView.snp.bottom).inset(-16)
         }
         setGroupNameView()
     }
@@ -314,15 +286,6 @@ extension SessionStartView {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(20)
         }
-    }
-
-    func setupDashLine() {
-        sessionStartBorderLayer.strokeColor = UIColor.theme.blue3?.cgColor
-        sessionStartBorderLayer.lineDashPattern = [6, 6] // 점선 설정
-        sessionStartBorderLayer.frame = viewWithoutCrew.bounds
-        sessionStartBorderLayer.fillColor = nil
-        sessionStartBorderLayer.path = UIBezierPath(rect: viewWithoutCrew.bounds).cgPath
-        viewWithoutCrew.layer.addSublayer(sessionStartBorderLayer)
     }
 
     func setJourneyTogetherButton() {

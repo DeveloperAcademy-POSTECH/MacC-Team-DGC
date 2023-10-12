@@ -16,26 +16,6 @@ final class SessionStartView: UIView {
         return collectionView
     }()
 
-    // 그룹이 없을 때 컬렉션 뷰 대신 보여주는 뷰입니다. -> 삭제?
-    let sessionStartBorderLayer = CAShapeLayer()
-    lazy var viewWithoutCrew: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemBackground
-        view.clipsToBounds = true
-
-        return view
-    }()
-    // viewWithoutCrew 안에 있는 라벨 추가  -> 삭제?
-    let noGroupCommentlabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "아직 만들어진 여정이 없어요...\n친구와 함께 여정을 시작해보세요!"
-        lbl.textColor = UIColor.semantic.textBody
-        lbl.textAlignment = .center
-        lbl.numberOfLines = 0
-        lbl.font = UIFont.carmuFont.subhead3
-        return lbl
-    }()
-
     // 그룹 이름을 알려주는 뷰(groupNameView)와 여정을 요약해주는 뷰(journeySummaryView)의 상위 뷰입니다. -> MVP 개발 이후에 변경 예정
     let summaryView: UIView = {
         let view = UIView()
