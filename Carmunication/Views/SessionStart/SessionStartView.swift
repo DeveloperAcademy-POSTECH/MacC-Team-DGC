@@ -2,7 +2,7 @@ import UIKit
 
 final class SessionStartView: UIView {
 
-    // TODO: - DB 형식 나오면 GroupData 모델 변경, 추후 setupConstraints() 생성
+    // TODO: - 추후 setupConstraints() 생성
 
     // 상단 그룹에 대한 컬렉션뷰입니다.
     let groupCollectionView: UICollectionView = {

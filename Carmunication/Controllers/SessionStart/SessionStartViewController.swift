@@ -12,16 +12,26 @@ import SnapKit
 final class SessionStartViewController: UIViewController {
 
     private let sessionStartView = SessionStartView()
+    private let sessionStartMidView = SessionStartMidView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
         view.addSubview(sessionStartView)
+
+        sessionStartView.addSubview(sessionStartMidView)
+
         sessionStartView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
 
+        // 여기서 두 view 간 레이아웃 잡기
+        sessionStartMidView.snp.makeConstraints { make in
+            make.top.equalTo(sessionStartView.groupCollectionView.snp.bottom).inset(-16)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.width.equalTo(200)
+        }
         sessionStartView.groupCollectionView.delegate = self
         sessionStartView.groupCollectionView.dataSource = self
 
