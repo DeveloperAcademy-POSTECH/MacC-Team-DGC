@@ -20,10 +20,49 @@ final class SessionStartViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        setupUI()
+        setupByFrameSize()
+        setupConstraints()
+
+        sessionStartView.groupCollectionView.delegate = self
+        sessionStartView.groupCollectionView.dataSource = self
+
+        sessionStartView.journeyTogetherButton.addTarget(
+            self,
+            action: #selector(presentModalQueue),
+            for: .touchUpInside
+        )
+    }
+
+//    override func viewDidLayoutSubviews() {
+//
+//        sessionStartView.summaryView.layoutIfNeeded()
+//
+//        // 점선 그리기
+//        sessionStartView.journeySummaryView.layer.addSublayer(sessionStartView.dottedLineLayer)
+//        sessionStartView.dottedLineLayer.position = CGPoint(
+//            x: 0,
+//            y: sessionStartView.journeySummaryView.frame.maxY - 100
+//        )
+//
+//        sessionStartView.startGradient.frame = sessionStartView.startView.bounds
+//        sessionStartView.endGradient.frame = sessionStartView.endView.bounds
+//    }
+}
+
+// MARK: Layout
+extension SessionStartViewController {
+
+    func setupUI() {
+
         view.backgroundColor = .systemBackground
 
         view.addSubview(sessionStartView)
         view.addSubview(sessionStartMidView)
+    }
+
+    func setupByFrameSize() {
 
         if UIScreen.main.bounds.height >= 800 {
             // iPhone 14와 같이 큰 화면
@@ -34,6 +73,9 @@ final class SessionStartViewController: UIViewController {
             collectionViewHeight = 84
             collectionViewWidth = 64
         }
+    }
+
+    func setupConstraints() {
 
         sessionStartView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -59,32 +101,11 @@ final class SessionStartViewController: UIViewController {
             make.bottom.equalToSuperview().inset(tabBarControllerHeight + 20)
         }
 
-        sessionStartView.groupCollectionView.delegate = self
-        sessionStartView.groupCollectionView.dataSource = self
-
-        sessionStartView.journeyTogetherButton.addTarget(
-            self,
-            action: #selector(presentModalQueue),
-            for: .touchUpInside
-        )
     }
 
-    override func viewDidLayoutSubviews() {
-
-        sessionStartView.summaryView.layoutIfNeeded()
-
-        // 점선 그리기
-        sessionStartView.journeySummaryView.layer.addSublayer(sessionStartView.dottedLineLayer)
-        sessionStartView.dottedLineLayer.position = CGPoint(
-            x: 0,
-            y: sessionStartView.journeySummaryView.frame.maxY - 100
-        )
-
-        sessionStartView.startGradient.frame = sessionStartView.startView.bounds
-        sessionStartView.endGradient.frame = sessionStartView.endView.bounds
-    }
 }
 
+// MARK: Actions
 extension SessionStartViewController {
 
     @objc private func presentModalQueue() {
