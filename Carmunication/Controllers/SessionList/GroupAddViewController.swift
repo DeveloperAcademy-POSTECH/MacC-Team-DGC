@@ -119,7 +119,7 @@ extension GroupAddViewController {
     }
 
     @objc func findAddressButtonTapped() {
-        let detailViewController = SelectPointMapViewController()
+        let detailViewController = SelectAddressViewController()
         present(detailViewController, animated: true)
     }
 }
