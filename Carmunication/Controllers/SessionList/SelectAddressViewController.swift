@@ -51,13 +51,6 @@ final class SelectAddressViewController: UIViewController {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
         view.addGestureRecognizer(tapGesture)
     }
-
-    // 클래스의 인스턴스가 메모리에서 해제되기 전에 호출되는 메서드
-    deinit {
-        // 옵저버 해제
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
 }
 
 // MARK: - @objc Method
