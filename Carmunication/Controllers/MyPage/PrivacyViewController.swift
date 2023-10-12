@@ -18,7 +18,12 @@ final class PrivacyViewController: UIViewController {
         navigationItem.title = "개인정보 처리방침"
         view.addSubview(privacyView)
         privacyView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
+            make.edges.equalTo(view.safeAreaLayoutGuide)
         }
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.backButtonTitle = ""
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
     }
 }

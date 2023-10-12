@@ -27,12 +27,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
 
-        var rootViewController: UIViewController = LoginViewController()
         // 로그인한 사용자가 있는지 체크
         if Auth.auth().currentUser != nil {
-            rootViewController = MainTabBarViewController()
+            window.rootViewController = MainTabBarViewController()
+        } else {
+            window.rootViewController = LoginViewController()
         }
-        window.rootViewController = rootViewController
         window.makeKeyAndVisible()
     }
 

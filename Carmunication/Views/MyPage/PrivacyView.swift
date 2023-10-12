@@ -21,11 +21,17 @@ final class PrivacyView: UIView {
     lazy var appLogoView: UIImageView = {
         let appLogoView = UIImageView()
         if let appLogo = UIImage(named: "appLogo") {
-            let targetSize = CGSize(width: 94, height: 47)
-            let scaledImage = appLogo.aspectFit(toSize: targetSize)
-            appLogoView.image = scaledImage
+            appLogoView.contentMode = .scaleAspectFit
+            appLogoView.image = appLogo
         }
         return appLogoView
+    }()
+
+    lazy var greetingStack: UIStackView = {
+        let greetingStack = UIStackView()
+        greetingStack.axis = .vertical
+        greetingStack.alignment = .leading
+        return greetingStack
     }()
 
     // 인사 문구
@@ -83,8 +89,10 @@ final class PrivacyView: UIView {
         addSubview(privacyContentView)
 
         privacyIntroStackView.addArrangedSubview(appLogoView)
-        privacyIntroStackView.addArrangedSubview(greetingLabel)
-        privacyIntroStackView.addArrangedSubview(privacyDescription)
+        privacyIntroStackView.addArrangedSubview(greetingStack)
+
+        greetingStack.addArrangedSubview(greetingLabel)
+        greetingStack.addArrangedSubview(privacyDescription)
 
         privacyContentView.addArrangedSubview(privacyContent)
     }
@@ -93,18 +101,29 @@ final class PrivacyView: UIView {
     func setAutoLayout() {
         privacyIntroStackView.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(80)
-            make.leading.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(161)
         }
         appLogoView.snp.makeConstraints { make in
-            make.bottom.equalTo(greetingLabel.snp.top).offset(-20)
+            make.leading.top.equalToSuperview()
+            make.width.equalTo(94)
+            make.height.equalTo(47)
+            make.bottom.equalTo(greetingStack.snp.top).offset(-20)
+        }
+        greetingStack.snp.makeConstraints { make in
+            make.leading.bottom.trailing.equalToSuperview()
         }
         greetingLabel.snp.makeConstraints { make in
+            make.leading.top.equalToSuperview()
             make.bottom.equalTo(privacyDescription.snp.top).offset(-12)
+        }
+        privacyDescription.snp.makeConstraints { make in
+            make.leading.bottom.trailing.equalToSuperview()
         }
 
         privacyContentView.snp.makeConstraints { make in
-            make.top.equalTo(privacyIntroStackView.snp.bottom).offset(36)
             make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(privacyIntroStackView.snp.bottom).offset(36)
             make.bottom.equalToSuperview().inset(48)
         }
         privacyContent.snp.makeConstraints { make in
