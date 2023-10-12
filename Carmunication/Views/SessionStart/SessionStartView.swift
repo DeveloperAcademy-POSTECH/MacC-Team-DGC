@@ -233,10 +233,10 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    // 여정 시작하기 버튼
+    // 여정 알리기 버튼
     let journeyTogetherButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("여정 시작하기", for: .normal)
+        btn.setTitle("여정 알리기", for: .normal)
         btn.backgroundColor = UIColor.semantic.accPrimary
         btn.titleLabel?.font = UIFont.carmuFont.headline2
         btn.setTitleColor(.white, for: .normal)
