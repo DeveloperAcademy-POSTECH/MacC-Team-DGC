@@ -39,8 +39,6 @@ final class SettingsViewController: UIViewController {
         view.backgroundColor = .systemBackground
 
         navigationItem.title = "설정"
-        let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem = backButtonItem
 
         view.addSubview(settingsView)
         settingsView.snp.makeConstraints { make in
@@ -53,6 +51,7 @@ final class SettingsViewController: UIViewController {
         settingsView.settingsTableView.delegate = self
     }
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
         // 설정 화면에서는 탭 바가 보이지 않도록 한다.
         tabBarController?.tabBar.isHidden = true

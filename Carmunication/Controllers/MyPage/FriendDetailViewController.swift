@@ -40,6 +40,7 @@ final class FriendDetailViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor.semantic.textSecondary
     }
 }

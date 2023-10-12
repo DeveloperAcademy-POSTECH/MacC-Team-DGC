@@ -36,11 +36,10 @@ final class FriendListViewController: UIViewController {
             target: self,
             action: #selector(showFriendAddView)
         )
-        let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem = backButtonItem
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
     }
 }
