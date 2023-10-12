@@ -68,9 +68,9 @@ extension SessionStartView {
     func setCollectionView() {
         groupCollectionView.backgroundColor = .white
         groupCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
+            make.top.lessThanOrEqualTo(safeAreaLayoutGuide).inset(20)
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(102)    // TODO: - 크기 조정
+            make.height.lessThanOrEqualTo(102)    // TODO: - 크기 조정
         }
     }
 
