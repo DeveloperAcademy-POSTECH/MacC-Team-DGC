@@ -79,6 +79,7 @@
 		C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */; };
 		C9DC0CC82AD7D83700F06169 /* DefaultAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */; };
 		C9DC0CCA2AD7D85400F06169 /* SelectAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */; };
+		C9DC0CCC2AD81E5500F06169 /* SelectTableCellControllerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC0CCB2AD81E5500F06169 /* SelectTableCellControllerProtocol.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
 		C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */; };
 		C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */; };
@@ -157,6 +158,7 @@
 		C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLineView.swift; sourceTree = "<group>"; };
 		C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAddressTableViewCell.swift; sourceTree = "<group>"; };
 		C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressTableViewCell.swift; sourceTree = "<group>"; };
+		C9DC0CCB2AD81E5500F06169 /* SelectTableCellControllerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTableCellControllerProtocol.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddViewController.swift; sourceTree = "<group>"; };
 		C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddTableViewCell.swift; sourceTree = "<group>"; };
@@ -335,6 +337,7 @@
 				C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */,
 				C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */,
 				C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */,
+				C9DC0CCB2AD81E5500F06169 /* SelectTableCellControllerProtocol.swift */,
 			);
 			path = GroupAdd;
 			sourceTree = "<group>";
@@ -566,6 +569,7 @@
 				C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */,
 				162E59DA2AD3AC920027A476 /* SessionStartView+Extension.swift in Sources */,
 				BF9BD0022ACE5093009DAECD /* ModalQueueView.swift in Sources */,
+				C9DC0CCC2AD81E5500F06169 /* SelectTableCellControllerProtocol.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
 				B8DD15E22AD52CC300685E48 /* FriendAddViewController.swift in Sources */,
 				C9DC0CC82AD7D83700F06169 /* DefaultAddressTableViewCell.swift in Sources */,

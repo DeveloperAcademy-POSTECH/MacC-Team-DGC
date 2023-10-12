@@ -96,6 +96,14 @@ final class SelectAddressView: UIView {
     }()
 
     // TODO: - 검색된 장소 셀 보여주기 구현 필요
+    let tableViewComponent: UITableView = {
+        let tableView = UITableView()
+        tableView.register(SelectAddressTableViewCell.self, forCellReuseIdentifier: "selectAddressCell")
+//        tableView.register(DefaultAddressTableViewCell.self, forCellReuseIdentifier: "defaultAddressCell")
+        tableView.separatorStyle = .none
+        tableView.showsVerticalScrollIndicator = false
+        return tableView
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -116,6 +124,7 @@ final class SelectAddressView: UIView {
         headerBar.addSubview(headerTitleLabel)
         headerBar.addSubview(closeButton)
         friendSearchTextFieldView.addSubview(friendSearchTextField)
+        addSubview(tableViewComponent)
 
         textFieldUtilityStackView.addArrangedSubview(clearButton)
         textFieldUtilityStackView.addArrangedSubview(friendSearchButton)
@@ -154,6 +163,12 @@ final class SelectAddressView: UIView {
 
         clearButton.snp.makeConstraints { make in
             make.trailing.equalTo(friendSearchButton.snp.leading).offset(-10)
+        }
+
+        tableViewComponent.snp.makeConstraints { make in
+            make.top.equalTo(friendSearchTextFieldView.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
         }
     }
 }

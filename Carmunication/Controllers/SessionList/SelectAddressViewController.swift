@@ -40,6 +40,8 @@ final class SelectAddressViewController: UIViewController {
         )
 
         selectAddressView.friendSearchTextField.delegate = self
+        selectAddressView.tableViewComponent.delegate = self
+        selectAddressView.tableViewComponent.dataSource = self
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
         view.addGestureRecognizer(tapGesture)
@@ -110,4 +112,57 @@ extension SelectAddressViewController: UITextFieldDelegate {
         dismissTextField()
         return true
     }
+}
+
+// MARK: - tableView protocol Method
+extension SelectAddressViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 94
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension SelectAddressViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
+        if let cell = tableView.dequeueReusableCell(
+            withIdentifier: "selectAddressCell",
+            for: indexPath
+        ) as? SelectAddressTableViewCell {
+            return cell
+        }
+        return UITableViewCell()
+    }
+}
+
+// MARK: - Previewer
+import SwiftUI
+
+struct SelectAddressViewControllerRepresentable: UIViewControllerRepresentable {
+
+    typealias UIViewControllerType = SelectAddressViewController
+
+    func makeUIViewController(context: Context) -> SelectAddressViewController {
+        return SelectAddressViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: SelectAddressViewController, context: Context) {}
+}
+
+@available(iOS 13.0.0, *)
+struct SelectAddressViewControllerPreview: PreviewProvider {
+
+    static var previews: some View {
+        SelectAddressViewControllerRepresentable()
+    }
+
 }
