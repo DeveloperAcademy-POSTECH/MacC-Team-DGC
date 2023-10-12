@@ -86,7 +86,7 @@ extension SelectAddressViewController {
         selectAddressView.friendSearchTextFieldView.layer.borderWidth = 1.0
         selectAddressView.friendSearchTextField.resignFirstResponder() // 최초 응답자 해제
     }
-    
+
     // 키보드가 나타날 때 호출되는 메서드
     @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
