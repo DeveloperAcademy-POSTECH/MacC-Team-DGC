@@ -146,8 +146,6 @@ extension SessionStartView {
         // 요일과 인원을 알려주는 뷰
         setDayAndPerson()
 
-        // 문구를 관리하는 메서드
-        setSentence()
     }
 
     func setTodayDate() {
@@ -280,29 +278,4 @@ extension SessionStartView {
             make.top.equalTo(endLocation.snp.bottom).inset(-12)
         }
     }
-
-    func setSentence() {
-        // 점선을 그리기 위한 CALayer 생성
-        dottedLineLayer.strokeColor = UIColor.gray.cgColor
-        dottedLineLayer.lineWidth = 1
-        dottedLineLayer.lineDashPattern = [10, 10]  // 점선의 패턴을 설정
-
-        let path = CGMutablePath()
-        path.addLines(between: [CGPoint(x: 0, y: 0), CGPoint(x: bounds.width - 40, y: 0)])
-        dottedLineLayer.path = path
-        dottedLineLayer.anchorPoint = CGPoint(x: 0, y: 0)
-
-        bottomLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(20)
-        }
-    }
-
-//    func setJourneyTogetherButton() {
-//
-//        journeyTogetherButton.snp.makeConstraints { make in
-//            make.leading.trailing.bottom.equalToSuperview().inset(20)
-//            make.height.equalTo(60)
-//        }
-//    }
 }

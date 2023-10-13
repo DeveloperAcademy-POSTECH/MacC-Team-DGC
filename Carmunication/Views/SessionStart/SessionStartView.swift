@@ -224,7 +224,6 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    let dottedLineLayer = CAShapeLayer()
     let bottomLabel: UILabel = {
         let lbl = UILabel()
         lbl.textColor = UIColor.semantic.textBody
