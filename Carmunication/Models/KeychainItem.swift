@@ -177,6 +177,7 @@ struct KeychainItem {
                 service: bundleIdentifier,
                 account: "userIdentifier"
             ).deleteItem()
+            print("키체인 uid 삭제 성공!!!")
         } catch {
             print("키체인으로부터 userIdentifier를 삭제하지 못했습니다.")
         }
