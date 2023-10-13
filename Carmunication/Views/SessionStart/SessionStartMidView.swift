@@ -180,9 +180,34 @@ final class SessionStartMidView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
+        var dayLocationPadding = 82
+        var viewLinePadding = -20
         let padding = summaryView.frame.height / 5
+
+        // 사이즈가 작을 때 padding 변경
+        if summaryView.frame.height > 0 && summaryView.frame.height <= 300 {
+            dayLocationPadding = 42
+            viewLinePadding = -12
+        }
+
+        startLocationLabel.snp.makeConstraints { make in
+            make.top.lessThanOrEqualToSuperview().inset(dayLocationPadding)
+        }
+        endLocationLabel.snp.makeConstraints { make in
+            make.top.lessThanOrEqualToSuperview().inset(dayLocationPadding)
+        }
+
         lineView.snp.makeConstraints { make in
             make.bottom.lessThanOrEqualToSuperview().inset(padding)
+        }
+
+        dayView.snp.makeConstraints { make in
+            make.bottom.lessThanOrEqualTo(lineView.snp.top).inset(-12)
+            make.bottom.lessThanOrEqualTo(lineView).inset(viewLinePadding)
+        }
+        personCountView.snp.makeConstraints { make in
+            make.bottom.lessThanOrEqualTo(lineView.snp.top).inset(-12)
+            make.bottom.lessThanOrEqualTo(lineView).inset(viewLinePadding)
         }
 
         commentUnderLineView.snp.makeConstraints { make in
@@ -208,11 +233,11 @@ final class SessionStartMidView: UIView {
         summaryView.addSubview(endLocationLabel)
         summaryView.addSubview(endTime)
         summaryView.addSubview(dayView)
-        summaryView.addSubview(calendarImage)
-        summaryView.addSubview(dayLabel)
+        dayView.addSubview(calendarImage)
+        dayView.addSubview(dayLabel)
         summaryView.addSubview(personCountView)
-        summaryView.addSubview(personImage)
-        summaryView.addSubview(personLabel)
+        personCountView.addSubview(personImage)
+        personCountView.addSubview(personLabel)
 
         summaryView.addSubview(lineView)
         summaryView.addSubview(commentUnderLineView)
@@ -261,7 +286,6 @@ final class SessionStartMidView: UIView {
 
         startLocationLabel.snp.makeConstraints { make in
             make.leading.lessThanOrEqualToSuperview().inset(20)
-            make.top.lessThanOrEqualToSuperview().inset(82)
             make.width.lessThanOrEqualTo(115)
         }
         arrowLabel.snp.makeConstraints { make in
@@ -270,7 +294,6 @@ final class SessionStartMidView: UIView {
         }
         endLocationLabel.snp.makeConstraints { make in
             make.trailing.trailing.lessThanOrEqualToSuperview().inset(20)
-            make.top.lessThanOrEqualToSuperview().inset(82)
             make.width.lessThanOrEqualTo(115)
         }
 
@@ -283,6 +306,16 @@ final class SessionStartMidView: UIView {
             make.top.lessThanOrEqualTo(endLocationLabel.snp.bottom).inset(-16)
         }
 
+        dayView.snp.makeConstraints { make in
+            make.height.lessThanOrEqualTo(40)
+            make.width.lessThanOrEqualTo(114)
+            make.leading.equalTo(startLocationLabel)
+        }
+        personCountView.snp.makeConstraints { make in
+            make.height.lessThanOrEqualTo(40)
+            make.width.lessThanOrEqualTo(114)
+            make.trailing.equalTo(endLocationLabel)
+        }
     }
 
     private func setTodayDate() {
@@ -291,4 +324,5 @@ final class SessionStartMidView: UIView {
         let formattedDate = Date.formattedDate(from: today)
         dateLabel.text = formattedDate
     }
+
 }
