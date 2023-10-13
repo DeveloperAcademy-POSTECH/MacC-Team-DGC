@@ -55,6 +55,99 @@ final class SessionStartMidView: UIView {
         return lbl
     }()
 
+    // 출발, 도착 정보
+    let startLocationLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.carmuFont.headline2
+        lbl.textColor = UIColor.semantic.textPrimary
+        lbl.numberOfLines = 0
+        lbl.text = "농협 양덕초지점 농협"    // TODO: - 그룹 유무에 따른 변경
+        return lbl
+    }()
+
+    let startTime: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.carmuFont.headline1
+        lbl.textColor = UIColor.theme.blue4
+        lbl.text = "09 : 00"    // TODO: - 그룹 유무에 따른 변경
+        return lbl
+    }()
+
+    let arrowLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "→"
+        lbl.textAlignment = .center
+        lbl.font = UIFont.systemFont(ofSize: 24)
+        lbl.textColor = .black
+        return lbl
+    }()
+
+    let endLocationLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.carmuFont.headline2
+        lbl.textColor = UIColor.semantic.textPrimary
+        lbl.numberOfLines = 0
+        lbl.text = "농협 양덕초지점 농협"    // TODO: - 그룹 유무에 따른 변경
+        return lbl
+    }()
+
+    let endTime: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.carmuFont.headline1
+        lbl.textColor = UIColor.theme.blue4
+        lbl.text = "09 : 00"    // TODO: - 그룹 유무에 따른 변경
+        return lbl
+    }()
+
+    // 요일 및 인원 수
+    let dayView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = UIColor.semantic.textDisableBT?.cgColor
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    let calendarImage: UIImageView = {
+        let imageView = UIImageView()
+        if let image = UIImage(systemName: "calendar") {
+            imageView.image = image
+            imageView.tintColor = UIColor.semantic.accPrimary
+        }
+        return imageView
+    }()
+    let dayLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.textAlignment = .center
+        lbl.textColor = UIColor.semantic.textPrimary
+        lbl.font = UIFont.carmuFont.body2Long
+        return lbl
+    }()
+
+    let personCountView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.layer.borderWidth = 1.0
+        view.layer.borderColor = UIColor.semantic.textDisableBT?.cgColor
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    let personImage: UIImageView = {
+        let imageView = UIImageView()
+        if let image = UIImage(systemName: "person.2") {
+            imageView.image = image
+            imageView.tintColor = UIColor.semantic.accPrimary
+        }
+        return imageView
+    }()
+    let personLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.textAlignment = .center
+        lbl.textColor = UIColor.semantic.textPrimary
+        lbl.font = UIFont.carmuFont.body2Long
+        return lbl
+    }()
+
     let lineView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.theme.blue3
@@ -66,7 +159,7 @@ final class SessionStartMidView: UIView {
         lbl.font = UIFont.carmuFont.body3Long
         lbl.textColor = UIColor.semantic.textBody
         lbl.textAlignment = .center
-        lbl.text = "세션관리에서 여정을 만들어 보세요."    // TODO: - 그룹이 있을 때와 없을 때 나눠서 텍스트 설정하기
+        lbl.text = "세션관리에서 여정을 만들어 보세요."    // TODO: - 그룹 유무에 따른 변경
         return lbl
     }()
 
@@ -109,8 +202,19 @@ final class SessionStartMidView: UIView {
         addSubview(summaryView)
 
         summaryView.addSubview(dateLabel)
-        summaryView.addSubview(lineView)
+        summaryView.addSubview(startLocationLabel)
+        summaryView.addSubview(startTime)
+        summaryView.addSubview(arrowLabel)
+        summaryView.addSubview(endLocationLabel)
+        summaryView.addSubview(endTime)
+        summaryView.addSubview(dayView)
+        summaryView.addSubview(calendarImage)
+        summaryView.addSubview(dayLabel)
+        summaryView.addSubview(personCountView)
+        summaryView.addSubview(personImage)
+        summaryView.addSubview(personLabel)
 
+        summaryView.addSubview(lineView)
         summaryView.addSubview(commentUnderLineView)
     }
 
@@ -154,6 +258,31 @@ final class SessionStartMidView: UIView {
         commentUnderLineView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
         }
+
+        startLocationLabel.snp.makeConstraints { make in
+            make.leading.lessThanOrEqualToSuperview().inset(20)
+            make.top.lessThanOrEqualToSuperview().inset(82)
+            make.width.lessThanOrEqualTo(115)
+        }
+        arrowLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalTo(startLocationLabel)
+        }
+        endLocationLabel.snp.makeConstraints { make in
+            make.trailing.trailing.lessThanOrEqualToSuperview().inset(20)
+            make.top.lessThanOrEqualToSuperview().inset(82)
+            make.width.lessThanOrEqualTo(115)
+        }
+
+        startTime.snp.makeConstraints { make in
+            make.leading.equalTo(startLocationLabel)
+            make.top.lessThanOrEqualTo(startLocationLabel.snp.bottom).inset(-16)
+        }
+        endTime.snp.makeConstraints { make in
+            make.leading.equalTo(endLocationLabel)
+            make.top.lessThanOrEqualTo(endLocationLabel.snp.bottom).inset(-16)
+        }
+
     }
 
     private func setTodayDate() {
