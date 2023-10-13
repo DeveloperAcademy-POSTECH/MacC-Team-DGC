@@ -14,14 +14,27 @@ final class GroupCollectionViewCell: UICollectionViewCell {
     // 위 식을 통해 뷰 컨트롤러에 데이터 전달
     var groupData: Group? {
         didSet {
-            guard let groupData = groupData else { return }
-            if let imageString = groupData.groupImage, let image = UIImage(named: imageString) {
+            guard let groupData = groupData else {
+                groupImage.image = UIImage(named: "defaultStoryImage") // 기본 이미지 설정
+                groupNameLabel.text = "---"
+                return
+            }
+
+            // TODO: - 추후 systemName을 named로 변경
+            if let imageString = groupData.groupImage, let image = UIImage(systemName: imageString) {
                 groupImage.image = image
             } else {
-                // 이미지가 로드되지 않았거나 nil인 경우 기본 이미지를 설정할 수 있습니다.
-                groupImage.image = UIImage(systemName: "heart.fill")
+                groupImage.contentMode = .scaleAspectFit
+                groupImage.clipsToBounds = true
+                groupImage.image = UIImage(named: "defaultStoryImage")
             }
-            groupNameLabel.text = groupData.groupName
+
+            if let groupName = groupData.groupName {
+                groupNameLabel.text = groupName
+            } else {
+                groupNameLabel.text = "---"
+                groupNameLabel.textColor = UIColor.semantic.textBody
+            }
         }
     }
 

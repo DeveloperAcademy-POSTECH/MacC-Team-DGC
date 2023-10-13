@@ -2,7 +2,7 @@ import UIKit
 
 final class SessionStartView: UIView {
 
-    // TODO: - DB 형식 나오면 GroupData 모델 변경, 추후 setupConstraints() 생성
+    // TODO: - 추후 setupConstraints() 생성
 
     // 상단 그룹에 대한 컬렉션뷰입니다.
     let groupCollectionView: UICollectionView = {
@@ -14,26 +14,6 @@ final class SessionStartView: UIView {
         collectionView.register(GroupCollectionViewCell.self, forCellWithReuseIdentifier: "groupCell")
         collectionView.showsHorizontalScrollIndicator = false   // 스크롤바 숨기기
         return collectionView
-    }()
-
-    // 그룹이 없을 때 컬렉션 뷰 대신 보여주는 뷰입니다. -> 삭제?
-    let sessionStartBorderLayer = CAShapeLayer()
-    lazy var viewWithoutCrew: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemBackground
-        view.clipsToBounds = true
-
-        return view
-    }()
-    // viewWithoutCrew 안에 있는 라벨 추가  -> 삭제?
-    let noGroupCommentlabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "아직 만들어진 여정이 없어요...\n친구와 함께 여정을 시작해보세요!"
-        lbl.textColor = UIColor.semantic.textBody
-        lbl.textAlignment = .center
-        lbl.numberOfLines = 0
-        lbl.font = UIFont.carmuFont.subhead3
-        return lbl
     }()
 
     // 그룹 이름을 알려주는 뷰(groupNameView)와 여정을 요약해주는 뷰(journeySummaryView)의 상위 뷰입니다. -> MVP 개발 이후에 변경 예정
@@ -253,10 +233,10 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    // 여정 시작하기 버튼
+    // 여정 알리기 버튼
     let journeyTogetherButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("여정 시작하기", for: .normal)
+        btn.setTitle("여정 알리기", for: .normal)
         btn.backgroundColor = UIColor.semantic.accPrimary
         btn.titleLabel?.font = UIFont.carmuFont.headline2
         btn.setTitleColor(.white, for: .normal)

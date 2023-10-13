@@ -13,16 +13,13 @@ extension SessionStartView {
 
     override func draw(_ rect: CGRect) {
         setCollectionView()
-        setJourneyTogetherButton()
-        countGroupData()
-        setSummaryView()
-        setJourneySummaryView()
+//        setJourneyTogetherButton()
+//        setSummaryView()
+//        setJourneySummaryView()
     }
 
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
-        sessionStartBorderLayer.frame = viewWithoutCrew.bounds
-        sessionStartBorderLayer.path = UIBezierPath(roundedRect: viewWithoutCrew.bounds, cornerRadius: 20).cgPath
     }
 
     func setupUI() {
@@ -30,76 +27,61 @@ extension SessionStartView {
         // addSubView
         addSubview(groupCollectionView)
 
-        addSubview(viewWithoutCrew)
-        viewWithoutCrew.addSubview(noGroupCommentlabel)
-
-        addSubview(summaryView)
-        summaryView.addSubview(groupNameView)
-        summaryView.addSubview(journeySummaryView)
-
-        groupNameView.addSubview(groupNameLabel)
-        groupNameView.addSubview(whiteCircleImageViewLeft)
-        groupNameView.addSubview(whiteCircleImageViewRight)
-
-        journeySummaryView.addSubview(dateLabel)
-        journeySummaryView.addSubview(noGroupComment)
-        journeySummaryView.addSubview(dayView)
-        journeySummaryView.addSubview(personCountView)
-
-        dayView.addSubview(calendarImage)
-        dayView.addSubview(dayLabel)
-
-        personCountView.addSubview(personImage)
-        personCountView.addSubview(personLabel)
-        journeySummaryView.addSubview(startView)
-
-        startView.layer.addSublayer(startGradient)
-        startView.addSubview(startLabel)
-
-        journeySummaryView.addSubview(startLocation)
-        journeySummaryView.addSubview(startTime)
-        journeySummaryView.addSubview(arrowLabel)
-        journeySummaryView.addSubview(endView)
-
-        endView.layer.addSublayer(endGradient)
-        endView.addSubview(endLabel)
-
-        journeySummaryView.addSubview(endLocation)
-        journeySummaryView.addSubview(endTime)
-        journeySummaryView.addSubview(bottomLabel)
+//        addSubview(summaryView)
+//        summaryView.addSubview(groupNameView)
+//        summaryView.addSubview(journeySummaryView)
+//
+//        groupNameView.addSubview(groupNameLabel)
+//        groupNameView.addSubview(whiteCircleImageViewLeft)
+//        groupNameView.addSubview(whiteCircleImageViewRight)
+//
+//        journeySummaryView.addSubview(dateLabel)
+//        journeySummaryView.addSubview(noGroupComment)
+//        journeySummaryView.addSubview(dayView)
+//        journeySummaryView.addSubview(personCountView)
+//
+//        dayView.addSubview(calendarImage)
+//        dayView.addSubview(dayLabel)
+//
+//        personCountView.addSubview(personImage)
+//        personCountView.addSubview(personLabel)
+//        journeySummaryView.addSubview(startView)
+//
+//        startView.layer.addSublayer(startGradient)
+//        startView.addSubview(startLabel)
+//
+//        journeySummaryView.addSubview(startLocation)
+//        journeySummaryView.addSubview(startTime)
+//        journeySummaryView.addSubview(arrowLabel)
+//        journeySummaryView.addSubview(endView)
+//
+//        endView.layer.addSublayer(endGradient)
+//        endView.addSubview(endLabel)
+//
+//        journeySummaryView.addSubview(endLocation)
+//        journeySummaryView.addSubview(endTime)
+//        journeySummaryView.addSubview(bottomLabel)
 
         addSubview(journeyTogetherButton)
     }
 
     func setCollectionView() {
         groupCollectionView.backgroundColor = .white
+
+        let collectionViewHeight: CGFloat
+        if UIScreen.main.bounds.height >= 800 {
+            // iPhone 14와 같이 큰 화면
+            collectionViewHeight = 104
+        } else {
+            // iPhone SE와 같이 작은 화면
+            collectionViewHeight = 84
+        }
+
         groupCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
+            make.height.equalTo(collectionViewHeight)
+            make.top.lessThanOrEqualTo(safeAreaLayoutGuide).inset(20)
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(102)    // TODO: - 크기 조정
         }
-    }
-
-    func countGroupData() {
-
-        if groupData == nil {
-            setViewWithoutGroup()
-        }
-    }
-
-    func setViewWithoutGroup() {
-
-        viewWithoutCrew.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(110)
-        }
-
-        noGroupCommentlabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
-        }
-        // 점선 설정
-        setupDashLine()
     }
 
     func setSummaryView() {
@@ -116,7 +98,7 @@ extension SessionStartView {
         summaryView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalTo(journeyTogetherButton.snp.top).inset(bottomInset)   // 수정
-            make.top.equalTo(groupData == nil ? viewWithoutCrew.snp.bottom : groupCollectionView.snp.bottom).inset(-16)
+            make.top.equalTo(groupCollectionView.snp.bottom).inset(-16)
         }
         setGroupNameView()
     }
@@ -316,21 +298,10 @@ extension SessionStartView {
         }
     }
 
-    func setupDashLine() {
-        sessionStartBorderLayer.strokeColor = UIColor.theme.blue3?.cgColor
-        sessionStartBorderLayer.lineDashPattern = [6, 6] // 점선 설정
-        sessionStartBorderLayer.frame = viewWithoutCrew.bounds
-        sessionStartBorderLayer.fillColor = nil
-        sessionStartBorderLayer.path = UIBezierPath(rect: viewWithoutCrew.bounds).cgPath
-        viewWithoutCrew.layer.addSublayer(sessionStartBorderLayer)
-    }
-
     func setJourneyTogetherButton() {
 
-        let insetRatio: CGFloat = 88.0 / UIScreen.main.bounds.height
         journeyTogetherButton.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().multipliedBy(1.0 - insetRatio) // inset 비율을 적용합니다.
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.bottom.equalToSuperview().inset(20)
             make.height.equalTo(60)
         }
     }
