@@ -47,16 +47,26 @@ final class SessionStartMidView: UIView {
         return view
     }()
 
+    // 오늘의 날짜
+    let dateLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.textColor = UIColor.theme.darkblue4
+        lbl.font = UIFont.carmuFont.body2Long
+        return lbl
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
         setupConstraints()
+        setTodayDate()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
         setupConstraints()
+        setTodayDate()
     }
 
     private func setupUI() {
@@ -68,6 +78,8 @@ final class SessionStartMidView: UIView {
         groupNameView.addSubview(whiteCircleImageViewRight)
 
         addSubview(summaryView)
+
+        summaryView.addSubview(dateLabel)
     }
 
     private func setupConstraints() {
@@ -98,5 +110,15 @@ final class SessionStartMidView: UIView {
             make.bottom.equalToSuperview().inset(20)
         }
 
+        dateLabel.snp.makeConstraints { make in
+            make.leading.top.trailing.lessThanOrEqualToSuperview().inset(20)
+        }
+    }
+
+    private func setTodayDate() {
+
+        let today = Date()
+        let formattedDate = Date.formattedDate(from: today)
+        dateLabel.text = formattedDate
     }
 }
