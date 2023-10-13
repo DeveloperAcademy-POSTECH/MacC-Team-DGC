@@ -308,7 +308,7 @@ final class SessionStartMidView: UIView {
             make.top.lessThanOrEqualTo(startLocationLabel.snp.bottom).inset(-16)
         }
         endTime.snp.makeConstraints { make in
-            make.leading.equalTo(endLocationLabel)
+            make.trailing.equalTo(endLocationLabel)
             make.top.lessThanOrEqualTo(endLocationLabel.snp.bottom).inset(-16)
         }
 
