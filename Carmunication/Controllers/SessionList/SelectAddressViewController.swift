@@ -34,33 +34,20 @@ final class SelectAddressViewController: UIViewController {
             localSearch?.cancel()
         }
     }
-
-    // 이것도 제대로 되지는 않음. 경계가 정해지지 않는다.
     private let koreaBounds = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
             latitude: 36.34,
             longitude: 127.77
         ),
-        latitudinalMeters: 20000,
-        longitudinalMeters: 20000
+        latitudinalMeters: 200000,
+        longitudinalMeters: 200000
     )
-//    // 이걸로 하면 포항공대가 안나옴. 상세 검색이 안됨(LTE 연결시)
-//    private let koreaBounds = MKCoordinateRegion(
-//        center: CLLocationCoordinate2D(
-//            latitude: 36.34,
-//            longitude: 127.77
-//        ),
-//        span: MKCoordinateSpan(
-//            latitudeDelta: 0.0001,
-//            longitudeDelta: 0.0004
-//        )
-//    )
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-
         view.addSubview(selectAddressView)
+
         selectAddressView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -72,7 +59,7 @@ final class SelectAddressViewController: UIViewController {
         )
         selectAddressView.friendSearchButton.addTarget(
             self,
-            action: #selector(performFriendSearch),
+            action: #selector(performAddressSearch),
             for: .touchUpInside
         )
         selectAddressView.clearButton.addTarget(
@@ -118,9 +105,28 @@ extension SelectAddressViewController {
     }
 
     // [검색] 버튼을 눌렀을 때 동작
-    @objc private func performFriendSearch() {
-        // TODO: - 친구 검색 기능 구현 필요
-        print("친구 검색")
+    @objc private func performAddressSearch() {
+        if isKeyboardActive {
+            isKeyboardActive = false
+            dismissTextField()
+        }
+
+        if let searchText = selectAddressView.friendSearchTextField.text, !searchText.isEmpty {
+            // 사용자가 입력한 주소 또는 장소명
+            let address = searchText
+
+            // 주소를 이용하여 상세한 좌표를 비동기적으로 가져오기
+            getCoordinates(for: address) { result in
+                switch result {
+                case .success(let (latitude, longitude)):
+                    // 여기에서 얻은 latitude와 longitude를 사용하여 원하는 작업을 수행합니다.
+                    print("Latitude: \(latitude), Longitude: \(longitude)")
+                case .failure(let error):
+                    // 좌표를 가져올 수 없는 경우에 대한 처리를 추가.
+                    print("Failed to get coordinates for the address: \(address). Error: \(error)")
+                }
+            }
+        }
     }
 
     // 텍스트필드 clear 버튼 눌렀을 때 동작
@@ -132,7 +138,6 @@ extension SelectAddressViewController {
 
     @objc private func dismissTextField() {
         if !isKeyboardActive {
-            // 텍스트 필드 이외의 영역을 탭한 경우에만 텍스트 필드를 해제합니다.
             selectAddressView.friendSearchTextFieldView.backgroundColor = .clear
             selectAddressView.friendSearchTextFieldView.layer.borderWidth = 1.0
             selectAddressView.friendSearchTextField.resignFirstResponder()
@@ -151,6 +156,15 @@ extension SelectAddressViewController {
             selectAddressView.tableViewComponent.reloadData()
         }
     }
+
+    @objc private func keyboardWillChange(notification: Notification) {
+        // 키보드 애니메이션을 비활성화하려면 아무것도 하지 않습니다.
+        // 사용자 경험에 따라서 원하는 경우 키보드 애니메이션을 제어할 수 있습니다.
+    }
+}
+
+// MARK: - Custom Method
+extension SelectAddressViewController {
 
     private func search(for suggestedCompletion: MKLocalSearchCompletion) {
         let searchRequest = MKLocalSearch.Request(completion: suggestedCompletion)
@@ -177,9 +191,29 @@ extension SelectAddressViewController {
         }
     }
 
-    @objc private func keyboardWillChange(notification: Notification) {
-        // 키보드 애니메이션을 비활성화하려면 아무것도 하지 않습니다.
-        // 사용자 경험에 따라서 원하는 경우 키보드 애니메이션을 제어할 수 있습니다.
+    private func getCoordinates(for address: String, completion: @escaping (Result<(Double, Double), Error>) -> Void) {
+        if address == "" { return }
+
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            if let placemark = placemarks?.first, let location = placemark.location {
+                let latitude = location.coordinate.latitude
+                let longitude = location.coordinate.longitude
+                // 검색 결과에서 위도와 경도를 비동기적으로 반환
+                completion(.success((latitude, longitude)))
+            } else {
+                let noLocationError = NSError(
+                    domain: "GeocodingError",
+                    code: -1,
+                    userInfo: [NSLocalizedDescriptionKey: "No location found for the address"]
+                )
+                completion(.failure(noLocationError))
+            }
+        }
     }
 }
 
@@ -188,8 +222,8 @@ extension SelectAddressViewController: MKLocalSearchCompleterDelegate {
 
     // 자동완성 완료시 결과를 받는 method
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-        completerResults = completer.results
-        selectAddressView.tableViewComponent.reloadData()
+        self.completerResults = completer.results
+        self.selectAddressView.tableViewComponent.reloadData()
     }
 
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
@@ -257,8 +291,7 @@ extension SelectAddressViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let results = completerResults, !results.isEmpty {
-            //        if selectAddressView.searchBar. {
+        if let results = completerResults, !results.isEmpty { // 검색 결과가 있는 경우
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: "selectAddressCell"
             ) as? SelectAddressTableViewCell else {
@@ -270,8 +303,7 @@ extension SelectAddressViewController: UITableViewDataSource {
                 cell.detailAddressLabel.text = suggestion.subtitle
             }
             return cell
-
-        } else {
+        } else { // 검색 결과가 없는 경우
             if let cell = tableView.dequeueReusableCell(
                 withIdentifier: "defaultAddressCell",
                 for: indexPath
