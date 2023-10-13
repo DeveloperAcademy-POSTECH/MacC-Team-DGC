@@ -36,7 +36,7 @@ struct Group {
 // 데이터 확인을 위한 예시입니다.
 let group1Point: [Point] = [
     Point(
-        pointId: 0, pointSequence: 0, pointName: "유강리 테드 집", pointDetailAddress: "출발지 주소",
+        pointId: 0, pointSequence: 0, pointName: "C5", pointDetailAddress: "출발지 주소",
         hour: 8, minute: 0, second: 0, pointLat: 12.21, pointLng: 124.521,
         boardingCrew: ["1", "2", "3", "4"]
     ),
@@ -46,7 +46,7 @@ let group1Point: [Point] = [
         boardingCrew: ["1", "2", "3", "4"]
     ),
     Point(
-        pointId: 2, pointSequence: 2, pointName: "C5", pointDetailAddress: "도착지 주소",
+        pointId: 2, pointSequence: 2, pointName: "유강리 테드 집", pointDetailAddress: "도착지 주소",
         hour: 9, minute: 0, second: 0, pointLat: 124.12, pointLng: 53.23,
         boardingCrew: ["1", "2", "3", "4"]
     )

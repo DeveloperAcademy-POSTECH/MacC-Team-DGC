@@ -305,11 +305,11 @@ final class SessionStartMidView: UIView {
 
         startTime.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
-            make.top.lessThanOrEqualTo(startLocationLabel.snp.bottom).inset(-16)
+            make.bottom.lessThanOrEqualTo(dayView.snp.top).inset(-40)
         }
         endTime.snp.makeConstraints { make in
-            make.trailing.equalTo(endLocationLabel)
-            make.top.lessThanOrEqualTo(endLocationLabel.snp.bottom).inset(-16)
+            make.leading.equalTo(endLocationLabel)
+            make.bottom.lessThanOrEqualTo(personCountView.snp.top).inset(-40)
         }
 
         dayView.snp.makeConstraints { make in
