@@ -20,16 +20,14 @@ import SnapKit
 final class SelectAddressViewController: UIViewController {
 
     private let selectAddressView = SelectAddressView()
-
+    private var isKeyboardActive = false
     private var searchCompleter: MKLocalSearchCompleter?
     private var completerResults: [MKLocalSearchCompletion]?
-
     private var places: MKMapItem? {
         didSet {
             selectAddressView.tableViewComponent.reloadData()
         }
     }
-
     private var localSearch: MKLocalSearch? {
         willSet {
             // Clear the results and cancel the currently running local search before starting a new search.
@@ -37,6 +35,7 @@ final class SelectAddressViewController: UIViewController {
             localSearch?.cancel()
         }
     }
+    private let koreaBounds = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 36.34, longitude: 127.77), latitudinalMeters: 20000, longitudinalMeters: 20000)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,22 +67,19 @@ final class SelectAddressViewController: UIViewController {
             for: .editingChanged
         )
 
-        let koreaCoordinate = CLLocationCoordinate2D(latitude: 36.34, longitude: 127.77)
-        let koreaBounds = MKCoordinateRegion(center: koreaCoordinate, latitudinalMeters: 200000, longitudinalMeters: 200000)
-
         searchCompleter = MKLocalSearchCompleter()
 //        selectAddressView.searchBar.becomeFirstResponder()
         searchCompleter?.delegate = self
         searchCompleter?.resultTypes = .query
         searchCompleter?.region = koreaBounds
 
-        selectAddressView.searchBar.delegate = self
         selectAddressView.friendSearchTextField.delegate = self
         selectAddressView.tableViewComponent.delegate = self
         selectAddressView.tableViewComponent.dataSource = self
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
-        view.addGestureRecognizer(tapGesture)
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
+//        tapGesture.cancelsTouchesInView = true
+//        view.addGestureRecognizer(tapGesture)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -101,12 +97,9 @@ extension SelectAddressViewController {
     }
 
     // [검색] 버튼을 눌렀을 때 동작
-    @objc private func performFriendSearch(_ textField: UITextField) {
+    @objc private func performFriendSearch() {
         // TODO: - 친구 검색 기능 구현 필요
         print("친구 검색")
-        if let searchText = textField.text {
-            performDetailedSearch(for: searchText)
-        }
     }
 
     // 텍스트필드 clear 버튼 눌렀을 때 동작
@@ -115,11 +108,14 @@ extension SelectAddressViewController {
         selectAddressView.tableViewComponent.reloadData()
     }
 
-    // 텍스트 필드 비활성화 시 동작
     @objc private func dismissTextField() {
-        selectAddressView.friendSearchTextFieldView.backgroundColor = .clear
-        selectAddressView.friendSearchTextFieldView.layer.borderWidth = 1.0
-        selectAddressView.friendSearchTextField.resignFirstResponder() // 최초 응답자 해제
+        if !isKeyboardActive {
+            // 텍스트 필드 이외의 영역을 탭한 경우에만 텍스트 필드를 해제합니다.
+            selectAddressView.friendSearchTextFieldView.backgroundColor = .clear
+            selectAddressView.friendSearchTextFieldView.layer.borderWidth = 1.0
+            selectAddressView.friendSearchTextField.resignFirstResponder()
+            selectAddressView.tableViewComponent.reloadData()
+        }
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
@@ -134,40 +130,29 @@ extension SelectAddressViewController {
         }
     }
 
-    func performDetailedSearch(for searchText: String) {
-        // searchText를 사용하여 원하는 검색 작업 수행
-        // 예를 들어, MKLocalSearch를 사용하여 위치 검색을 수행할 수 있습니다.
-        let request = MKLocalSearch.Request()
-        request.naturalLanguageQuery = searchText
-
-        // 검색 요청 제출
-        let localSearch = MKLocalSearch(request: request)
-        localSearch.start { (response, error) in
-            if let error = error {
-                print("Error performing search: \(error.localizedDescription)")
-            } else if let response = response {
-                // 검색 결과를 response에서 처리
-                if let firstMapItem = response.mapItems.first {
-                    // 첫 번째 결과 항목을 사용하여 상세 정보 표시 또는 원하는 동작 수행
-                    print("검색 결과: \(firstMapItem.name ?? "알 수 없음")")
-                } else {
-                    print("검색 결과 없음")
-                }
-            }
-        }
+    private func search(for suggestedCompletion: MKLocalSearchCompletion) {
+        let searchRequest = MKLocalSearch.Request(completion: suggestedCompletion)
+        search(using: searchRequest)
     }
-}
 
-// MARK: - UISearchBarDelegate Method
-extension SelectAddressViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText == "" {
-            completerResults?.removeAll()
-            selectAddressView.tableViewComponent.reloadData()
+    private func search(using searchRequest: MKLocalSearch.Request) {
+        // 검색 지역 설정
+        searchRequest.region = self.koreaBounds
+
+        // 검색 유형 설정
+        searchRequest.resultTypes = .pointOfInterest
+        // MKLocalSearch 생성
+        localSearch = MKLocalSearch(request: searchRequest)
+        // 비동기로 검색 실행
+        localSearch?.start { [unowned self] (response, error) in
+            guard error == nil else {
+                return
+            }
+            // 검색한 결과 : reponse의 mapItems 값을 가져온다.
+            self.places = response?.mapItems[0]
+
+            print(places?.placemark.coordinate) // 위경도 가져옴
         }
-
-        searchCompleter?.queryFragment = searchText
-        selectAddressView.tableViewComponent.reloadData()
     }
 }
 
@@ -197,18 +182,25 @@ extension SelectAddressViewController: UITextFieldDelegate {
 
     // 텍스트 필드의 편집이 시작될 때 호출되는 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
-
+        isKeyboardActive = true
         selectAddressView.friendSearchTextFieldView.backgroundColor = UIColor.semantic.backgroundSecond
         selectAddressView.friendSearchTextFieldView.layer.borderWidth = 0
         selectAddressView.tableViewComponent.reloadData()
     }
 
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        isKeyboardActive = false
+        dismissTextField()
+    }
+
     // 리턴 키를 눌렀을 때 호출되는 메서드
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        dismissTextField()
         selectAddressView.tableViewComponent.reloadData()
+        selectAddressView.friendSearchTextField.resignFirstResponder()
         return true
     }
+
+
 }
 
 // MARK: - TableView Delegate Method
@@ -219,7 +211,19 @@ extension SelectAddressViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        if isKeyboardActive {
+            isKeyboardActive = false
+            dismissTextField()
+            return
+        }
+
         tableView.deselectRow(at: indexPath, animated: true)
+        print("\(indexPath.row)번째 셀 눌림")
+        if let suggestion = completerResults?[indexPath.row] {
+            print(suggestion.title)
+            search(for: suggestion)
+        }
     }
 }
 
