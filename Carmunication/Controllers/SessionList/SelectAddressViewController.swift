@@ -30,12 +30,31 @@ final class SelectAddressViewController: UIViewController {
     }
     private var localSearch: MKLocalSearch? {
         willSet {
-            // Clear the results and cancel the currently running local search before starting a new search.
             places = nil
             localSearch?.cancel()
         }
     }
-    private let koreaBounds = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 36.34, longitude: 127.77), latitudinalMeters: 20000, longitudinalMeters: 20000)
+
+    // 이것도 제대로 되지는 않음. 경계가 정해지지 않는다.
+    private let koreaBounds = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(
+            latitude: 36.34,
+            longitude: 127.77
+        ),
+        latitudinalMeters: 20000,
+        longitudinalMeters: 20000
+    )
+//    // 이걸로 하면 포항공대가 안나옴. 상세 검색이 안됨(LTE 연결시)
+//    private let koreaBounds = MKCoordinateRegion(
+//        center: CLLocationCoordinate2D(
+//            latitude: 36.34,
+//            longitude: 127.77
+//        ),
+//        span: MKCoordinateSpan(
+//            latitudeDelta: 0.0001,
+//            longitudeDelta: 0.0004
+//        )
+//    )
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,19 +86,21 @@ final class SelectAddressViewController: UIViewController {
             for: .editingChanged
         )
 
-        searchCompleter = MKLocalSearchCompleter()
-//        selectAddressView.searchBar.becomeFirstResponder()
-        searchCompleter?.delegate = self
-        searchCompleter?.resultTypes = .query
-        searchCompleter?.region = koreaBounds
+        self.searchCompleter = MKLocalSearchCompleter()
+        self.searchCompleter?.delegate = self
+        self.searchCompleter?.resultTypes = .query
+        self.searchCompleter?.region = koreaBounds
 
         selectAddressView.friendSearchTextField.delegate = self
         selectAddressView.tableViewComponent.delegate = self
         selectAddressView.tableViewComponent.dataSource = self
 
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
-//        tapGesture.cancelsTouchesInView = true
-//        view.addGestureRecognizer(tapGesture)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillChange),
+            name: UIResponder.keyboardWillChangeFrameNotification,
+            object: nil
+        )
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -105,6 +126,7 @@ extension SelectAddressViewController {
     // 텍스트필드 clear 버튼 눌렀을 때 동작
     @objc private func clearButtonPressed() {
         selectAddressView.friendSearchTextField.text = nil
+        completerResults = nil
         selectAddressView.tableViewComponent.reloadData()
     }
 
@@ -151,28 +173,28 @@ extension SelectAddressViewController {
             // 검색한 결과 : reponse의 mapItems 값을 가져온다.
             self.places = response?.mapItems[0]
 
-            print(places?.placemark.coordinate) // 위경도 가져옴
+            print(places?.placemark.coordinate as Any) // 위경도 가져옴
         }
+    }
+
+    @objc private func keyboardWillChange(notification: Notification) {
+        // 키보드 애니메이션을 비활성화하려면 아무것도 하지 않습니다.
+        // 사용자 경험에 따라서 원하는 경우 키보드 애니메이션을 제어할 수 있습니다.
     }
 }
 
 // MARK: - MKLocalSearchCompleterDelegate Method
 extension SelectAddressViewController: MKLocalSearchCompleterDelegate {
+
     // 자동완성 완료시 결과를 받는 method
     func completerDidUpdateResults(_ completer: MKLocalSearchCompleter) {
-
         completerResults = completer.results
         selectAddressView.tableViewComponent.reloadData()
     }
 
     func completer(_ completer: MKLocalSearchCompleter, didFailWithError error: Error) {
         if let error = error as NSError? {
-            print(
-"""
-MKLocalSearchCompleter encountered an error: \(error.localizedDescription).\n
-The query fragment is: \"\(completer.queryFragment)\"
-"""
-            )
+            print("Error: \(error.localizedDescription).\n The query: \"\(completer.queryFragment)")
         }
     }
 }
@@ -199,8 +221,6 @@ extension SelectAddressViewController: UITextFieldDelegate {
         selectAddressView.friendSearchTextField.resignFirstResponder()
         return true
     }
-
-
 }
 
 // MARK: - TableView Delegate Method
@@ -211,7 +231,6 @@ extension SelectAddressViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         if isKeyboardActive {
             isKeyboardActive = false
             dismissTextField()
@@ -219,9 +238,7 @@ extension SelectAddressViewController: UITableViewDelegate {
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
-        print("\(indexPath.row)번째 셀 눌림")
         if let suggestion = completerResults?[indexPath.row] {
-            print(suggestion.title)
             search(for: suggestion)
         }
     }
@@ -231,17 +248,17 @@ extension SelectAddressViewController: UITableViewDelegate {
 extension SelectAddressViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        if selectAddressView.friendSearchTextField.hasText {
-//            return completerResults?.count ?? 0
-//        } else {
-//            return 1
-//        }
-        return completerResults?.count ?? 0
+        if let results = completerResults, !results.isEmpty {
+            return results.count
+        } else {
+            return 1
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-//        if selectAddressView.searchBar. {
+        if let results = completerResults, !results.isEmpty {
+            //        if selectAddressView.searchBar. {
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: "selectAddressCell"
             ) as? SelectAddressTableViewCell else {
@@ -254,15 +271,15 @@ extension SelectAddressViewController: UITableViewDataSource {
             }
             return cell
 
-//        } else {
-//            if let cell = tableView.dequeueReusableCell(
-//                withIdentifier: "defaultAddressCell",
-//                for: indexPath
-//            ) as? DefaultAddressTableViewCell {
-//                return cell
-//            }
-//        }
-//        return UITableViewCell()
+        } else {
+            if let cell = tableView.dequeueReusableCell(
+                withIdentifier: "defaultAddressCell",
+                for: indexPath
+            ) as? DefaultAddressTableViewCell {
+                return cell
+            }
+        }
+        return UITableViewCell()
     }
 }
 
