@@ -61,6 +61,15 @@ final class SessionStartMidView: UIView {
         return view
     }()
 
+    let commentUnderLineView: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.carmuFont.body3Long
+        lbl.textColor = UIColor.semantic.textBody
+        lbl.textAlignment = .center
+        lbl.text = "세션관리에서 여정을 만들어 보세요."    // TODO: - 그룹이 있을 때와 없을 때 나눠서 텍스트 설정하기
+        return lbl
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -82,6 +91,11 @@ final class SessionStartMidView: UIView {
         lineView.snp.makeConstraints { make in
             make.bottom.lessThanOrEqualToSuperview().inset(padding)
         }
+
+        commentUnderLineView.snp.makeConstraints { make in
+            make.bottom.lessThanOrEqualToSuperview().inset(summaryView.frame.height / 10)
+        }
+
     }
 
     private func setupUI() {
@@ -96,6 +110,8 @@ final class SessionStartMidView: UIView {
 
         summaryView.addSubview(dateLabel)
         summaryView.addSubview(lineView)
+
+        summaryView.addSubview(commentUnderLineView)
     }
 
     private func setupConstraints() {
@@ -133,6 +149,10 @@ final class SessionStartMidView: UIView {
         lineView.snp.makeConstraints { make in
             make.leading.trailing.lessThanOrEqualToSuperview().inset(20)
             make.height.equalTo(1)
+        }
+
+        commentUnderLineView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
         }
     }
 
