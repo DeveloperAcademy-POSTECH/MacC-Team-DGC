@@ -298,11 +298,11 @@ extension SessionStartView {
         }
     }
 
-    func setJourneyTogetherButton() {
-
-        journeyTogetherButton.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview().inset(20)
-            make.height.equalTo(60)
-        }
-    }
+//    func setJourneyTogetherButton() {
+//
+//        journeyTogetherButton.snp.makeConstraints { make in
+//            make.leading.trailing.bottom.equalToSuperview().inset(20)
+//            make.height.equalTo(60)
+//        }
+//    }
 }

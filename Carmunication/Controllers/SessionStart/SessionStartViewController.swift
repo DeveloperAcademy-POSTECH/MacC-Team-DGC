@@ -18,6 +18,8 @@ final class SessionStartViewController: UIViewController {
     private var collectionViewHeight: CGFloat = 0
     private var collectionViewWidth: CGFloat = 0
 
+    private var buttonHeight: CGFloat = 60
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -36,7 +38,6 @@ final class SessionStartViewController: UIViewController {
     }
 
 //    override func viewDidLayoutSubviews() {
-//
 //        sessionStartView.summaryView.layoutIfNeeded()
 //
 //        // 점선 그리기
@@ -68,10 +69,12 @@ extension SessionStartViewController {
             // iPhone 14와 같이 큰 화면
             collectionViewHeight = 104
             collectionViewWidth = 80
+            buttonHeight = 60
         } else {
             // iPhone SE와 같이 작은 화면
             collectionViewHeight = 84
             collectionViewWidth = 64
+            buttonHeight = 48
         }
     }
 
@@ -89,7 +92,7 @@ extension SessionStartViewController {
         sessionStartMidView.snp.makeConstraints { make in
             make.top.equalTo(sessionStartView.groupCollectionView.snp.bottom).inset(-16).priority(.high)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.height.lessThanOrEqualTo(395).priority(.low)
+            make.height.lessThanOrEqualTo(467).priority(.low)
         }
 
         let tabBarControllerHeight = self.tabBarController?.tabBar.frame.height ?? 0
@@ -97,9 +100,11 @@ extension SessionStartViewController {
         sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
             make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
             make.leading.trailing.equalTo(sessionStartView).inset(20)
-            make.height.equalTo(60) // radius 때문에 고정값으로 지정
-            make.bottom.equalToSuperview().inset(tabBarControllerHeight + 20)
+            make.height.equalTo(buttonHeight)
+            make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
         }
+
+        sessionStartView.journeyTogetherButton.layer.cornerRadius = buttonHeight / 2
 
     }
 

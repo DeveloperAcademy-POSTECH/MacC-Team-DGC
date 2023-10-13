@@ -240,7 +240,6 @@ final class SessionStartView: UIView {
         btn.backgroundColor = UIColor.semantic.accPrimary
         btn.titleLabel?.font = UIFont.carmuFont.headline2
         btn.setTitleColor(.white, for: .normal)
-        btn.layer.cornerRadius = 30
         return btn
     }()
 
