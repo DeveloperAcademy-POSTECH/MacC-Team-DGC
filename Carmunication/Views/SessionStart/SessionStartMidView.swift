@@ -18,7 +18,7 @@ final class SessionStartMidView: UIView {
         view.clipsToBounds = true
         return view
     }()
-    let groupNameLabel: UILabel = {
+    private var groupNameLabel: UILabel = {
         let lbl = UILabel()
         lbl.textColor = .white
         lbl.font = UIFont.carmuFont.headline1
@@ -159,7 +159,7 @@ final class SessionStartMidView: UIView {
         lbl.font = UIFont.carmuFont.body3Long
         lbl.textColor = UIColor.semantic.textBody
         lbl.textAlignment = .center
-        lbl.text = "세션관리에서 여정을 만들어 보세요."    // TODO: - 그룹 유무에 따른 변경
+//        lbl.text = "세션관리에서 여정을 만들어 보세요."    // TODO: - 그룹 유무에 따른 변경
         return lbl
     }()
 
@@ -168,6 +168,9 @@ final class SessionStartMidView: UIView {
         setupUI()
         setupConstraints()
         setTodayDate()
+        setDayViewComponent()
+        setPersonCountViewComponent()
+        setupGroupData()
     }
 
     required init?(coder: NSCoder) {
@@ -175,6 +178,9 @@ final class SessionStartMidView: UIView {
         setupUI()
         setupConstraints()
         setTodayDate()
+        setDayViewComponent()
+        setPersonCountViewComponent()
+        setupGroupData()
     }
 
     override func layoutSubviews() {
@@ -308,12 +314,12 @@ final class SessionStartMidView: UIView {
 
         dayView.snp.makeConstraints { make in
             make.height.lessThanOrEqualTo(40)
-            make.width.lessThanOrEqualTo(114)
+            make.width.lessThanOrEqualTo(137)
             make.leading.equalTo(startLocationLabel)
         }
         personCountView.snp.makeConstraints { make in
             make.height.lessThanOrEqualTo(40)
-            make.width.lessThanOrEqualTo(114)
+            make.width.lessThanOrEqualTo(137)
             make.trailing.equalTo(endLocationLabel)
         }
     }
@@ -323,6 +329,31 @@ final class SessionStartMidView: UIView {
         let today = Date()
         let formattedDate = Date.formattedDate(from: today)
         dateLabel.text = formattedDate
+    }
+
+    private func setDayViewComponent() {
+
+        dayLabel.text = groupData == nil ? "---" : "주중 (월 ~ 금)" // TODO: - Text 변경
+        calendarImage.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(12)
+            make.centerY.equalToSuperview()
+        }
+        dayLabel.snp.makeConstraints { make in
+            make.leading.lessThanOrEqualTo(calendarImage.snp.trailing).inset(-10)
+            make.centerY.equalToSuperview()
+        }
+    }
+
+    private func setPersonCountViewComponent() {
+
+        personImage.snp.makeConstraints { make in
+            make.leading.equalToSuperview().offset(12)
+            make.centerY.equalToSuperview()
+        }
+        personLabel.snp.makeConstraints { make in
+            make.leading.lessThanOrEqualTo(personImage.snp.trailing).inset(-10)
+            make.centerY.equalToSuperview()
+        }
     }
 
 }
