@@ -71,6 +71,15 @@ final class SelectAddressView: UIView {
         return friendSearchTextField
     }()
 
+    lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.placeholder = "주소지를 검색하세요"
+        searchBar.searchTextField.textColor = UIColor.semantic.textPrimary
+        searchBar.searchTextField.autocapitalizationType = .none
+
+        return searchBar
+    }()
+
     // MARK: - 텍스트 필드 우측 스택
     private lazy var textFieldUtilityStackView: UIStackView = {
         let textFieldUtilityStackView = UIStackView()
@@ -126,6 +135,7 @@ final class SelectAddressView: UIView {
     private func setupUI() {
         addSubview(headerBar)
         addSubview(friendSearchTextFieldView)
+//        addSubview(searchBar)  // UITextField 대신 UISearchBar를 추가합니다.
         headerBar.addSubview(headerTitleLabel)
         headerBar.addSubview(closeButton)
         friendSearchTextFieldView.addSubview(friendSearchTextField)
@@ -166,6 +176,11 @@ final class SelectAddressView: UIView {
             make.top.bottom.equalToSuperview().inset(8)
         }
 
+//        searchBar.snp.makeConstraints { make in
+//            make.leading.trailing.equalToSuperview().inset(20)
+//            make.top.bottom.equalToSuperview().inset(8)
+//        }
+
         clearButton.snp.makeConstraints { make in
             make.trailing.equalTo(friendSearchButton.snp.leading).offset(-10)
         }
@@ -175,5 +190,10 @@ final class SelectAddressView: UIView {
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
         }
+//        tableViewComponent.snp.makeConstraints { make in
+//            make.top.equalTo(searchBar.snp.bottom).offset(8)
+//            make.leading.trailing.equalToSuperview().inset(20)
+//            make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
+//        }
     }
 }
