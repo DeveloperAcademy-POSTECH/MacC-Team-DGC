@@ -25,7 +25,7 @@ struct User: Codable {
 
 extension User {
 
-    static let databasePathWithUID: DatabaseReference? = {
+    static var databasePathWithUID: DatabaseReference? = {
         guard let uid = KeychainItem.currentUserIdentifier else {
             return nil
         }

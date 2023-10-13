@@ -7,6 +7,7 @@
 
 import Foundation
 
+import FirebaseDatabase
 /*
  Keychain에 저장되는 데이터를 관리하기 위한 구조체
  */
@@ -110,6 +111,11 @@ struct KeychainItem {
             // 에러 처리
             guard status == noErr else { throw KeychainError.unhandledError }
         }
+        // 키체인 값이 변경되면 User.databasePAthWithUID도 갱신해준다.
+        guard let uid = KeychainItem.currentUserIdentifier else {
+            return
+        }
+        User.databasePathWithUID = Database.database().reference().child("users/\(uid)")
     }
 
     /*
