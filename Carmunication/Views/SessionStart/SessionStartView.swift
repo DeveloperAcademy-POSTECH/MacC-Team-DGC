@@ -245,10 +245,12 @@ final class SessionStartView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
+        setupGroupData()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupUI()
+        setupGroupData()
     }
 }
