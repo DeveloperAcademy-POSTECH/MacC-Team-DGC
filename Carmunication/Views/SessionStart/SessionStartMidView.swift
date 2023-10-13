@@ -356,4 +356,21 @@ final class SessionStartMidView: UIView {
         }
     }
 
+    private func setupGroupData() {
+        // 그룹이 하나 이상 있을 때 나타내는 정보들
+        if groupData != nil {
+
+            // TODO: - 데이터 변경
+            // TODO: - 시간 형식 변경
+            groupNameLabel.text = groupData?.first?.groupName
+            startLocationLabel.text = groupData?.first?.points?.first?.pointName
+            endLocationLabel.text = groupData?.first?.points?.last?.pointName
+            startTime.text = "09 : 00"
+            endTime.text = "09 : 30"
+            if let count = groupData?.first?.crewList?.count {
+                personLabel.text = "\(count) 명"
+            }
+            commentUnderLineView.text = "오늘도 즐거운 여정을 시작해 보세요!"
+        }
+    }
 }
