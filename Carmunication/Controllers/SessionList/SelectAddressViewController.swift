@@ -216,6 +216,20 @@ extension SelectAddressViewController {
             }
         }
     }
+
+    private func removeCountryAndPostalCode(from subtitle: String) -> String {
+        // 정규 표현식을 사용하여 국가 또는 우편번호(5자리)를 찾습니다.
+        var modifiedSubtitle = subtitle
+        modifiedSubtitle = modifiedSubtitle.replacingOccurrences(of: "대한민국", with: "")
+        modifiedSubtitle = modifiedSubtitle.replacingOccurrences(of: ", ", with: "")
+        modifiedSubtitle = modifiedSubtitle.replacingOccurrences(
+            of: "\\b\\d{5}\\b",
+            with: "",
+            options: .regularExpression
+        )
+
+        return modifiedSubtitle.trimmingCharacters(in: .whitespaces)
+    }
 }
 
 // MARK: - MKLocalSearchCompleterDelegate Method
@@ -301,7 +315,7 @@ extension SelectAddressViewController: UITableViewDataSource {
 
             if let suggestion = completerResults?[indexPath.row] {
                 cell.buildingNameLabel.text = suggestion.title
-                cell.detailAddressLabel.text = suggestion.subtitle
+                cell.detailAddressLabel.text = removeCountryAndPostalCode(from: suggestion.subtitle)
             }
             return cell
         } else { // 검색 결과가 없는 경우
