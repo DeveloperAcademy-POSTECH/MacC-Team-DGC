@@ -218,13 +218,12 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
         Task {
             do {
-                // 애플 서버의 사용자 토큰 삭제
-                try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
-                let user = Auth.auth().currentUser
-                // 파이어베이스 서버의 계정 삭제
-                try await user?.delete()
                 // Firebase DB에서 유저 정보 삭제
                 try await User.databasePathWithUID?.removeValue()
+                // 애플 서버의 사용자 토큰 삭제
+                try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
+                // 파이어베이스 서버의 계정 삭제
+                try await Auth.auth().currentUser?.delete()
                 // 키체인에 저장된 User Identifier도 삭제해준다.
                 KeychainItem.deleteUserIdentifierFromKeychain()
                 // 최초 화면으로 돌아가기

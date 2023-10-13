@@ -63,8 +63,8 @@ final class MyPageViewController: UIViewController {
     // MARK: - DB에서 닉네임 불러오는 메서드
     private func readNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
         databasePath.child("nickname").getData { error, snapshot in
-            guard error == nil else {
-                print(error!.localizedDescription)
+            if let error = error {
+                print(error.localizedDescription)
                 completion(nil)
                 return
             }

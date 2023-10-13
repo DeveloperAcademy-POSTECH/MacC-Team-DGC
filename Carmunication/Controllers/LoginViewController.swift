@@ -172,8 +172,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     // 파이어베이스에 저장된 닉네임 확인 메서드
     private func checkNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
         databasePath.child("nickname").getData { error, snapshot in
-            guard error == nil else {
-                print(error!.localizedDescription)
+            if let error = error {
+                print(error.localizedDescription)
                 completion(nil)
                 return
             }
