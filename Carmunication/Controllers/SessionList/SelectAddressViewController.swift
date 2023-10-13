@@ -220,7 +220,6 @@ extension SelectAddressViewController {
     private func removeCountryAndPostalCode(from subtitle: String) -> String {
         var modifiedSubtitle = subtitle
 
-        // 대한민국을 제거
         modifiedSubtitle = modifiedSubtitle.replacingOccurrences(of: "대한민국", with: "")
 
         // ", #####" 패턴을 제거
@@ -228,12 +227,9 @@ extension SelectAddressViewController {
             modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
         }
 
-        // "#####" 패턴을 제거
         if let range = modifiedSubtitle.range(of: "\\d{5}", options: .regularExpression) {
             modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
         }
-
-
 
         return modifiedSubtitle.trimmingCharacters(in: .whitespaces)
     }
