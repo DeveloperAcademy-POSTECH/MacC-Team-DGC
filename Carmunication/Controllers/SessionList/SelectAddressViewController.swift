@@ -218,15 +218,22 @@ extension SelectAddressViewController {
     }
 
     private func removeCountryAndPostalCode(from subtitle: String) -> String {
-        // 정규 표현식을 사용하여 국가 또는 우편번호(5자리)를 찾습니다.
         var modifiedSubtitle = subtitle
+
+        // 대한민국을 제거
         modifiedSubtitle = modifiedSubtitle.replacingOccurrences(of: "대한민국", with: "")
-        modifiedSubtitle = modifiedSubtitle.replacingOccurrences(of: ", ", with: "")
-        modifiedSubtitle = modifiedSubtitle.replacingOccurrences(
-            of: "\\b\\d{5}\\b",
-            with: "",
-            options: .regularExpression
-        )
+
+        // ", #####" 패턴을 제거
+        if let range = modifiedSubtitle.range(of: ", \\d{5}", options: .regularExpression) {
+            modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
+        }
+
+        // "#####" 패턴을 제거
+        if let range = modifiedSubtitle.range(of: "\\d{5}", options: .regularExpression) {
+            modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
+        }
+
+
 
         return modifiedSubtitle.trimmingCharacters(in: .whitespaces)
     }
