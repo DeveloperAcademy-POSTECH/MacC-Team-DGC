@@ -55,6 +55,12 @@ final class SessionStartMidView: UIView {
         return lbl
     }()
 
+    let lineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.theme.blue3
+        return view
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -69,6 +75,15 @@ final class SessionStartMidView: UIView {
         setTodayDate()
     }
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        let padding = summaryView.frame.height / 5
+        lineView.snp.makeConstraints { make in
+            make.bottom.lessThanOrEqualToSuperview().inset(padding)
+        }
+    }
+
     private func setupUI() {
 
         addSubview(groupNameView)
@@ -80,6 +95,7 @@ final class SessionStartMidView: UIView {
         addSubview(summaryView)
 
         summaryView.addSubview(dateLabel)
+        summaryView.addSubview(lineView)
     }
 
     private func setupConstraints() {
@@ -112,6 +128,11 @@ final class SessionStartMidView: UIView {
 
         dateLabel.snp.makeConstraints { make in
             make.leading.top.trailing.lessThanOrEqualToSuperview().inset(20)
+        }
+
+        lineView.snp.makeConstraints { make in
+            make.leading.trailing.lessThanOrEqualToSuperview().inset(20)
+            make.height.equalTo(1)
         }
     }
 
