@@ -61,7 +61,7 @@ final class MyPageViewController: UIViewController {
     }
 
     // MARK: - DB에서 닉네임 불러오는 메서드
-    func readNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
+    private func readNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
         databasePath.child("nickname").getData { error, snapshot in
             guard error == nil else {
                 print(error!.localizedDescription)
@@ -78,19 +78,19 @@ final class MyPageViewController: UIViewController {
 extension MyPageViewController {
 
     // 설정 페이지 이동 메소드
-    @objc func showSettings() {
+    @objc private func showSettings() {
         let settingsVC = SettingsViewController()
         navigationController?.pushViewController(settingsVC, animated: true)
     }
     // 어두운 뷰 탭하면 텍스트 필드 비활성화
-    @objc func dismissTextField() {
+    @objc private func dismissTextField() {
         myPageView.textField.isHidden = true
         myPageView.darkOverlayView.isHidden = true
         myPageView.textFieldEditStack.isHidden = true
         myPageView.textField.resignFirstResponder()
     }
     // 닉네임 편집 버튼을 누르면 텍스트 필드 활성화
-    @objc func showTextField() {
+    @objc private func showTextField() {
         myPageView.textField.text = myPageView.nicknameLabel.text
         myPageView.textField.isHidden = false
         myPageView.darkOverlayView.isHidden = false
@@ -98,7 +98,7 @@ extension MyPageViewController {
         myPageView.textField.becomeFirstResponder()
     }
     // [확인] 혹은 키보드의 엔터 버튼을 눌렀을 때 닉네임 수정사항을 DB에 반영해주는 메서드
-    @objc func changeNickname() {
+    @objc private func changeNickname() {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
@@ -111,7 +111,7 @@ extension MyPageViewController {
         dismissTextField()
     }
     // 이미지 추가 버튼 클릭 시 액션 시트 호출
-    @objc func showImagePicker() {
+    @objc private func showImagePicker() {
         let alert = UIAlertController(
             title: "프로필 사진 설정",
             message: nil,
