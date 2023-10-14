@@ -143,7 +143,7 @@ extension GroupAddViewController {
                 case groupAddView.tableViewComponent.numberOfRows(inSection: 0) - 1:
                     return "도착지 주소 설정"
                 default:
-                    return "경유지 \(row) 주소 설정"
+                    return "경유지\(row) 주소 설정"
                 }
             }()
 

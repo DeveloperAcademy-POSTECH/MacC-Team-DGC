@@ -10,13 +10,6 @@ import UIKit
 
 import SnapKit
 
-/**
- searchCompleter: MKLocalSearchCompleter // 검색을 도와주는 변수
- searchRegion: MKCoordinateRegion // 검색 지역 범위를 결정하는 변수
- completerResults: [MKLocalSearchCompletion] // 검색한 결과를 담는 변수
- places: MKMapItem // tableView에서 선택한 Location의 정보를 담는 변수
- localSearch: MKLocalSearch? // tableView에서 선택한 Location의 정보를 가져오는 변수
- */
 final class SelectAddressViewController: UIViewController {
 
     let selectAddressView = SelectAddressView()
@@ -146,9 +139,8 @@ extension SelectAddressViewController {
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        // 텍스트 필드 내용이 변경될 때마다 호출되는 메서드
         if let searchText = textField.text {
-            if searchText == "" {
+            if searchText.isEmpty {
                 completerResults?.removeAll()
                 selectAddressView.tableViewComponent.reloadData()
             }
@@ -157,16 +149,16 @@ extension SelectAddressViewController {
         }
     }
 
-    @objc private func keyboardWillChange(notification: Notification) {
-        // 키보드 애니메이션을 비활성화하려면 아무것도 하지 않습니다.
-        // 사용자 경험에 따라서 원하는 경우 키보드 애니메이션을 제어할 수 있습니다.
-    }
+    @objc private func keyboardWillChange(notification: Notification) { }
 }
 
 // MARK: - Custom Method
 extension SelectAddressViewController {
 
-    private func search(for suggestedCompletion: MKLocalSearchCompletion, completion: @escaping (CLLocationCoordinate2D?) -> Void) {
+    private func search(
+        for suggestedCompletion: MKLocalSearchCompletion,
+        completion: @escaping (CLLocationCoordinate2D?) -> Void
+    ) {
         let searchRequest = MKLocalSearch.Request(completion: suggestedCompletion)
         searchRequest.region = koreaBounds
         searchRequest.resultTypes = .pointOfInterest
@@ -204,7 +196,6 @@ extension SelectAddressViewController {
             }
             // 검색한 결과 : reponse의 mapItems 값을 가져온다.
             self.places = response?.mapItems[0]
-            print("search 함수 내부 self.places: ", self.places)
         }
         return places?.placemark.coordinate ?? CLLocationCoordinate2D()
     }
@@ -236,14 +227,10 @@ extension SelectAddressViewController {
 
     private func removeCountryAndPostalCode(from subtitle: String) -> String {
         var modifiedSubtitle = subtitle
-
         modifiedSubtitle = modifiedSubtitle.replacingOccurrences(of: "대한민국", with: "")
-
-        // ", #####" 패턴을 제거
         if let range = modifiedSubtitle.range(of: ", \\d{5}", options: .regularExpression) {
             modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
         }
-
         if let range = modifiedSubtitle.range(of: "\\d{5}", options: .regularExpression) {
             modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
         }
@@ -331,7 +318,12 @@ extension SelectAddressViewController: UITableViewDelegate {
                     )
 
                     detailViewController.title = "상세 위치 설정"
-                    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+                    self.navigationItem.backBarButtonItem = UIBarButtonItem(
+                        title: "",
+                        style: .plain,
+                        target: nil,
+                        action: nil
+                    )
 
                     // Push the detail view controller
                     self.navigationController?.pushViewController(detailViewController, animated: true)
