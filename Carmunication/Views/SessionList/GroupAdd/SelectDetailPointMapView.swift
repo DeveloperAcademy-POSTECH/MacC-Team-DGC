@@ -100,11 +100,13 @@ class SelectDetailPointMapView: UIView {
     init() {
         super.init(frame: .zero)
         setupUI()
+        setupConstraints()
     }
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupUI()
+        setupConstraints()
     }
 
     private func setupUI() {
@@ -117,7 +119,9 @@ class SelectDetailPointMapView: UIView {
         addSubview(buildingNameLabel)
         addSubview(detailAddressLabel)
         addSubview(saveButton)
+    }
 
+    private func setupConstraints() {
         mapView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()

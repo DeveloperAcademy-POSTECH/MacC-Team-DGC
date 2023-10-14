@@ -306,7 +306,7 @@ extension SelectAddressViewController: UITableViewDelegate {
             search(for: selectedSuggestion) { [weak self] coordinate in
                 guard let self = self else { return }
                 if let coordinate = coordinate {
-                    var selectAddressModel = SelectAddressModel(
+                    let selectAddressModel = SelectAddressModel(
                         pointName: pointName,
                         buildingName: title,
                         detailAddress: subtitle,
