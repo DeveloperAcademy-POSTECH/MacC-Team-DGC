@@ -79,6 +79,71 @@ final class MyPageViewController: UIViewController {
         // 마이페이지에서 설정 화면으로 넘어갈 때는 내비게이션 바가 보이도록 해준다.
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
+}
+
+// MARK: - @objc 메서드
+extension MyPageViewController {
+
+    // 설정 페이지 이동 메소드
+    @objc private func showSettings() {
+        let settingsVC = SettingsViewController()
+        navigationController?.pushViewController(settingsVC, animated: true)
+    }
+
+    // 어두운 뷰 탭하면 텍스트 필드 비활성화
+    @objc private func dismissTextField() {
+        myPageView.textField.isHidden = true
+        myPageView.darkOverlayView.isHidden = true
+        myPageView.textFieldEditStack.isHidden = true
+        myPageView.textField.resignFirstResponder()
+    }
+
+    // 닉네임 편집 버튼을 누르면 텍스트 필드 활성화
+    @objc private func showTextField() {
+        myPageView.textField.text = myPageView.nicknameLabel.text
+        myPageView.textField.isHidden = false
+        myPageView.darkOverlayView.isHidden = false
+        myPageView.textFieldEditStack.isHidden = false
+        myPageView.textField.becomeFirstResponder()
+    }
+
+    // [확인] 혹은 키보드의 엔터 버튼을 눌렀을 때 닉네임 수정사항을 DB에 반영해주는 메서드
+    @objc private func changeNickname() {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        guard let newNickname = myPageView.textField.text else {
+            return
+        }
+        databasePath.child("nickname").setValue(newNickname as NSString)
+
+        myPageView.nicknameLabel.text = myPageView.textField.text
+        dismissTextField()
+    }
+
+    // 이미지 추가 버튼 클릭 시 액션 시트 호출
+    @objc private func showImagePicker() {
+        let alert = UIAlertController(
+            title: "프로필 사진 설정",
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        let album = UIAlertAction(title: "앨범에서 사진/동영상 선택", style: .default) { _ in
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.allowsEditing = true
+            picker.delegate = self
+            self.present(picker, animated: true)
+        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        alert.addAction(album)
+        alert.addAction(cancel)
+        self.present(alert, animated: true)
+    }
+}
+
+// MARK: - Firebase 관련 메서드
+extension MyPageViewController {
 
     // MARK: - DB에서 닉네임 불러오는 메서드
     private func readNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
@@ -156,67 +221,6 @@ final class MyPageViewController: UIViewController {
             }
             completion(UIImage(data: imageData))
         }
-    }
-}
-
-// MARK: - @objc 메서드
-extension MyPageViewController {
-
-    // 설정 페이지 이동 메소드
-    @objc private func showSettings() {
-        let settingsVC = SettingsViewController()
-        navigationController?.pushViewController(settingsVC, animated: true)
-    }
-
-    // 어두운 뷰 탭하면 텍스트 필드 비활성화
-    @objc private func dismissTextField() {
-        myPageView.textField.isHidden = true
-        myPageView.darkOverlayView.isHidden = true
-        myPageView.textFieldEditStack.isHidden = true
-        myPageView.textField.resignFirstResponder()
-    }
-
-    // 닉네임 편집 버튼을 누르면 텍스트 필드 활성화
-    @objc private func showTextField() {
-        myPageView.textField.text = myPageView.nicknameLabel.text
-        myPageView.textField.isHidden = false
-        myPageView.darkOverlayView.isHidden = false
-        myPageView.textFieldEditStack.isHidden = false
-        myPageView.textField.becomeFirstResponder()
-    }
-
-    // [확인] 혹은 키보드의 엔터 버튼을 눌렀을 때 닉네임 수정사항을 DB에 반영해주는 메서드
-    @objc private func changeNickname() {
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
-        guard let newNickname = myPageView.textField.text else {
-            return
-        }
-        databasePath.child("nickname").setValue(newNickname as NSString)
-
-        myPageView.nicknameLabel.text = myPageView.textField.text
-        dismissTextField()
-    }
-
-    // 이미지 추가 버튼 클릭 시 액션 시트 호출
-    @objc private func showImagePicker() {
-        let alert = UIAlertController(
-            title: "프로필 사진 설정",
-            message: nil,
-            preferredStyle: .actionSheet
-        )
-        let album = UIAlertAction(title: "앨범에서 사진/동영상 선택", style: .default) { _ in
-            let picker = UIImagePickerController()
-            picker.sourceType = .photoLibrary
-            picker.allowsEditing = true
-            picker.delegate = self
-            self.present(picker, animated: true)
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        alert.addAction(album)
-        alert.addAction(cancel)
-        self.present(alert, animated: true)
     }
 }
 
