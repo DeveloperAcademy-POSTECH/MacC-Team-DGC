@@ -167,9 +167,8 @@ final class SessionStartMidView: UIView {
         super.init(frame: frame)
         setupUI()
         setupConstraints()
+        setupDataConstraints()
         setTodayDate()
-        setDayViewComponent()
-        setPersonCountViewComponent()
         setupGroupData()
     }
 
@@ -177,9 +176,8 @@ final class SessionStartMidView: UIView {
         super.init(coder: coder)
         setupUI()
         setupConstraints()
+        setupDataConstraints()
         setTodayDate()
-        setDayViewComponent()
-        setPersonCountViewComponent()
         setupGroupData()
     }
 
@@ -223,6 +221,7 @@ final class SessionStartMidView: UIView {
     }
 }
 
+// MARK: - Layout Methods
 extension SessionStartMidView {
 
     private func setupUI() {
@@ -252,6 +251,7 @@ extension SessionStartMidView {
         summaryView.addSubview(commentUnderLineView)
     }
 
+    // GroupNameView를 제외한 데이터가 필요하지 않은 부분에 대한 Constraints
     private func setupConstraints() {
 
         groupNameView.snp.makeConstraints { make in
@@ -292,7 +292,10 @@ extension SessionStartMidView {
         commentUnderLineView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
         }
+    }
 
+    // 데이터가 들어있는 가운데 부분에 관한 Constraints
+    private func setupDataConstraints() {
         startLocationLabel.snp.makeConstraints { make in
             make.leading.lessThanOrEqualToSuperview().inset(20)
             make.width.lessThanOrEqualTo(115)
@@ -320,23 +323,6 @@ extension SessionStartMidView {
             make.width.lessThanOrEqualTo(137)
             make.leading.equalTo(startLocationLabel)
         }
-        personCountView.snp.makeConstraints { make in
-            make.height.lessThanOrEqualTo(40)
-            make.width.lessThanOrEqualTo(137)
-            make.trailing.equalTo(endLocationLabel)
-        }
-    }
-
-    private func setTodayDate() {
-
-        let today = Date()
-        let formattedDate = Date.formattedDate(from: today)
-        dateLabel.text = formattedDate
-    }
-
-    private func setDayViewComponent() {
-
-        dayLabel.text = groupData == nil ? "---" : "주중 (월 ~ 금)" // TODO: - Text 변경
         calendarImage.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12)
             make.centerY.equalToSuperview()
@@ -345,10 +331,12 @@ extension SessionStartMidView {
             make.leading.lessThanOrEqualTo(calendarImage.snp.trailing).inset(-10)
             make.centerY.equalToSuperview()
         }
-    }
 
-    private func setPersonCountViewComponent() {
-
+        personCountView.snp.makeConstraints { make in
+            make.height.lessThanOrEqualTo(40)
+            make.width.lessThanOrEqualTo(137)
+            make.trailing.equalTo(endLocationLabel)
+        }
         personImage.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(12)
             make.centerY.equalToSuperview()
@@ -359,6 +347,17 @@ extension SessionStartMidView {
         }
     }
 
+    private func setTodayDate() {
+
+        let today = Date()
+        let formattedDate = Date.formattedDate(from: today)
+        dateLabel.text = formattedDate
+    }
+}
+
+// MARK: - Data Methods
+extension SessionStartMidView {
+
     private func setupGroupData() {
 
         // 그룹이 하나 이상 있을 때 나타내는 정보들
@@ -368,6 +367,7 @@ extension SessionStartMidView {
             // TODO: - 시간 형식 변경
             // TODO: - 그룹이 없을 때 경우 설정
             groupNameLabel.text = groupData?.first?.groupName
+            dayLabel.text = "주중 (월 ~ 금)"
             startLocationLabel.text = groupData?.first?.points?.first?.pointName
             endLocationLabel.text = groupData?.first?.points?.last?.pointName
             startTime.text = "09 : 00"
@@ -377,6 +377,7 @@ extension SessionStartMidView {
             }
             commentUnderLineView.text = "오늘도 즐거운 여정을 시작해 보세요!"
         } else {
+            dayLabel.text = "---"
             commentUnderLineView.text = "세션관리에서 여정을 만들어 보세요."
         }
     }
