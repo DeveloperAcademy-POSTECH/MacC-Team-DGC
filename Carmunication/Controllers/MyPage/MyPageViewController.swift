@@ -29,6 +29,23 @@ final class MyPageViewController: UIViewController {
             }
             self.myPageView.nicknameLabel.text = storedNickname
         }
+        // 프로필 이미지 불러오기
+        readProfileImageURL(databasePath: databasePath) { imageURL in
+            guard let imageURL = imageURL else {
+                // 설정한 이미지가 없으면 기본 프로필 설정
+                print("프로필 이미지가 없습니다.")
+                self.myPageView.imageView.image = UIImage(named: "profile")
+                return
+            }
+            // 설정한 이미지가 있으면 프로필 이미지 뷰에 반영
+            print("프로필 이미지가 있습니다.")
+            self.loadProfileImage(urlString: imageURL) { profileImage in
+                guard let profileImage = profileImage else {
+                    return
+                }
+                self.myPageView.imageView.image = profileImage
+            }
+        }
 
         let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
         navigationItem.backBarButtonItem = backButtonItem
@@ -102,8 +119,30 @@ final class MyPageViewController: UIViewController {
     }
 
     // MARK: - Realtime Database DB에서 유저 이미지 경로 불러오기
+    private func readProfileImageURL(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
+        databasePath.child("image").getData { error, snapshot in
+            guard let snapshotValue = snapshot?.value else {
+                completion(nil)
+                return
+            }
+            let imageURL = snapshotValue as? String
+            completion(imageURL)
+        }
+    }
 
     // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
+    private func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
+        let megaByte = Int64(1 * 1024 * 1024)
+
+        firebaseStorageRef.getData(maxSize: megaByte) { data, error in
+            guard let imageData = data else {
+                completion(nil)
+                return
+            }
+            completion(UIImage(data: imageData))
+        }
+    }
 }
 
 // MARK: - @objc 메서드
