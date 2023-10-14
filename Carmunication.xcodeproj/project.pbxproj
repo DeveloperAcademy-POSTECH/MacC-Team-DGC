@@ -76,6 +76,7 @@
 		C93D2CD82AD28F7400CF4735 /* SelectBoardingCrewModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD72AD28F7400CF4735 /* SelectBoardingCrewModalView.swift */; };
 		C93D2CDA2AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */; };
 		C93D2CDC2AD298C400CF4735 /* GroupAddModalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */; };
+		C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6162AD9998500D528F5 /* SelectAddressModel.swift */; };
 		C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */; };
 		C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */; };
 		C9DC0CC82AD7D83700F06169 /* DefaultAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */; };
@@ -155,6 +156,7 @@
 		C93D2CD72AD28F7400CF4735 /* SelectBoardingCrewModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBoardingCrewModalView.swift; sourceTree = "<group>"; };
 		C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBoardingCrewModalViewController.swift; sourceTree = "<group>"; };
 		C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddModalCollectionViewCell.swift; sourceTree = "<group>"; };
+		C954F6162AD9998500D528F5 /* SelectAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressModel.swift; sourceTree = "<group>"; };
 		C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLineView.swift; sourceTree = "<group>"; };
 		C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAddressTableViewCell.swift; sourceTree = "<group>"; };
@@ -195,6 +197,7 @@
 		16E42CDE2AC47E790031486E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C954F6152AD9996A00D528F5 /* GroupAdd */,
 				C92CFB3E2ACC24E80068273A /* DummyData */,
 				C92CFB372ACBC9090068273A /* Font */,
 				C92CFB362AC9B6CD0068273A /* Color */,
@@ -392,6 +395,14 @@
 			path = DummyData;
 			sourceTree = "<group>";
 		};
+		C954F6152AD9996A00D528F5 /* GroupAdd */ = {
+			isa = PBXGroup;
+			children = (
+				C954F6162AD9998500D528F5 /* SelectAddressModel.swift */,
+			);
+			path = GroupAdd;
+			sourceTree = "<group>";
+		};
 		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
 			isa = PBXGroup;
 			children = (
@@ -542,6 +553,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF9BCFF32ACE379C009DAECD /* SelectAddressView.swift in Sources */,
+				C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */,
 				BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */,
 				B8DD15E42AD52D2F00685E48 /* FriendAddView.swift in Sources */,
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
