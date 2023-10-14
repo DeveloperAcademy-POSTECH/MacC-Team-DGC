@@ -103,7 +103,11 @@ final class MyPageViewController: UIViewController {
 
         // 파이어베이스 Storage에 대한 참조
         let firebaseStorageRef = Storage.storage().reference().child("images/\(imageName)")
-        firebaseStorageRef.putData(imageData, metadata: metaData) { metaData, error in
+        firebaseStorageRef.putData(imageData, metadata: metaData) { _, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
             firebaseStorageRef.downloadURL { url, _ in
                 completion(url)
             }
@@ -121,6 +125,11 @@ final class MyPageViewController: UIViewController {
     // MARK: - Realtime Database DB에서 유저 이미지 경로 불러오기
     private func readProfileImageURL(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
         databasePath.child("image").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
             guard let snapshotValue = snapshot?.value else {
                 completion(nil)
                 return
@@ -136,6 +145,11 @@ final class MyPageViewController: UIViewController {
         let megaByte = Int64(1 * 1024 * 1024)
 
         firebaseStorageRef.getData(maxSize: megaByte) { data, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
             guard let imageData = data else {
                 completion(nil)
                 return
