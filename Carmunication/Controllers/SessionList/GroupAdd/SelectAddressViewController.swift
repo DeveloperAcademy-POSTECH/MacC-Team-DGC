@@ -288,8 +288,21 @@ extension SelectAddressViewController: UITableViewDelegate {
             dismissTextField()
             return
         }
+
         tableView.deselectRow(at: indexPath, animated: true)
+
         let detailViewController = SelectDetailPointMapViewController()
+        // 네비게이션 바의 배경 투명으로 설정
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = true
+
+        // Back 버튼의 텍스트 제거
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
+        // 타이틀 설정
+        detailViewController.title = "상세 위치 설정"
+
         navigationController?.pushViewController(detailViewController, animated: true)
 
     }
@@ -352,5 +365,4 @@ struct SelectAddressViewControllerPreview: PreviewProvider {
     static var previews: some View {
         SelectAddressViewControllerRepresentable()
     }
-
 }

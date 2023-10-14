@@ -446,9 +446,9 @@
 			children = (
 				C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */,
 				C9DE7C3A2AC05B65005AFCC6 /* SelectAddressViewController.swift */,
+				C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */,
 				C93D2CD52AD2528F00CF4735 /* SelectStartTimeViewController.swift */,
 				C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */,
-				C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */,
 			);
 			path = GroupAdd;
 			sourceTree = "<group>";
