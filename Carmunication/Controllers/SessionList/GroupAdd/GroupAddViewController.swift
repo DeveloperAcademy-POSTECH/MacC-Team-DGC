@@ -120,7 +120,8 @@ extension GroupAddViewController {
 
     @objc func findAddressButtonTapped() {
         let detailViewController = SelectAddressViewController()
-        present(detailViewController, animated: true)
+        let navigation = UINavigationController(rootViewController: detailViewController)
+        present(navigation, animated: true)
     }
 }
 

@@ -288,11 +288,10 @@ extension SelectAddressViewController: UITableViewDelegate {
             dismissTextField()
             return
         }
-
         tableView.deselectRow(at: indexPath, animated: true)
-        if let suggestion = completerResults?[indexPath.row] {
-            search(for: suggestion)
-        }
+        let detailViewController = SelectDetailPointMapViewController()
+        navigationController?.pushViewController(detailViewController, animated: true)
+
     }
 }
 
