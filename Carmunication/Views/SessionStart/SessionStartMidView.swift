@@ -221,6 +221,9 @@ final class SessionStartMidView: UIView {
         }
 
     }
+}
+
+extension SessionStartMidView {
 
     private func setupUI() {
 
