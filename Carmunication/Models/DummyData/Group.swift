@@ -52,17 +52,17 @@ let group1Point: [Point] = [
     )
 ]
 
-//let groupData: [Group]? = [
-//    Group(groupId: "1", groupName: "그룹 1", groupImage: "heart", captainId: "1",
-//          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
-//         ),
-//    Group(groupId: "1", groupName: "그룹 2", groupImage: "heart", captainId: "1",
-//          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
-//         ),
-//    Group(groupId: "1", groupName: "그룹 3", groupImage: "heart", captainId: "1",
-//          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
-//         )
-//]
+let groupData: [Group]? = [
+    Group(groupId: "1", groupName: "그룹 1", groupImage: "heart", captainId: "1",
+          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
+         ),
+    Group(groupId: "1", groupName: "그룹 2", groupImage: "heart", captainId: "1",
+          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
+         ),
+    Group(groupId: "1", groupName: "그룹 3", groupImage: "heart", captainId: "1",
+          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
+         )
+]
 
 // 데이터가 없을 때
- let groupData: [Group]? = nil
+// let groupData: [Group]? = nil
