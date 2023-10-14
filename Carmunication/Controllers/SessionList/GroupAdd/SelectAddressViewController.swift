@@ -19,7 +19,7 @@ import SnapKit
  */
 final class SelectAddressViewController: UIViewController {
 
-    private let selectAddressView = SelectAddressView()
+    let selectAddressView = SelectAddressView()
     private let selectAddressModel = SelectAddressModel()
     private var isKeyboardActive = false
     private var searchCompleter: MKLocalSearchCompleter?

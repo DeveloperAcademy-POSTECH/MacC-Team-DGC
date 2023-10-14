@@ -110,19 +110,6 @@ extension GroupAddViewController {
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
         navigationItem.leftBarButtonItem = backButton
     }
-
-    /**
-     backButton을 누를 때 적용되는 액션 메서드
-     */
-    @objc func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
-    }
-
-    @objc func findAddressButtonTapped() {
-        let detailViewController = SelectAddressViewController()
-        let navigation = UINavigationController(rootViewController: detailViewController)
-        present(navigation, animated: true)
-    }
 }
 
 // MARK: - @objc Method
@@ -143,7 +130,32 @@ extension GroupAddViewController {
         present(detailViewController, animated: true)
     }
 
+    @objc func findAddressButtonTapped(_ sender: UIButton) {
+        if let cell = sender.superview?.superview as? GroupAddTableViewCell,
+           let indexPath = groupAddView.tableViewComponent.indexPath(for: cell) {
+            let row = indexPath.row
+            let detailViewController = SelectAddressViewController()
+            print("주소 누른 셀 row: ", row)
+            detailViewController.selectAddressView.headerTitleLabel.text = {
+                switch row {
+                case 0:
+                    return "출발지 주소 설정"
+                case groupAddView.tableViewComponent.numberOfRows(inSection: 0) - 1:
+                    return "도착지 주소 설정"
+                default:
+                    return "경유지 \(row) 주소 설정"
+                }
+            }()
+            let navigation = UINavigationController(rootViewController: detailViewController)
+            present(navigation, animated: true)
+        }
+    }
+
     @objc private func createCrewButtonTapped(_ sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+
+    @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
 

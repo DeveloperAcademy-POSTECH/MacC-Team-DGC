@@ -17,7 +17,7 @@ final class SelectAddressView: UIView {
     }()
 
     // 상단 바 제목
-    private lazy var headerTitleLabel: UILabel = {
+    lazy var headerTitleLabel: UILabel = {
         let headerTitleLabel = UILabel()
         headerTitleLabel.text = "주소 설정"
         headerTitleLabel.font = UIFont.boldSystemFont(ofSize: 17)
