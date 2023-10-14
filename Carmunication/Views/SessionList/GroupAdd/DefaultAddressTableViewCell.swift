@@ -45,7 +45,7 @@ class DefaultAddressTableViewCell: UITableViewCell {
         }
 
         cellTextLabel.snp.makeConstraints { make in
-            make.centerX.centerY.equalToSuperview()
+            make.center.equalTo(cellBackgroundImage)
         }
     }
 
