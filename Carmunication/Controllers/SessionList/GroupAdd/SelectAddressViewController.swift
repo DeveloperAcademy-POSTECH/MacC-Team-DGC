@@ -20,7 +20,6 @@ import SnapKit
 final class SelectAddressViewController: UIViewController {
 
     let selectAddressView = SelectAddressView()
-    private let selectAddressModel = SelectAddressModel()
     private var isKeyboardActive = false
     private var searchCompleter: MKLocalSearchCompleter?
     private var completerResults: [MKLocalSearchCompletion]?
@@ -167,12 +166,30 @@ extension SelectAddressViewController {
 // MARK: - Custom Method
 extension SelectAddressViewController {
 
-    private func search(for suggestedCompletion: MKLocalSearchCompletion) {
+    private func search(for suggestedCompletion: MKLocalSearchCompletion, completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         let searchRequest = MKLocalSearch.Request(completion: suggestedCompletion)
-        search(using: searchRequest)
+        searchRequest.region = koreaBounds
+        searchRequest.resultTypes = .pointOfInterest
+
+        localSearch = MKLocalSearch(request: searchRequest)
+        localSearch?.start { (response, error) in
+            guard error == nil else {
+                // Handle the error if needed
+                completion(nil)
+                return
+            }
+
+            if let coordinate = response?.mapItems.first?.placemark.coordinate {
+                // Return the coordinate via the completion handler
+                completion(coordinate)
+            } else {
+                // Handle the case when no coordinate is found
+                completion(nil)
+            }
+        }
     }
 
-    private func search(using searchRequest: MKLocalSearch.Request) {
+    private func search(using searchRequest: MKLocalSearch.Request) -> CLLocationCoordinate2D {
         // 검색 지역 설정
         searchRequest.region = self.koreaBounds
 
@@ -187,9 +204,9 @@ extension SelectAddressViewController {
             }
             // 검색한 결과 : reponse의 mapItems 값을 가져온다.
             self.places = response?.mapItems[0]
-
-            print(places?.placemark.coordinate as Any) // 위경도 가져옴
+            print("search 함수 내부 self.places: ", self.places)
         }
+        return places?.placemark.coordinate ?? CLLocationCoordinate2D()
     }
 
     private func getCoordinates(for address: String, completion: @escaping (Result<(Double, Double), Error>) -> Void) {
@@ -291,20 +308,36 @@ extension SelectAddressViewController: UITableViewDelegate {
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let detailViewController = SelectDetailPointMapViewController()
-        // 네비게이션 바의 배경 투명으로 설정
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = true
+        if let selectedSuggestion = completerResults?[indexPath.row] {
+            // Extract information from the selected cell
+            let title = selectedSuggestion.title
+            let subtitle = removeCountryAndPostalCode(from: selectedSuggestion.subtitle)
+            guard let text = selectAddressView.headerTitleLabel.text else { return }
+            let pointName = text.components(separatedBy: " ").first
 
-        // Back 버튼의 텍스트 제거
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+            // Search for the coordinates using the selected suggestion
+            search(for: selectedSuggestion) { [weak self] coordinate in
+                guard let self = self else { return }
+                if let coordinate = coordinate {
+                    var selectAddressModel = SelectAddressModel(
+                        pointName: pointName,
+                        buildingName: title,
+                        detailAddress: subtitle,
+                        coordinate: coordinate
+                    )
 
-        // 타이틀 설정
-        detailViewController.title = "상세 위치 설정"
+                    let detailViewController = SelectDetailPointMapViewController(
+                        selectAddressModel: selectAddressModel
+                    )
 
-        navigationController?.pushViewController(detailViewController, animated: true)
+                    detailViewController.title = "상세 위치 설정"
+                    self.navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
+                    // Push the detail view controller
+                    self.navigationController?.pushViewController(detailViewController, animated: true)
+                }
+            }
+        }
     }
 }
 

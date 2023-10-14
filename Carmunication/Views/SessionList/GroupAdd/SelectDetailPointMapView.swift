@@ -119,7 +119,7 @@ class SelectDetailPointMapView: UIView {
         addSubview(saveButton)
 
         mapView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(backgroundView.snp.top)
         }

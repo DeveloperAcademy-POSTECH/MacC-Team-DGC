@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct SelectAddressModel {
+    var pointName: String?
     var buildingName: String?
     var detailAddress: String?
-    var coordinate: (Double, Double)?
+    var coordinate: CLLocationCoordinate2D?
 }
