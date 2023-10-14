@@ -61,7 +61,7 @@ final class SessionStartMidView: UIView {
         lbl.font = UIFont.carmuFont.headline2
         lbl.textColor = UIColor.semantic.textPrimary
         lbl.numberOfLines = 0
-        lbl.text = "농협 양덕초지점 농협"    // TODO: - 그룹 유무에 따른 변경
+        lbl.text = "그룹이 없음"    // TODO: - 그룹 유무에 따른 변경
         return lbl
     }()
 
@@ -69,7 +69,7 @@ final class SessionStartMidView: UIView {
         let lbl = UILabel()
         lbl.font = UIFont.carmuFont.headline1
         lbl.textColor = UIColor.theme.blue4
-        lbl.text = "09 : 00"    // TODO: - 그룹 유무에 따른 변경
+        lbl.text = "00 : 00"    // TODO: - 그룹 유무에 따른 변경
         return lbl
     }()
 
@@ -87,7 +87,7 @@ final class SessionStartMidView: UIView {
         lbl.font = UIFont.carmuFont.headline2
         lbl.textColor = UIColor.semantic.textPrimary
         lbl.numberOfLines = 0
-        lbl.text = "농협 양덕초지점 농협"    // TODO: - 그룹 유무에 따른 변경
+        lbl.text = "그룹이 없음"    // TODO: - 그룹 유무에 따른 변경
         return lbl
     }()
 
@@ -95,7 +95,7 @@ final class SessionStartMidView: UIView {
         let lbl = UILabel()
         lbl.font = UIFont.carmuFont.headline1
         lbl.textColor = UIColor.theme.blue4
-        lbl.text = "09 : 00"    // TODO: - 그룹 유무에 따른 변경
+        lbl.text = "00 : 00"    // TODO: - 그룹 유무에 따른 변경
         return lbl
     }()
 
@@ -374,7 +374,7 @@ final class SessionStartMidView: UIView {
             }
             commentUnderLineView.text = "오늘도 즐거운 여정을 시작해 보세요!"
         } else {
-
+            commentUnderLineView.text = "세션관리에서 여정을 만들어 보세요."
         }
     }
 }
