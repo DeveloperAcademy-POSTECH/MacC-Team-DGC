@@ -9,6 +9,7 @@ import UIKit
 
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 // MARK: - 내 정보 탭 화면 뷰 컨트롤러
 final class MyPageViewController: UIViewController {
@@ -47,6 +48,7 @@ final class MyPageViewController: UIViewController {
 
         myPageView.textField.delegate = self
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         // 마이페이지에서는 내비게이션 바가 보이지 않도록 한다.
@@ -54,6 +56,7 @@ final class MyPageViewController: UIViewController {
         // 마이페이지에서는 탭 바가 보이도록 한다.
         tabBarController?.tabBar.isHidden = false
     }
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // 마이페이지에서 설정 화면으로 넘어갈 때는 내비게이션 바가 보이도록 해준다.
@@ -72,6 +75,35 @@ final class MyPageViewController: UIViewController {
             completion(nickname)
         }
     }
+
+    // MARK: - 파이어베이스 Storage에 이미지 업로드
+    private func uploadImageToStorage(image: UIImage, imageName: String, completion: @escaping (URL?) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.4) else {
+            return
+        }
+        let metaData = StorageMetadata()
+        metaData.contentType = "image/jpeg"
+
+        // 파이어베이스 Storage에 대한 참조
+        let firebaseStorageRef = Storage.storage().reference().child("images/\(imageName)")
+        firebaseStorageRef.putData(imageData, metadata: metaData) { metaData, error in
+            firebaseStorageRef.downloadURL { url, _ in
+                completion(url)
+            }
+        }
+    }
+
+    // MARK: - Realtime Database DB 유저 정보에 이미지 경로 저장
+    private func addImageUrlToDB(imageURL: String) {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        databasePath.child("image").setValue(imageURL as NSString)
+    }
+
+    // MARK: - Realtime Database DB에서 유저 이미지 경로 불러오기
+
+    // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
 }
 
 // MARK: - @objc 메서드
@@ -82,6 +114,7 @@ extension MyPageViewController {
         let settingsVC = SettingsViewController()
         navigationController?.pushViewController(settingsVC, animated: true)
     }
+
     // 어두운 뷰 탭하면 텍스트 필드 비활성화
     @objc private func dismissTextField() {
         myPageView.textField.isHidden = true
@@ -89,6 +122,7 @@ extension MyPageViewController {
         myPageView.textFieldEditStack.isHidden = true
         myPageView.textField.resignFirstResponder()
     }
+
     // 닉네임 편집 버튼을 누르면 텍스트 필드 활성화
     @objc private func showTextField() {
         myPageView.textField.text = myPageView.nicknameLabel.text
@@ -97,6 +131,7 @@ extension MyPageViewController {
         myPageView.textFieldEditStack.isHidden = false
         myPageView.textField.becomeFirstResponder()
     }
+
     // [확인] 혹은 키보드의 엔터 버튼을 눌렀을 때 닉네임 수정사항을 DB에 반영해주는 메서드
     @objc private func changeNickname() {
         guard let databasePath = User.databasePathWithUID else {
@@ -110,6 +145,7 @@ extension MyPageViewController {
         myPageView.nicknameLabel.text = myPageView.textField.text
         dismissTextField()
     }
+
     // 이미지 추가 버튼 클릭 시 액션 시트 호출
     @objc private func showImagePicker() {
         let alert = UIAlertController(
@@ -133,6 +169,7 @@ extension MyPageViewController {
 
 // MARK: - 텍스트 필드 델리게이트 구현
 extension MyPageViewController: UITextFieldDelegate {
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         changeNickname()
         return true
@@ -141,6 +178,7 @@ extension MyPageViewController: UITextFieldDelegate {
 
 // MARK: - 이미지 피커 델리게이트 구현
 extension MyPageViewController: UIImagePickerControllerDelegate {
+
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: false)
     }
@@ -150,7 +188,17 @@ extension MyPageViewController: UIImagePickerControllerDelegate {
     ) {
         picker.dismiss(animated: false) { () in
             if let editedImage = info[.editedImage] as? UIImage {
-                // TODO: - DB 상에 프로필 이미지 저장하는 로직 추가 필요
+                guard let imageName = KeychainItem.currentUserIdentifier else {
+                    return
+                }
+                // 파이어베이스 Storage에 이미지 저장
+                self.uploadImageToStorage(image: editedImage, imageName: "\(imageName).jpeg") { url in
+                    guard let imageURL = url else {
+                        return
+                    }
+                    // 이미지 경로를 Realtime Database DB 유저 정보에 저장
+                    self.addImageUrlToDB(imageURL: imageURL.absoluteString)
+                }
                 self.myPageView.imageView.image = editedImage
             }
         }
