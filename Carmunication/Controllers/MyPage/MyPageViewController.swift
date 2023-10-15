@@ -135,14 +135,24 @@ extension MyPageViewController {
             picker.delegate = self
             self.present(picker, animated: true)
         }
+        let defaultProfile = UIAlertAction(title: "기본 프로필 선택", style: .default) { _ in
+            self.addImageUrlToDB(imageURL: nil) // 유저 DB의 imageURL 값을 nil로 설정
+            // Storage에서 이미지 삭제
+            guard let imageName = KeychainItem.currentUserIdentifier else {
+                return
+            }
+            self.deleteProfileImage(imageName: "\(imageName).jpeg")
+            self.myPageView.imageView.image = UIImage(named: "profile")
+        }
         let cancel = UIAlertAction(title: "취소", style: .cancel)
         alert.addAction(album)
+        alert.addAction(defaultProfile)
         alert.addAction(cancel)
         self.present(alert, animated: true)
     }
 }
 
-// MARK: - Firebase 관련 메서드
+// MARK: - Firebase Realtime Database DB 관련 메서드
 extension MyPageViewController {
 
     // MARK: - DB에서 닉네임 불러오는 메서드
@@ -157,6 +167,39 @@ extension MyPageViewController {
             completion(nickname)
         }
     }
+
+    // MARK: - DB 유저 정보에 이미지 경로 저장
+    private func addImageUrlToDB(imageURL: String?) {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        guard let imageURL = imageURL else {
+            databasePath.child("imageURL").setValue(nil)
+            return
+        }
+        databasePath.child("imageURL").setValue(imageURL as NSString)
+    }
+
+    // MARK: - DB에서 유저 이미지 경로 불러오기
+    private func readProfileImageURL(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
+        databasePath.child("imageURL").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let snapshotValue = snapshot?.value else {
+                completion(nil)
+                return
+            }
+            let imageURL = snapshotValue as? String
+            completion(imageURL)
+        }
+    }
+}
+
+// MARK: - Firebase Storage 관련 메서드
+extension MyPageViewController {
 
     // MARK: - 파이어베이스 Storage에 이미지 업로드
     private func uploadImageToStorage(image: UIImage, imageName: String, completion: @escaping (URL?) -> Void) {
@@ -179,31 +222,6 @@ extension MyPageViewController {
         }
     }
 
-    // MARK: - Realtime Database DB 유저 정보에 이미지 경로 저장
-    private func addImageUrlToDB(imageURL: String) {
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
-        databasePath.child("imageURL").setValue(imageURL as NSString)
-    }
-
-    // MARK: - Realtime Database DB에서 유저 이미지 경로 불러오기
-    private func readProfileImageURL(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
-        databasePath.child("imageURL").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let snapshotValue = snapshot?.value else {
-                completion(nil)
-                return
-            }
-            let imageURL = snapshotValue as? String
-            completion(imageURL)
-        }
-    }
-
     // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
     private func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
@@ -220,6 +238,18 @@ extension MyPageViewController {
                 return
             }
             completion(UIImage(data: imageData))
+        }
+    }
+
+    // MARK: - 파이어베이스 Storage에서 유저 이미지 삭제하기
+    private func deleteProfileImage(imageName: String) {
+        let firebaseStorageRef = Storage.storage().reference().child("images/\(imageName)")
+        firebaseStorageRef.delete { error in
+            if let error = error {
+                print("이미지 삭제에 실패했습니다.", error.localizedDescription)
+            } else {
+                print("이미지가 성공적으로 삭제되었습니다.")
+            }
         }
     }
 }
