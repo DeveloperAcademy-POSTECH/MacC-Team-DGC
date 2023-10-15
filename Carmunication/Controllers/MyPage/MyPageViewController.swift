@@ -184,12 +184,12 @@ extension MyPageViewController {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        databasePath.child("image").setValue(imageURL as NSString)
+        databasePath.child("imageURL").setValue(imageURL as NSString)
     }
 
     // MARK: - Realtime Database DB에서 유저 이미지 경로 불러오기
     private func readProfileImageURL(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
-        databasePath.child("image").getData { error, snapshot in
+        databasePath.child("imageURL").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
