@@ -11,6 +11,7 @@ import FirebaseDatabase
 
 final class FriendAddViewController: UIViewController {
 
+    var searchedFriend: User? // 검색된 유저
     private let friendAddView = FriendAddView()
 
     override func viewDidLoad() {
@@ -22,6 +23,18 @@ final class FriendAddViewController: UIViewController {
         friendAddView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        // 재사용 셀 등록
+        friendAddView.searchedFriendTableView.register(
+            FriendListTableViewCell.self,
+            forCellReuseIdentifier: "friendListTableViewCell"
+        )
+        friendAddView.searchedFriendTableView.register(
+            NoSearchedResultTableViewCell.self,
+            forCellReuseIdentifier: "noSearchedResultTableViewCell"
+        )
+        friendAddView.searchedFriendTableView.dataSource = self
+        friendAddView.searchedFriendTableView.delegate = self
 
         friendAddView.closeButton.addTarget(self, action: #selector(closeFriendAddView), for: .touchUpInside)
         friendAddView.friendSearchButton.addTarget(self, action: #selector(performFriendSearch), for: .touchUpInside)
@@ -71,9 +84,8 @@ extension FriendAddViewController {
 
     // [검색] 버튼을 눌렀을 때 동작
     @objc private func performFriendSearch() {
+        print("친구 검색 수행")
         dismissTextField()
-        // TODO: - 친구 검색 기능 구현 필요
-        print("친구 검색")
         guard let searchNickname = friendAddView.friendSearchTextField.text else {
             return
         }
@@ -81,7 +93,8 @@ extension FriendAddViewController {
             guard let searchedFriend = searchedFriend else {
                 return
             }
-            print(searchedFriend)
+            self.searchedFriend = searchedFriend
+            self.friendAddView.searchedFriendTableView.reloadData()
         }
     }
 
@@ -191,5 +204,59 @@ extension FriendAddViewController: UITextFieldDelegate {
             friendAddView.friendAddButton.backgroundColor = UIColor.semantic.backgroundSecond
             friendAddView.friendAddButton.isEnabled = false
         }
+    }
+}
+
+// MARK: - UITableViewDataSource 델리게이트 구현
+extension FriendAddViewController: UITableViewDataSource {
+
+    // 셀의 개수 1개
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+
+    // 셀 구성
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let searchedFriend = searchedFriend {
+            // MARK: - 검색된 친구가 있는 경우
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "friendListTableViewCell",
+                for: indexPath
+            ) as? FriendListTableViewCell else {
+                return UITableViewCell()
+            }
+            cell.nicknameLabel.text = searchedFriend.nickname
+            if let imageURL = searchedFriend.imageURL {
+                // TODO: - 이미지 불러오는 메서드 추가하기
+            }
+            return cell
+        } else {
+            // MARK: - 검색된 친구가 없는 경우
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "noSearchedResultTableViewCell",
+                for: indexPath
+            ) as? NoSearchedResultTableViewCell else {
+                return UITableViewCell()
+            }
+            return cell
+        }
+    }
+}
+
+// MARK: - UITableViewDelegate 델리게이트 구현
+extension FriendAddViewController: UITableViewDelegate {
+
+    // 각 셀의 높이
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 74
+    }
+
+    // 테이블 뷰 셀을 눌렀을 때에 대한 동작
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
