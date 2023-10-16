@@ -51,16 +51,50 @@ let group1Point: [Point] = [
         boardingCrew: ["1", "2", "3", "4"]
     )
 ]
+let group2Point: [Point] = [
+    Point(
+        pointId: 0, pointSequence: 0, pointName: "지곡회관", pointDetailAddress: "출발지 주소",
+        hour: 6, minute: 0, second: 0, pointLat: 12.21, pointLng: 124.521,
+        boardingCrew: ["1", "2", "3", "4"]
+    ),
+    Point(
+        pointId: 1, pointSequence: 1, pointName: "경유지 2", pointDetailAddress: "경유지 1 주소",
+        hour: 8, minute: 40, second: 0, pointLat: 235.235, pointLng: 12.412,
+        boardingCrew: ["1", "2", "3", "4"]
+    ),
+    Point(
+        pointId: 2, pointSequence: 2, pointName: "형산강", pointDetailAddress: "도착지 주소",
+        hour: 7, minute: 50, second: 0, pointLat: 124.12, pointLng: 53.23,
+        boardingCrew: ["1", "2", "3", "4"]
+    )
+]
+let group3Point: [Point] = [
+    Point(
+        pointId: 0, pointSequence: 0, pointName: "도서관", pointDetailAddress: "출발지 주소",
+        hour: 8, minute: 20, second: 0, pointLat: 12.21, pointLng: 124.521,
+        boardingCrew: ["1", "2", "3", "4"]
+    ),
+    Point(
+        pointId: 1, pointSequence: 1, pointName: "경유지 1", pointDetailAddress: "경유지 1 주소",
+        hour: 8, minute: 40, second: 0, pointLat: 235.235, pointLng: 12.412,
+        boardingCrew: ["1", "2", "3", "4"]
+    ),
+    Point(
+        pointId: 2, pointSequence: 2, pointName: "영일대 해수욕장", pointDetailAddress: "도착지 주소",
+        hour: 10, minute: 0, second: 0, pointLat: 124.12, pointLng: 53.23,
+        boardingCrew: ["1", "2", "3", "4"]
+    )
+]
 
 let groupData: [Group]? = [
     Group(groupId: "1", groupName: "그룹 1", groupImage: "heart", captainId: "1",
-          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
+          crewList: ["2", "3"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
          ),
-    Group(groupId: "1", groupName: "그룹 2", groupImage: "heart", captainId: "1",
-          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
+    Group(groupId: "1", groupName: "그룹 2", groupImage: "circle.fill", captainId: "1",
+          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group2Point
          ),
-    Group(groupId: "1", groupName: "그룹 3", groupImage: "heart", captainId: "1",
-          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
+    Group(groupId: "1", groupName: "그룹 3", groupImage: "square", captainId: "1",
+          crewList: ["2", "3", "4", "5"], sessionDay: [2, 3, 4, 5, 6], points: group3Point
          )
 ]
 
