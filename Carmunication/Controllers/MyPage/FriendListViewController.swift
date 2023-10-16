@@ -201,10 +201,9 @@ extension FriendListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.nicknameLabel.text = friendList[indexPath.section].nickname
-        // TODO: - 친구 이미지 넣어주기 필요
         // 친구 이미지 불러오기
-        if let imageUrl = friendList[indexPath.section].imageURL {
-            self.loadProfileImage(urlString: imageUrl) { friendImage in
+        if let imageURL = friendList[indexPath.section].imageURL {
+            self.loadProfileImage(urlString: imageURL) { friendImage in
                 if let friendImage = friendImage {
                     cell.profileImageView.image = friendImage
                 }
@@ -233,10 +232,21 @@ extension FriendListViewController: UITableViewDelegate {
 
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: - 친구 상세보기 페이지로 이동 구현하기
         let friendDetailVC = FriendDetailViewController()
-        navigationController?.pushViewController(friendDetailVC, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
+        friendDetailVC.friendName = friendList[indexPath.section].nickname
+        if let imageURL = friendList[indexPath.section].imageURL {
+            self.loadProfileImage(urlString: imageURL) { friendImage in
+                if let friendImage = friendImage {
+                    friendDetailVC.friendImage = friendImage
+                    self.navigationController?.pushViewController(friendDetailVC, animated: true)
+                    tableView.deselectRow(at: indexPath, animated: true)
+                }
+            }
+        } else {
+            friendDetailVC.friendImage = UIImage(named: "profile")
+            navigationController?.pushViewController(friendDetailVC, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }
 

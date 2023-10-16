@@ -9,6 +9,10 @@ import UIKit
 
 final class FriendDetailViewController: UIViewController {
 
+    // 친구 리스트 화면에서 받아올 친구 정보
+    var friendName = ""
+    var friendImage: UIImage?
+
     let dummyImage = ["coffee", "box", "shoppingBag", "letter"]
     let dummydistance = [200, 400, 500, 1000]
     let dummyName = ["커피 한 잔", "1만원 이내의 선물", "3만원 이내의 선물", "주유상품권"]
@@ -37,6 +41,12 @@ final class FriendDetailViewController: UIViewController {
         )
         friendDetailView.giftCollectionView.delegate = self
         friendDetailView.giftCollectionView.dataSource = self
+
+        // 이전 친구 리스트 화면에서 전달받은 닉네임과 이미지를 반영
+        friendDetailView.friendNickname.text = friendName
+        if let friendImage = friendImage {
+            friendDetailView.friendImage.image = friendImage
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
