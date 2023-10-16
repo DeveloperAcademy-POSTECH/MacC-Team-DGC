@@ -8,6 +8,7 @@
 import UIKit
 
 import FirebaseDatabase
+import FirebaseStorage
 
 final class FriendAddViewController: UIViewController {
 
@@ -167,6 +168,30 @@ extension FriendAddViewController {
     // MARK: - 친구 요청을 보내는 메서드(유저의 친구 목록에 추가)
 }
 
+// MARK: - Firebase Storage 관련 메서드
+extension FriendAddViewController {
+
+    // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
+    // TODO: - MyPageViewController와 중복되는 메서드 -> 정리 필요함
+    private func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
+        let megaByte = Int64(1 * 1024 * 1024)
+
+        firebaseStorageRef.getData(maxSize: megaByte) { data, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let imageData = data else {
+                completion(nil)
+                return
+            }
+            completion(UIImage(data: imageData))
+        }
+    }
+}
+
 // MARK: - UITextFieldDelegate 델리게이트 구현
 extension FriendAddViewController: UITextFieldDelegate {
 
@@ -231,7 +256,11 @@ extension FriendAddViewController: UITableViewDataSource {
             }
             cell.nicknameLabel.text = searchedFriend.nickname
             if let imageURL = searchedFriend.imageURL {
-                // TODO: - 이미지 불러오는 메서드 추가하기
+                loadProfileImage(urlString: imageURL) { userImage in
+                    if let userImage = userImage {
+                        cell.profileImageView.image = userImage
+                    }
+                }
             }
             return cell
         } else {
