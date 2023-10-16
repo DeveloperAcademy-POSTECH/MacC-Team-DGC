@@ -151,6 +151,30 @@ extension FriendListViewController {
     }
 }
 
+// MARK: - Firebae Storage 관련 메서드
+extension FriendListViewController {
+
+    // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
+    // TODO: - MyPageViewController와 중복되는 메서드 -> 정리 필요함
+    private func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
+        let megaByte = Int64(1 * 1024 * 1024)
+
+        firebaseStorageRef.getData(maxSize: megaByte) { data, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let imageData = data else {
+                completion(nil)
+                return
+            }
+            completion(UIImage(data: imageData))
+        }
+    }
+}
+
 // MARK: - UITableViewDataSource 델리게이트 구현
 extension FriendListViewController: UITableViewDataSource {
 
@@ -178,6 +202,14 @@ extension FriendListViewController: UITableViewDataSource {
         }
         cell.nicknameLabel.text = friendList[indexPath.section].nickname
         // TODO: - 친구 이미지 넣어주기 필요
+        // 친구 이미지 불러오기
+        if let imageUrl = friendList[indexPath.section].imageURL {
+            self.loadProfileImage(urlString: imageUrl) { friendImage in
+                if let friendImage = friendImage {
+                    cell.profileImageView.image = friendImage
+                }
+            }
+        }
 
         let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImage.tintColor = UIColor.semantic.textBody

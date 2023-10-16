@@ -86,7 +86,7 @@ final class MyPageView: UIView {
         let imgView = UIImageView()
         imgView.image = UIImage(named: "profile")
         imgView.contentMode = .scaleAspectFill
-        // TODO: - 추후 오토 레이아웃 비율에 맞게 수정 필요
+        // TODO: - 이미지 프레임 추후 비율에 맞게 수정 필요
         let size = CGFloat(80)
         imgView.frame = CGRect(x: 0, y: 0, width: size, height: size)
         imgView.layer.cornerRadius = size / 2
