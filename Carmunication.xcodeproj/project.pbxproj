@@ -81,6 +81,7 @@
 		C954F6342ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */; };
 		C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */; };
 		C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */; };
+		C9AC83F32ADD1EA800D113FA /* Point2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC83F22ADD1EA800D113FA /* Point2.swift */; };
 		C9DC0CC82AD7D83700F06169 /* DefaultAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */; };
 		C9DC0CCA2AD7D85400F06169 /* SelectAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
@@ -162,6 +163,7 @@
 		C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailPointMapViewController.swift; sourceTree = "<group>"; };
 		C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLineView.swift; sourceTree = "<group>"; };
+		C9AC83F22ADD1EA800D113FA /* Point2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point2.swift; sourceTree = "<group>"; };
 		C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAddressTableViewCell.swift; sourceTree = "<group>"; };
 		C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				C904D1552AD5786A008BF5CE /* User.swift */,
 				C904D1572AD57942008BF5CE /* Friendship.swift */,
 				C904D15B2AD57ACB008BF5CE /* Point.swift */,
+				C9AC83F22ADD1EA800D113FA /* Point2.swift */,
 				C904D15D2AD57AD8008BF5CE /* Crew.swift */,
 				C904D1602AD57AE8008BF5CE /* Group.swift */,
 				C904D1622AD57B21008BF5CE /* Session.swift */,
@@ -649,6 +652,7 @@
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
+				C9AC83F32ADD1EA800D113FA /* Point2.swift in Sources */,
 				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
 				16A84F782AD7E0F600C28F5F /* SessionStartMidView.swift in Sources */,
 				BF9BCFEF2ACE2BEF009DAECD /* GroupAddView.swift in Sources */,

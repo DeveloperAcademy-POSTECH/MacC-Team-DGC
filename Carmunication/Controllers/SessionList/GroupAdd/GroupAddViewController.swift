@@ -16,14 +16,9 @@ struct AddressAndTime {
 
 final class GroupAddViewController: UIViewController {
 
-    private var cellData: [AddressAndTime] = [
-        AddressAndTime(address: "C5", time: "08:30"),
-        AddressAndTime(address: "가속기", time: "09:30"),
-        AddressAndTime(address: "울산", time: "10:30"),
-        AddressAndTime(address: "서울", time: "14:30")
-    ]
-
-    private let groupAddView = GroupAddView()
+    var groupDataModel: Group = Group()
+    var pointsDataModel: [Point2] = []
+    let groupAddView = GroupAddView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +31,7 @@ final class GroupAddViewController: UIViewController {
         groupAddView.tableViewComponent.dataSource = self
         groupAddView.tableViewComponent.delegate = self
         groupAddView.textField.delegate = self
+
         groupAddView.stopoverPointAddButton.addTarget(
             self,
             action: #selector(addStopoverPointTapped),
@@ -50,6 +46,10 @@ final class GroupAddViewController: UIViewController {
         groupAddView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        for index in 0...2 {
+            pointsDataModel.append(Point2(pointSequence: index))
+        }
     }
 }
 
@@ -57,7 +57,7 @@ final class GroupAddViewController: UIViewController {
 extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cellData.count
+        return pointsDataModel.count
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -68,9 +68,8 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
 
         let cell = GroupAddTableViewCell(
             index: CGFloat(indexPath.row),
-            cellCount: CGFloat(cellData.count)
+            cellCount: CGFloat(pointsDataModel.count)
         )
-        cell.crewCount = 3
         cell.addressSearchButton.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
         cell.crewImageButton.addTarget(self, action: #selector(addBoardingCrewButtonTapped), for: .touchUpInside)
         cell.startTime.addTarget(self, action: #selector(setStartTimeButtonTapped), for: .touchUpInside)
@@ -79,13 +78,22 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
             action: #selector(stopoverRemoveButtonTapped),
             for: .touchUpInside
         )
-        if indexPath.row == 0 || indexPath.row == cellData.count - 1 {
+        print(pointsDataModel.count)
+        if indexPath.row == 0 || indexPath.row == pointsDataModel.count - 1 {
             cell.stopoverPointRemoveButton.isEnabled = false
             cell.stopoverPointRemoveButton.isHidden = true
             cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
             cell.timeLabel.text = indexPath.row == 0 ? "출발시간" : "도착시간"
         } else {
             cell.pointNameLabel.text = "경유지 \(indexPath.row)"
+        }
+
+        if let pointName = pointsDataModel[indexPath.row].pointName {
+            cell.addressSearchButton.titleLabel?.text = pointName
+        }
+        if let startTime = pointsDataModel[indexPath.row].pointArrivalTime {
+            let formattedTime = Date.formattedDate(from: startTime, dateFormat: "a hh:mm")
+            cell.startTime.setTitle(formattedTime, for: .normal)
         }
 
         return cell
@@ -116,7 +124,25 @@ extension GroupAddViewController {
 extension GroupAddViewController {
 
     @objc private func addStopoverPointTapped() {
-        cellData.insert(AddressAndTime(address: "새로 들어온 데이터", time: "12:30"), at: cellData.count - 1)
+        let insertIndex = pointsDataModel.count - 1
+        self.pointsDataModel.insert(
+            Point2(pointSequence: insertIndex),
+            at: insertIndex
+        )
+        if pointsDataModel.count >= 5 {
+            groupAddView.stopoverPointAddButton.isEnabled = false
+            groupAddView.stopoverPointAddButton.isHidden = true
+        }
+        groupAddView.tableViewComponent.reloadData()
+    }
+
+    @objc func stopoverRemoveButtonTapped(_ sender: UIButton) {
+        let row = sender.tag
+        pointsDataModel.remove(at: row)
+        if pointsDataModel.count <= 5 {
+            groupAddView.stopoverPointAddButton.isEnabled = true
+            groupAddView.stopoverPointAddButton.isHidden = false
+        }
         groupAddView.tableViewComponent.reloadData()
     }
 
@@ -127,6 +153,17 @@ extension GroupAddViewController {
 
     @objc private func setStartTimeButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectStartTimeViewController()
+
+        // 클로저를 통해 선택한 시간을 받음
+        detailViewController.timeSelectionHandler = { [weak self] selectedTime in
+            // 선택한 시간을 사용하여 원하는 작업 수행
+            if let cell = sender.superview?.superview as? GroupAddTableViewCell,
+               let indexPath = self?.groupAddView.tableViewComponent.indexPath(for: cell) {
+                self?.pointsDataModel[indexPath.row].pointArrivalTime = selectedTime
+                // 이제 선택한 시간이 `Point2` 모델에 저장됩니다.
+            }
+            self?.groupAddView.tableViewComponent.reloadData()
+        }
         present(detailViewController, animated: true)
     }
 
@@ -158,12 +195,6 @@ extension GroupAddViewController {
 
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
-    }
-
-    @objc func stopoverRemoveButtonTapped(_ sender: UIButton) {
-        let row = sender.tag
-        cellData.remove(at: row)
-        groupAddView.tableViewComponent.reloadData()
     }
 }
 
