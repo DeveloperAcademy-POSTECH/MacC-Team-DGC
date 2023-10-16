@@ -45,7 +45,8 @@ struct Point {
         calendar.timeZone = TimeZone.current
 
         // 시간, 분, 초에 해당하는 Date를 생성합니다.
-        self.pointArrivalTime = calendar.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
+        self.pointArrivalTime = calendar.date(bySettingHour: hour, minute: minute, second: 0, of: Date()) ?? Date()
+
 
         self.pointLat = pointLat
         self.pointLng = pointLng
