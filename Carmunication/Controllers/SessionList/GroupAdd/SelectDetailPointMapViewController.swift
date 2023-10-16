@@ -12,7 +12,7 @@ import NMapsMap
 final class SelectDetailPointMapViewController: UIViewController {
 
     private let selectDetailPointMapView = SelectDetailPointMapView()
-    let selectAddressModel: SelectAddressModel
+    private var selectAddressModel: SelectAddressModel
     var addressSelectionHandler: ((AddressDTO) -> Void)?
     private var addressDTO = AddressDTO()
 
@@ -31,13 +31,8 @@ final class SelectDetailPointMapViewController: UIViewController {
         view.addSubview(selectDetailPointMapView)
 
         selectDetailPointMapView.mapView.addCameraDelegate(delegate: self)
-        selectDetailPointMapView.mapView.zoomLevel = 16
+        selectDetailPointMapView.mapView.zoomLevel = 17
         selectDetailPointMapView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
-
-        selectDetailPointMapView.pointNameLabel.text = selectAddressModel.pointName
-        selectDetailPointMapView.buildingNameLabel.text = selectAddressModel.buildingName
-        selectDetailPointMapView.detailAddressLabel.text = selectAddressModel.detailAddress
-        selectDetailPointMapView.centerMarkerLabel.text = selectAddressModel.pointName
 
         selectDetailPointMapView.mapView.moveCamera(
             NMFCameraUpdate(
@@ -47,6 +42,12 @@ final class SelectDetailPointMapViewController: UIViewController {
                 )
             )
         )
+
+        selectDetailPointMapView.pointNameLabel.text = selectAddressModel.pointName
+        selectDetailPointMapView.buildingNameLabel.text = selectAddressModel.buildingName
+        selectDetailPointMapView.detailAddressLabel.text = selectAddressModel.detailAddress
+        selectDetailPointMapView.centerMarkerLabel.text = selectAddressModel.pointName
+
         selectDetailPointMapView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -119,12 +120,14 @@ extension SelectDetailPointMapViewController: NMFMapViewCameraDelegate {
                 y: mapView.frame.size.height / 2
             )
         )
-
+        print("mapViewCameraIdle 내부")
         // 주소와 건물명 가져오기
         getAddressAndBuildingName(for: center) { buildingName, detailAddress in
             // 주소와 건물명을 업데이트
             self.selectDetailPointMapView.buildingNameLabel.text = buildingName
             self.selectDetailPointMapView.detailAddressLabel.text = detailAddress
+            self.selectAddressModel.buildingName = buildingName
+            self.selectAddressModel.detailAddress = detailAddress
         }
     }
 }
