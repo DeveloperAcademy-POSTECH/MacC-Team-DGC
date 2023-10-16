@@ -37,7 +37,7 @@ extension Date {
         }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
-        
+
         return dateFormatter.string(from: time)
     }
 }
