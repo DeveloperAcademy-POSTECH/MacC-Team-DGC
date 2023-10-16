@@ -29,7 +29,7 @@ final class SelectDetailPointMapViewController: UIViewController {
         view.addSubview(selectDetailPointMapView)
 
         selectDetailPointMapView.mapView.addCameraDelegate(delegate: self)
-
+        selectDetailPointMapView.mapView.zoomLevel = 16
         selectDetailPointMapView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
 
         selectDetailPointMapView.pointNameLabel.text = selectAddressModel.pointName
