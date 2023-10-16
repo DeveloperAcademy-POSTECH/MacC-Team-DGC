@@ -20,6 +20,8 @@ final class SessionStartViewController: UIViewController {
 
     private var buttonHeight: CGFloat = 60
 
+    var selectedGroupData: Group?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -35,6 +37,11 @@ final class SessionStartViewController: UIViewController {
             action: #selector(presentModalQueue),
             for: .touchUpInside
         )
+
+        // 첫 번째 인덱스의 데이터를 선택한 것처럼 처리
+        if let firstGroup = groupData?.first {
+            handleSelectedGroupData(firstGroup)
+        }
     }
 }
 
@@ -103,6 +110,17 @@ extension SessionStartViewController {
         let modalQueueViewController = ModalQueueViewController()
         self.present(modalQueueViewController, animated: true)
     }
+
+    private func handleSelectedGroupData(_ selectedGroup: Group) {
+        // 선택한 그룹 데이터를 처리하는 코드를 추가합니다.
+        // 예를 들어, 선택한 그룹 데이터를 출력하거나 다른 동작을 수행할 수 있습니다.
+
+        // 그룹 데이터를 선택한 데이터로 설정
+        self.selectedGroupData = selectedGroup
+
+        // 화면 업데이트
+        sessionStartMidView.setupGroupData(selectedGroup)
+    }
 }
 
 extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
@@ -119,6 +137,20 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
         return CGSize(width: collectionViewWidth, height: collectionViewHeight)
+    }
+
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        if let selectedGroup = groupData?[indexPath.row] {
+
+            // 그룹 데이터를 선택한 데이터로 설정
+            self.selectedGroupData = selectedGroup
+
+            // 화면 업데이트
+            sessionStartMidView.setupGroupData(selectedGroup)
+        }
     }
 }
 

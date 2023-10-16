@@ -42,13 +42,21 @@ struct Point {
 
         // Calendar 객체를 생성하여 시간대를 설정합니다.
         var calendar = Calendar.current
-        calendar.timeZone = TimeZone(identifier: "GMT")! // 시간대를 GMT로 설정합니다.
+        calendar.timeZone = TimeZone.current
 
         // 시간, 분, 초에 해당하는 Date를 생성합니다.
-        self.pointArrivalTime = calendar.date(bySettingHour: hour, minute: minute, second: second, of: Date())!
+        self.pointArrivalTime = calendar.date(bySettingHour: hour, minute: minute, second: 0, of: Date())!
 
         self.pointLat = pointLat
         self.pointLng = pointLng
         self.boardingCrew = boardingCrew
+    }
+
+    // pointArrivalTime을 "HH:mm" 형식의 문자열로 반환하는 메서드
+    func formattedArrivalTime() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: pointArrivalTime)
     }
 }

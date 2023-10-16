@@ -169,7 +169,6 @@ final class SessionStartMidView: UIView {
         setupConstraints()
         setupDataConstraints()
         setTodayDate()
-        setupGroupData()
     }
 
     required init?(coder: NSCoder) {
@@ -178,7 +177,6 @@ final class SessionStartMidView: UIView {
         setupConstraints()
         setupDataConstraints()
         setTodayDate()
-        setupGroupData()
     }
 
     override func layoutSubviews() {
@@ -358,25 +356,29 @@ extension SessionStartMidView {
 // MARK: - Data Methods
 extension SessionStartMidView {
 
-    private func setupGroupData() {
-
-        // 그룹이 하나 이상 있을 때 나타내는 정보들
-        if groupData != nil {
+    // 그룹별 나타나는 데이터를 보여주는 메서드
+    func setupGroupData(_ selectedGroup: Group?) {
+        if let selectedGroup = selectedGroup {
 
             // TODO: - 데이터 변경
             // TODO: - 시간 형식 변경
             // TODO: - 그룹이 없을 때 경우 설정
-            groupNameLabel.text = groupData?.first?.groupName
+            groupNameLabel.text = selectedGroup.groupName
             dayLabel.text = "주중 (월 ~ 금)"
-            startLocationLabel.text = groupData?.first?.points?.first?.pointName
-            endLocationLabel.text = groupData?.first?.points?.last?.pointName
-            startTime.text = "09 : 00"
-            endTime.text = "09 : 30"
-            if let count = groupData?.first?.crewList?.count {
+            startLocationLabel.text = selectedGroup.points?.first?.pointName
+            endLocationLabel.text = selectedGroup.points?.last?.pointName
+            startTime.text = Date.formatTime(selectedGroup.points?.first?.pointArrivalTime)
+            endTime.text = Date.formatTime(selectedGroup.points?.last?.pointArrivalTime)
+
+            if let count = selectedGroup.crewList?.count {
                 personLabel.text = "\(count) 명"
             }
             commentUnderLineView.text = "오늘도 즐거운 여정을 시작해 보세요!"
+            groupNameLabel.text = selectedGroup.groupName
+
         } else {
+            // 선택한 그룹 데이터가 없을 때에 대한 처리
+            // 예를 들어, 빈 데이터로 초기화 또는 다른 처리 수행
             dayLabel.text = "---"
             commentUnderLineView.text = "세션관리에서 여정을 만들어 보세요."
         }
