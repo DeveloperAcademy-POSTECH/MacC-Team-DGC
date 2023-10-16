@@ -143,9 +143,13 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        if let selectedGroup = groupData?[indexPath.row] {
-            handleSelectedGroupData(selectedGroup)
+        guard let groupData = groupData, indexPath.row < groupData.count else {
+            // 데이터가 없거나 인덱스가 범위를 벗어난 경우 처리
+            return
         }
+
+        let selectedGroup = groupData[indexPath.row]
+        handleSelectedGroupData(selectedGroup)
     }
 }
 
