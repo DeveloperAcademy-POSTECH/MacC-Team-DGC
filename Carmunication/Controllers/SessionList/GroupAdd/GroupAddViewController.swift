@@ -133,8 +133,13 @@ extension GroupAddViewController {
     }
 
     @objc func stopoverRemoveButtonTapped(_ sender: UIButton) {
-        let row = sender.tag
-        pointsDataModel.remove(at: row)
+        guard let cell = sender.superview?.superview as? GroupAddTableViewCell,
+              let indexPath = self.groupAddView.tableViewComponent.indexPath(for: cell) else {
+            return
+        }
+
+        print("삭제한 줄 : ", indexPath.row)
+        pointsDataModel.remove(at: indexPath.row)
         if pointsDataModel.count <= 5 {
             groupAddView.stopoverPointAddButton.isEnabled = true
             groupAddView.stopoverPointAddButton.isHidden = false
