@@ -7,9 +7,13 @@
 
 import UIKit
 
+import FirebaseDatabase
+import FirebaseStorage
+
 final class FriendListViewController: UIViewController {
 
     let dummyFriends = ["홍길동", "우니", "배찌", "젠", "레이", "테드", "젤리빈", "김영빈", "피카츄"]
+    var friendList: [User] = []
     private let friendListView = FriendListView()
 
     override func viewDidLoad() {
@@ -36,6 +40,33 @@ final class FriendListViewController: UIViewController {
             target: self,
             action: #selector(showFriendAddView)
         )
+
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        // 유저의 친구 관계 리스트를 불러온다.
+        readUserFriendshipList(databasePath: databasePath) { friendshipList in
+            guard let friendshipList else {
+                return
+            }
+            // 친구 관계 id값으로 친구의 uid를 받아온다.
+            for friendshipId in friendshipList {
+                self.getFriendUid(friendshipID: friendshipId) { friendId in
+                    guard let friendId else {
+                        return
+                    }
+                    // 친구의 uid값으로 친구의 User객체를 불러온다.
+                    self.getFriendUser(friendId: friendId) { friend in
+                        guard let friend else {
+                            return
+                        }
+                        self.friendList.append(friend)
+                        self.friendListView.friendListTableView.reloadData()
+                        print("친구목록: \(self.friendList)")
+                    }
+                }
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -56,6 +87,70 @@ extension FriendListViewController {
     }
 }
 
+// MARK: - Firebase Realtime Database DB 관련 메서드
+extension FriendListViewController {
+
+    // MARK: - DB에서 유저의 friendID 목록을 불러오는 메서드
+    private func readUserFriendshipList(databasePath: DatabaseReference, completion: @escaping ([Int]?) -> Void) {
+        databasePath.child("friends").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            let friends = snapshot?.value as? [Int]
+            completion(friends)
+        }
+    }
+
+    // MARK: - friendID 값으로 DB에서 Friendship의 친구 id를 불러오는 메서드
+    private func getFriendUid(friendshipID: Int, completion: @escaping (String?) -> Void) {
+        Database.database().reference().child("friendship/\(friendshipID)").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let snapshotValue = snapshot?.value as? [String: Any] else {
+                return
+            }
+            guard let currentUserId = KeychainItem.currentUserIdentifier else {
+                return
+            }
+            // sender와 receiver 중 현재 사용자에 해당하지 않는 uid를 뽑는다.
+            var friendId: String = ""
+            let senderValue = snapshotValue["senderId"] as? String ?? ""
+            let receiverValue = snapshotValue["receiverId"] as? String ?? ""
+            if currentUserId != senderValue {
+                friendId = senderValue
+            } else {
+                friendId = receiverValue
+            }
+            completion(friendId)
+        }
+    }
+
+    // MARK: - 친구의 uid로 DB에서 친구 데이터를 불러오기
+    private func getFriendUser(friendId: String, completion: @escaping (User?) -> Void) {
+        Database.database().reference().child("users/\(friendId)").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let snapshotValue = snapshot?.value as? [String: Any] else {
+                return
+            }
+            let friend = User(
+                id: snapshotValue["id"] as? String ?? "",
+                nickname: snapshotValue["nickname"] as? String ?? "",
+                imageURL: snapshotValue["imageURL"] as? String ?? ""
+            )
+            completion(friend)
+        }
+    }
+}
+
 // MARK: - UITableViewDataSource 델리게이트 구현
 extension FriendListViewController: UITableViewDataSource {
 
@@ -66,7 +161,7 @@ extension FriendListViewController: UITableViewDataSource {
 
     // 섹션의 개수
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dummyFriends.count
+        return friendList.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -81,8 +176,9 @@ extension FriendListViewController: UITableViewDataSource {
         ) as? FriendListTableViewCell else {
             return UITableViewCell()
         }
-        // TODO: - 셀에 친구 정보 넣어주기
-        cell.nicknameLabel.text = dummyFriends[indexPath.section]
+        cell.nicknameLabel.text = friendList[indexPath.section].nickname
+        // TODO: - 친구 이미지 넣어주기 필요
+
         let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImage.tintColor = UIColor.semantic.textBody
         cell.accessoryView = chevronImage

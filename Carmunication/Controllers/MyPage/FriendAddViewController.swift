@@ -113,6 +113,14 @@ extension FriendAddViewController {
     }
 }
 
+// MARK: - Firebase Realtime Database DB 관련 메서드
+extension FriendAddViewController {
+
+    // MARK: - 닉네임에 해당하는 친구를 DB에서 검색하는 메서드
+
+    // MARK: - 친구 요청을 보내는 메서드(유저의 친구 목록에 추가)
+}
+
 // MARK: - UITextFieldDelegate 델리게이트 구현
 extension FriendAddViewController: UITextFieldDelegate {
 

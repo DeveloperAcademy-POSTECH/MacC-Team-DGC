@@ -63,19 +63,19 @@ struct DummyData {
 
     static var friendships: [Friendship] = [
         Friendship(
-            friendId: 0, senderId: 0, receiverId: 1, status: true
+            friendshipId: 0, senderId: "rei", receiverId: "ted", status: true
         ),
         Friendship(
-            friendId: 1, senderId: 0, receiverId: 2, status: true
+            friendshipId: 1, senderId: "rei", receiverId: "uni", status: true
         ),
         Friendship(
-            friendId: 2, senderId: 0, receiverId: 3, status: true
+            friendshipId: 2, senderId: "rei", receiverId: "bazzi", status: true
         ),
         Friendship(
-            friendId: 3, senderId: 0, receiverId: 4, status: true
+            friendshipId: 3, senderId: "rei", receiverId: "jen", status: true
         ),
         Friendship(
-            friendId: 4, senderId: 3, receiverId: 5, status: true
+            friendshipId: 4, senderId: "bazzi", receiverId: "jellybean", status: true
         )
     ]
 
