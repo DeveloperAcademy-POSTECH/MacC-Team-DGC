@@ -36,20 +36,6 @@ final class SessionStartViewController: UIViewController {
             for: .touchUpInside
         )
     }
-
-//    override func viewDidLayoutSubviews() {
-//        sessionStartView.summaryView.layoutIfNeeded()
-//
-//        // 점선 그리기
-//        sessionStartView.journeySummaryView.layer.addSublayer(sessionStartView.dottedLineLayer)
-//        sessionStartView.dottedLineLayer.position = CGPoint(
-//            x: 0,
-//            y: sessionStartView.journeySummaryView.frame.maxY - 100
-//        )
-//        sessionStartView.startGradient.frame = sessionStartView.startView.bounds
-//        sessionStartView.endGradient.frame = sessionStartView.endView.bounds
-//
-//    }
 }
 
 // MARK: Layout
