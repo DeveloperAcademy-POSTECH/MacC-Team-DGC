@@ -77,6 +77,8 @@
 		C93D2CDA2AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */; };
 		C93D2CDC2AD298C400CF4735 /* GroupAddModalCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */; };
 		C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6162AD9998500D528F5 /* SelectAddressModel.swift */; };
+		C954F6322ADA7CFB00D528F5 /* SelectDetailPointMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6312ADA7CFB00D528F5 /* SelectDetailPointMapView.swift */; };
+		C954F6342ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */; };
 		C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */; };
 		C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */; };
 		C9DC0CC82AD7D83700F06169 /* DefaultAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */; };
@@ -156,6 +158,8 @@
 		C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectBoardingCrewModalViewController.swift; sourceTree = "<group>"; };
 		C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddModalCollectionViewCell.swift; sourceTree = "<group>"; };
 		C954F6162AD9998500D528F5 /* SelectAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressModel.swift; sourceTree = "<group>"; };
+		C954F6312ADA7CFB00D528F5 /* SelectDetailPointMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailPointMapView.swift; sourceTree = "<group>"; };
+		C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailPointMapViewController.swift; sourceTree = "<group>"; };
 		C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLineView.swift; sourceTree = "<group>"; };
 		C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAddressTableViewCell.swift; sourceTree = "<group>"; };
@@ -321,9 +325,10 @@
 			isa = PBXGroup;
 			children = (
 				C9F208662AD122C500EAA173 /* Common */,
-				C9F208652AD122A200EAA173 /* SessionList */,
+				C9F208652AD122A200EAA173 /* SessionListMain */,
 				C9F208642AD1227D00EAA173 /* GroupDetail */,
 				BF9BCFED2ACE2BDF009DAECD /* GroupAdd */,
+				C954F62B2ADA7BC100D528F5 /* Cell */,
 			);
 			path = SessionList;
 			sourceTree = "<group>";
@@ -332,13 +337,10 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */,
-				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
 				BF9BCFF22ACE379C009DAECD /* SelectAddressView.swift */,
 				C93D2CD32AD24F4600CF4735 /* SelectStartTimeModalView.swift */,
 				C93D2CD72AD28F7400CF4735 /* SelectBoardingCrewModalView.swift */,
-				C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */,
-				C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */,
-				C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */,
+				C954F6312ADA7CFB00D528F5 /* SelectDetailPointMapView.swift */,
 			);
 			path = GroupAdd;
 			sourceTree = "<group>";
@@ -402,15 +404,68 @@
 			path = GroupAdd;
 			sourceTree = "<group>";
 		};
-		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
+		C954F62B2ADA7BC100D528F5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
+				C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */,
+				C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */,
+				C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		C954F62C2ADA7C0400D528F5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
+				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		C954F62D2ADA7C1600D528F5 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */,
+			);
+			path = Cell;
+			sourceTree = "<group>";
+		};
+		C954F62E2ADA7C3200D528F5 /* SessionListMain */ = {
 			isa = PBXGroup;
 			children = (
 				BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */,
+			);
+			path = SessionListMain;
+			sourceTree = "<group>";
+		};
+		C954F62F2ADA7C4E00D528F5 /* GroupAdd */ = {
+			isa = PBXGroup;
+			children = (
 				C9DE7C342AC01C33005AFCC6 /* GroupAddViewController.swift */,
-				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
 				C9DE7C3A2AC05B65005AFCC6 /* SelectAddressViewController.swift */,
+				C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */,
 				C93D2CD52AD2528F00CF4735 /* SelectStartTimeViewController.swift */,
 				C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */,
+			);
+			path = GroupAdd;
+			sourceTree = "<group>";
+		};
+		C954F6302ADA7C6F00D528F5 /* GroupDetail */ = {
+			isa = PBXGroup;
+			children = (
+				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
+			);
+			path = GroupDetail;
+			sourceTree = "<group>";
+		};
+		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
+			isa = PBXGroup;
+			children = (
+				C954F62E2ADA7C3200D528F5 /* SessionListMain */,
+				C954F6302ADA7C6F00D528F5 /* GroupDetail */,
+				C954F62F2ADA7C4E00D528F5 /* GroupAdd */,
 			);
 			path = SessionList;
 			sourceTree = "<group>";
@@ -419,19 +474,18 @@
 			isa = PBXGroup;
 			children = (
 				BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */,
-				C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */,
+				C954F62D2ADA7C1600D528F5 /* Cell */,
 			);
 			path = GroupDetail;
 			sourceTree = "<group>";
 		};
-		C9F208652AD122A200EAA173 /* SessionList */ = {
+		C9F208652AD122A200EAA173 /* SessionListMain */ = {
 			isa = PBXGroup;
 			children = (
 				BF29DF282ACFF9CD00430031 /* SessionListView.swift */,
-				C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */,
-				C92CFB3C2ACBFEC60068273A /* NotFoundCrewTableViewCell.swift */,
+				C954F62C2ADA7C0400D528F5 /* Cell */,
 			);
-			path = SessionList;
+			path = SessionListMain;
 			sourceTree = "<group>";
 		};
 		C9F208662AD122C500EAA173 /* Common */ = {
@@ -567,6 +621,7 @@
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				C904D1652AD597C8008BF5CE /* DummyData.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
+				C954F6342ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift in Sources */,
 				C9DC0CCA2AD7D85400F06169 /* SelectAddressTableViewCell.swift in Sources */,
 				C904D1632AD57B21008BF5CE /* Session.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
@@ -588,6 +643,7 @@
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
 				C93D2CDA2AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift in Sources */,
 				C93D2CD82AD28F7400CF4735 /* SelectBoardingCrewModalView.swift in Sources */,
+				C954F6322ADA7CFB00D528F5 /* SelectDetailPointMapView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,
