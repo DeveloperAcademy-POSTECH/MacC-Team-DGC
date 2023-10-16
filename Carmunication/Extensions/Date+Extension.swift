@@ -29,4 +29,15 @@ extension Date {
 
         return formattedDate
     }
+
+    static func formatTime(_ time: Date?) -> String {
+
+        guard let time = time else {
+            return ""
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+
+        return dateFormatter.string(from: time)
+    }
 }
