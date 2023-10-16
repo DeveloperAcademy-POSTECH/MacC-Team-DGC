@@ -31,13 +31,13 @@ extension Date {
     }
 
     static func formatTime(_ time: Date?) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
 
-        if let time = time {
-            return dateFormatter.string(from: time)
-        } else {
+        guard let time = time else {
             return ""
         }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        
+        return dateFormatter.string(from: time)
     }
 }
