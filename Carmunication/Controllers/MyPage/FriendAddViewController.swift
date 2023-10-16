@@ -7,6 +7,8 @@
 
 import UIKit
 
+import FirebaseDatabase
+
 final class FriendAddViewController: UIViewController {
 
     private let friendAddView = FriendAddView()
@@ -69,8 +71,18 @@ extension FriendAddViewController {
 
     // [검색] 버튼을 눌렀을 때 동작
     @objc private func performFriendSearch() {
+        dismissTextField()
         // TODO: - 친구 검색 기능 구현 필요
         print("친구 검색")
+        guard let searchNickname = friendAddView.friendSearchTextField.text else {
+            return
+        }
+        searchUserNickname(searchNickname: searchNickname) { searchedFriend in
+            guard let searchedFriend = searchedFriend else {
+                return
+            }
+            print(searchedFriend)
+        }
     }
 
     // 텍스트필드 clear 버튼 눌렀을 때 동작
@@ -117,6 +129,27 @@ extension FriendAddViewController {
 extension FriendAddViewController {
 
     // MARK: - 닉네임에 해당하는 친구를 DB에서 검색하는 메서드
+    private func searchUserNickname(searchNickname: String, completion: @escaping (User?) -> Void) {
+        Database.database().reference().child("users").observeSingleEvent(of: .value) { snapshot in
+            for child in snapshot.children {
+                guard let snap = child as? DataSnapshot else {
+                    return
+                }
+                guard let dict = snap.value as? [String: Any] else {
+                    return
+                }
+                if dict["nickname"] as? String == searchNickname {
+                    print("\(searchNickname)이(가) 검색되었습니다!!!")
+                    let searchedFriend = User(
+                        id: dict["id"] as? String ?? "",
+                        nickname: dict["nickname"] as? String ?? "",
+                        imageURL: dict["imageURL"] as? String ?? ""
+                    )
+                    completion(searchedFriend)
+                }
+            }
+        }
+    }
 
     // MARK: - 친구 요청을 보내는 메서드(유저의 친구 목록에 추가)
 }
