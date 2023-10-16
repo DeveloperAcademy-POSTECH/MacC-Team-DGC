@@ -9,10 +9,10 @@ import UIKit
 
 import NMapsMap
 
-class SelectDetailPointMapViewController: UIViewController {
+final class SelectDetailPointMapViewController: UIViewController {
 
     private let selectDetailPointMapView = SelectDetailPointMapView()
-    var selectAddressModel: SelectAddressModel
+    let selectAddressModel: SelectAddressModel
 
     init(selectAddressModel: SelectAddressModel) {
         self.selectAddressModel = selectAddressModel
@@ -29,6 +29,8 @@ class SelectDetailPointMapViewController: UIViewController {
         view.addSubview(selectDetailPointMapView)
 
         selectDetailPointMapView.mapView.addCameraDelegate(delegate: self)
+
+        selectDetailPointMapView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
 
         selectDetailPointMapView.pointNameLabel.text = selectAddressModel.pointName
         selectDetailPointMapView.buildingNameLabel.text = selectAddressModel.buildingName
@@ -49,15 +51,25 @@ class SelectDetailPointMapViewController: UIViewController {
     }
 }
 
+// MARK: - @objc Method
+extension SelectDetailPointMapViewController {
+    @objc private func saveButtonAction() {
+        dismiss(animated: true)
+    }
+}
+
 // MARK: - Custom Method
 extension SelectDetailPointMapViewController {
 
     private func getAddressAndBuildingName(
         for coordinate: NMGLatLng,
-        completion: @escaping (String?, String?
-        ) -> Void) {
+        completion: @escaping (String?, String?) -> Void
+    ) {
         let geocoder = CLGeocoder()
-        let location = CLLocation(latitude: coordinate.lat, longitude: coordinate.lng)
+        let location = CLLocation(
+            latitude: coordinate.lat,
+            longitude: coordinate.lng
+        )
 
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
             guard error == nil else {
@@ -72,7 +84,7 @@ extension SelectDetailPointMapViewController {
                     placemarkDsc.remove(at: 0)
                 }
                 let buildingName = placemark.areasOfInterest?[0] ?? placemark.name ?? ""
-                var detailAddress = self.filterDetailAddress(placemarkDsc[1])
+                let detailAddress = self.filterDetailAddress(placemarkDsc[1])
 
                 completion(buildingName, detailAddress)
             } else {

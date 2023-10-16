@@ -13,6 +13,7 @@ import SnapKit
 final class SelectAddressViewController: UIViewController {
 
     let selectAddressView = SelectAddressView()
+
     private var isKeyboardActive = false
     private var searchCompleter: MKLocalSearchCompleter?
     private var completerResults: [MKLocalSearchCompletion]?
@@ -324,8 +325,6 @@ extension SelectAddressViewController: UITableViewDelegate {
                         target: nil,
                         action: nil
                     )
-
-                    // Push the detail view controller
                     self.navigationController?.pushViewController(detailViewController, animated: true)
                 }
             }

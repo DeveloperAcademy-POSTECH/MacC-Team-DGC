@@ -130,7 +130,7 @@ class SelectDetailPointMapView: UIView {
 
         centerMarkerImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
-            make.centerY.equalTo(mapView)
+            make.bottom.equalTo(mapView.snp.centerY).offset(0)
             make.width.height.equalTo(60)
         }
 
