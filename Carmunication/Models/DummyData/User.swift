@@ -21,6 +21,7 @@ struct User: Codable {
     var id: String
     var nickname: String
     var email: String
+    var imageURL: String?
 }
 
 extension User {
