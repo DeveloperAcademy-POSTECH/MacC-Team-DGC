@@ -9,11 +9,6 @@ import UIKit
 
 import SnapKit
 
-struct AddressAndTime {
-    var address: String = "포항시 남구 지곡로 80"
-    var time: String = "09:30"
-}
-
 final class GroupAddViewController: UIViewController {
 
     var groupDataModel: Group = Group()
@@ -89,13 +84,14 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         if let pointName = pointsDataModel[indexPath.row].pointName {
-            cell.addressSearchButton.titleLabel?.text = pointName
+            cell.addressSearchButton.setTitle("    \(pointName)", for: .normal)
         }
         if let startTime = pointsDataModel[indexPath.row].pointArrivalTime {
             let formattedTime = Date.formattedDate(from: startTime, dateFormat: "a hh:mm")
             cell.startTime.setTitle(formattedTime, for: .normal)
         }
 
+        print(pointsDataModel)
         return cell
     }
 
@@ -168,25 +164,36 @@ extension GroupAddViewController {
     }
 
     @objc func findAddressButtonTapped(_ sender: UIButton) {
-        if let cell = sender.superview?.superview as? GroupAddTableViewCell,
-           let indexPath = groupAddView.tableViewComponent.indexPath(for: cell) {
-            let row = indexPath.row
-            let detailViewController = SelectAddressViewController()
-
-            detailViewController.selectAddressView.headerTitleLabel.text = {
-                switch row {
-                case 0:
-                    return "출발지 주소 설정"
-                case groupAddView.tableViewComponent.numberOfRows(inSection: 0) - 1:
-                    return "도착지 주소 설정"
-                default:
-                    return "경유지\(row) 주소 설정"
-                }
-            }()
-
-            let navigation = UINavigationController(rootViewController: detailViewController)
-            present(navigation, animated: true)
+        let detailViewController = SelectAddressViewController()
+        let navigation = UINavigationController(rootViewController: detailViewController)
+        guard let cell = sender.superview?.superview as? GroupAddTableViewCell,
+              let indexPath = groupAddView.tableViewComponent.indexPath(for: cell) else {
+            return
         }
+        let row = indexPath.row
+
+        detailViewController.selectAddressView.headerTitleLabel.text = {
+            switch row {
+            case 0:
+                return "출발지 주소 설정"
+            case (self.groupAddView.tableViewComponent.numberOfRows(inSection: 0) ?? 2) - 1:
+                return "도착지 주소 설정"
+            default:
+                return "경유지\(row) 주소 설정"
+            }
+        }()
+
+        detailViewController.addressSelectionHandler = { [weak self] addressDTO in
+            print("navigation Handler 내부")
+            print(addressDTO)
+            self?.pointsDataModel[row].pointName = addressDTO.pointName
+            self?.pointsDataModel[row].pointDetailAddress = addressDTO.pointDetailAddress
+            self?.pointsDataModel[row].pointLat = addressDTO.pointLat
+            self?.pointsDataModel[row].pointLng = addressDTO.pointLng
+            self?.groupAddView.tableViewComponent.reloadData()
+        }
+
+        present(navigation, animated: true)
     }
 
     @objc private func createCrewButtonTapped(_ sender: UIButton) {

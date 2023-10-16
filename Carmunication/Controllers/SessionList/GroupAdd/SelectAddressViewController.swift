@@ -13,8 +13,10 @@ import SnapKit
 final class SelectAddressViewController: UIViewController {
 
     let selectAddressView = SelectAddressView()
-
     private var isKeyboardActive = false
+    var addressSelectionHandler: ((AddressDTO) -> Void)?
+    var addressDTO: AddressDTO?
+
     private var searchCompleter: MKLocalSearchCompleter?
     private var completerResults: [MKLocalSearchCompletion]?
     private var places: MKMapItem? {
@@ -87,6 +89,13 @@ final class SelectAddressViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         searchCompleter = nil
+
+    }
+
+    deinit {
+        if let addressDTO = addressDTO {
+            addressSelectionHandler?(addressDTO)
+        }
     }
 }
 
@@ -317,6 +326,12 @@ extension SelectAddressViewController: UITableViewDelegate {
                     let detailViewController = SelectDetailPointMapViewController(
                         selectAddressModel: selectAddressModel
                     )
+
+                    detailViewController.addressSelectionHandler = { [weak self] addressDTO in
+                        print("selectAddress Handler 내부")
+                        print(addressDTO)
+                        self?.addressDTO = addressDTO
+                    }
 
                     detailViewController.title = "상세 위치 설정"
                     self.navigationItem.backBarButtonItem = UIBarButtonItem(

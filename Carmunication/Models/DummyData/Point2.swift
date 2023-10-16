@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 struct Point2 {
     var pointId: Int?
     var pointSequence: Int?
@@ -15,4 +16,11 @@ struct Point2 {
     var pointLat: Double?
     var pointLng: Double?
     var boardingCrew: [String]?  // [userId]
+}
+
+struct AddressDTO {
+    var pointName: String?
+    var pointDetailAddress: String?
+    var pointLat: Double?
+    var pointLng: Double?
 }

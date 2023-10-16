@@ -13,6 +13,8 @@ final class SelectDetailPointMapViewController: UIViewController {
 
     private let selectDetailPointMapView = SelectDetailPointMapView()
     let selectAddressModel: SelectAddressModel
+    var addressSelectionHandler: ((AddressDTO) -> Void)?
+    private var addressDTO = AddressDTO()
 
     init(selectAddressModel: SelectAddressModel) {
         self.selectAddressModel = selectAddressModel
@@ -54,6 +56,11 @@ final class SelectDetailPointMapViewController: UIViewController {
 // MARK: - @objc Method
 extension SelectDetailPointMapViewController {
     @objc private func saveButtonAction() {
+        self.addressDTO.pointName = selectAddressModel.buildingName
+        self.addressDTO.pointDetailAddress = selectAddressModel.detailAddress
+        self.addressDTO.pointLat = selectAddressModel.coordinate?.latitude
+        self.addressDTO.pointLng = selectAddressModel.coordinate?.longitude
+        addressSelectionHandler?(addressDTO)
         dismiss(animated: true)
     }
 }
