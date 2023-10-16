@@ -144,12 +144,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         didSelectItemAt indexPath: IndexPath
     ) {
         if let selectedGroup = groupData?[indexPath.row] {
-
-            // 그룹 데이터를 선택한 데이터로 설정
-            self.selectedGroupData = selectedGroup
-
-            // 화면 업데이트
-            sessionStartMidView.setupGroupData(selectedGroup)
+            handleSelectedGroupData(selectedGroup)
         }
     }
 }
