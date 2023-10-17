@@ -13,8 +13,10 @@ import SnapKit
 final class SelectAddressViewController: UIViewController {
 
     let selectAddressView = SelectAddressView()
-
     private var isKeyboardActive = false
+    var addressSelectionHandler: ((AddressDTO) -> Void)?
+    var addressDTO: AddressDTO?
+
     private var searchCompleter: MKLocalSearchCompleter?
     private var completerResults: [MKLocalSearchCompletion]?
     private var places: MKMapItem? {
@@ -87,6 +89,10 @@ final class SelectAddressViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         searchCompleter = nil
+    }
+
+    deinit {
+        if let addressDTO = addressDTO { addressSelectionHandler?(addressDTO) }
     }
 }
 
@@ -202,7 +208,7 @@ extension SelectAddressViewController {
     }
 
     private func getCoordinates(for address: String, completion: @escaping (Result<(Double, Double), Error>) -> Void) {
-        if address == "" { return }
+        guard !address.isEmpty else { return }
 
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address) { (placemarks, error) in
@@ -224,19 +230,6 @@ extension SelectAddressViewController {
                 completion(.failure(noLocationError))
             }
         }
-    }
-
-    private func removeCountryAndPostalCode(from subtitle: String) -> String {
-        var modifiedSubtitle = subtitle
-        modifiedSubtitle = modifiedSubtitle.replacingOccurrences(of: "대한민국", with: "")
-        if let range = modifiedSubtitle.range(of: ", \\d{5}", options: .regularExpression) {
-            modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
-        }
-        if let range = modifiedSubtitle.range(of: "\\d{5}", options: .regularExpression) {
-            modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
-        }
-
-        return modifiedSubtitle.trimmingCharacters(in: .whitespaces)
     }
 }
 
@@ -299,7 +292,7 @@ extension SelectAddressViewController: UITableViewDelegate {
         if let selectedSuggestion = completerResults?[indexPath.row] {
             // Extract information from the selected cell
             let title = selectedSuggestion.title
-            let subtitle = removeCountryAndPostalCode(from: selectedSuggestion.subtitle)
+            let subtitle = String.removeCountryAndPostalCode(from: selectedSuggestion.subtitle)
             guard let text = selectAddressView.headerTitleLabel.text else { return }
             let pointName = text.components(separatedBy: " ").first
 
@@ -317,6 +310,12 @@ extension SelectAddressViewController: UITableViewDelegate {
                     let detailViewController = SelectDetailPointMapViewController(
                         selectAddressModel: selectAddressModel
                     )
+
+                    detailViewController.addressSelectionHandler = { [weak self] addressDTO in
+                        print("selectAddress Handler 내부")
+                        print(addressDTO)
+                        self?.addressDTO = addressDTO
+                    }
 
                     detailViewController.title = "상세 위치 설정"
                     self.navigationItem.backBarButtonItem = UIBarButtonItem(
@@ -336,11 +335,10 @@ extension SelectAddressViewController: UITableViewDelegate {
 extension SelectAddressViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let results = completerResults, !results.isEmpty {
-            return results.count
-        } else {
+        guard let results = completerResults, !results.isEmpty else {
             return 1
         }
+        return results.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -354,7 +352,7 @@ extension SelectAddressViewController: UITableViewDataSource {
 
             if let suggestion = completerResults?[indexPath.row] {
                 cell.buildingNameLabel.text = suggestion.title
-                cell.detailAddressLabel.text = removeCountryAndPostalCode(from: suggestion.subtitle)
+                cell.detailAddressLabel.text = String.removeCountryAndPostalCode(from: suggestion.subtitle)
             }
             return cell
         } else { // 검색 결과가 없는 경우
