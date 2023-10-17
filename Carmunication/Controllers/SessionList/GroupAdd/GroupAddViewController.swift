@@ -175,13 +175,13 @@ extension GroupAddViewController {
         for element in pointsDataModel {
             let pointName = returnPointName(element.pointSequence ?? 0)
 
-            if let arrivalTime = element.pointArrivalTime {
+            if element.pointArrivalTime == nil {
                 showAlert(title: "시간을 설정하지 않았어요!", message: "\(pointName)의 시간을 입력해주세요!")
                 shouldPopViewController = false
                 return false
             }
 
-            if let address = element.pointName {
+            if element.pointName == nil {
                 showAlert(title: "주소를 설정하지 않았어요!", message: "\(pointName)의 주소를 설정해주세요!")
                 shouldPopViewController = false
                 return false
