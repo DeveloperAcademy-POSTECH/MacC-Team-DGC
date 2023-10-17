@@ -269,12 +269,41 @@ extension GroupAddViewController {
 //                shouldPopViewController = false
 //                return
 //            }
-            shouldPopViewController = true
-
         }
 
         // TODO: 시간 체크
+        for (index, element) in pointsDataModel.enumerated() {
+            if index == 0 { continue }
 
+            let pointName = {
+                if index == 0 {
+                    return "출발지"
+                } else if index == self.pointsDataModel.count - 1 {
+                    return "도착지"
+                } else {
+                    return "경유지\(index)"
+                }
+            }()
+            let beforeTime = pointsDataModel[index - 1].pointArrivalTime?.timeIntervalSince1970 ?? 0
+            let currentTime = element.pointArrivalTime?.timeIntervalSince1970 ?? 0
+
+            if beforeTime >= currentTime {
+                showAlert(
+                    title: "시간을 다시 설정해주세요!",
+                    message:
+                        """
+                        \(pointName)의 도착시간이
+                        이전 경유지의 도착시간보다
+                        빠르게 설정되어 있습니다.
+                        다시 설정해주세요!
+                        """
+                )
+                shouldPopViewController = false
+                return
+            }
+        }
+
+        shouldPopViewController = true
     }
 }
 
