@@ -54,7 +54,7 @@ final class GroupAddTableViewCell: UITableViewCell {
         button.layer.cornerRadius = 8
         button.layer.masksToBounds = true
         button.setTitleColor(UIColor.black, for: .normal)
-        button.setTitle("00:00 AM", for: .normal)
+        button.setTitle("오후 12:00 ", for: .normal)
         button.isSpringLoaded = true
 
         return button

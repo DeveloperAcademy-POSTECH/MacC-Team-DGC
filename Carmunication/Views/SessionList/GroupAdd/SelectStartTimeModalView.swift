@@ -37,7 +37,7 @@ final class SelectStartTimeModalView: UIView {
         return button
     }()
 
-    private let timePicker: UIDatePicker = {
+    let timePicker: UIDatePicker = {
         let picker = UIDatePicker()
         picker.datePickerMode = .time
         picker.preferredDatePickerStyle = .wheels
