@@ -46,7 +46,7 @@ final class FriendDetailView: UIView {
     // MARK: - 친구 닉네임
     lazy var friendNickname: UILabel = {
         let nicknameLabel = UILabel()
-        nicknameLabel.text = "홍길동"
+        nicknameLabel.text = "..."
         nicknameLabel.font = UIFont.carmuFont.display1
         nicknameLabel.textColor = UIColor.semantic.textSecondary
         return nicknameLabel

@@ -10,7 +10,7 @@ import UIKit
 final class FriendDetailViewController: UIViewController {
 
     // 친구 리스트 화면에서 받아올 친구 정보
-    var friendName = ""
+    var friendName: String?
     var friendImage: UIImage?
 
     let dummyImage = ["coffee", "box", "shoppingBag", "letter"]
@@ -43,7 +43,9 @@ final class FriendDetailViewController: UIViewController {
         friendDetailView.giftCollectionView.dataSource = self
 
         // 이전 친구 리스트 화면에서 전달받은 닉네임과 이미지를 반영
-        friendDetailView.friendNickname.text = friendName
+        if let friendName = friendName {
+            friendDetailView.friendNickname.text = friendName
+        }
         if let friendImage = friendImage {
             friendDetailView.friendImage.image = friendImage
         }
