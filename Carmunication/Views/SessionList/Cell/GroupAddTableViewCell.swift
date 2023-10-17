@@ -13,18 +13,43 @@ final class GroupAddTableViewCell: UITableViewCell {
 
     private let index: CGFloat
     private let cellCount: CGFloat
-
-    // Add 셀 레이아웃
-    private let cellBackground = UIView()
-    private let stopPointImage = UIImageView(image: UIImage(named: "AddViewSidebarDot"))
     lazy var gradiantLine = GradientLineView(
         index: index,
         cellCount: cellCount,
         cornerRadius: 6.0
     )
 
-    // Detail 셀 내부 레이블
-    let pointNameLabel = UILabel()
+    // Add 셀 레이아웃
+    private let cellBackground: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.cornerRadius = 20
+        view.layer.shadowOpacity = 0.2
+        view.layer.shadowColor = UIColor.theme.blue6?.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        view.layer.shadowRadius = 6
+        view.layer.masksToBounds = false
+
+        return view
+    }()
+
+    private let stopPointImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "AddViewSidebarDot")
+        imageView.contentMode = .scaleAspectFill
+
+        return imageView
+    }()
+
+    let pointNameLabel: UILabel = {
+        let label = UILabel()
+        label.text = "출발지"
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.textPrimary
+
+        return label
+    }()
+
     let addressSearchButton = {
         let button = UIButton(type: .system)
         button.setTitle("     주소를 검색하세요", for: .normal)
@@ -46,7 +71,15 @@ final class GroupAddTableViewCell: UITableViewCell {
         return button
     }()
 
-    let timeLabel = UILabel()
+    let timeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "도착시간"
+        label.font = UIFont.carmuFont.body1
+        label.textColor = UIColor.theme.blue8
+
+        return label
+    }()
+    
     let startTime: UIButton = {
         let button = UIButton(type: .system)
         button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.backgroundTouchable!), for: .normal)
@@ -61,11 +94,19 @@ final class GroupAddTableViewCell: UITableViewCell {
     }()
 
     // 탑승 크루 이미지 스택 변수
-    private let boardingCrewLabel = UILabel()
+    let boardingCrewLabel: UILabel = {
+        let label = UILabel()
+        label.text = "탑승자"
+        label.font = UIFont.carmuFont.body1
+        label.textColor = UIColor.theme.blue8
+
+        return label
+    }()
+
     private let crewImageBackground = UIView()
     let crewImage = UIStackView()
     let crewImageButton = UIButton()
-    var crewCount: Int = 0 {
+    var crewCount: Int = 2 {
         didSet {
             updateCrewImages()
         }
@@ -115,19 +156,8 @@ final class GroupAddTableViewCell: UITableViewCell {
     }
 
     private func setupUI() {
-
-        cellBackground.backgroundColor = UIColor.semantic.backgroundDefault
-        cellBackground.layer.cornerRadius = 20
-        cellBackground.layer.shadowOpacity = 0.2
-        cellBackground.layer.shadowColor = UIColor.theme.blue6?.cgColor
-        cellBackground.layer.shadowOffset = CGSize(width: 0, height: 0)
-        cellBackground.layer.shadowRadius = 6
-        cellBackground.layer.masksToBounds = false
-
-        stopPointImage.contentMode = .scaleAspectFill
         gradiantLine.draw(CGRect(x: 0, y: 0, width: 12, height: 114))
 
-        // Crew Image 스택 관련 설정
         crewImage.axis = .horizontal
         crewImage.alignment = .center
         crewImage.distribution = .equalCentering
@@ -135,19 +165,6 @@ final class GroupAddTableViewCell: UITableViewCell {
         crewImageBackground.layer.cornerRadius = 18
         crewImageBackground.backgroundColor = UIColor.semantic.backgroundTouchable
 
-        pointNameLabel.text = "출발지"
-        timeLabel.text = "도착시간"
-        boardingCrewLabel.text = "탑승자"
-
-        // Font, TextColor 설정
-        pointNameLabel.font = UIFont.carmuFont.subhead3
-        pointNameLabel.textColor = UIColor.semantic.textPrimary
-        boardingCrewLabel.font = UIFont.carmuFont.body1
-        boardingCrewLabel.textColor = UIColor.theme.blue8
-        timeLabel.font = UIFont.carmuFont.body1
-        timeLabel.textColor = UIColor.theme.blue8
-
-        // 뷰 추가
         contentView.addSubview(cellBackground)
         contentView.addSubview(gradiantLine)
         contentView.addSubview(stopPointImage)
@@ -250,5 +267,4 @@ struct GroupAddTableViewCellPreview: PreviewProvider {
     static var previews: some View {
         GroupAddViewControllerRepresentable()
     }
-
 }

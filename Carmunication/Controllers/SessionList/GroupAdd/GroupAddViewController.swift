@@ -274,6 +274,11 @@ extension GroupAddViewController: UITableViewDataSource {
             cell.pointNameLabel.text = "경유지 \(indexPath.row)"
         }
 
+        if indexPath.row == pointsDataModel.count - 1 {
+            cell.crewImageButton.isHidden = true
+            cell.crewImage.isHidden = true
+        }
+
         if let pointName = pointsDataModel[indexPath.row].pointName {
             cell.addressSearchButton.setTitle("    \(pointName)", for: .normal)
         }
