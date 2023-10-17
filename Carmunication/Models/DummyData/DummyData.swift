@@ -12,70 +12,90 @@ struct DummyData {
         User(
             id: "0",
             nickname: "김배찌",
-            email: "beerandsoju@gmail.com"
+            email: "beerandsoju@gmail.com",
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "1",
             nickname: "김테드",
-            email: "vandijk@gmail.com"
+            email: "vandijk@gmail.com",
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "2",
             nickname: "김레이",
-            email: "pokemon767@gmail.com"
+            email: "pokemon767@gmail.com",
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "3",
             nickname: "회장님",
-            email: "unisushi@gmail.com"
+            email: "unisushi@gmail.com",
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "4",
             nickname: "권지수",
-            email: "sulJji@gmail.com"
+            email: "sulJji@gmail.com",
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "5",
             nickname: "젤리빈",
-            email: "sofa@gmail.com"
+            email: "sofa@gmail.com",
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "6",
             nickname: "제이슨",
-            email: "jsonparsing@gmail.com"
+            email: "jsonparsing@gmail.com",
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "7",
             nickname: "이안",
-            email: "tallPerson@gmail.com"
+            email: "tallPerson@gmail.com",
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "8",
             nickname: "좋아요좋아요",
-            email: "likelike@gmail.com"
+            email: "likelike@gmail.com",
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "9",
             nickname: "중소기업",
-            email: "jungso@gmail.com"
+            email: "jungso@gmail.com",
+            imageURL: "",
+            friends: []
         )
     ]
 
     static var friendships: [Friendship] = [
         Friendship(
-            friendshipId: 0, senderId: "rei", receiverId: "ted", status: true
+            friendshipId: "0", senderId: "rei", receiverId: "ted", status: true
         ),
         Friendship(
-            friendshipId: 1, senderId: "rei", receiverId: "uni", status: true
+            friendshipId: "1", senderId: "rei", receiverId: "uni", status: true
         ),
         Friendship(
-            friendshipId: 2, senderId: "rei", receiverId: "bazzi", status: true
+            friendshipId: "2", senderId: "rei", receiverId: "bazzi", status: true
         ),
         Friendship(
-            friendshipId: 3, senderId: "rei", receiverId: "jen", status: true
+            friendshipId: "3", senderId: "rei", receiverId: "jen", status: true
         ),
         Friendship(
-            friendshipId: 4, senderId: "bazzi", receiverId: "jellybean", status: true
+            friendshipId: "4", senderId: "bazzi", receiverId: "jellybean", status: true
         )
     ]
 
