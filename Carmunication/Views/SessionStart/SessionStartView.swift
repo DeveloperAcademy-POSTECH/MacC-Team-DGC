@@ -32,6 +32,7 @@ final class SessionStartView: UIView {
         btn.setTitle("따로가기", for: .normal)
         btn.backgroundColor = UIColor.semantic.backgroundSecond
         btn.titleLabel?.font = UIFont.carmuFont.headline2
+        btn.setTitleColor(UIColor.theme.blue3, for: .normal)
         return btn
     }()
     let participateButton: UIButton = {
@@ -39,6 +40,7 @@ final class SessionStartView: UIView {
         btn.setTitle("참여하기", for: .normal)
         btn.backgroundColor = UIColor.semantic.backgroundSecond
         btn.titleLabel?.font = UIFont.carmuFont.headline2
+        btn.setTitleColor(UIColor.theme.blue3, for: .normal)
         return btn
     }()
 
