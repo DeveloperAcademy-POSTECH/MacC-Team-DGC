@@ -34,10 +34,16 @@ final class ModalQueueViewController: UIViewController {
 extension ModalQueueViewController {
 
     @objc private func goToMapView() {
-        let sessionMapViewController = SessionMapViewController()
-        // SessionMapViewController를 full-screen 모달로 표시
-        sessionMapViewController.modalPresentationStyle = .fullScreen
-        self.present(sessionMapViewController, animated: true, completion: nil)
+        guard let previousViewController = self.presentingViewController else {
+            return
+        }
+
+        self.dismiss(animated: true) {
+            let sessionMapViewController = SessionMapViewController()
+            // SessionMapViewController를 full-screen 모달로 표시
+            sessionMapViewController.modalPresentationStyle = .fullScreen
+            previousViewController.present(sessionMapViewController, animated: true, completion: nil)
+        }
     }
 }
 
