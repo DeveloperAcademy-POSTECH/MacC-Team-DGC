@@ -117,16 +117,16 @@ extension FriendAddViewController {
     // [친구 추가하기] 버튼 눌렀을 때 동작
     @objc private func sendFriendRequest() {
         print("친구 추가하기 버튼 클릭됨")
-        guard let myUid = KeychainItem.currentUserIdentifier else {
+        guard let myUID = KeychainItem.currentUserIdentifier else {
             return
         }
-        guard let friendUid = searchedFriend?.id else {
+        guard let friendUID = searchedFriend?.id else {
             return
         }
-        print("내Uid: \(myUid)")
-        print("친구Uid: \(friendUid)")
+        print("내Uid: \(myUID)")
+        print("친구Uid: \(friendUID)")
 
-        self.addFriendship(myUid: myUid, friendUid: friendUid)
+        self.addFriendship(myUID: myUID, friendUID: friendUID)
     }
 
     // 키보드가 나타날 때 호출되는 메서드
@@ -180,8 +180,8 @@ extension FriendAddViewController {
 
     // MARK: - DB의 friendship에 새로운 친구 관계를 추가하는 메서드
     private func addFriendship(
-        myUid: String,
-        friendUid: String
+        myUID: String,
+        friendUID: String
     ) {
         guard let key = Database.database().reference().child("friendship").childByAutoId().key else {
             return
@@ -189,14 +189,14 @@ extension FriendAddViewController {
         print("새로운 Friendship Key: \(key)")
         // DB의 friendship에 새로 추가할 친구 관계 객체
         let newFriendship = Friendship(
-            friendshipId: key,
-            senderId: myUid,
-            receiverId: friendUid,
+            friendshipID: key,
+            senderID: myUID,
+            receiverID: friendUID,
             status: true // TODO: - 이후 친구 수락 시 true로 바뀌게끔 수정 필요
         )
         // 사용자와 친구 DB의 friends에 새로운 friendship의 key를 추가해서 업데이트
-        addNewValueToUserFriends(uid: myUid, newValue: key)
-        addNewValueToUserFriends(uid: friendUid, newValue: key)
+        addNewValueToUserFriends(uid: myUID, newValue: key)
+        addNewValueToUserFriends(uid: friendUID, newValue: key)
 
         // 호환되는 타입으로 캐스팅 후 DB에 Friendship 추가
         do {

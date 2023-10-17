@@ -50,13 +50,13 @@ final class FriendListViewController: UIViewController {
                 return
             }
             // 친구 관계 id값으로 친구의 uid를 받아온다.
-            for friendshipId in friendshipList {
-                self.getFriendUid(friendshipID: friendshipId) { friendId in
-                    guard let friendId else {
+            for friendshipID in friendshipList {
+                self.getFriendUid(friendshipID: friendshipID) { friendID in
+                    guard let friendID else {
                         return
                     }
                     // 친구의 uid값으로 친구의 User객체를 불러온다.
-                    self.getFriendUser(friendId: friendId) { friend in
+                    self.getFriendUser(friendID: friendID) { friend in
                         guard let friend else {
                             return
                         }
@@ -114,25 +114,25 @@ extension FriendListViewController {
             guard let snapshotValue = snapshot?.value as? [String: Any] else {
                 return
             }
-            guard let currentUserId = KeychainItem.currentUserIdentifier else {
+            guard let currentUserID = KeychainItem.currentUserIdentifier else {
                 return
             }
             // sender와 receiver 중 현재 사용자에 해당하지 않는 uid를 뽑는다.
-            var friendId: String = ""
-            let senderValue = snapshotValue["senderId"] as? String ?? ""
-            let receiverValue = snapshotValue["receiverId"] as? String ?? ""
-            if currentUserId != senderValue {
-                friendId = senderValue
+            var friendID: String = ""
+            let senderValue = snapshotValue["senderID"] as? String ?? ""
+            let receiverValue = snapshotValue["receiverID"] as? String ?? ""
+            if currentUserID != senderValue {
+                friendID = senderValue
             } else {
-                friendId = receiverValue
+                friendID = receiverValue
             }
-            completion(friendId)
+            completion(friendID)
         }
     }
 
     // MARK: - 친구의 uid로 DB에서 친구 데이터를 불러오기
-    private func getFriendUser(friendId: String, completion: @escaping (User?) -> Void) {
-        Database.database().reference().child("users/\(friendId)").getData { error, snapshot in
+    private func getFriendUser(friendID: String, completion: @escaping (User?) -> Void) {
+        Database.database().reference().child("users/\(friendID)").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
