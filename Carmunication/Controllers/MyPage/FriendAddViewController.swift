@@ -116,7 +116,6 @@ extension FriendAddViewController {
 
     // [친구 추가하기] 버튼 눌렀을 때 동작
     @objc private func sendFriendRequest() {
-        // TODO: - 친구 추가 구현 필요
         print("친구 추가하기 버튼 클릭됨")
         guard let myUid = KeychainItem.currentUserIdentifier else {
             return
@@ -126,30 +125,8 @@ extension FriendAddViewController {
         }
         print("내Uid: \(myUid)")
         print("친구Uid: \(friendUid)")
-        var myFriendshipList: [String] = []
-        var friendFriendshipList: [String] = []
 
-        self.readUserFriendshipList(uid: myUid) { myFriends in
-            guard let myFriends = myFriends else {
-                return
-            }
-            myFriendshipList = myFriends
-            print("내 친구 목록: \(myFriendshipList)")
-        }
-
-        self.readUserFriendshipList(uid: friendUid) { friendFriends in
-            guard let friendFriends = friendFriends else {
-                return
-            }
-            friendFriendshipList = friendFriends
-            print("친구의 친구 목록: \(friendFriendshipList)")
-        }
-        self.addFriendship(
-            myUid: myUid,
-            friendUid: friendUid,
-            myFriendshipList: myFriendshipList,
-            friendFriendshipList: friendFriendshipList
-        )
+        self.addFriendship(myUid: myUid, friendUid: friendUid)
     }
 
     // 키보드가 나타날 때 호출되는 메서드
@@ -201,14 +178,10 @@ extension FriendAddViewController {
         }
     }
 
-    // MARK: - 친구 요청을 보내는 메서드(유저의 친구 목록에 추가)
-
     // MARK: - DB의 friendship에 새로운 친구 관계를 추가하는 메서드
     private func addFriendship(
         myUid: String,
-        friendUid: String,
-        myFriendshipList: [String],
-        friendFriendshipList: [String]
+        friendUid: String
     ) {
         guard let key = Database.database().reference().child("friendship").childByAutoId().key else {
             return
@@ -222,22 +195,16 @@ extension FriendAddViewController {
             status: true // TODO: - 이후 친구 수락 시 true로 바뀌게끔 수정 필요
         )
         // 사용자와 친구 DB의 friends에 새로운 friendship의 key를 추가해서 업데이트
-        var newMyFriendshipList = myFriendshipList
-        var newFriendFriendshipList = friendFriendshipList
-        newMyFriendshipList.append(key)
-        newFriendFriendshipList.append(key)
-        
-        print("업데이트된 내 친구 목록: \(myFriendshipList)")
-        print("업데이트된 친구의 친구 목록: \(friendFriendshipList)")
-        // 호환되는 타입으로 캐스팅 후 DB 반영
+        addNewValueToUserFriends(uid: myUid, newValue: key)
+        addNewValueToUserFriends(uid: friendUid, newValue: key)
+
+        // 호환되는 타입으로 캐스팅 후 DB에 Friendship 추가
         do {
             let data = try JSONEncoder().encode(newFriendship)
             let json = try JSONSerialization.jsonObject(with: data)
 
             let childUpdates: [String: Any] = [
-                "friendship/\(key)": json,
-                "users/\(myUid)/friends": newMyFriendshipList as NSArray,
-                "users/\(friendUid)/friends": newFriendFriendshipList as NSArray
+                "friendship/\(key)": json
             ]
             Database.database().reference().updateChildValues(childUpdates)
         } catch {
@@ -245,20 +212,26 @@ extension FriendAddViewController {
         }
     }
 
-    // MARK: - DB에서 유저의 friendID 목록을 불러오는 메서드
-    private func readUserFriendshipList(uid: String, completion: @escaping ([String]?) -> Void) {
-        Database.database().reference().child("\(uid)/friends").getData { error, snapshot in
+    // MARK: - DB에서 유저의 friends 목록에 새로운 friendshipId를 추가하는 메서드
+    private func addNewValueToUserFriends(uid: String, newValue: String) {
+        let databaseRef = Database.database().reference().child("users/\(uid)/friends")
+        print("다음 경로에 추가합니다!!! \(databaseRef)")
+        databaseRef.getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
-                completion(nil)
                 return
             }
-            let friends = snapshot?.value as? [String]
-            completion(friends)
+            if var friends = snapshot?.value as? [String] {
+                friends.append(newValue)
+                databaseRef.setValue(friends as NSArray)
+            } else {
+                // 아직 친구가 없는 경우 배열을 새로 만들어준다.
+                var newFriends = []
+                newFriends.append(newValue)
+                databaseRef.setValue(newFriends as NSArray)
+            }
         }
     }
-
-    // MARK: - 해당 유저 DB의 friends키에 friendshipId를 추가하는 메서드
 }
 
 // MARK: - Firebase Storage 관련 메서드
