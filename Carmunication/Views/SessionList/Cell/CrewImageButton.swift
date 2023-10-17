@@ -8,7 +8,7 @@
 import UIKit
 
 final class CrewImageButton: UIButton {
-    // Initialize the stack view for crew images
+
     private let crewImagesStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -18,7 +18,6 @@ final class CrewImageButton: UIButton {
         return stackView
     }()
 
-    // Initialize crew image views
     let crewImage1 = UIImageView()
     let crewImage2 = UIImageView()
     let crewImage3 = UIImageView()
@@ -26,29 +25,22 @@ final class CrewImageButton: UIButton {
     init() {
         super.init(frame: .zero)
 
-        // Add crew image views to the stack view
         crewImagesStackView.addArrangedSubview(crewImage1)
         crewImagesStackView.addArrangedSubview(crewImage2)
         crewImagesStackView.addArrangedSubview(crewImage3)
-
-        // Set the initial crew image to CrewImagePlus
         crewImage1.image = UIImage(named: "CrewPlusImage")
         crewImage2.image = UIImage(named: "CrewPlusImage")
         crewImage3.image = UIImage(named: "CrewPlusImage")
-
-        // Set image view dimensions
         crewImage1.contentMode = .scaleAspectFit
         crewImage2.contentMode = .scaleAspectFit
         crewImage3.contentMode = .scaleAspectFit
 
         addSubview(crewImagesStackView)
 
-        // Apply button styles
         layer.cornerRadius = 18
         layer.masksToBounds = true
         layer.backgroundColor = UIColor.semantic.backgroundTouchable?.cgColor
 
-        // Use SnapKit to set constraints
         crewImagesStackView.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
             make.leading.equalToSuperview().offset(8) // 1번 이미지
