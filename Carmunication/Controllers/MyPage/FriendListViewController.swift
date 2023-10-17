@@ -241,16 +241,23 @@ extension FriendListViewController: UITableViewDelegate {
         let friendDetailVC = FriendDetailViewController()
         friendDetailVC.friendName = friendList[indexPath.section].nickname
         let imageURL = friendList[indexPath.section].imageURL
-        self.loadProfileImage(urlString: imageURL) { friendImage in
-            if let friendImage = friendImage {
-                friendDetailVC.friendImage = friendImage
-                self.navigationController?.pushViewController(friendDetailVC, animated: true)
-                tableView.deselectRow(at: indexPath, animated: true)
-            } else {
-                friendDetailVC.friendImage = UIImage(named: "profile")
-                self.navigationController?.pushViewController(friendDetailVC, animated: true)
-                tableView.deselectRow(at: indexPath, animated: true)
+        if imageURL != "" {
+            loadProfileImage(urlString: imageURL) { friendImage in
+                if let friendImage = friendImage {
+                    friendDetailVC.friendImage = friendImage
+                    self.navigationController?.pushViewController(friendDetailVC, animated: true)
+                    tableView.deselectRow(at: indexPath, animated: true)
+                } else {
+                    friendDetailVC.friendImage = UIImage(named: "profile")
+                    self.navigationController?.pushViewController(friendDetailVC, animated: true)
+                    tableView.deselectRow(at: indexPath, animated: true)
+                }
             }
+        } else {
+            friendDetailVC.friendImage = UIImage(named: "profile")
+            self.navigationController?.pushViewController(friendDetailVC, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+            
         }
     }
 }
