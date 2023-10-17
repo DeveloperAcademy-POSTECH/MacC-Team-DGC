@@ -49,19 +49,14 @@ final class GroupAddViewController: UIViewController {
     }
 }
 
-// MARK: - tableView protocol Method
-extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
+// MARK: - UITableViewDataSource Method
+extension GroupAddViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pointsDataModel.count
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 135
-    }
-
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cell = GroupAddTableViewCell(
             index: CGFloat(indexPath.row),
             cellCount: CGFloat(pointsDataModel.count)
@@ -74,7 +69,7 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
             action: #selector(stopoverRemoveButtonTapped),
             for: .touchUpInside
         )
-        print(pointsDataModel.count)
+
         if indexPath.row == 0 || indexPath.row == pointsDataModel.count - 1 {
             cell.stopoverPointRemoveButton.isEnabled = false
             cell.stopoverPointRemoveButton.isHidden = true
@@ -92,12 +87,18 @@ extension GroupAddViewController: UITableViewDataSource, UITableViewDelegate {
             cell.startTime.setTitle(formattedTime, for: .normal)
         }
 
-        print(pointsDataModel)
         return cell
+    }
+}
+
+// MARK: - UITableViewDelegate Method
+extension GroupAddViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 135
     }
 
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        // 특정 조건을 만족하는 경우에만 셀을 선택 가능하도록 설정
         return false
     }
 }
@@ -230,33 +231,31 @@ extension GroupAddViewController {
 // MARK: - Custom Method
 extension GroupAddViewController {
 
-    /**
-     그룹 추가에 빈 값 또는 유횾하지 않은 시간(경유지1이 경유지2보다 시간이 앞선경우)을 체크해주는 메서드
-     */
     private func checkDataEffectiveness() {
+        if emptyDataCheck() {
+            timeEffectivenessCheck()
+        }
+        shouldPopViewController = true
+    }
+
+    // 빈 값을 체크해주는 메서드
+    private func emptyDataCheck() -> Bool {
         // TODO: 빈 값 체크
         for element in pointsDataModel {
-            let pointName = {
-                if element.pointSequence == 0 {
-                    return "출발지"
-                } else if element.pointSequence == self.pointsDataModel.count - 1 {
-                    return "도착지"
-                } else {
-                    return "경유지\(Int(element.pointSequence ?? 1))"
-                }
-            }()
+            let pointName = returnPointName(element.pointSequence ?? 0)
 
-            if element.pointArrivalTime == nil {
+            guard let arrivalTime = element.pointArrivalTime else {
                 showAlert(title: "시간을 설정하지 않았어요!", message: "\(pointName)의 시간을 입력해주세요!")
                 shouldPopViewController = false
-                return
+                return false
             }
-            if element.pointName == nil {
+
+            guard let address = element.pointName else {
                 showAlert(title: "주소를 설정하지 않았어요!", message: "\(pointName)의 주소를 설정해주세요!")
                 shouldPopViewController = false
-                return
+                return false
             }
-//            if element.boardingCrew == nil {
+//            guard let boardingCrew = element.boardingCrew else {
 //                showAlert(
 //                    title: "탑승 크루를 선택하지 않았어요!",
 //                    message:
@@ -267,23 +266,18 @@ extension GroupAddViewController {
 //                    """
 //                )
 //                shouldPopViewController = false
-//                return
+//                return false
 //            }
         }
+        return true
+    }
 
-        // TODO: 시간 체크
+    // 시간 유효성을 체크해주는 메서드
+    private func timeEffectivenessCheck() {
         for (index, element) in pointsDataModel.enumerated() {
             if index == 0 { continue }
 
-            let pointName = {
-                if index == 0 {
-                    return "출발지"
-                } else if index == self.pointsDataModel.count - 1 {
-                    return "도착지"
-                } else {
-                    return "경유지\(index)"
-                }
-            }()
+            let pointName = returnPointName(index)
             let beforeTime = pointsDataModel[index - 1].pointArrivalTime?.timeIntervalSince1970 ?? 0
             let currentTime = element.pointArrivalTime?.timeIntervalSince1970 ?? 0
 
@@ -302,11 +296,24 @@ extension GroupAddViewController {
                 return
             }
         }
+    }
 
-        shouldPopViewController = true
+    private func returnPointName(_ index: Int) -> String {
+        let pointName = {
+            if index == 0 {
+                return "출발지"
+            } else if index == self.pointsDataModel.count - 1 {
+                return "도착지"
+            } else {
+                return "경유지\(index)"
+            }
+        }()
+
+        return pointName
     }
 }
 
+// MARK: - UITextFieldDelegate Method
 extension GroupAddViewController: UITextFieldDelegate {
 
     func textField(
@@ -319,7 +326,6 @@ extension GroupAddViewController: UITextFieldDelegate {
 
     // 텍스트 필드에서 리턴 키를 누를 때 호출되는 메서드
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // 키보드를 내립니다.
         textField.resignFirstResponder()
         return true
     }
@@ -350,5 +356,4 @@ struct GroupAddViewControllerPreview: PreviewProvider {
     static var previews: some View {
         GroupAddViewControllerRepresentable()
     }
-
 }
