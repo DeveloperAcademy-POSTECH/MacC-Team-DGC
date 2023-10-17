@@ -208,7 +208,7 @@ extension SelectAddressViewController {
     }
 
     private func getCoordinates(for address: String, completion: @escaping (Result<(Double, Double), Error>) -> Void) {
-        if address == "" { return }
+        guard !address.isEmpty else { return }
 
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address) { (placemarks, error) in
@@ -335,11 +335,10 @@ extension SelectAddressViewController: UITableViewDelegate {
 extension SelectAddressViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let results = completerResults, !results.isEmpty {
-            return results.count
-        } else {
+        guard let results = completerResults, !results.isEmpty else {
             return 1
         }
+        return results.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
