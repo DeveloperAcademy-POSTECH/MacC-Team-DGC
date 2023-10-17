@@ -10,18 +10,13 @@ import UIKit
 
 import SnapKit
 
-/**
- searchCompleter: MKLocalSearchCompleter // 검색을 도와주는 변수
- searchRegion: MKCoordinateRegion // 검색 지역 범위를 결정하는 변수
- completerResults: [MKLocalSearchCompletion] // 검색한 결과를 담는 변수
- places: MKMapItem // tableView에서 선택한 Location의 정보를 담는 변수
- localSearch: MKLocalSearch? // tableView에서 선택한 Location의 정보를 가져오는 변수
- */
 final class SelectAddressViewController: UIViewController {
 
-    private let selectAddressView = SelectAddressView()
-    private let selectAddressModel = SelectAddressModel()
+    let selectAddressView = SelectAddressView()
     private var isKeyboardActive = false
+    var addressSelectionHandler: ((AddressDTO) -> Void)?
+    var addressDTO: AddressDTO?
+
     private var searchCompleter: MKLocalSearchCompleter?
     private var completerResults: [MKLocalSearchCompletion]?
     private var places: MKMapItem? {
@@ -95,6 +90,10 @@ final class SelectAddressViewController: UIViewController {
         super.viewDidDisappear(animated)
         searchCompleter = nil
     }
+
+    deinit {
+        if let addressDTO = addressDTO { addressSelectionHandler?(addressDTO) }
+    }
 }
 
 // MARK: - @objc Method
@@ -147,9 +146,8 @@ extension SelectAddressViewController {
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
-        // 텍스트 필드 내용이 변경될 때마다 호출되는 메서드
         if let searchText = textField.text {
-            if searchText == "" {
+            if searchText.isEmpty {
                 completerResults?.removeAll()
                 selectAddressView.tableViewComponent.reloadData()
             }
@@ -158,21 +156,39 @@ extension SelectAddressViewController {
         }
     }
 
-    @objc private func keyboardWillChange(notification: Notification) {
-        // 키보드 애니메이션을 비활성화하려면 아무것도 하지 않습니다.
-        // 사용자 경험에 따라서 원하는 경우 키보드 애니메이션을 제어할 수 있습니다.
-    }
+    @objc private func keyboardWillChange(notification: Notification) { }
 }
 
 // MARK: - Custom Method
 extension SelectAddressViewController {
 
-    private func search(for suggestedCompletion: MKLocalSearchCompletion) {
+    private func search(
+        for suggestedCompletion: MKLocalSearchCompletion,
+        completion: @escaping (CLLocationCoordinate2D?) -> Void
+    ) {
         let searchRequest = MKLocalSearch.Request(completion: suggestedCompletion)
-        search(using: searchRequest)
+        searchRequest.region = koreaBounds
+        searchRequest.resultTypes = .pointOfInterest
+
+        localSearch = MKLocalSearch(request: searchRequest)
+        localSearch?.start { (response, error) in
+            guard error == nil else {
+                // Handle the error if needed
+                completion(nil)
+                return
+            }
+
+            if let coordinate = response?.mapItems.first?.placemark.coordinate {
+                // Return the coordinate via the completion handler
+                completion(coordinate)
+            } else {
+                // Handle the case when no coordinate is found
+                completion(nil)
+            }
+        }
     }
 
-    private func search(using searchRequest: MKLocalSearch.Request) {
+    private func search(using searchRequest: MKLocalSearch.Request) -> CLLocationCoordinate2D {
         // 검색 지역 설정
         searchRequest.region = self.koreaBounds
 
@@ -187,13 +203,12 @@ extension SelectAddressViewController {
             }
             // 검색한 결과 : reponse의 mapItems 값을 가져온다.
             self.places = response?.mapItems[0]
-
-            print(places?.placemark.coordinate as Any) // 위경도 가져옴
         }
+        return places?.placemark.coordinate ?? CLLocationCoordinate2D()
     }
 
     private func getCoordinates(for address: String, completion: @escaping (Result<(Double, Double), Error>) -> Void) {
-        if address == "" { return }
+        guard !address.isEmpty else { return }
 
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(address) { (placemarks, error) in
@@ -215,23 +230,6 @@ extension SelectAddressViewController {
                 completion(.failure(noLocationError))
             }
         }
-    }
-
-    private func removeCountryAndPostalCode(from subtitle: String) -> String {
-        var modifiedSubtitle = subtitle
-
-        modifiedSubtitle = modifiedSubtitle.replacingOccurrences(of: "대한민국", with: "")
-
-        // ", #####" 패턴을 제거
-        if let range = modifiedSubtitle.range(of: ", \\d{5}", options: .regularExpression) {
-            modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
-        }
-
-        if let range = modifiedSubtitle.range(of: "\\d{5}", options: .regularExpression) {
-            modifiedSubtitle = modifiedSubtitle.replacingCharacters(in: range, with: "")
-        }
-
-        return modifiedSubtitle.trimmingCharacters(in: .whitespaces)
     }
 }
 
@@ -290,8 +288,45 @@ extension SelectAddressViewController: UITableViewDelegate {
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
-        if let suggestion = completerResults?[indexPath.row] {
-            search(for: suggestion)
+
+        if let selectedSuggestion = completerResults?[indexPath.row] {
+            // Extract information from the selected cell
+            let title = selectedSuggestion.title
+            let subtitle = String.removeCountryAndPostalCode(from: selectedSuggestion.subtitle)
+            guard let text = selectAddressView.headerTitleLabel.text else { return }
+            let pointName = text.components(separatedBy: " ").first
+
+            // Search for the coordinates using the selected suggestion
+            search(for: selectedSuggestion) { [weak self] coordinate in
+                guard let self = self else { return }
+                if let coordinate = coordinate {
+                    let selectAddressModel = SelectAddressModel(
+                        pointName: pointName,
+                        buildingName: title,
+                        detailAddress: subtitle,
+                        coordinate: coordinate
+                    )
+
+                    let detailViewController = SelectDetailPointMapViewController(
+                        selectAddressModel: selectAddressModel
+                    )
+
+                    detailViewController.addressSelectionHandler = { [weak self] addressDTO in
+                        print("selectAddress Handler 내부")
+                        print(addressDTO)
+                        self?.addressDTO = addressDTO
+                    }
+
+                    detailViewController.title = "상세 위치 설정"
+                    self.navigationItem.backBarButtonItem = UIBarButtonItem(
+                        title: "",
+                        style: .plain,
+                        target: nil,
+                        action: nil
+                    )
+                    self.navigationController?.pushViewController(detailViewController, animated: true)
+                }
+            }
         }
     }
 }
@@ -300,11 +335,10 @@ extension SelectAddressViewController: UITableViewDelegate {
 extension SelectAddressViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let results = completerResults, !results.isEmpty {
-            return results.count
-        } else {
+        guard let results = completerResults, !results.isEmpty else {
             return 1
         }
+        return results.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -318,7 +352,7 @@ extension SelectAddressViewController: UITableViewDataSource {
 
             if let suggestion = completerResults?[indexPath.row] {
                 cell.buildingNameLabel.text = suggestion.title
-                cell.detailAddressLabel.text = removeCountryAndPostalCode(from: suggestion.subtitle)
+                cell.detailAddressLabel.text = String.removeCountryAndPostalCode(from: suggestion.subtitle)
             }
             return cell
         } else { // 검색 결과가 없는 경우
@@ -353,5 +387,4 @@ struct SelectAddressViewControllerPreview: PreviewProvider {
     static var previews: some View {
         SelectAddressViewControllerRepresentable()
     }
-
 }

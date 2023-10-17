@@ -29,4 +29,27 @@ extension Date {
 
         return formattedDate
     }
+
+    static func formatTime(_ time: Date?) -> String {
+
+        guard let time = time else {
+            return ""
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+
+        return dateFormatter.string(from: time)
+    }
+
+    static func formattedDate(from date: Date, dateFormat: String) -> String {
+        // 원하는 날짜를 표시할 DateFormatter 생성
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat  // 원하는 날짜 형식으로 설정
+        dateFormatter.locale = Locale(identifier: "ko_KR")  // 한글 요일로 설정
+
+        // 지정된 날짜를 원하는 형식으로 변환
+        let formattedDate = dateFormatter.string(from: date)
+
+        return formattedDate
+    }
 }
