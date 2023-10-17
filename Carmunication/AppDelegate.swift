@@ -109,6 +109,13 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         // Print full message.
         print(userInfo)
     }
+
+    // APNS (Apple Push Notification Service) 등록을 성공적으로 완료하면 호출되는 메서드
+    func application(_ application: UIApplication,
+                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        print("APNS token: \(deviceToken)")
+        Messaging.messaging().apnsToken = deviceToken
+    }
 }
 
 extension AppDelegate: MessagingDelegate {
@@ -126,4 +133,24 @@ extension AppDelegate: MessagingDelegate {
         UserDefaults.standard.set(fcmToken, forKey: "FCMToken")
         UserDefaults.standard.synchronize() // UserDefaults를 즉시 저장
     }
+
+    // MARK: - 현재는 사용하지 않으나, 추후에 로그아웃과 같은 예상치 못한 상황에서 필요할 수도 있기 때문에 주석으로 처리해놓았습니다.
+//    // Firebase FCM 토큰 저장
+//    func saveFCMToken() {
+//        print("Save()")
+//        if let fcmToken = Messaging.messaging().fcmToken {
+//            UserDefaults.standard.set(fcmToken, forKey: "FCMToken")
+//            UserDefaults.standard.synchronize()
+//            print("FCMToken ", fcmToken)
+//        }
+//    }
+//
+//    // Firebase FCM 토큰 불러오기
+//    func loadFCMToken() {
+//        print("load")
+//        if let savedToken = UserDefaults.standard.string(forKey: "FCMToken") {
+//            // 저장된 토큰을 사용하여 필요한 작업 수행
+//            print("Loaded FCM token: \(savedToken)")
+//        }
+//    }
 }

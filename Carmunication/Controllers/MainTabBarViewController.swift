@@ -27,6 +27,7 @@ final class MainTabBarViewController: UITabBarController {
 
 extension MainTabBarViewController {
 
+    // 디바이스 토큰값이 업데이트가 될 수도 있기 때문에 업데이트된 값을 저장하기 위한 메서드
     private func settingDeviceToken() {
         print("settingDeviceToken()")
         guard let databasePath = User.databasePathWithUID else {
@@ -35,6 +36,7 @@ extension MainTabBarViewController {
         guard let fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
             return
         }
+        print("FCMToken -> ", fcmToken)
         databasePath.child("deviceToken").setValue(fcmToken as NSString)
     }
 }
