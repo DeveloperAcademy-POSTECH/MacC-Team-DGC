@@ -257,7 +257,6 @@ extension FriendListViewController: UITableViewDelegate {
             friendDetailVC.friendImage = UIImage(named: "profile")
             self.navigationController?.pushViewController(friendDetailVC, animated: true)
             tableView.deselectRow(at: indexPath, animated: true)
-            
         }
     }
 }
