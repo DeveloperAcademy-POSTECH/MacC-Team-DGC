@@ -49,75 +49,6 @@ final class GroupAddViewController: UIViewController {
     }
 }
 
-// MARK: - UITableViewDataSource Method
-extension GroupAddViewController: UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pointsDataModel.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = GroupAddTableViewCell(
-            index: CGFloat(indexPath.row),
-            cellCount: CGFloat(pointsDataModel.count)
-        )
-        cell.addressSearchButton.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
-        cell.crewImageButton.addTarget(self, action: #selector(addBoardingCrewButtonTapped), for: .touchUpInside)
-        cell.startTime.addTarget(self, action: #selector(setStartTimeButtonTapped), for: .touchUpInside)
-        cell.stopoverPointRemoveButton.addTarget(
-            self,
-            action: #selector(stopoverRemoveButtonTapped),
-            for: .touchUpInside
-        )
-
-        if indexPath.row == 0 || indexPath.row == pointsDataModel.count - 1 {
-            cell.stopoverPointRemoveButton.isEnabled = false
-            cell.stopoverPointRemoveButton.isHidden = true
-            cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
-            cell.timeLabel.text = indexPath.row == 0 ? "출발시간" : "도착시간"
-        } else {
-            cell.pointNameLabel.text = "경유지 \(indexPath.row)"
-        }
-
-        if let pointName = pointsDataModel[indexPath.row].pointName {
-            cell.addressSearchButton.setTitle("    \(pointName)", for: .normal)
-        }
-        if let startTime = pointsDataModel[indexPath.row].pointArrivalTime {
-            let formattedTime = Date.formattedDate(from: startTime, dateFormat: "a hh:mm")
-            cell.startTime.setTitle(formattedTime, for: .normal)
-        }
-
-        return cell
-    }
-}
-
-// MARK: - UITableViewDelegate Method
-extension GroupAddViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 135
-    }
-
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-}
-
-// MARK: - Component
-extension GroupAddViewController {
-
-    private func navigationBarSetting() {
-        let backButton = UIBarButtonItem(
-            image: UIImage(systemName: "xmark"),
-            style: .plain,
-            target: self,
-            action: #selector(backButtonTapped)
-        )
-        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
-        navigationItem.leftBarButtonItem = backButton
-    }
-}
-
 // MARK: - @objc Method
 extension GroupAddViewController {
 
@@ -310,6 +241,75 @@ extension GroupAddViewController {
         }()
 
         return pointName
+    }
+}
+
+// MARK: - UITableViewDataSource Method
+extension GroupAddViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return pointsDataModel.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = GroupAddTableViewCell(
+            index: CGFloat(indexPath.row),
+            cellCount: CGFloat(pointsDataModel.count)
+        )
+        cell.addressSearchButton.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
+        cell.crewImageButton.addTarget(self, action: #selector(addBoardingCrewButtonTapped), for: .touchUpInside)
+        cell.startTime.addTarget(self, action: #selector(setStartTimeButtonTapped), for: .touchUpInside)
+        cell.stopoverPointRemoveButton.addTarget(
+            self,
+            action: #selector(stopoverRemoveButtonTapped),
+            for: .touchUpInside
+        )
+
+        if indexPath.row == 0 || indexPath.row == pointsDataModel.count - 1 {
+            cell.stopoverPointRemoveButton.isEnabled = false
+            cell.stopoverPointRemoveButton.isHidden = true
+            cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
+            cell.timeLabel.text = indexPath.row == 0 ? "출발시간" : "도착시간"
+        } else {
+            cell.pointNameLabel.text = "경유지 \(indexPath.row)"
+        }
+
+        if let pointName = pointsDataModel[indexPath.row].pointName {
+            cell.addressSearchButton.setTitle("    \(pointName)", for: .normal)
+        }
+        if let startTime = pointsDataModel[indexPath.row].pointArrivalTime {
+            let formattedTime = Date.formattedDate(from: startTime, dateFormat: "a hh:mm")
+            cell.startTime.setTitle(formattedTime, for: .normal)
+        }
+
+        return cell
+    }
+}
+
+// MARK: - UITableViewDelegate Method
+extension GroupAddViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 135
+    }
+
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
+    }
+}
+
+// MARK: - Component
+extension GroupAddViewController {
+
+    private func navigationBarSetting() {
+        let backButton = UIBarButtonItem(
+            image: UIImage(systemName: "xmark"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+        navigationItem.leftBarButtonItem = backButton
     }
 }
 
