@@ -33,7 +33,6 @@ final class SessionMapViewController: UIViewController {
     }
 
     private func showBackButton() {
-        print("\(#file)")
         let backButton = UIButton(type: .custom, primaryAction: UIAction(handler: { _ in
             self.dismiss(animated: true)
         }))
