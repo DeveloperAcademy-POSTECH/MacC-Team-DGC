@@ -91,20 +91,20 @@ extension FriendListViewController {
 extension FriendListViewController {
 
     // MARK: - DB에서 유저의 friendID 목록을 불러오는 메서드
-    private func readUserFriendshipList(databasePath: DatabaseReference, completion: @escaping ([Int]?) -> Void) {
+    private func readUserFriendshipList(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
         databasePath.child("friends").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
                 return
             }
-            let friends = snapshot?.value as? [Int]
+            let friends = snapshot?.value as? [String]
             completion(friends)
         }
     }
 
     // MARK: - friendID 값으로 DB에서 Friendship의 친구 id를 불러오는 메서드
-    private func getFriendUid(friendshipID: Int, completion: @escaping (String?) -> Void) {
+    private func getFriendUid(friendshipID: String, completion: @escaping (String?) -> Void) {
         Database.database().reference().child("friendship/\(friendshipID)").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
@@ -144,7 +144,8 @@ extension FriendListViewController {
             let friend = User(
                 id: snapshotValue["id"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
-                imageURL: snapshotValue["imageURL"] as? String ?? ""
+                imageURL: snapshotValue["imageURL"] as? String ?? "",
+                friends: snapshotValue["friends"] as? [String] ?? []
             )
             completion(friend)
         }
@@ -202,12 +203,17 @@ extension FriendListViewController: UITableViewDataSource {
         }
         cell.nicknameLabel.text = friendList[indexPath.section].nickname
         // 친구 이미지 불러오기
-        if let imageURL = friendList[indexPath.section].imageURL {
-            self.loadProfileImage(urlString: imageURL) { friendImage in
+        let imageURL = friendList[indexPath.section].imageURL
+        if imageURL != "" {
+            loadProfileImage(urlString: imageURL) { friendImage in
                 if let friendImage = friendImage {
                     cell.profileImageView.image = friendImage
+                } else {
+                    cell.profileImageView.image = UIImage(named: "profile")
                 }
             }
+        } else {
+            cell.profileImageView.image = UIImage(named: "profile")
         }
 
         let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
@@ -234,18 +240,17 @@ extension FriendListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let friendDetailVC = FriendDetailViewController()
         friendDetailVC.friendName = friendList[indexPath.section].nickname
-        if let imageURL = friendList[indexPath.section].imageURL {
-            self.loadProfileImage(urlString: imageURL) { friendImage in
-                if let friendImage = friendImage {
-                    friendDetailVC.friendImage = friendImage
-                    self.navigationController?.pushViewController(friendDetailVC, animated: true)
-                    tableView.deselectRow(at: indexPath, animated: true)
-                }
+        let imageURL = friendList[indexPath.section].imageURL
+        self.loadProfileImage(urlString: imageURL) { friendImage in
+            if let friendImage = friendImage {
+                friendDetailVC.friendImage = friendImage
+                self.navigationController?.pushViewController(friendDetailVC, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
+            } else {
+                friendDetailVC.friendImage = UIImage(named: "profile")
+                self.navigationController?.pushViewController(friendDetailVC, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
             }
-        } else {
-            friendDetailVC.friendImage = UIImage(named: "profile")
-            navigationController?.pushViewController(friendDetailVC, animated: true)
-            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
 }

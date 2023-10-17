@@ -15,8 +15,8 @@ import Foundation
  accumulate_distance_sender_stnd : sender가 캡틴인 기준으로 receiver와 함께 간 거리
  accumulate_distance_receiver_stnd : receiver가 캡틴인 기준으로 sender와 함께 간 거리
  */
-struct Friendship {
-    var friendshipId: Int
+struct Friendship: Codable {
+    var friendshipId: String
     var senderId: String
     var receiverId: String
     var status: Bool = false

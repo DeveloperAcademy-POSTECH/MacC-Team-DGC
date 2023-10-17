@@ -73,6 +73,12 @@ extension FriendDetailViewController {
     }
 }
 
+// MARK: - Firebase Realtime Database DB 관련 메서드
+extension FriendDetailViewController {
+
+    // TODO: - DB에서 친구 삭제하는 메서드 구현 필요
+}
+
 // MARK: - UICollectionViewDataSource 델리게이트 구현
 extension FriendDetailViewController: UICollectionViewDataSource {
 

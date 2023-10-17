@@ -15,6 +15,8 @@ final class FriendAddViewController: UIViewController {
     var searchedFriend: User? // 검색된 유저
     private let friendAddView = FriendAddView()
 
+    private let encoder = JSONEncoder()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -96,6 +98,7 @@ extension FriendAddViewController {
             }
             self.searchedFriend = searchedFriend
             self.friendAddView.searchedFriendTableView.reloadData()
+            print("검색된 친구: \(searchedFriend)")
         }
     }
 
@@ -115,6 +118,38 @@ extension FriendAddViewController {
     @objc private func sendFriendRequest() {
         // TODO: - 친구 추가 구현 필요
         print("친구 추가하기 버튼 클릭됨")
+        guard let myUid = KeychainItem.currentUserIdentifier else {
+            return
+        }
+        guard let friendUid = searchedFriend?.id else {
+            return
+        }
+        print("내Uid: \(myUid)")
+        print("친구Uid: \(friendUid)")
+        var myFriendshipList: [String] = []
+        var friendFriendshipList: [String] = []
+
+        self.readUserFriendshipList(uid: myUid) { myFriends in
+            guard let myFriends = myFriends else {
+                return
+            }
+            myFriendshipList = myFriends
+            print("내 친구 목록: \(myFriendshipList)")
+        }
+
+        self.readUserFriendshipList(uid: friendUid) { friendFriends in
+            guard let friendFriends = friendFriends else {
+                return
+            }
+            friendFriendshipList = friendFriends
+            print("친구의 친구 목록: \(friendFriendshipList)")
+        }
+        self.addFriendship(
+            myUid: myUid,
+            friendUid: friendUid,
+            myFriendshipList: myFriendshipList,
+            friendFriendshipList: friendFriendshipList
+        )
     }
 
     // 키보드가 나타날 때 호출되는 메서드
@@ -157,7 +192,8 @@ extension FriendAddViewController {
                     let searchedFriend = User(
                         id: dict["id"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
-                        imageURL: dict["imageURL"] as? String ?? ""
+                        imageURL: dict["imageURL"] as? String ?? "",
+                        friends: dict["friends"] as? [String] ?? []
                     )
                     completion(searchedFriend)
                 }
@@ -166,13 +202,70 @@ extension FriendAddViewController {
     }
 
     // MARK: - 친구 요청을 보내는 메서드(유저의 친구 목록에 추가)
+
+    // MARK: - DB의 friendship에 새로운 친구 관계를 추가하는 메서드
+    private func addFriendship(
+        myUid: String,
+        friendUid: String,
+        myFriendshipList: [String],
+        friendFriendshipList: [String]
+    ) {
+        guard let key = Database.database().reference().child("friendship").childByAutoId().key else {
+            return
+        }
+        print("새로운 Friendship Key: \(key)")
+        // DB의 friendship에 새로 추가할 친구 관계 객체
+        let newFriendship = Friendship(
+            friendshipId: key,
+            senderId: myUid,
+            receiverId: friendUid,
+            status: true // TODO: - 이후 친구 수락 시 true로 바뀌게끔 수정 필요
+        )
+        // 사용자와 친구 DB의 friends에 새로운 friendship의 key를 추가해서 업데이트
+        var newMyFriendshipList = myFriendshipList
+        var newFriendFriendshipList = friendFriendshipList
+        newMyFriendshipList.append(key)
+        newFriendFriendshipList.append(key)
+        
+        print("업데이트된 내 친구 목록: \(myFriendshipList)")
+        print("업데이트된 친구의 친구 목록: \(friendFriendshipList)")
+        // 호환되는 타입으로 캐스팅 후 DB 반영
+        do {
+            let data = try JSONEncoder().encode(newFriendship)
+            let json = try JSONSerialization.jsonObject(with: data)
+
+            let childUpdates: [String: Any] = [
+                "friendship/\(key)": json,
+                "users/\(myUid)/friends": newMyFriendshipList as NSArray,
+                "users/\(friendUid)/friends": newFriendFriendshipList as NSArray
+            ]
+            Database.database().reference().updateChildValues(childUpdates)
+        } catch {
+            print("Friendship CREATE fail...", error)
+        }
+    }
+
+    // MARK: - DB에서 유저의 friendID 목록을 불러오는 메서드
+    private func readUserFriendshipList(uid: String, completion: @escaping ([String]?) -> Void) {
+        Database.database().reference().child("\(uid)/friends").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            let friends = snapshot?.value as? [String]
+            completion(friends)
+        }
+    }
+
+    // MARK: - 해당 유저 DB의 friends키에 friendshipId를 추가하는 메서드
 }
 
 // MARK: - Firebase Storage 관련 메서드
 extension FriendAddViewController {
 
     // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
-    // TODO: - MyPageViewController와 중복되는 메서드 -> 정리 필요함
+    // TODO: - MyPageViewController와 중복되는 메서드 -> 정리 필요
     private func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
         let megaByte = Int64(1 * 1024 * 1024)
@@ -255,12 +348,17 @@ extension FriendAddViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.nicknameLabel.text = searchedFriend.nickname
-            if let imageURL = searchedFriend.imageURL {
+            let imageURL = searchedFriend.imageURL
+            if imageURL != "" {
                 loadProfileImage(urlString: imageURL) { userImage in
                     if let userImage = userImage {
                         cell.profileImageView.image = userImage
+                    } else {
+                        cell.profileImageView.image = UIImage(named: "profile")
                     }
                 }
+            } else {
+                cell.profileImageView.image = UIImage(named: "profile")
             }
             return cell
         } else {
