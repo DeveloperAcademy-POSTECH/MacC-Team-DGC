@@ -88,17 +88,7 @@ extension SessionStartViewController {
             make.height.lessThanOrEqualTo(467).priority(.low)
         }
 
-        let tabBarControllerHeight = self.tabBarController?.tabBar.frame.height ?? 0
-
-        sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
-            make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
-            make.leading.trailing.equalTo(sessionStartView).inset(20)
-            make.height.equalTo(buttonHeight)
-            make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
-        }
-
-        sessionStartView.journeyTogetherButton.layer.cornerRadius = buttonHeight / 2
-
+        setupBottomButton()
     }
 
 }
@@ -120,7 +110,21 @@ extension SessionStartViewController {
 
         // 화면 업데이트
         sessionStartMidView.setupGroupData(selectedGroup)
-        
+
+    }
+
+    private func setupBottomButton() {
+
+        let tabBarControllerHeight = self.tabBarController?.tabBar.frame.height ?? 0
+
+        sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
+            make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
+            make.leading.trailing.equalTo(sessionStartView).inset(20)
+            make.height.equalTo(buttonHeight)
+            make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
+        }
+
+        sessionStartView.journeyTogetherButton.layer.cornerRadius = buttonHeight / 2
     }
 }
 

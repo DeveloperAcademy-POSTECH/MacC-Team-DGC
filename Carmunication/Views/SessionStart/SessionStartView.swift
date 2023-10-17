@@ -4,9 +4,6 @@ final class SessionStartView: UIView {
 
     // TODO: - 추후 setupConstraints() 생성
 
-    // 캡틴 아이디
-    let captainId = "1"
-
     // 상단 그룹에 대한 컬렉션뷰입니다.
     let groupCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -26,6 +23,22 @@ final class SessionStartView: UIView {
         btn.backgroundColor = UIColor.semantic.accPrimary
         btn.titleLabel?.font = UIFont.carmuFont.headline2
         btn.setTitleColor(.white, for: .normal)
+        return btn
+    }()
+
+    // 동승자일 때 버튼
+    let noRideButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("따로가기", for: .normal)
+        btn.backgroundColor = UIColor.semantic.backgroundSecond
+        btn.titleLabel?.font = UIFont.carmuFont.headline2
+        return btn
+    }()
+    let participateButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("참여하기", for: .normal)
+        btn.backgroundColor = UIColor.semantic.backgroundSecond
+        btn.titleLabel?.font = UIFont.carmuFont.headline2
         return btn
     }()
 
@@ -53,6 +66,8 @@ final class SessionStartView: UIView {
 
         addSubview(groupCollectionView)
         addSubview(journeyTogetherButton)
+        addSubview(noRideButton)
+        addSubview(participateButton)
     }
 
     private func setCollectionView() {
