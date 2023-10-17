@@ -120,6 +120,7 @@ extension SessionStartViewController {
 
         // 화면 업데이트
         sessionStartMidView.setupGroupData(selectedGroup)
+        
     }
 }
 

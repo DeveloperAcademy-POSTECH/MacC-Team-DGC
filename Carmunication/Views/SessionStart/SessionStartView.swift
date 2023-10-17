@@ -4,6 +4,9 @@ final class SessionStartView: UIView {
 
     // TODO: - 추후 setupConstraints() 생성
 
+    // 캡틴 아이디
+    let captainId = "1"
+
     // 상단 그룹에 대한 컬렉션뷰입니다.
     let groupCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -73,7 +76,7 @@ final class SessionStartView: UIView {
 
     private func setupGroupData() {
 
-        // 그룹이 하나 이상 있을 때 나타내는 정보들
+        // 그룹이 없을 때 나타내는 정보들
         if groupData == nil {
             journeyTogetherButton.setTitleColor(UIColor.theme.blue3, for: .normal)
             journeyTogetherButton.backgroundColor = UIColor.semantic.backgroundSecond
