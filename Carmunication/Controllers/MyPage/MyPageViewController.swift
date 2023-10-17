@@ -38,7 +38,7 @@ final class MyPageViewController: UIViewController {
                 return
             }
             // 설정한 이미지가 있으면 프로필 이미지 뷰에 반영
-            if imageURL != "" {
+            if !imageURL.isEmpty {
                 print("프로필 이미지가 있습니다.")
                 self.loadProfileImage(urlString: imageURL) { profileImage in
                     guard let profileImage = profileImage else {

@@ -204,7 +204,7 @@ extension FriendListViewController: UITableViewDataSource {
         cell.nicknameLabel.text = friendList[indexPath.section].nickname
         // 친구 이미지 불러오기
         let imageURL = friendList[indexPath.section].imageURL
-        if imageURL != "" {
+        if !imageURL.isEmpty {
             loadProfileImage(urlString: imageURL) { friendImage in
                 if let friendImage = friendImage {
                     cell.profileImageView.image = friendImage
@@ -241,7 +241,7 @@ extension FriendListViewController: UITableViewDelegate {
         let friendDetailVC = FriendDetailViewController()
         friendDetailVC.friendName = friendList[indexPath.section].nickname
         let imageURL = friendList[indexPath.section].imageURL
-        if imageURL != "" {
+        if !imageURL.isEmpty {
             loadProfileImage(urlString: imageURL) { friendImage in
                 if let friendImage = friendImage {
                     friendDetailVC.friendImage = friendImage

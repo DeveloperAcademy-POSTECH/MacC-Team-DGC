@@ -322,7 +322,7 @@ extension FriendAddViewController: UITableViewDataSource {
             }
             cell.nicknameLabel.text = searchedFriend.nickname
             let imageURL = searchedFriend.imageURL
-            if imageURL != "" {
+            if !imageURL.isEmpty {
                 loadProfileImage(urlString: imageURL) { userImage in
                     if let userImage = userImage {
                         cell.profileImageView.image = userImage
