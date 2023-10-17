@@ -14,6 +14,7 @@ final class GroupAddViewController: UIViewController {
     var groupDataModel: Group = Group()
     var pointsDataModel: [Point2] = []
     let groupAddView = GroupAddView()
+    private var shouldPopViewController = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,7 +139,6 @@ extension GroupAddViewController {
             return
         }
 
-        print("삭제한 줄 : ", indexPath.row)
         pointsDataModel.remove(at: indexPath.row)
         if pointsDataModel.count <= 5 {
             groupAddView.stopoverPointAddButton.isEnabled = true
@@ -189,8 +189,6 @@ extension GroupAddViewController {
         }()
 
         detailViewController.addressSelectionHandler = { [weak self] addressDTO in
-            print("navigation Handler 내부")
-            print(addressDTO)
             self?.pointsDataModel[row].pointName = addressDTO.pointName
             self?.pointsDataModel[row].pointDetailAddress = addressDTO.pointDetailAddress
             self?.pointsDataModel[row].pointLat = addressDTO.pointLat
@@ -202,11 +200,81 @@ extension GroupAddViewController {
     }
 
     @objc private func createCrewButtonTapped(_ sender: UIButton) {
-        navigationController?.popViewController(animated: true)
+        checkDataEffectiveness()
+        if shouldPopViewController {
+            navigationController?.popViewController(animated: true)
+        }
     }
 
     @objc func backButtonTapped() {
         navigationController?.popViewController(animated: true)
+    }
+
+    @objc func showAlert(title: String, message: String) {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+
+        let okButton = UIAlertAction(
+            title: "확인",
+            style: .default
+        )
+
+        alert.addAction(okButton)
+        self.present(alert, animated: true)
+    }
+}
+
+// MARK: - Custom Method
+extension GroupAddViewController {
+
+    /**
+     그룹 추가에 빈 값 또는 유횾하지 않은 시간(경유지1이 경유지2보다 시간이 앞선경우)을 체크해주는 메서드
+     */
+    private func checkDataEffectiveness() {
+        // TODO: 빈 값 체크
+        for element in pointsDataModel {
+            let pointName = {
+                if element.pointSequence == 0 {
+                    return "출발지"
+                } else if element.pointSequence == self.pointsDataModel.count - 1 {
+                    return "도착지"
+                } else {
+                    return "경유지\(Int(element.pointSequence ?? 1))"
+                }
+            }()
+
+            if element.pointArrivalTime == nil {
+                showAlert(title: "시간을 설정하지 않았어요!", message: "\(pointName)의 시간을 입력해주세요!")
+                shouldPopViewController = false
+                return
+            }
+            if element.pointName == nil {
+                showAlert(title: "주소를 설정하지 않았어요!", message: "\(pointName)의 주소를 설정해주세요!")
+                shouldPopViewController = false
+                return
+            }
+//            if element.boardingCrew == nil {
+//                showAlert(
+//                    title: "탑승 크루를 선택하지 않았어요!",
+//                    message:
+//                    """
+//                    \(pointName)의 탑승자를 선택하지 않았어요.
+//                    없다면 포인트를 삭제해주세요!
+//                    출발지인 경우, 본인을 꼭 포함해야 합니다.
+//                    """
+//                )
+//                shouldPopViewController = false
+//                return
+//            }
+            shouldPopViewController = true
+
+        }
+
+        // TODO: 시간 체크
+
     }
 }
 
