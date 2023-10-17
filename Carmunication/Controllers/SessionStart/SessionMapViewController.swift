@@ -22,12 +22,27 @@ final class SessionMapViewController: UIViewController {
         super.viewDidLoad()
         startUpdatingLocation()
         showNaverMap()
+        showBackButton()
     }
 
     private func showNaverMap() {
         view.addSubview(mapView)
         mapView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+    }
+
+    private func showBackButton() {
+        print("\(#file)")
+        let backButton = UIButton(type: .custom, primaryAction: UIAction(handler: { _ in
+            self.dismiss(animated: true)
+        }))
+        backButton.setImage(UIImage(named: "mapViewBackButton"), for: .normal)
+        view.addSubview(backButton)
+        backButton.snp.makeConstraints { make in
+            make.leading.equalTo(20)
+            make.top.equalTo(50)
+            make.width.height.equalTo(60)
         }
     }
 
