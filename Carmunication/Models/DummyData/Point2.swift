@@ -8,7 +8,7 @@
 import Foundation
 
 struct Point2 {
-    var pointId: Int?
+    var pointID: Int?
     var pointSequence: Int?
     var pointName: String?
     var pointDetailAddress: String?

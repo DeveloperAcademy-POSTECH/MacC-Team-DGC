@@ -45,11 +45,7 @@ extension SelectStartTimeViewController {
     }
 
     @objc private func saveButtonAction() {
-        if let selectedTime = selectedTime { // 선택된 시간을 클로저에 전
-            timeSelectionHandler?(selectedTime)
-        } else { // 바로 저장을 눌렀다면 현재시간을 주입
-            timeSelectionHandler?(Date())
-        }
+        timeSelectionHandler?(selectedTime ?? Date())
         dismiss(animated: true)
     }
 
