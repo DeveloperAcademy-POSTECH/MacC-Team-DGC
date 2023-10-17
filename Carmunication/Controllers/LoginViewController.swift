@@ -133,7 +133,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
               let email = firebaseUser.email else {
             return
         }
-        let user = User(id: firebaseUser.uid, nickname: nickname, email: email)
+        guard let fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
+            return
+        }
+        print("FCMToken -> ", fcmToken)
+        let user = User(id: firebaseUser.uid, nickname: nickname, email: email, deviceToken: fcmToken)
 
         do {
             let data = try encoder.encode(user)
@@ -155,7 +159,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         guard let email = firebaseUser.email else {
             return
         }
-        let user = User(id: firebaseUser.uid, nickname: nickname, email: email)
+        guard let fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
+            return
+        }
+        let user = User(id: firebaseUser.uid, nickname: nickname, email: email, deviceToken: fcmToken)
 
         do {
             let data = try encoder.encode(user)

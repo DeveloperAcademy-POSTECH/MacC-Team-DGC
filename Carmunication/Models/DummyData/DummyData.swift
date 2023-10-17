@@ -12,52 +12,52 @@ struct DummyData {
         User(
             id: "0",
             nickname: "김배찌",
-            email: "beerandsoju@gmail.com"
+            email: "beerandsoju@gmail.com", deviceToken: "Bazzi"
         ),
         User(
             id: "1",
             nickname: "김테드",
-            email: "vandijk@gmail.com"
+            email: "vandijk@gmail.com", deviceToken: "Ted"
         ),
         User(
             id: "2",
             nickname: "김레이",
-            email: "pokemon767@gmail.com"
+            email: "pokemon767@gmail.com", deviceToken: "Rei"
         ),
         User(
             id: "3",
             nickname: "회장님",
-            email: "unisushi@gmail.com"
+            email: "unisushi@gmail.com", deviceToken: "Uni"
         ),
         User(
             id: "4",
             nickname: "권지수",
-            email: "sulJji@gmail.com"
+            email: "sulJji@gmail.com", deviceToken: "Jen"
         ),
         User(
             id: "5",
             nickname: "젤리빈",
-            email: "sofa@gmail.com"
+            email: "sofa@gmail.com", deviceToken: "JellyBeen"
         ),
         User(
             id: "6",
             nickname: "제이슨",
-            email: "jsonparsing@gmail.com"
+            email: "jsonparsing@gmail.com", deviceToken: "Jason"
         ),
         User(
             id: "7",
             nickname: "이안",
-            email: "tallPerson@gmail.com"
+            email: "tallPerson@gmail.com", deviceToken: "Ian"
         ),
         User(
             id: "8",
             nickname: "좋아요좋아요",
-            email: "likelike@gmail.com"
+            email: "likelike@gmail.com", deviceToken: "LikeLike"
         ),
         User(
             id: "9",
             nickname: "중소기업",
-            email: "jungso@gmail.com"
+            email: "jungso@gmail.com", deviceToken: "SmallMid"
         )
     ]
 
