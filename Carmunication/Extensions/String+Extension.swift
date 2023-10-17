@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-    
+
     static func removeCountryAndPostalCode(from subtitle: String) -> String {
         var modifiedSubtitle = subtitle
         modifiedSubtitle = modifiedSubtitle.replacingOccurrences(of: "대한민국", with: "")
