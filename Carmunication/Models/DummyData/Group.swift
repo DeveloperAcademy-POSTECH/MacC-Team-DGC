@@ -90,10 +90,10 @@ let groupData: [Group]? = [
     Group(groupId: "1", groupName: "그룹 1", groupImage: "heart", captainId: "1",
           crewList: ["2", "3"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
          ),
-    Group(groupId: "1", groupName: "그룹 2", groupImage: "circle.fill", captainId: "1",
+    Group(groupId: "1", groupName: "그룹 2", groupImage: "circle.fill", captainId: "2",
           crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group2Point
          ),
-    Group(groupId: "1", groupName: "그룹 3", groupImage: "square", captainId: "1",
+    Group(groupId: "1", groupName: "그룹 3", groupImage: "square", captainId: "3",
           crewList: ["2", "3", "4", "5"], sessionDay: [2, 3, 4, 5, 6], points: group3Point
          )
 ]
