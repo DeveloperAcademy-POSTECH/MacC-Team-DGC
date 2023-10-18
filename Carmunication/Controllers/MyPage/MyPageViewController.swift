@@ -31,14 +31,7 @@ final class MyPageViewController: UIViewController {
         }
         // 프로필 이미지 불러오기
         readProfileImageURL(databasePath: databasePath) { imageURL in
-            guard let imageURL = imageURL else {
-                // 설정한 이미지가 없으면 기본 프로필 설정
-                print("프로필 이미지가 없습니다.")
-                self.myPageView.imageView.image = UIImage(named: "profile")
-                return
-            }
-            // 설정한 이미지가 있으면 프로필 이미지 뷰에 반영
-            if !imageURL.isEmpty {
+            if let imageURL = imageURL {
                 print("프로필 이미지가 있습니다.")
                 self.loadProfileImage(urlString: imageURL) { profileImage in
                     guard let profileImage = profileImage else {
