@@ -4,7 +4,6 @@
 //
 //  Created by 김영빈 on 2023/09/29.
 //
-
 import UIKit
 
 import FirebaseDatabase
@@ -14,17 +13,14 @@ final class FriendListViewController: UIViewController {
 
     var friendList: [User] = []
     private let friendListView = FriendListView()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-
         navigationItem.title = "친구관리"
         view.addSubview(friendListView)
         friendListView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
         // 재사용 셀 등록
         friendListView.friendListTableView.register(
             FriendListTableViewCell.self,
@@ -32,14 +28,12 @@ final class FriendListViewController: UIViewController {
         )
         friendListView.friendListTableView.dataSource = self
         friendListView.friendListTableView.delegate = self
-
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             title: "친구추가",
             style: .plain,
             target: self,
             action: #selector(showFriendAddView)
         )
-
         guard let databasePath = User.databasePathWithUID else {
             return
         }
@@ -69,7 +63,6 @@ final class FriendListViewController: UIViewController {
             }
         }
     }
-
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
@@ -93,12 +86,10 @@ final class FriendListViewController: UIViewController {
 
 // MARK: @objc 메서드
 extension FriendListViewController {
-
     // [친구추가] 내비게이션 바 버튼 클릭 시 동작
     @objc private func showFriendAddView() {
         let friendAddVC = FriendAddViewController()
         friendAddVC.modalPresentationStyle = .formSheet
-
         self.present(friendAddVC, animated: true)
     }
 }
@@ -118,7 +109,6 @@ extension FriendListViewController {
             completion(friends)
         }
     }
-
     // MARK: - friendID 값으로 DB에서 Friendship의 친구 id를 불러오는 메서드
     private func getFriendUid(friendshipID: String, completion: @escaping (String?) -> Void) {
         Database.database().reference().child("friendship/\(friendshipID)").getData { error, snapshot in
@@ -159,6 +149,7 @@ extension FriendListViewController {
             }
             let friend = User(
                 id: snapshotValue["id"] as? String ?? "",
+                deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
                 imageURL: snapshotValue["imageURL"] as? String ?? "",
                 friends: snapshotValue["friends"] as? [String] ?? []
@@ -170,13 +161,11 @@ extension FriendListViewController {
 
 // MARK: - Firebae Storage 관련 메서드
 extension FriendListViewController {
-
     // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
     // TODO: - MyPageViewController와 중복되는 메서드 -> 정리 필요함
     private func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
         let megaByte = Int64(1 * 1024 * 1024)
-
         firebaseStorageRef.getData(maxSize: megaByte) { data, error in
             if let error = error {
                 print(error.localizedDescription)
@@ -194,21 +183,17 @@ extension FriendListViewController {
 
 // MARK: - UITableViewDataSource 델리게이트 구현
 extension FriendListViewController: UITableViewDataSource {
-
     // 섹션 당 셀의 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
-
     // 섹션의 개수
     func numberOfSections(in tableView: UITableView) -> Int {
         return friendList.count
     }
-
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return " "
     }
-
     // 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -231,7 +216,6 @@ extension FriendListViewController: UITableViewDataSource {
         } else {
             cell.profileImageView.image = UIImage(named: "profile")
         }
-
         let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImage.tintColor = UIColor.semantic.textBody
         cell.accessoryView = chevronImage
@@ -241,17 +225,14 @@ extension FriendListViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate 델리게이트 구현
 extension FriendListViewController: UITableViewDelegate {
-
     // 각 섹션 사이의 간격
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
-
     // 각 셀의 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 74
     }
-
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let friendDetailVC = FriendDetailViewController()

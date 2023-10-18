@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
+		161854AB2ADFBCCF00961D2D /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 161854AA2ADFBCCF00961D2D /* Secrets.xcconfig */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartMidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */; };
 		16DBA63F2AC1D5B900315ED7 /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */; };
@@ -94,6 +96,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		161854AA2ADFBCCF00961D2D /* Secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartMidView.swift; sourceTree = "<group>"; };
 		16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -184,6 +187,7 @@
 			files = (
 				BF24481D2AD6D66200F4089A /* FirebaseDatabase in Frameworks */,
 				BFE876B82AC809A300573B92 /* SnapKit in Frameworks */,
+				161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */,
 				BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */,
 				B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */,
 				B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */,
@@ -288,6 +292,7 @@
 				BF37D9D72AB939A4005331AD /* LaunchScreen.storyboard */,
 				BF37D9DA2AB939A4005331AD /* Info.plist */,
 				BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */,
+				161854AA2ADFBCCF00961D2D /* Secrets.xcconfig */,
 				B8A3EFDE2AC9090C00433F5C /* GoogleService-Info.plist */,
 			);
 			path = Carmunication;
@@ -529,6 +534,7 @@
 				BF7DF9C52ACA6E21001178AF /* NMapsMap */,
 				BF24481C2AD6D66200F4089A /* FirebaseDatabase */,
 				B80CCA512ADB0955000A2ABB /* FirebaseStorage */,
+				161854A62ADFB76600961D2D /* FirebaseMessaging */,
 			);
 			productName = Carmunication;
 			productReference = BF37D9C92AB939A3005331AD /* Carmunication.app */;
@@ -577,6 +583,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				161854AB2ADFBCCF00961D2D /* Secrets.xcconfig in Resources */,
 				BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */,
 				BF37D9D92AB939A4005331AD /* LaunchScreen.storyboard in Resources */,
 				C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */,
@@ -950,6 +957,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		161854A62ADFB76600961D2D /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8A20E3B2AC0B46E00F0CE91 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		B80CCA512ADB0955000A2ABB /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B8A20E3B2AC0B46E00F0CE91 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
