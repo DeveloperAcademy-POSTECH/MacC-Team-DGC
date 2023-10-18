@@ -4,11 +4,9 @@
 //
 //  Created by 김동현 on 2023/10/10.
 //
-
 import Foundation
 
 import FirebaseDatabase
-
 /**
  user_id : user에게 고유하게 부여되는 번호(UUID로 변경예정)
  username: 유저 닉네임
@@ -19,14 +17,13 @@ import FirebaseDatabase
  */
 struct User: Codable {
     var id: String
+    var deviceToken: String
     var nickname: String
     var email: String?
     var imageURL: String
     var friends: [String]
 }
-
 extension User {
-
     static var databasePathWithUID: DatabaseReference? = {
         guard let uid = KeychainItem.currentUserIdentifier else {
             return nil
