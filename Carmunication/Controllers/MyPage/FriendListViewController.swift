@@ -143,6 +143,7 @@ extension FriendListViewController {
             }
             let friend = User(
                 id: snapshotValue["id"] as? String ?? "",
+                deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
                 imageURL: snapshotValue["imageURL"] as? String ?? "",
                 friends: snapshotValue["friends"] as? [String] ?? []

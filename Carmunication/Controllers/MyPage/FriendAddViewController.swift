@@ -168,6 +168,7 @@ extension FriendAddViewController {
                     print("\(searchNickname)이(가) 검색되었습니다!!!")
                     let searchedFriend = User(
                         id: dict["id"] as? String ?? "",
+                        deviceToken: dict["deviceToken"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
                         imageURL: dict["imageURL"] as? String ?? "",
                         friends: dict["friends"] as? [String] ?? []
