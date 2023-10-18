@@ -151,8 +151,9 @@ extension FriendAddViewController {
                         id: dict["id"] as? String ?? "",
                         deviceToken: dict["deviceToken"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
-                        imageURL: dict["imageURL"] as? String ?? "",
-                        friends: dict["friends"] as? [String] ?? []
+                        email: dict["email"] as? String,
+                        imageURL: dict["imageURL"] as? String,
+                        friends: dict["friends"] as? [String]
                     )
                     completion(searchedFriend)
                 }
@@ -293,8 +294,7 @@ extension FriendAddViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.nicknameLabel.text = searchedFriend.nickname
-            let imageURL = searchedFriend.imageURL
-            if !imageURL.isEmpty {
+            if let imageURL = searchedFriend.imageURL {
                 loadProfileImage(urlString: imageURL) { userImage in
                     if let userImage = userImage {
                         cell.profileImageView.image = userImage
@@ -302,8 +302,6 @@ extension FriendAddViewController: UITableViewDataSource {
                         cell.profileImageView.image = UIImage(named: "profile")
                     }
                 }
-            } else {
-                cell.profileImageView.image = UIImage(named: "profile")
             }
             return cell
         } else {

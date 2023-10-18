@@ -20,8 +20,8 @@ struct User: Codable {
     var deviceToken: String
     var nickname: String
     var email: String?
-    var imageURL: String
-    var friends: [String]
+    var imageURL: String?
+    var friends: [String]?
 }
 extension User {
     static var databasePathWithUID: DatabaseReference? = {
