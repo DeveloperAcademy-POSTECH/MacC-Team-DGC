@@ -96,9 +96,8 @@ extension SessionStartViewController {
             make.height.lessThanOrEqualTo(467).priority(.low)
         }
         sessionStartMidNoGroupView.snp.makeConstraints { make in
-            make.leading.top.trailing.bottom.equalToSuperview().inset(20)
+            make.edges.equalToSuperview().inset(20)
         }
-
     }
 
 }
