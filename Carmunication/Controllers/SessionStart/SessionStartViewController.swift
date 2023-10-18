@@ -37,7 +37,7 @@ final class SessionStartViewController: UIViewController {
 
         sessionStartView.journeyTogetherButton.addTarget(
             self,
-            action: #selector(presentModalQueue),
+            action: #selector(inviteJourney),
             for: .touchUpInside
         )
 
@@ -100,9 +100,11 @@ extension SessionStartViewController {
 // MARK: Actions
 extension SessionStartViewController {
 
-    @objc private func presentModalQueue() {
-        let modalQueueViewController = ModalQueueViewController()
-        self.present(modalQueueViewController, animated: true)
+    @objc private func inviteJourney() {
+
+        // TODO: - 세션 초대 로직 구현
+        sessionStartView.journeyTogetherButton.backgroundColor = UIColor.semantic.negative
+        sessionStartView.journeyTogetherButton.setTitle("바로 시작하기", for: .normal)
     }
 
     private func handleSelectedGroupData(_ selectedGroup: Group) {
