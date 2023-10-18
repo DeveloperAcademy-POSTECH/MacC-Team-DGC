@@ -12,7 +12,6 @@ import FirebaseStorage
 
 final class FriendListViewController: UIViewController {
 
-    let dummyFriends = ["홍길동", "우니", "배찌", "젠", "레이", "테드", "젤리빈", "김영빈", "피카츄"]
     var friendList: [User] = []
     private let friendListView = FriendListView()
 
@@ -64,17 +63,7 @@ final class FriendListViewController: UIViewController {
                         self.friendListView.friendListTableView.reloadData()
                         print("친구목록: \(self.friendList)")
 
-                        if self.friendList.count < 1 {
-                            // 친구 목록에 친구가 있으면 테이블 뷰를 보여준다.
-                            self.friendListView.friendListTableView.isHidden = true
-                            self.friendListView.emptyView.isHidden = false
-                            self.friendListView.emptyFriendLabel.isHidden = false
-                        } else {
-                            // 친구 목록에 친구가 없으면 테이블 뷰를 숨기고 친구가 없을 때의 화면을 보여준다.
-                            self.friendListView.friendListTableView.isHidden = false
-                            self.friendListView.emptyView.isHidden = true
-                            self.friendListView.emptyFriendLabel.isHidden = true
-                        }
+                        self.checkFriendListIsEmpty(friendListCount: self.friendList.count)
                     }
                 }
             }
@@ -84,6 +73,21 @@ final class FriendListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+    }
+
+    // 친구 목록에 값이 있는지 확인하고, 뷰에 표시해줄 요소를 결정하는 메서드
+    private func checkFriendListIsEmpty(friendListCount: Int) {
+        if friendListCount < 1 {
+            // 친구 목록에 친구가 있으면 테이블 뷰를 보여준다.
+            friendListView.friendListTableView.isHidden = true
+            friendListView.emptyView.isHidden = false
+            friendListView.emptyFriendLabel.isHidden = false
+        } else {
+            // 친구 목록에 친구가 없으면 테이블 뷰를 숨기고 친구가 없을 때의 화면을 보여준다.
+            self.friendListView.friendListTableView.isHidden = false
+            self.friendListView.emptyView.isHidden = true
+            self.friendListView.emptyFriendLabel.isHidden = true
+        }
     }
 }
 
