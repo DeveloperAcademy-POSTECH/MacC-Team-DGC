@@ -11,7 +11,6 @@ import FirebaseStorage
 
 final class FriendListViewController: UIViewController {
 
-    let dummyFriends = ["홍길동", "우니", "배찌", "젠", "레이", "테드", "젤리빈", "김영빈", "피카츄"]
     var friendList: [User] = []
     private let friendListView = FriendListView()
     override func viewDidLoad() {
@@ -135,8 +134,9 @@ extension FriendListViewController {
                 id: snapshotValue["id"] as? String ?? "",
                 deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
-                imageURL: snapshotValue["imageURL"] as? String ?? "",
-                friends: snapshotValue["friends"] as? [String] ?? []
+                email: snapshotValue["email"] as? String,
+                imageURL: snapshotValue["imageURL"] as? String,
+                friends: snapshotValue["friends"] as? [String]
             )
             completion(friend)
         }
@@ -188,8 +188,7 @@ extension FriendListViewController: UITableViewDataSource {
         }
         cell.nicknameLabel.text = friendList[indexPath.section].nickname
         // 친구 이미지 불러오기
-        let imageURL = friendList[indexPath.section].imageURL
-        if !imageURL.isEmpty {
+        if let imageURL = friendList[indexPath.section].imageURL {
             loadProfileImage(urlString: imageURL) { friendImage in
                 if let friendImage = friendImage {
                     cell.profileImageView.image = friendImage
@@ -197,8 +196,6 @@ extension FriendListViewController: UITableViewDataSource {
                     cell.profileImageView.image = UIImage(named: "profile")
                 }
             }
-        } else {
-            cell.profileImageView.image = UIImage(named: "profile")
         }
         let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImage.tintColor = UIColor.semantic.textBody
@@ -221,24 +218,20 @@ extension FriendListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let friendDetailVC = FriendDetailViewController()
         friendDetailVC.friendName = friendList[indexPath.section].nickname
-        let imageURL = friendList[indexPath.section].imageURL
-        if !imageURL.isEmpty {
+        if let imageURL = friendList[indexPath.section].imageURL {
             loadProfileImage(urlString: imageURL) { friendImage in
                 if let friendImage = friendImage {
                     friendDetailVC.friendImage = friendImage
-                    self.navigationController?.pushViewController(friendDetailVC, animated: true)
-                    tableView.deselectRow(at: indexPath, animated: true)
                 } else {
                     friendDetailVC.friendImage = UIImage(named: "profile")
-                    self.navigationController?.pushViewController(friendDetailVC, animated: true)
-                    tableView.deselectRow(at: indexPath, animated: true)
                 }
+                self.navigationController?.pushViewController(friendDetailVC, animated: true)
             }
         } else {
             friendDetailVC.friendImage = UIImage(named: "profile")
             self.navigationController?.pushViewController(friendDetailVC, animated: true)
-            tableView.deselectRow(at: indexPath, animated: true)
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
