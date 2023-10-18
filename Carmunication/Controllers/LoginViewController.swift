@@ -146,11 +146,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        guard var email = firebaseUser.email else {
+        guard let email = firebaseUser.email else {
             return
         }
         // 디바이스 토큰값 갱신
-        guard var fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
+        guard let fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
             return
         }
         var newUserValue = updatedUser
