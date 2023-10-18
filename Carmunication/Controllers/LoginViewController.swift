@@ -137,8 +137,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             return
         }
         print("FCMToken -> ", fcmToken)
-        let user = User(id: firebaseUser.uid, deviceToken: fcmToken, nickname: nickname, email: email, imageURL: "", friends: [])
-
+        let user = User(
+            id: firebaseUser.uid,
+            deviceToken: fcmToken,
+            nickname: nickname,
+            email: email,
+            imageURL: "",
+            friends: []
+        )
         do {
             let data = try encoder.encode(user)
 
