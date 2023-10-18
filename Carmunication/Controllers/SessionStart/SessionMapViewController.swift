@@ -18,11 +18,11 @@ struct Coordinate {
 }
 
 struct Points {
-    let startingPoint: Coordinate? = Coordinate(lat: 36.01759520, lng: 129.32206275)
+    let startingPoint = Coordinate(lat: 36.01759520, lng: 129.32206275)
     let pickupLocation1: Coordinate? = Coordinate(lat: 36.00609523, lng: 129.32232291)
     let pickupLocation2: Coordinate? = Coordinate(lat: 36.00739176, lng: 129.32907574)
     let pickupLocation3: Coordinate? = nil
-    let destination: Coordinate? = Coordinate(lat: 36.0108783, lng: 129.327818)
+    let destination = Coordinate(lat: 36.0108783, lng: 129.327818)
 }
 // Firebase 데이터 받아오기 전까지만 사용하는 더미데이터
 
@@ -32,6 +32,7 @@ final class SessionMapViewController: UIViewController {
     // 자동차 위치를 표시하기 위한 마커
     private let carMarker = NMFMarker()
     private let locationManager = CLLocationManager()
+    private let points = Points()
 
     private let startingPoint = {
         let marker = NMFMarker()
@@ -67,6 +68,7 @@ final class SessionMapViewController: UIViewController {
         showNaverMap()
         showBackButton()
         showPickuplocations()
+        fetchDirections()
     }
 
     private func showNaverMap() {
@@ -104,13 +106,9 @@ final class SessionMapViewController: UIViewController {
 
     // TODO: - 그룹의 실제 위경도 입력 받아서 넣어주기
     private func showPickuplocations() {
-        let points = Points()
-
-        if let coordinate = points.startingPoint {
-            startingPoint.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-            startingPoint.mapView = mapView
-        }
+        startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
+        startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
+        startingPoint.mapView = mapView
 
         if let coordinate = points.pickupLocation1 {
             pickupLocation1.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
@@ -133,11 +131,48 @@ final class SessionMapViewController: UIViewController {
             pickupLocation3.mapView = mapView
         }
 
-        if let coordinate = points.destination {
-            destination.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
-            destination.iconImage = NMFOverlayImage(name: "destination")
-            destination.mapView = mapView
+        destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
+        destination.iconImage = NMFOverlayImage(name: "destination")
+        destination.mapView = mapView
+    }
+
+    private func fetchDirections() {
+        let startLatitude = points.startingPoint.lat  // 36.01759520
+        let startLongitude = points.startingPoint.lng // 129.32206275
+        let goalLatitude = points.destination.lat     // 36.0108783
+        let goalLongitude = points.destination.lng    // 129.327818
+
+        // URL 설정
+        let urlString = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving"
+        + "?start=\(startLongitude),\(startLatitude)"
+        + "&goal=\(goalLongitude),\(goalLatitude)"
+        guard let url = URL(string: urlString) else {
+            print("유효하지 않은 URL입니다.")
+            return
         }
+        var request = URLRequest(url: url)
+        request.setValue(Bundle.main.naverMapClientID, forHTTPHeaderField: "X-NCP-APIGW-API-KEY-ID")
+        request.setValue(Bundle.main.naverMapClientSecret, forHTTPHeaderField: "X-NCP-APIGW-API-KEY")
+
+        let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("에러 발생: \(error)")
+                return
+            }
+            guard let data = data, let responseString = String(data: data, encoding: .utf8) else {
+                return
+            }
+            // 데이터를 JSON으로 파싱
+            if let jsonData = responseString.data(using: .utf8),
+               let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+               let route = jsonObject["route"] as? [String: Any],
+               let traoptimal = route["traoptimal"] as? [[String: Any]],
+               let firstPath = traoptimal.first,
+               let path = firstPath["path"] as? [[Double]] {
+                print("Path 데이터: \(path)")
+            }
+        }
+        task.resume()
     }
 }
 

@@ -19,4 +19,15 @@ extension Bundle {
         }
         return value
     }
+
+    var naverMapClientSecret: String {
+        guard let filePath = Bundle.main.path(forResource: "SecureKey-Info", ofType: "plist") else {
+            fatalError("Couldn't find file 'SecureKey-Info.plist'.")
+        }
+        let plist = NSDictionary(contentsOfFile: filePath)
+        guard let value = plist?.object(forKey: "NAVER_MAP_CLIENT_SECRET") as? String else {
+            fatalError("Couldn't find key 'NAVER_MAP_CLIENT_SECRET' in 'SecureKey-Info.plist'.")
+        }
+        return value
+    }
 }
