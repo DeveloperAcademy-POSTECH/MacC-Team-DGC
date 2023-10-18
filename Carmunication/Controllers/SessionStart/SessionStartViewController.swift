@@ -25,6 +25,8 @@ final class SessionStartViewController: UIViewController {
 
     var selectedGroupData: Group?
 
+    private var isInviteJourneyClicked = false
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -101,11 +103,38 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     @objc private func inviteJourney() {
+            if isInviteJourneyClicked {
+                showAlertDialog()
+            } else {
+                // TODO: - 수락한 운전자 수 보여주는 로직 구현
+                // TODO: - 세션 초대 로직 구현
+                sessionStartView.journeyTogetherButton.backgroundColor = UIColor.semantic.negative
+                sessionStartView.journeyTogetherButton.setTitle("바로 시작하기", for: .normal)
+                isInviteJourneyClicked = true
+            }
+        }
 
-        // TODO: - 세션 초대 로직 구현
-        sessionStartView.journeyTogetherButton.backgroundColor = UIColor.semantic.negative
-        sessionStartView.journeyTogetherButton.setTitle("바로 시작하기", for: .normal)
-    }
+        private func showAlertDialog() {
+            let alertController = UIAlertController(
+                title: selectedGroupData?.groupName,
+                message: "크루원들을 기다리지 않고\n여정을 바로 시작하시겠어요?",
+                preferredStyle: .alert
+            )
+
+            let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel, handler: nil)
+            let startAction = UIAlertAction(title: "시작하기", style: .default, handler: { _ in
+                let sessionMapViewController = SessionMapViewController()
+                sessionMapViewController.modalPresentationStyle = .fullScreen
+                self.present(sessionMapViewController, animated: true, completion: nil)
+            })
+            cancelAction.setValue(UIColor.semantic.accPrimary, forKey: "titleTextColor")
+            startAction.setValue(UIColor.semantic.accPrimary, forKey: "titleTextColor")
+
+            alertController.addAction(cancelAction)
+            alertController.addAction(startAction)
+
+            present(alertController, animated: true, completion: nil)
+        }
 
     private func handleSelectedGroupData(_ selectedGroup: Group) {
         // 선택한 그룹 데이터를 처리하는 코드를 추가합니다.
