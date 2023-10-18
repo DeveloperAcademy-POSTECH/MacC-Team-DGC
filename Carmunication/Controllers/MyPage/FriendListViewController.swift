@@ -56,6 +56,8 @@ final class FriendListViewController: UIViewController {
                         self.friendList.append(friend)
                         self.friendListView.friendListTableView.reloadData()
                         print("친구목록: \(self.friendList)")
+
+                        self.checkFriendListIsEmpty(friendListCount: self.friendList.count)
                     }
                 }
             }
@@ -64,6 +66,21 @@ final class FriendListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+    }
+
+    // 친구 목록에 값이 있는지 확인하고, 뷰에 표시해줄 요소를 결정하는 메서드
+    private func checkFriendListIsEmpty(friendListCount: Int) {
+        if friendListCount < 1 {
+            // 친구 목록에 친구가 있으면 테이블 뷰를 보여준다.
+            friendListView.friendListTableView.isHidden = true
+            friendListView.emptyView.isHidden = false
+            friendListView.emptyFriendLabel.isHidden = false
+        } else {
+            // 친구 목록에 친구가 없으면 테이블 뷰를 숨기고 친구가 없을 때의 화면을 보여준다.
+            friendListView.friendListTableView.isHidden = false
+            friendListView.emptyView.isHidden = true
+            friendListView.emptyFriendLabel.isHidden = true
+        }
     }
 }
 
@@ -232,23 +249,5 @@ extension FriendListViewController: UITableViewDelegate {
             self.navigationController?.pushViewController(friendDetailVC, animated: true)
         }
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct FriendListViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = FriendListViewController
-    func makeUIViewController(context: Context) -> FriendListViewController {
-        return FriendListViewController()
-    }
-    func updateUIViewController(_ uiViewController: FriendListViewController, context: Context) {
-    }
-}
-@available(iOS 13.0.0, *)
-struct FriendListViewPreview: PreviewProvider {
-    static var previews: some View {
-        FriendListViewControllerRepresentable()
     }
 }
