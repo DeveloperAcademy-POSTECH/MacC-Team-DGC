@@ -46,7 +46,7 @@ final class FriendDetailView: UIView {
     // MARK: - 친구 닉네임
     lazy var friendNickname: UILabel = {
         let nicknameLabel = UILabel()
-        nicknameLabel.text = "홍길동"
+        nicknameLabel.text = "..."
         nicknameLabel.font = UIFont.carmuFont.display1
         nicknameLabel.textColor = UIColor.semantic.textSecondary
         return nicknameLabel
@@ -95,9 +95,13 @@ final class FriendDetailView: UIView {
     // MARK: - 친구 프로필 이미지
     lazy var friendImage: UIImageView = {
         let friendImage = UIImageView()
-        let image = UIImage(named: "profile")
+        friendImage.image = UIImage(named: "profile")
         friendImage.contentMode = .scaleAspectFit
-        friendImage.image = image
+        // TODO: - 이미지 프레임 추후 비율에 맞게 수정 필요
+        let size = CGFloat(137)
+        friendImage.frame = CGRect(x: 0, y: 0, width: size, height: size)
+        friendImage.layer.cornerRadius = size / 2
+        friendImage.clipsToBounds = true
         return friendImage
     }()
 

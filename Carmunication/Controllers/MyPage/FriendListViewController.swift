@@ -7,9 +7,13 @@
 
 import UIKit
 
+import FirebaseDatabase
+import FirebaseStorage
+
 final class FriendListViewController: UIViewController {
 
     let dummyFriends = ["홍길동", "우니", "배찌", "젠", "레이", "테드", "젤리빈", "김영빈", "피카츄"]
+    var friendList: [User] = []
     private let friendListView = FriendListView()
 
     override func viewDidLoad() {
@@ -36,6 +40,33 @@ final class FriendListViewController: UIViewController {
             target: self,
             action: #selector(showFriendAddView)
         )
+
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        // 유저의 친구 관계 리스트를 불러온다.
+        readUserFriendshipList(databasePath: databasePath) { friendshipList in
+            guard let friendshipList else {
+                return
+            }
+            // 친구 관계 id값으로 친구의 uid를 받아온다.
+            for friendshipID in friendshipList {
+                self.getFriendUid(friendshipID: friendshipID) { friendID in
+                    guard let friendID else {
+                        return
+                    }
+                    // 친구의 uid값으로 친구의 User객체를 불러온다.
+                    self.getFriendUser(friendID: friendID) { friend in
+                        guard let friend else {
+                            return
+                        }
+                        self.friendList.append(friend)
+                        self.friendListView.friendListTableView.reloadData()
+                        print("친구목록: \(self.friendList)")
+                    }
+                }
+            }
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -56,6 +87,95 @@ extension FriendListViewController {
     }
 }
 
+// MARK: - Firebase Realtime Database DB 관련 메서드
+extension FriendListViewController {
+
+    // MARK: - DB에서 유저의 friendID 목록을 불러오는 메서드
+    private func readUserFriendshipList(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
+        databasePath.child("friends").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            let friends = snapshot?.value as? [String]
+            completion(friends)
+        }
+    }
+
+    // MARK: - friendID 값으로 DB에서 Friendship의 친구 id를 불러오는 메서드
+    private func getFriendUid(friendshipID: String, completion: @escaping (String?) -> Void) {
+        Database.database().reference().child("friendship/\(friendshipID)").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let snapshotValue = snapshot?.value as? [String: Any] else {
+                return
+            }
+            guard let currentUserID = KeychainItem.currentUserIdentifier else {
+                return
+            }
+            // sender와 receiver 중 현재 사용자에 해당하지 않는 uid를 뽑는다.
+            var friendID: String = ""
+            let senderValue = snapshotValue["senderID"] as? String ?? ""
+            let receiverValue = snapshotValue["receiverID"] as? String ?? ""
+            if currentUserID != senderValue {
+                friendID = senderValue
+            } else {
+                friendID = receiverValue
+            }
+            completion(friendID)
+        }
+    }
+
+    // MARK: - 친구의 uid로 DB에서 친구 데이터를 불러오기
+    private func getFriendUser(friendID: String, completion: @escaping (User?) -> Void) {
+        Database.database().reference().child("users/\(friendID)").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let snapshotValue = snapshot?.value as? [String: Any] else {
+                return
+            }
+            let friend = User(
+                id: snapshotValue["id"] as? String ?? "",
+                nickname: snapshotValue["nickname"] as? String ?? "",
+                imageURL: snapshotValue["imageURL"] as? String ?? "",
+                friends: snapshotValue["friends"] as? [String] ?? []
+            )
+            completion(friend)
+        }
+    }
+}
+
+// MARK: - Firebae Storage 관련 메서드
+extension FriendListViewController {
+
+    // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
+    // TODO: - MyPageViewController와 중복되는 메서드 -> 정리 필요함
+    private func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
+        let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
+        let megaByte = Int64(1 * 1024 * 1024)
+
+        firebaseStorageRef.getData(maxSize: megaByte) { data, error in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let imageData = data else {
+                completion(nil)
+                return
+            }
+            completion(UIImage(data: imageData))
+        }
+    }
+}
+
 // MARK: - UITableViewDataSource 델리게이트 구현
 extension FriendListViewController: UITableViewDataSource {
 
@@ -66,7 +186,7 @@ extension FriendListViewController: UITableViewDataSource {
 
     // 섹션의 개수
     func numberOfSections(in tableView: UITableView) -> Int {
-        return dummyFriends.count
+        return friendList.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -81,8 +201,21 @@ extension FriendListViewController: UITableViewDataSource {
         ) as? FriendListTableViewCell else {
             return UITableViewCell()
         }
-        // TODO: - 셀에 친구 정보 넣어주기
-        cell.nicknameLabel.text = dummyFriends[indexPath.section]
+        cell.nicknameLabel.text = friendList[indexPath.section].nickname
+        // 친구 이미지 불러오기
+        let imageURL = friendList[indexPath.section].imageURL
+        if !imageURL.isEmpty {
+            loadProfileImage(urlString: imageURL) { friendImage in
+                if let friendImage = friendImage {
+                    cell.profileImageView.image = friendImage
+                } else {
+                    cell.profileImageView.image = UIImage(named: "profile")
+                }
+            }
+        } else {
+            cell.profileImageView.image = UIImage(named: "profile")
+        }
+
         let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImage.tintColor = UIColor.semantic.textBody
         cell.accessoryView = chevronImage
@@ -105,10 +238,26 @@ extension FriendListViewController: UITableViewDelegate {
 
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: - 친구 상세보기 페이지로 이동 구현하기
         let friendDetailVC = FriendDetailViewController()
-        navigationController?.pushViewController(friendDetailVC, animated: true)
-        tableView.deselectRow(at: indexPath, animated: true)
+        friendDetailVC.friendName = friendList[indexPath.section].nickname
+        let imageURL = friendList[indexPath.section].imageURL
+        if !imageURL.isEmpty {
+            loadProfileImage(urlString: imageURL) { friendImage in
+                if let friendImage = friendImage {
+                    friendDetailVC.friendImage = friendImage
+                    self.navigationController?.pushViewController(friendDetailVC, animated: true)
+                    tableView.deselectRow(at: indexPath, animated: true)
+                } else {
+                    friendDetailVC.friendImage = UIImage(named: "profile")
+                    self.navigationController?.pushViewController(friendDetailVC, animated: true)
+                    tableView.deselectRow(at: indexPath, animated: true)
+                }
+            }
+        } else {
+            friendDetailVC.friendImage = UIImage(named: "profile")
+            self.navigationController?.pushViewController(friendDetailVC, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
     }
 }
 

@@ -114,13 +114,13 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        // 파이어베이스에 저장된 닉네임이 있는지 여부에 따라서 CREATE 혹은 UPDATE
-        checkNickname(databasePath: databasePath) { storedNickname in
-            guard let storedNickname = storedNickname else {
+        // 파이어베이스에 저장된 유저가 있는지 여부에 따라서 CREATE 혹은 UPDATE
+        checkUser(databasePath: databasePath) { user in
+            guard let user = user else {
                 self.createUser(user: firebaseUser)
                 return
             }
-            self.updateUser(user: firebaseUser, nickname: storedNickname)
+            self.updateUser(user: firebaseUser, updatedUser: user)
         }
     }
 
@@ -133,7 +133,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
               let email = firebaseUser.email else {
             return
         }
-        let user = User(id: firebaseUser.uid, nickname: nickname, email: email)
+        let user = User(id: firebaseUser.uid, nickname: nickname, email: email, imageURL: "", friends: [])
 
         do {
             let data = try encoder.encode(user)
@@ -148,14 +148,11 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     }
 
     // 유저 업데이트 (UPDATE)
-    private func updateUser(user firebaseUser: FirebaseAuth.User, nickname: String) {
+    private func updateUser(user firebaseUser: FirebaseAuth.User, updatedUser: User) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        guard let email = firebaseUser.email else {
-            return
-        }
-        let user = User(id: firebaseUser.uid, nickname: nickname, email: email)
+        let user = updatedUser
 
         do {
             let data = try encoder.encode(user)
@@ -169,16 +166,27 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         }
     }
 
-    // 파이어베이스에 저장된 닉네임 확인 메서드
-    private func checkNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
-        databasePath.child("nickname").getData { error, snapshot in
+    // 파이어베이스에 저장된 유저 확인 메서드
+    private func checkUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
+        databasePath.getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
                 return
             }
-            let nickname = snapshot?.value as? String
-            completion(nickname)
+            if let value = snapshot?.value as? [String: Any] {
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: value)
+                    let user = try JSONDecoder().decode(User.self, from: data)
+                    completion(user)
+                } catch {
+                    print("User decoding error", error)
+                    completion(nil)
+                }
+            } else {
+                print("Invalid data format")
+                completion(nil)
+            }
         }
     }
 }
