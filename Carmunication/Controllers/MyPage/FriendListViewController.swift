@@ -77,9 +77,9 @@ final class FriendListViewController: UIViewController {
             friendListView.emptyFriendLabel.isHidden = false
         } else {
             // 친구 목록에 친구가 없으면 테이블 뷰를 숨기고 친구가 없을 때의 화면을 보여준다.
-            self.friendListView.friendListTableView.isHidden = false
-            self.friendListView.emptyView.isHidden = true
-            self.friendListView.emptyFriendLabel.isHidden = true
+            friendListView.friendListTableView.isHidden = false
+            friendListView.emptyView.isHidden = true
+            friendListView.emptyFriendLabel.isHidden = true
         }
     }
 }
