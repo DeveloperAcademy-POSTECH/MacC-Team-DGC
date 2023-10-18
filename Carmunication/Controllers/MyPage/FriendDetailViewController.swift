@@ -9,6 +9,10 @@ import UIKit
 
 final class FriendDetailViewController: UIViewController {
 
+    // 친구 리스트 화면에서 받아올 친구 정보
+    var friendName: String?
+    var friendImage: UIImage?
+
     let dummyImage = ["coffee", "box", "shoppingBag", "letter"]
     let dummydistance = [200, 400, 500, 1000]
     let dummyName = ["커피 한 잔", "1만원 이내의 선물", "3만원 이내의 선물", "주유상품권"]
@@ -37,6 +41,14 @@ final class FriendDetailViewController: UIViewController {
         )
         friendDetailView.giftCollectionView.delegate = self
         friendDetailView.giftCollectionView.dataSource = self
+
+        // 이전 친구 리스트 화면에서 전달받은 닉네임과 이미지를 반영
+        if let friendName = friendName {
+            friendDetailView.friendNickname.text = friendName
+        }
+        if let friendImage = friendImage {
+            friendDetailView.friendImage.image = friendImage
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -61,6 +73,12 @@ extension FriendDetailViewController {
         deleteAlertController.addAction(performDelete)
         self.present(deleteAlertController, animated: true)
     }
+}
+
+// MARK: - Firebase Realtime Database DB 관련 메서드
+extension FriendDetailViewController {
+
+    // TODO: - DB에서 친구 삭제하는 메서드 구현 필요
 }
 
 // MARK: - UICollectionViewDataSource 델리게이트 구현

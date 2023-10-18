@@ -49,6 +49,7 @@
 		B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */; };
 		B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */; };
 		B8A3EFDF2AC9090C00433F5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8A3EFDE2AC9090C00433F5C /* GoogleService-Info.plist */; };
+		B8D507342ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */; };
 		B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73ABE2AD2914200D211DE /* SettingsView.swift */; };
 		B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */; };
 		B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC22AD2FBE600D211DE /* InquiryView.swift */; };
@@ -133,6 +134,7 @@
 		B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewController.swift; sourceTree = "<group>"; };
 		B8A3EFDE2AC9090C00433F5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSearchedResultTableViewCell.swift; sourceTree = "<group>"; };
 		B8D73ABE2AD2914200D211DE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		B8D73AC22AD2FBE600D211DE /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
@@ -299,6 +301,7 @@
 				B8DD15E72AD641BC00685E48 /* FriendDetailView.swift */,
 				B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */,
 				B8DD15ED2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift */,
+				B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -699,6 +702,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8D507342ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift in Sources */,
 				BF9BCFF32ACE379C009DAECD /* SelectAddressView.swift in Sources */,
 				C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */,
 				BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */,

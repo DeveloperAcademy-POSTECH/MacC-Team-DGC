@@ -11,81 +11,101 @@ struct DummyData {
     static let users: [User] = [
         User(
             id: "0",
+            deviceToken: "Bazzi",
             nickname: "김배찌",
             email: "beerandsoju@gmail.com",
-            deviceToken: "Bazzi"
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "1",
+            deviceToken: "Ted",
             nickname: "김테드",
             email: "vandijk@gmail.com",
-            deviceToken: "Ted"
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "2",
+            deviceToken: "Rei",
             nickname: "김레이",
             email: "pokemon767@gmail.com",
-            deviceToken: "Rei"
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "3",
+            deviceToken: "Uni",
             nickname: "회장님",
             email: "unisushi@gmail.com",
-            deviceToken: "Uni"
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "4",
+            deviceToken: "Jen",
             nickname: "권지수",
             email: "sulJji@gmail.com",
-            deviceToken: "Jen"
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "5",
+            deviceToken: "JellyBeen",
             nickname: "젤리빈",
             email: "sofa@gmail.com",
-            deviceToken: "JellyBeen"
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "6",
+            deviceToken: "Jason",
             nickname: "제이슨",
             email: "jsonparsing@gmail.com",
-            deviceToken: "Jason"
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "7",
+            deviceToken: "Ian",
             nickname: "이안",
             email: "tallPerson@gmail.com",
-            deviceToken: "Ian"
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "8",
+            deviceToken: "LikeLike",
             nickname: "좋아요좋아요",
             email: "likelike@gmail.com",
-            deviceToken: "LikeLike"
+            imageURL: "",
+            friends: []
         ),
         User(
             id: "9",
+            deviceToken: "SmallMid",
             nickname: "중소기업",
             email: "jungso@gmail.com",
-            deviceToken: "SmallMid"
+            imageURL: "",
+            friends: []
         )
     ]
 
     static var friendships: [Friendship] = [
         Friendship(
-            friendId: 0, senderId: 0, receiverId: 1, status: true
+            friendshipID: "0", senderID: "rei", receiverID: "ted", status: true
         ),
         Friendship(
-            friendId: 1, senderId: 0, receiverId: 2, status: true
+            friendshipID: "1", senderID: "rei", receiverID: "uni", status: true
         ),
         Friendship(
-            friendId: 2, senderId: 0, receiverId: 3, status: true
+            friendshipID: "2", senderID: "rei", receiverID: "bazzi", status: true
         ),
         Friendship(
-            friendId: 3, senderId: 0, receiverId: 4, status: true
+            friendshipID: "3", senderID: "rei", receiverID: "jen", status: true
         ),
         Friendship(
-            friendId: 4, senderId: 3, receiverId: 5, status: true
+            friendshipID: "4", senderID: "bazzi", receiverID: "jellybean", status: true
         )
     ]
 
