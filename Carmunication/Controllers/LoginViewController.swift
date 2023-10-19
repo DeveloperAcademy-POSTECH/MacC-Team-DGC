@@ -4,7 +4,6 @@
 //
 //  Created by 김영빈 on 2023/09/25.
 //
-
 import AuthenticationServices
 import CryptoKit
 import UIKit
@@ -14,18 +13,13 @@ import FirebaseDatabase
 import SnapKit
 
 final class LoginViewController: UIViewController {
-
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
     private var currentNonce: String?
-
     private let loginView = LoginView()
-
     private let encoder = JSONEncoder()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-
         view.addSubview(loginView)
         loginView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -33,10 +27,8 @@ final class LoginViewController: UIViewController {
         loginView.appleSignInButton.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
     }
 }
-
 // MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerDelegate {
-
     // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
     func authorizationController(
         controller: ASAuthorizationController,
@@ -56,7 +48,6 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
             return
         }
-
         // Firebase credential 초기화
         // → 애플 로그인에 성공했으면 해시되지 않은 nonce가 포함된 애플의 응답에서 ID 토큰을 사용하여 파이어베이스에도 인증을 수행해줍니다.
         let credential = OAuthProvider.appleCredential(
@@ -74,12 +65,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             if let userIdentifier = authResult?.user.uid {
                 self.saveUserInKeychain(userIdentifier)
             }
-
             // Firebase DB에 유저 정보 추가
             if let currentUser = Auth.auth().currentUser {
                 self.saveToDB(user: currentUser)
             }
-
             // 로그인 성공 시 메인 탭 바 뷰로 이동
             let mainTabBarView = MainTabBarViewController()
             // present() 애니메이션 커스텀 (오른쪽->왼쪽)
@@ -92,12 +81,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             self.present(mainTabBarView, animated: true)
         }
     }
-
     // MARK: - 인증 플로우가 정상적으로 끝나지 않았거나, credential이 존재하지 않을 때 호출
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("애플 로그인 실패: \(error.localizedDescription)")
     }
-
     private func saveUserInKeychain(_ userIdentifier: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             return
@@ -108,22 +95,20 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             print("키체인에 userIdentifier를 저장하지 못했습니다.")
         }
     }
-
     // 인증 후 사용자 정보를 DB에 저장하는 메서드
     private func saveToDB(user firebaseUser: FirebaseAuth.User) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        // 파이어베이스에 저장된 닉네임이 있는지 여부에 따라서 CREATE 혹은 UPDATE
-        checkNickname(databasePath: databasePath) { storedNickname in
-            guard let storedNickname = storedNickname else {
+        // 파이어베이스에 저장된 유저가 있는지 여부에 따라서 CREATE 혹은 UPDATE
+        checkUser(databasePath: databasePath) { user in
+            guard let user = user else {
                 self.createUser(user: firebaseUser)
                 return
             }
-            self.updateUser(user: firebaseUser, nickname: storedNickname)
+            self.updateUser(user: firebaseUser, updatedUser: user)
         }
     }
-
     // 유저 신규 등록 (CREATE)
     private func createUser(user firebaseUser: FirebaseAuth.User) {
         guard let databasePath = User.databasePathWithUID else {
@@ -133,63 +118,78 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
               let email = firebaseUser.email else {
             return
         }
-        let user = User(id: firebaseUser.uid, nickname: nickname, email: email)
 
+        guard let fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
+            return
+        }
+        print("FCMToken -> ", fcmToken)
+        let user = User(id: firebaseUser.uid, deviceToken: fcmToken, nickname: nickname, email: email)
         do {
             let data = try encoder.encode(user)
 
             let json = try JSONSerialization.jsonObject(with: data)
-
             databasePath.setValue(json)
             print("User CREATE success!!")
         } catch {
             print("User CREATE fail..", error)
         }
     }
-
     // 유저 업데이트 (UPDATE)
-    private func updateUser(user firebaseUser: FirebaseAuth.User, nickname: String) {
+    private func updateUser(user firebaseUser: FirebaseAuth.User, updatedUser: User) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
         guard let email = firebaseUser.email else {
             return
         }
-        let user = User(id: firebaseUser.uid, nickname: nickname, email: email)
+        // 디바이스 토큰값 갱신
+        guard let fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
+            return
+        }
+        var newUserValue = updatedUser
+        newUserValue.email = email
+        newUserValue.deviceToken = fcmToken
+        let user = newUserValue
 
         do {
             let data = try encoder.encode(user)
-
             let json = try JSONSerialization.jsonObject(with: data)
-
             databasePath.setValue(json)
             print("User UPDATE success!!")
         } catch {
             print("User UPDATE fail..", error)
         }
     }
-
-    // 파이어베이스에 저장된 닉네임 확인 메서드
-    private func checkNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
-        databasePath.child("nickname").getData { error, snapshot in
+    // 파이어베이스에 저장된 유저 확인 메서드
+    private func checkUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
+        databasePath.getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
                 return
             }
-            let nickname = snapshot?.value as? String
-            completion(nickname)
+            if let value = snapshot?.value as? [String: Any] {
+                do {
+                    let data = try JSONSerialization.data(withJSONObject: value)
+                    let user = try JSONDecoder().decode(User.self, from: data)
+                    completion(user)
+                } catch {
+                    print("User decoding error", error)
+                    completion(nil)
+                }
+            } else {
+                print("Invalid data format")
+                completion(nil)
+            }
         }
     }
 }
-
 // MARK: - 로그인 UI 표시 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
 }
-
 // MARK: - Firebase 인증 관련 익스텐션
 /// https://firebase.google.com/docs/auth/ios/apple?hl=ko 참고
 extension LoginViewController {
@@ -203,13 +203,11 @@ extension LoginViewController {
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
         request.nonce = sha256(nonce)
-
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
     }
-
     // MARK: - 암호화된 nonce 생성 함수
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
@@ -220,7 +218,6 @@ extension LoginViewController {
                 "Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)"
             )
         }
-
         let charset = [Character]("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
         let nonce = randomBytes.map { byte in
             // Pick a random character from the set, wrapping around if needed.
@@ -228,7 +225,6 @@ extension LoginViewController {
         }
         return String(nonce)
     }
-
     // MARK: - SHA256 해시 함수
     @available(iOS 13, *)
     private func sha256(_ input: String) -> String {
@@ -237,7 +233,6 @@ extension LoginViewController {
         let hashString = hashedData.compactMap {
             String(format: "%02x", $0)
         }.joined()
-
         return hashString
     }
 }

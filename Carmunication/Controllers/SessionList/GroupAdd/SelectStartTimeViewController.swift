@@ -10,6 +10,9 @@ import UIKit
 class SelectStartTimeViewController: UIViewController {
 
     let selectStartTimeView = SelectStartTimeModalView()
+    var timeSelectionHandler: ((Date) -> Void)?
+    private var selectedTime: Date?
+    weak var groupAddViewController: GroupAddViewController?
 
     override var sheetPresentationController: UISheetPresentationController? {
         presentationController as? UISheetPresentationController
@@ -17,6 +20,7 @@ class SelectStartTimeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        groupAddViewController = presentingViewController as? GroupAddViewController
         view.backgroundColor = .systemBackground
 
         view.addSubview(selectStartTimeView)
@@ -26,6 +30,7 @@ class SelectStartTimeViewController: UIViewController {
 
         selectStartTimeView.closeButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
         selectStartTimeView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
+        selectStartTimeView.timePicker.addTarget(self, action: #selector(timePickerValueChanged), for: .valueChanged)
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
@@ -40,7 +45,12 @@ extension SelectStartTimeViewController {
     }
 
     @objc private func saveButtonAction() {
+        timeSelectionHandler?(selectedTime ?? Date())
         dismiss(animated: true)
+    }
+
+    @objc private func timePickerValueChanged() {
+        selectedTime = selectStartTimeView.timePicker.date
     }
 }
 

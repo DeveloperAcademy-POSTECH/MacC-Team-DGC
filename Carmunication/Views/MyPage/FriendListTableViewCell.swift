@@ -9,6 +9,8 @@ import UIKit
 
 final class FriendListTableViewCell: UITableViewCell {
 
+    static let cellIdentifier = "friendListTableViewCell"
+
     // MARK: - 프로필 스택
     lazy var profileStack: UIStackView = {
         let profileStack = UIStackView()
@@ -23,6 +25,11 @@ final class FriendListTableViewCell: UITableViewCell {
         if let profileImage = UIImage(named: "profile") {
             profileImageView.contentMode = .scaleAspectFit
             profileImageView.image = profileImage
+            // TODO: - 이미지 프레임 추후 비율에 맞게 수정 필요
+            let size = CGFloat(50)
+            profileImageView.frame = CGRect(x: 0, y: 0, width: size, height: size)
+            profileImageView.layer.cornerRadius = size / 2
+            profileImageView.clipsToBounds = true
         }
         return profileImageView
     }()

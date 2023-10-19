@@ -26,6 +26,24 @@ final class SessionStartView: UIView {
         return btn
     }()
 
+    // 동승자일 때 버튼
+    let noRideButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("따로가기", for: .normal)
+        btn.backgroundColor = UIColor.semantic.backgroundSecond
+        btn.titleLabel?.font = UIFont.carmuFont.headline2
+        btn.setTitleColor(UIColor.theme.blue3, for: .normal)
+        return btn
+    }()
+    let participateButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("참여하기", for: .normal)
+        btn.backgroundColor = UIColor.semantic.backgroundSecond
+        btn.titleLabel?.font = UIFont.carmuFont.headline2
+        btn.setTitleColor(UIColor.theme.blue3, for: .normal)
+        return btn
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -34,8 +52,6 @@ final class SessionStartView: UIView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupUI()
-        setupGroupData()
     }
 
     override func draw(_ rect: CGRect) {
@@ -50,6 +66,8 @@ final class SessionStartView: UIView {
 
         addSubview(groupCollectionView)
         addSubview(journeyTogetherButton)
+        addSubview(noRideButton)
+        addSubview(participateButton)
     }
 
     private func setCollectionView() {
@@ -73,7 +91,7 @@ final class SessionStartView: UIView {
 
     private func setupGroupData() {
 
-        // 그룹이 하나 이상 있을 때 나타내는 정보들
+        // 그룹이 없을 때 나타내는 정보들
         if groupData == nil {
             journeyTogetherButton.setTitleColor(UIColor.theme.blue3, for: .normal)
             journeyTogetherButton.backgroundColor = UIColor.semantic.backgroundSecond

@@ -13,6 +13,10 @@ final class SessionStartViewController: UIViewController {
 
     private let sessionStartView = SessionStartView()
     private let sessionStartMidView = SessionStartMidView()
+    private let sessionStartMidNoGroupView = SessionStartMidNoGroupView()
+
+    // CaptainID
+    private let captainID = "1"
 
     // 기기 크기에 따른 collectionView 높이 설정
     private var collectionViewHeight: CGFloat = 0
@@ -21,6 +25,8 @@ final class SessionStartViewController: UIViewController {
     private var buttonHeight: CGFloat = 60
 
     var selectedGroupData: Group?
+
+    private var isInviteJourneyClicked = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +40,7 @@ final class SessionStartViewController: UIViewController {
 
         sessionStartView.journeyTogetherButton.addTarget(
             self,
-            action: #selector(presentModalQueue),
+            action: #selector(inviteJourney),
             for: .touchUpInside
         )
 
@@ -42,6 +48,9 @@ final class SessionStartViewController: UIViewController {
         if let firstGroup = groupData?.first {
             handleSelectedGroupData(firstGroup)
         }
+
+        // 운전자인지 동승자인지 확인
+        setupBottomButton(selectedGroupData)
     }
 }
 
@@ -54,6 +63,7 @@ extension SessionStartViewController {
 
         view.addSubview(sessionStartView)
         view.addSubview(sessionStartMidView)
+        view.addSubview(sessionStartMidNoGroupView)
     }
 
     func setupByFrameSize() {
@@ -83,22 +93,13 @@ extension SessionStartViewController {
 
         // 여기서 두 view 간 레이아웃 잡기
         sessionStartMidView.snp.makeConstraints { make in
-            make.top.equalTo(sessionStartView.groupCollectionView.snp.bottom).inset(-16).priority(.high)
+            make.top.equalTo(sessionStartView.groupCollectionView.snp.bottom).offset(16).priority(.high)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.lessThanOrEqualTo(467).priority(.low)
         }
-
-        let tabBarControllerHeight = self.tabBarController?.tabBar.frame.height ?? 0
-
-        sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
-            make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
-            make.leading.trailing.equalTo(sessionStartView).inset(20)
-            make.height.equalTo(buttonHeight)
-            make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
+        sessionStartMidNoGroupView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(20)
         }
-
-        sessionStartView.journeyTogetherButton.layer.cornerRadius = buttonHeight / 2
-
     }
 
 }
@@ -106,9 +107,38 @@ extension SessionStartViewController {
 // MARK: Actions
 extension SessionStartViewController {
 
-    @objc private func presentModalQueue() {
-        let modalQueueViewController = ModalQueueViewController()
-        self.present(modalQueueViewController, animated: true)
+    @objc private func inviteJourney() {
+        if isInviteJourneyClicked {
+            showAlertDialog()
+        } else {
+            // TODO: - 수락한 운전자 수 보여주는 로직 구현
+            // TODO: - 세션 초대 로직 구현
+            sessionStartView.journeyTogetherButton.backgroundColor = UIColor.semantic.negative
+            sessionStartView.journeyTogetherButton.setTitle("바로 시작하기", for: .normal)
+            isInviteJourneyClicked = true
+        }
+    }
+
+    private func showAlertDialog() {
+        let alertController = UIAlertController(
+            title: selectedGroupData?.groupName,
+            message: "크루원들을 기다리지 않고\n여정을 바로 시작하시겠어요?",
+            preferredStyle: .alert
+        )
+
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel, handler: nil)
+        let startAction = UIAlertAction(title: "시작하기", style: .default, handler: { _ in
+            let sessionMapViewController = SessionMapViewController()
+            sessionMapViewController.modalPresentationStyle = .fullScreen
+            self.present(sessionMapViewController, animated: true, completion: nil)
+        })
+        cancelAction.setValue(UIColor.semantic.accPrimary, forKey: "titleTextColor")
+        startAction.setValue(UIColor.semantic.accPrimary, forKey: "titleTextColor")
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(startAction)
+
+        present(alertController, animated: true, completion: nil)
     }
 
     private func handleSelectedGroupData(_ selectedGroup: Group) {
@@ -120,6 +150,69 @@ extension SessionStartViewController {
 
         // 화면 업데이트
         sessionStartMidView.setupGroupData(selectedGroup)
+
+    }
+
+    // 운전자인지 동승자인지의 여부에 따른 버튼 변경
+    private func setupBottomButton(_ selectedGroup: Group?) {
+
+        self.selectedGroupData = selectedGroup
+
+        let tabBarControllerHeight = self.tabBarController?.tabBar.frame.height ?? 0
+
+        if let selectedGroup = selectedGroup {
+
+            sessionStartMidView.isHidden = false
+            sessionStartMidNoGroupView.isHidden = true
+            if selectedGroup.captainId == captainID {   // 운전자인 경우의 처리
+                sessionStartView.journeyTogetherButton.isHidden = false
+                sessionStartView.noRideButton.isHidden = true
+                sessionStartView.participateButton.isHidden = true
+
+                sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
+                    make.top.equalTo(sessionStartMidView.snp.bottom).offset(16)
+                    make.leading.trailing.equalTo(sessionStartView).inset(20)
+                    make.height.equalTo(buttonHeight)
+                    make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
+                }
+                sessionStartView.journeyTogetherButton.layer.cornerRadius = buttonHeight / 2
+            } else {
+                // 동승자인 경우의 처리
+                sessionStartView.journeyTogetherButton.isHidden = true
+                sessionStartView.noRideButton.isHidden = false
+                sessionStartView.participateButton.isHidden = false
+
+                sessionStartView.noRideButton.snp.makeConstraints { make in
+                    make.leading.equalTo(sessionStartView).inset(20)
+                    make.top.equalTo(sessionStartMidView.snp.bottom).offset(16)
+                    make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
+                    make.width.equalTo(sessionStartView.participateButton) // 너비를 같게 설정
+                    make.height.equalTo(buttonHeight)
+                }
+                sessionStartView.participateButton.snp.makeConstraints { make in
+                    make.leading.equalTo(sessionStartView.noRideButton.snp.trailing).offset(10) // leading 간격을 10으로 설정
+                    make.trailing.equalTo(sessionStartView).inset(20)
+                    make.top.equalTo(sessionStartView.noRideButton)
+                    make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
+                    make.width.equalTo(sessionStartView.noRideButton) // 너비를 같게 설정
+                    make.height.equalTo(sessionStartView.noRideButton)
+                }
+                sessionStartView.noRideButton.layer.cornerRadius = buttonHeight / 2
+                sessionStartView.participateButton.layer.cornerRadius = buttonHeight / 2
+            }
+        } else {    // 그룹이 없다면
+            sessionStartMidView.isHidden = true
+            sessionStartMidNoGroupView.isHidden = false
+            sessionStartView.journeyTogetherButton.isHidden = false
+
+            sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
+                make.top.equalTo(sessionStartMidView.snp.bottom).offset(16)
+                make.leading.trailing.equalTo(sessionStartView).inset(20)
+                make.height.equalTo(buttonHeight)
+                make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
+            }
+            sessionStartView.journeyTogetherButton.layer.cornerRadius = buttonHeight / 2
+        }
     }
 }
 
@@ -149,6 +242,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         }
 
         let selectedGroup = groupData[indexPath.row]
+        setupBottomButton(selectedGroup)
         handleSelectedGroupData(selectedGroup)
     }
 }
