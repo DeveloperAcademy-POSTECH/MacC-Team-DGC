@@ -14,25 +14,22 @@ final class GroupAddViewController: UIViewController {
     var groupDataModel: Group = Group()
     var pointsDataModel: [Point2] = []
     var friendsList: [User]?
+    var userImage: [String: UIImage]?
+
     let groupAddView = GroupAddView()
     private let firebaseManager = FirebaseManager()
     private var shouldPopViewController = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
-        print("databasePath: ", databasePath)
         view.backgroundColor = UIColor.semantic.backgroundDefault
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
-        navigationBarSetting()
 
         groupAddView.tableViewComponent.dataSource = self
         groupAddView.tableViewComponent.delegate = self
         groupAddView.textField.delegate = self
-
         groupAddView.stopoverPointAddButton.addTarget(
             self,
             action: #selector(addStopoverPointTapped),
@@ -43,6 +40,8 @@ final class GroupAddViewController: UIViewController {
             action: #selector(createCrewButtonTapped),
             for: .touchUpInside
         )
+        navigationBarSetting()
+
         view.addSubview(groupAddView)
         groupAddView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -52,33 +51,7 @@ final class GroupAddViewController: UIViewController {
             pointsDataModel.append(Point2(pointSequence: index))
         }
 
-        firebaseManager.readUserFriendshipList(databasePath: databasePath) { friendshipList in
-            guard let friendshipList else {
-                return
-            }
-            print("friendshipList: ", friendshipList)
-
-            for friendshipID in friendshipList {
-                self.firebaseManager.getFriendUid(friendshipID: friendshipID) { friendID in
-                    guard let friendID else {
-                        return
-                    }
-                    print("friendID: ", friendID)
-                    // 친구의 uid값으로 친구의 User객체를 불러온다.
-                    self.firebaseManager.getFriendUser(friendID: friendID) { friend in
-                        guard let friend else {
-                            return
-                        }
-                        if self.friendsList == nil {
-                            self.friendsList = [User]()
-                        }
-                        self.friendsList?.append(friend)
-
-                        print("친구목록: \(self.friendsList ?? [User]())")
-                    }
-                }
-            }
-        }
+        fetchFriendsList()
     }
 }
 
@@ -115,7 +88,7 @@ extension GroupAddViewController {
     @objc private func addBoardingCrewButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectBoardingCrewModalViewController()
         detailViewController.friendsList = friendsList
-//        detailViewController.selectedFriends =
+        detailViewController.userImage = userImage
 
         detailViewController.friendSelectionHandler = { [weak self] selectedFriend in
             // 선택한 시간을 사용하여 원하는 작업 수행
@@ -206,6 +179,57 @@ extension GroupAddViewController {
 
 // MARK: - Custom Method
 extension GroupAddViewController {
+
+    private func fetchFriendsList() {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+
+        firebaseManager.readUserFriendshipList(databasePath: databasePath) { friendshipList in
+            guard let friendshipList else {
+                return
+            }
+
+            for friendshipID in friendshipList {
+                self.firebaseManager.getFriendUid(friendshipID: friendshipID) { friendID in
+                    guard let friendID else {
+                        return
+                    }
+                    // 친구의 uid값으로 친구의 User객체를 불러온다.
+                    self.firebaseManager.getFriendUser(friendID: friendID) { friend in
+                        guard let friend else {
+                            return
+                        }
+                        if self.friendsList == nil {
+                            self.friendsList = [User]()
+                        }
+                        self.friendsList?.append(friend)
+
+                        // 친구 목록을 가져온 후 친구 이미지를 가져오도록 호출
+                        self.fetchFriendsImage()
+                    }
+                }
+            }
+        }
+    }
+
+    private func fetchFriendsImage() {
+        guard let databasePath = User.databasePathWithUID else { return }
+        guard let friendsList = self.friendsList else { return }
+        if userImage == nil { userImage = [String: UIImage]() }
+
+        for element in friendsList {
+            if let imageURL = element.imageURL {
+                firebaseManager.loadProfileImage(urlString: imageURL) { returnImage in
+                    if let inputImage = returnImage {
+                        self.userImage?[element.nickname] = inputImage
+                    }
+                }
+            } else {
+                self.userImage?[element.nickname] = UIImage(named: "profile")
+            }
+        }
+    }
 
     private func checkDataEffectiveness() {
         if emptyDataCheck() {

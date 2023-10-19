@@ -430,9 +430,9 @@
 			isa = PBXGroup;
 			children = (
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
-				C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */,
 				C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */,
 				C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */,
+				C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */,
 				C9C7C1222ADED6160016DE13 /* CrewImageButton.swift */,
 			);
 			path = Cell;

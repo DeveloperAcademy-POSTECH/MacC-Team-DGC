@@ -11,8 +11,9 @@ class SelectBoardingCrewModalViewController: UIViewController {
 
     let selectBoardingCrewModalView = SelectBoardingCrewModalView()
 
-    var selectedFriends: [String]?
+    var selectedFriends: [User]?
     var friendsList: [User]?
+    var userImage: [String: UIImage]?
     var friendSelectionHandler: (([String]) -> Void)?
     private let firebaseManager = FirebaseManager()
 
@@ -43,8 +44,6 @@ class SelectBoardingCrewModalViewController: UIViewController {
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
-
-        print("모달 컨트롤러 friendsList : ", friendsList)
     }
 }
 
@@ -61,7 +60,7 @@ extension SelectBoardingCrewModalViewController {
 }
 
 // 모달 높이 조절을 위한 델리게이트
-extension SelectBoardingCrewModalViewController: UISheetPresentationControllerDelegate {}
+extension SelectBoardingCrewModalViewController: UISheetPresentationControllerDelegate { }
 
 extension SelectBoardingCrewModalViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
@@ -91,6 +90,27 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDelegateFlowLay
     ) -> CGFloat {
         return 20
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // friendList의 셀을 선택했을 경우(selectedList에 추가)
+        if collectionView == selectBoardingCrewModalView.friendsListCollectionView {
+            guard let friendElement = friendsList?[indexPath.row] else {
+                return
+            }
+            if selectedFriends == nil { selectedFriends = [User]() }
+            selectedFriends?.append(friendElement)
+            friendsList?.remove(at: indexPath.row)
+        } else { // selectedList의 셀을 선택했을 경우(friendList에 다시 추가)
+            guard let selectedElement = selectedFriends?[indexPath.row] else {
+                return
+            }
+            if friendsList == nil { friendsList = [User]() }
+            friendsList?.append(selectedElement)
+            selectedFriends?.remove(at: indexPath.row)
+        }
+        selectBoardingCrewModalView.friendsListCollectionView.reloadData()
+        selectBoardingCrewModalView.selectedCrewCollectionView.reloadData()
+    }
 }
 
 extension SelectBoardingCrewModalViewController: UICollectionViewDataSource {
@@ -103,27 +123,23 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDataSource {
                 withReuseIdentifier: "selectedCrewCell",
                 for: indexPath
             ) as? GroupAddModalCollectionViewCell {
-                cell.personImage.image = UIImage(named: "crewImageDefalut")
-                cell.personNameLabel.text = "홍길동"
-                self.selectBoardingCrewModalView.selectedCrewCollectionView.reloadData()
+                guard let nickname = self.selectedFriends?[indexPath.row].nickname else {
+                    return UICollectionViewCell()
+                }
+                cell.personImage.image = userImage?[nickname]
+                cell.personNameLabel.text = nickname
                 return cell
             }
         } else {
             if let cell = selectBoardingCrewModalView.friendsListCollectionView.dequeueReusableCell(
-                withReuseIdentifier: "friendCell",
+                withReuseIdentifier: "friendListCell",
                 for: indexPath
             ) as? GroupAddModalCollectionViewCell {
-                firebaseManager.loadProfileImage(
-                    urlString: self.friendsList?[indexPath.row].imageURL ?? ""
-                ) { friendImage in
-                    if let friendImage = friendImage {
-                        cell.personImage.image = friendImage
-                    } else {
-                        cell.personImage.image = UIImage(named: "profile")
-                    }
+                guard let nickname = self.friendsList?[indexPath.row].nickname else {
+                    return UICollectionViewCell()
                 }
-                cell.personNameLabel.text = self.friendsList?[indexPath.row].nickname ?? "홍길동"
-                self.selectBoardingCrewModalView.friendsListCollectionView.reloadData()
+                cell.personImage.image = userImage?[nickname]
+                cell.personNameLabel.text = nickname
                 return cell
             }
         }
