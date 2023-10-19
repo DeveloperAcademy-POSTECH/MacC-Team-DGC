@@ -137,15 +137,19 @@ final class SessionMapViewController: UIViewController {
     }
 
     private func fetchDirections() {
-        let startLatitude = points.startingPoint.lat  // 36.01759520
-        let startLongitude = points.startingPoint.lng // 129.32206275
-        let goalLatitude = points.destination.lat     // 36.0108783
-        let goalLongitude = points.destination.lng    // 129.327818
-
         // URL 설정
-        let urlString = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving"
-        + "?start=\(startLongitude),\(startLatitude)"
-        + "&goal=\(goalLongitude),\(goalLatitude)"
+        var urlString = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving"
+        + "?start=\(points.startingPoint.lng),\(points.startingPoint.lat)"
+        + "&goal=\(points.destination.lng),\(points.destination.lat)"
+        if let stopover1 = points.pickupLocation1 {
+            urlString += "&waypoints=\(stopover1.lng),\(stopover1.lat)"
+        }
+        if let stopover2 = points.pickupLocation2 {
+            urlString += ":\(stopover2.lng),\(stopover2.lat)"
+        }
+        if let stopover3 = points.pickupLocation3 {
+            urlString += ":\(stopover3.lng),\(stopover3.lat)"
+        }
         guard let url = URL(string: urlString) else {
             print("유효하지 않은 URL입니다.")
             return
