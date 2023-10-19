@@ -11,8 +11,9 @@ import FirebaseStorage
 
 final class FriendListViewController: UIViewController {
 
-    var friendList: [User] = []
+    var friendList: [[Any]] = [] // [friendshipID, 친구의User객체] 의 배열을 담을 2차원 배열
     private let friendListView = FriendListView()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -24,7 +25,7 @@ final class FriendListViewController: UIViewController {
         // 재사용 셀 등록
         friendListView.friendListTableView.register(
             FriendListTableViewCell.self,
-            forCellReuseIdentifier: "friendListTableViewCell"
+            forCellReuseIdentifier: FriendListTableViewCell.cellIdentifier
         )
         friendListView.friendListTableView.dataSource = self
         friendListView.friendListTableView.delegate = self
@@ -53,7 +54,7 @@ final class FriendListViewController: UIViewController {
                         guard let friend = friend else {
                             return
                         }
-                        self.friendList.append(friend)
+                        self.friendList.append([friendshipID, friend])
                         self.friendListView.friendListTableView.reloadData()
                         print("친구목록: \(self.friendList)")
 
@@ -198,19 +199,21 @@ extension FriendListViewController: UITableViewDataSource {
     // 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "friendListTableViewCell",
+            withIdentifier: FriendListTableViewCell.cellIdentifier,
             for: indexPath
         ) as? FriendListTableViewCell else {
             return UITableViewCell()
         }
-        cell.nicknameLabel.text = friendList[indexPath.section].nickname
-        // 친구 이미지 불러오기
-        if let imageURL = friendList[indexPath.section].imageURL {
-            loadProfileImage(urlString: imageURL) { friendImage in
-                if let friendImage = friendImage {
-                    cell.profileImageView.image = friendImage
-                } else {
-                    cell.profileImageView.image = UIImage(named: "profile")
+        if let friend = friendList[indexPath.section][1] as? User {
+            cell.nicknameLabel.text = friend.nickname
+            // 친구 이미지 불러오기
+            if let imageURL = friend.imageURL {
+                loadProfileImage(urlString: imageURL) { friendImage in
+                    if let friendImage = friendImage {
+                        cell.profileImageView.image = friendImage
+                    } else {
+                        cell.profileImageView.image = UIImage(named: "profile")
+                    }
                 }
             }
         }
@@ -234,20 +237,10 @@ extension FriendListViewController: UITableViewDelegate {
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let friendDetailVC = FriendDetailViewController()
-        friendDetailVC.friendName = friendList[indexPath.section].nickname
-        if let imageURL = friendList[indexPath.section].imageURL {
-            loadProfileImage(urlString: imageURL) { friendImage in
-                if let friendImage = friendImage {
-                    friendDetailVC.friendImage = friendImage
-                } else {
-                    friendDetailVC.friendImage = UIImage(named: "profile")
-                }
-                self.navigationController?.pushViewController(friendDetailVC, animated: true)
-            }
-        } else {
-            friendDetailVC.friendImage = UIImage(named: "profile")
-            self.navigationController?.pushViewController(friendDetailVC, animated: true)
-        }
+        // 친구와의 friendshipID와 친구의 User 객체를 전달
+        friendDetailVC.friendshipID = friendList[indexPath.section][0] as? String
+        friendDetailVC.friend = friendList[indexPath.section][1] as? User
+        self.navigationController?.pushViewController(friendDetailVC, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
