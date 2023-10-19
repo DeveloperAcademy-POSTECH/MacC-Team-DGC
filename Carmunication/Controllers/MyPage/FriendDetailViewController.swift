@@ -40,7 +40,7 @@ final class FriendDetailViewController: UIViewController {
 
         friendDetailView.giftCollectionView.register(
             GiftCardCollectionViewCell.self,
-            forCellWithReuseIdentifier: "giftCardCollectionViewCell"
+            forCellWithReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier
         )
         friendDetailView.giftCollectionView.delegate = self
         friendDetailView.giftCollectionView.dataSource = self
@@ -161,7 +161,7 @@ extension FriendDetailViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "giftCardCollectionViewCell",
+            withReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier,
             for: indexPath
         ) as? GiftCardCollectionViewCell else {
             return UICollectionViewCell()

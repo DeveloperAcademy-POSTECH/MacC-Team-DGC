@@ -25,7 +25,7 @@ final class FriendListViewController: UIViewController {
         // 재사용 셀 등록
         friendListView.friendListTableView.register(
             FriendListTableViewCell.self,
-            forCellReuseIdentifier: "friendListTableViewCell"
+            forCellReuseIdentifier: FriendListTableViewCell.cellIdentifier
         )
         friendListView.friendListTableView.dataSource = self
         friendListView.friendListTableView.delegate = self
@@ -199,7 +199,7 @@ extension FriendListViewController: UITableViewDataSource {
     // 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: "friendListTableViewCell",
+            withIdentifier: FriendListTableViewCell.cellIdentifier,
             for: indexPath
         ) as? FriendListTableViewCell else {
             return UITableViewCell()

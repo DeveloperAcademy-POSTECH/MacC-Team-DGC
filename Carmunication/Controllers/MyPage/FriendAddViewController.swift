@@ -25,11 +25,11 @@ final class FriendAddViewController: UIViewController {
         // 재사용 셀 등록
         friendAddView.searchedFriendTableView.register(
             FriendListTableViewCell.self,
-            forCellReuseIdentifier: "friendListTableViewCell"
+            forCellReuseIdentifier: FriendListTableViewCell.cellIdentifier
         )
         friendAddView.searchedFriendTableView.register(
             NoSearchedResultTableViewCell.self,
-            forCellReuseIdentifier: "noSearchedResultTableViewCell"
+            forCellReuseIdentifier: NoSearchedResultTableViewCell.cellIdentifier
         )
         friendAddView.searchedFriendTableView.dataSource = self
         friendAddView.searchedFriendTableView.delegate = self
@@ -285,7 +285,7 @@ extension FriendAddViewController: UITableViewDataSource {
         if let searchedFriend = searchedFriend {
             // MARK: - 검색된 친구가 있는 경우
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: "friendListTableViewCell",
+                withIdentifier: FriendListTableViewCell.cellIdentifier,
                 for: indexPath
             ) as? FriendListTableViewCell else {
                 return UITableViewCell()
@@ -304,7 +304,7 @@ extension FriendAddViewController: UITableViewDataSource {
         } else {
             // MARK: - 검색된 친구가 없는 경우
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: "noSearchedResultTableViewCell",
+                withIdentifier: NoSearchedResultTableViewCell.cellIdentifier,
                 for: indexPath
             ) as? NoSearchedResultTableViewCell else {
                 return UITableViewCell()
