@@ -12,6 +12,9 @@ class SelectBoardingCrewModalViewController: UIViewController {
     let selectBoardingCrewModalView = SelectBoardingCrewModalView()
 
     var selectedFriends: [String]?
+    var friendsList: [User]?
+    var friendSelectionHandler: (([String]) -> Void)?
+    private let firebaseManager = FirebaseManager()
 
     override var sheetPresentationController: UISheetPresentationController? {
         presentationController as? UISheetPresentationController
@@ -40,6 +43,8 @@ class SelectBoardingCrewModalViewController: UIViewController {
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
+
+        print("모달 컨트롤러 friendsList : ", friendsList)
     }
 }
 
@@ -66,7 +71,7 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDelegateFlowLay
         if collectionView == selectBoardingCrewModalView.selectedCrewCollectionView {
             return selectedFriends?.count ?? 0
         } else {
-            return 28
+            return friendsList?.count ?? 0
         }
     }
 
@@ -93,24 +98,35 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        if let cell = selectBoardingCrewModalView.selectedCrewCollectionView.dequeueReusableCell(
-            withReuseIdentifier: "selectedCrewCell",
-            for: indexPath
-        ) as? GroupAddModalCollectionViewCell {
-            cell.personImage.image = UIImage(named: "crewImageDefalut")
-            cell.personNameLabel.text = "홍길동"
-            return cell
+        if collectionView == selectBoardingCrewModalView.selectedCrewCollectionView {
+            if let cell = selectBoardingCrewModalView.selectedCrewCollectionView.dequeueReusableCell(
+                withReuseIdentifier: "selectedCrewCell",
+                for: indexPath
+            ) as? GroupAddModalCollectionViewCell {
+                cell.personImage.image = UIImage(named: "crewImageDefalut")
+                cell.personNameLabel.text = "홍길동"
+                self.selectBoardingCrewModalView.selectedCrewCollectionView.reloadData()
+                return cell
+            }
+        } else {
+            if let cell = selectBoardingCrewModalView.friendsListCollectionView.dequeueReusableCell(
+                withReuseIdentifier: "friendCell",
+                for: indexPath
+            ) as? GroupAddModalCollectionViewCell {
+                firebaseManager.loadProfileImage(
+                    urlString: self.friendsList?[indexPath.row].imageURL ?? ""
+                ) { friendImage in
+                    if let friendImage = friendImage {
+                        cell.personImage.image = friendImage
+                    } else {
+                        cell.personImage.image = UIImage(named: "profile")
+                    }
+                }
+                cell.personNameLabel.text = self.friendsList?[indexPath.row].nickname ?? "홍길동"
+                self.selectBoardingCrewModalView.friendsListCollectionView.reloadData()
+                return cell
+            }
         }
-
-        if let cell = selectBoardingCrewModalView.friendsListCollectionView.dequeueReusableCell(
-            withReuseIdentifier: "friendCell",
-            for: indexPath
-        ) as? GroupAddModalCollectionViewCell {
-            cell.personImage.image = UIImage(named: "crewImageDefalut")
-            cell.personNameLabel.text = "홍길동"
-            return cell
-        }
-
         return UICollectionViewCell()
     }
 }

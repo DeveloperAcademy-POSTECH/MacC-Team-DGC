@@ -114,6 +114,18 @@ extension GroupAddViewController {
 
     @objc private func addBoardingCrewButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectBoardingCrewModalViewController()
+        detailViewController.friendsList = friendsList
+//        detailViewController.selectedFriends =
+
+        detailViewController.friendSelectionHandler = { [weak self] selectedFriend in
+            // 선택한 시간을 사용하여 원하는 작업 수행
+            if let cell = sender.superview?.superview as? GroupAddTableViewCell,
+               let indexPath = self?.groupAddView.tableViewComponent.indexPath(for: cell) {
+                self?.pointsDataModel[indexPath.row].boardingCrew = selectedFriend
+            }
+            self?.groupAddView.tableViewComponent.reloadData()
+        }
+
         present(detailViewController, animated: true)
     }
 
