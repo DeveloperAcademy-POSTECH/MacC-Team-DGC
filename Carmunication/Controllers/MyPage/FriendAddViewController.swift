@@ -55,15 +55,25 @@ final class FriendAddViewController: UIViewController {
             object: nil
         )
     }
+
     // 클래스의 인스턴스가 메모리에서 해제되기 전에 호출되는 메서드
     deinit {
         // 옵저버 해제
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setButtonState(hasText: false)
+    }
+
+    // 친구 요청 완료 알럿
+    private func showFriendRequestAlert() {
+        let alert = UIAlertController(title: "친구 추가가 완료되었습니다.", message: nil, preferredStyle: .alert)
+        let ok = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(ok)
+        self.present(alert, animated: true)
     }
 }
 
@@ -111,6 +121,7 @@ extension FriendAddViewController {
         print("내Uid: \(myUID)")
         print("친구Uid: \(friendUID)")
         self.addFriendship(myUID: myUID, friendUID: friendUID)
+        showFriendRequestAlert()
     }
     // 키보드가 나타날 때 호출되는 메서드
     @objc private func keyboardWillShow(notification: Notification) {
