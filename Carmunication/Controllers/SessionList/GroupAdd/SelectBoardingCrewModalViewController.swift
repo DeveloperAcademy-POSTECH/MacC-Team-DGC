@@ -14,7 +14,7 @@ class SelectBoardingCrewModalViewController: UIViewController {
     var selectedFriends: [User]?
     var friendsList: [User]?
     var userImage: [String: UIImage]?
-    var friendSelectionHandler: (([String]) -> Void)?
+    var friendSelectionHandler: (([User]) -> Void)?
     private let firebaseManager = FirebaseManager()
 
     override var sheetPresentationController: UISheetPresentationController? {
@@ -55,6 +55,7 @@ extension SelectBoardingCrewModalViewController {
     }
 
     @objc private func saveButtonAction() {
+        friendSelectionHandler?(selectedFriends ?? [User]())
         dismiss(animated: true)
     }
 }

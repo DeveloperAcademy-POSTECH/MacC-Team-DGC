@@ -91,10 +91,15 @@ extension GroupAddViewController {
         detailViewController.userImage = userImage
 
         detailViewController.friendSelectionHandler = { [weak self] selectedFriend in
-            // 선택한 시간을 사용하여 원하는 작업 수행
             if let cell = sender.superview?.superview as? GroupAddTableViewCell,
                let indexPath = self?.groupAddView.tableViewComponent.indexPath(for: cell) {
-                self?.pointsDataModel[indexPath.row].boardingCrew = selectedFriend
+                var newBoardingCrew = [String]()
+                for element in selectedFriend {
+                    newBoardingCrew.append(element.nickname)
+                }
+                self?.pointsDataModel[indexPath.row].boardingCrew = newBoardingCrew
+                print("크루 추가 후 point 모델")
+                print(self?.pointsDataModel[indexPath.row])
             }
             self?.groupAddView.tableViewComponent.reloadData()
         }
@@ -214,7 +219,6 @@ extension GroupAddViewController {
     }
 
     private func fetchFriendsImage() {
-        guard let databasePath = User.databasePathWithUID else { return }
         guard let friendsList = self.friendsList else { return }
         if userImage == nil { userImage = [String: UIImage]() }
 
