@@ -56,7 +56,7 @@ class SelectBoardingCrewModalView: UIView {
         layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) // 여백 조정
 
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(GroupAddModalCollectionViewCell.self, forCellWithReuseIdentifier: "friendCell")
+        collectionView.register(GroupAddModalCollectionViewCell.self, forCellWithReuseIdentifier: "friendListCell")
         collectionView.showsHorizontalScrollIndicator = false   // 스크롤바 숨기기
 
         return collectionView
