@@ -163,6 +163,5 @@ let groupData: [Group]? = [
     )
 ]
 
-
 // 데이터가 없을 때
 // let groupData: [Group]? = nil
