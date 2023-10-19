@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
+		161854AD2AE005F200961D2D /* SessionStartMidNoGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartMidNoGroupView.swift */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartMidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */; };
 		16DBA63F2AC1D5B900315ED7 /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */; };
@@ -19,7 +21,7 @@
 		B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */; };
 		B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */; };
 		B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */; };
-		B8A3EFDF2AC9090C00433F5C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8A3EFDE2AC9090C00433F5C /* GoogleService-Info.plist */; };
+		B8D507342ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */; };
 		B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73ABE2AD2914200D211DE /* SettingsView.swift */; };
 		B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */; };
 		B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC22AD2FBE600D211DE /* InquiryView.swift */; };
@@ -31,6 +33,8 @@
 		B8DD15E82AD641BC00685E48 /* FriendDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15E72AD641BC00685E48 /* FriendDetailView.swift */; };
 		B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */; };
 		B8DD15EE2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15ED2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift */; };
+		B8EC761E2ADFEB6300F83E8F /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B8EC761D2ADFEB6300F83E8F /* Secrets.xcconfig */; };
+		B8EC76202ADFEBA200F83E8F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8EC761F2ADFEBA200F83E8F /* GoogleService-Info.plist */; };
 		B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE992AC96B5F004D310C /* InquiryViewController.swift */; };
 		B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */; };
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
@@ -94,6 +98,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		161854AC2AE005F200961D2D /* SessionStartMidNoGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartMidNoGroupView.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartMidView.swift; sourceTree = "<group>"; };
 		16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -104,7 +109,7 @@
 		B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewController.swift; sourceTree = "<group>"; };
-		B8A3EFDE2AC9090C00433F5C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSearchedResultTableViewCell.swift; sourceTree = "<group>"; };
 		B8D73ABE2AD2914200D211DE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		B8D73AC22AD2FBE600D211DE /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
@@ -116,6 +121,8 @@
 		B8DD15E72AD641BC00685E48 /* FriendDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailView.swift; sourceTree = "<group>"; };
 		B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8DD15ED2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIntensityVisualEffectView.swift; sourceTree = "<group>"; };
+		B8EC761D2ADFEB6300F83E8F /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
+		B8EC761F2ADFEBA200F83E8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B8EECE992AC96B5F004D310C /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
@@ -184,6 +191,7 @@
 			files = (
 				BF24481D2AD6D66200F4089A /* FirebaseDatabase in Frameworks */,
 				BFE876B82AC809A300573B92 /* SnapKit in Frameworks */,
+				161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */,
 				BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */,
 				B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */,
 				B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */,
@@ -243,6 +251,7 @@
 				B8DD15E72AD641BC00685E48 /* FriendDetailView.swift */,
 				B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */,
 				B8DD15ED2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift */,
+				B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -286,8 +295,9 @@
 				BF37D9D52AB939A4005331AD /* Assets.xcassets */,
 				BF37D9D72AB939A4005331AD /* LaunchScreen.storyboard */,
 				BF37D9DA2AB939A4005331AD /* Info.plist */,
+				B8EC761D2ADFEB6300F83E8F /* Secrets.xcconfig */,
+				B8EC761F2ADFEBA200F83E8F /* GoogleService-Info.plist */,
 				BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */,
-				B8A3EFDE2AC9090C00433F5C /* GoogleService-Info.plist */,
 			);
 			path = Carmunication;
 			sourceTree = "<group>";
@@ -359,6 +369,7 @@
 				16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */,
 				BF9BD0012ACE5093009DAECD /* ModalQueueView.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */,
+				161854AC2AE005F200961D2D /* SessionStartMidNoGroupView.swift */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
@@ -529,6 +540,7 @@
 				BF7DF9C52ACA6E21001178AF /* NMapsMap */,
 				BF24481C2AD6D66200F4089A /* FirebaseDatabase */,
 				B80CCA512ADB0955000A2ABB /* FirebaseStorage */,
+				161854A62ADFB76600961D2D /* FirebaseMessaging */,
 			);
 			productName = Carmunication;
 			productReference = BF37D9C92AB939A3005331AD /* Carmunication.app */;
@@ -577,12 +589,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B8EC761E2ADFEB6300F83E8F /* Secrets.xcconfig in Resources */,
 				BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */,
 				BF37D9D92AB939A4005331AD /* LaunchScreen.storyboard in Resources */,
 				C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */,
 				BF37D9D62AB939A4005331AD /* Assets.xcassets in Resources */,
 				BF7DF9C12ACA6D27001178AF /* SecureKey-Info.plist in Resources */,
-				B8A3EFDF2AC9090C00433F5C /* GoogleService-Info.plist in Resources */,
+				B8EC76202ADFEBA200F83E8F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -616,6 +629,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9C7C1232ADED6160016DE13 /* CrewImageButton.swift in Sources */,
+				B8D507342ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift in Sources */,
 				BF9BCFF32ACE379C009DAECD /* SelectAddressView.swift in Sources */,
 				C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */,
 				BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */,
@@ -624,6 +638,7 @@
 				B8DD15E62AD63FD500685E48 /* FriendDetailViewController.swift in Sources */,
 				B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
+				161854AD2AE005F200961D2D /* SessionStartMidNoGroupView.swift in Sources */,
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
 				B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */,
@@ -950,6 +965,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		161854A62ADFB76600961D2D /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B8A20E3B2AC0B46E00F0CE91 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
 		B80CCA512ADB0955000A2ABB /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = B8A20E3B2AC0B46E00F0CE91 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
