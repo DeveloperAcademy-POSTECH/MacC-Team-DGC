@@ -25,11 +25,11 @@ final class FriendAddViewController: UIViewController {
         // 재사용 셀 등록
         friendAddView.searchedFriendTableView.register(
             FriendListTableViewCell.self,
-            forCellReuseIdentifier: "friendListTableViewCell"
+            forCellReuseIdentifier: FriendListTableViewCell.cellIdentifier
         )
         friendAddView.searchedFriendTableView.register(
             NoSearchedResultTableViewCell.self,
-            forCellReuseIdentifier: "noSearchedResultTableViewCell"
+            forCellReuseIdentifier: NoSearchedResultTableViewCell.cellIdentifier
         )
         friendAddView.searchedFriendTableView.dataSource = self
         friendAddView.searchedFriendTableView.delegate = self
@@ -162,10 +162,7 @@ extension FriendAddViewController {
     }
 
     // MARK: - DB의 friendship에 새로운 친구 관계를 추가하는 메서드
-    private func addFriendship(
-        myUID: String,
-        friendUID: String
-    ) {
+    private func addFriendship(myUID: String, friendUID: String) {
         guard let key = Database.database().reference().child("friendship").childByAutoId().key else {
             return
         }
@@ -288,7 +285,7 @@ extension FriendAddViewController: UITableViewDataSource {
         if let searchedFriend = searchedFriend {
             // MARK: - 검색된 친구가 있는 경우
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: "friendListTableViewCell",
+                withIdentifier: FriendListTableViewCell.cellIdentifier,
                 for: indexPath
             ) as? FriendListTableViewCell else {
                 return UITableViewCell()
@@ -307,7 +304,7 @@ extension FriendAddViewController: UITableViewDataSource {
         } else {
             // MARK: - 검색된 친구가 없는 경우
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: "noSearchedResultTableViewCell",
+                withIdentifier: NoSearchedResultTableViewCell.cellIdentifier,
                 for: indexPath
             ) as? NoSearchedResultTableViewCell else {
                 return UITableViewCell()

@@ -10,6 +10,8 @@ import UIKit
 // MARK: - 친구 상세페이지 추천 선물 컬렉션 뷰 셀
 final class GiftCardCollectionViewCell: UICollectionViewCell {
 
+    static let cellIdentifier = "giftCardCollectionViewCell"
+
     // 선물 이미지
     lazy var giftImageView: UIImageView = {
         let giftImageView = UIImageView()

@@ -9,6 +9,8 @@ import UIKit
 
 final class FriendListTableViewCell: UITableViewCell {
 
+    static let cellIdentifier = "friendListTableViewCell"
+
     // MARK: - 프로필 스택
     lazy var profileStack: UIStackView = {
         let profileStack = UIStackView()

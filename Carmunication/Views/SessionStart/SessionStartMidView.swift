@@ -173,10 +173,6 @@ final class SessionStartMidView: UIView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupUI()
-        setupConstraints()
-        setupDataConstraints()
-        setTodayDate()
     }
 
     override func layoutSubviews() {
@@ -204,11 +200,11 @@ final class SessionStartMidView: UIView {
         }
 
         dayView.snp.makeConstraints { make in
-            make.bottom.lessThanOrEqualTo(lineView.snp.top).inset(-12)
+            make.bottom.lessThanOrEqualTo(lineView.snp.top).offset(-12)
             make.bottom.lessThanOrEqualTo(lineView).inset(viewLinePadding)
         }
         personCountView.snp.makeConstraints { make in
-            make.bottom.lessThanOrEqualTo(lineView.snp.top).inset(-12)
+            make.bottom.lessThanOrEqualTo(lineView.snp.top).offset(-12)
             make.bottom.lessThanOrEqualTo(lineView).inset(viewLinePadding)
         }
 
@@ -273,7 +269,7 @@ extension SessionStartMidView {
 
         summaryView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(8)
-            make.top.lessThanOrEqualTo(groupNameLabel.snp.bottom).inset(-12)
+            make.top.lessThanOrEqualTo(groupNameLabel.snp.bottom).offset(12)
             make.bottom.lessThanOrEqualToSuperview().inset(20).priority(.high)
             make.bottom.equalToSuperview().inset(20)
         }
@@ -309,11 +305,11 @@ extension SessionStartMidView {
 
         startTime.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
-            make.bottom.lessThanOrEqualTo(dayView.snp.top).inset(-40)
+            make.bottom.lessThanOrEqualTo(dayView.snp.top).offset(-40)
         }
         endTime.snp.makeConstraints { make in
             make.leading.equalTo(endLocationLabel)
-            make.bottom.lessThanOrEqualTo(personCountView.snp.top).inset(-40)
+            make.bottom.lessThanOrEqualTo(personCountView.snp.top).offset(-40)
         }
 
         dayView.snp.makeConstraints { make in
@@ -326,7 +322,7 @@ extension SessionStartMidView {
             make.centerY.equalToSuperview()
         }
         dayLabel.snp.makeConstraints { make in
-            make.leading.lessThanOrEqualTo(calendarImage.snp.trailing).inset(-10)
+            make.leading.lessThanOrEqualTo(calendarImage.snp.trailing).offset(10)
             make.centerY.equalToSuperview()
         }
 
@@ -340,7 +336,7 @@ extension SessionStartMidView {
             make.centerY.equalToSuperview()
         }
         personLabel.snp.makeConstraints { make in
-            make.leading.lessThanOrEqualTo(personImage.snp.trailing).inset(-10)
+            make.leading.lessThanOrEqualTo(personImage.snp.trailing).offset(10)
             make.centerY.equalToSuperview()
         }
     }

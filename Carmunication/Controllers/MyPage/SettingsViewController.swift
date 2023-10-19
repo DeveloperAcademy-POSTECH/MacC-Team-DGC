@@ -11,6 +11,7 @@ import UIKit
 
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 import SnapKit
 
 final class SettingsViewController: UIViewController {
@@ -79,6 +80,7 @@ final class SettingsViewController: UIViewController {
         signOutAlert.addAction(signOutOK)
         self.present(signOutAlert, animated: false)
     }
+
     // MARK: - 회원 탈퇴 알럿
     private func showDeleteAccountAlert() {
         let deleteAccountAlert = UIAlertController(title: "회원 탈퇴", message: "정말 계정을 삭제하시겠습니까?", preferredStyle: .alert)
@@ -90,6 +92,7 @@ final class SettingsViewController: UIViewController {
         deleteAccountAlert.addAction(deleteAccountOK)
         self.present(deleteAccountAlert, animated: false)
     }
+
     // MARK: - 계정 삭제 메소드
     private func deleteAccount() {
         let nonce = randomNonceString()
@@ -103,6 +106,122 @@ final class SettingsViewController: UIViewController {
         authorizationController.delegate = self
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
+    }
+
+    // MARK: - 계정 삭제 수행 시 유저의 친구정보를 삭제하기 위한 메서드
+    private func performDeletingUsersFriendship() {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        // 유저의 friends 배열을 불러온다.
+        readUserFriendshipList(databasePath: databasePath) { friends in
+            guard let friends = friends else {
+                return
+            }
+            // 해당하는 friendship을 삭제하고, 그 친구의 friends에서도 friendship을 삭제해준다.
+            self.deleteRelatedAllFriendship(friendshipList: friends)
+        }
+    }
+}
+
+// MARK: - Firebase Realtime Database DB 관련 메서드
+extension SettingsViewController {
+
+    // MARK: - DB에서 유저의 friendID 목록을 불러오는 메서드
+    // TODO: - FriendListViewController와 중복
+    private func readUserFriendshipList(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
+        databasePath.child("friends").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            let friends = snapshot?.value as? [String]
+            completion(friends)
+        }
+    }
+
+    // MARK: - 유저와 관련된 모든 친구 관계를 삭제하는 메서드
+    /**
+     - DB의 "friendship"에서 탈퇴하는 유저와 관련된 모든 friendship들을 삭제해줍니다.
+     - 유저와 친구인 유저들의 "friends" 배열에서 해당 friendhip id값을 삭제해줍니다.
+
+     **friendshipList**: 유저의 friends값에 해당하는 friendship id들의 배열
+     */
+    private func deleteRelatedAllFriendship(friendshipList: [String]) {
+        let databaseRef = Database.database().reference()
+
+        for friendshipID in friendshipList {
+            getFriendUid(friendshipID: friendshipID) { friendUID in
+                guard let friendUID = friendUID else {
+                    return
+                }
+                databaseRef.child("friendship/\(friendshipID)").removeValue() // friendship 삭제
+                self.deleteUserFriendship(uid: friendUID, friendshipID: friendshipID) // 친구의 friends에서 해당 friendship 삭제
+            }
+        }
+    }
+
+    // MARK: - friendID 값으로 DB에서 Friendship의 친구 id를 불러오는 메서드
+    // TODO: - FriendListViewController와 중복
+    private func getFriendUid(friendshipID: String, completion: @escaping (String?) -> Void) {
+        Database.database().reference().child("friendship/\(friendshipID)").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let snapshotValue = snapshot?.value as? [String: Any] else {
+                return
+            }
+            guard let currentUserID = KeychainItem.currentUserIdentifier else {
+                return
+            }
+            // sender와 receiver 중 현재 사용자에 해당하지 않는 uid를 뽑는다.
+            var friendID: String = ""
+            let senderValue = snapshotValue["senderID"] as? String ?? ""
+            let receiverValue = snapshotValue["receiverID"] as? String ?? ""
+            if currentUserID != senderValue {
+                friendID = senderValue
+            } else {
+                friendID = receiverValue
+            }
+            completion(friendID)
+        }
+    }
+
+    // MARK: - uid와 friendship id를 받아서 유저의 특정 friendship 정보를 삭제해주는 메서드
+    // TODO: - FriendDetailViewController와 중복
+    private func deleteUserFriendship(uid: String, friendshipID: String) {
+        let databaseRef = Database.database().reference().child("users/\(uid)/friends")
+        databaseRef.getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            if var friends = snapshot?.value as? [String] {
+                // 배열에서 friendshipID 값을 제거하고, 해당 값으로 업데이트 해준다.
+                friends = friends.filter { $0 != friendshipID }
+                databaseRef.setValue(friends as NSArray)
+            }
+        }
+    }
+}
+
+// MARK: - Firebase Storage 관련 메서드
+extension SettingsViewController {
+
+    // MARK: - 파이어베이스 Storage에서 유저 이미지 삭제하는 메서드 (회원 탈퇴 시 필요)
+    // TODO: - MyPageViewController와 중복
+    private func deleteProfileImage(imageName: String) {
+        let firebaseStorageRef = Storage.storage().reference().child("images/\(imageName)")
+        firebaseStorageRef.delete { error in
+            if let error = error {
+                print("이미지 삭제에 실패했습니다.", error.localizedDescription)
+            } else {
+                print("이미지가 성공적으로 삭제되었습니다.")
+            }
+        }
     }
 }
 
@@ -218,6 +337,13 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
         Task {
             do {
+                // Storage에 저장된 유저 이미지 삭제
+                guard let imageName = KeychainItem.currentUserIdentifier else {
+                    return
+                }
+                deleteProfileImage(imageName: "\(imageName).jpeg")
+                // 유저와 관련된 친구 정보 삭제
+                performDeletingUsersFriendship()
                 // Firebase DB에서 유저 정보 삭제
                 try await User.databasePathWithUID?.removeValue()
                 // 애플 서버의 사용자 토큰 삭제

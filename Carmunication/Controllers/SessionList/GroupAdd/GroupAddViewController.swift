@@ -12,10 +12,9 @@ import SnapKit
 final class GroupAddViewController: UIViewController {
 
     var groupDataModel: Group = Group()
-    var pointsDataModel: [Point2] = []
+    var pointsDataModel: [Point] = []
     var friendsList: [User]?
     var userImage: [String: UIImage]?
-
     let groupAddView = GroupAddView()
     private let firebaseManager = FirebaseManager()
     private var shouldPopViewController = true
@@ -48,7 +47,7 @@ final class GroupAddViewController: UIViewController {
         }
 
         for index in 0...2 {
-            pointsDataModel.append(Point2(pointSequence: index))
+            pointsDataModel.append(Point(pointSequence: index))
             if index == 2 {
                 pointsDataModel[2].boardingCrew = [String]()
             }
@@ -64,7 +63,7 @@ extension GroupAddViewController {
     @objc private func addStopoverPointTapped() {
         let insertIndex = pointsDataModel.count - 1
         self.pointsDataModel.insert(
-            Point2(pointSequence: insertIndex),
+            Point(pointSequence: insertIndex),
             at: insertIndex
         )
         if pointsDataModel.count >= 5 {
@@ -122,7 +121,7 @@ extension GroupAddViewController {
             if let cell = sender.superview?.superview as? GroupAddTableViewCell,
                let indexPath = self?.groupAddView.tableViewComponent.indexPath(for: cell) {
                 self?.pointsDataModel[indexPath.row].pointArrivalTime = selectedTime
-                // 이제 선택한 시간이 `Point2` 모델에 저장됩니다.
+                // 이제 선택한 시간이 `Point` 모델에 저장됩니다.
             }
             self?.groupAddView.tableViewComponent.reloadData()
         }
