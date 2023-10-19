@@ -49,6 +49,9 @@ final class GroupAddViewController: UIViewController {
 
         for index in 0...2 {
             pointsDataModel.append(Point2(pointSequence: index))
+            if index == 2 {
+                pointsDataModel[2].boardingCrew = [String]()
+            }
         }
 
         fetchFriendsList()
@@ -91,6 +94,7 @@ extension GroupAddViewController {
         detailViewController.userImage = userImage
 
         detailViewController.friendSelectionHandler = { [weak self] selectedFriend in
+            if selectedFriend.isEmpty { return }
             if let cell = sender.superview?.superview as? GroupAddTableViewCell,
                let indexPath = self?.groupAddView.tableViewComponent.indexPath(for: cell) {
                 var newBoardingCrew = [String]()
@@ -98,8 +102,6 @@ extension GroupAddViewController {
                     newBoardingCrew.append(element.nickname)
                 }
                 self?.pointsDataModel[indexPath.row].boardingCrew = newBoardingCrew
-                print("크루 추가 후 point 모델")
-                print(self?.pointsDataModel[indexPath.row])
             }
             self?.groupAddView.tableViewComponent.reloadData()
         }
@@ -259,19 +261,18 @@ extension GroupAddViewController {
                 shouldPopViewController = false
                 return false
             }
-//            guard let boardingCrew = element.boardingCrew else {
-//                showAlert(
-//                    title: "탑승 크루를 선택하지 않았어요!",
-//                    message:
-//                    """
-//                    \(pointName)의 탑승자를 선택하지 않았어요.
-//                    없다면 포인트를 삭제해주세요!
-//                    출발지인 경우, 본인을 꼭 포함해야 합니다.
-//                    """
-//                )
-//                shouldPopViewController = false
-//                return false
-//            }
+            guard let boardingCrew = element.boardingCrew else {
+                showAlert(
+                    title: "탑승 크루를 선택하지 않았어요!",
+                    message:
+                    """
+                    \(pointName)의 탑승자를 선택하지 않았어요.
+                    없다면 포인트를 삭제해주세요!
+                    """
+                )
+                shouldPopViewController = false
+                return false
+            }
         }
         return true
     }
@@ -360,6 +361,26 @@ extension GroupAddViewController: UITableViewDataSource {
             let formattedTime = Date.formattedDate(from: startTime, dateFormat: "a hh:mm")
             cell.startTime.setTitle(formattedTime, for: .normal)
         }
+        if let boardingCrew = pointsDataModel[indexPath.row].boardingCrew {
+            let count = boardingCrew.count
+            switch count {
+            case 0:
+                break
+            case 1:
+                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[0]]
+            case 2:
+                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[0]]
+                cell.crewImageButton.crewImage2.image = userImage?[boardingCrew[1]]
+            case 3:
+                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[0]]
+                cell.crewImageButton.crewImage2.image = userImage?[boardingCrew[1]]
+                cell.crewImageButton.crewImage3.image = userImage?[boardingCrew[2]]
+            default:
+                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[0]]
+                cell.crewImageButton.crewImage2.image = userImage?[boardingCrew[1]]
+                cell.crewImageButton.crewImage3.image = userImage?[boardingCrew[2]]
+            }
+        }
 
         return cell
     }
@@ -374,21 +395,6 @@ extension GroupAddViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
         return false
-    }
-}
-
-// MARK: - Component
-extension GroupAddViewController {
-
-    private func navigationBarSetting() {
-        let backButton = UIBarButtonItem(
-            image: UIImage(systemName: "xmark"),
-            style: .plain,
-            target: self,
-            action: #selector(backButtonTapped)
-        )
-        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
-        navigationItem.leftBarButtonItem = backButton
     }
 }
 
@@ -412,6 +418,21 @@ extension GroupAddViewController: UITextFieldDelegate {
     // 화면의 다른 곳을 탭할 때 호출되는 메서드
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+// MARK: - Component
+extension GroupAddViewController {
+
+    private func navigationBarSetting() {
+        let backButton = UIBarButtonItem(
+            image: UIImage(systemName: "xmark"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonTapped)
+        )
+        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+        navigationItem.leftBarButtonItem = backButton
     }
 }
 
