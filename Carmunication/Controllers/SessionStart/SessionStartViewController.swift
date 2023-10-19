@@ -93,7 +93,7 @@ extension SessionStartViewController {
 
         // 여기서 두 view 간 레이아웃 잡기
         sessionStartMidView.snp.makeConstraints { make in
-            make.top.equalTo(sessionStartView.groupCollectionView.snp.bottom).inset(-16).priority(.high)
+            make.top.equalTo(sessionStartView.groupCollectionView.snp.bottom).offset(16).priority(.high)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.lessThanOrEqualTo(467).priority(.low)
         }
@@ -170,7 +170,7 @@ extension SessionStartViewController {
                 sessionStartView.participateButton.isHidden = true
 
                 sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
-                    make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
+                    make.top.equalTo(sessionStartMidView.snp.bottom).offset(16)
                     make.leading.trailing.equalTo(sessionStartView).inset(20)
                     make.height.equalTo(buttonHeight)
                     make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
@@ -184,7 +184,7 @@ extension SessionStartViewController {
 
                 sessionStartView.noRideButton.snp.makeConstraints { make in
                     make.leading.equalTo(sessionStartView).inset(20)
-                    make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
+                    make.top.equalTo(sessionStartMidView.snp.bottom).offset(16)
                     make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
                     make.width.equalTo(sessionStartView.participateButton) // 너비를 같게 설정
                     make.height.equalTo(buttonHeight)
@@ -206,7 +206,7 @@ extension SessionStartViewController {
             sessionStartView.journeyTogetherButton.isHidden = false
 
             sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
-                make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
+                make.top.equalTo(sessionStartMidView.snp.bottom).offset(16)
                 make.leading.trailing.equalTo(sessionStartView).inset(20)
                 make.height.equalTo(buttonHeight)
                 make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
