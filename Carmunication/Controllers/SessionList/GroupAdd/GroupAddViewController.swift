@@ -12,7 +12,7 @@ import SnapKit
 final class GroupAddViewController: UIViewController {
 
     var groupDataModel: Group = Group()
-    var pointsDataModel: [Point2] = []
+    var pointsDataModel: [Point] = []
     let groupAddView = GroupAddView()
     private var shouldPopViewController = true
 
@@ -44,7 +44,7 @@ final class GroupAddViewController: UIViewController {
         }
 
         for index in 0...2 {
-            pointsDataModel.append(Point2(pointSequence: index))
+            pointsDataModel.append(Point(pointSequence: index))
         }
     }
 }
@@ -55,7 +55,7 @@ extension GroupAddViewController {
     @objc private func addStopoverPointTapped() {
         let insertIndex = pointsDataModel.count - 1
         self.pointsDataModel.insert(
-            Point2(pointSequence: insertIndex),
+            Point(pointSequence: insertIndex),
             at: insertIndex
         )
         if pointsDataModel.count >= 5 {

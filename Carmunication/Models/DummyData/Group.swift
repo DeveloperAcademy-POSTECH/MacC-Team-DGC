@@ -36,67 +36,133 @@ struct Group {
 // 데이터 확인을 위한 예시입니다.
 let group1Point: [Point] = [
     Point(
-        pointId: 0, pointSequence: 0, pointName: "C5", pointDetailAddress: "출발지 주소",
-        hour: 8, minute: 0, second: 0, pointLat: 12.21, pointLng: 124.521,
+        pointID: 1,
+        pointSequence: 0,
+        pointName: "C5",
+        pointDetailAddress: "C5 주소",
+        pointArrivalTime: Date(),
+        pointLat: 235.15,
+        pointLng: 236236.2354,
+        boardingCrew: nil
+    ),
+    Point(
+        pointID: 2,
+        pointSequence: 1,
+        pointName: "경유지 1",
+        pointDetailAddress: "경유지 1 주소",
+        pointArrivalTime: DateComponents(hour: 8, minute: 0).date,
+        pointLat: 235.235,
+        pointLng: 12.412,
         boardingCrew: ["1", "2", "3", "4"]
     ),
     Point(
-        pointId: 1, pointSequence: 1, pointName: "경유지 1", pointDetailAddress: "경유지 1 주소",
-        hour: 8, minute: 40, second: 0, pointLat: 235.235, pointLng: 12.412,
-        boardingCrew: ["1", "2", "3", "4"]
-    ),
-    Point(
-        pointId: 2, pointSequence: 2, pointName: "유강리 테드 집", pointDetailAddress: "도착지 주소",
-        hour: 9, minute: 0, second: 0, pointLat: 124.12, pointLng: 53.23,
+        pointID: 3,
+        pointSequence: 2,
+        pointName: "유강리 테드 집",
+        pointDetailAddress: "도착지 주소",
+        pointArrivalTime: Date(),
+        pointLat: 124.12,
+        pointLng: 53.23,
         boardingCrew: ["1", "2", "3", "4"]
     )
 ]
+
 let group2Point: [Point] = [
     Point(
-        pointId: 0, pointSequence: 0, pointName: "지곡회관", pointDetailAddress: "출발지 주소",
-        hour: 6, minute: 0, second: 0, pointLat: 12.21, pointLng: 124.521,
+        pointID: 0,
+        pointSequence: 0,
+        pointName: "지곡회관",
+        pointDetailAddress: "출발지 주소",
+        pointArrivalTime: Date(),
+        pointLat: 12.21,
+        pointLng: 124.521,
         boardingCrew: ["1", "2", "3", "4"]
     ),
     Point(
-        pointId: 1, pointSequence: 1, pointName: "경유지 2", pointDetailAddress: "경유지 1 주소",
-        hour: 8, minute: 40, second: 0, pointLat: 235.235, pointLng: 12.412,
+        pointID: 1,
+        pointSequence: 1,
+        pointName: "경유지 2",
+        pointDetailAddress: "경유지 1 주소",
+        pointArrivalTime: Date(),
+        pointLat: 235.235,
+        pointLng: 12.412,
         boardingCrew: ["1", "2", "3", "4"]
     ),
     Point(
-        pointId: 2, pointSequence: 2, pointName: "형산강", pointDetailAddress: "도착지 주소",
-        hour: 7, minute: 50, second: 0, pointLat: 124.12, pointLng: 53.23,
+        pointID: 2,
+        pointSequence: 2,
+        pointName: "형산강",
+        pointDetailAddress: "도착지 주소",
+        pointArrivalTime: Date(),
+        pointLat: 124.12,
+        pointLng: 53.23,
         boardingCrew: ["1", "2", "3", "4"]
     )
 ]
+
 let group3Point: [Point] = [
     Point(
-        pointId: 0, pointSequence: 0, pointName: "도서관", pointDetailAddress: "출발지 주소",
-        hour: 8, minute: 20, second: 0, pointLat: 12.21, pointLng: 124.521,
+        pointID: 0,
+        pointSequence: 0,
+        pointName: "도서관",
+        pointDetailAddress: "출발지 주소",
+        pointArrivalTime: Date(),
+        pointLat: 12.21,
+        pointLng: 124.521,
         boardingCrew: ["1", "2", "3", "4"]
     ),
     Point(
-        pointId: 1, pointSequence: 1, pointName: "경유지 1", pointDetailAddress: "경유지 1 주소",
-        hour: 8, minute: 40, second: 0, pointLat: 235.235, pointLng: 12.412,
+        pointID: 1,
+        pointSequence: 1,
+        pointName: "경유지 1",
+        pointDetailAddress: "경유지 1 주소",
+        pointArrivalTime: Date(),
+        pointLat: 235.235,
+        pointLng: 12.412,
         boardingCrew: ["1", "2", "3", "4"]
     ),
     Point(
-        pointId: 2, pointSequence: 2, pointName: "영일대 해수욕장", pointDetailAddress: "도착지 주소",
-        hour: 10, minute: 0, second: 0, pointLat: 124.12, pointLng: 53.23,
+        pointID: 2,
+        pointSequence: 2,
+        pointName: "영일대 해수욕장",
+        pointDetailAddress: "도착지 주소",
+        pointArrivalTime: Date(),
+        pointLat: 124.12,
+        pointLng: 53.23,
         boardingCrew: ["1", "2", "3", "4"]
     )
 ]
 
 let groupData: [Group]? = [
-    Group(groupId: "1", groupName: "그룹 1", groupImage: "heart", captainId: "1",
-          crewList: ["2", "3"], sessionDay: [2, 3, 4, 5, 6], points: group1Point
-         ),
-    Group(groupId: "1", groupName: "그룹 2", groupImage: "circle.fill", captainId: "2",
-          crewList: ["2", "3", "4"], sessionDay: [2, 3, 4, 5, 6], points: group2Point
-         ),
-    Group(groupId: "1", groupName: "그룹 3", groupImage: "square", captainId: "3",
-          crewList: ["2", "3", "4", "5"], sessionDay: [2, 3, 4, 5, 6], points: group3Point
-         )
+    Group(
+        groupId: "1",
+        groupName: "그룹 1",
+        groupImage: "heart",
+        captainId: "1",
+        crewList: ["2", "3"],
+        sessionDay: [2, 3, 4, 5, 6],
+        points: group1Point
+    ),
+    Group(
+        groupId: "2",
+        groupName: "그룹 2",
+        groupImage: "circle.fill",
+        captainId: "2",
+        crewList: ["2", "3", "4"],
+        sessionDay: [2, 3, 4, 5, 6],
+        points: group2Point
+    ),
+    Group(
+        groupId: "3",
+        groupName: "그룹 3",
+        groupImage: "square",
+        captainId: "3",
+        crewList: ["2", "3", "4", "5"],
+        sessionDay: [2, 3, 4, 5, 6],
+        points: group3Point
+    )
 ]
+
 
 // 데이터가 없을 때
 // let groupData: [Group]? = nil
