@@ -52,8 +52,6 @@ final class SessionStartView: UIView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupUI()
-        setupGroupData()
     }
 
     override func draw(_ rect: CGRect) {

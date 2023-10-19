@@ -173,10 +173,6 @@ final class SessionStartMidView: UIView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupUI()
-        setupConstraints()
-        setupDataConstraints()
-        setTodayDate()
     }
 
     override func layoutSubviews() {
