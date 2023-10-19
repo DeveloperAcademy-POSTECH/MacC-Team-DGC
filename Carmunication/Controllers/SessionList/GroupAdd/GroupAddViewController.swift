@@ -94,14 +94,18 @@ extension GroupAddViewController {
         detailViewController.userImage = userImage
 
         detailViewController.friendSelectionHandler = { [weak self] selectedFriend in
-            if selectedFriend.isEmpty { return }
+
             if let cell = sender.superview?.superview as? GroupAddTableViewCell,
                let indexPath = self?.groupAddView.tableViewComponent.indexPath(for: cell) {
                 var newBoardingCrew = [String]()
-                for element in selectedFriend {
-                    newBoardingCrew.append(element.nickname)
+                if selectedFriend.isEmpty {
+                    self?.pointsDataModel[indexPath.row].boardingCrew = nil
+                } else {
+                    for element in selectedFriend {
+                        newBoardingCrew.append(element.nickname)
+                    }
+                    self?.pointsDataModel[indexPath.row].boardingCrew = newBoardingCrew
                 }
-                self?.pointsDataModel[indexPath.row].boardingCrew = newBoardingCrew
             }
             self?.groupAddView.tableViewComponent.reloadData()
         }
@@ -326,32 +330,39 @@ extension GroupAddViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = configureCellForRow(at: indexPath)
+        configureCellActions(for: cell, at: indexPath)
+        configureCellContent(for: cell, at: indexPath)
+        return cell
+    }
+
+    private func configureCellForRow(at indexPath: IndexPath) -> GroupAddTableViewCell {
         let cell = GroupAddTableViewCell(
             index: CGFloat(indexPath.row),
             cellCount: CGFloat(pointsDataModel.count)
         )
+        return cell
+    }
+
+    private func configureCellActions(for cell: GroupAddTableViewCell, at indexPath: IndexPath) {
         cell.addressSearchButton.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
         cell.crewImageButton.addTarget(self, action: #selector(addBoardingCrewButtonTapped), for: .touchUpInside)
         cell.startTime.addTarget(self, action: #selector(setStartTimeButtonTapped), for: .touchUpInside)
         cell.stopoverPointRemoveButton.addTarget(
-            self,
+            self, 
             action: #selector(stopoverRemoveButtonTapped),
-            for: .touchUpInside
-        )
+            for: .touchUpInside)
+    }
 
+    private func configureCellContent(for cell: GroupAddTableViewCell, at indexPath: IndexPath) {
         if indexPath.row == 0 || indexPath.row == pointsDataModel.count - 1 {
-            cell.stopoverPointRemoveButton.isEnabled = false
-            cell.stopoverPointRemoveButton.isHidden = true
-            cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
-            cell.timeLabel.text = indexPath.row == 0 ? "출발시간" : "도착시간"
+            configureStartEndCellContent(for: cell, at: indexPath)
         } else {
-            cell.pointNameLabel.text = "경유지 \(indexPath.row)"
+            configureIntermediateCellContent(for: cell, at: indexPath)
         }
 
         if indexPath.row == pointsDataModel.count - 1 {
-            cell.crewImageButton.isHidden = true
-            cell.crewImageButton.isEnabled = false
-            cell.boardingCrewLabel.isHidden = true
+            configureLastCellContent(for: cell)
         }
 
         if let pointName = pointsDataModel[indexPath.row].pointName {
@@ -362,27 +373,56 @@ extension GroupAddViewController: UITableViewDataSource {
             cell.startTime.setTitle(formattedTime, for: .normal)
         }
         if let boardingCrew = pointsDataModel[indexPath.row].boardingCrew {
-            let count = boardingCrew.count
-            switch count {
+            configureBoardingCrewContent(for: cell, with: boardingCrew)
+        }
+    }
+
+    private func configureStartEndCellContent(for cell: GroupAddTableViewCell, at indexPath: IndexPath) {
+        cell.stopoverPointRemoveButton.isEnabled = false
+        cell.stopoverPointRemoveButton.isHidden = true
+        cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
+        cell.timeLabel.text = indexPath.row == 0 ? "출발시간" : "도착시간"
+    }
+
+    private func configureIntermediateCellContent(for cell: GroupAddTableViewCell, at indexPath: IndexPath) {
+        cell.pointNameLabel.text = "경유지 \(indexPath.row)"
+    }
+
+    private func configureLastCellContent(for cell: GroupAddTableViewCell) {
+        cell.crewImageButton.isHidden = true
+        cell.crewImageButton.isEnabled = false
+        cell.boardingCrewLabel.isHidden = true
+    }
+
+    private func configureBoardingCrewContent(for cell: GroupAddTableViewCell, with boardingCrew: [String]) {
+        let maxCrewMembers = min(boardingCrew.count, 3)
+
+        for index in 0..<maxCrewMembers {
+            switch index {
             case 0:
-                break
+                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[index]]
             case 1:
-                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[0]]
+                cell.crewImageButton.crewImage2.image = userImage?[boardingCrew[index]]
             case 2:
-                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[0]]
-                cell.crewImageButton.crewImage2.image = userImage?[boardingCrew[1]]
-            case 3:
-                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[0]]
-                cell.crewImageButton.crewImage2.image = userImage?[boardingCrew[1]]
-                cell.crewImageButton.crewImage3.image = userImage?[boardingCrew[2]]
+                cell.crewImageButton.crewImage3.image = userImage?[boardingCrew[index]]
             default:
-                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[0]]
-                cell.crewImageButton.crewImage2.image = userImage?[boardingCrew[1]]
-                cell.crewImageButton.crewImage3.image = userImage?[boardingCrew[2]]
+                break
             }
         }
 
-        return cell
+        // If there are fewer than 3 crew members, hide the remaining image views.
+        for index in maxCrewMembers..<3 {
+            switch index {
+            case 0:
+                cell.crewImageButton.crewImage1.image = UIImage(named: "CrewPlusImage")
+            case 1:
+                cell.crewImageButton.crewImage2.image = UIImage(named: "CrewPlusImage")
+            case 2:
+                cell.crewImageButton.crewImage3.image = UIImage(named: "CrewPlusImage")
+            default:
+                break
+            }
+        }
     }
 }
 
