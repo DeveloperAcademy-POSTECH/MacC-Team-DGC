@@ -11,6 +11,12 @@ class SelectBoardingCrewModalViewController: UIViewController {
 
     let selectBoardingCrewModalView = SelectBoardingCrewModalView()
 
+    var selectedFriends: [User]?
+    var friendsList: [User]?
+    var userImage: [String: UIImage]?
+    var friendSelectionHandler: (([User]) -> Void)?
+    private let firebaseManager = FirebaseManager()
+
     override var sheetPresentationController: UISheetPresentationController? {
         presentationController as? UISheetPresentationController
     }
@@ -49,12 +55,13 @@ extension SelectBoardingCrewModalViewController {
     }
 
     @objc private func saveButtonAction() {
+        friendSelectionHandler?(selectedFriends ?? [User]())
         dismiss(animated: true)
     }
 }
 
 // 모달 높이 조절을 위한 델리게이트
-extension SelectBoardingCrewModalViewController: UISheetPresentationControllerDelegate {}
+extension SelectBoardingCrewModalViewController: UISheetPresentationControllerDelegate { }
 
 extension SelectBoardingCrewModalViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(
@@ -62,9 +69,9 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDelegateFlowLay
         numberOfItemsInSection section: Int
     ) -> Int {
         if collectionView == selectBoardingCrewModalView.selectedCrewCollectionView {
-            return 25
+            return selectedFriends?.count ?? 0
         } else {
-            return 28
+            return friendsList?.count ?? 0
         }
     }
 
@@ -84,6 +91,27 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDelegateFlowLay
     ) -> CGFloat {
         return 20
     }
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // friendList의 셀을 선택했을 경우(selectedList에 추가)
+        if collectionView == selectBoardingCrewModalView.friendsListCollectionView {
+            guard let friendElement = friendsList?[indexPath.row] else {
+                return
+            }
+            if selectedFriends == nil { selectedFriends = [User]() }
+            selectedFriends?.append(friendElement)
+            friendsList?.remove(at: indexPath.row)
+        } else { // selectedList의 셀을 선택했을 경우(friendList에 다시 추가)
+            guard let selectedElement = selectedFriends?[indexPath.row] else {
+                return
+            }
+            if friendsList == nil { friendsList = [User]() }
+            friendsList?.append(selectedElement)
+            selectedFriends?.remove(at: indexPath.row)
+        }
+        selectBoardingCrewModalView.friendsListCollectionView.reloadData()
+        selectBoardingCrewModalView.selectedCrewCollectionView.reloadData()
+    }
 }
 
 extension SelectBoardingCrewModalViewController: UICollectionViewDataSource {
@@ -91,24 +119,42 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDataSource {
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        if let cell = selectBoardingCrewModalView.selectedCrewCollectionView.dequeueReusableCell(
-            withReuseIdentifier: "selectedCrewCell",
-            for: indexPath
-        ) as? GroupAddModalCollectionViewCell {
-            cell.personImage.image = UIImage(named: "crewImageDefalut")
-            cell.personNameLabel.text = "홍길동"
-            return cell
+        if collectionView == selectBoardingCrewModalView.selectedCrewCollectionView {
+            if let cell = selectBoardingCrewModalView.selectedCrewCollectionView.dequeueReusableCell(
+                withReuseIdentifier: "selectedCrewCell",
+                for: indexPath
+            ) as? GroupAddModalCollectionViewCell {
+                guard let nickname = self.selectedFriends?[indexPath.row].nickname else {
+                    return UICollectionViewCell()
+                }
+                cell.personImage.image = userImage?[nickname]
+                cell.personNameLabel.text = nickname
+                return cell
+            }
+        } else {
+            if let cell = selectBoardingCrewModalView.friendsListCollectionView.dequeueReusableCell(
+                withReuseIdentifier: "friendListCell",
+                for: indexPath
+            ) as? GroupAddModalCollectionViewCell {
+                guard let nickname = self.friendsList?[indexPath.row].nickname else {
+                    return UICollectionViewCell()
+                }
+                cell.personImage.image = userImage?[nickname]
+                cell.personNameLabel.text = nickname
+                return cell
+            }
         }
-
-        if let cell = selectBoardingCrewModalView.friendsListCollectionView.dequeueReusableCell(
-            withReuseIdentifier: "friendCell",
-            for: indexPath
-        ) as? GroupAddModalCollectionViewCell {
-            cell.personImage.image = UIImage(named: "crewImageDefalut")
-            cell.personNameLabel.text = "홍길동"
-            return cell
-        }
-
         return UICollectionViewCell()
+    }
+}
+
+// MARK: - Previewer
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct GroupModalControllerPreview: PreviewProvider {
+
+    static var previews: some View {
+        GroupAddViewControllerRepresentable()
     }
 }

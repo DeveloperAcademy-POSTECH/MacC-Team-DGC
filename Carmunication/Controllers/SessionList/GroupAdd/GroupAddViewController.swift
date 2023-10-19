@@ -13,21 +13,22 @@ final class GroupAddViewController: UIViewController {
 
     var groupDataModel: Group = Group()
     var pointsDataModel: [Point] = []
+    var friendsList: [User]?
+    var userImage: [String: UIImage]?
     let groupAddView = GroupAddView()
+    private let firebaseManager = FirebaseManager()
     private var shouldPopViewController = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-
         view.backgroundColor = UIColor.semantic.backgroundDefault
+
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
-        navigationBarSetting()
 
         groupAddView.tableViewComponent.dataSource = self
         groupAddView.tableViewComponent.delegate = self
         groupAddView.textField.delegate = self
-
         groupAddView.stopoverPointAddButton.addTarget(
             self,
             action: #selector(addStopoverPointTapped),
@@ -38,6 +39,8 @@ final class GroupAddViewController: UIViewController {
             action: #selector(createCrewButtonTapped),
             for: .touchUpInside
         )
+        navigationBarSetting()
+
         view.addSubview(groupAddView)
         groupAddView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -45,7 +48,12 @@ final class GroupAddViewController: UIViewController {
 
         for index in 0...2 {
             pointsDataModel.append(Point(pointSequence: index))
+            if index == 2 {
+                pointsDataModel[2].boardingCrew = [String]()
+            }
         }
+
+        fetchFriendsList()
     }
 }
 
@@ -79,12 +87,32 @@ extension GroupAddViewController {
         groupAddView.tableViewComponent.reloadData()
     }
 
-    @objc private func addBoardingCrewButtonTapped(_ sender: UIButton) {
+    @objc func addBoardingCrewButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectBoardingCrewModalViewController()
+        detailViewController.friendsList = friendsList
+        detailViewController.userImage = userImage
+
+        detailViewController.friendSelectionHandler = { [weak self] selectedFriend in
+
+            if let cell = sender.superview?.superview as? GroupAddTableViewCell,
+               let indexPath = self?.groupAddView.tableViewComponent.indexPath(for: cell) {
+                var newBoardingCrew = [String]()
+                if selectedFriend.isEmpty {
+                    self?.pointsDataModel[indexPath.row].boardingCrew = nil
+                } else {
+                    for element in selectedFriend {
+                        newBoardingCrew.append(element.nickname)
+                    }
+                    self?.pointsDataModel[indexPath.row].boardingCrew = newBoardingCrew
+                }
+            }
+            self?.groupAddView.tableViewComponent.reloadData()
+        }
+
         present(detailViewController, animated: true)
     }
 
-    @objc private func setStartTimeButtonTapped(_ sender: UIButton) {
+    @objc func setStartTimeButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectStartTimeViewController()
 
         // 클로저를 통해 선택한 시간을 받음
@@ -93,7 +121,7 @@ extension GroupAddViewController {
             if let cell = sender.superview?.superview as? GroupAddTableViewCell,
                let indexPath = self?.groupAddView.tableViewComponent.indexPath(for: cell) {
                 self?.pointsDataModel[indexPath.row].pointArrivalTime = selectedTime
-                // 이제 선택한 시간이 `Point2` 모델에 저장됩니다.
+                // 이제 선택한 시간이 `Point` 모델에 저장됩니다.
             }
             self?.groupAddView.tableViewComponent.reloadData()
         }
@@ -138,11 +166,11 @@ extension GroupAddViewController {
         }
     }
 
-    @objc func backButtonTapped() {
+    @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
 
-    @objc func showAlert(title: String, message: String) {
+    @objc private func showAlert(title: String, message: String) {
         let alert = UIAlertController(
             title: title,
             message: message,
@@ -162,6 +190,56 @@ extension GroupAddViewController {
 // MARK: - Custom Method
 extension GroupAddViewController {
 
+    private func fetchFriendsList() {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+
+        firebaseManager.readUserFriendshipList(databasePath: databasePath) { friendshipList in
+            guard let friendshipList else {
+                return
+            }
+
+            for friendshipID in friendshipList {
+                self.firebaseManager.getFriendUid(friendshipID: friendshipID) { friendID in
+                    guard let friendID else {
+                        return
+                    }
+                    // 친구의 uid값으로 친구의 User객체를 불러온다.
+                    self.firebaseManager.getFriendUser(friendID: friendID) { friend in
+                        guard let friend else {
+                            return
+                        }
+                        if self.friendsList == nil {
+                            self.friendsList = [User]()
+                        }
+                        self.friendsList?.append(friend)
+
+                        // 친구 목록을 가져온 후 친구 이미지를 가져오도록 호출
+                        self.fetchFriendsImage()
+                    }
+                }
+            }
+        }
+    }
+
+    private func fetchFriendsImage() {
+        guard let friendsList = self.friendsList else { return }
+        if userImage == nil { userImage = [String: UIImage]() }
+
+        for element in friendsList {
+            if let imageURL = element.imageURL {
+                firebaseManager.loadProfileImage(urlString: imageURL) { returnImage in
+                    if let inputImage = returnImage {
+                        self.userImage?[element.nickname] = inputImage
+                    }
+                }
+            } else {
+                self.userImage?[element.nickname] = UIImage(named: "profile")
+            }
+        }
+    }
+
     private func checkDataEffectiveness() {
         if emptyDataCheck() {
             timeEffectivenessCheck()
@@ -175,30 +253,29 @@ extension GroupAddViewController {
         for element in pointsDataModel {
             let pointName = returnPointName(element.pointSequence ?? 0)
 
-            if let arrivalTime = element.pointArrivalTime {
+            if element.pointArrivalTime == nil {
                 showAlert(title: "시간을 설정하지 않았어요!", message: "\(pointName)의 시간을 입력해주세요!")
                 shouldPopViewController = false
                 return false
             }
 
-            if let address = element.pointName {
+            if element.pointName == nil {
                 showAlert(title: "주소를 설정하지 않았어요!", message: "\(pointName)의 주소를 설정해주세요!")
                 shouldPopViewController = false
                 return false
             }
-//            guard let boardingCrew = element.boardingCrew else {
-//                showAlert(
-//                    title: "탑승 크루를 선택하지 않았어요!",
-//                    message:
-//                    """
-//                    \(pointName)의 탑승자를 선택하지 않았어요.
-//                    없다면 포인트를 삭제해주세요!
-//                    출발지인 경우, 본인을 꼭 포함해야 합니다.
-//                    """
-//                )
-//                shouldPopViewController = false
-//                return false
-//            }
+            guard let boardingCrew = element.boardingCrew else {
+                showAlert(
+                    title: "탑승 크루를 선택하지 않았어요!",
+                    message:
+                    """
+                    \(pointName)의 탑승자를 선택하지 않았어요.
+                    없다면 포인트를 삭제해주세요!
+                    """
+                )
+                shouldPopViewController = false
+                return false
+            }
         }
         return true
     }
@@ -244,60 +321,6 @@ extension GroupAddViewController {
     }
 }
 
-// MARK: - UITableViewDataSource Method
-extension GroupAddViewController: UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return pointsDataModel.count
-    }
-
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = GroupAddTableViewCell(
-            index: CGFloat(indexPath.row),
-            cellCount: CGFloat(pointsDataModel.count)
-        )
-        cell.addressSearchButton.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
-        cell.crewImageButton.addTarget(self, action: #selector(addBoardingCrewButtonTapped), for: .touchUpInside)
-        cell.startTime.addTarget(self, action: #selector(setStartTimeButtonTapped), for: .touchUpInside)
-        cell.stopoverPointRemoveButton.addTarget(
-            self,
-            action: #selector(stopoverRemoveButtonTapped),
-            for: .touchUpInside
-        )
-
-        if indexPath.row == 0 || indexPath.row == pointsDataModel.count - 1 {
-            cell.stopoverPointRemoveButton.isEnabled = false
-            cell.stopoverPointRemoveButton.isHidden = true
-            cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
-            cell.timeLabel.text = indexPath.row == 0 ? "출발시간" : "도착시간"
-        } else {
-            cell.pointNameLabel.text = "경유지 \(indexPath.row)"
-        }
-
-        if let pointName = pointsDataModel[indexPath.row].pointName {
-            cell.addressSearchButton.setTitle("    \(pointName)", for: .normal)
-        }
-        if let startTime = pointsDataModel[indexPath.row].pointArrivalTime {
-            let formattedTime = Date.formattedDate(from: startTime, dateFormat: "a hh:mm")
-            cell.startTime.setTitle(formattedTime, for: .normal)
-        }
-
-        return cell
-    }
-}
-
-// MARK: - UITableViewDelegate Method
-extension GroupAddViewController: UITableViewDelegate {
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 135
-    }
-
-    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-}
-
 // MARK: - Component
 extension GroupAddViewController {
 
@@ -310,6 +333,122 @@ extension GroupAddViewController {
         )
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
         navigationItem.leftBarButtonItem = backButton
+    }
+}
+
+// MARK: - UITableViewDataSource Method
+extension GroupAddViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return pointsDataModel.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = configureCellForRow(at: indexPath)
+        configureCellActions(for: cell, at: indexPath)
+        configureCellContent(for: cell, at: indexPath)
+        return cell
+    }
+
+    private func configureCellForRow(at indexPath: IndexPath) -> GroupAddTableViewCell {
+        let cell = GroupAddTableViewCell(
+            index: CGFloat(indexPath.row),
+            cellCount: CGFloat(pointsDataModel.count)
+        )
+        return cell
+    }
+
+    private func configureCellActions(for cell: GroupAddTableViewCell, at indexPath: IndexPath) {
+        cell.addressSearchButton.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
+        cell.crewImageButton.addTarget(self, action: #selector(addBoardingCrewButtonTapped), for: .touchUpInside)
+        cell.startTime.addTarget(self, action: #selector(setStartTimeButtonTapped), for: .touchUpInside)
+        cell.stopoverPointRemoveButton.addTarget(
+            self,
+            action: #selector(stopoverRemoveButtonTapped),
+            for: .touchUpInside)
+    }
+
+    private func configureCellContent(for cell: GroupAddTableViewCell, at indexPath: IndexPath) {
+        if indexPath.row == 0 || indexPath.row == pointsDataModel.count - 1 {
+            configureStartEndCellContent(for: cell, at: indexPath)
+        } else {
+            configureIntermediateCellContent(for: cell, at: indexPath)
+        }
+
+        if indexPath.row == pointsDataModel.count - 1 {
+            configureLastCellContent(for: cell)
+        }
+
+        if let pointName = pointsDataModel[indexPath.row].pointName {
+            cell.addressSearchButton.setTitle("    \(pointName)", for: .normal)
+        }
+        if let startTime = pointsDataModel[indexPath.row].pointArrivalTime {
+            let formattedTime = Date.formattedDate(from: startTime, dateFormat: "a hh:mm")
+            cell.startTime.setTitle(formattedTime, for: .normal)
+        }
+        if let boardingCrew = pointsDataModel[indexPath.row].boardingCrew {
+            configureBoardingCrewContent(for: cell, with: boardingCrew)
+        }
+    }
+
+    private func configureStartEndCellContent(for cell: GroupAddTableViewCell, at indexPath: IndexPath) {
+        cell.stopoverPointRemoveButton.isEnabled = false
+        cell.stopoverPointRemoveButton.isHidden = true
+        cell.pointNameLabel.text = indexPath.row == 0 ? "출발지" : "도착지"
+        cell.timeLabel.text = indexPath.row == 0 ? "출발시간" : "도착시간"
+    }
+
+    private func configureIntermediateCellContent(for cell: GroupAddTableViewCell, at indexPath: IndexPath) {
+        cell.pointNameLabel.text = "경유지 \(indexPath.row)"
+    }
+
+    private func configureLastCellContent(for cell: GroupAddTableViewCell) {
+        cell.crewImageButton.isHidden = true
+        cell.crewImageButton.isEnabled = false
+        cell.boardingCrewLabel.isHidden = true
+    }
+
+    private func configureBoardingCrewContent(for cell: GroupAddTableViewCell, with boardingCrew: [String]) {
+        let maxCrewMembers = min(boardingCrew.count, 3)
+
+        for index in 0..<maxCrewMembers {
+            switch index {
+            case 0:
+                cell.crewImageButton.crewImage1.image = userImage?[boardingCrew[index]]
+            case 1:
+                cell.crewImageButton.crewImage2.image = userImage?[boardingCrew[index]]
+            case 2:
+                cell.crewImageButton.crewImage3.image = userImage?[boardingCrew[index]]
+            default:
+                break
+            }
+        }
+
+        // If there are fewer than 3 crew members, hide the remaining image views.
+        for index in maxCrewMembers..<3 {
+            switch index {
+            case 0:
+                cell.crewImageButton.crewImage1.image = UIImage(named: "CrewPlusImage")
+            case 1:
+                cell.crewImageButton.crewImage2.image = UIImage(named: "CrewPlusImage")
+            case 2:
+                cell.crewImageButton.crewImage3.image = UIImage(named: "CrewPlusImage")
+            default:
+                break
+            }
+        }
+    }
+}
+
+// MARK: - UITableViewDelegate Method
+extension GroupAddViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 135
+    }
+
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return false
     }
 }
 
