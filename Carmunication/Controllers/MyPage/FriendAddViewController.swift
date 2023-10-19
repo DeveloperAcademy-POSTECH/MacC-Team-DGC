@@ -162,10 +162,7 @@ extension FriendAddViewController {
     }
 
     // MARK: - DB의 friendship에 새로운 친구 관계를 추가하는 메서드
-    private func addFriendship(
-        myUID: String,
-        friendUID: String
-    ) {
+    private func addFriendship(myUID: String, friendUID: String) {
         guard let key = Database.database().reference().child("friendship").childByAutoId().key else {
             return
         }
