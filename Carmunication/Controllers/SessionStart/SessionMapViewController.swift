@@ -62,6 +62,11 @@ final class SessionMapViewController: UIViewController {
         return marker
     }()
 
+    private let pathOverlay = {
+        let pathOverlay = NMFPath()
+        return pathOverlay
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         startUpdatingLocation()
@@ -137,7 +142,6 @@ final class SessionMapViewController: UIViewController {
     }
 
     private func fetchDirections() {
-        // URL 설정
         var urlString = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving"
         + "?start=\(points.startingPoint.lng),\(points.startingPoint.lat)"
         + "&goal=\(points.destination.lng),\(points.destination.lat)"
@@ -145,12 +149,13 @@ final class SessionMapViewController: UIViewController {
             urlString += "&waypoints=\(stopover1.lng),\(stopover1.lat)"
         }
         if let stopover2 = points.pickupLocation2 {
-            urlString += ":\(stopover2.lng),\(stopover2.lat)"
+            urlString += "|\(stopover2.lng),\(stopover2.lat)"
         }
         if let stopover3 = points.pickupLocation3 {
-            urlString += ":\(stopover3.lng),\(stopover3.lat)"
+            urlString += "|\(stopover3.lng),\(stopover3.lat)"
         }
-        guard let url = URL(string: urlString) else {
+        guard let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: encodedURLString) else {
             print("유효하지 않은 URL입니다.")
             return
         }
@@ -166,14 +171,20 @@ final class SessionMapViewController: UIViewController {
             guard let data = data, let responseString = String(data: data, encoding: .utf8) else {
                 return
             }
-            // 데이터를 JSON으로 파싱
             if let jsonData = responseString.data(using: .utf8),
                let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
                let route = jsonObject["route"] as? [String: Any],
                let traoptimal = route["traoptimal"] as? [[String: Any]],
                let firstPath = traoptimal.first,
                let path = firstPath["path"] as? [[Double]] {
-                print("Path 데이터: \(path)")
+                var points = [NMGLatLng]()
+                for point in path {
+                    points.append(NMGLatLng(lat: point[1], lng: point[0]))
+                }
+                self.pathOverlay.path = NMGLineString(points: points)
+                DispatchQueue.main.async {
+                    self.pathOverlay.mapView = self.mapView
+                }
             }
         }
         task.resume()
