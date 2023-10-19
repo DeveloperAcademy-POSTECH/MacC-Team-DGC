@@ -81,9 +81,12 @@
 		C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6162AD9998500D528F5 /* SelectAddressModel.swift */; };
 		C954F6322ADA7CFB00D528F5 /* SelectDetailPointMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6312ADA7CFB00D528F5 /* SelectDetailPointMapView.swift */; };
 		C954F6342ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */; };
+		C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */; };
+		C95C07B02AE15A37007E7589 /* GroupAddViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95C07AF2AE15A37007E7589 /* GroupAddViewController+Extension.swift */; };
 		C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */; };
 		C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */; };
 		C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C1202ADE25590016DE13 /* String+Extension.swift */; };
+		C9C7C1232ADED6160016DE13 /* CrewImageButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C1222ADED6160016DE13 /* CrewImageButton.swift */; };
 		C9DC0CC82AD7D83700F06169 /* DefaultAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */; };
 		C9DC0CCA2AD7D85400F06169 /* SelectAddressTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */; };
 		C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */; };
@@ -164,9 +167,12 @@
 		C954F6162AD9998500D528F5 /* SelectAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressModel.swift; sourceTree = "<group>"; };
 		C954F6312ADA7CFB00D528F5 /* SelectDetailPointMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailPointMapView.swift; sourceTree = "<group>"; };
 		C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailPointMapViewController.swift; sourceTree = "<group>"; };
+		C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		C95C07AF2AE15A37007E7589 /* GroupAddViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "GroupAddViewController+Extension.swift"; sourceTree = "<group>"; };
 		C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLineView.swift; sourceTree = "<group>"; };
 		C9C7C1202ADE25590016DE13 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		C9C7C1222ADED6160016DE13 /* CrewImageButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewImageButton.swift; sourceTree = "<group>"; };
 		C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAddressTableViewCell.swift; sourceTree = "<group>"; };
 		C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressTableViewCell.swift; sourceTree = "<group>"; };
 		C9DE7C322AC01B3C005AFCC6 /* CustomListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListTableViewCell.swift; sourceTree = "<group>"; };
@@ -279,6 +285,7 @@
 				BF37D9CC2AB939A3005331AD /* AppDelegate.swift */,
 				BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */,
 				BF4A12452ABED8B500EC1B6D /* Extensions */,
+				C95C07AC2AE0BB3E007E7589 /* Utils */,
 				16E42CDE2AC47E790031486E /* Models */,
 				BF9BCFE62ACDCBEE009DAECD /* Views */,
 				BF5F3C4E2ABD779A004AFC73 /* Controllers */,
@@ -416,9 +423,10 @@
 			isa = PBXGroup;
 			children = (
 				C9DE7C362AC0289E005AFCC6 /* GroupAddTableViewCell.swift */,
-				C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */,
 				C9DC0CC72AD7D83700F06169 /* DefaultAddressTableViewCell.swift */,
 				C9DC0CC92AD7D85400F06169 /* SelectAddressTableViewCell.swift */,
+				C93D2CDB2AD298C300CF4735 /* GroupAddModalCollectionViewCell.swift */,
+				C9C7C1222ADED6160016DE13 /* CrewImageButton.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -456,6 +464,7 @@
 				C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */,
 				C93D2CD52AD2528F00CF4735 /* SelectStartTimeViewController.swift */,
 				C93D2CD92AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift */,
+				C95C07AF2AE15A37007E7589 /* GroupAddViewController+Extension.swift */,
 			);
 			path = GroupAdd;
 			sourceTree = "<group>";
@@ -466,6 +475,14 @@
 				C9DE7C382AC04AF8005AFCC6 /* GroupDetailViewController.swift */,
 			);
 			path = GroupDetail;
+			sourceTree = "<group>";
+		};
+		C95C07AC2AE0BB3E007E7589 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
@@ -616,6 +633,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C9C7C1232ADED6160016DE13 /* CrewImageButton.swift in Sources */,
 				B8D507342ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift in Sources */,
 				BF9BCFF32ACE379C009DAECD /* SelectAddressView.swift in Sources */,
 				C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */,
@@ -641,6 +659,7 @@
 				B8DD15EE2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift in Sources */,
 				B8DD15E02AD4677800685E48 /* FriendListTableViewCell.swift in Sources */,
 				16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */,
+				C95C07B02AE15A37007E7589 /* GroupAddViewController+Extension.swift in Sources */,
 				C904D15E2AD57AD8008BF5CE /* Crew.swift in Sources */,
 				C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */,
 				1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */,
@@ -656,6 +675,7 @@
 				C93D2CDA2AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift in Sources */,
 				C93D2CD82AD28F7400CF4735 /* SelectBoardingCrewModalView.swift in Sources */,
 				C954F6322ADA7CFB00D528F5 /* SelectDetailPointMapView.swift in Sources */,
+				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,
