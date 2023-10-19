@@ -47,7 +47,7 @@ final class GroupAddViewController: UIViewController {
         }
 
         for index in 0...2 {
-            pointsDataModel.append(Point(pointSequence: index))
+            pointsDataModel.append(Point())
             if index == 2 {
                 pointsDataModel[2].boardingCrew = [String]()
             }
@@ -250,8 +250,8 @@ extension GroupAddViewController {
     // 빈 값을 체크해주는 메서드
     private func emptyDataCheck() -> Bool {
         // TODO: 빈 값 체크
-        for element in pointsDataModel {
-            let pointName = returnPointName(element.pointSequence ?? 0)
+        for (index, element) in pointsDataModel.enumerated() {
+            let pointName = returnPointName(index)
 
             if element.pointArrivalTime == nil {
                 showAlert(title: "시간을 설정하지 않았어요!", message: "\(pointName)의 시간을 입력해주세요!")
