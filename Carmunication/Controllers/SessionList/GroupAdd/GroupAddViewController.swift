@@ -322,6 +322,7 @@ extension GroupAddViewController: UITableViewDataSource {
         if indexPath.row == pointsDataModel.count - 1 {
             cell.crewImageButton.isHidden = true
             cell.crewImageButton.isEnabled = false
+            cell.boardingCrewLabel.isHidden = true
         }
 
         if let pointName = pointsDataModel[indexPath.row].pointName {
