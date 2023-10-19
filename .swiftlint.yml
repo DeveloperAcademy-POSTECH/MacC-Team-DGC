@@ -2,3 +2,4 @@ disabled_rules:
   - todo
   - unneeded_override
   - function_parameter_count
+  - file_length
