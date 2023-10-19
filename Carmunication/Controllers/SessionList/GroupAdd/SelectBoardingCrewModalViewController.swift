@@ -11,6 +11,8 @@ class SelectBoardingCrewModalViewController: UIViewController {
 
     let selectBoardingCrewModalView = SelectBoardingCrewModalView()
 
+    var selectedFriends: [String]?
+
     override var sheetPresentationController: UISheetPresentationController? {
         presentationController as? UISheetPresentationController
     }
@@ -62,7 +64,7 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDelegateFlowLay
         numberOfItemsInSection section: Int
     ) -> Int {
         if collectionView == selectBoardingCrewModalView.selectedCrewCollectionView {
-            return 25
+            return selectedFriends?.count ?? 0
         } else {
             return 28
         }
@@ -110,5 +112,16 @@ extension SelectBoardingCrewModalViewController: UICollectionViewDataSource {
         }
 
         return UICollectionViewCell()
+    }
+}
+
+// MARK: - Previewer
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct GroupModalControllerPreview: PreviewProvider {
+
+    static var previews: some View {
+        GroupAddViewControllerRepresentable()
     }
 }

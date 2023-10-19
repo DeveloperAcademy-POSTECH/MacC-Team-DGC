@@ -83,6 +83,7 @@
 		C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6162AD9998500D528F5 /* SelectAddressModel.swift */; };
 		C954F6322ADA7CFB00D528F5 /* SelectDetailPointMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6312ADA7CFB00D528F5 /* SelectDetailPointMapView.swift */; };
 		C954F6342ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */; };
+		C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */; };
 		C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */; };
 		C96A74EE2ACE4B5C00451C64 /* GradientLineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */; };
 		C9AC83F32ADD1EA800D113FA /* Point2.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9AC83F22ADD1EA800D113FA /* Point2.swift */; };
@@ -170,6 +171,7 @@
 		C954F6162AD9998500D528F5 /* SelectAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressModel.swift; sourceTree = "<group>"; };
 		C954F6312ADA7CFB00D528F5 /* SelectDetailPointMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailPointMapView.swift; sourceTree = "<group>"; };
 		C954F6332ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectDetailPointMapViewController.swift; sourceTree = "<group>"; };
+		C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		C96A74EB2ACE451900451C64 /* GroupDetailTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailTableViewCell.swift; sourceTree = "<group>"; };
 		C96A74ED2ACE4B5C00451C64 /* GradientLineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientLineView.swift; sourceTree = "<group>"; };
 		C9AC83F22ADD1EA800D113FA /* Point2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point2.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 				BF37D9CC2AB939A3005331AD /* AppDelegate.swift */,
 				BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */,
 				BF4A12452ABED8B500EC1B6D /* Extensions */,
+				C95C07AC2AE0BB3E007E7589 /* Utils */,
 				16E42CDE2AC47E790031486E /* Models */,
 				BF9BCFE62ACDCBEE009DAECD /* Views */,
 				BF5F3C4E2ABD779A004AFC73 /* Controllers */,
@@ -480,6 +483,14 @@
 			path = GroupDetail;
 			sourceTree = "<group>";
 		};
+		C95C07AC2AE0BB3E007E7589 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		C9DE7C312AC01B04005AFCC6 /* SessionList */ = {
 			isa = PBXGroup;
 			children = (
@@ -670,6 +681,7 @@
 				C93D2CDA2AD28F8F00CF4735 /* SelectBoardingCrewModalViewController.swift in Sources */,
 				C93D2CD82AD28F7400CF4735 /* SelectBoardingCrewModalView.swift in Sources */,
 				C954F6322ADA7CFB00D528F5 /* SelectDetailPointMapView.swift in Sources */,
+				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,

@@ -13,13 +13,18 @@ final class GroupAddViewController: UIViewController {
 
     var groupDataModel: Group = Group()
     var pointsDataModel: [Point2] = []
+    var friendsList: [User]?
     let groupAddView = GroupAddView()
+    private let firebaseManager = FirebaseManager()
     private var shouldPopViewController = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        print("databasePath: ", databasePath)
         view.backgroundColor = UIColor.semantic.backgroundDefault
         view.addGestureRecognizer(tapGesture)
         navigationBarSetting()
@@ -45,6 +50,34 @@ final class GroupAddViewController: UIViewController {
 
         for index in 0...2 {
             pointsDataModel.append(Point2(pointSequence: index))
+        }
+
+        firebaseManager.readUserFriendshipList(databasePath: databasePath) { friendshipList in
+            guard let friendshipList else {
+                return
+            }
+            print("friendshipList: ", friendshipList)
+
+            for friendshipID in friendshipList {
+                self.firebaseManager.getFriendUid(friendshipID: friendshipID) { friendID in
+                    guard let friendID else {
+                        return
+                    }
+                    print("friendID: ", friendID)
+                    // 친구의 uid값으로 친구의 User객체를 불러온다.
+                    self.firebaseManager.getFriendUser(friendID: friendID) { friend in
+                        guard let friend else {
+                            return
+                        }
+                        if self.friendsList == nil {
+                            self.friendsList = [User]()
+                        }
+                        self.friendsList?.append(friend)
+
+                        print("친구목록: \(self.friendsList ?? [User]())")
+                    }
+                }
+            }
         }
     }
 }
@@ -276,6 +309,7 @@ extension GroupAddViewController: UITableViewDataSource {
 
         if indexPath.row == pointsDataModel.count - 1 {
             cell.crewImageButton.isHidden = true
+            cell.crewImageButton.isEnabled = false
         }
 
         if let pointName = pointsDataModel[indexPath.row].pointName {
