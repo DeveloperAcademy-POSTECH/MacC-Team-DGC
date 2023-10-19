@@ -19,43 +19,29 @@ import Foundation
  point_lng : 포인트의 경도
  boarding_crew : 그 장소에서 탑승하는 크루의 고유 id (userId)
  */
+
 struct Point {
-    var pointId: Int
-    var pointSequence: Int
-    var pointName: String
-    var pointDetailAddress: String
-    var pointArrivalTime: Date
-    var pointLat: Double
-    var pointLng: Double
-    var boardingCrew: [String]  // [userId]
-
-    // 시간 데이터 생성을 위한 이니셜라이저
-    init(
-        pointId: Int, pointSequence: Int, pointName: String, pointDetailAddress: String,
-        hour: Int, minute: Int, second: Int,
-        pointLat: Double, pointLng: Double, boardingCrew: [String]
-    ) {
-        self.pointId = pointId
-        self.pointSequence = pointSequence
-        self.pointName = pointName
-        self.pointDetailAddress = pointDetailAddress
-
-        // Calendar 객체를 생성하여 시간대를 설정합니다.
-        var calendar = Calendar.current
-        calendar.timeZone = TimeZone.current
-
-        // 시간, 분, 초에 해당하는 Date를 생성합니다.
-        self.pointArrivalTime = calendar.date(bySettingHour: hour, minute: minute, second: 0, of: Date()) ?? Date()
-        self.pointLat = pointLat
-        self.pointLng = pointLng
-        self.boardingCrew = boardingCrew
-    }
+    var pointID: Int?
+    var pointSequence: Int?
+    var pointName: String?
+    var pointDetailAddress: String?
+    var pointArrivalTime: Date?
+    var pointLat: Double?
+    var pointLng: Double?
+    var boardingCrew: [String]?  // [userId]
 
     // pointArrivalTime을 "HH:mm" 형식의 문자열로 반환하는 메서드
     func formattedArrivalTime() -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "HH:mm"
         dateFormatter.timeZone = TimeZone.current
-        return dateFormatter.string(from: pointArrivalTime)
+        return dateFormatter.string(from: pointArrivalTime ?? Date())
     }
+}
+
+struct AddressDTO {
+    var pointName: String?
+    var pointDetailAddress: String?
+    var pointLat: Double?
+    var pointLng: Double?
 }

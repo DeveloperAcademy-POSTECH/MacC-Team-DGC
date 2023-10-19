@@ -93,7 +93,7 @@ extension SessionStartViewController {
 
         // 여기서 두 view 간 레이아웃 잡기
         sessionStartMidView.snp.makeConstraints { make in
-            make.top.equalTo(sessionStartView.groupCollectionView.snp.bottom).inset(-16).priority(.high)
+            make.top.equalTo(sessionStartView.groupCollectionView.snp.bottom).offset(16).priority(.high)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.lessThanOrEqualTo(467).priority(.low)
         }
@@ -108,38 +108,38 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     @objc private func inviteJourney() {
-            if isInviteJourneyClicked {
-                showAlertDialog()
-            } else {
-                // TODO: - 수락한 운전자 수 보여주는 로직 구현
-                // TODO: - 세션 초대 로직 구현
-                sessionStartView.journeyTogetherButton.backgroundColor = UIColor.semantic.negative
-                sessionStartView.journeyTogetherButton.setTitle("바로 시작하기", for: .normal)
-                isInviteJourneyClicked = true
-            }
+        if isInviteJourneyClicked {
+            showAlertDialog()
+        } else {
+            // TODO: - 수락한 운전자 수 보여주는 로직 구현
+            // TODO: - 세션 초대 로직 구현
+            sessionStartView.journeyTogetherButton.backgroundColor = UIColor.semantic.negative
+            sessionStartView.journeyTogetherButton.setTitle("바로 시작하기", for: .normal)
+            isInviteJourneyClicked = true
         }
+    }
 
-        private func showAlertDialog() {
-            let alertController = UIAlertController(
-                title: selectedGroupData?.groupName,
-                message: "크루원들을 기다리지 않고\n여정을 바로 시작하시겠어요?",
-                preferredStyle: .alert
-            )
+    private func showAlertDialog() {
+        let alertController = UIAlertController(
+            title: selectedGroupData?.groupName,
+            message: "크루원들을 기다리지 않고\n여정을 바로 시작하시겠어요?",
+            preferredStyle: .alert
+        )
 
-            let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel, handler: nil)
-            let startAction = UIAlertAction(title: "시작하기", style: .default, handler: { _ in
-                let sessionMapViewController = SessionMapViewController()
-                sessionMapViewController.modalPresentationStyle = .fullScreen
-                self.present(sessionMapViewController, animated: true, completion: nil)
-            })
-            cancelAction.setValue(UIColor.semantic.accPrimary, forKey: "titleTextColor")
-            startAction.setValue(UIColor.semantic.accPrimary, forKey: "titleTextColor")
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel, handler: nil)
+        let startAction = UIAlertAction(title: "시작하기", style: .default, handler: { _ in
+            let sessionMapViewController = SessionMapViewController()
+            sessionMapViewController.modalPresentationStyle = .fullScreen
+            self.present(sessionMapViewController, animated: true, completion: nil)
+        })
+        cancelAction.setValue(UIColor.semantic.accPrimary, forKey: "titleTextColor")
+        startAction.setValue(UIColor.semantic.accPrimary, forKey: "titleTextColor")
 
-            alertController.addAction(cancelAction)
-            alertController.addAction(startAction)
+        alertController.addAction(cancelAction)
+        alertController.addAction(startAction)
 
-            present(alertController, animated: true, completion: nil)
-        }
+        present(alertController, animated: true, completion: nil)
+    }
 
     private func handleSelectedGroupData(_ selectedGroup: Group) {
         // 선택한 그룹 데이터를 처리하는 코드를 추가합니다.
@@ -170,7 +170,7 @@ extension SessionStartViewController {
                 sessionStartView.participateButton.isHidden = true
 
                 sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
-                    make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
+                    make.top.equalTo(sessionStartMidView.snp.bottom).offset(16)
                     make.leading.trailing.equalTo(sessionStartView).inset(20)
                     make.height.equalTo(buttonHeight)
                     make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
@@ -184,7 +184,7 @@ extension SessionStartViewController {
 
                 sessionStartView.noRideButton.snp.makeConstraints { make in
                     make.leading.equalTo(sessionStartView).inset(20)
-                    make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
+                    make.top.equalTo(sessionStartMidView.snp.bottom).offset(16)
                     make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
                     make.width.equalTo(sessionStartView.participateButton) // 너비를 같게 설정
                     make.height.equalTo(buttonHeight)
@@ -206,7 +206,7 @@ extension SessionStartViewController {
             sessionStartView.journeyTogetherButton.isHidden = false
 
             sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
-                make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
+                make.top.equalTo(sessionStartMidView.snp.bottom).offset(16)
                 make.leading.trailing.equalTo(sessionStartView).inset(20)
                 make.height.equalTo(buttonHeight)
                 make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
