@@ -32,6 +32,7 @@
 		B8DD15E82AD641BC00685E48 /* FriendDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15E72AD641BC00685E48 /* FriendDetailView.swift */; };
 		B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */; };
 		B8DD15EE2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15ED2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift */; };
+		B8EA07A02AE188CB007501E9 /* SecureKey-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8EA079F2AE188CB007501E9 /* SecureKey-Info.plist */; };
 		B8EC761E2ADFEB6300F83E8F /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B8EC761D2ADFEB6300F83E8F /* Secrets.xcconfig */; };
 		B8EC76202ADFEBA200F83E8F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8EC761F2ADFEBA200F83E8F /* GoogleService-Info.plist */; };
 		B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE992AC96B5F004D310C /* InquiryViewController.swift */; };
@@ -49,7 +50,6 @@
 		BF4A12442ABED79F00EC1B6D /* SessionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */; };
 		BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */; };
 		BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */; };
-		BF7DF9C12ACA6D27001178AF /* SecureKey-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */; };
 		BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */; };
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
 		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
@@ -116,6 +116,7 @@
 		B8DD15E72AD641BC00685E48 /* FriendDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailView.swift; sourceTree = "<group>"; };
 		B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8DD15ED2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomIntensityVisualEffectView.swift; sourceTree = "<group>"; };
+		B8EA079F2AE188CB007501E9 /* SecureKey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SecureKey-Info.plist"; sourceTree = "<group>"; };
 		B8EC761D2ADFEB6300F83E8F /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		B8EC761F2ADFEBA200F83E8F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B8EECE992AC96B5F004D310C /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
@@ -134,7 +135,6 @@
 		BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewController.swift; sourceTree = "<group>"; };
 		BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
-		BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SecureKey-Info.plist"; sourceTree = "<group>"; };
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddView.swift; sourceTree = "<group>"; };
@@ -288,7 +288,7 @@
 				BF37D9DA2AB939A4005331AD /* Info.plist */,
 				B8EC761D2ADFEB6300F83E8F /* Secrets.xcconfig */,
 				B8EC761F2ADFEBA200F83E8F /* GoogleService-Info.plist */,
-				BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */,
+				B8EA079F2AE188CB007501E9 /* SecureKey-Info.plist */,
 			);
 			path = Carmunication;
 			sourceTree = "<group>";
@@ -580,9 +580,9 @@
 				B8EC761E2ADFEB6300F83E8F /* Secrets.xcconfig in Resources */,
 				BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */,
 				BF37D9D92AB939A4005331AD /* LaunchScreen.storyboard in Resources */,
+				B8EA07A02AE188CB007501E9 /* SecureKey-Info.plist in Resources */,
 				C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */,
 				BF37D9D62AB939A4005331AD /* Assets.xcassets in Resources */,
-				BF7DF9C12ACA6D27001178AF /* SecureKey-Info.plist in Resources */,
 				B8EC76202ADFEBA200F83E8F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
