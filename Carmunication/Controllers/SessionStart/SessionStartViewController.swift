@@ -13,6 +13,7 @@ final class SessionStartViewController: UIViewController {
 
     private let sessionStartView = SessionStartView()
     private let sessionStartMidView = SessionStartMidView()
+    private let sessionStartMidNoGroupView = SessionStartMidNoGroupView()
 
     // CaptainID
     private let captainID = "1"
@@ -62,6 +63,7 @@ extension SessionStartViewController {
 
         view.addSubview(sessionStartView)
         view.addSubview(sessionStartMidView)
+        view.addSubview(sessionStartMidNoGroupView)
     }
 
     func setupByFrameSize() {
@@ -94,6 +96,9 @@ extension SessionStartViewController {
             make.top.equalTo(sessionStartView.groupCollectionView.snp.bottom).inset(-16).priority(.high)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.lessThanOrEqualTo(467).priority(.low)
+        }
+        sessionStartMidNoGroupView.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(20)
         }
     }
 
@@ -156,8 +161,10 @@ extension SessionStartViewController {
         let tabBarControllerHeight = self.tabBarController?.tabBar.frame.height ?? 0
 
         if let selectedGroup = selectedGroup {
-            if selectedGroup.captainId == captainID {
-                // 운전자인 경우의 처리
+
+            sessionStartMidView.isHidden = false
+            sessionStartMidNoGroupView.isHidden = true
+            if selectedGroup.captainId == captainID {   // 운전자인 경우의 처리
                 sessionStartView.journeyTogetherButton.isHidden = false
                 sessionStartView.noRideButton.isHidden = true
                 sessionStartView.participateButton.isHidden = true
@@ -193,6 +200,18 @@ extension SessionStartViewController {
                 sessionStartView.noRideButton.layer.cornerRadius = buttonHeight / 2
                 sessionStartView.participateButton.layer.cornerRadius = buttonHeight / 2
             }
+        } else {    // 그룹이 없다면
+            sessionStartMidView.isHidden = true
+            sessionStartMidNoGroupView.isHidden = false
+            sessionStartView.journeyTogetherButton.isHidden = false
+
+            sessionStartView.journeyTogetherButton.snp.makeConstraints { make in
+                make.top.equalTo(sessionStartMidView.snp.bottom).inset(-16)
+                make.leading.trailing.equalTo(sessionStartView).inset(20)
+                make.height.equalTo(buttonHeight)
+                make.bottom.greaterThanOrEqualToSuperview().inset(tabBarControllerHeight + 20)
+            }
+            sessionStartView.journeyTogetherButton.layer.cornerRadius = buttonHeight / 2
         }
     }
 }
