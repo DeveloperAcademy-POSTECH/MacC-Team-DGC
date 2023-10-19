@@ -11,6 +11,7 @@ import UIKit
 
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 import SnapKit
 
 final class SettingsViewController: UIViewController {
@@ -210,7 +211,18 @@ extension SettingsViewController {
 // MARK: - Firebase Storage 관련 메서드
 extension SettingsViewController {
 
-    // TODO: - 계정 삭제 시 Storage에서 유저 프로필 이미지를 삭제해주는 메서드
+    // MARK: - 파이어베이스 Storage에서 유저 이미지 삭제하는 메서드 (회원 탈퇴 시 필요)
+    // TODO: - MyPageViewController와 중복
+    private func deleteProfileImage(imageName: String) {
+        let firebaseStorageRef = Storage.storage().reference().child("images/\(imageName)")
+        firebaseStorageRef.delete { error in
+            if let error = error {
+                print("이미지 삭제에 실패했습니다.", error.localizedDescription)
+            } else {
+                print("이미지가 성공적으로 삭제되었습니다.")
+            }
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource 프로토콜 구현
@@ -325,6 +337,13 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
         Task {
             do {
+                // Storage에 저장된 유저 이미지 삭제
+                guard let imageName = KeychainItem.currentUserIdentifier else {
+                    return
+                }
+                deleteProfileImage(imageName: "\(imageName).jpeg")
+                // 유저와 관련된 친구 정보 삭제
+                performDeletingUsersFriendship()
                 // Firebase DB에서 유저 정보 삭제
                 try await User.databasePathWithUID?.removeValue()
                 // 애플 서버의 사용자 토큰 삭제
