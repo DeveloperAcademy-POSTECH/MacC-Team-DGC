@@ -229,25 +229,27 @@ extension SessionStartViewController {
 
         // 유저의 친구 관계 리스트를 불러온다.
         readUserFriendshipList(databasePath: databasePath) { friendshipList in
-            guard let friendshipList else {
+            guard let friendshipList = friendshipList else {
                 return
             }
             // 친구 관계 id값으로 친구의 uid를 받아온다.
             for friendshipID in friendshipList {
                 self.getFriendUid(friendshipID: friendshipID) { friendID in
-                    guard let friendID else {
+                    guard let friendID = friendID else {
                         return
                     }
                     // 친구의 uid값으로 친구의 User객체를 불러온다.
                     self.getFriendUser(friendID: friendID) { friend in
-                        guard let friend else {
+                        guard let friend = friend else {
                             return
                         }
                         self.friendDeviceToken.append(friend.deviceToken)
                         print("친구들 Device Token : ", self.friendDeviceToken)
 
                         // Functions 호출
-                        functions.httpsCallable("push_send").call(["tokens": self.friendDeviceToken]) { (result, error) in
+                        functions
+                            .httpsCallable("push_send")
+                            .call(["tokens": self.friendDeviceToken]) { (result, error) in
                             if let error = error {
                                 print("Error calling Firebase Functions: \(error.localizedDescription)")
                             } else {
