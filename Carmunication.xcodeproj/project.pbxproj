@@ -12,7 +12,6 @@
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartMidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */; };
 		16DBA63F2AC1D5B900315ED7 /* GroupCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */; };
-		16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C452AC40A510031486E /* ModalQueueViewController.swift */; };
 		16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* SessionMapViewController.swift */; };
 		B80CCA522ADB0955000A2ABB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B80CCA512ADB0955000A2ABB /* FirebaseStorage */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
@@ -58,7 +57,6 @@
 		BF9BCFF32ACE379C009DAECD /* SelectAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFF22ACE379C009DAECD /* SelectAddressView.swift */; };
 		BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */; };
 		BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */; };
-		BF9BD0022ACE5093009DAECD /* ModalQueueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BD0012ACE5093009DAECD /* ModalQueueView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		C904D1562AD5786A008BF5CE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1552AD5786A008BF5CE /* User.swift */; };
 		C904D1582AD57942008BF5CE /* Friendship.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1572AD57942008BF5CE /* Friendship.swift */; };
@@ -101,7 +99,6 @@
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartMidView.swift; sourceTree = "<group>"; };
 		16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
-		16E42C452AC40A510031486E /* ModalQueueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalQueueViewController.swift; sourceTree = "<group>"; };
 		16E42C472AC411A20031486E /* SessionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapViewController.swift; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmunication.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmunication.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -145,7 +142,6 @@
 		BF9BCFF22ACE379C009DAECD /* SelectAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressView.swift; sourceTree = "<group>"; };
 		BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartView.swift; sourceTree = "<group>"; };
-		BF9BD0012ACE5093009DAECD /* ModalQueueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalQueueView.swift; sourceTree = "<group>"; };
 		C904D1552AD5786A008BF5CE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C904D1572AD57942008BF5CE /* Friendship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friendship.swift; sourceTree = "<group>"; };
 		C904D15B2AD57ACB008BF5CE /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
@@ -204,7 +200,6 @@
 			isa = PBXGroup;
 			children = (
 				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
-				16E42C452AC40A510031486E /* ModalQueueViewController.swift */,
 				16E42C472AC411A20031486E /* SessionMapViewController.swift */,
 			);
 			path = SessionStart;
@@ -365,7 +360,6 @@
 			children = (
 				BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */,
 				16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */,
-				BF9BD0012ACE5093009DAECD /* ModalQueueView.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */,
 				161854AC2AE005F200961D2D /* SessionStartMidNoGroupView.swift */,
 			);
@@ -655,7 +649,6 @@
 				1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				C9DE7C372AC0289E005AFCC6 /* GroupAddTableViewCell.swift in Sources */,
-				BF9BD0022ACE5093009DAECD /* ModalQueueView.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
 				B8DD15E22AD52CC300685E48 /* FriendAddViewController.swift in Sources */,
 				C9DC0CC82AD7D83700F06169 /* DefaultAddressTableViewCell.swift in Sources */,
@@ -685,7 +678,6 @@
 				BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */,
 				B8DD15E82AD641BC00685E48 /* FriendDetailView.swift in Sources */,
 				C96A74EC2ACE451900451C64 /* GroupDetailTableViewCell.swift in Sources */,
-				16E42C462AC40A510031486E /* ModalQueueViewController.swift in Sources */,
 				C904D1562AD5786A008BF5CE /* User.swift in Sources */,
 				B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */,
 				BF4A12442ABED79F00EC1B6D /* SessionListViewController.swift in Sources */,
