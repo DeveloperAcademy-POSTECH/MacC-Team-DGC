@@ -9,6 +9,8 @@ import UIKit
 
 final class NoSearchedResultTableViewCell: UITableViewCell {
 
+    static let cellIdentifier = "noSearchedResultTableViewCell"
+
     // 검색 결과 없음 라벨
     lazy var noResultLabel: UILabel = {
         let noResultLabel = UILabel()
