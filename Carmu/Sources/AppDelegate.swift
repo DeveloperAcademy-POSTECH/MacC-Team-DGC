@@ -1,6 +1,6 @@
 //
 //  AppDelegate.swift
-//  Carmunication
+//  Carmu
 //
 //  Created by 허준혁 on 2023/09/19.
 //

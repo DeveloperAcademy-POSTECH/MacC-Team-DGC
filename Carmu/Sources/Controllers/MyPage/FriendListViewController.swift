@@ -1,6 +1,6 @@
 //
 //  FriendListViewController.swift
-//  Carmunication
+//  Carmu
 //
 //  Created by 김영빈 on 2023/09/29.
 //

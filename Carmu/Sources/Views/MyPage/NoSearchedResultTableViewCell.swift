@@ -1,6 +1,6 @@
 //
 //  NoSearchedResultTableViewCell.swift
-//  Carmunication
+//  Carmu
 //
 //  Created by 김영빈 on 2023/10/17.
 //

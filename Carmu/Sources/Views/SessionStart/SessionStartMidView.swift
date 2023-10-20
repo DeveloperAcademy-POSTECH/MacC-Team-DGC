@@ -1,6 +1,6 @@
 //
 //  SessionStartMidView.swift
-//  Carmunication
+//  Carmu
 //
 //  Created by 김태형 on 2023/10/12.
 //
