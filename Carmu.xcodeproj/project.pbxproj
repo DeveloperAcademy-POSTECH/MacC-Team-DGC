@@ -102,7 +102,7 @@
 		16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartMidView.swift; sourceTree = "<group>"; };
 		16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupCollectionViewCell.swift; sourceTree = "<group>"; };
 		16E42C472AC411A20031486E /* SessionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapViewController.swift; sourceTree = "<group>"; };
-		B8A20E402AC0B9F400F0CE91 /* Carmunication.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmunication.entitlements; sourceTree = "<group>"; };
+		B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmu.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -127,7 +127,7 @@
 		BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		BF29DF282ACFF9CD00430031 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
-		BF37D9C92AB939A3005331AD /* Carmunication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmunication.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF37D9C92AB939A3005331AD /* Carmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF37D9CC2AB939A3005331AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BF37D9D52AB939A4005331AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -264,7 +264,7 @@
 			isa = PBXGroup;
 			children = (
 				BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */,
-				BF37D9CB2AB939A3005331AD /* Carmunication */,
+				BF37D9CB2AB939A3005331AD /* Carmu */,
 				BF37D9CA2AB939A3005331AD /* Products */,
 				BF24481B2AD6D66200F4089A /* Frameworks */,
 			);
@@ -273,15 +273,15 @@
 		BF37D9CA2AB939A3005331AD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BF37D9C92AB939A3005331AD /* Carmunication.app */,
+				BF37D9C92AB939A3005331AD /* Carmu.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BF37D9CB2AB939A3005331AD /* Carmunication */ = {
+		BF37D9CB2AB939A3005331AD /* Carmu */ = {
 			isa = PBXGroup;
 			children = (
-				B8A20E402AC0B9F400F0CE91 /* Carmunication.entitlements */,
+				B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */,
 				BF52B7F62AE26476001FAD97 /* Sources */,
 				C92CFB2B2AC9398B0068273A /* Resources */,
 				BF37D9D52AB939A4005331AD /* Assets.xcassets */,
@@ -291,7 +291,7 @@
 				B8EC761F2ADFEBA200F83E8F /* GoogleService-Info.plist */,
 				BF7DF9C02ACA6D27001178AF /* SecureKey-Info.plist */,
 			);
-			path = Carmunication;
+			path = Carmu;
 			sourceTree = "<group>";
 		};
 		BF4A12452ABED8B500EC1B6D /* Extensions */ = {
@@ -531,9 +531,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BF37D9C82AB939A3005331AD /* Carmunication */ = {
+		BF37D9C82AB939A3005331AD /* Carmu */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BF37D9DD2AB939A4005331AD /* Build configuration list for PBXNativeTarget "Carmunication" */;
+			buildConfigurationList = BF37D9DD2AB939A4005331AD /* Build configuration list for PBXNativeTarget "Carmu" */;
 			buildPhases = (
 				BF37D9E02AB93A28005331AD /* SwiftLint */,
 				BF37D9C52AB939A3005331AD /* Sources */,
@@ -544,7 +544,7 @@
 			);
 			dependencies = (
 			);
-			name = Carmunication;
+			name = Carmu;
 			packageProductDependencies = (
 				B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */,
 				B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */,
@@ -556,7 +556,7 @@
 				163FA6592AE15F04005F2A77 /* FirebaseFunctions */,
 			);
 			productName = Carmunication;
-			productReference = BF37D9C92AB939A3005331AD /* Carmunication.app */;
+			productReference = BF37D9C92AB939A3005331AD /* Carmu.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -574,7 +574,7 @@
 					};
 				};
 			};
-			buildConfigurationList = BF37D9C42AB939A3005331AD /* Build configuration list for PBXProject "Carmunication" */;
+			buildConfigurationList = BF37D9C42AB939A3005331AD /* Build configuration list for PBXProject "Carmu" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -592,7 +592,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BF37D9C82AB939A3005331AD /* Carmunication */,
+				BF37D9C82AB939A3005331AD /* Carmu */,
 			);
 		};
 /* End PBXProject section */
@@ -851,14 +851,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Carmunication/Carmunication.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Carmu/Carmu.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = RCM87YWJ79;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Carmunication/Info.plist;
+				INFOPLIST_FILE = Carmu/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "동승자에게 위치 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -892,14 +892,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Carmunication/Carmunication.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Carmu/Carmu.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = RCM87YWJ79;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Carmunication/Info.plist;
+				INFOPLIST_FILE = Carmu/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "동승자에게 위치 정보를 제공하기 위해 권한이 필요합니다.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
@@ -928,7 +928,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BF37D9C42AB939A3005331AD /* Build configuration list for PBXProject "Carmunication" */ = {
+		BF37D9C42AB939A3005331AD /* Build configuration list for PBXProject "Carmu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BF37D9DB2AB939A4005331AD /* Debug */,
@@ -937,7 +937,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BF37D9DD2AB939A4005331AD /* Build configuration list for PBXNativeTarget "Carmunication" */ = {
+		BF37D9DD2AB939A4005331AD /* Build configuration list for PBXNativeTarget "Carmu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BF37D9DE2AB939A4005331AD /* Debug */,
