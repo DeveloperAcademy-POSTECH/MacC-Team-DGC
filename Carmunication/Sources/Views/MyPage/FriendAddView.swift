@@ -60,19 +60,14 @@ final class FriendAddView: UIView {
             attributes: placeholderAttributes
         )
 
-        friendSearchTextField.rightView = textFieldUtilityStackView
-        friendSearchTextField.rightViewMode = .whileEditing
-
         return friendSearchTextField
     }()
 
-    // MARK: - 텍스트 필드 우측 스택
-    lazy var textFieldUtilityStackView: UIStackView = {
-        let textFieldUtilityStackView = UIStackView()
-        textFieldUtilityStackView.axis = .horizontal
-        textFieldUtilityStackView.alignment = .center
-        textFieldUtilityStackView.distribution = .fill
-        return textFieldUtilityStackView
+    // MARK: - 텍스트 필드 우측 뷰
+    lazy var textFieldUtilityView: UIView = {
+        let textFieldUtilityView = UIView()
+        textFieldUtilityView.isHidden = true
+        return textFieldUtilityView
     }()
 
     // MARK: - 텍스트 필드 clear 버튼
@@ -136,9 +131,10 @@ final class FriendAddView: UIView {
         headerBar.addSubview(closeButton)
 
         friendSearchTextFieldView.addSubview(friendSearchTextField)
+        friendSearchTextFieldView.addSubview(textFieldUtilityView)
 
-        textFieldUtilityStackView.addArrangedSubview(clearButton)
-        textFieldUtilityStackView.addArrangedSubview(friendSearchButton)
+        textFieldUtilityView.addSubview(clearButton)
+        textFieldUtilityView.addSubview(friendSearchButton)
     }
 
     // MARK: - 오토 레이아웃 설정 메서드
@@ -163,10 +159,20 @@ final class FriendAddView: UIView {
             make.height.equalTo(38)
         }
         friendSearchTextField.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(20)
+            make.top.bottom.equalToSuperview().inset(8)
+            make.trailing.equalTo(friendSearchTextFieldView).offset(-84)
+        }
+        textFieldUtilityView.snp.makeConstraints { make in
+            make.leading.equalTo(friendSearchTextField.snp.trailing)
+            make.trailing.equalTo(friendSearchTextFieldView).inset(20)
             make.top.bottom.equalToSuperview().inset(8)
         }
+        friendSearchButton.snp.makeConstraints { make in
+            make.top.trailing.bottom.equalToSuperview()
+        }
         clearButton.snp.makeConstraints { make in
+            make.bottom.top.equalToSuperview()
             make.trailing.equalTo(friendSearchButton.snp.leading).offset(-10)
         }
         searchedFriendTableView.snp.makeConstraints { make in

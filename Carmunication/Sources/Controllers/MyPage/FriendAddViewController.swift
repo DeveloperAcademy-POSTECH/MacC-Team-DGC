@@ -105,6 +105,7 @@ extension FriendAddViewController {
     }
     // 텍스트 필드 비활성화 시 동작
     @objc private func dismissTextField() {
+        friendAddView.textFieldUtilityView.isHidden = true
         friendAddView.friendSearchTextFieldView.backgroundColor = .clear
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 1.0
         friendAddView.friendSearchTextField.resignFirstResponder() // 최초 응답자 해제
@@ -252,6 +253,7 @@ extension FriendAddViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         friendAddView.friendSearchTextFieldView.backgroundColor = UIColor.semantic.backgroundSecond
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 0
+        friendAddView.textFieldUtilityView.isHidden = false
     }
     // 리턴 키를 눌렀을 때 호출되는 메서드
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
