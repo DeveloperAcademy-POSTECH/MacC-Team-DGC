@@ -11,14 +11,6 @@ final class FriendListTableViewCell: UITableViewCell {
 
     static let cellIdentifier = "friendListTableViewCell"
 
-    // MARK: - 프로필 스택
-    lazy var profileStack: UIStackView = {
-        let profileStack = UIStackView()
-        profileStack.axis = .horizontal
-        profileStack.alignment = .center
-        return profileStack
-    }()
-
     // MARK: - 친구 프로필 이미지
     lazy var profileImageView: UIImageView = {
         let profileImageView = UIImageView()
@@ -59,22 +51,19 @@ final class FriendListTableViewCell: UITableViewCell {
     }
 
     func setupViews() {
-        addSubview(profileStack)
-
-        profileStack.addArrangedSubview(profileImageView)
-        profileStack.addArrangedSubview(nicknameLabel)
+        addSubview(profileImageView)
+        addSubview(nicknameLabel)
     }
 
     func setAutoLayout() {
-        profileStack.snp.makeConstraints { make in
-            make.top.bottom.equalToSuperview().inset(12)
-            make.leading.equalToSuperview().offset(24)
-            make.width.equalTo(170)
-        }
         profileImageView.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
+            make.top.bottom.equalToSuperview().inset(12)
+            make.leading.equalToSuperview().inset(24)
             make.width.height.equalTo(50)
-            make.trailing.equalTo(nicknameLabel.snp.leading).offset(-12)
+        }
+        nicknameLabel.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview().inset(12)
+            make.leading.equalTo(profileImageView.snp.trailing).offset(12)
         }
     }
 }
