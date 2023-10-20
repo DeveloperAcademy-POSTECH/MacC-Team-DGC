@@ -14,6 +14,7 @@ final class GroupAddViewController: UIViewController {
     var groupDataModel: Group = Group()
     var pointsDataModel: [Point] = []
     var friendsList: [User]?
+    var selectedList: [String]?
     var userImage: [String: UIImage]?
     let groupAddView = GroupAddView()
     private let firebaseManager = FirebaseManager()
@@ -88,28 +89,58 @@ extension GroupAddViewController {
     }
 
     @objc func addBoardingCrewButtonTapped(_ sender: UIButton) {
+        guard let cell = sender.superview?.superview as? GroupAddTableViewCell else {
+            return
+        }
+        guard let indexPath = self.groupAddView.tableViewComponent.indexPath(for: cell) else {
+            return
+        }
         let detailViewController = SelectBoardingCrewModalViewController()
-        detailViewController.friendsList = friendsList
+        detailViewController.friendsList = removeSelectedFriend(friendsList, pointsDataModel)
         detailViewController.userImage = userImage
+        detailViewController.selectedFriends = findSelectedFriend(pointsDataModel[indexPath.row])
 
         detailViewController.friendSelectionHandler = { [weak self] selectedFriend in
 
-            if let cell = sender.superview?.superview as? GroupAddTableViewCell,
-               let indexPath = self?.groupAddView.tableViewComponent.indexPath(for: cell) {
-                var newBoardingCrew = [String]()
-                if selectedFriend.isEmpty {
-                    self?.pointsDataModel[indexPath.row].boardingCrew = nil
-                } else {
-                    for element in selectedFriend {
-                        newBoardingCrew.append(element.nickname)
-                    }
-                    self?.pointsDataModel[indexPath.row].boardingCrew = newBoardingCrew
+            var newBoardingCrew = [String]()
+            if selectedFriend.isEmpty {
+                self?.pointsDataModel[indexPath.row].boardingCrew = nil
+            } else {
+                for element in selectedFriend {
+                    newBoardingCrew.append(element.nickname)
                 }
+                self?.pointsDataModel[indexPath.row].boardingCrew = newBoardingCrew
             }
+
             self?.groupAddView.tableViewComponent.reloadData()
         }
-
         present(detailViewController, animated: true)
+    }
+
+    private func removeSelectedFriend(_ friendList: [User]?, _ pointData: [Point]) -> [User] {
+        guard var friendList = friendList else { return [User]() }
+        let selectedList = pointData
+
+        for element in selectedList {
+            guard let pointSelectedUser = element.boardingCrew else { continue }
+
+            friendList = friendList.filter { friendElement in
+                return !pointSelectedUser.contains(friendElement.nickname)
+            }
+        }
+        print("제거된 friendList: ", friendList)
+        return friendList
+    }
+
+    private func findSelectedFriend(_ pointData: Point) -> [User] {
+        guard let boardingCrew = pointData.boardingCrew else { return [User]() }
+        guard let friendList = self.friendsList else { return [User]() }
+
+        let selectedFriend = friendList.filter { element in
+            return boardingCrew.contains(element.nickname)
+        }
+
+        return selectedFriend
     }
 
     @objc func setStartTimeButtonTapped(_ sender: UIButton) {
