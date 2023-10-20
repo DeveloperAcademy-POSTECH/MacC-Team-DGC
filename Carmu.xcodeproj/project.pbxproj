@@ -127,7 +127,7 @@
 		BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		BF29DF282ACFF9CD00430031 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
-		BF37D9C92AB939A3005331AD /* Carmunication.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmunication.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BF37D9C92AB939A3005331AD /* Carmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF37D9CC2AB939A3005331AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BF37D9D52AB939A4005331AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -273,7 +273,7 @@
 		BF37D9CA2AB939A3005331AD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				BF37D9C92AB939A3005331AD /* Carmunication.app */,
+				BF37D9C92AB939A3005331AD /* Carmu.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -531,9 +531,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		BF37D9C82AB939A3005331AD /* Carmunication */ = {
+		BF37D9C82AB939A3005331AD /* Carmu */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BF37D9DD2AB939A4005331AD /* Build configuration list for PBXNativeTarget "Carmunication" */;
+			buildConfigurationList = BF37D9DD2AB939A4005331AD /* Build configuration list for PBXNativeTarget "Carmu" */;
 			buildPhases = (
 				BF37D9E02AB93A28005331AD /* SwiftLint */,
 				BF37D9C52AB939A3005331AD /* Sources */,
@@ -544,7 +544,7 @@
 			);
 			dependencies = (
 			);
-			name = Carmunication;
+			name = Carmu;
 			packageProductDependencies = (
 				B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */,
 				B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */,
@@ -556,7 +556,7 @@
 				163FA6592AE15F04005F2A77 /* FirebaseFunctions */,
 			);
 			productName = Carmunication;
-			productReference = BF37D9C92AB939A3005331AD /* Carmunication.app */;
+			productReference = BF37D9C92AB939A3005331AD /* Carmu.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -574,7 +574,7 @@
 					};
 				};
 			};
-			buildConfigurationList = BF37D9C42AB939A3005331AD /* Build configuration list for PBXProject "Carmunication" */;
+			buildConfigurationList = BF37D9C42AB939A3005331AD /* Build configuration list for PBXProject "Carmu" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -592,7 +592,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				BF37D9C82AB939A3005331AD /* Carmunication */,
+				BF37D9C82AB939A3005331AD /* Carmu */,
 			);
 		};
 /* End PBXProject section */
@@ -928,7 +928,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		BF37D9C42AB939A3005331AD /* Build configuration list for PBXProject "Carmunication" */ = {
+		BF37D9C42AB939A3005331AD /* Build configuration list for PBXProject "Carmu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BF37D9DB2AB939A4005331AD /* Debug */,
@@ -937,7 +937,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BF37D9DD2AB939A4005331AD /* Build configuration list for PBXNativeTarget "Carmunication" */ = {
+		BF37D9DD2AB939A4005331AD /* Build configuration list for PBXNativeTarget "Carmu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BF37D9DE2AB939A4005331AD /* Debug */,

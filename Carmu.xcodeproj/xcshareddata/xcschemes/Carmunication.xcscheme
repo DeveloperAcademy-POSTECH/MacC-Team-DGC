@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BF37D9C82AB939A3005331AD"
-               BuildableName = "Carmunication.app"
-               BlueprintName = "Carmunication"
-               ReferencedContainer = "container:Carmunication.xcodeproj">
+               BuildableName = "Carmu.app"
+               BlueprintName = "Carmu"
+               ReferencedContainer = "container:Carmu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -44,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BF37D9C82AB939A3005331AD"
-            BuildableName = "Carmunication.app"
-            BlueprintName = "Carmunication"
-            ReferencedContainer = "container:Carmunication.xcodeproj">
+            BuildableName = "Carmu.app"
+            BlueprintName = "Carmu"
+            ReferencedContainer = "container:Carmu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -61,9 +61,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BF37D9C82AB939A3005331AD"
-            BuildableName = "Carmunication.app"
-            BlueprintName = "Carmunication"
-            ReferencedContainer = "container:Carmunication.xcodeproj">
+            BuildableName = "Carmu.app"
+            BlueprintName = "Carmu"
+            ReferencedContainer = "container:Carmu.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
