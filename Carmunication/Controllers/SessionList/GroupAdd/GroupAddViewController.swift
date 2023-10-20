@@ -117,32 +117,6 @@ extension GroupAddViewController {
         present(detailViewController, animated: true)
     }
 
-    private func removeSelectedFriend(_ friendList: [User]?, _ pointData: [Point]) -> [User] {
-        guard var friendList = friendList else { return [User]() }
-        let selectedList = pointData
-
-        for element in selectedList {
-            guard let pointSelectedUser = element.boardingCrew else { continue }
-
-            friendList = friendList.filter { friendElement in
-                return !pointSelectedUser.contains(friendElement.nickname)
-            }
-        }
-        print("제거된 friendList: ", friendList)
-        return friendList
-    }
-
-    private func findSelectedFriend(_ pointData: Point) -> [User] {
-        guard let boardingCrew = pointData.boardingCrew else { return [User]() }
-        guard let friendList = self.friendsList else { return [User]() }
-
-        let selectedFriend = friendList.filter { element in
-            return boardingCrew.contains(element.nickname)
-        }
-
-        return selectedFriend
-    }
-
     @objc func setStartTimeButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectStartTimeViewController()
 
@@ -280,7 +254,13 @@ extension GroupAddViewController {
 
     // 빈 값을 체크해주는 메서드
     private func emptyDataCheck() -> Bool {
-        // TODO: 빈 값 체크
+
+        if !groupAddView.textField.hasText {
+            showAlert(title: "크루 이름을 설정하지 않았어요!", message: "크루의 이름을 입력해주세요!")
+            shouldPopViewController = false
+            return false
+        }
+
         for (index, element) in pointsDataModel.enumerated() {
             let pointName = returnPointName(index)
 
@@ -295,7 +275,7 @@ extension GroupAddViewController {
                 shouldPopViewController = false
                 return false
             }
-            guard let boardingCrew = element.boardingCrew else {
+            guard element.boardingCrew != nil else {
                 if index == 0 {
                     return true
                 }
@@ -352,6 +332,37 @@ extension GroupAddViewController {
         }()
 
         return pointName
+    }
+
+    /**
+     현재 한 번이라도 선택된 유저의 경우, 크루 선택 모달의 friendList에서 제외시키는 메서드
+     */
+    private func removeSelectedFriend(_ friendList: [User]?, _ pointData: [Point]) -> [User] {
+        guard var friendList = friendList else { return [User]() }
+        let selectedList = pointData
+
+        for element in selectedList {
+            guard let pointSelectedUser = element.boardingCrew else { continue }
+
+            friendList = friendList.filter { friendElement in
+                return !pointSelectedUser.contains(friendElement.nickname)
+            }
+        }
+        return friendList
+    }
+
+    /**
+     현재 포인트에서 선택되어 있는 유저의 배열을 리턴하는 메서드
+     */
+    private func findSelectedFriend(_ pointData: Point) -> [User] {
+        guard let boardingCrew = pointData.boardingCrew else { return [User]() }
+        guard let friendList = self.friendsList else { return [User]() }
+
+        let selectedFriend = friendList.filter { element in
+            return boardingCrew.contains(element.nickname)
+        }
+
+        return selectedFriend
     }
 }
 
