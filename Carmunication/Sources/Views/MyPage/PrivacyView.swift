@@ -65,7 +65,7 @@ final class PrivacyView: UIView {
     override func draw(_ rect: CGRect) {
         setupUI()
     }
-    
+
     func setupUI() {
         addSubview(privacyContentView)
         privacyContentView.snp.makeConstraints { make in
