@@ -71,8 +71,8 @@ final class FriendAddViewController: UIViewController {
     // 친구 요청 완료 알럿
     private func showFriendRequestAlert() {
         let alert = UIAlertController(title: "친구 추가가 완료되었습니다.", message: nil, preferredStyle: .alert)
-        let ok = UIAlertAction(title: "확인", style: .default)
-        alert.addAction(ok)
+        let okButton = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okButton)
         self.present(alert, animated: true)
     }
 }

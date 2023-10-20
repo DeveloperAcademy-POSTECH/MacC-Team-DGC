@@ -66,18 +66,25 @@ final class MyPageView: UIView {
     // 닉네임 편집 버튼
     lazy var editButton: UIButton = {
         let button = UIButton()
-        button.setTitle("닉네임 편집하기✏️", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        button.backgroundColor = UIColor.theme.blue1?.withAlphaComponent(0.2)
-        button.layer.cornerRadius = 12
+        // 버튼 텍스트 설정
+        var titleAttr = AttributedString("닉네임 편집하기✏️")
+        titleAttr.font = UIFont.systemFont(ofSize: 12)
+        // 버튼 Configuration 설정
+        var config = UIButton.Configuration.filled()
+        config.attributedTitle = titleAttr
+        config.background.cornerRadius = 12
+        config.baseBackgroundColor = UIColor.theme.blue1?.withAlphaComponent(0.2)
+        config.baseForegroundColor = UIColor.semantic.textSecondary
         let verticalPad: CGFloat = 4.0
         let horizontalPad: CGFloat = 8.0
-        button.contentEdgeInsets = UIEdgeInsets(
+        config.contentInsets = NSDirectionalEdgeInsets(
             top: verticalPad,
-            left: horizontalPad,
+            leading: horizontalPad,
             bottom: verticalPad,
-            right: horizontalPad
+            trailing: horizontalPad
         )
+        button.configuration = config
+
         return button
     }()
 
