@@ -20,6 +20,7 @@ final class SettingsView: UIView {
         let appInfoStackView = UIStackView()
         appInfoStackView.axis = .vertical
         appInfoStackView.alignment = .center
+        appInfoStackView.distribution = .equalSpacing
         return appInfoStackView
     }()
 
@@ -74,9 +75,13 @@ final class SettingsView: UIView {
         appInfoStackView.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().inset(48)
+            make.height.equalTo(50)
         }
         appNamneLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(appVersionLabel.snp.top).offset(-8)
+            make.top.equalToSuperview()
+        }
+        appVersionLabel.snp.makeConstraints { make in
+            make.bottom.equalToSuperview()
         }
     }
 }
