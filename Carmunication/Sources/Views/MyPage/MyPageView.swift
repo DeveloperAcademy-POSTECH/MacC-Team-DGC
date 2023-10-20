@@ -57,7 +57,7 @@ final class MyPageView: UIView {
     // 닉네임 라벨
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-        label.text = "..."
+        label.text = "홍길동"
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
@@ -231,23 +231,24 @@ final class MyPageView: UIView {
             make.height.equalTo(340)
         }
         settingsButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(12)
+            make.top.equalTo(safeAreaLayoutGuide).inset(12)
             make.trailing.equalToSuperview().inset(20)
         }
         imageView.snp.makeConstraints { make in
             make.width.height.equalTo(80)
-            make.trailing.equalTo(userInfoView.snp.trailing).inset(27)
-            make.bottom.equalTo(userInfoView.snp.bottom).inset(59)
+            make.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(59)
         }
         addButton.snp.makeConstraints { make in
             make.trailing.bottom.equalTo(imageView)
+            make.width.height.equalTo(24)
         }
         nicknameStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
-            make.bottom.equalTo(userInfoView).inset(62)
+            make.bottom.equalTo(userInfoView).offset(-67)
         }
         editButton.snp.makeConstraints { make in
-            make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
+            make.leading.equalToSuperview()
         }
         textField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
@@ -259,7 +260,7 @@ final class MyPageView: UIView {
             make.height.equalTo(1)
         }
         textFieldEditStack.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(2)
+            make.top.equalTo(safeAreaLayoutGuide).inset(2)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(42)
         }
