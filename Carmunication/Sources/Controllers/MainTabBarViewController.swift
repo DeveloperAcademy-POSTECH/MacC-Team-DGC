@@ -32,7 +32,7 @@ extension MainTabBarViewController {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        guard let fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
+        guard let fcmToken = KeychainItem.currentUserDeviceToken else {
             return
         }
         print("FCMToken -> ", fcmToken)

@@ -60,8 +60,9 @@ final class SettingsViewController: UIViewController {
             do {
                 // 로그아웃 수행
                 try firebaseAuth.signOut()
-                // 키체인에 저장된 User Identifier도 삭제해준다.
-                KeychainItem.deleteUserIdentifierFromKeychain()
+                // 키체인에 저장된 User Identifier와 fcmToken을 삭제해준다.
+                KeychainItem.deleteUserDataFromKeychain(account: "userIdentifier")
+                KeychainItem.deleteUserDataFromKeychain(account: "FCMToken")
 
                 // 최초 화면으로 돌아가기
                 if let windowScene = UIApplication.shared.connectedScenes
@@ -350,8 +351,9 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
                 try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
                 // 파이어베이스 서버의 계정 삭제
                 try await Auth.auth().currentUser?.delete()
-                // 키체인에 저장된 User Identifier도 삭제해준다.
-                KeychainItem.deleteUserIdentifierFromKeychain()
+                // 키체인에 저장된 User Identifier와 fcmToken을 삭제해준다.
+                KeychainItem.deleteUserDataFromKeychain(account: "userIdentifier")
+                KeychainItem.deleteUserDataFromKeychain(account: "FCMToken")
                 // 최초 화면으로 돌아가기
                 if let windowScene = UIApplication.shared.connectedScenes
                     .compactMap({ $0 as? UIWindowScene })
