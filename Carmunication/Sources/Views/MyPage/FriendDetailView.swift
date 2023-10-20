@@ -35,18 +35,10 @@ final class FriendDetailView: UIView {
         return blurView
     }()
 
-    // MARK: - 친구 정보 스택
-    private lazy var friendInfoStack: UIStackView = {
-        let friendInfoStack = UIStackView()
-        friendInfoStack.axis = .vertical
-        friendInfoStack.alignment = .leading
-        return friendInfoStack
-    }()
-
     // MARK: - 친구 닉네임
     lazy var friendNickname: UILabel = {
         let nicknameLabel = UILabel()
-        nicknameLabel.text = "..."
+        nicknameLabel.text = "홍길동"
         nicknameLabel.font = UIFont.carmuFont.display1
         nicknameLabel.textColor = UIColor.semantic.textSecondary
         return nicknameLabel
@@ -67,13 +59,6 @@ final class FriendDetailView: UIView {
         distanceBadge.backgroundColor = UIColor.theme.white
         distanceBadge.layer.cornerRadius = 16.56
         return distanceBadge
-    }()
-
-    private lazy var distanceLabelStack: UIStackView = {
-        let distanceLabelStack = UIStackView()
-        distanceLabelStack.axis = .horizontal
-        distanceLabelStack.alignment = .center
-        return distanceLabelStack
     }()
 
     private lazy var distanceLabel1: UILabel = {
@@ -139,8 +124,7 @@ final class FriendDetailView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        setupViews()
-        setAutoLayout()
+        setupUI()
     }
 
     override func layoutSubviews() {
@@ -149,73 +133,66 @@ final class FriendDetailView: UIView {
         conicGradientLayer.frame = conicGradientView.bounds
     }
 
-    func setupViews() {
+    func setupUI() {
         addSubview(conicGradientView)
-        addSubview(blurView)
-        addSubview(friendInfoStack)
-        addSubview(recommendGiftView)
-        addSubview(friendImage)
-
         conicGradientView.layer.addSublayer(conicGradientLayer)
-
-        friendInfoStack.addArrangedSubview(friendNickname)
-        friendInfoStack.addArrangedSubview(friendTitle)
-        friendInfoStack.addArrangedSubview(distanceBadge)
-
-        distanceBadge.addSubview(distanceLabelStack)
-        distanceLabelStack.addArrangedSubview(distanceLabel1)
-        distanceLabelStack.addArrangedSubview(distanceLabel2)
-
-        recommendGiftView.addSubview(recommendDescription)
-        recommendGiftView.addSubview(giftCollectionView)
-    }
-
-    // MARK: - 오토 레이아웃 설정 메서드
-    func setAutoLayout() {
+        addSubview(blurView)
         conicGradientView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(303)
         }
-        friendInfoStack.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(24)
-            make.leading.equalToSuperview().inset(36)
-            make.trailing.equalToSuperview()
-            make.height.equalTo(114)
-        }
-        friendNickname.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
-            make.bottom.equalTo(friendTitle.snp.top).offset(-4)
-        }
-        friendTitle.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(distanceBadge.snp.top).offset(-20)
-        }
-        distanceBadge.snp.makeConstraints { make in
-            make.leading.bottom.equalToSuperview()
-            make.width.equalTo(141)
-            make.height.equalTo(30)
-        }
-        distanceLabelStack.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(12)
-            make.centerY.equalToSuperview()
-        }
-        friendImage.snp.makeConstraints { make in
-            make.width.height.equalTo(137)
-            make.trailing.equalToSuperview().inset(36)
-            make.top.equalTo(recommendGiftView.snp.top).offset(-74)
-        }
+
+        addSubview(recommendGiftView)
+        recommendGiftView.addSubview(recommendDescription)
+        recommendGiftView.addSubview(giftCollectionView)
         recommendGiftView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.top.equalTo(conicGradientView.snp.bottom).offset(-20)
         }
         recommendDescription.snp.makeConstraints { make in
-            make.top.equalTo(friendImage.snp.bottom).offset(21)
+            make.top.equalTo(recommendGiftView.snp.top).offset(84)
             make.leading.trailing.equalToSuperview().inset(20)
         }
         giftCollectionView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(recommendDescription.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(48)
+        }
+
+        addSubview(friendImage)
+        friendImage.snp.makeConstraints { make in
+            make.width.height.equalTo(137)
+            make.trailing.equalToSuperview().inset(36)
+            make.top.equalTo(recommendGiftView).offset(-74)
+        }
+
+        addSubview(distanceBadge)
+        distanceBadge.addSubview(distanceLabel1)
+        distanceBadge.addSubview(distanceLabel2)
+        distanceBadge.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(36)
+            make.bottom.equalTo(recommendGiftView.snp.top).offset(-55)
+            make.width.equalTo(141)
+        }
+        distanceLabel1.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(12)
+            make.top.bottom.equalToSuperview().inset(9)
+        }
+        distanceLabel2.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(12)
+            make.top.bottom.equalToSuperview().inset(8)
+        }
+
+        addSubview(friendTitle)
+        friendTitle.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(36)
+            make.bottom.equalTo(distanceBadge.snp.top).offset(-20)
+        }
+
+        addSubview(friendNickname)
+        friendNickname.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(36)
+            make.bottom.equalTo(friendTitle.snp.top).offset(-4)
         }
     }
 }
