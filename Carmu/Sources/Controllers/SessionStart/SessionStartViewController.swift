@@ -377,17 +377,16 @@ extension SessionStartViewController: UICollectionViewDataSource {
         } else {
             // 데이터가 없는 경우, 기본 값을 설정
             cell?.groupData = Group(
-                groupId: nil,
+                groupID: nil,
                 groupName: nil,
                 groupImage: nil,
                 captainId: nil,
-                crewList: nil,
                 sessionDay: nil,
-                points: nil,
+                crewAndPoint: nil,
+                sessionList: nil,
                 accumulateDistance: nil
             )
         }
-
         print("Group Data -> ", cell?.groupData as Any)
         return cell ?? UICollectionViewCell()
     }
