@@ -265,6 +265,9 @@ extension GroupAddViewController {
                 return false
             }
             guard let boardingCrew = element.boardingCrew else {
+                if index == 0 {
+                    return true
+                }
                 showAlert(
                     title: "탑승 크루를 선택하지 않았어요!",
                     message:
