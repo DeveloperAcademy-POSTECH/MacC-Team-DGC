@@ -29,7 +29,7 @@ struct Point {
     var pointArrivalTime: Date?
     var pointLat: Double?
     var pointLng: Double?
-    var boardingCrew: [String]? // [User]로 변경해야 함
+    var boardingCrew: [String]? // TODO: - [User]로 변경해야 함
 
     // pointArrivalTime을 "HH:mm" 형식의 문자열로 반환하는 메서드
     func formattedArrivalTime() -> String {
