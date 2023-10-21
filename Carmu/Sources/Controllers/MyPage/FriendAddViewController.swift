@@ -94,12 +94,11 @@ extension FriendAddViewController {
             if let searchedResult = searchedResult {
                 self.searchedFriend = searchedResult
                 self.setButtonState(isEnable: true)
-                self.friendAddView.searchedFriendTableView.reloadData()
             } else {
                 self.searchedFriend = nil
                 self.setButtonState(isEnable: false)
-                self.friendAddView.searchedFriendTableView.reloadData()
             }
+            self.friendAddView.searchedFriendTableView.reloadData()
         }
     }
     // 텍스트필드 clear 버튼 눌렀을 때 동작

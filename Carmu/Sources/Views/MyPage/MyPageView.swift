@@ -245,7 +245,7 @@ final class MyPageView: UIView {
         }
         nicknameStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
-            make.bottom.equalTo(userInfoView).offset(-67)
+            make.bottom.equalToSuperview().inset(67)
         }
         editButton.snp.makeConstraints { make in
             make.leading.equalToSuperview()

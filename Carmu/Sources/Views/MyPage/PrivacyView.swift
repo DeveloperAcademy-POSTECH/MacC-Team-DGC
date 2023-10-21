@@ -69,9 +69,9 @@ final class PrivacyView: UIView {
     func setupUI() {
         addSubview(privacyContentView)
         privacyContentView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(277)
+            make.top.equalTo(safeAreaLayoutGuide).inset(277)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(safeAreaLayoutGuide).offset(-48)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(48)
         }
 
         privacyContentView.addSubview(privacyContent)

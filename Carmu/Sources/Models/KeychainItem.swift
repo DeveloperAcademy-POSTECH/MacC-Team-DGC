@@ -161,7 +161,7 @@ struct KeychainItem {
      */
     static var currentUserIdentifier: String? {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
-            return ""
+            return nil
         }
         do {
             let storedIdentifier = try KeychainItem(
@@ -177,7 +177,7 @@ struct KeychainItem {
     // 현재 유저의 DeviceToken
     static var currentUserDeviceToken: String? {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
-            return ""
+            return nil
         }
         do {
             let storedDeviceToken = try KeychainItem(
