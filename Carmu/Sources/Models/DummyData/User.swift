@@ -13,7 +13,7 @@ import FirebaseDatabase
  email : 유저에게서 수집한 이메일
  imageURL : 추후 Firebase Storage에 저장할 image의 URL
  friends : Friends 저장소(static 배열)에 들어가있는 Friendship 고유 번호
- group : Group 저장소(static 배열)에 들어가있는 group 고유 번호
+ groupList : Group 저장소(static 배열)에 들어가있는 group 고유 번호
  */
 struct User: Codable {
     var id: String
@@ -22,7 +22,9 @@ struct User: Codable {
     var email: String?
     var imageURL: String?
     var friends: [String]?
+//    var groupList: [Group]?   // groupList 추가 필요
 }
+
 extension User {
     static var databasePathWithUID: DatabaseReference? = {
         guard let uid = KeychainItem.currentUserIdentifier else {
