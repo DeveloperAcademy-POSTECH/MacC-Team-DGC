@@ -15,18 +15,11 @@ final class SettingsView: UIView {
         return settingsTableView
     }()
 
-    // MARK: - 하단 앱 정보 스택 뷰
-    lazy var appInfoStackView: UIStackView = {
-        let appInfoStackView = UIStackView()
-        appInfoStackView.axis = .vertical
-        appInfoStackView.alignment = .center
-        return appInfoStackView
-    }()
-
     // 앱 이름 라벨
-    lazy var appNamneLabel: UILabel = {
+    lazy var appNameLabel: UILabel = {
         let appNameLabel = UILabel()
         appNameLabel.text = "Carmu"
+        appNameLabel.textAlignment = .center
         appNameLabel.textColor = .gray
         appNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         return appNameLabel
@@ -40,6 +33,7 @@ final class SettingsView: UIView {
         } else {
             appVersionLabel.text = "앱 버전 정보를 찾을 수 없습니다."
         }
+        appVersionLabel.textAlignment = .center
         appVersionLabel.textColor = .lightGray
         appVersionLabel.font = UIFont.systemFont(ofSize: 14)
         return appVersionLabel
@@ -54,28 +48,24 @@ final class SettingsView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        setupViews()
-        setAutoLayout()
+        setupUI()
     }
 
-    func setupViews() {
+    func setupUI() {
         addSubview(settingsTableView)
-        addSubview(appInfoStackView)
-
-        appInfoStackView.addArrangedSubview(appNamneLabel)
-        appInfoStackView.addArrangedSubview(appVersionLabel)
-    }
-
-    // MARK: - 오토 레이아웃 설정 메서드
-    func setAutoLayout() {
         settingsTableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        appInfoStackView.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
+
+        addSubview(appVersionLabel)
+        appVersionLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().inset(48)
         }
-        appNamneLabel.snp.makeConstraints { make in
+
+        addSubview(appNameLabel)
+        appNameLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalTo(appVersionLabel.snp.top).offset(-8)
         }
     }

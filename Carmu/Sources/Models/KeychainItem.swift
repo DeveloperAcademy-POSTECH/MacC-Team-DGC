@@ -161,7 +161,7 @@ struct KeychainItem {
      */
     static var currentUserIdentifier: String? {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
-            return ""
+            return nil
         }
         do {
             let storedIdentifier = try KeychainItem(
@@ -174,18 +174,40 @@ struct KeychainItem {
         }
     }
 
-    static func deleteUserIdentifierFromKeychain() {
+    // 현재 유저의 DeviceToken
+    static var currentUserDeviceToken: String? {
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            return nil
+        }
+        do {
+            let storedDeviceToken = try KeychainItem(
+                service: bundleIdentifier,
+                account: "FCMToken"
+            ).readItem()
+            return storedDeviceToken
+        } catch {
+            return nil
+        }
+    }
+
+    // MARK: - 키체인 데이터를 삭제하는 메서드
+    /*
+     account 종류
+     - userIdentifier: 유저의 uid
+     - FCMToken: 서버 푸쉬에 필요한 디바이스 토큰
+     */
+    static func deleteUserDataFromKeychain(account: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             return
         }
         do {
             try KeychainItem(
                 service: bundleIdentifier,
-                account: "userIdentifier"
+                account: account
             ).deleteItem()
-            print("키체인 uid 삭제 성공!!!")
+            print("키체인에서 \(account) 삭제 성공!!!")
         } catch {
-            print("키체인으로부터 userIdentifier를 삭제하지 못했습니다.")
+            print("키체인으로부터 \(account)를 삭제하지 못했습니다.")
         }
     }
 }
