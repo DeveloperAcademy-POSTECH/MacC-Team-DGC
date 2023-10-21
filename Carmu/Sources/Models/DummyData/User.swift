@@ -21,8 +21,8 @@ struct User: Codable {
     var nickname: String
     var email: String?
     var imageURL: String?
-    var friends: [String]?
-//    var groupList: [Group]?   // groupList 추가 필요
+    var friends: [String]?  // [Friendship]
+    var groupList: [String]?    // [Group]
 }
 
 extension User {

@@ -22,14 +22,14 @@ groupID, groupName 등은 무조건적으로 값이 들어오지만, collectionV
 
  cf. is_permitted의 경우 ERD에 있으나, 수락 부분이 빠지기 때문에, 속성에서 제외함
  */
-struct Group {
+struct Group: Codable {
     var groupID: String?
     var groupName: String?
     var groupImage: String?
     var captainId: String?
     var sessionDay: [Int]?
-    var crewAndPoint: [(User, Point)]?
-    var sessionList: [Session]?
+    var crewAndPoint: [String: String]?    // [UserID: PointID]
+    var sessionList: [String]?  // [Session]
     var accumulateDistance: Int?
 }
 
@@ -38,7 +38,8 @@ let user1 = User(   // user1을 운전자로 가정
     id: "user1",
     deviceToken: "token1",
     nickname: "User 1",
-    friends: ["user2", "user3"]
+    friends: ["user2", "user3"],
+    groupList: ["1", "2"]
 )
 let user2 = User(
     id: "user2",
@@ -46,7 +47,8 @@ let user2 = User(
     nickname: "User 2",
     email: "user2@example.com",
     imageURL: "user2_image.jpg",
-    friends: ["user1", "user3"]
+    friends: ["user1", "user3"],
+    groupList: ["1", "3"]
 )
 let user3 = User(
     id: "user3",
@@ -54,7 +56,8 @@ let user3 = User(
     nickname: "User 3",
     email: "user3@example.com",
     imageURL: "user3_image.jpg",
-    friends: ["user1", "user2"]
+    friends: ["user1", "user2"],
+    groupList: ["2", "3"]
 )
 let user4 = User(
     id: "user4",
@@ -112,7 +115,7 @@ let groupData: [Group]? = [
         groupImage: "heart",
         captainId: "user1",
         sessionDay: [2, 3, 4, 5, 6],
-        crewAndPoint: [(user1, point1), (user2, point2), (user3, point3), (user4, point4)],
+        crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3", "user4": "point4"],
         sessionList: nil,
         accumulateDistance: 1000
     ),
@@ -122,7 +125,7 @@ let groupData: [Group]? = [
         groupImage: "circle.fill",
         captainId: "2",
         sessionDay: [2, 3, 4, 5, 6],
-        crewAndPoint: [(user2, point2), (user3, point3), (user4, point4)],
+        crewAndPoint: ["user2": "point2", "user3": "point3", "user4": "point4"],
         sessionList: nil,
         accumulateDistance: 1500
     ),
@@ -132,7 +135,7 @@ let groupData: [Group]? = [
         groupImage: "square",
         captainId: "3",
         sessionDay: [2, 3, 4, 5, 6],
-        crewAndPoint: [(user1, point1), (user2, point2), (user3, point3)],
+        crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3"],
         sessionList: nil,
         accumulateDistance: 2000
     )

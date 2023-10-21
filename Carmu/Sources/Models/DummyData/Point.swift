@@ -21,7 +21,7 @@ import Foundation
  boarding_crew : 그 장소에서 탑승하는 크루원의 고유 id (userId) -> User로 변경해야 할지도,,?
  */
 
-struct Point {
+struct Point: Codable {
     var pointID: String?
     var pointSequence: Int?
     var pointName: String?
@@ -29,7 +29,7 @@ struct Point {
     var pointArrivalTime: Date?
     var pointLat: Double?
     var pointLng: Double?
-    var boardingCrew: [String]? // TODO: - [User]로 변경해야 함
+    var boardingCrew: [String]? // [UserID]
 
     // pointArrivalTime을 "HH:mm" 형식의 문자열로 반환하는 메서드
     func formattedArrivalTime() -> String {

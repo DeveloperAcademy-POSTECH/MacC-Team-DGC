@@ -27,13 +27,13 @@ import Foundation
  stopover_point의 경우, 내부에 Point를 가리키는 id가 들어있고, point 데이터로 가면 point_arrival_time이 들어있는데,
  전체 point 데이터의 array에서 특정 인덱스를 id로 데이터를 골라와서 도착 예정 시간을 추출해와야 함.
  */
-struct Session {
+struct Session: Codable {
     var sessionID: String
     var captainID: String
     var sessionStartTime: Date
     var sessionEndTime: Date
-    var todayParticipant: [(User, Bool)]
-    var stopoverPoint: [(User, Point)]
+    var todayParticipant: [String: Bool]  // [UserID: Bool]
+    var stopoverPoint: [String] // [PointID]
     var capCurrentLat: Double
     var capCurrentLng: Double
     var delayTime: Int
