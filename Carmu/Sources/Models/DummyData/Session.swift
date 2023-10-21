@@ -14,6 +14,7 @@ import Foundation
  captainID : 세션을 진행하는 캡틴의 user_id
  session_start_time : 세션이 시작되는 시간
  session_end_time : 세션이 끝나는 시간
+ todayParticipant : 오늘 참가하는 사람에 대한 여부
  stopover_point :  현재 세션에서 들를 출발, 경유, 도착지의 point 정보
  capCurrentLat : 캡틴의 현재 위치 위도
  capCurrentLng : 캡틴의 현재 위치 경도
