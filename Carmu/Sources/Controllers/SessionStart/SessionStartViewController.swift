@@ -21,7 +21,7 @@ final class SessionStartViewController: UIViewController {
     var selectedGroupData: Group?
 
     // CaptainID
-    private let captainID = "1"
+    private let captainID = "user1"
 
     // 기기 크기에 따른 collectionView 높이 설정
     private var collectionViewHeight: CGFloat = 0
