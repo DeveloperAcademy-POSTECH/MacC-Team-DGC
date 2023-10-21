@@ -15,6 +15,7 @@ final class FriendAddViewController: UIViewController {
     private let friendAddView = FriendAddView()
     private let encoder = JSONEncoder()
     private var friendDeviceToken = ""   // 친구의 디바이스 토큰값
+    private let firebaseManager = FirebaseManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,7 +128,7 @@ extension FriendAddViewController {
         print("친구Uid: \(friendUID)")
 
         self.addFriendship(myUID: myUID, friendUID: friendUID)
-        self.getFriendUser(friendID: friendUID) { friend in
+        firebaseManager.getFriendUser(friendID: friendUID) { friend in
             guard let friend = friend else {
                 return
             }
@@ -216,29 +217,6 @@ extension FriendAddViewController {
             Database.database().reference().updateChildValues(childUpdates)
         } catch {
             print("Friendship CREATE fail...", error)
-        }
-    }
-
-    // MARK: - 친구의 uid로 DB에서 친구 데이터를 불러오기
-    private func getFriendUser(friendID: String, completion: @escaping (User?) -> Void) {
-        Database.database().reference().child("users/\(friendID)").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let snapshotValue = snapshot?.value as? [String: Any] else {
-                return
-            }
-            let friend = User(
-                id: snapshotValue["id"] as? String ?? "",
-                deviceToken: snapshotValue["deviceToken"] as? String ?? "",
-                nickname: snapshotValue["nickname"] as? String ?? "",
-                email: snapshotValue["email"] as? String,
-                imageURL: snapshotValue["imageURL"] as? String,
-                friends: snapshotValue["friends"] as? [String]
-            )
-            completion(friend)
         }
     }
 
