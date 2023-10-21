@@ -28,7 +28,7 @@ struct Group {
     var groupImage: String?
     var captainId: String?
     var sessionDay: [Int]?
-    var crewAndPoint: [(String, Point)]?   // String인가 User인가,,,
+    var crewAndPoint: [(User, Point)]?
     var sessionList: [Session]?
     var accumulateDistance: Int?
 }
@@ -112,7 +112,7 @@ let groupData: [Group]? = [
         groupImage: "heart",
         captainId: "user1",
         sessionDay: [2, 3, 4, 5, 6],
-        crewAndPoint: [("user1", point1), ("user2", point2), ("user3", point3), ("user4", point4)],
+        crewAndPoint: [(user1, point1), (user2, point2), (user3, point3), (user4, point4)],
         sessionList: nil,
         accumulateDistance: 1000
     ),
@@ -122,7 +122,7 @@ let groupData: [Group]? = [
         groupImage: "circle.fill",
         captainId: "2",
         sessionDay: [2, 3, 4, 5, 6],
-        crewAndPoint: [("user2", point2), ("user3", point3), ("user4", point4)],
+        crewAndPoint: [(user2, point2), (user3, point3), (user4, point4)],
         sessionList: nil,
         accumulateDistance: 1500
     ),
@@ -132,7 +132,7 @@ let groupData: [Group]? = [
         groupImage: "square",
         captainId: "3",
         sessionDay: [2, 3, 4, 5, 6],
-        crewAndPoint: [("user1", point1), ("user2", point2), ("user3", point3)],
+        crewAndPoint: [(user1, point1), (user2, point2), (user3, point3)],
         sessionList: nil,
         accumulateDistance: 2000
     )
