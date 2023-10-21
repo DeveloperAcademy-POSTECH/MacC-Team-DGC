@@ -361,12 +361,17 @@ extension SessionStartMidView {
             // TODO: - 그룹이 없을 때 경우 설정
             groupNameLabel.text = selectedGroup.groupName
             dayLabel.text = "주중 (월 ~ 금)"
-            startLocationLabel.text = selectedGroup.points?.first?.pointName
-            endLocationLabel.text = selectedGroup.points?.last?.pointName
-            startTime.text = Date.formatTime(selectedGroup.points?.first?.pointArrivalTime)
-            endTime.text = Date.formatTime(selectedGroup.points?.last?.pointArrivalTime)
 
-            if let count = selectedGroup.crewList?.count {
+            // TODO: - 데이터 들어오면 해당 부분 설정
+            startLocationLabel.text = "파베 형식"
+            endLocationLabel.text = "맞추기 !!"
+            startTime.text = "00:00"
+            endTime.text = "00:00"
+//            startLocationLabel.text = selectedGroup.crewAndPoint?.first?.value
+//            endLocationLabel.text = selectedGroup.crewAndPoint?
+//            startTime.text = Date.formatTime(selectedGroup.crewAndPoint?.first?.1.pointArrivalTime)
+//            endTime.text = Date.formatTime(selectedGroup.crewAndPoint?.last?.1.pointArrivalTime)
+            if let count = selectedGroup.crewAndPoint?.count {
                 personLabel.text = "\(count) 명"
             }
             commentUnderLineView.text = "오늘도 즐거운 여정을 시작해 보세요!"

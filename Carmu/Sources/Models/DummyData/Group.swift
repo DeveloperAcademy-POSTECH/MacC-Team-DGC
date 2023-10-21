@@ -8,158 +8,136 @@
 import Foundation
 
 /**
- 앱에서는 그룹을 "크루"라고 명하지만, 하위 Crew 모델로 인해 Group으로 명명함
- 이 모델은 Crew, Point,
+groupID, groupName 등은 무조건적으로 값이 들어오지만, collectionView에서 개수를 셀 때 용이하게 하기 위해 전체를 옵셔널로 표기하였습니다.
 
  group_id : 그룹 모델의 고유 id
- group_name : 그룹의 이름
- group_image : 그룹의 이미지(1차 스프린트에는 들어가지 않음. 기본 데이터로 들어갈 예정)
- captain_id : 캡틴의 user_id
- crew_list : 이 그룹에 속한 crew원의 userId
- points : Point 모델에서 각각의 장소에 대한 정보를 불러옴
+ group_name : 그룹의 이름. 이름을 꼭 설정하도록 되어 있어 옵셔널 X
+ group_image : 그룹의 이미지로, SessionStartView 스토리 부분에서 사용될 이미지
+ captain_id : 캡틴의 user_id. 캡틴이 방을 생성하기 때문에 옵셔널 X
+ crewAndPoint : 크루원과 해당 크루원이 동승할 지점. 첫 번째는 '캡틴: 출발지', 마지막은 '캡틴: 도착지'로 지정이기 때문에 옵셔널 X
+ sessionDay: 세션이 시작하는 요일이기 때문에, 옵셔널 X (현재 기본값은 월 ~금으로 지정)
+ sessionList : 해당 그룹의 세션에 대한 리스트
  accumulate_distance : 이 크루가 진행한 세션의 총 누적 거리(세션이 끝날 때 마다 더해줌.)
  -> 여유가 된다면, captain - crew 간의 friendship에 accumulate_distance 추가해줘야 함.
 
  cf. is_permitted의 경우 ERD에 있으나, 수락 부분이 빠지기 때문에, 속성에서 제외함
  */
-struct Group {
-    var groupId: String?
+struct Group: Codable {
+    var groupID: String?
     var groupName: String?
     var groupImage: String?
     var captainId: String?
-    var crewList: [String]?  // [userId]
-    var sessionDay: [Int]?   // 그룹이 시작되는 요일
-    var points: [Point]?
+    var sessionDay: [Int]?
+    var crewAndPoint: [String: String]?    // [UserID: PointID]
+    var sessionList: [String]?  // [Session]
     var accumulateDistance: Int?
 }
 
 // 데이터 확인을 위한 예시입니다.
-let group1Point: [Point] = [
-    Point(
-        pointID: 1,
-        pointSequence: 0,
-        pointName: "C5",
-        pointDetailAddress: "C5 주소",
-        pointArrivalTime: Date(),
-        pointLat: 235.15,
-        pointLng: 236236.2354,
-        boardingCrew: nil
-    ),
-    Point(
-        pointID: 2,
-        pointSequence: 1,
-        pointName: "경유지 1",
-        pointDetailAddress: "경유지 1 주소",
-        pointArrivalTime: DateComponents(hour: 8, minute: 0).date,
-        pointLat: 235.235,
-        pointLng: 12.412,
-        boardingCrew: ["1", "2", "3", "4"]
-    ),
-    Point(
-        pointID: 3,
-        pointSequence: 2,
-        pointName: "유강리 테드 집",
-        pointDetailAddress: "도착지 주소",
-        pointArrivalTime: Date(),
-        pointLat: 124.12,
-        pointLng: 53.23,
-        boardingCrew: ["1", "2", "3", "4"]
-    )
-]
+let user1 = User(   // user1을 운전자로 가정
+    id: "user1",
+    deviceToken: "token1",
+    nickname: "User 1",
+    friends: ["user2", "user3"],
+    groupList: ["1", "2"]
+)
+let user2 = User(
+    id: "user2",
+    deviceToken: "token2",
+    nickname: "User 2",
+    email: "user2@example.com",
+    imageURL: "user2_image.jpg",
+    friends: ["user1", "user3"],
+    groupList: ["1", "3"]
+)
+let user3 = User(
+    id: "user3",
+    deviceToken: "token3",
+    nickname: "User 3",
+    email: "user3@example.com",
+    imageURL: "user3_image.jpg",
+    friends: ["user1", "user2"],
+    groupList: ["2", "3"]
+)
+let user4 = User(
+    id: "user4",
+    deviceToken: "token4",
+    nickname: "User 4",
+    email: "user4@example.com",
+    friends: ["user1", "user2"]
+)
 
-let group2Point: [Point] = [
-    Point(
-        pointID: 0,
-        pointSequence: 0,
-        pointName: "지곡회관",
-        pointDetailAddress: "출발지 주소",
-        pointArrivalTime: Date(),
-        pointLat: 12.21,
-        pointLng: 124.521,
-        boardingCrew: ["1", "2", "3", "4"]
-    ),
-    Point(
-        pointID: 1,
-        pointSequence: 1,
-        pointName: "경유지 2",
-        pointDetailAddress: "경유지 1 주소",
-        pointArrivalTime: Date(),
-        pointLat: 235.235,
-        pointLng: 12.412,
-        boardingCrew: ["1", "2", "3", "4"]
-    ),
-    Point(
-        pointID: 2,
-        pointSequence: 2,
-        pointName: "형산강",
-        pointDetailAddress: "도착지 주소",
-        pointArrivalTime: Date(),
-        pointLat: 124.12,
-        pointLng: 53.23,
-        boardingCrew: ["1", "2", "3", "4"]
-    )
-]
-
-let group3Point: [Point] = [
-    Point(
-        pointID: 0,
-        pointSequence: 0,
-        pointName: "도서관",
-        pointDetailAddress: "출발지 주소",
-        pointArrivalTime: Date(),
-        pointLat: 12.21,
-        pointLng: 124.521,
-        boardingCrew: ["1", "2", "3", "4"]
-    ),
-    Point(
-        pointID: 1,
-        pointSequence: 1,
-        pointName: "경유지 1",
-        pointDetailAddress: "경유지 1 주소",
-        pointArrivalTime: Date(),
-        pointLat: 235.235,
-        pointLng: 12.412,
-        boardingCrew: ["1", "2", "3", "4"]
-    ),
-    Point(
-        pointID: 2,
-        pointSequence: 2,
-        pointName: "영일대 해수욕장",
-        pointDetailAddress: "도착지 주소",
-        pointArrivalTime: Date(),
-        pointLat: 124.12,
-        pointLng: 53.23,
-        boardingCrew: ["1", "2", "3", "4"]
-    )
-]
+let point1 = Point(
+    pointID: "point1",
+    pointSequence: 1,
+    pointName: "출발지",
+    pointDetailAddress: "123 Main St",
+    pointArrivalTime: Date(),
+    pointLat: 37.123456,
+    pointLng: -122.123456,
+    boardingCrew: ["user1"]
+)
+let point2 = Point(
+    pointID: "point2",
+    pointSequence: 2,
+    pointName: "Point 2",
+    pointDetailAddress: "456 Elm St",
+    pointArrivalTime: Date(),
+    pointLat: 37.654321,
+    pointLng: -122.654321,
+    boardingCrew: ["user2", "user3"]
+)
+let point3 = Point(
+    pointID: "point3",
+    pointSequence: 3,
+    pointName: "Point 3",
+    pointDetailAddress: "789 Oak St",
+    pointArrivalTime: Date(),
+    pointLat: 37.987654,
+    pointLng: -122.987654,
+    boardingCrew: ["user3"]
+)
+let point4 = Point(
+    pointID: "point4",
+    pointSequence: 4,
+    pointName: "도착지",
+    pointDetailAddress: "789 Oak St",
+    pointArrivalTime: Date(),
+    pointLat: 37.987654,
+    pointLng: -122.987654,
+    boardingCrew: ["user1"]
+)
 
 let groupData: [Group]? = [
     Group(
-        groupId: "1",
+        groupID: "1",
         groupName: "그룹 1",
         groupImage: "heart",
-        captainId: "1",
-        crewList: ["2", "3"],
+        captainId: "user1",
         sessionDay: [2, 3, 4, 5, 6],
-        points: group1Point
+        crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3", "user4": "point4"],
+        sessionList: nil,
+        accumulateDistance: 1000
     ),
     Group(
-        groupId: "2",
+        groupID: "2",
         groupName: "그룹 2",
         groupImage: "circle.fill",
         captainId: "2",
-        crewList: ["2", "3", "4"],
         sessionDay: [2, 3, 4, 5, 6],
-        points: group2Point
+        crewAndPoint: ["user2": "point2", "user3": "point3", "user4": "point4"],
+        sessionList: nil,
+        accumulateDistance: 1500
     ),
     Group(
-        groupId: "3",
+        groupID: "3",
         groupName: "그룹 3",
         groupImage: "square",
         captainId: "3",
-        crewList: ["2", "3", "4", "5"],
         sessionDay: [2, 3, 4, 5, 6],
-        points: group3Point
+        crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3"],
+        sessionList: nil,
+        accumulateDistance: 2000
     )
 ]
 
