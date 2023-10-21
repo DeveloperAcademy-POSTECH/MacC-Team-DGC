@@ -1,6 +1,6 @@
 //
 //  SelectPointMapView.swift
-//  Carmunication
+//  Carmu
 //
 //  Created by 허준혁 on 10/5/23.
 //

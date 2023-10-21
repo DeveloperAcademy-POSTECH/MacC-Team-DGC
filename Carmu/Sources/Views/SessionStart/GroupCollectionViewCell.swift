@@ -1,6 +1,6 @@
 //
 //  GroupCollectionViewCell.swift
-//  Carmunication
+//  Carmu
 //
 //  Created by 김태형 on 2023/09/25.
 //

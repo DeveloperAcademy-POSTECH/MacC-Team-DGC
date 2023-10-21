@@ -1,6 +1,6 @@
 //
 //  Bundle+Extension.swift
-//  Carmunication
+//  Carmu
 //
 //  Created by 허준혁 on 2023/10/02.
 //

@@ -1,6 +1,6 @@
 //
 //  GroupDetailView.swift
-//  Carmunication
+//  Carmu
 //
 //  Created by 허준혁 on 10/6/23.
 //
