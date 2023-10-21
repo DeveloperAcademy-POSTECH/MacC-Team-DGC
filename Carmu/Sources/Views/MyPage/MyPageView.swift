@@ -57,7 +57,7 @@ final class MyPageView: UIView {
     // 닉네임 라벨
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-        label.text = "..."
+        label.text = "홍길동"
         label.textColor = .white
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
@@ -66,18 +66,25 @@ final class MyPageView: UIView {
     // 닉네임 편집 버튼
     lazy var editButton: UIButton = {
         let button = UIButton()
-        button.setTitle("닉네임 편집하기✏️", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
-        button.backgroundColor = UIColor.theme.blue1?.withAlphaComponent(0.2)
-        button.layer.cornerRadius = 12
+        // 버튼 텍스트 설정
+        var titleAttr = AttributedString("닉네임 편집하기✏️")
+        titleAttr.font = UIFont.systemFont(ofSize: 12)
+        // 버튼 Configuration 설정
+        var config = UIButton.Configuration.filled()
+        config.attributedTitle = titleAttr
+        config.background.cornerRadius = 12
+        config.baseBackgroundColor = UIColor.theme.blue1?.withAlphaComponent(0.2)
+        config.baseForegroundColor = UIColor.semantic.textSecondary
         let verticalPad: CGFloat = 4.0
         let horizontalPad: CGFloat = 8.0
-        button.contentEdgeInsets = UIEdgeInsets(
+        config.contentInsets = NSDirectionalEdgeInsets(
             top: verticalPad,
-            left: horizontalPad,
+            leading: horizontalPad,
             bottom: verticalPad,
-            right: horizontalPad
+            trailing: horizontalPad
         )
+        button.configuration = config
+
         return button
     }()
 
@@ -224,23 +231,24 @@ final class MyPageView: UIView {
             make.height.equalTo(340)
         }
         settingsButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(12)
+            make.top.equalTo(safeAreaLayoutGuide).inset(12)
             make.trailing.equalToSuperview().inset(20)
         }
         imageView.snp.makeConstraints { make in
             make.width.height.equalTo(80)
-            make.trailing.equalTo(userInfoView.snp.trailing).inset(27)
-            make.bottom.equalTo(userInfoView.snp.bottom).inset(59)
+            make.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(59)
         }
         addButton.snp.makeConstraints { make in
             make.trailing.bottom.equalTo(imageView)
+            make.width.height.equalTo(24)
         }
         nicknameStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
-            make.bottom.equalTo(userInfoView).inset(62)
+            make.bottom.equalToSuperview().inset(67)
         }
         editButton.snp.makeConstraints { make in
-            make.top.equalTo(nicknameLabel.snp.bottom).offset(5)
+            make.leading.equalToSuperview()
         }
         textField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
@@ -252,7 +260,7 @@ final class MyPageView: UIView {
             make.height.equalTo(1)
         }
         textFieldEditStack.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(2)
+            make.top.equalTo(safeAreaLayoutGuide).inset(2)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(42)
         }

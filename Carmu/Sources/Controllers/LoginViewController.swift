@@ -119,7 +119,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             return
         }
 
-        guard let fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
+        guard let fcmToken = KeychainItem.currentUserDeviceToken else {
             return
         }
         print("FCMToken -> ", fcmToken)
@@ -143,7 +143,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             return
         }
         // 디바이스 토큰값 갱신
-        guard let fcmToken = UserDefaults.standard.string(forKey: "FCMToken") else {
+        guard let fcmToken = KeychainItem.currentUserDeviceToken else {
             return
         }
         var newUserValue = updatedUser

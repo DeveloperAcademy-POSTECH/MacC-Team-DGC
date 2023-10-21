@@ -55,15 +55,25 @@ final class FriendAddViewController: UIViewController {
             object: nil
         )
     }
+
     // 클래스의 인스턴스가 메모리에서 해제되기 전에 호출되는 메서드
     deinit {
         // 옵저버 해제
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        setButtonState(hasText: false)
+        setButtonState(isEnable: false)
+    }
+
+    // 친구 요청 완료 알럿
+    private func showFriendRequestAlert() {
+        let alert = UIAlertController(title: "친구 추가가 완료되었습니다.", message: nil, preferredStyle: .alert)
+        let okButton = UIAlertAction(title: "확인", style: .default)
+        alert.addAction(okButton)
+        self.present(alert, animated: true)
     }
 }
 
@@ -75,18 +85,20 @@ extension FriendAddViewController {
     }
     // [검색] 버튼을 눌렀을 때 동작
     @objc private func performFriendSearch() {
-        print("친구 검색 수행")
         dismissTextField()
-        guard let searchNickname = friendAddView.friendSearchTextField.text else {
+        print("검색 텍스트: \(friendAddView.friendSearchTextField.text!)")
+        guard let searchKeyword = friendAddView.friendSearchTextField.text else {
             return
         }
-        searchUserNickname(searchNickname: searchNickname) { searchedFriend in
-            guard let searchedFriend = searchedFriend else {
-                return
+        searchUserNickname(searchNickname: searchKeyword) { searchedResult in
+            if let searchedResult = searchedResult {
+                self.searchedFriend = searchedResult
+                self.setButtonState(isEnable: true)
+            } else {
+                self.searchedFriend = nil
+                self.setButtonState(isEnable: false)
             }
-            self.searchedFriend = searchedFriend
             self.friendAddView.searchedFriendTableView.reloadData()
-            print("검색된 친구: \(searchedFriend)")
         }
     }
     // 텍스트필드 clear 버튼 눌렀을 때 동작
@@ -95,6 +107,7 @@ extension FriendAddViewController {
     }
     // 텍스트 필드 비활성화 시 동작
     @objc private func dismissTextField() {
+        friendAddView.textFieldUtilityView.isHidden = true
         friendAddView.friendSearchTextFieldView.backgroundColor = .clear
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 1.0
         friendAddView.friendSearchTextField.resignFirstResponder() // 최초 응답자 해제
@@ -111,6 +124,7 @@ extension FriendAddViewController {
         print("내Uid: \(myUID)")
         print("친구Uid: \(friendUID)")
         self.addFriendship(myUID: myUID, friendUID: friendUID)
+        showFriendRequestAlert()
     }
     // 키보드가 나타날 때 호출되는 메서드
     @objc private func keyboardWillShow(notification: Notification) {
@@ -140,9 +154,11 @@ extension FriendAddViewController {
         Database.database().reference().child("users").observeSingleEvent(of: .value) { snapshot in
             for child in snapshot.children {
                 guard let snap = child as? DataSnapshot else {
+                    completion(nil)
                     return
                 }
                 guard let dict = snap.value as? [String: Any] else {
+                    completion(nil)
                     return
                 }
                 if dict["nickname"] as? String == searchNickname {
@@ -156,8 +172,10 @@ extension FriendAddViewController {
                         friends: dict["friends"] as? [String]
                     )
                     completion(searchedFriend)
+                    return
                 }
             }
+            completion(nil)
         }
     }
 
@@ -241,25 +259,18 @@ extension FriendAddViewController: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
         friendAddView.friendSearchTextFieldView.backgroundColor = UIColor.semantic.backgroundSecond
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 0
+        friendAddView.textFieldUtilityView.isHidden = false
     }
     // 리턴 키를 눌렀을 때 호출되는 메서드
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         dismissTextField()
+        performFriendSearch()
         return true
     }
-    // 텍스트 필드 텍스트가 변경될 때 호출되는 메서드
-    func textFieldDidChangeSelection(_ textField: UITextField) {
-        if let text = textField.text, !text.isEmpty {
-            // 텍스트가 있는 경우
-            setButtonState(hasText: true)
-        } else {
-            // 텍스트가 없는 경우
-            setButtonState(hasText: false)
-        }
-    }
-    // 텍스트필드 입력 값에 따라 친구 추가 버튼의 활성화/비활성화를 처리해주는 함수
-    func setButtonState(hasText: Bool) {
-        if hasText {
+
+    // 친구 검색 결과에 따라 친구 추가 버튼의 활성화/비활성화를 처리해주는 함수
+    func setButtonState(isEnable: Bool) {
+        if isEnable {
             // 활성화
             friendAddView.friendAddButton.backgroundColor = UIColor.theme.blue6
             friendAddView.friendAddButton.isEnabled = true
@@ -299,6 +310,8 @@ extension FriendAddViewController: UITableViewDataSource {
                         cell.profileImageView.image = UIImage(named: "profile")
                     }
                 }
+            } else {
+                cell.profileImageView.image = UIImage(named: "profile")
             }
             return cell
         } else {

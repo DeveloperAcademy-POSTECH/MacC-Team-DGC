@@ -121,8 +121,18 @@ extension AppDelegate: MessagingDelegate {
             userInfo: dataDict
         )
 
-        UserDefaults.standard.set(fcmToken, forKey: "FCMToken")
-        UserDefaults.standard.synchronize() // UserDefaults를 즉시 저장
+        // 디바이스 토큰값 키체인에 저장
+        guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
+            return
+        }
+        guard let fcmToken = fcmToken else {
+            return
+        }
+        do {
+            try KeychainItem(service: bundleIdentifier, account: "FCMToken").saveItem(fcmToken)
+        } catch {
+            print("키체인에 FCMToken을 저장하지 못했습니다.")
+        }
     }
 
     // MARK: - 현재는 사용하지 않으나, 추후에 로그아웃과 같은 예상치 못한 상황에서 필요할 수도 있기 때문에 주석으로 처리해놓았습니다.
