@@ -31,6 +31,7 @@ struct Session {
     var captainID: String
     var sessionStartTime: Date
     var sessionEndTime: Date
+    var todayParticipant: [(User, Bool)]
     var stopoverPoint: [(User, Point)]
     var capCurrentLat: Double
     var capCurrentLng: Double
