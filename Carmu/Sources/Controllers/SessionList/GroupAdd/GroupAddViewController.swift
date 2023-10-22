@@ -168,8 +168,7 @@ extension GroupAddViewController {
     }
 
     @objc private func createCrewButtonTapped(_ sender: UIButton) {
-        checkDataEffectiveness()
-        if shouldPopViewController {
+        if checkDataEffectiveness() {
             // 주의 : popViewController를 먼저 실행하면, 두 번 값이 업로드 됨
             for element in pointsDataModel {
                 crewAndPointDict.merge(
@@ -256,11 +255,11 @@ extension GroupAddViewController {
         }
     }
 
-    private func checkDataEffectiveness() {
-        if emptyDataCheck() {
-            timeEffectivenessCheck()
+    private func checkDataEffectiveness() -> Bool {
+        if emptyDataCheck() && timeEffectivenessCheck() {
+            return true
         }
-        shouldPopViewController = true
+        return false
     }
 
     // 빈 값을 체크해주는 메서드
@@ -306,7 +305,7 @@ extension GroupAddViewController {
     }
 
     // 시간 유효성을 체크해주는 메서드
-    private func timeEffectivenessCheck() {
+    private func timeEffectivenessCheck() -> Bool {
         for (index, element) in pointsDataModel.enumerated() {
             if index == 0 { continue }
 
@@ -325,10 +324,10 @@ extension GroupAddViewController {
                         다시 설정해주세요!
                         """
                 )
-                shouldPopViewController = false
-                return
+                return false
             }
         }
+        return true
     }
 
     private func returnPointName(_ index: Int) -> String {
@@ -613,8 +612,9 @@ extension GroupAddViewController {
             accumulateDistance: 0
 
         )
-
-        // TODO: - 크루들의 User Group에 groupID 추가
+        for (crewKey, _) in crewAndPoint {
+            setGroupToUser(crewKey, key)
+        }
 
         do {
             let data = try JSONEncoder().encode(newGroup)
@@ -625,6 +625,26 @@ extension GroupAddViewController {
             Database.database().reference().updateChildValues(childUpdates)
         } catch {
             print("Group CREATE fail...", error)
+        }
+    }
+
+    private func setGroupToUser(_ userID: String, _ groupID: String) {
+        let databaseRef = Database.database().reference().child("users/\(userID)/groupList")
+
+        databaseRef.getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            if var groupList = snapshot?.value as? [String] {
+                groupList.append(groupID)
+                databaseRef.setValue(groupList as NSArray)
+            } else {
+                // 아직 그룹이 없는 경우 배열을 새로 만들어준다.
+                var newGroup = []
+                newGroup.append(groupID)
+                databaseRef.setValue(newGroup as NSArray)
+            }
         }
     }
 
