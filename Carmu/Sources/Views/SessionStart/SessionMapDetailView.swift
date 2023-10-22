@@ -11,6 +11,16 @@ import SnapKit
 
 final class SessionMapDetailView: UIView {
 
+    private let titleLabel: UILabel = {
+        let label = PaddingLabel(padding: UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20))
+        label.backgroundColor = UIColor.semantic.backgroundSecond
+        label.text = "🍎 C5 출근팟 늦으면 죽음 뿐 🍎"
+        label.textColor = UIColor.semantic.textPrimary
+        label.font = UIFont.carmuFont.subhead3
+        label.textAlignment = .center
+        return label
+    }()
+
     let noticeLateButton: UIButton = {
         var config = UIButton.Configuration.filled()
 
@@ -48,6 +58,7 @@ final class SessionMapDetailView: UIView {
 
         backgroundColor = UIColor.semantic.backgroundDefault
 
+        showTitleLabel()
         showNoticeLateButton()
         showAddressLabel()
         showPointLabel()
@@ -55,6 +66,13 @@ final class SessionMapDetailView: UIView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    private func showTitleLabel() {
+        addSubview(titleLabel)
+        titleLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+        }
     }
 
     private func showNoticeLateButton() {
