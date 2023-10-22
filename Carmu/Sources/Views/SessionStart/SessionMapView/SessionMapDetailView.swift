@@ -53,6 +53,9 @@ final class SessionMapDetailView: UIView {
         return label
     }()
 
+    private let actualTime = TimeDataView()
+    private let plannedTime = TimeDataView()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -62,6 +65,7 @@ final class SessionMapDetailView: UIView {
         showNoticeLateButton()
         showAddressLabel()
         showPointLabel()
+        showTimeInfo()
     }
 
     required init?(coder: NSCoder) {
@@ -97,5 +101,31 @@ final class SessionMapDetailView: UIView {
             make.leading.equalTo(addressLabel)
             make.bottom.equalTo(addressLabel.snp.top).offset(-4)
         }
+    }
+
+    private func showTimeInfo() {
+        // 실제 시간
+        addSubview(actualTime)
+        actualTime.snp.makeConstraints { make in
+            make.trailing.equalTo(noticeLateButton)
+            make.bottom.equalTo(addressLabel)
+        }
+        actualTime.titleLabel.text = "예정"
+        actualTime.titleLabel.textColor = UIColor.semantic.accPrimary
+        actualTime.titleLabel.backgroundColor = UIColor.semantic.backgroundSecond
+        actualTime.timeLabel.text = "00:00"
+        actualTime.timeLabel.textColor = UIColor.semantic.accPrimary
+
+        // 계획 시간
+        addSubview(plannedTime)
+        plannedTime.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-103)
+            make.bottom.equalTo(actualTime)
+        }
+        plannedTime.titleLabel.text = "계획"
+        plannedTime.titleLabel.textColor = UIColor.semantic.textBody
+        plannedTime.titleLabel.backgroundColor = UIColor.semantic.backgroundList
+        plannedTime.timeLabel.text = "00:00"
+        plannedTime.timeLabel.textColor = UIColor.semantic.textBody
     }
 }
