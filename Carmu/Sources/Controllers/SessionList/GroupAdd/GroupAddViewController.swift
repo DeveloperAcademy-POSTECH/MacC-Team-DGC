@@ -7,6 +7,8 @@
 
 import UIKit
 
+import FirebaseDatabase
+import FirebaseAuth
 import SnapKit
 
 final class GroupAddViewController: UIViewController {
@@ -15,6 +17,7 @@ final class GroupAddViewController: UIViewController {
     var pointsDataModel: [Point] = []
     var friendsList: [User]?
     var selectedList: [String]?
+    var crewAndPointDict = [String: String]() // Group 생성을 용이하게 하기 위한 변수
     var userImage: [String: UIImage]?
     let groupAddView = GroupAddView()
     private let firebaseManager = FirebaseManager()
@@ -50,7 +53,7 @@ final class GroupAddViewController: UIViewController {
         for index in 0...2 {
             pointsDataModel.append(Point())
             if index == 2 {
-                pointsDataModel[2].boardingCrew = [String]()
+                pointsDataModel[2].boardingCrew = [String: String]()
             }
         }
 
@@ -102,12 +105,12 @@ extension GroupAddViewController {
 
         detailViewController.friendSelectionHandler = { [weak self] selectedFriend in
 
-            var newBoardingCrew = [String]()
+            var newBoardingCrew = [String: String]()
             if selectedFriend.isEmpty {
                 self?.pointsDataModel[indexPath.row].boardingCrew = nil
             } else {
                 for element in selectedFriend {
-                    newBoardingCrew.append(element.nickname)
+                    newBoardingCrew[element.id] = element.nickname
                 }
                 self?.pointsDataModel[indexPath.row].boardingCrew = newBoardingCrew
             }
@@ -167,6 +170,14 @@ extension GroupAddViewController {
     @objc private func createCrewButtonTapped(_ sender: UIButton) {
         checkDataEffectiveness()
         if shouldPopViewController {
+            // 주의 : popViewController를 먼저 실행하면, 두 번 값이 업로드 됨
+            for element in pointsDataModel {
+                crewAndPointDict.merge(
+                    addPoint(element),
+                    uniquingKeysWith: { (current, _) in current }
+                )
+            }
+            addGroup(crewAndPointDict)
             navigationController?.popViewController(animated: true)
         }
     }
@@ -345,7 +356,7 @@ extension GroupAddViewController {
             guard let pointSelectedUser = element.boardingCrew else { continue }
 
             friendList = friendList.filter { friendElement in
-                return !pointSelectedUser.contains(friendElement.nickname)
+                return !pointSelectedUser.values.contains(friendElement.nickname)
             }
         }
         return friendList
@@ -359,7 +370,7 @@ extension GroupAddViewController {
         guard let friendList = self.friendsList else { return [User]() }
 
         let selectedFriend = friendList.filter { element in
-            return boardingCrew.contains(element.nickname)
+            return boardingCrew.values.contains(element.nickname)
         }
 
         return selectedFriend
@@ -432,7 +443,8 @@ extension GroupAddViewController: UITableViewDataSource {
             cell.startTime.setTitle(formattedTime, for: .normal)
         }
         if let boardingCrew = pointsDataModel[indexPath.row].boardingCrew {
-            configureBoardingCrewContent(for: cell, with: boardingCrew)
+            let boardingCrewValues = Array(boardingCrew.values)
+            configureBoardingCrewContent(for: cell, with: boardingCrewValues)
         }
     }
 
@@ -517,6 +529,124 @@ extension GroupAddViewController: UITextFieldDelegate {
     // 화면의 다른 곳을 탭할 때 호출되는 메서드
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+// MARK: - Firebase Realtime Database DB 관련 메서드
+extension GroupAddViewController {
+
+    // MARK: - 닉네임에 해당하는 친구를 DB에서 검색하는 메서드
+    private func searchUserNickname(searchNickname: String, completion: @escaping (User?) -> Void) {
+        Database.database().reference().child("users").observeSingleEvent(of: .value) { snapshot in
+            for child in snapshot.children {
+                guard let snap = child as? DataSnapshot else {
+                    completion(nil)
+                    return
+                }
+                guard let dict = snap.value as? [String: Any] else {
+                    completion(nil)
+                    return
+                }
+                if dict["nickname"] as? String == searchNickname {
+                    print("\(searchNickname)이(가) 검색되었습니다!!!")
+                    let searchedFriend = User(
+                        id: dict["id"] as? String ?? "",
+                        deviceToken: dict["deviceToken"] as? String ?? "",
+                        nickname: dict["nickname"] as? String ?? "",
+                        email: dict["email"] as? String,
+                        imageURL: dict["imageURL"] as? String,
+                        friends: dict["friends"] as? [String]
+                    )
+                    completion(searchedFriend)
+                    return
+                }
+            }
+            completion(nil)
+        }
+    }
+
+    // MARK: - DB의 Point에 새로운 Point를 추가하는 메서드
+    private func addPoint(_ pointModel: Point) -> [String: String] {
+        guard let key = Database.database().reference().child("point").childByAutoId().key else {
+            return [String: String]()
+        }
+        var crewAndPoint = [String: String]()
+        var newPoint = pointModel
+        newPoint.pointID = key
+
+        guard let boardingCrew = newPoint.boardingCrew else {
+            return [String: String]()
+        }
+        for (element, _) in boardingCrew {
+            crewAndPoint[element] = key
+        }
+        do {
+            let data = try JSONEncoder().encode(newPoint)
+            let json = try JSONSerialization.jsonObject(with: data)
+            let childUpdates: [String: Any] = [
+                "point/\(key)": json
+            ]
+            Database.database().reference().updateChildValues(childUpdates)
+            print("포인트 값이 저장됨. 키: \(key)")
+        } catch {
+            print("Point CREATE fail...", error)
+        }
+
+        return crewAndPoint
+    }
+
+    // MARK: - DB의 Group에 새로운 그룹을 추가하는 메서드
+    private func addGroup(_ crewAndPoint: [String: String]) {
+        guard let key = Database.database().reference().child("group").childByAutoId().key else {
+            return
+        }
+        print("새로운 group Key: \(key)")
+        // DB의 friendship에 새로 추가할 친구 관계 객체
+        let newGroup = Group(
+            groupID: key,
+            groupName: groupAddView.textField.text,
+            // groupImage 추가 필요
+            captainId: KeychainItem.currentUserIdentifier,
+            sessionDay: [1, 2, 3, 4, 5],
+            crewAndPoint: crewAndPoint,
+            sessionList: [String](),
+            accumulateDistance: 0
+
+        )
+
+        // TODO: - 크루들의 User Group에 groupID 추가
+
+        do {
+            let data = try JSONEncoder().encode(newGroup)
+            let json = try JSONSerialization.jsonObject(with: data)
+            let childUpdates: [String: Any] = [
+                "group/\(key)": json
+            ]
+            Database.database().reference().updateChildValues(childUpdates)
+        } catch {
+            print("Group CREATE fail...", error)
+        }
+    }
+
+    // MARK: - DB에서 유저의 friends 목록에 새로운 friendshipId를 추가하는 메서드
+    private func addNewValueToUserFriends(uid: String, newValue: String) {
+        let databaseRef = Database.database().reference().child("users/\(uid)/friends")
+        print("다음 경로에 추가합니다!!! \(databaseRef)")
+        databaseRef.getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            if var friends = snapshot?.value as? [String] {
+                friends.append(newValue)
+                databaseRef.setValue(friends as NSArray)
+            } else {
+                // 아직 친구가 없는 경우 배열을 새로 만들어준다.
+                var newFriends = []
+                newFriends.append(newValue)
+                databaseRef.setValue(newFriends as NSArray)
+            }
+        }
     }
 }
 

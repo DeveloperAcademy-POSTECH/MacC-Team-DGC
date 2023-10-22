@@ -75,7 +75,7 @@ let point1 = Point(
     pointArrivalTime: Date(),
     pointLat: 37.123456,
     pointLng: -122.123456,
-    boardingCrew: ["user1"]
+    boardingCrew: ["UUID": "user1"]
 )
 let point2 = Point(
     pointID: "point2",
@@ -85,7 +85,7 @@ let point2 = Point(
     pointArrivalTime: Date(),
     pointLat: 37.654321,
     pointLng: -122.654321,
-    boardingCrew: ["user2", "user3"]
+    boardingCrew: ["uuid": "user2", "UUID": "user3"]
 )
 let point3 = Point(
     pointID: "point3",
@@ -95,7 +95,7 @@ let point3 = Point(
     pointArrivalTime: Date(),
     pointLat: 37.987654,
     pointLng: -122.987654,
-    boardingCrew: ["user3"]
+    boardingCrew: ["uuid": "user3"]
 )
 let point4 = Point(
     pointID: "point4",
@@ -105,7 +105,7 @@ let point4 = Point(
     pointArrivalTime: Date(),
     pointLat: 37.987654,
     pointLng: -122.987654,
-    boardingCrew: ["user1"]
+    boardingCrew: ["uuid": "user1"]
 )
 
 let groupData: [Group]? = [
