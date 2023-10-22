@@ -17,7 +17,7 @@ final class GroupAddViewController: UIViewController {
     var pointsDataModel: [Point] = []
     var friendsList: [User]?
     var selectedList: [String]?
-    var crewAndPointDict = [String: String]() // Group 생성을 용이하게 하기 위한 변수
+    private var crewAndPointDict = [String: String]() // Group 생성을 용이하게 하기 위한 변수
     var userImage: [String: UIImage]?
     let groupAddView = GroupAddView()
     private let firebaseManager = FirebaseManager()
