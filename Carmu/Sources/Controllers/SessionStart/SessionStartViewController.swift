@@ -247,7 +247,7 @@ extension SessionStartViewController {
 
                         // Functions 호출
                         functions
-                            .httpsCallable("push_send")
+                            .httpsCallable("open_session")
                             .call(["tokens": self.friendDeviceToken]) { (result, error) in
                             if let error = error {
                                 print("Error calling Firebase Functions: \(error.localizedDescription)")

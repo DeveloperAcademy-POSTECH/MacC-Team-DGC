@@ -40,6 +40,9 @@
 		B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */; };
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
 		BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */; };
+		BF0C33022AE50AFB00A6D8FE /* SessionMapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33012AE50AFB00A6D8FE /* SessionMapDetailView.swift */; };
+		BF0C33042AE51E7C00A6D8FE /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */; };
+		BF0C33092AE5239700A6D8FE /* TimeDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33082AE5239700A6D8FE /* TimeDataView.swift */; };
 		BF24481D2AD6D66200F4089A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = BF24481C2AD6D66200F4089A /* FirebaseDatabase */; };
 		BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF29DF282ACFF9CD00430031 /* SessionListView.swift */; };
 		BF29DF2B2ACFFDBC00430031 /* GroupDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */; };
@@ -125,6 +128,9 @@
 		B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		BF0C33012AE50AFB00A6D8FE /* SessionMapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapDetailView.swift; sourceTree = "<group>"; };
+		BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
+		BF0C33082AE5239700A6D8FE /* TimeDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeDataView.swift; sourceTree = "<group>"; };
 		BF29DF282ACFF9CD00430031 /* SessionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListView.swift; sourceTree = "<group>"; };
 		BF29DF2A2ACFFDBC00430031 /* GroupDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupDetailView.swift; sourceTree = "<group>"; };
 		BF37D9C92AB939A3005331AD /* Carmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,6 +257,15 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
+		BF0C33052AE5217100A6D8FE /* SessionMapView */ = {
+			isa = PBXGroup;
+			children = (
+				BF0C33012AE50AFB00A6D8FE /* SessionMapDetailView.swift */,
+				BF0C33082AE5239700A6D8FE /* TimeDataView.swift */,
+			);
+			path = SessionMapView;
+			sourceTree = "<group>";
+		};
 		BF24481B2AD6D66200F4089A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -373,6 +388,7 @@
 				16DBA63E2AC1D5B900315ED7 /* GroupCollectionViewCell.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */,
 				161854AC2AE005F200961D2D /* SessionStartMidNoGroupView.swift */,
+				BF0C33052AE5217100A6D8FE /* SessionMapView */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
@@ -485,6 +501,7 @@
 			isa = PBXGroup;
 			children = (
 				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
+				BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -642,6 +659,7 @@
 				B8D507342ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift in Sources */,
 				BF9BCFF32ACE379C009DAECD /* SelectAddressView.swift in Sources */,
 				C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */,
+				BF0C33042AE51E7C00A6D8FE /* PaddingLabel.swift in Sources */,
 				BF29DF292ACFF9CD00430031 /* SessionListView.swift in Sources */,
 				B8DD15E42AD52D2F00685E48 /* FriendAddView.swift in Sources */,
 				C9DE7C352AC01C33005AFCC6 /* GroupAddViewController.swift in Sources */,
@@ -660,6 +678,8 @@
 				C9DC0CCA2AD7D85400F06169 /* SelectAddressTableViewCell.swift in Sources */,
 				C904D1632AD57B21008BF5CE /* Session.swift in Sources */,
 				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
+				BF0C33022AE50AFB00A6D8FE /* SessionMapDetailView.swift in Sources */,
+				BF0C33092AE5239700A6D8FE /* TimeDataView.swift in Sources */,
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
 				B8DD15EE2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift in Sources */,
 				B8DD15E02AD4677800685E48 /* FriendListTableViewCell.swift in Sources */,

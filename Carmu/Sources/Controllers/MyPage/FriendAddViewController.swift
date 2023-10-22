@@ -7,12 +7,15 @@
 import UIKit
 
 import FirebaseDatabase
+import FirebaseFunctions
 import FirebaseStorage
 
 final class FriendAddViewController: UIViewController {
     var searchedFriend: User? // 검색된 유저
     private let friendAddView = FriendAddView()
     private let encoder = JSONEncoder()
+    private var friendDeviceToken = ""   // 친구의 디바이스 토큰값
+    private let firebaseManager = FirebaseManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -123,7 +126,16 @@ extension FriendAddViewController {
         }
         print("내Uid: \(myUID)")
         print("친구Uid: \(friendUID)")
+
         self.addFriendship(myUID: myUID, friendUID: friendUID)
+        firebaseManager.getFriendUser(friendID: friendUID) { friend in
+            guard let friend = friend else {
+                return
+            }
+            self.friendDeviceToken = friend.deviceToken
+            print("친구의 Device Token -> ", self.friendDeviceToken)
+            self.pushToReceiver(friendUID: self.friendDeviceToken)
+        }
         showFriendRequestAlert()
     }
     // 키보드가 나타날 때 호출되는 메서드
@@ -227,6 +239,29 @@ extension FriendAddViewController {
                 databaseRef.setValue(newFriends as NSArray)
             }
         }
+    }
+}
+
+// MARK: - 서버 푸시 관련 메서드
+extension FriendAddViewController {
+
+    //MARK: - 새로운 친구에게 서버 푸시 알림을 보내는 메서드
+    private func pushToReceiver(friendUID: String) {
+        let functions = Functions.functions()
+
+        // Functions 호출
+        functions
+            .httpsCallable("pushToReceiver")
+            .call(["token": self.friendDeviceToken]) { (result, error) in
+            if let error = error {
+                print("Error calling Firebase Functions: \(error.localizedDescription)")
+            } else {
+                if let data = (result?.data as? [String: Any]) {
+                    print("Response data -> ", data)
+                }
+            }
+        }
+
     }
 }
 
