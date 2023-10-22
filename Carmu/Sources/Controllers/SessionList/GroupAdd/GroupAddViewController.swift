@@ -8,7 +8,6 @@
 import UIKit
 
 import FirebaseDatabase
-import FirebaseAuth
 import SnapKit
 
 final class GroupAddViewController: UIViewController {
