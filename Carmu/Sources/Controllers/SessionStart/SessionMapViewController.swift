@@ -67,11 +67,20 @@ final class SessionMapViewController: UIViewController {
         return pathOverlay
     }()
 
+    private lazy var backButton = {
+        let backButton = UIButton(type: .custom, primaryAction: UIAction(handler: { _ in
+            self.dismiss(animated: true)
+        }))
+        backButton.setImage(UIImage(named: "mapViewBackButton"), for: .normal)
+        return backButton
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         startUpdatingLocation()
         showNaverMap()
         showBackButton()
+        showQuitButton()
         showPickuplocations()
         fetchDirections()
     }
@@ -84,15 +93,26 @@ final class SessionMapViewController: UIViewController {
     }
 
     private func showBackButton() {
-        let backButton = UIButton(type: .custom, primaryAction: UIAction(handler: { _ in
-            self.dismiss(animated: true)
-        }))
-        backButton.setImage(UIImage(named: "mapViewBackButton"), for: .normal)
         view.addSubview(backButton)
         backButton.snp.makeConstraints { make in
             make.leading.equalTo(20)
             make.top.equalTo(50)
             make.width.height.equalTo(60)
+        }
+    }
+
+    private func showQuitButton() {
+        let quitButton = UIButton(type: .custom, primaryAction: UIAction(handler: { _ in
+            self.locationManager.stopUpdatingLocation()
+            self.dismiss(animated: true)
+        }))
+        quitButton.setImage(UIImage(named: "quitCarpoolButton"), for: .normal)
+        quitButton.imageView?.contentMode = .scaleAspectFit
+        view.addSubview(quitButton)
+        quitButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().inset(7)
+            make.centerY.equalTo(backButton)
+            make.width.equalTo(120)
         }
     }
 
