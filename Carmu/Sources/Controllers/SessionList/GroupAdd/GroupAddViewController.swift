@@ -171,11 +171,14 @@ extension GroupAddViewController {
             // 주의 : popViewController를 먼저 실행하면, 두 번 값이 업로드 됨
             for element in pointsDataModel {
                 crewAndPointDict.merge(
-                    addPoint(element),
+                    firebaseManager.addPoint(element),
                     uniquingKeysWith: { (current, _) in current }
                 )
             }
-            addGroup(crewAndPointDict)
+            firebaseManager.addGroup(
+                crewAndPointDict,
+                groupAddView.textField.text ?? "크루 이름"
+            )
             navigationController?.popViewController(animated: true)
         }
     }
@@ -527,127 +530,6 @@ extension GroupAddViewController: UITextFieldDelegate {
     // 화면의 다른 곳을 탭할 때 호출되는 메서드
     @objc func dismissKeyboard() {
         view.endEditing(true)
-    }
-}
-
-// MARK: - Firebase Realtime Database DB 관련 메서드
-extension GroupAddViewController {
-
-    // MARK: - 닉네임에 해당하는 친구를 DB에서 검색하는 메서드
-    private func searchUserNickname(searchNickname: String, completion: @escaping (User?) -> Void) {
-        Database.database().reference().child("users").observeSingleEvent(of: .value) { snapshot in
-            for child in snapshot.children {
-                guard let snap = child as? DataSnapshot else {
-                    completion(nil)
-                    return
-                }
-                guard let dict = snap.value as? [String: Any] else {
-                    completion(nil)
-                    return
-                }
-                if dict["nickname"] as? String == searchNickname {
-                    print("\(searchNickname)이(가) 검색되었습니다!!!")
-                    let searchedFriend = User(
-                        id: dict["id"] as? String ?? "",
-                        deviceToken: dict["deviceToken"] as? String ?? "",
-                        nickname: dict["nickname"] as? String ?? "",
-                        email: dict["email"] as? String,
-                        imageURL: dict["imageURL"] as? String,
-                        friends: dict["friends"] as? [String]
-                    )
-                    completion(searchedFriend)
-                    return
-                }
-            }
-            completion(nil)
-        }
-    }
-
-    // MARK: - DB의 Point에 새로운 Point를 추가하는 메서드
-    private func addPoint(_ pointModel: Point) -> [String: String] {
-        guard let key = Database.database().reference().child("point").childByAutoId().key else {
-            return [String: String]()
-        }
-        var crewAndPoint = [String: String]()
-        var newPoint = pointModel
-        newPoint.pointID = key
-
-        guard let boardingCrew = newPoint.boardingCrew else {
-            return [String: String]()
-        }
-        for (element, _) in boardingCrew {
-            crewAndPoint[element] = key
-        }
-        do {
-            let data = try JSONEncoder().encode(newPoint)
-            let json = try JSONSerialization.jsonObject(with: data)
-            let childUpdates: [String: Any] = [
-                "point/\(key)": json
-            ]
-            Database.database().reference().updateChildValues(childUpdates)
-            print("포인트 값이 저장됨. 키: \(key)")
-        } catch {
-            print("Point CREATE fail...", error)
-        }
-
-        return crewAndPoint
-    }
-
-    // MARK: - DB의 Group에 새로운 그룹을 추가하는 메서드
-    private func addGroup(_ crewAndPoint: [String: String]) {
-        guard let key = Database.database().reference().child("group").childByAutoId().key else {
-            return
-        }
-        guard let captainID = KeychainItem.currentUserIdentifier else { return }
-
-        // DB에 추가할 그룹 객체
-        let newGroup = Group(
-            groupID: key,
-            groupName: groupAddView.textField.text,
-            // groupImage 추가 필요
-            captainID: captainID,
-            sessionDay: [1, 2, 3, 4, 5],
-            crewAndPoint: crewAndPoint,
-            sessionList: [String](),
-            accumulateDistance: 0
-
-        )
-        setGroupToUser(captainID, key)
-        for (crewKey, _) in crewAndPoint {
-            setGroupToUser(crewKey, key)
-        }
-
-        do {
-            let data = try JSONEncoder().encode(newGroup)
-            let json = try JSONSerialization.jsonObject(with: data)
-            let childUpdates: [String: Any] = [
-                "group/\(key)": json
-            ]
-            Database.database().reference().updateChildValues(childUpdates)
-        } catch {
-            print("Group CREATE fail...", error)
-        }
-    }
-
-    // MARK: - 크루 만들기에서 추가된 탑승자들의 User/groupList에 groupID를 추가하는 메서드
-    private func setGroupToUser(_ userID: String, _ groupID: String) {
-        let databaseRef = Database.database().reference().child("users/\(userID)/groupList")
-
-        databaseRef.getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            if var groupList = snapshot?.value as? [String] {
-                groupList.append(groupID)
-                databaseRef.setValue(groupList as NSArray)
-            } else {
-                // 아직 그룹이 없는 경우 배열을 새로 만들어준다.
-                var newGroup = []
-                newGroup.append(groupID)
-                databaseRef.setValue(newGroup as NSArray)
-            }
-        }
     }
 }
 

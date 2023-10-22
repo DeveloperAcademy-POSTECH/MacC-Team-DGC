@@ -12,7 +12,10 @@ import FirebaseStorage
 
 class FirebaseManager {
 
-    // MARK: - DB에서 유저의 friendID 목록을 불러오는 메서드
+    // MARK: - User 관련 메서드
+    /**
+     DB에서 유저의 friendID 목록을 불러오는 메서드
+     */
     func readUserFriendshipList(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
         databasePath.child("friends").getData { error, snapshot in
             if let error = error {
@@ -25,7 +28,9 @@ class FirebaseManager {
         }
     }
 
-    // MARK: - friendID 값으로 DB에서 Friendship의 친구 id를 불러오는 메서드
+    /**
+     friendID 값으로 DB에서 Friendship의 친구 id를 불러오는 메서드
+    */
     func getFriendUid(friendshipID: String, completion: @escaping (String?) -> Void) {
         Database.database().reference().child("friendship/\(friendshipID)").getData { error, snapshot in
             if let error = error {
@@ -52,7 +57,9 @@ class FirebaseManager {
         }
     }
 
-    // MARK: - 친구의 uid로 DB에서 친구 데이터를 불러오기
+    /**
+     친구의 uid로 DB에서 친구 데이터를 불러오기
+    */
     func getFriendUser(friendID: String, completion: @escaping (User?) -> Void) {
         Database.database().reference().child("users/\(friendID)").getData { error, snapshot in
             if let error = error {
@@ -75,8 +82,10 @@ class FirebaseManager {
         }
     }
 
-    // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
     // TODO: - MyPageViewController와 중복되는 메서드 -> 정리 필요함
+    /**
+     파이어베이스 Storage에서 유저 이미지 불러오기
+     */
     func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
         let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
         let megaByte = Int64(1 * 1024 * 1024)
@@ -91,6 +100,101 @@ class FirebaseManager {
                 return
             }
             completion(UIImage(data: imageData))
+        }
+    }
+
+    // MARK: - Point 관련 메서드
+    /**
+     DB의 Point에 새로운 Point를 추가하는 메서드
+     */
+    func addPoint(_ pointModel: Point) -> [String: String] {
+        guard let key = Database.database().reference().child("point").childByAutoId().key else {
+            return [String: String]()
+        }
+        var crewAndPoint = [String: String]()
+        var newPoint = pointModel
+        newPoint.pointID = key
+
+        guard let boardingCrew = newPoint.boardingCrew else {
+            return [String: String]()
+        }
+        for (element, _) in boardingCrew {
+            crewAndPoint[element] = key
+        }
+        do {
+            let data = try JSONEncoder().encode(newPoint)
+            let json = try JSONSerialization.jsonObject(with: data)
+            let childUpdates: [String: Any] = [
+                "point/\(key)": json
+            ]
+            Database.database().reference().updateChildValues(childUpdates)
+            print("포인트 값이 저장됨. 키: \(key)")
+        } catch {
+            print("Point CREATE fail...", error)
+        }
+
+        return crewAndPoint
+    }
+
+    // MARK: - Group 관련 메서드
+    /**
+     DB의 Group에 새로운 그룹을 추가하는 메서드
+     */
+    func addGroup(_ crewAndPoint: [String: String], _ groupName: String) {
+        guard let key = Database.database().reference().child("group").childByAutoId().key else {
+            return
+        }
+        guard let captainID = KeychainItem.currentUserIdentifier else { return }
+
+        // DB에 추가할 그룹 객체
+        let newGroup = Group(
+            groupID: key,
+            groupName: groupName,
+            // groupImage 추가 필요
+            captainID: captainID,
+            sessionDay: [1, 2, 3, 4, 5],
+            crewAndPoint: crewAndPoint,
+            sessionList: [String](),
+            accumulateDistance: 0
+
+        )
+        setGroupToUser(captainID, key)
+        for (crewKey, _) in crewAndPoint {
+            setGroupToUser(crewKey, key)
+        }
+
+        do {
+            let data = try JSONEncoder().encode(newGroup)
+            let json = try JSONSerialization.jsonObject(with: data)
+            let childUpdates: [String: Any] = [
+                "group/\(key)": json
+            ]
+            Database.database().reference().updateChildValues(childUpdates)
+        } catch {
+            print("Group CREATE fail...", error)
+        }
+    }
+
+    /**
+     크루 만들기에서 추가된 탑승자들의 User/groupList에 groupID를 추가하는 메서드
+     */
+    func setGroupToUser(_ userID: String, _ groupID: String) {
+        let databaseRef = Database.database().reference().child("users/\(userID)/groupList")
+
+        databaseRef.getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            if var groupList = snapshot?.value as? [String] {
+                groupList.append(groupID)
+                databaseRef.setValue(groupList as NSArray)
+            } else {
+                // 아직 그룹이 없는 경우 배열을 새로 만들어준다.
+                var newGroup = []
+                newGroup.append(groupID)
+                databaseRef.setValue(newGroup as NSArray)
+            }
         }
     }
 }
