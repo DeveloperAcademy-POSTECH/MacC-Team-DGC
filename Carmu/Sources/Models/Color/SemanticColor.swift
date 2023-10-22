@@ -17,6 +17,7 @@ struct SemanticColor {
     let backgroundAddress = UIColor.theme.gray1
     let backgroundTouchable = UIColor.theme.blue2
     let backgroundDisableBT = UIColor.theme.blue1
+    let backgroundList = UIColor.theme.gray1
 
     let textPrimary = UIColor.theme.darkblue8
     let textSecondary = UIColor.theme.white
