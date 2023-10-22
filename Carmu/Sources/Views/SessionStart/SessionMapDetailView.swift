@@ -35,6 +35,14 @@ final class SessionMapDetailView: UIView {
         return label
     }()
 
+    private let pointLabel: UILabel = {
+        let label = UILabel()
+        label.text = "출발지"
+        label.font = UIFont.carmuFont.subhead1
+        label.textColor = UIColor.semantic.textBody
+        return label
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -42,6 +50,7 @@ final class SessionMapDetailView: UIView {
 
         showNoticeLateButton()
         showAddressLabel()
+        showPointLabel()
     }
 
     required init?(coder: NSCoder) {
@@ -61,6 +70,14 @@ final class SessionMapDetailView: UIView {
         addressLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.bottom.equalTo(noticeLateButton.snp.top).offset(-20)
+        }
+    }
+
+    private func showPointLabel() {
+        addSubview(pointLabel)
+        pointLabel.snp.makeConstraints { make in
+            make.leading.equalTo(addressLabel)
+            make.bottom.equalTo(addressLabel.snp.top).offset(-4)
         }
     }
 }
