@@ -29,6 +29,7 @@ struct Points {
 final class SessionMapViewController: UIViewController {
 
     private let mapView = NMFMapView()
+    private let sessionMapDetailView = SessionMapDetailView()
     // 자동차 위치를 표시하기 위한 마커
     private let carMarker = NMFMarker()
     private let locationManager = CLLocationManager()
@@ -77,9 +78,16 @@ final class SessionMapViewController: UIViewController {
     }
 
     private func showNaverMap() {
+        view.addSubview(sessionMapDetailView)
+        sessionMapDetailView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(234)
+        }
+
         view.addSubview(mapView)
         mapView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
+            make.leading.top.trailing.equalToSuperview()
+            make.bottom.equalTo(sessionMapDetailView.snp.top)
         }
     }
 
