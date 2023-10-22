@@ -27,12 +27,21 @@ final class SessionMapDetailView: UIView {
         return button
     }()
 
+    private let addressLabel: UILabel = {
+        let label = UILabel()
+        label.text = "양덕 농협지점"
+        label.font = UIFont.carmuFont.headline1
+        label.textColor = UIColor.semantic.textPrimary
+        return label
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         backgroundColor = UIColor.semantic.backgroundDefault
 
         showNoticeLateButton()
+        showAddressLabel()
     }
 
     required init?(coder: NSCoder) {
@@ -44,6 +53,14 @@ final class SessionMapDetailView: UIView {
         noticeLateButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(48)
+        }
+    }
+
+    private func showAddressLabel() {
+        addSubview(addressLabel)
+        addressLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.bottom.equalTo(noticeLateButton.snp.top).offset(-20)
         }
     }
 }
