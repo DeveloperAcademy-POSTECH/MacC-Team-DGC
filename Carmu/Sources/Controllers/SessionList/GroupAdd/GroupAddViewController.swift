@@ -13,7 +13,6 @@ import SnapKit
 
 final class GroupAddViewController: UIViewController {
 
-    var groupDataModel: Group = Group()
     var pointsDataModel: [Point] = []
     var friendsList: [User]?
     var selectedList: [String]?
@@ -599,19 +598,21 @@ extension GroupAddViewController {
         guard let key = Database.database().reference().child("group").childByAutoId().key else {
             return
         }
-        print("새로운 group Key: \(key)")
-        // DB의 friendship에 새로 추가할 친구 관계 객체
+        guard let captainID = KeychainItem.currentUserIdentifier else { return }
+
+        // DB에 추가할 그룹 객체
         let newGroup = Group(
             groupID: key,
             groupName: groupAddView.textField.text,
             // groupImage 추가 필요
-            captainID: KeychainItem.currentUserIdentifier,
+            captainID: captainID,
             sessionDay: [1, 2, 3, 4, 5],
             crewAndPoint: crewAndPoint,
             sessionList: [String](),
             accumulateDistance: 0
 
         )
+        setGroupToUser(captainID, key)
         for (crewKey, _) in crewAndPoint {
             setGroupToUser(crewKey, key)
         }
@@ -628,6 +629,7 @@ extension GroupAddViewController {
         }
     }
 
+    // MARK: - 크루 만들기에서 추가된 탑승자들의 User/groupList에 groupID를 추가하는 메서드
     private func setGroupToUser(_ userID: String, _ groupID: String) {
         let databaseRef = Database.database().reference().child("users/\(userID)/groupList")
 
@@ -644,27 +646,6 @@ extension GroupAddViewController {
                 var newGroup = []
                 newGroup.append(groupID)
                 databaseRef.setValue(newGroup as NSArray)
-            }
-        }
-    }
-
-    // MARK: - DB에서 유저의 friends 목록에 새로운 friendshipId를 추가하는 메서드
-    private func addNewValueToUserFriends(uid: String, newValue: String) {
-        let databaseRef = Database.database().reference().child("users/\(uid)/friends")
-        print("다음 경로에 추가합니다!!! \(databaseRef)")
-        databaseRef.getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            if var friends = snapshot?.value as? [String] {
-                friends.append(newValue)
-                databaseRef.setValue(friends as NSArray)
-            } else {
-                // 아직 친구가 없는 경우 배열을 새로 만들어준다.
-                var newFriends = []
-                newFriends.append(newValue)
-                databaseRef.setValue(newFriends as NSArray)
             }
         }
     }
