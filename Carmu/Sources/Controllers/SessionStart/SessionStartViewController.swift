@@ -169,7 +169,7 @@ extension SessionStartViewController {
 
             sessionStartMidView.isHidden = false
             sessionStartMidNoGroupView.isHidden = true
-            if selectedGroup.captainId == captainID {   // 운전자인 경우의 처리
+            if selectedGroup.captainID == captainID {   // 운전자인 경우의 처리
                 sessionStartView.journeyTogetherButton.isHidden = false
                 sessionStartView.noRideButton.isHidden = true
                 sessionStartView.participateButton.isHidden = true
@@ -380,7 +380,7 @@ extension SessionStartViewController: UICollectionViewDataSource {
                 groupID: nil,
                 groupName: nil,
                 groupImage: nil,
-                captainId: nil,
+                captainID: nil,
                 sessionDay: nil,
                 crewAndPoint: nil,
                 sessionList: nil,

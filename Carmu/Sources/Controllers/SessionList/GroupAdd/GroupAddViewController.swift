@@ -606,7 +606,7 @@ extension GroupAddViewController {
             groupID: key,
             groupName: groupAddView.textField.text,
             // groupImage 추가 필요
-            captainId: KeychainItem.currentUserIdentifier,
+            captainID: KeychainItem.currentUserIdentifier,
             sessionDay: [1, 2, 3, 4, 5],
             crewAndPoint: crewAndPoint,
             sessionList: [String](),

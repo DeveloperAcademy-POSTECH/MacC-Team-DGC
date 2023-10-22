@@ -26,7 +26,7 @@ struct Group: Codable {
     var groupID: String?
     var groupName: String?
     var groupImage: String?
-    var captainId: String?
+    var captainID: String?
     var sessionDay: [Int]?
     var crewAndPoint: [String: String]?    // [UserID: PointID]
     var sessionList: [String]?  // [Session]
@@ -113,7 +113,7 @@ let groupData: [Group]? = [
         groupID: "1",
         groupName: "그룹 1",
         groupImage: "heart",
-        captainId: "user1",
+        captainID: "user1",
         sessionDay: [2, 3, 4, 5, 6],
         crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3", "user4": "point4"],
         sessionList: nil,
@@ -123,7 +123,7 @@ let groupData: [Group]? = [
         groupID: "2",
         groupName: "그룹 2",
         groupImage: "circle.fill",
-        captainId: "2",
+        captainID: "2",
         sessionDay: [2, 3, 4, 5, 6],
         crewAndPoint: ["user2": "point2", "user3": "point3", "user4": "point4"],
         sessionList: nil,
@@ -133,7 +133,7 @@ let groupData: [Group]? = [
         groupID: "3",
         groupName: "그룹 3",
         groupImage: "square",
-        captainId: "3",
+        captainID: "3",
         sessionDay: [2, 3, 4, 5, 6],
         crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3"],
         sessionList: nil,
