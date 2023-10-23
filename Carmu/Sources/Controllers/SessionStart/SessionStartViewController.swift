@@ -18,7 +18,10 @@ final class SessionStartViewController: UIViewController {
     private let sessionStartView = SessionStartView()
     private let sessionStartMidView = SessionStartMidView()
     private let sessionStartMidNoGroupView = SessionStartMidNoGroupView()
+    private let firebaseManager = FirebaseManager()
     var selectedGroupData: Group?
+
+    var groupList: [Group]?
 
     // CaptainID
     private let captainID = "user1"
@@ -33,6 +36,9 @@ final class SessionStartViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        // MARK: - groupList 불러오기 확인
+        fetchGroupList()
 
         setupUI()
         setupByFrameSize()
@@ -59,6 +65,35 @@ final class SessionStartViewController: UIViewController {
 
 // MARK: Layout
 extension SessionStartViewController {
+
+    func fetchGroupList() {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+
+        // 유저의 그룹 목록을 불러온다.
+        firebaseManager.readGroupID(databasePath: databasePath) { groupIDList in
+            guard let groupIDList = groupIDList else {
+                return
+            }
+            print("Group List ", groupIDList)
+
+            for groupID in groupIDList {
+                self.firebaseManager.getUserGroup(groupID: groupID) { group in
+                    guard let group else {
+                        return
+                    }
+                    if self.groupList == nil {
+                        self.groupList = [Group]()
+                    }
+                    self.groupList?.append(group)
+
+                    print("그룹 목록 --> ", self.groupList as Any)
+                }
+            }
+
+        }
+    }
 
     func setupUI() {
 
