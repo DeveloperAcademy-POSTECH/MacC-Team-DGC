@@ -51,14 +51,6 @@ final class SessionStartViewController: UIViewController {
             for: .touchUpInside
         )
         fetchGroupList()
-
-        // 첫 번째 인덱스의 데이터를 선택한 것처럼 처리
-        if let firstGroup = groupData?.first {
-            handleSelectedGroupData(firstGroup)
-        }
-
-        // 운전자인지 동승자인지 확인
-        setupBottomButton(selectedGroupData)
     }
 }
 
@@ -87,11 +79,13 @@ extension SessionStartViewController {
                     }
                     self.groupData?.append(group)
                     self.sessionStartView.groupCollectionView.reloadData()
-                    print("그룹 목록 --> ", self.groupData as Any)
+                    self.checkGroup()
+                    self.setupBottomButton(self.selectedGroupData)
                 }
             }
-
         }
+        // 운전자인지 동승자인지 확인
+        setupBottomButton(selectedGroupData)
     }
 
     func setupUI() {
@@ -254,6 +248,23 @@ extension SessionStartViewController {
         }
     }
 
+    private func checkGroup() {
+        if let groupData = groupData {  // groupData가 있을 때
+            sessionStartMidView.isHidden = false
+            sessionStartMidNoGroupView.isHidden = true
+
+            // 첫 번째 인덱스의 데이터를 선택한 것처럼 처리
+            if let firstGroup = groupData.first {
+                handleSelectedGroupData(firstGroup)
+            }
+
+        } else {    // groupData가 없을 때
+            sessionStartMidView.isHidden = true
+            sessionStartMidNoGroupView.isHidden = false
+            sessionStartView.journeyTogetherButton.isHidden = false
+        }
+    }
+
     private func sendPush() {
         let functions = Functions.functions()
         guard let databasePath = User.databasePathWithUID else {
@@ -389,6 +400,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         }
 
         let selectedGroup = groupData[indexPath.row]
+        print("Selected ", selectedGroup)
         setupBottomButton(selectedGroup)
         handleSelectedGroupData(selectedGroup)
     }
