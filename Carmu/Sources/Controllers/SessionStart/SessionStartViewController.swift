@@ -21,7 +21,7 @@ final class SessionStartViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
     var selectedGroupData: Group?
 
-    var groupList: [Group]?
+    var groupData: [Group]?
 
     // CaptainID
     private let captainID = "user1"
@@ -82,12 +82,12 @@ extension SessionStartViewController {
                     guard let group else {
                         return
                     }
-                    if self.groupList == nil {
-                        self.groupList = [Group]()
+                    if self.groupData == nil {
+                        self.groupData = [Group]()
                     }
-                    self.groupList?.append(group)
-
-                    print("그룹 목록 --> ", self.groupList as Any)
+                    self.groupData?.append(group)
+                    self.sessionStartView.groupCollectionView.reloadData()
+                    print("그룹 목록 --> ", self.groupData as Any)
                 }
             }
 
