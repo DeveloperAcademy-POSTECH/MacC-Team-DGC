@@ -197,4 +197,47 @@ class FirebaseManager {
             }
         }
     }
+
+    // MARK: - SessionStartView 관련 메서드
+    /**
+        DB에서 유저의 Group 목록(groupList)을 불러오는 메서드
+     */
+    func readGroupID(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
+        databasePath.child("groupList").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            let groups = snapshot?.value as? [String]
+            completion(groups)
+        }
+    }
+
+    // groupList의 uid로 DB에서 그룹 데이터 불러오기
+    func getUserGroup(groupID: String, completion: @escaping (Group?) -> Void) {
+        Database.database().reference().child("group/\(groupID)").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let snapshotValue = snapshot?.value as? [String: Any] else {
+                return
+            }
+            let group = Group(
+                groupID: snapshotValue["groupID"] as? String ?? "",
+                groupName: snapshotValue["groupName"] as? String ?? "",
+                groupImage: snapshotValue["groupImage"] as? String ?? "profile",
+                captainID: snapshotValue["captainID"] as? String ?? "",
+                sessionDay: snapshotValue["sessionDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+                crewAndPoint: snapshotValue["crewAndPoint"] as? [String: String] ?? ["": ""],
+                sessionList: snapshotValue["sessionList"] as? [String] ?? [],
+                accumulateDistance: snapshotValue["accumulateDistance"] as? Int ?? 0
+            )
+            completion(group)
+        }
+
+    }
+
 }

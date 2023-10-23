@@ -90,12 +90,12 @@ final class SessionStartView: UIView {
     }
 
     private func setupGroupData() {
-
-        // 그룹이 없을 때 나타내는 정보들
-        if groupData == nil {
-            journeyTogetherButton.setTitleColor(UIColor.theme.blue3, for: .normal)
-            journeyTogetherButton.backgroundColor = UIColor.semantic.backgroundSecond
-            journeyTogetherButton.isEnabled = false
-        }
+        print("setupGroupData()")
+//        // 그룹이 없을 때 나타내는 정보들
+//        if groupData == nil {
+//            journeyTogetherButton.setTitleColor(UIColor.theme.blue3, for: .normal)
+//            journeyTogetherButton.backgroundColor = UIColor.semantic.backgroundSecond
+//            journeyTogetherButton.isEnabled = false
+//        }
     }
 }

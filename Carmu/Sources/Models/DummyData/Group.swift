@@ -108,38 +108,38 @@ let point4 = Point(
     boardingCrew: ["uuid": "user1"]
 )
 
-let groupData: [Group]? = [
-    Group(
-        groupID: "1",
-        groupName: "그룹 1",
-        groupImage: "heart",
-        captainID: "user1",
-        sessionDay: [2, 3, 4, 5, 6],
-        crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3", "user4": "point4"],
-        sessionList: nil,
-        accumulateDistance: 1000
-    ),
-    Group(
-        groupID: "2",
-        groupName: "그룹 2",
-        groupImage: "circle.fill",
-        captainID: "2",
-        sessionDay: [2, 3, 4, 5, 6],
-        crewAndPoint: ["user2": "point2", "user3": "point3", "user4": "point4"],
-        sessionList: nil,
-        accumulateDistance: 1500
-    ),
-    Group(
-        groupID: "3",
-        groupName: "그룹 3",
-        groupImage: "square",
-        captainID: "3",
-        sessionDay: [2, 3, 4, 5, 6],
-        crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3"],
-        sessionList: nil,
-        accumulateDistance: 2000
-    )
-]
+//    let groupData: [Group]? = [
+//        Group(
+//            groupID: "1",
+//            groupName: "그룹 1",
+//            groupImage: "heart",
+//            captainID: "user1",
+//            sessionDay: [2, 3, 4, 5, 6],
+//            crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3", "user4": "point4"],
+//            sessionList: nil,
+//            accumulateDistance: 1000
+//        ),
+//        Group(
+//            groupID: "2",
+//            groupName: "그룹 2",
+//            groupImage: "circle.fill",
+//            captainID: "2",
+//            sessionDay: [2, 3, 4, 5, 6],
+//            crewAndPoint: ["user2": "point2", "user3": "point3", "user4": "point4"],
+//            sessionList: nil,
+//            accumulateDistance: 1500
+//        ),
+//        Group(
+//            groupID: "3",
+//            groupName: "그룹 3",
+//            groupImage: "square",
+//            captainID: "3",
+//            sessionDay: [2, 3, 4, 5, 6],
+//            crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3"],
+//            sessionList: nil,
+//            accumulateDistance: 2000
+//        )
+//    ]
 
 // 데이터가 없을 때
 // let groupData: [Group]? = nil

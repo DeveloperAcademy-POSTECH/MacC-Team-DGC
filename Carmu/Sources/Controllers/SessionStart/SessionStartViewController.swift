@@ -18,7 +18,10 @@ final class SessionStartViewController: UIViewController {
     private let sessionStartView = SessionStartView()
     private let sessionStartMidView = SessionStartMidView()
     private let sessionStartMidNoGroupView = SessionStartMidNoGroupView()
+    private let firebaseManager = FirebaseManager()
     var selectedGroupData: Group?
+
+    var groupData: [Group]?
 
     // CaptainID
     private let captainID = "user1"
@@ -34,6 +37,7 @@ final class SessionStartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // MARK: - groupList 불러오기 확인
         setupUI()
         setupByFrameSize()
         setupConstraints()
@@ -46,19 +50,43 @@ final class SessionStartViewController: UIViewController {
             action: #selector(inviteJourney),
             for: .touchUpInside
         )
-
-        // 첫 번째 인덱스의 데이터를 선택한 것처럼 처리
-        if let firstGroup = groupData?.first {
-            handleSelectedGroupData(firstGroup)
-        }
-
-        // 운전자인지 동승자인지 확인
-        setupBottomButton(selectedGroupData)
+        fetchGroupList()
     }
 }
 
 // MARK: Layout
 extension SessionStartViewController {
+
+    func fetchGroupList() {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+
+        // 유저의 그룹 목록을 불러온다.
+        firebaseManager.readGroupID(databasePath: databasePath) { groupIDList in
+            guard let groupIDList = groupIDList else {
+                return
+            }
+            print("Group List ", groupIDList)
+
+            for groupID in groupIDList {
+                self.firebaseManager.getUserGroup(groupID: groupID) { group in
+                    guard let group else {
+                        return
+                    }
+                    if self.groupData == nil {
+                        self.groupData = [Group]()
+                    }
+                    self.groupData?.append(group)
+                    self.sessionStartView.groupCollectionView.reloadData()
+                    self.checkGroup()
+                    self.setupBottomButton(self.selectedGroupData)
+                }
+            }
+        }
+        // 운전자인지 동승자인지 확인
+        setupBottomButton(selectedGroupData)
+    }
 
     func setupUI() {
 
@@ -220,6 +248,23 @@ extension SessionStartViewController {
         }
     }
 
+    private func checkGroup() {
+        if let groupData = groupData {  // groupData가 있을 때
+            sessionStartMidView.isHidden = false
+            sessionStartMidNoGroupView.isHidden = true
+
+            // 첫 번째 인덱스의 데이터를 선택한 것처럼 처리
+            if let firstGroup = groupData.first {
+                handleSelectedGroupData(firstGroup)
+            }
+
+        } else {    // groupData가 없을 때
+            sessionStartMidView.isHidden = true
+            sessionStartMidNoGroupView.isHidden = false
+            sessionStartView.journeyTogetherButton.isHidden = false
+        }
+    }
+
     private func sendPush() {
         let functions = Functions.functions()
         guard let databasePath = User.databasePathWithUID else {
@@ -355,6 +400,7 @@ extension SessionStartViewController: UICollectionViewDelegateFlowLayout {
         }
 
         let selectedGroup = groupData[indexPath.row]
+        print("Selected ", selectedGroup)
         setupBottomButton(selectedGroup)
         handleSelectedGroupData(selectedGroup)
     }

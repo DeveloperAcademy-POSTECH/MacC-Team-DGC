@@ -245,7 +245,7 @@ extension FriendAddViewController {
 // MARK: - 서버 푸시 관련 메서드
 extension FriendAddViewController {
 
-    //MARK: - 새로운 친구에게 서버 푸시 알림을 보내는 메서드
+    // MARK: - 새로운 친구에게 서버 푸시 알림을 보내는 메서드
     private func pushToReceiver(friendUID: String) {
         let functions = Functions.functions()
 
