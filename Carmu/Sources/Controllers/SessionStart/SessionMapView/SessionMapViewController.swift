@@ -85,6 +85,12 @@ final class SessionMapViewController: UIViewController {
         showPickuplocations()
         detailView.setDetailView(location: .startingPoint, address: "기숙사 18동") // TODO: 데이터 받아오는 시점으로 이동
         fetchDirections()
+
+        detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
+    }
+
+    @objc private func showNoticeLateModal() {
+        present(NoticeLateViewController(), animated: true)
     }
 
     private func showNaverMap() {
