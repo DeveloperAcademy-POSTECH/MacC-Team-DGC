@@ -106,17 +106,18 @@ class FirebaseManager {
     // MARK: - Point 관련 메서드
     /**
      DB의 Point에 새로운 Point를 추가하는 메서드
+     리턴하는 값은 ViewController에서 관련 값을 세팅하는데 쓰인다.
      */
-    func addPoint(_ pointModel: Point) -> [String: String] {
+    func addPoint(_ pointModel: Point) -> ([String: String], String) {
         guard let key = Database.database().reference().child("point").childByAutoId().key else {
-            return [String: String]()
+            return ([String: String](), "")
         }
         var crewAndPoint = [String: String]()
         var newPoint = pointModel
         newPoint.pointID = key
 
         guard let boardingCrew = newPoint.boardingCrew else {
-            return [String: String]()
+            return ([String: String](), "")
         }
         for (element, _) in boardingCrew {
             crewAndPoint[element] = key
@@ -133,14 +134,14 @@ class FirebaseManager {
             print("Point CREATE fail...", error)
         }
 
-        return crewAndPoint
+        return (crewAndPoint, key)
     }
 
     // MARK: - Group 관련 메서드
     /**
      DB의 Group에 새로운 그룹을 추가하는 메서드
      */
-    func addGroup(_ crewAndPoint: [String: String], _ groupName: String) {
+    func addGroup(crewAndPoint: [String: String], pointIDList: [String], groupName: String) {
         guard let key = Database.database().reference().child("group").childByAutoId().key else {
             return
         }
@@ -153,6 +154,8 @@ class FirebaseManager {
             // groupImage 추가 필요
             captainID: captainID,
             sessionDay: [1, 2, 3, 4, 5],
+            pointList: pointIDList,
+            stopoverCount: pointIDList.count,
             crewAndPoint: crewAndPoint,
             sessionList: [String](),
             accumulateDistance: 0

@@ -166,17 +166,22 @@ extension GroupAddViewController {
     }
 
     @objc private func createCrewButtonTapped(_ sender: UIButton) {
+        var pointIDList = [String]()
         if checkDataEffectiveness() {
             // 주의 : popViewController를 먼저 실행하면, 두 번 값이 업로드 됨
             for element in pointsDataModel {
+                // 0: [userID: pointID], 1: pointID(String)
+                let returnAddPoint = firebaseManager.addPoint(element)
                 crewAndPointDict.merge(
-                    firebaseManager.addPoint(element),
+                    returnAddPoint.0,
                     uniquingKeysWith: { (current, _) in current }
                 )
+                pointIDList.append(returnAddPoint.1)
             }
             firebaseManager.addGroup(
-                crewAndPointDict,
-                groupAddView.textField.text ?? "크루 이름"
+                crewAndPoint: crewAndPointDict,
+                pointIDList: pointIDList,
+                groupName: groupAddView.textField.text ?? "크루 이름"
             )
             navigationController?.popViewController(animated: true)
         }

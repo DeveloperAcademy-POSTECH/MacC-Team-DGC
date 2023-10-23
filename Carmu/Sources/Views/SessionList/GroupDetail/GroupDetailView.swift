@@ -31,7 +31,7 @@ final class GroupDetailView: UIView {
         return button
     }()
 
-    var selectedGroup: DummyGroup?
+    var selectedGroup: Group?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -70,7 +70,7 @@ final class GroupDetailView: UIView {
      Main StackView 설정 (StackView와 TableView를 감싸는 StackView)
      */
     private func topLabelStack() -> UIStackView {
-        let crewNameStack = crewNameLabel(selectedGroup?.groupTitle ?? "배찌의 행복여행")
+        let crewNameStack = crewNameLabel(selectedGroup?.groupName ?? "배찌의 행복여행")
         let distanceLabelStack = distanceLabel(selectedGroup?.accumulateDistance ?? 20)
 
         let mainStackView = UIStackView(arrangedSubviews: [crewNameStack, distanceLabelStack])

@@ -28,6 +28,8 @@ struct Group: Codable {
     var groupImage: String?
     var captainID: String?
     var sessionDay: [Int]?
+    var pointList: [String]?
+    var stopoverCount: Int?
     var crewAndPoint: [String: String]?    // [UserID: PointID]
     var sessionList: [String]?  // [Session]
     var accumulateDistance: Int?
