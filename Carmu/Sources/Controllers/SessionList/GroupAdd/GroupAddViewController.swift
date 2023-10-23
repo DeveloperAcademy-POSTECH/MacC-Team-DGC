@@ -176,8 +176,11 @@ extension GroupAddViewController {
                     returnAddPoint.0,
                     uniquingKeysWith: { (current, _) in current }
                 )
+                print("그룹 추가시 pointIDList에 들어가는 값: ", returnAddPoint.1)
+                print("포인트 추가 후 병합되는 Dictionary: ", crewAndPointDict)
                 pointIDList.append(returnAddPoint.1)
             }
+            print("create 메서드 내부 pointIDList 값: ", pointIDList)
             firebaseManager.addGroup(
                 crewAndPoint: crewAndPointDict,
                 pointIDList: pointIDList,

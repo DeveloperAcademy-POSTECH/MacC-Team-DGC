@@ -55,10 +55,15 @@ extension SessionListViewController {
 
             // 그룹 id 값으로 group의 Data를 받아온다.
             for groupID in groupList {
+                print("readUserGroupList 내부 첫번째 for문 groupID: ", groupID)
                 self.getGroupData(groupID) { groupData in
+                    print("groupData 전")
                     guard let groupData else { return }
+                    print("pointIDList 전")
+                    print("pointIDList: ", groupData.pointList)
                     guard let pointIDList = groupData.pointList else { return }
-                    
+
+                    print("getPointData 전")
                     // 그룹의 id 내부의 pointIDList 값을 가지고 Point 객체 배열을 한꺼번에 불러온다.
                     self.getPointData(pointIDList) { pointDatum in
                         guard let pointDatum else {
@@ -69,14 +74,18 @@ extension SessionListViewController {
                             self.pointList = [pointDatum]
                         } else {
                             self.pointList?.append(pointDatum)
+                            self.sessionListView.tableViewComponent.reloadData()
+                            print("포인트 목록: ", pointDatum)
                         }
-                        self.sessionListView.tableViewComponent.reloadData()
+
                     }
                     // group 객체 추가
                     if self.groupList == nil {
                         self.groupList = [groupData]
                     } else {
                         self.groupList?.append(groupData)
+                        self.sessionListView.tableViewComponent.reloadData()
+                        print("그룹 목록: ", groupData)
                     }
                 }
             }

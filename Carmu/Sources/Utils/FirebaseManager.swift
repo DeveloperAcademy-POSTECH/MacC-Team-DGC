@@ -146,7 +146,7 @@ class FirebaseManager {
             return
         }
         guard let captainID = KeychainItem.currentUserIdentifier else { return }
-
+print("addGroup 내부 포인트아이디리스트: ", pointIDList)
         // DB에 추가할 그룹 객체
         let newGroup = Group(
             groupID: key,
