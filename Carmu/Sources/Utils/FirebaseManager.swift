@@ -108,13 +108,14 @@ class FirebaseManager {
      DB의 Point에 새로운 Point를 추가하는 메서드
      리턴하는 값은 ViewController에서 관련 값을 세팅하는데 쓰인다.
      */
-    func addPoint(_ pointModel: Point) -> ([String: String], String) {
+    func addPoint(_ pointModel: Point, _ sequence: Int) -> ([String: String], String) {
         guard let key = Database.database().reference().child("point").childByAutoId().key else {
             return ([String: String](), "")
         }
         var crewAndPoint = [String: String]()
         var newPoint = pointModel
         newPoint.pointID = key
+        newPoint.pointSequence = sequence
 
         guard let boardingCrew = newPoint.boardingCrew else {
             return ([String: String](), "")

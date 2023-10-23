@@ -14,8 +14,8 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
 
     private let sessionListView = SessionListView()
     private let firebaseManager = FirebaseManager()
-    private var groupList: [Group]?
-    private var pointList: [[Point]]? // 각 그룹의 point를 담아놓는 배열
+    private var groupList = [Group]()
+    private var pointList = [[Point]]() // 각 그룹의 point를 담아놓는 배열
     private var userID: String?
     private var pointIDList: [[String]]?
 
@@ -32,10 +32,14 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
         sessionListView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+
+        fetchDataAndUpdateTableView()
+        print("그룹리스트: \(groupList)")
+        print("포인트리스트: \(pointList)")
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        fetchDataAndUpdateTableView()
         sessionListView.tableViewComponent.reloadData()
     }
 }
@@ -50,44 +54,70 @@ extension SessionListViewController {
         self.userID = databasePath.key
 
         // 유저의 groupList([groupID])를 불러온다.
-        readUserGroupList(databasePath: databasePath) { [self] groupList in
-            guard let groupList else { return }
-
+        readUserGroupList(databasePath: databasePath) { groupList in
+            guard let groupList else {
+                return
+            }
+            print("유저의 그룹ID 리스트 \(groupList)")
             // 그룹 id 값으로 group의 Data를 받아온다.
             for groupID in groupList {
-                print("readUserGroupList 내부 첫번째 for문 groupID: ", groupID)
                 self.getGroupData(groupID) { groupData in
-                    print("groupData 전")
-                    guard let groupData else { return }
-                    print("pointIDList 전")
-                    print("pointIDList: ", groupData.pointList)
-                    guard let pointIDList = groupData.pointList else { return }
-
-                    print("getPointData 전")
-                    // 그룹의 id 내부의 pointIDList 값을 가지고 Point 객체 배열을 한꺼번에 불러온다.
-                    self.getPointData(pointIDList) { pointDatum in
-                        guard let pointDatum else {
-                            return
-                        }
-                        // 2차원 배열에 Point 배열 추가
-                        if self.pointList == nil {
-                            self.pointList = [pointDatum]
-                        } else {
-                            self.pointList?.append(pointDatum)
-                            self.sessionListView.tableViewComponent.reloadData()
-                            print("포인트 목록: ", pointDatum)
-                        }
-
+                    guard let groupData else {
+                        return
                     }
-                    // group 객체 추가
-                    if self.groupList == nil {
-                        self.groupList = [groupData]
-                    } else {
-                        self.groupList?.append(groupData)
-                        self.sessionListView.tableViewComponent.reloadData()
-                        print("그룹 목록: ", groupData)
+                    print("현재 그룹 ID: \(groupID)")
+                    print("현재 그룹 데이터: \(groupData)")
+                    guard let pointIDList = groupData.pointList else {
+                        return
                     }
+                    print("현재 그룹의 경유지ID 리스트: \(pointIDList)")
+
+                    // 그룹의 id 내부의 pointIDList 값을 가지고 Point 객체 배열을 (한꺼번에 불러온다.xXXXx)
+
+                    for (index, pointID) in pointIDList.enumerated() {
+                        print("for문 내부 pointID", pointID)
+
+                        self.getPointData(pointID) { pointData in
+                            guard let pointData = pointData else {
+                                return
+                            }
+                            if self.pointList.isEmpty {
+                                self.pointList.append([pointData])
+                                self.sessionListView.tableViewComponent.reloadData()
+
+                            } else {
+                                let lastIndex = self.pointList.count - 1
+                                self.pointList[lastIndex].append(pointData)
+                                self.sessionListView.tableViewComponent.reloadData()
+                            }
+                        }
+                    }
+                    self.groupList.append(groupData)
+                    self.sessionListView.tableViewComponent.reloadData()
+//                    self.getPointData(pointIDList) { pointDatum in
+//                        guard let pointDatum else {
+//                            return
+//                        }
+//                        // 2차원 배열에 Point 배열 추가
+//                        if self.pointList == nil {
+//                            self.pointList = [pointDatum]
+//                        } else {
+//                            self.pointList?.append(pointDatum)
+//                            self.sessionListView.tableViewComponent.reloadData()
+//                            print("포인트 목록: ", pointDatum)
+//                        }
+//                        print("현재 그룹의 경유지 리스트: \(pointIDList)")
+//                    }
+//                    // group 객체 추가
+//                    if self.groupList == nil {
+//                        self.groupList = [groupData]
+//                    } else {
+//                        self.groupList?.append(groupData)
+//                        self.sessionListView.tableViewComponent.reloadData()
+//                        print("그룹 목록: ", groupData)
+//                    }
                 }
+//                print("그룹ID: \(groupID)")
             }
         }
     }
@@ -121,6 +151,8 @@ extension SessionListViewController {
                 groupImage: snapshotValue["groupImage"] as? String ?? "",
                 captainID: snapshotValue["captainID"] as? String ?? "",
                 sessionDay: snapshotValue["sessionDay"] as? [Int] ?? [Int](),
+                pointList: snapshotValue["pointList"] as? [String] ?? [String](),
+                stopoverCount: snapshotValue["stopoverCount"] as? Int ?? 0,
                 crewAndPoint: snapshotValue["crewAndPoint"] as? [String: String] ?? [String: String](),
                 sessionList: snapshotValue["sessionList"] as? [String] ?? [String](),
                 accumulateDistance: snapshotValue["accumulateDistance"] as? Int ?? 0
@@ -130,34 +162,29 @@ extension SessionListViewController {
         }
     }
 
-    private func getPointData(_ pointList: [String], completion: @escaping ([Point]?) -> Void) {
-        var resultPointList = [Point]()
-        for pointID in pointList {
-            Database.database().reference().child("point/\(pointID)").getData { error, snapshot in
-                if let error = error {
-                    print(error.localizedDescription)
-                    completion(nil)
-                    return
-                }
-                guard let snapshotValue = snapshot?.value as? [String: Any] else {
-                    return
-                }
-                let point = Point(
-                    pointID: snapshotValue["pointID"] as? String ?? "",
-                    pointSequence: snapshotValue["pointSequence"] as? Int ?? 0,
-                    pointName: snapshotValue["pointName"] as? String ?? "",
-                    pointDetailAddress: snapshotValue["pointDetailAddress"] as? String ?? "",
-                    pointArrivalTime: snapshotValue["pointDate"] as? Date ?? Date(),
-                    pointLat: snapshotValue["pointLat"] as? Double ?? 37.5,
-                    pointLng: snapshotValue["pointLng"] as? Double ?? 127.324,
-                    boardingCrew: snapshotValue["boardingCrew"] as? [String: String] ?? [String: String]()
-                )
-                resultPointList.append(point)
-
+    private func getPointData(_ pointID: String, completion: @escaping (Point?) -> Void) {
+        Database.database().reference().child("point/\(pointID)").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
             }
+            guard let snapshotValue = snapshot?.value as? [String: Any] else {
+                return
+            }
+            let point = Point(
+                pointID: snapshotValue["pointID"] as? String ?? "",
+                pointSequence: snapshotValue["pointSequence"] as? Int ?? 0,
+                pointName: snapshotValue["pointName"] as? String ?? "",
+                pointDetailAddress: snapshotValue["pointDetailAddress"] as? String ?? "",
+                pointArrivalTime: snapshotValue["pointDate"] as? Date ?? Date(),
+                pointLat: snapshotValue["pointLat"] as? Double ?? 37.5,
+                pointLng: snapshotValue["pointLng"] as? Double ?? 127.324,
+                boardingCrew: snapshotValue["boardingCrew"] as? [String: String] ?? [String: String]()
+            )
+//            print("포인트 데이터 반환: ", point)
+            completion(point)
         }
-        print("포인트 데이터 반환: ", resultPointList)
-        completion(resultPointList)
     }
 }
 
@@ -169,8 +196,13 @@ extension SessionListViewController {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        guard let groupCount = groupList?.count else { return 1 }
-        return groupCount
+        if groupList.count < 1 {
+            return 1
+        } else {
+            return groupList.count
+        }
+//        return groupCount
+//        return groupList.count
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -187,40 +219,43 @@ extension SessionListViewController {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if groupList?.isEmpty ?? false || pointList?.isEmpty ?? false {
-            // cellData가 비어있지 않을 때 기존의 CustomListTableViewCell을 반환
+        print("groupList.isEmpty : ", groupList.count)
+        print("pointList.isEmpty : ", pointList)
+        print("pointList count: ", pointList.count)
 
-            let groupData = groupList?[indexPath.row]
-            let pointData = pointList?[indexPath.row]
-
-            if let cell = tableView.dequeueReusableCell(
+        if groupList.count > 0 && pointList.count > 0 {
+            guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: "cell",
                 for: indexPath
-            ) as? CustomListTableViewCell {
-                cell.groupName.text = groupData?.groupName
-                cell.startPointLabel.text = pointData?[0].pointName
-                cell.endPointLabel.text = pointData?.last?.pointName
-                cell.startTimeLabel.text = Date.formatTime(pointData?[0].pointArrivalTime)
-                cell.isCaptainBadge.image = {
-                    if self.userID != groupData?.captainID {
-                        UIImage(named: "ImCrewButton")
-                    } else {
-                        UIImage(named: "ImCaptainButton")
-                    }
-                }()
-                cell.crewCount = groupData?.crewAndPoint?.count ?? 2
-                return cell
+            ) as? CustomListTableViewCell else {
+                return UITableViewCell()
             }
+
+            let groupData = groupList[indexPath.section]
+            let pointData = pointList[indexPath.section]
+
+            cell.groupName.text = groupData.groupName
+            cell.startPointLabel.text = pointData.first?.pointName
+            cell.endPointLabel.text = pointData.last?.pointName
+            cell.startTimeLabel.text = Date.formatTime(pointData.first?.pointArrivalTime)
+            cell.isCaptainBadge.image = {
+                if self.userID != groupData.captainID {
+                    UIImage(named: "ImCrewButton")
+                } else {
+                    UIImage(named: "ImCaptainButton")
+                }
+            }()
+            cell.crewCount = groupData.crewAndPoint?.count ?? 2
+            return cell
         } else {
-            // cellData가 비어있을 때 NotFoundCrewTableViewCell을 반환
-            if let cell = tableView.dequeueReusableCell(
+            guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: "notFoundCell",
                 for: indexPath
-            ) as? NotFoundCrewTableViewCell {
-                return cell
+            ) as? NotFoundCrewTableViewCell else {
+                return UITableViewCell()
             }
+            return cell
         }
-        return UITableViewCell()
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

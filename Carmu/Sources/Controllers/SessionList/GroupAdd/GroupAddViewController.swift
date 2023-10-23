@@ -169,9 +169,9 @@ extension GroupAddViewController {
         var pointIDList = [String]()
         if checkDataEffectiveness() {
             // 주의 : popViewController를 먼저 실행하면, 두 번 값이 업로드 됨
-            for element in pointsDataModel {
+            for (index, element) in pointsDataModel.enumerated() {
                 // 0: [userID: pointID], 1: pointID(String)
-                let returnAddPoint = firebaseManager.addPoint(element)
+                let returnAddPoint = firebaseManager.addPoint(element, index)
                 crewAndPointDict.merge(
                     returnAddPoint.0,
                     uniquingKeysWith: { (current, _) in current }
