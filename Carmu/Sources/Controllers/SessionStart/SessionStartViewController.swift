@@ -38,8 +38,6 @@ final class SessionStartViewController: UIViewController {
         super.viewDidLoad()
 
         // MARK: - groupList 불러오기 확인
-        fetchGroupList()
-
         setupUI()
         setupByFrameSize()
         setupConstraints()
@@ -52,6 +50,7 @@ final class SessionStartViewController: UIViewController {
             action: #selector(inviteJourney),
             for: .touchUpInside
         )
+        fetchGroupList()
 
         // 첫 번째 인덱스의 데이터를 선택한 것처럼 처리
         if let firstGroup = groupData?.first {
