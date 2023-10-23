@@ -197,7 +197,7 @@ extension SessionStartViewController {
 
             sessionStartMidView.isHidden = false
             sessionStartMidNoGroupView.isHidden = true
-            if selectedGroup.captainID == captainID {   // 운전자인 경우의 처리
+            if selectedGroup.captainID == KeychainItem.currentUserIdentifier {   // 운전자인 경우의 처리
                 sessionStartView.journeyTogetherButton.isHidden = false
                 sessionStartView.noRideButton.isHidden = true
                 sessionStartView.participateButton.isHidden = true
