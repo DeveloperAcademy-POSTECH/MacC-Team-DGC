@@ -39,7 +39,6 @@ final class SessionMapDetailView: UIView {
 
     private let addressLabel: UILabel = {
         let label = UILabel()
-        label.text = "양덕 농협지점"
         label.font = UIFont.carmuFont.headline1
         label.textColor = UIColor.semantic.textPrimary
         return label
@@ -47,7 +46,6 @@ final class SessionMapDetailView: UIView {
 
     private let pointLabel: UILabel = {
         let label = UILabel()
-        label.text = "출발지"
         label.font = UIFont.carmuFont.subhead1
         label.textColor = UIColor.semantic.textBody
         return label
@@ -70,6 +68,11 @@ final class SessionMapDetailView: UIView {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    func setDetailView(location: PickupLocation, address: String) {
+        pointLabel.text = location.description
+        addressLabel.text = address
     }
 
     private func showTitleLabel() {

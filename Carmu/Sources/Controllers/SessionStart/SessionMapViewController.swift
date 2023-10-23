@@ -29,7 +29,7 @@ struct Points {
 final class SessionMapViewController: UIViewController {
 
     private let mapView = NMFMapView()
-    private let sessionMapDetailView = SessionMapDetailView()
+    private let detailView = SessionMapDetailView()
     // 자동차 위치를 표시하기 위한 마커
     private let carMarker = NMFMarker()
     private let locationManager = CLLocationManager()
@@ -83,12 +83,13 @@ final class SessionMapViewController: UIViewController {
         showBackButton()
         showQuitButton()
         showPickuplocations()
+        detailView.setDetailView(location: .startingPoint, address: "기숙사 18동") // TODO: 데이터 받아오는 시점으로 이동
         fetchDirections()
     }
 
     private func showNaverMap() {
-        view.addSubview(sessionMapDetailView)
-        sessionMapDetailView.snp.makeConstraints { make in
+        view.addSubview(detailView)
+        detailView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
             make.height.equalTo(234)
         }
@@ -96,7 +97,7 @@ final class SessionMapViewController: UIViewController {
         view.addSubview(mapView)
         mapView.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
-            make.bottom.equalTo(sessionMapDetailView.snp.top)
+            make.bottom.equalTo(detailView.snp.top)
         }
     }
 
@@ -141,12 +142,21 @@ final class SessionMapViewController: UIViewController {
     private func showPickuplocations() {
         startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
         startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
+        startingPoint.touchHandler = { (_: NMFOverlay) -> Bool in
+            self.detailView.setDetailView(location: .startingPoint, address: "기숙사 18동")
+            print("startingPoint touched")
+            return true
+        }
         startingPoint.mapView = mapView
 
         if let coordinate = points.pickupLocation1 {
             pickupLocation1.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
             pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
             pickupLocation1.hidden = false
+            pickupLocation1.touchHandler = { (_: NMFOverlay) -> Bool in
+                self.detailView.setDetailView(location: .pickupLocation1, address: "테드집")
+                return true
+            }
             pickupLocation1.mapView = mapView
         }
 
@@ -154,6 +164,10 @@ final class SessionMapViewController: UIViewController {
             pickupLocation2.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
             pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
             pickupLocation2.hidden = false
+            pickupLocation2.touchHandler = { (_: NMFOverlay) -> Bool in
+                self.detailView.setDetailView(location: .pickupLocation2, address: "롯데리아")
+                return true
+            }
             pickupLocation2.mapView = mapView
         }
 
@@ -161,11 +175,19 @@ final class SessionMapViewController: UIViewController {
             pickupLocation3.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
             pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
             pickupLocation3.hidden = false
+            pickupLocation3.touchHandler = { (_: NMFOverlay) -> Bool in
+                self.detailView.setDetailView(location: .pickupLocation3, address: "미정")
+                return true
+            }
             pickupLocation3.mapView = mapView
         }
 
         destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
         destination.iconImage = NMFOverlayImage(name: "destination")
+        destination.touchHandler = { (_: NMFOverlay) -> Bool in
+            self.detailView.setDetailView(location: .destination, address: "애플 디벨로퍼 아카데미")
+            return true
+        }
         destination.mapView = mapView
     }
 
