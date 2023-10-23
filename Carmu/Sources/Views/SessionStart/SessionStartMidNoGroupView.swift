@@ -13,7 +13,7 @@ final class SessionStartMidNoGroupView: UIView {
 
     private lazy var logoImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "heart")
+        imageView.image = UIImage(named: "blinker")
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
