@@ -20,11 +20,10 @@ final class GroupCollectionViewCell: UICollectionViewCell {
                 return
             }
 
-            // TODO: - 추후 systemName을 named로 변경
-            if let imageString = groupData.groupImage, let image = UIImage(systemName: imageString) {
+            if let imageString = groupData.groupImage, let image = UIImage(named: imageString) {
                 groupImage.image = image
             } else {
-                groupImage.contentMode = .scaleAspectFit
+                groupImage.contentMode = .scaleAspectFill
                 groupImage.clipsToBounds = true
                 groupImage.image = UIImage(named: "defaultStoryImage")
             }
