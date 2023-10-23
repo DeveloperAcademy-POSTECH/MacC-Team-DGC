@@ -84,6 +84,7 @@ final class SessionMapViewController: UIViewController {
         showQuitButton()
         showPickuplocations()
         detailView.setDetailView(location: .startingPoint, address: "기숙사 18동") // TODO: 데이터 받아오는 시점으로 이동
+        changeMarkerColor(location: .startingPoint)
         fetchDirections()
 
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
@@ -149,8 +150,7 @@ final class SessionMapViewController: UIViewController {
         startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
         startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
         startingPoint.touchHandler = { (_: NMFOverlay) -> Bool in
-            self.detailView.setDetailView(location: .startingPoint, address: "기숙사 18동")
-            print("startingPoint touched")
+            self.touchMarker(location: .startingPoint, address: "기숙사 18동")
             return true
         }
         startingPoint.mapView = mapView
@@ -160,7 +160,7 @@ final class SessionMapViewController: UIViewController {
             pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
             pickupLocation1.hidden = false
             pickupLocation1.touchHandler = { (_: NMFOverlay) -> Bool in
-                self.detailView.setDetailView(location: .pickupLocation1, address: "테드집")
+                self.touchMarker(location: .pickupLocation1, address: "테드집")
                 return true
             }
             pickupLocation1.mapView = mapView
@@ -171,7 +171,7 @@ final class SessionMapViewController: UIViewController {
             pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
             pickupLocation2.hidden = false
             pickupLocation2.touchHandler = { (_: NMFOverlay) -> Bool in
-                self.detailView.setDetailView(location: .pickupLocation2, address: "롯데리아")
+                self.touchMarker(location: .pickupLocation2, address: "롯데리아")
                 return true
             }
             pickupLocation2.mapView = mapView
@@ -182,7 +182,7 @@ final class SessionMapViewController: UIViewController {
             pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
             pickupLocation3.hidden = false
             pickupLocation3.touchHandler = { (_: NMFOverlay) -> Bool in
-                self.detailView.setDetailView(location: .pickupLocation3, address: "미정")
+                self.touchMarker(location: .pickupLocation3, address: "미정")
                 return true
             }
             pickupLocation3.mapView = mapView
@@ -191,7 +191,7 @@ final class SessionMapViewController: UIViewController {
         destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
         destination.iconImage = NMFOverlayImage(name: "destination")
         destination.touchHandler = { (_: NMFOverlay) -> Bool in
-            self.detailView.setDetailView(location: .destination, address: "애플 디벨로퍼 아카데미")
+            self.touchMarker(location: .destination, address: "애플 디벨로퍼 아카데미")
             return true
         }
         destination.mapView = mapView
@@ -244,6 +244,46 @@ final class SessionMapViewController: UIViewController {
             }
         }
         task.resume()
+    }
+
+    private func touchMarker(location: PickupLocation, address: String) {
+        changeMarkerColor(location: location)
+        detailView.setDetailView(location: location, address: "미정")
+    }
+
+    private func changeMarkerColor(location: PickupLocation) {
+        switch location {
+        case .startingPoint:
+            startingPoint.iconImage = NMFOverlayImage(name: "startingPointTapped")
+            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
+            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
+            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
+            destination.iconImage = NMFOverlayImage(name: "destination")
+        case .pickupLocation1:
+            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
+            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1Tapped")
+            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
+            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
+            destination.iconImage = NMFOverlayImage(name: "destination")
+        case .pickupLocation2:
+            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
+            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
+            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2Tapped")
+            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
+            destination.iconImage = NMFOverlayImage(name: "destination")
+        case .pickupLocation3:
+            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
+            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
+            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
+            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3Tapped")
+            destination.iconImage = NMFOverlayImage(name: "destination")
+        case .destination:
+            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
+            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
+            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
+            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
+            destination.iconImage = NMFOverlayImage(name: "destinationTapped")
+        }
     }
 }
 
