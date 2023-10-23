@@ -7,14 +7,15 @@
 
 import UIKit
 
+import FirebaseDatabase
 import SnapKit
 
 final class GroupAddViewController: UIViewController {
 
-    var groupDataModel: Group = Group()
     var pointsDataModel: [Point] = []
     var friendsList: [User]?
     var selectedList: [String]?
+    private var crewAndPointDict = [String: String]() // Group 생성을 용이하게 하기 위한 변수
     var userImage: [String: UIImage]?
     let groupAddView = GroupAddView()
     private let firebaseManager = FirebaseManager()
@@ -50,7 +51,7 @@ final class GroupAddViewController: UIViewController {
         for index in 0...2 {
             pointsDataModel.append(Point())
             if index == 2 {
-                pointsDataModel[2].boardingCrew = [String]()
+                pointsDataModel[2].boardingCrew = [String: String]()
             }
         }
 
@@ -102,12 +103,12 @@ extension GroupAddViewController {
 
         detailViewController.friendSelectionHandler = { [weak self] selectedFriend in
 
-            var newBoardingCrew = [String]()
+            var newBoardingCrew = [String: String]()
             if selectedFriend.isEmpty {
                 self?.pointsDataModel[indexPath.row].boardingCrew = nil
             } else {
                 for element in selectedFriend {
-                    newBoardingCrew.append(element.nickname)
+                    newBoardingCrew[element.id] = element.nickname
                 }
                 self?.pointsDataModel[indexPath.row].boardingCrew = newBoardingCrew
             }
@@ -165,8 +166,18 @@ extension GroupAddViewController {
     }
 
     @objc private func createCrewButtonTapped(_ sender: UIButton) {
-        checkDataEffectiveness()
-        if shouldPopViewController {
+        if checkDataEffectiveness() {
+            // 주의 : popViewController를 먼저 실행하면, 두 번 값이 업로드 됨
+            for element in pointsDataModel {
+                crewAndPointDict.merge(
+                    firebaseManager.addPoint(element),
+                    uniquingKeysWith: { (current, _) in current }
+                )
+            }
+            firebaseManager.addGroup(
+                crewAndPointDict,
+                groupAddView.textField.text ?? "크루 이름"
+            )
             navigationController?.popViewController(animated: true)
         }
     }
@@ -245,11 +256,11 @@ extension GroupAddViewController {
         }
     }
 
-    private func checkDataEffectiveness() {
-        if emptyDataCheck() {
-            timeEffectivenessCheck()
+    private func checkDataEffectiveness() -> Bool {
+        if emptyDataCheck() && timeEffectivenessCheck() {
+            return true
         }
-        shouldPopViewController = true
+        return false
     }
 
     // 빈 값을 체크해주는 메서드
@@ -295,7 +306,7 @@ extension GroupAddViewController {
     }
 
     // 시간 유효성을 체크해주는 메서드
-    private func timeEffectivenessCheck() {
+    private func timeEffectivenessCheck() -> Bool {
         for (index, element) in pointsDataModel.enumerated() {
             if index == 0 { continue }
 
@@ -314,10 +325,10 @@ extension GroupAddViewController {
                         다시 설정해주세요!
                         """
                 )
-                shouldPopViewController = false
-                return
+                return false
             }
         }
+        return true
     }
 
     private func returnPointName(_ index: Int) -> String {
@@ -345,7 +356,7 @@ extension GroupAddViewController {
             guard let pointSelectedUser = element.boardingCrew else { continue }
 
             friendList = friendList.filter { friendElement in
-                return !pointSelectedUser.contains(friendElement.nickname)
+                return !pointSelectedUser.values.contains(friendElement.nickname)
             }
         }
         return friendList
@@ -359,7 +370,7 @@ extension GroupAddViewController {
         guard let friendList = self.friendsList else { return [User]() }
 
         let selectedFriend = friendList.filter { element in
-            return boardingCrew.contains(element.nickname)
+            return boardingCrew.values.contains(element.nickname)
         }
 
         return selectedFriend
@@ -432,7 +443,8 @@ extension GroupAddViewController: UITableViewDataSource {
             cell.startTime.setTitle(formattedTime, for: .normal)
         }
         if let boardingCrew = pointsDataModel[indexPath.row].boardingCrew {
-            configureBoardingCrewContent(for: cell, with: boardingCrew)
+            let boardingCrewValues = Array(boardingCrew.values)
+            configureBoardingCrewContent(for: cell, with: boardingCrewValues)
         }
     }
 

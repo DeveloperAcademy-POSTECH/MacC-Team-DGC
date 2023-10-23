@@ -65,7 +65,6 @@
 		C904D1562AD5786A008BF5CE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1552AD5786A008BF5CE /* User.swift */; };
 		C904D1582AD57942008BF5CE /* Friendship.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1572AD57942008BF5CE /* Friendship.swift */; };
 		C904D15C2AD57ACB008BF5CE /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D15B2AD57ACB008BF5CE /* Point.swift */; };
-		C904D15E2AD57AD8008BF5CE /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D15D2AD57AD8008BF5CE /* Crew.swift */; };
 		C904D1612AD57AE8008BF5CE /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1602AD57AE8008BF5CE /* Group.swift */; };
 		C904D1632AD57B21008BF5CE /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1622AD57B21008BF5CE /* Session.swift */; };
 		C904D1652AD597C8008BF5CE /* DummyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1642AD597C8008BF5CE /* DummyData.swift */; };
@@ -153,7 +152,6 @@
 		C904D1552AD5786A008BF5CE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C904D1572AD57942008BF5CE /* Friendship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friendship.swift; sourceTree = "<group>"; };
 		C904D15B2AD57ACB008BF5CE /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
-		C904D15D2AD57AD8008BF5CE /* Crew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
 		C904D1602AD57AE8008BF5CE /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		C904D1622AD57B21008BF5CE /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		C904D1642AD597C8008BF5CE /* DummyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyData.swift; sourceTree = "<group>"; };
@@ -428,7 +426,6 @@
 				C904D1552AD5786A008BF5CE /* User.swift */,
 				C904D1572AD57942008BF5CE /* Friendship.swift */,
 				C904D15B2AD57ACB008BF5CE /* Point.swift */,
-				C904D15D2AD57AD8008BF5CE /* Crew.swift */,
 				C904D1602AD57AE8008BF5CE /* Group.swift */,
 				C904D1622AD57B21008BF5CE /* Session.swift */,
 			);
@@ -687,7 +684,6 @@
 				B8DD15EE2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift in Sources */,
 				B8DD15E02AD4677800685E48 /* FriendListTableViewCell.swift in Sources */,
 				16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */,
-				C904D15E2AD57AD8008BF5CE /* Crew.swift in Sources */,
 				C9DE7C332AC01B3C005AFCC6 /* CustomListTableViewCell.swift in Sources */,
 				1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,

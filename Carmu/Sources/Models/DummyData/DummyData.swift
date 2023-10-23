@@ -107,7 +107,6 @@ struct DummyData {
         )
     ]
     static var points: [Point] = []
-    static var crews: [Crew] = []
     static var groups: [Group] = []
     static var sessions: [Session] = []
 }
