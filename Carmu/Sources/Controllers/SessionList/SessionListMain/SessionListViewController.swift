@@ -17,13 +17,11 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
     private var groupList: [Group]?
     private var pointList: [[Point]]? // 각 그룹의 point를 담아놓는 배열
     private var userID: String?
-    private var pointIDList = [[String]]()
+    private var pointIDList: [[String]]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-
-        fetchDataAndUpdateTableView()
 
         sessionListView.tableViewComponent.dataSource = self
         sessionListView.tableViewComponent.delegate = self
@@ -35,69 +33,53 @@ final class SessionListViewController: UIViewController, UITableViewDataSource, 
             make.edges.equalToSuperview()
         }
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        fetchDataAndUpdateTableView()
+        sessionListView.tableViewComponent.reloadData()
+    }
 }
 
 // MARK: - Firebase
 extension SessionListViewController {
 
     private func fetchDataAndUpdateTableView() {
-        let dispatchGroup = DispatchGroup()
-
         guard let databasePath = User.databasePathWithUID else {
             return
         }
+        self.userID = databasePath.key
 
-        dispatchGroup.enter()
+        // 유저의 groupList([groupID])를 불러온다.
         readUserGroupList(databasePath: databasePath) { [self] groupList in
-            guard let groupList else {
-                dispatchGroup.leave()
-                return
-            }
-            self.userID = databasePath.key
+            guard let groupList else { return }
 
+            // 그룹 id 값으로 group의 Data를 받아온다.
             for groupID in groupList {
-                dispatchGroup.enter()
                 self.getGroupData(groupID) { groupData in
-                    guard let groupData else {
-                        dispatchGroup.leave()
-                        return
-                    }
-                    if self.groupList == nil { self.groupList = [Group]() }
-                    self.groupList?.append(groupData)
-                    self.pointIDList.append(groupData.pointList ?? [String]())
-                    dispatchGroup.leave()
-
-                    print("세션리스트 그룹리스트 내부: ", self.groupList)
-                    print("getGroupData 내부 포인트 id 개수 :", self.pointIDList.count)
-                    print("포인트 id 개수 :", self.pointIDList.count)
-                    for index in 0..<self.pointIDList.count {
-                        dispatchGroup.enter()
-                        self.getPointData(self.pointIDList[index]) { pointDatum in
-                            guard let pointDatum else {
-                                dispatchGroup.leave()
-                                return
-                            }
-                            if self.pointList == nil { self.pointList = [[Point]]() }
-                            self.pointList?.append(pointDatum)
-                            dispatchGroup.leave()
-
-                            print("세션리스트 getpointdata 내부 ", pointDatum)
+                    guard let groupData else { return }
+                    guard let pointIDList = groupData.pointList else { return }
+                    
+                    // 그룹의 id 내부의 pointIDList 값을 가지고 Point 객체 배열을 한꺼번에 불러온다.
+                    self.getPointData(pointIDList) { pointDatum in
+                        guard let pointDatum else {
+                            return
                         }
-
+                        // 2차원 배열에 Point 배열 추가
+                        if self.pointList == nil {
+                            self.pointList = [pointDatum]
+                        } else {
+                            self.pointList?.append(pointDatum)
+                        }
+                        self.sessionListView.tableViewComponent.reloadData()
+                    }
+                    // group 객체 추가
+                    if self.groupList == nil {
+                        self.groupList = [groupData]
+                    } else {
+                        self.groupList?.append(groupData)
                     }
                 }
-                print("세션리스트 그룹리스트: ", self.groupList)
-                print("getGroupData 내부 포인트 id 개수 :", self.pointIDList.count)
             }
-
-
-
-            dispatchGroup.leave()
-        }
-
-        dispatchGroup.notify(queue: .main) {
-            // 여기에서 모든 비동기 작업이 완료됨
-            self.sessionListView.tableViewComponent.reloadData()
         }
     }
 
@@ -195,27 +177,29 @@ extension SessionListViewController {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let groupData = groupList?[indexPath.row]
-        let pointData = pointList?[indexPath.row]
 
-        if let groupData, let pointData {
+        if groupList?.isEmpty ?? false || pointList?.isEmpty ?? false {
             // cellData가 비어있지 않을 때 기존의 CustomListTableViewCell을 반환
+
+            let groupData = groupList?[indexPath.row]
+            let pointData = pointList?[indexPath.row]
+
             if let cell = tableView.dequeueReusableCell(
                 withIdentifier: "cell",
                 for: indexPath
             ) as? CustomListTableViewCell {
-                cell.groupName.text = groupData.groupName
-                cell.startPointLabel.text = pointData[0].pointName
-                cell.endPointLabel.text = pointData.last?.pointName
-                cell.startTimeLabel.text = Date.formatTime(pointData[0].pointArrivalTime)
+                cell.groupName.text = groupData?.groupName
+                cell.startPointLabel.text = pointData?[0].pointName
+                cell.endPointLabel.text = pointData?.last?.pointName
+                cell.startTimeLabel.text = Date.formatTime(pointData?[0].pointArrivalTime)
                 cell.isCaptainBadge.image = {
-                    if self.userID != groupData.captainID {
+                    if self.userID != groupData?.captainID {
                         UIImage(named: "ImCrewButton")
                     } else {
                         UIImage(named: "ImCaptainButton")
                     }
                 }()
-                cell.crewCount = groupData.crewAndPoint?.count ?? 2
+                cell.crewCount = groupData?.crewAndPoint?.count ?? 2
                 return cell
             }
         } else {
