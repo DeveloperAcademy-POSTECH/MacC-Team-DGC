@@ -26,7 +26,7 @@ struct Group: Codable {
     var groupID: String?
     var groupName: String?
     var groupImage: String?
-    var captainId: String?
+    var captainID: String?
     var sessionDay: [Int]?
     var crewAndPoint: [String: String]?    // [UserID: PointID]
     var sessionList: [String]?  // [Session]
@@ -75,7 +75,7 @@ let point1 = Point(
     pointArrivalTime: Date(),
     pointLat: 37.123456,
     pointLng: -122.123456,
-    boardingCrew: ["user1"]
+    boardingCrew: ["UUID": "user1"]
 )
 let point2 = Point(
     pointID: "point2",
@@ -85,7 +85,7 @@ let point2 = Point(
     pointArrivalTime: Date(),
     pointLat: 37.654321,
     pointLng: -122.654321,
-    boardingCrew: ["user2", "user3"]
+    boardingCrew: ["uuid": "user2", "UUID": "user3"]
 )
 let point3 = Point(
     pointID: "point3",
@@ -95,7 +95,7 @@ let point3 = Point(
     pointArrivalTime: Date(),
     pointLat: 37.987654,
     pointLng: -122.987654,
-    boardingCrew: ["user3"]
+    boardingCrew: ["uuid": "user3"]
 )
 let point4 = Point(
     pointID: "point4",
@@ -105,7 +105,7 @@ let point4 = Point(
     pointArrivalTime: Date(),
     pointLat: 37.987654,
     pointLng: -122.987654,
-    boardingCrew: ["user1"]
+    boardingCrew: ["uuid": "user1"]
 )
 
 let groupData: [Group]? = [
@@ -113,7 +113,7 @@ let groupData: [Group]? = [
         groupID: "1",
         groupName: "그룹 1",
         groupImage: "heart",
-        captainId: "user1",
+        captainID: "user1",
         sessionDay: [2, 3, 4, 5, 6],
         crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3", "user4": "point4"],
         sessionList: nil,
@@ -123,7 +123,7 @@ let groupData: [Group]? = [
         groupID: "2",
         groupName: "그룹 2",
         groupImage: "circle.fill",
-        captainId: "2",
+        captainID: "2",
         sessionDay: [2, 3, 4, 5, 6],
         crewAndPoint: ["user2": "point2", "user3": "point3", "user4": "point4"],
         sessionList: nil,
@@ -133,7 +133,7 @@ let groupData: [Group]? = [
         groupID: "3",
         groupName: "그룹 3",
         groupImage: "square",
-        captainId: "3",
+        captainID: "3",
         sessionDay: [2, 3, 4, 5, 6],
         crewAndPoint: ["user1": "point1", "user2": "point2", "user3": "point3"],
         sessionList: nil,
