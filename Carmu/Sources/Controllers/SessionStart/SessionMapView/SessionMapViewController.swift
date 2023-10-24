@@ -285,6 +285,32 @@ final class SessionMapViewController: UIViewController {
             destination.iconImage = NMFOverlayImage(name: "destinationTapped")
         }
     }
+
+    // Toast 알림 띄워주기
+    func showToast(_ message: String, withDuration: Double, delay: Double) {
+        let toastLabel = UILabel(frame: CGRect(
+            x: (self.view.frame.size.width - 360) / 2,
+            y: 100,
+            width: 350,
+            height: 60)
+        )
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.7)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        toastLabel.textAlignment = .center
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 16
+        toastLabel.clipsToBounds  =  true
+
+        self.view.addSubview(toastLabel)
+
+        UIView.animate(withDuration: withDuration, delay: delay, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: {(_) in
+            toastLabel.removeFromSuperview()
+        })
+    }
 }
 
 extension SessionMapViewController: CLLocationManagerDelegate {
