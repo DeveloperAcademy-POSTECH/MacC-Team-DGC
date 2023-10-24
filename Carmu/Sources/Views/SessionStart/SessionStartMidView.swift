@@ -290,16 +290,18 @@ extension SessionStartMidView {
 
     // 데이터가 들어있는 가운데 부분에 관한 Constraints
     private func setupDataConstraints() {
-        startLocationLabel.snp.makeConstraints { make in
-            make.leading.lessThanOrEqualToSuperview().inset(20)
-            make.width.lessThanOrEqualTo(115)
-        }
         arrowLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalTo(startLocationLabel)
         }
+        startLocationLabel.snp.makeConstraints { make in
+            make.leading.lessThanOrEqualToSuperview().inset(20)
+            make.trailing.equalTo(arrowLabel.snp.leading).offset(20)
+            make.width.lessThanOrEqualTo(115)
+        }
         endLocationLabel.snp.makeConstraints { make in
-            make.trailing.trailing.lessThanOrEqualToSuperview().inset(20)
+            make.leading.equalTo(arrowLabel.snp.trailing).offset(20)
+            make.trailing.equalToSuperview().inset(20)
             make.width.lessThanOrEqualTo(115)
         }
 
