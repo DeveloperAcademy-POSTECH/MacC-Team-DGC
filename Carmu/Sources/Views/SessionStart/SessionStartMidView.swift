@@ -290,16 +290,18 @@ extension SessionStartMidView {
 
     // 데이터가 들어있는 가운데 부분에 관한 Constraints
     private func setupDataConstraints() {
-        startLocationLabel.snp.makeConstraints { make in
-            make.leading.lessThanOrEqualToSuperview().inset(20)
-            make.width.lessThanOrEqualTo(115)
-        }
         arrowLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalTo(startLocationLabel)
         }
+        startLocationLabel.snp.makeConstraints { make in
+            make.leading.lessThanOrEqualToSuperview().inset(20)
+            make.trailing.equalTo(arrowLabel.snp.leading).offset(20)
+            make.width.lessThanOrEqualTo(115)
+        }
         endLocationLabel.snp.makeConstraints { make in
-            make.trailing.trailing.lessThanOrEqualToSuperview().inset(20)
+            make.leading.equalTo(arrowLabel.snp.trailing).offset(20)
+            make.trailing.equalToSuperview().inset(20)
             make.width.lessThanOrEqualTo(115)
         }
 
@@ -363,10 +365,10 @@ extension SessionStartMidView {
             dayLabel.text = "주중 (월 ~ 금)"
 
             // TODO: - 데이터 들어오면 해당 부분 설정
-            startLocationLabel.text = "파베 형식"
-            endLocationLabel.text = "맞추기 !!"
-            startTime.text = "00:00"
-            endTime.text = "00:00"
+            startLocationLabel.text = "포항역"
+            endLocationLabel.text = "C5"
+            startTime.text = "08:00"
+            endTime.text = "09:00"
 //            startLocationLabel.text = selectedGroup.crewAndPoint?.first?.value
 //            endLocationLabel.text = selectedGroup.crewAndPoint?
 //            startTime.text = Date.formatTime(selectedGroup.crewAndPoint?.first?.1.pointArrivalTime)
