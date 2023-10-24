@@ -23,9 +23,6 @@ final class SessionStartViewController: UIViewController {
 
     var groupData: [Group]?
 
-    // CaptainID
-    private let captainID = "user1"
-
     // 기기 크기에 따른 collectionView 높이 설정
     private var collectionViewHeight: CGFloat = 0
     private var collectionViewWidth: CGFloat = 0
@@ -197,7 +194,8 @@ extension SessionStartViewController {
 
             sessionStartMidView.isHidden = false
             sessionStartMidNoGroupView.isHidden = true
-            if selectedGroup.captainID == KeychainItem.currentUserIdentifier {   // 운전자인 경우의 처리
+
+            if let currentUserID = KeychainItem.currentUserIdentifier, selectedGroup.captainID == currentUserID {
                 sessionStartView.journeyTogetherButton.isHidden = false
                 sessionStartView.noRideButton.isHidden = true
                 sessionStartView.participateButton.isHidden = true

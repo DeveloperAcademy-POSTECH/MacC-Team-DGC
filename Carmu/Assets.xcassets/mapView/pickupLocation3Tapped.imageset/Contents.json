@@ -1,7 +1,6 @@
 {
   "images" : [
     {
-      "filename" : "blinker.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -10,6 +9,7 @@
       "scale" : "2x"
     },
     {
+      "filename" : "pickupLocation3Tapped.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
