@@ -363,10 +363,10 @@ extension SessionStartMidView {
             dayLabel.text = "주중 (월 ~ 금)"
 
             // TODO: - 데이터 들어오면 해당 부분 설정
-            startLocationLabel.text = "파베 형식"
-            endLocationLabel.text = "맞추기 !!"
-            startTime.text = "00:00"
-            endTime.text = "00:00"
+            startLocationLabel.text = "포항역"
+            endLocationLabel.text = "C5"
+            startTime.text = "08:00"
+            endTime.text = "09:00"
 //            startLocationLabel.text = selectedGroup.crewAndPoint?.first?.value
 //            endLocationLabel.text = selectedGroup.crewAndPoint?
 //            startTime.text = Date.formatTime(selectedGroup.crewAndPoint?.first?.1.pointArrivalTime)
