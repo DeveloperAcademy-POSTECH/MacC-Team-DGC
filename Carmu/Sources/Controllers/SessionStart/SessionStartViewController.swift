@@ -145,7 +145,7 @@ extension SessionStartViewController {
             sessionStartView.journeyTogetherButton.setTitle("바로 시작하기", for: .normal)
             isInviteJourneyClicked = true
             // MARK: - 친구 목록에 있는 사람들에게 서버 푸시 알림 보내기
-            sendPush()
+//            sendPush()
         }
     }
 
@@ -194,6 +194,7 @@ extension SessionStartViewController {
 
             sessionStartMidView.isHidden = false
             sessionStartMidNoGroupView.isHidden = true
+
             if let currentUserID = KeychainItem.currentUserIdentifier, selectedGroup.captainID == currentUserID {
                 sessionStartView.journeyTogetherButton.isHidden = false
                 sessionStartView.noRideButton.isHidden = true
