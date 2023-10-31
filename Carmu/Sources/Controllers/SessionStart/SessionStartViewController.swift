@@ -29,7 +29,6 @@ final class SessionStartViewController: UIViewController {
     private var buttonHeight: CGFloat = 60
 
     private var isInviteJourneyClicked = false
-    private var friendDeviceToken: [String] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -285,13 +284,12 @@ extension SessionStartViewController {
                         guard let friend = friend else {
                             return
                         }
-                        self.friendDeviceToken.append(friend.deviceToken)
-                        print("친구들 Device Token : ", self.friendDeviceToken)
-
+                        // TODO: - 본인의 디바이스 토큰값이 없을 때에도 진동이 울리는 지 확인
                         // Functions 호출
+                        print("친구들 device token --> ", friend.deviceToken)
                         functions
-                            .httpsCallable("open_session")
-                            .call(["tokens": self.friendDeviceToken]) { (result, error) in
+                            .httpsCallable("journeyStartNotification")
+                            .call(["token": friend.deviceToken]) { (result, error) in
                             if let error = error {
                                 print("Error calling Firebase Functions: \(error.localizedDescription)")
                             } else {
