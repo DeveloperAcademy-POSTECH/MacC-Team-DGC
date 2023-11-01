@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InviteCodeInputViewController: UIViewController {
+final class InviteCodeInputViewController: UIViewController {
 
     private let inviteCodeInputView = InviteCodeInputView()
 
@@ -18,6 +18,20 @@ class InviteCodeInputViewController: UIViewController {
         inviteCodeInputView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        inviteCodeInputView.nextButton.addTarget(
+            self,
+            action: #selector(nextButtonTapped),
+            for: .touchUpInside
+        )
+    }
+}
+
+extension InviteCodeInputViewController {
+    // @objc Method
+    @objc private func nextButtonTapped() {
+        // TODO: 코드 유효성 텍스트 라벨 표시 로직 추가 필요
+        inviteCodeInputView.conformCodeLabel.isHidden = false
     }
 }
 
