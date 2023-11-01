@@ -13,6 +13,8 @@ final class SessionStartMidNoGroupView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .blue
+        print("MidNoGroup()")
     }
 
     required init?(coder: NSCoder) {

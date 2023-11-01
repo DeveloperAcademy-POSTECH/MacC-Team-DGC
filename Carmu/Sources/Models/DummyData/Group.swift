@@ -142,4 +142,4 @@ let point4 = Point(
 //    ]
 
 // 데이터가 없을 때
-// let groupData: [Group]? = nil
+ let groupData: [Group]? = nil
