@@ -44,6 +44,7 @@ final class SettingsViewController: UIViewController {
         settingsView.settingsTableView.dataSource = self
         settingsView.settingsTableView.delegate = self
     }
+
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
@@ -287,6 +288,7 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
             }
         }
     }
+
     // MARK: - 인증 플로우가 정상적으로 끝나지 않았거나, credential이 존재하지 않을 때 호출
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("인증이 정상적으로 마무리되지 않음: \(error.localizedDescription)")

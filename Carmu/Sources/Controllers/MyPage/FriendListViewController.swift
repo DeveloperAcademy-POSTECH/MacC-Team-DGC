@@ -65,6 +65,7 @@ final class FriendListViewController: UIViewController {
             }
         }
     }
+
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.backButtonTitle = ""
         navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
@@ -88,6 +89,7 @@ final class FriendListViewController: UIViewController {
 
 // MARK: @objc 메서드
 extension FriendListViewController {
+
     // [친구추가] 내비게이션 바 버튼 클릭 시 동작
     @objc private func showFriendAddView() {
         let friendAddVC = FriendAddViewController()
@@ -98,17 +100,21 @@ extension FriendListViewController {
 
 // MARK: - UITableViewDataSource 델리게이트 구현
 extension FriendListViewController: UITableViewDataSource {
+
     // 섹션 당 셀의 개수
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
+
     // 섹션의 개수
     func numberOfSections(in tableView: UITableView) -> Int {
         return friendList.count
     }
+
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return " "
     }
+
     // 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
@@ -139,14 +145,17 @@ extension FriendListViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate 델리게이트 구현
 extension FriendListViewController: UITableViewDelegate {
+
     // 각 섹션 사이의 간격
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 0
     }
+
     // 각 셀의 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 74
     }
+
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let friendDetailVC = FriendDetailViewController()

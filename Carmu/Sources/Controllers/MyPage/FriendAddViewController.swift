@@ -83,10 +83,12 @@ final class FriendAddViewController: UIViewController {
 
 // MARK: - @objc 메서드
 extension FriendAddViewController {
+
     // 상단 닫기 버튼 클릭 시 동작
     @objc private func closeFriendAddView() {
         self.dismiss(animated: true)
     }
+
     // [검색] 버튼을 눌렀을 때 동작
     @objc private func performFriendSearch() {
         dismissTextField()
@@ -105,10 +107,12 @@ extension FriendAddViewController {
             self.friendAddView.searchedFriendTableView.reloadData()
         }
     }
+
     // 텍스트필드 clear 버튼 눌렀을 때 동작
     @objc private func clearButtonPressed() {
         friendAddView.friendSearchTextField.text = ""
     }
+
     // 텍스트 필드 비활성화 시 동작
     @objc private func dismissTextField() {
         friendAddView.textFieldUtilityView.isHidden = true
@@ -116,6 +120,7 @@ extension FriendAddViewController {
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 1.0
         friendAddView.friendSearchTextField.resignFirstResponder() // 최초 응답자 해제
     }
+
     // [친구 추가하기] 버튼 눌렀을 때 동작
     @objc private func sendFriendRequest() {
         print("친구 추가하기 버튼 클릭됨")
@@ -139,6 +144,7 @@ extension FriendAddViewController {
         }
         showFriendRequestAlert()
     }
+
     // 키보드가 나타날 때 호출되는 메서드
     @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
@@ -153,6 +159,7 @@ extension FriendAddViewController {
             )
         }
     }
+
     // 키보드가 사라질 때 호출되는 메서드
     @objc private func keyboardWillHide(notification: Notification) {
         self.friendAddView.friendAddButton.transform = .identity
@@ -184,12 +191,14 @@ extension FriendAddViewController {
 
 // MARK: - UITextFieldDelegate 델리게이트 구현
 extension FriendAddViewController: UITextFieldDelegate {
+
     // 텍스트 필드의 편집이 시작될 때 호출되는 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
         friendAddView.friendSearchTextFieldView.backgroundColor = UIColor.semantic.backgroundSecond
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 0
         friendAddView.textFieldUtilityView.isHidden = false
     }
+
     // 리턴 키를 눌렀을 때 호출되는 메서드
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         dismissTextField()
@@ -213,13 +222,16 @@ extension FriendAddViewController: UITextFieldDelegate {
 
 // MARK: - UITableViewDataSource 델리게이트 구현
 extension FriendAddViewController: UITableViewDataSource {
+
     // 셀의 개수 1개
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
+
     // 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let searchedFriend = searchedFriend {
@@ -258,10 +270,12 @@ extension FriendAddViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate 델리게이트 구현
 extension FriendAddViewController: UITableViewDelegate {
+
     // 각 셀의 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 74
     }
+
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

@@ -13,10 +13,12 @@ import FirebaseDatabase
 import SnapKit
 
 final class LoginViewController: UIViewController {
+
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
     private var currentNonce: String?
     private let loginView = LoginView()
     private let firebaseManager = FirebaseManager()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -29,6 +31,7 @@ final class LoginViewController: UIViewController {
 }
 // MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerDelegate {
+
     // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
     func authorizationController(
         controller: ASAuthorizationController,
@@ -86,6 +89,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("애플 로그인 실패: \(error.localizedDescription)")
     }
+
     private func saveUserInKeychain(_ userIdentifier: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             return
@@ -112,15 +116,19 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
         }
     }
 }
+
 // MARK: - 로그인 UI 표시 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
+
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
 }
+
 // MARK: - Firebase 인증 관련 익스텐션
 /// https://firebase.google.com/docs/auth/ios/apple?hl=ko 참고
 extension LoginViewController {
+
     // MARK: - 애플 로그인 버튼 클릭 시 동작
     @available(iOS 13, *)
     @objc private func startSignInWithAppleFlow() {
@@ -136,6 +144,7 @@ extension LoginViewController {
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
     }
+
     // MARK: - 암호화된 nonce 생성 함수
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
@@ -153,6 +162,7 @@ extension LoginViewController {
         }
         return String(nonce)
     }
+
     // MARK: - SHA256 해시 함수
     @available(iOS 13, *)
     private func sha256(_ input: String) -> String {
