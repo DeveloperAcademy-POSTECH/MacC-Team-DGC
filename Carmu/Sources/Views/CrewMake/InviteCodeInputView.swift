@@ -9,8 +9,8 @@ import UIKit
 
 final class InviteCodeInputView: UIView {
 
-    private let firstLineTitleStack = UIStackView()
-    private let secondLineTitleStack = UIStackView()
+    private lazy var firstLineTitleStack = UIStackView()
+    private lazy var secondLineTitleStack = UIStackView()
 
     private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "운전자에게 ")
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "공유")
