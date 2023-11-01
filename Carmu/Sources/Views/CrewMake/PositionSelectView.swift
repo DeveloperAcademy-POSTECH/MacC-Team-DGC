@@ -28,14 +28,36 @@ final class PositionSelectView: UIView {
     let selectDriverButton = LargeSelectButton(
         topTitle: "운전자",
         bottomTitle: "여정 만들기",
-        imageName: "SelectPositionDriver"
+        imageName: "PositionSelectDriver"
     )
 
     let selectCrewButton = LargeSelectButton(
         topTitle: "동승자",
         bottomTitle: "여정 합류하기",
-        imageName: "SelectPositionCrew"
+        imageName: "PositionSelectCrew"
     )
+
+    private var explainLabel1: UILabel = {
+        let label = UILabel()
+        label.text = "여정의 전반적인\n과정을 계획합니다."
+        label.textAlignment = .center
+
+        label.numberOfLines = 2
+        label.font = UIFont.carmuFont.body1
+        label.textColor = UIColor.semantic.textBody
+        return label
+    }()
+
+    private lazy var explainLabel2: UILabel = {
+        let label = UILabel()
+        label.text = "운전자에게 초대링크를 받아\n여정에 합류합니다."
+        label.textAlignment = .center
+
+        label.numberOfLines = 2
+        label.font = UIFont.carmuFont.body1
+        label.textColor = UIColor.semantic.textBody
+        return label
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -59,6 +81,8 @@ final class PositionSelectView: UIView {
         addSubview(titleLabel5)
         addSubview(selectDriverButton)
         addSubview(selectCrewButton)
+        addSubview(explainLabel1)
+        addSubview(explainLabel2)
     }
 
     func setAutoLayout() {
@@ -105,9 +129,19 @@ final class PositionSelectView: UIView {
         selectCrewButton.snp.makeConstraints { make in
             make.right.equalToSuperview().offset(-20)
             make.top.equalTo(titleLabel4.snp.bottom).offset(120)
-            make.left.greaterThanOrEqualTo(2)
+            make.left.greaterThanOrEqualTo(selectDriverButton.snp.right).offset(2)
             make.width.equalTo(165)
             make.height.equalTo(240)
+        }
+
+        explainLabel1.snp.makeConstraints { make in
+            make.centerX.equalTo(selectDriverButton.snp.centerX)
+            make.top.equalTo(selectDriverButton.snp.bottom).offset(16)
+        }
+
+        explainLabel2.snp.makeConstraints { make in
+            make.centerX.equalTo(selectCrewButton.snp.centerX)
+            make.top.equalTo(selectCrewButton.snp.bottom).offset(16)
         }
     }
 }
