@@ -285,11 +285,11 @@
 			children = (
 				BF37D9CC2AB939A3005331AD /* AppDelegate.swift */,
 				BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */,
-				BF4A12452ABED8B500EC1B6D /* Extensions */,
-				C95C07AC2AE0BB3E007E7589 /* Utils */,
-				16E42CDE2AC47E790031486E /* Models */,
-				BF9BCFE62ACDCBEE009DAECD /* Views */,
 				BF5F3C4E2ABD779A004AFC73 /* Controllers */,
+				BF4A12452ABED8B500EC1B6D /* Extensions */,
+				16E42CDE2AC47E790031486E /* Models */,
+				C95C07AC2AE0BB3E007E7589 /* Utils */,
+				BF9BCFE62ACDCBEE009DAECD /* Views */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
