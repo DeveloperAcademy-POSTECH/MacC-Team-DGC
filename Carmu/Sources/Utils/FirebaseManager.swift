@@ -130,6 +130,24 @@ class FirebaseManager {
         }
     }
 
+    /**
+     uid와 friendship id를 받아서 유저의 특정 friendship 정보를 삭제해주는 메서드
+     */
+    func deleteUserFriendship(uid: String, friendshipID: String) {
+        let databaseRef = Database.database().reference().child("users/\(uid)/friends")
+        databaseRef.getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            if var friends = snapshot?.value as? [String] {
+                // 배열에서 friendshipID 값을 제거하고, 해당 값으로 업데이트 해준다.
+                friends = friends.filter { $0 != friendshipID }
+                databaseRef.setValue(friends as NSArray)
+            }
+        }
+    }
+
     // MARK: - 파이어베이스 Storage 관련 메서드
     /**
      파이어베이스 Storage에서 유저 이미지 불러오기

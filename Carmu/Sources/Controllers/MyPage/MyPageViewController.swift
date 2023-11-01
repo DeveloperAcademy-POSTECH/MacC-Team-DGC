@@ -7,10 +7,6 @@
 
 import UIKit
 
-import FirebaseAuth
-import FirebaseDatabase
-import FirebaseStorage
-
 // MARK: - 내 정보 탭 화면 뷰 컨트롤러
 final class MyPageViewController: UIViewController {
 
