@@ -373,9 +373,7 @@ extension SessionStartMidView {
 //            endLocationLabel.text = selectedGroup.crewAndPoint?
 //            startTime.text = Date.formatTime(selectedGroup.crewAndPoint?.first?.1.pointArrivalTime)
 //            endTime.text = Date.formatTime(selectedGroup.crewAndPoint?.last?.1.pointArrivalTime)
-            if let count = selectedGroup.crewAndPoint?.count {
-                personLabel.text = "\(count) 명"
-            }
+            personLabel.text = "\(selectedGroup.crews.count) 명"
             commentUnderLineView.text = "오늘도 즐거운 여정을 시작해 보세요!"
             groupNameLabel.text = selectedGroup.name
 

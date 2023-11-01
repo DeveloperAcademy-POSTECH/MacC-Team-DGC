@@ -236,7 +236,7 @@ extension FirebaseManager {
                 return
             }
             let friend = User(
-                id: snapshotValue["id"] as? String ?? "",
+                id: snapshotValue["id"] as? UserIdentifier ?? "",
                 deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
                 email: snapshotValue["email"] as? String,
@@ -298,7 +298,7 @@ extension FirebaseManager {
                 if dict["nickname"] as? String == searchNickname {
                     print("\(searchNickname)이(가) 검색되었습니다!!!")
                     let searchedFriend = User(
-                        id: dict["id"] as? String ?? "",
+                        id: dict["id"] as? UserIdentifier ?? "",
                         deviceToken: dict["deviceToken"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
                         email: dict["email"] as? String,
@@ -392,10 +392,7 @@ extension FirebaseManager {
             name: groupName,
             // groupImage 추가 필요
             captainID: captainID,
-            sessionDay: [1, 2, 3, 4, 5],
-            crewAndPoint: crewAndPoint,
-            accumulateDistance: 0
-
+            crews: []
         )
         setGroupToUser(captainID, key)
         for (crewKey, _) in crewAndPoint {
@@ -472,13 +469,10 @@ extension FirebaseManager {
                 return
             }
             let group = Group(
-                id: snapshotValue["groupID"] as? String ?? "",
-                name: snapshotValue["groupName"] as? String ?? "",
-                image: snapshotValue["groupImage"] as? String ?? "profile",
+                id: snapshotValue["id"] as? String ?? "",
+                name: snapshotValue["name"] as? String ?? "",
                 captainID: snapshotValue["captainID"] as? String ?? "",
-                sessionDay: snapshotValue["sessionDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                crewAndPoint: snapshotValue["crewAndPoint"] as? [String: String] ?? ["": ""],
-                accumulateDistance: snapshotValue["accumulateDistance"] as? Int ?? 0
+                crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""]
             )
             completion(group)
         }

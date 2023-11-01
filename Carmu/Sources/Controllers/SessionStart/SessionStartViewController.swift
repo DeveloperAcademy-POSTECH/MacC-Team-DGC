@@ -351,17 +351,6 @@ extension SessionStartViewController: UICollectionViewDataSource {
         if indexPath.row < groupData?.count ?? 0 {
             // 데이터가 존재하는 경우, 해당 데이터를 표시
             cell?.groupData = groupData?[indexPath.row]
-        } else {
-            // 데이터가 없는 경우, 기본 값을 설정
-            cell?.groupData = Group(
-                id: nil,
-                name: nil,
-                image: nil,
-                captainID: nil,
-                sessionDay: nil,
-                crewAndPoint: nil,
-                accumulateDistance: nil
-            )
         }
         print("Group Data -> ", cell?.groupData as Any)
         return cell ?? UICollectionViewCell()
