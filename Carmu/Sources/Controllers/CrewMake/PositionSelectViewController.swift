@@ -24,7 +24,7 @@ final class PositionSelectViewController: UIViewController {
 // MARK: - 프리뷰 canvas 세팅
 import SwiftUI
 
-struct PositionSelectViewControllerRepresentable: UIViewControllerRepresentable {
+struct PSViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = PositionSelectViewController
     func makeUIViewController(context: Context) -> PositionSelectViewController {
         return PositionSelectViewController()

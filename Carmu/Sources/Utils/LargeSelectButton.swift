@@ -7,6 +7,9 @@
 
 import UIKit
 
+/**
+ 생성화면에서 운전자/동승자 선택 버튼, 경유지 네/아니오 버튼 컴포넌트
+ */
 final class LargeSelectButton: UIButton {
 
     private let iconImageView: UIImageView = {
@@ -66,6 +69,22 @@ final class LargeSelectButton: UIButton {
         bottomTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(iconImageView.snp.bottom).offset(25)
             make.centerX.equalToSuperview()
+        }
+    }
+
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                // 버튼이 하이라이트 상태일 때 색상
+                backgroundColor = UIColor.semantic.accPrimary
+                topTitleLabel.textColor = UIColor.semantic.textSecondary
+                bottomTitleLabel.textColor = UIColor.semantic.textSecondary
+            } else {
+                // 버튼이 하이라이트 상태가 아닐 때 원래 색상으로 변경
+                backgroundColor = UIColor.semantic.backgroundDefault
+                topTitleLabel.textColor = UIColor.semantic.textPrimary
+                bottomTitleLabel.textColor = UIColor.semantic.textPrimary
+            }
         }
     }
 

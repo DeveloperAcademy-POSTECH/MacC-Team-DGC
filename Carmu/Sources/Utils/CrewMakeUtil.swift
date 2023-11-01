@@ -7,7 +7,13 @@
 
 import UIKit
 
+/**
+ 주요 화면 상단에 표시되는 타이틀 텍스트의 Util
+ */
 final class CrewMakeUtil {
+    /**
+     textPrimary색 제목
+     */
     static func defalutTitle(titleText: String) -> UILabel {
         let titleLabel = UILabel()
         titleLabel.text = titleText
@@ -16,6 +22,9 @@ final class CrewMakeUtil {
         return titleLabel
     }
 
+    /**
+     accPrimary색 제목
+     */
     static func accPrimaryTitle(titleText: String) -> UILabel {
         let titleLabel = UILabel()
         titleLabel.text = titleText

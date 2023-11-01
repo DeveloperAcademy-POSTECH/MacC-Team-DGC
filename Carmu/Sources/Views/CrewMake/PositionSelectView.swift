@@ -25,13 +25,13 @@ final class PositionSelectView: UIView {
     private var titleLabel4 = CrewMakeUtil.accPrimaryTitle(titleText: "포지션")
     private var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "을 설정해주세요")
 
-    let selectDriverButton = LargeSelectButton(
+    private let selectDriverButton = LargeSelectButton(
         topTitle: "운전자",
         bottomTitle: "여정 만들기",
         imageName: "PositionSelectDriver"
     )
 
-    let selectCrewButton = LargeSelectButton(
+    private let selectCrewButton = LargeSelectButton(
         topTitle: "동승자",
         bottomTitle: "여정 합류하기",
         imageName: "PositionSelectCrew"
@@ -41,7 +41,6 @@ final class PositionSelectView: UIView {
         let label = UILabel()
         label.text = "여정의 전반적인\n과정을 계획합니다."
         label.textAlignment = .center
-
         label.numberOfLines = 2
         label.font = UIFont.carmuFont.body1
         label.textColor = UIColor.semantic.textBody
@@ -52,7 +51,6 @@ final class PositionSelectView: UIView {
         let label = UILabel()
         label.text = "운전자에게 초대링크를 받아\n여정에 합류합니다."
         label.textAlignment = .center
-
         label.numberOfLines = 2
         label.font = UIFont.carmuFont.body1
         label.textColor = UIColor.semantic.textBody
@@ -72,7 +70,7 @@ final class PositionSelectView: UIView {
         setAutoLayout()
     }
 
-    func setupViews() {
+    private func setupViews() {
         addSubview(skipButton)
         addSubview(titleLabel1)
         addSubview(titleLabel2)
@@ -85,7 +83,7 @@ final class PositionSelectView: UIView {
         addSubview(explainLabel2)
     }
 
-    func setAutoLayout() {
+    private func setAutoLayout() {
         skipButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12)
             make.right.equalToSuperview().offset(-20)
@@ -152,6 +150,6 @@ import SwiftUI
 @available(iOS 13.0.0, *)
 struct PositionSelectViewPreview: PreviewProvider {
     static var previews: some View {
-        PositionSelectViewControllerRepresentable()
+        PSViewControllerRepresentable()
     }
 }
