@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // 로그인한 사용자가 있는지 체크
         if Auth.auth().currentUser != nil {
-            window.rootViewController = MainTabBarViewController()
+            window.rootViewController = SessionStartViewController()
         } else {
             window.rootViewController = LoginViewController()
         }

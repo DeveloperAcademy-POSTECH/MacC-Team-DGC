@@ -69,8 +69,8 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             if let currentUser = Auth.auth().currentUser {
                 self.saveToDB(user: currentUser)
             }
-            // 로그인 성공 시 메인 탭 바 뷰로 이동
-            let mainTabBarView = MainTabBarViewController()
+            // 로그인 성공 시 여정화면으로 이동
+            let mainTabBarView = SessionStartViewController()
             // present() 애니메이션 커스텀 (오른쪽->왼쪽)
             let transition = CATransition()
             transition.duration = 0.3
