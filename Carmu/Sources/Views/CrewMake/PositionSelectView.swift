@@ -19,11 +19,19 @@ final class PositionSelectView: UIView {
         return skipButton
     }()
 
-    lazy var titleLabel1 = TitleUtil.defalutTitle(titleText: "함께하는 ")
-    lazy private var titleLabel2 = TitleUtil.accPrimaryTitle(titleText: "카풀")
-    lazy private var titleLabel3 = TitleUtil.defalutTitle(titleText: "에서의")
-    lazy private var titleLabel4 = TitleUtil.accPrimaryTitle(titleText: "포지션")
-    lazy private var titleLabel5 = TitleUtil.defalutTitle(titleText: "을 설정해주세요")
+    private var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "함께하는 ")
+    private var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "카풀")
+    private var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "에서의")
+    private var titleLabel4 = CrewMakeUtil.accPrimaryTitle(titleText: "포지션")
+    private var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "을 설정해주세요")
+
+    var selectDriverButton: UIButton = {
+
+    }()
+
+    var selectDriverButton: UIButton = {
+
+    }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -83,6 +91,9 @@ final class PositionSelectView: UIView {
     }
 }
 
+extension PositionSelectView {
+    private func 
+}
 // Preview
 import SwiftUI
 
