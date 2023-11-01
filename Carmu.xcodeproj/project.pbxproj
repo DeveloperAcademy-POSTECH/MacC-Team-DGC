@@ -61,7 +61,6 @@
 		BFFA10B42AE62FAF003CE661 /* NoticeLateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */; };
 		C904D1562AD5786A008BF5CE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1552AD5786A008BF5CE /* User.swift */; };
 		C904D1582AD57942008BF5CE /* Friendship.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1572AD57942008BF5CE /* Friendship.swift */; };
-		C904D15C2AD57ACB008BF5CE /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D15B2AD57ACB008BF5CE /* Point.swift */; };
 		C904D1612AD57AE8008BF5CE /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1602AD57AE8008BF5CE /* Group.swift */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
@@ -129,7 +128,6 @@
 		BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateView.swift; sourceTree = "<group>"; };
 		C904D1552AD5786A008BF5CE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C904D1572AD57942008BF5CE /* Friendship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friendship.swift; sourceTree = "<group>"; };
-		C904D15B2AD57ACB008BF5CE /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		C904D1602AD57AE8008BF5CE /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
@@ -370,7 +368,6 @@
 			children = (
 				C904D1552AD5786A008BF5CE /* User.swift */,
 				C904D1572AD57942008BF5CE /* Friendship.swift */,
-				C904D15B2AD57ACB008BF5CE /* Point.swift */,
 				C904D1602AD57AE8008BF5CE /* Group.swift */,
 			);
 			path = DummyData;
@@ -537,7 +534,6 @@
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
-				C904D1632AD57B21008BF5CE /* Session.swift in Sources */,
 				BF0C33022AE50AFB00A6D8FE /* SessionMapDetailView.swift in Sources */,
 				BF0C33092AE5239700A6D8FE /* TimeDataView.swift in Sources */,
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
@@ -572,7 +568,6 @@
 				16DBA63F2AC1D5B900315ED7 /* GroupCollectionViewCell.swift in Sources */,
 				C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,
-				C904D15C2AD57ACB008BF5CE /* Point.swift in Sources */,
 				C904D1582AD57942008BF5CE /* Friendship.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

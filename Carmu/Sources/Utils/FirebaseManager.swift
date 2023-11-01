@@ -486,44 +486,6 @@ extension FirebaseManager {
     }
 }
 
-// MARK: - 포인트 관련 파이어베이스 메서드
-extension FirebaseManager {
-
-    /**
-     DB의 Point에 새로운 Point를 추가하는 메서드
-     - 호출되는 곳
-        - XXX
-     */
-    func addPoint(_ pointModel: Point) -> [String: String] {
-        guard let key = Database.database().reference().child("point").childByAutoId().key else {
-            return [String: String]()
-        }
-        var crewAndPoint = [String: String]()
-        var newPoint = pointModel
-        newPoint.pointID = key
-
-        guard let boardingCrew = newPoint.boardingCrew else {
-            return [String: String]()
-        }
-        for (element, _) in boardingCrew {
-            crewAndPoint[element] = key
-        }
-        do {
-            let data = try JSONEncoder().encode(newPoint)
-            let json = try JSONSerialization.jsonObject(with: data)
-            let childUpdates: [String: Any] = [
-                "point/\(key)": json
-            ]
-            Database.database().reference().updateChildValues(childUpdates)
-            print("포인트 값이 저장됨. 키: \(key)")
-        } catch {
-            print("Point CREATE fail...", error)
-        }
-
-        return crewAndPoint
-    }
-}
-
 // MARK: - 파이어베이스 Storage 관련 메서드
 extension FirebaseManager {
 
