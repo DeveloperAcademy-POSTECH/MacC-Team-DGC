@@ -11,7 +11,7 @@ final class SessionStartView: UIView {
         return btn
     }()
 
-    private lazy var topComment: UILabel = {
+    lazy var topComment: UILabel = {
         let lbl = UILabel()
         lbl.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         lbl.font = UIFont.carmuFont.headline2
