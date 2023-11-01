@@ -25,13 +25,17 @@ final class PositionSelectView: UIView {
     private var titleLabel4 = CrewMakeUtil.accPrimaryTitle(titleText: "포지션")
     private var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "을 설정해주세요")
 
-    var selectDriverButton: UIButton = {
+    let selectDriverButton = LargeSelectButton(
+        topTitle: "운전자",
+        bottomTitle: "여정 만들기",
+        imageName: "SelectPositionDriver"
+    )
 
-    }()
-
-    var selectDriverButton: UIButton = {
-
-    }()
+    let selectCrewButton = LargeSelectButton(
+        topTitle: "동승자",
+        bottomTitle: "여정 합류하기",
+        imageName: "SelectPositionCrew"
+    )
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -53,6 +57,8 @@ final class PositionSelectView: UIView {
         addSubview(titleLabel3)
         addSubview(titleLabel4)
         addSubview(titleLabel5)
+        addSubview(selectDriverButton)
+        addSubview(selectCrewButton)
     }
 
     func setAutoLayout() {
@@ -88,12 +94,24 @@ final class PositionSelectView: UIView {
             make.top.equalTo(titleLabel2.snp.bottom)
             make.left.equalTo(titleLabel4.snp.right)
         }
+
+        selectDriverButton.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(20)
+            make.top.equalTo(titleLabel4.snp.bottom).offset(120)
+            make.width.equalTo(165)
+            make.height.equalTo(240)
+        }
+
+        selectCrewButton.snp.makeConstraints { make in
+            make.right.equalToSuperview().offset(-20)
+            make.top.equalTo(titleLabel4.snp.bottom).offset(120)
+            make.left.greaterThanOrEqualTo(2)
+            make.width.equalTo(165)
+            make.height.equalTo(240)
+        }
     }
 }
 
-extension PositionSelectView {
-    private func 
-}
 // Preview
 import SwiftUI
 
