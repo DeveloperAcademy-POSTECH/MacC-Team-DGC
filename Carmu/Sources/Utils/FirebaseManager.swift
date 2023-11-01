@@ -14,6 +14,54 @@ class FirebaseManager {
 
     // MARK: - User 관련 메서드
     /**
+     DB에서 유저의 nickname을 불러오는 메서드
+     */
+    func readNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
+        databasePath.child("nickname").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            let nickname = snapshot?.value as? String
+            completion(nickname)
+        }
+    }
+
+    /**
+     DB 유저 정보에 이미지 경로 저장
+     */
+    func addImageUrlToDB(imageURL: String?) {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        guard let imageURL = imageURL else {
+            databasePath.child("imageURL").setValue(nil)
+            return
+        }
+        databasePath.child("imageURL").setValue(imageURL as NSString)
+    }
+
+    /**
+     DB에서 유저 이미지 경로 불러오기
+     */
+    func readProfileImageURL(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
+        databasePath.child("imageURL").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                completion(nil)
+                return
+            }
+            guard let snapshotValue = snapshot?.value else {
+                completion(nil)
+                return
+            }
+            let imageURL = snapshotValue as? String
+            completion(imageURL)
+        }
+    }
+
+    /**
      DB에서 유저의 friendID 목록을 불러오는 메서드
      */
     func readUserFriendshipList(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
@@ -82,7 +130,7 @@ class FirebaseManager {
         }
     }
 
-    // TODO: - MyPageViewController와 중복되는 메서드 -> 정리 필요함
+    // MARK: - 파이어베이스 Storage 관련 메서드
     /**
      파이어베이스 Storage에서 유저 이미지 불러오기
      */
@@ -100,6 +148,43 @@ class FirebaseManager {
                 return
             }
             completion(UIImage(data: imageData))
+        }
+    }
+
+    /**
+     파이어베이스 Storage에 이미지 업로드
+     */
+    func uploadImageToStorage(image: UIImage, imageName: String, completion: @escaping (URL?) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.4) else {
+            return
+        }
+        let metaData = StorageMetadata()
+        metaData.contentType = "image/jpeg"
+
+        // 파이어베이스 Storage에 대한 참조
+        let firebaseStorageRef = Storage.storage().reference().child("images/\(imageName)")
+        firebaseStorageRef.putData(imageData, metadata: metaData) { _, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            firebaseStorageRef.downloadURL { url, _ in
+                completion(url)
+            }
+        }
+    }
+
+    /**
+     파이어베이스 Storage에서 유저 이미지 삭제하기
+     */
+    func deleteProfileImage(imageName: String) {
+        let firebaseStorageRef = Storage.storage().reference().child("images/\(imageName)")
+        firebaseStorageRef.delete { error in
+            if let error = error {
+                print("이미지 삭제에 실패했습니다.", error.localizedDescription)
+            } else {
+                print("이미지가 성공적으로 삭제되었습니다.")
+            }
         }
     }
 
