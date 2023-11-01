@@ -32,6 +32,22 @@ final class LargeSelectButton: UIButton {
         return label
     }()
 
+    override var isHighlighted: Bool {
+        didSet {
+            if isHighlighted {
+                // 버튼이 하이라이트 상태일 때 색상
+                backgroundColor = UIColor.semantic.accPrimary
+                topTitleLabel.textColor = UIColor.semantic.textSecondary
+                bottomTitleLabel.textColor = UIColor.semantic.textSecondary
+            } else {
+                // 버튼이 하이라이트 상태가 아닐 때 원래 색상으로 변경
+                backgroundColor = UIColor.semantic.backgroundDefault
+                topTitleLabel.textColor = UIColor.semantic.textPrimary
+                bottomTitleLabel.textColor = UIColor.semantic.textPrimary
+            }
+        }
+    }
+
     init(topTitle: String, bottomTitle: String, imageName: String) {
         super.init(frame: .zero)
 
@@ -69,22 +85,6 @@ final class LargeSelectButton: UIButton {
         bottomTitleLabel.snp.makeConstraints { make in
             make.top.equalTo(iconImageView.snp.bottom).offset(25)
             make.centerX.equalToSuperview()
-        }
-    }
-
-    override var isHighlighted: Bool {
-        didSet {
-            if isHighlighted {
-                // 버튼이 하이라이트 상태일 때 색상
-                backgroundColor = UIColor.semantic.accPrimary
-                topTitleLabel.textColor = UIColor.semantic.textSecondary
-                bottomTitleLabel.textColor = UIColor.semantic.textSecondary
-            } else {
-                // 버튼이 하이라이트 상태가 아닐 때 원래 색상으로 변경
-                backgroundColor = UIColor.semantic.backgroundDefault
-                topTitleLabel.textColor = UIColor.semantic.textPrimary
-                bottomTitleLabel.textColor = UIColor.semantic.textPrimary
-            }
         }
     }
 
