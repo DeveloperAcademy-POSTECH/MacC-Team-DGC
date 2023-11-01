@@ -1003,7 +1003,7 @@
 			repositoryURL = "https://github.com/jaemyeong/NMapsMap";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.16.2;
+				minimumVersion = 3.17.0;
 			};
 		};
 		BFE876B62AC809A300573B92 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
