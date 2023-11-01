@@ -9,17 +9,17 @@ import UIKit
 
 class InviteCodeInputView: UIView {
 
-    private var firstLineTitleStack = UIStackView()
-    private var secondLineTitleStack = UIStackView()
+    private let firstLineTitleStack = UIStackView()
+    private let secondLineTitleStack = UIStackView()
 
-    private var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "운전자에게 ")
-    private var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "공유")
-    private var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "받은")
-    private var titleLabel4 = CrewMakeUtil.accPrimaryTitle(titleText: "초대코드")
-    private var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "를 입력해주세요")
+    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "운전자에게 ")
+    private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "공유")
+    private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "받은")
+    private lazy var titleLabel4 = CrewMakeUtil.accPrimaryTitle(titleText: "초대코드")
+    private lazy var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "를 입력해주세요")
 
     // MARK: - 텍스트 필드 배경
-    lazy var codeSearchTextFieldView: UIView = {
+    private lazy var codeSearchTextFieldView: UIView = {
         let friendSearchTextFieldView = UIView()
         friendSearchTextFieldView.layer.cornerRadius = 20
         friendSearchTextFieldView.layer.borderWidth = 1.0
@@ -55,6 +55,38 @@ class InviteCodeInputView: UIView {
         return clearButton
     }()
 
+    lazy var conformCodeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "확인되었습니다. 즐거운 카풀 여정되세요!"
+        label.font = UIFont.carmuFont.body1
+        label.textColor = UIColor.semantic.textTeriary
+        label.isHidden = true
+        return label
+    }()
+
+    lazy var rejectCodeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "초대코드가 잘못되었어요. 확인 후 다시 입력해주세요."
+        label.font = UIFont.carmuFont.body1
+        label.textColor = UIColor.semantic.textNewCrew
+        label.isHidden = true
+        return label
+    }()
+
+    lazy var nextButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("여정 알리기", for: .normal)
+        button.backgroundColor = UIColor.semantic.accPrimary
+        button.titleLabel?.font = UIFont.carmuFont.headline2
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.setBackgroundImage(
+            UIImage(color: UIColor.semantic.textSecondary ?? .white),
+            for: .highlighted
+        )
+        button.layer.cornerRadius = 30
+        return button
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
@@ -81,12 +113,15 @@ class InviteCodeInputView: UIView {
         secondLineTitleStack.addArrangedSubview(titleLabel4)
         secondLineTitleStack.addArrangedSubview(titleLabel5)
 
+        codeSearchTextFieldView.addSubview(codeSearchTextField)
+        codeSearchTextFieldView.addSubview(clearButton)
+
         addSubview(firstLineTitleStack)
         addSubview(secondLineTitleStack)
         addSubview(codeSearchTextFieldView)
-
-        codeSearchTextFieldView.addSubview(codeSearchTextField)
-        codeSearchTextFieldView.addSubview(clearButton)
+        addSubview(conformCodeLabel)
+        addSubview(rejectCodeLabel)
+        addSubview(nextButton)
     }
 
     private func setAutoLayout() {
@@ -117,6 +152,22 @@ class InviteCodeInputView: UIView {
             make.leading.equalTo(codeSearchTextField.snp.trailing).offset(20)
             make.verticalEdges.equalToSuperview().inset(10)
             make.trailing.equalToSuperview()
+        }
+
+        conformCodeLabel.snp.makeConstraints { make in
+            make.top.equalTo(codeSearchTextFieldView.snp.bottom).offset(8)
+            make.leading.equalToSuperview().inset(40)
+        }
+
+        rejectCodeLabel.snp.makeConstraints { make in
+            make.top.equalTo(codeSearchTextFieldView.snp.bottom).offset(8)
+            make.leading.equalToSuperview().inset(40)
+        }
+
+        nextButton.snp.makeConstraints { make in
+            make.bottom.equalTo(safeAreaLayoutGuide.snp.bottom).inset(60)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(60)
         }
     }
 }
