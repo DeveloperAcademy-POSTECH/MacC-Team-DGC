@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BoardingPointSelectView: UIView {
+final class BoardingPointSelectView: UIView {
 
     private lazy var firstLineTitleStack = UIStackView()
     private lazy var secondLineTitleStack = UIStackView()
@@ -30,6 +30,16 @@ class BoardingPointSelectView: UIView {
         )
         button.layer.cornerRadius = 30
         return button
+    }()
+
+    lazy var selectTableStack = UIStackView()
+
+    lazy var colorLineView = CrewMakeUtil.createColorLineView()
+
+    lazy var customTableView: UIStackView = {
+        let stack = UIStackView()
+        stack.layer.borderWidth = 1
+        return stack
     }()
 
     override init(frame: CGRect) {
@@ -58,9 +68,13 @@ class BoardingPointSelectView: UIView {
         secondLineTitleStack.addArrangedSubview(titleLabel4)
         secondLineTitleStack.addArrangedSubview(titleLabel5)
 
+        selectTableStack.addArrangedSubview(colorLineView)
+        selectTableStack.addArrangedSubview(customTableView)
+
         addSubview(firstLineTitleStack)
         addSubview(secondLineTitleStack)
         addSubview(nextButton)
+        addSubview(selectTableStack)
     }
 
     private func setAutoLayout() {
@@ -73,6 +87,19 @@ class BoardingPointSelectView: UIView {
         secondLineTitleStack.snp.makeConstraints { make in
             make.top.equalTo(firstLineTitleStack.snp.bottom)
             make.leading.equalToSuperview().inset(20)
+        }
+
+        selectTableStack.snp.makeConstraints { make in
+            make.bottom.equalTo(nextButton.snp.top).offset(-60)
+            make.top.equalTo(secondLineTitleStack.snp.bottom).offset(66)
+            make.top.greaterThanOrEqualTo(secondLineTitleStack.snp.bottom).offset(50)
+            make.bottom.greaterThanOrEqualTo(nextButton.snp.top).offset(50)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
+        colorLineView.snp.makeConstraints { make in
+            make.verticalEdges.equalToSuperview()
+            make.width.equalTo(12)
         }
 
         nextButton.snp.makeConstraints { make in

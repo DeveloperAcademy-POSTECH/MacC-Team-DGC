@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BoardingPointSelectViewController: UIViewController {
+final class BoardingPointSelectViewController: UIViewController {
 
     private let boardingPointSelectView = BoardingPointSelectView()
 
