@@ -154,7 +154,6 @@ class FirebaseManager {
             captainID: captainID,
             sessionDay: [1, 2, 3, 4, 5],
             crewAndPoint: crewAndPoint,
-            sessionList: [String](),
             accumulateDistance: 0
 
         )
@@ -232,7 +231,6 @@ class FirebaseManager {
                 captainID: snapshotValue["captainID"] as? String ?? "",
                 sessionDay: snapshotValue["sessionDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                 crewAndPoint: snapshotValue["crewAndPoint"] as? [String: String] ?? ["": ""],
-                sessionList: snapshotValue["sessionList"] as? [String] ?? [],
                 accumulateDistance: snapshotValue["accumulateDistance"] as? Int ?? 0
             )
             completion(group)

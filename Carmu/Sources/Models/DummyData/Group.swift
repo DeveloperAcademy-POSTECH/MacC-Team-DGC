@@ -16,7 +16,6 @@ id, name 등은 무조건적으로 값이 들어오지만, collectionView에서 
  id : 캡틴의 user_id. 캡틴이 방을 생성하기 때문에 옵셔널 X
  crewAndPoint : 크루원과 해당 크루원이 동승할 지점. 첫 번째는 '캡틴: 출발지', 마지막은 '캡틴: 도착지'로 지정이기 때문에 옵셔널 X
  sessionDay: 세션이 시작하는 요일이기 때문에, 옵셔널 X (현재 기본값은 월 ~금으로 지정)
- sessionList : 해당 그룹의 세션에 대한 리스트
  accumulate_distance : 이 크루가 진행한 세션의 총 누적 거리(세션이 끝날 때 마다 더해줌.)
  -> 여유가 된다면, captain - crew 간의 friendship에 accumulate_distance 추가해줘야 함.
 
@@ -29,6 +28,5 @@ struct Group: Codable {
     var captainID: String?
     var sessionDay: [Int]?
     var crewAndPoint: [String: String]?    // [UserID: PointID]
-    var sessionList: [String]?  // [Session]
     var accumulateDistance: Int?
 }

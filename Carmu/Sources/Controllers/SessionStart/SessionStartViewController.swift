@@ -425,7 +425,6 @@ extension SessionStartViewController: UICollectionViewDataSource {
                 captainID: nil,
                 sessionDay: nil,
                 crewAndPoint: nil,
-                sessionList: nil,
                 accumulateDistance: nil
             )
         }
