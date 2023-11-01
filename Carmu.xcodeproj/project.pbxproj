@@ -75,6 +75,10 @@
 		C954F6172AD9998500D528F5 /* SelectAddressModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954F6162AD9998500D528F5 /* SelectAddressModel.swift */; };
 		C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */; };
 		C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C1202ADE25590016DE13 /* String+Extension.swift */; };
+		C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BCA2AF2151500BAA0E3 /* PositionSelectViewController.swift */; };
+		C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BCD2AF2155400BAA0E3 /* PositionSelectView.swift */; };
+		C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */; };
+		C9F43BD22AF227B100BAA0E3 /* LargeSelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -141,6 +145,10 @@
 		C954F6162AD9998500D528F5 /* SelectAddressModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressModel.swift; sourceTree = "<group>"; };
 		C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		C9C7C1202ADE25590016DE13 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
+		C9F43BCA2AF2151500BAA0E3 /* PositionSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionSelectViewController.swift; sourceTree = "<group>"; };
+		C9F43BCD2AF2155400BAA0E3 /* PositionSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionSelectView.swift; sourceTree = "<group>"; };
+		C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewMakeUtil.swift; sourceTree = "<group>"; };
+		C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeSelectButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -285,11 +293,11 @@
 			children = (
 				BF37D9CC2AB939A3005331AD /* AppDelegate.swift */,
 				BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */,
-				BF4A12452ABED8B500EC1B6D /* Extensions */,
-				C95C07AC2AE0BB3E007E7589 /* Utils */,
-				16E42CDE2AC47E790031486E /* Models */,
-				BF9BCFE62ACDCBEE009DAECD /* Views */,
 				BF5F3C4E2ABD779A004AFC73 /* Controllers */,
+				BF4A12452ABED8B500EC1B6D /* Extensions */,
+				16E42CDE2AC47E790031486E /* Models */,
+				C95C07AC2AE0BB3E007E7589 /* Utils */,
+				BF9BCFE62ACDCBEE009DAECD /* Views */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -298,6 +306,7 @@
 			isa = PBXGroup;
 			children = (
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
+				C9F43BC72AF214CB00BAA0E3 /* CrewMake */,
 				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
 				B8A3EFD72AC5F27000433F5C /* MyPage */,
 			);
@@ -308,6 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
+				C9F43BCC2AF2153100BAA0E3 /* CrewMake */,
 				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
 				B8D73ABB2AD2899200D211DE /* MyPage */,
 			);
@@ -387,8 +397,26 @@
 			children = (
 				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
 				BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */,
+				C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */,
+				C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		C9F43BC72AF214CB00BAA0E3 /* CrewMake */ = {
+			isa = PBXGroup;
+			children = (
+				C9F43BCA2AF2151500BAA0E3 /* PositionSelectViewController.swift */,
+			);
+			path = CrewMake;
+			sourceTree = "<group>";
+		};
+		C9F43BCC2AF2153100BAA0E3 /* CrewMake */ = {
+			isa = PBXGroup;
+			children = (
+				C9F43BCD2AF2155400BAA0E3 /* PositionSelectView.swift */,
+			);
+			path = CrewMake;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -513,14 +541,17 @@
 				B8DD15E62AD63FD500685E48 /* FriendDetailViewController.swift in Sources */,
 				B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
+				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
 				161854AD2AE005F200961D2D /* SessionStartMidNoGroupView.swift in Sources */,
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
+				C9F43BD22AF227B100BAA0E3 /* LargeSelectButton.swift in Sources */,
 				B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */,
 				B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */,
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				C904D1652AD597C8008BF5CE /* DummyData.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
+				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
 				C904D1632AD57B21008BF5CE /* Session.swift in Sources */,
 				BF0C33022AE50AFB00A6D8FE /* SessionMapDetailView.swift in Sources */,
 				BF0C33092AE5239700A6D8FE /* TimeDataView.swift in Sources */,
@@ -537,6 +568,7 @@
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
 				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
+				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				BFFA10B42AE62FAF003CE661 /* NoticeLateView.swift in Sources */,
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,
