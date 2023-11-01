@@ -269,18 +269,18 @@ extension SessionStartViewController {
         }
 
         // 유저의 친구 관계 리스트를 불러온다.
-        readUserFriendshipList(databasePath: databasePath) { friendshipList in
+        firebaseManager.readUserFriendshipList(databasePath: databasePath) { friendshipList in
             guard let friendshipList = friendshipList else {
                 return
             }
             // 친구 관계 id값으로 친구의 uid를 받아온다.
             for friendshipID in friendshipList {
-                self.getFriendUid(friendshipID: friendshipID) { friendID in
+                self.firebaseManager.getFriendUid(friendshipID: friendshipID) { friendID in
                     guard let friendID = friendID else {
                         return
                     }
                     // 친구의 uid값으로 친구의 User객체를 불러온다.
-                    self.getFriendUser(friendID: friendID) { friend in
+                    self.firebaseManager.getFriendUser(friendID: friendID) { friend in
                         guard let friend = friend else {
                             return
                         }
@@ -301,71 +301,6 @@ extension SessionStartViewController {
                     }
                 }
             }
-        }
-    }
-}
-
-// MARK: - Firebase Realtime Database DB 관련 메서드
-extension SessionStartViewController {
-
-    // MARK: - DB에서 유저의 friendID 목록을 불러오는 메서드
-    private func readUserFriendshipList(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
-        databasePath.child("friends").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            let friends = snapshot?.value as? [String]
-            completion(friends)
-        }
-    }
-    // MARK: - friendID 값으로 DB에서 Friendship의 친구 id를 불러오는 메서드
-    private func getFriendUid(friendshipID: String, completion: @escaping (String?) -> Void) {
-        Database.database().reference().child("friendship/\(friendshipID)").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let snapshotValue = snapshot?.value as? [String: Any] else {
-                return
-            }
-            guard let currentUserID = KeychainItem.currentUserIdentifier else {
-                return
-            }
-            // sender와 receiver 중 현재 사용자에 해당하지 않는 uid를 뽑는다.
-            var friendID: String = ""
-            let senderValue = snapshotValue["senderID"] as? String ?? ""
-            let receiverValue = snapshotValue["receiverID"] as? String ?? ""
-            if currentUserID != senderValue {
-                friendID = senderValue
-            } else {
-                friendID = receiverValue
-            }
-            completion(friendID)
-        }
-    }
-    // MARK: - 친구의 uid로 DB에서 친구 데이터를 불러오기
-    private func getFriendUser(friendID: String, completion: @escaping (User?) -> Void) {
-        Database.database().reference().child("users/\(friendID)").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let snapshotValue = snapshot?.value as? [String: Any] else {
-                return
-            }
-            let friend = User(
-                id: snapshotValue["id"] as? String ?? "",
-                deviceToken: snapshotValue["deviceToken"] as? String ?? "",
-                nickname: snapshotValue["nickname"] as? String ?? "",
-                email: snapshotValue["email"] as? String,
-                imageURL: snapshotValue["imageURL"] as? String,
-                friends: snapshotValue["friends"] as? [String]
-            )
-            completion(friend)
         }
     }
 }

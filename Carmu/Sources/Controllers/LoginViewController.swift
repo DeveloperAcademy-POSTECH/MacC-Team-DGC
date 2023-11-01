@@ -13,10 +13,12 @@ import FirebaseDatabase
 import SnapKit
 
 final class LoginViewController: UIViewController {
+
     // 애플 로그인 파이어베이스 인증 시 재전송 공격을 방지하기 위해 요청에 포함시키는 임의의 문자열 값
     private var currentNonce: String?
     private let loginView = LoginView()
-    private let encoder = JSONEncoder()
+    private let firebaseManager = FirebaseManager()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -29,6 +31,7 @@ final class LoginViewController: UIViewController {
 }
 // MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerDelegate {
+
     // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
     func authorizationController(
         controller: ASAuthorizationController,
@@ -81,10 +84,12 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             self.present(mainTabBarView, animated: true)
         }
     }
+
     // MARK: - 인증 플로우가 정상적으로 끝나지 않았거나, credential이 존재하지 않을 때 호출
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
         print("애플 로그인 실패: \(error.localizedDescription)")
     }
+
     private func saveUserInKeychain(_ userIdentifier: String) {
         guard let bundleIdentifier = Bundle.main.bundleIdentifier else {
             return
@@ -95,104 +100,35 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             print("키체인에 userIdentifier를 저장하지 못했습니다.")
         }
     }
+
     // 인증 후 사용자 정보를 DB에 저장하는 메서드
     private func saveToDB(user firebaseUser: FirebaseAuth.User) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
         // 파이어베이스에 저장된 유저가 있는지 여부에 따라서 CREATE 혹은 UPDATE
-        checkUser(databasePath: databasePath) { user in
+        firebaseManager.checkUser(databasePath: databasePath) { user in
             guard let user = user else {
-                self.createUser(user: firebaseUser)
+                self.firebaseManager.createUser(user: firebaseUser)
                 return
             }
-            self.updateUser(user: firebaseUser, updatedUser: user)
-        }
-    }
-    // 유저 신규 등록 (CREATE)
-    private func createUser(user firebaseUser: FirebaseAuth.User) {
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
-        guard let nickname = firebaseUser.displayName,
-              let email = firebaseUser.email else {
-            return
-        }
-
-        guard let fcmToken = KeychainItem.currentUserDeviceToken else {
-            return
-        }
-        print("FCMToken -> ", fcmToken)
-        let user = User(id: firebaseUser.uid, deviceToken: fcmToken, nickname: nickname, email: email)
-        do {
-            let data = try encoder.encode(user)
-
-            let json = try JSONSerialization.jsonObject(with: data)
-            databasePath.setValue(json)
-            print("User CREATE success!!")
-        } catch {
-            print("User CREATE fail..", error)
-        }
-    }
-    // 유저 업데이트 (UPDATE)
-    private func updateUser(user firebaseUser: FirebaseAuth.User, updatedUser: User) {
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
-        guard let email = firebaseUser.email else {
-            return
-        }
-        // 디바이스 토큰값 갱신
-        guard let fcmToken = KeychainItem.currentUserDeviceToken else {
-            return
-        }
-        var newUserValue = updatedUser
-        newUserValue.email = email
-        newUserValue.deviceToken = fcmToken
-        let user = newUserValue
-
-        do {
-            let data = try encoder.encode(user)
-            let json = try JSONSerialization.jsonObject(with: data)
-            databasePath.setValue(json)
-            print("User UPDATE success!!")
-        } catch {
-            print("User UPDATE fail..", error)
-        }
-    }
-    // 파이어베이스에 저장된 유저 확인 메서드
-    private func checkUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
-        databasePath.getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            if let value = snapshot?.value as? [String: Any] {
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: value)
-                    let user = try JSONDecoder().decode(User.self, from: data)
-                    completion(user)
-                } catch {
-                    print("User decoding error", error)
-                    completion(nil)
-                }
-            } else {
-                print("Invalid data format")
-                completion(nil)
-            }
+            self.firebaseManager.updateUser(user: firebaseUser, updatedUser: user)
         }
     }
 }
+
 // MARK: - 로그인 UI 표시 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
+
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
         return self.view.window!
     }
 }
+
 // MARK: - Firebase 인증 관련 익스텐션
 /// https://firebase.google.com/docs/auth/ios/apple?hl=ko 참고
 extension LoginViewController {
+
     // MARK: - 애플 로그인 버튼 클릭 시 동작
     @available(iOS 13, *)
     @objc private func startSignInWithAppleFlow() {
@@ -208,6 +144,7 @@ extension LoginViewController {
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
     }
+
     // MARK: - 암호화된 nonce 생성 함수
     private func randomNonceString(length: Int = 32) -> String {
         precondition(length > 0)
@@ -225,6 +162,7 @@ extension LoginViewController {
         }
         return String(nonce)
     }
+
     // MARK: - SHA256 해시 함수
     @available(iOS 13, *)
     private func sha256(_ input: String) -> String {
