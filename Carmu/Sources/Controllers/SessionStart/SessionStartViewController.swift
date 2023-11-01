@@ -22,20 +22,25 @@ final class SessionStartViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
+        setupUI()
+        setupConstraints()
     }
 }
 
 // MARK: Layout
 extension SessionStartViewController {
-
+    private func setupUI() {
+        view.addSubview(sessionStartView)
+    }
+    private func setupConstraints() {
+        sessionStartView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
 }
 
 // MARK: Actions
-extension SessionStartViewController {
-
-}
-
-// MARK: - Firebase Realtime Database DB 관련 메서드
 extension SessionStartViewController {
 
 }
