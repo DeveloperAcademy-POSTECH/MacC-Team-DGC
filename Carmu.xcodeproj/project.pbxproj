@@ -53,7 +53,6 @@
 		BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */; };
 		BF4A12442ABED79F00EC1B6D /* SessionListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */; };
 		BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */; };
-		BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */; };
 		BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */; };
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
 		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
@@ -145,7 +144,6 @@
 		BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartViewController.swift; sourceTree = "<group>"; };
 		BF4A12432ABED79F00EC1B6D /* SessionListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionListViewController.swift; sourceTree = "<group>"; };
 		BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
-		BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewController.swift; sourceTree = "<group>"; };
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BF9BCFEE2ACE2BEF009DAECD /* GroupAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAddView.swift; sourceTree = "<group>"; };
@@ -346,7 +344,6 @@
 			isa = PBXGroup;
 			children = (
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
-				BF5F3C4C2ABD778B004AFC73 /* MainTabBarViewController.swift */,
 				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
 				C9DE7C312AC01B04005AFCC6 /* SessionList */,
 				B8A3EFD72AC5F27000433F5C /* MyPage */,
@@ -696,7 +693,6 @@
 				C954F6342ADA7D3400D528F5 /* SelectDetailPointMapViewController.swift in Sources */,
 				C9DC0CCA2AD7D85400F06169 /* SelectAddressTableViewCell.swift in Sources */,
 				C904D1632AD57B21008BF5CE /* Session.swift in Sources */,
-				BF5F3C4D2ABD778B004AFC73 /* MainTabBarViewController.swift in Sources */,
 				BF0C33022AE50AFB00A6D8FE /* SessionMapDetailView.swift in Sources */,
 				BF0C33092AE5239700A6D8FE /* TimeDataView.swift in Sources */,
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
