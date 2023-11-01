@@ -148,6 +148,92 @@ class FirebaseManager {
         }
     }
 
+    /**
+     닉네임에 해당하는 친구를 DB에서 검색하는 메서드
+     */
+    func searchUserNickname(searchNickname: String, completion: @escaping (User?) -> Void) {
+        Database.database().reference().child("users").observeSingleEvent(of: .value) { snapshot in
+            for child in snapshot.children {
+                guard let snap = child as? DataSnapshot else {
+                    completion(nil)
+                    return
+                }
+                guard let dict = snap.value as? [String: Any] else {
+                    completion(nil)
+                    return
+                }
+                if dict["nickname"] as? String == searchNickname {
+                    print("\(searchNickname)이(가) 검색되었습니다!!!")
+                    let searchedFriend = User(
+                        id: dict["id"] as? String ?? "",
+                        deviceToken: dict["deviceToken"] as? String ?? "",
+                        nickname: dict["nickname"] as? String ?? "",
+                        email: dict["email"] as? String,
+                        imageURL: dict["imageURL"] as? String,
+                        friends: dict["friends"] as? [String]
+                    )
+                    completion(searchedFriend)
+                    return
+                }
+            }
+            completion(nil)
+        }
+    }
+
+    /**
+     DB의 friendship에 새로운 친구 관계를 추가하는 메서드
+     */
+    func addFriendship(myUID: String, friendUID: String) {
+        guard let key = Database.database().reference().child("friendship").childByAutoId().key else {
+            return
+        }
+        print("새로운 Friendship Key: \(key)")
+        // DB의 friendship에 새로 추가할 친구 관계 객체
+        let newFriendship = Friendship(
+            friendshipID: key,
+            senderID: myUID,
+            receiverID: friendUID,
+            status: true // TODO: - 이후 친구 수락 시 true로 바뀌게끔 수정 필요
+        )
+        // 사용자와 친구 DB의 friends에 새로운 friendship의 key를 추가해서 업데이트
+        addNewValueToUserFriends(uid: myUID, newValue: key)
+        addNewValueToUserFriends(uid: friendUID, newValue: key)
+        // 호환되는 타입으로 캐스팅 후 DB에 Friendship 추가
+        do {
+            let data = try JSONEncoder().encode(newFriendship)
+            let json = try JSONSerialization.jsonObject(with: data)
+            let childUpdates: [String: Any] = [
+                "friendship/\(key)": json
+            ]
+            Database.database().reference().updateChildValues(childUpdates)
+        } catch {
+            print("Friendship CREATE fail...", error)
+        }
+    }
+
+    /**
+     DB에서 유저의 friends 목록에 새로운 friendshipId를 추가하는 메서드
+     */
+    func addNewValueToUserFriends(uid: String, newValue: String) {
+        let databaseRef = Database.database().reference().child("users/\(uid)/friends")
+        print("다음 경로에 추가합니다!!! \(databaseRef)")
+        databaseRef.getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            if var friends = snapshot?.value as? [String] {
+                friends.append(newValue)
+                databaseRef.setValue(friends as NSArray)
+            } else {
+                // 아직 친구가 없는 경우 배열을 새로 만들어준다.
+                var newFriends = []
+                newFriends.append(newValue)
+                databaseRef.setValue(newFriends as NSArray)
+            }
+        }
+    }
+
     // MARK: - 파이어베이스 Storage 관련 메서드
     /**
      파이어베이스 Storage에서 유저 이미지 불러오기
