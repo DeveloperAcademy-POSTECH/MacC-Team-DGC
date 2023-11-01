@@ -17,6 +17,8 @@ final class InviteCodeInputViewController: UIViewController {
 
         view.backgroundColor = UIColor.semantic.backgroundDefault
         view.addSubview(inviteCodeInputView)
+        inviteCodeInputView.codeSearchTextField.returnKeyType = .search
+        inviteCodeInputView.codeSearchTextField.delegate = self
         inviteCodeInputView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -69,7 +71,6 @@ extension InviteCodeInputViewController {
         inviteCodeInputView.codeSearchTextField.resignFirstResponder() // 최초 응답자 해제
     }
 
-    // 키보드가 나타날 때 호출되는 메서드
     @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
         guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
@@ -83,9 +84,18 @@ extension InviteCodeInputViewController {
             )
         }
     }
-    // 키보드가 사라질 때 호출되는 메서드
+
     @objc private func keyboardWillHide(notification: Notification) {
         self.inviteCodeInputView.nextButton.transform = .identity
+    }
+}
+
+// MARK: - TextFieldDelegate Method
+extension InviteCodeInputViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        // 리턴 키를 누를 때 호출될 메서드
+        nextButtonTapped()
+        return true
     }
 }
 
