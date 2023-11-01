@@ -92,7 +92,7 @@ extension InviteCodeInputViewController {
 
 // MARK: - TextFieldDelegate Method
 extension InviteCodeInputViewController: UITextFieldDelegate {
-    
+
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         // 리턴 키를 누를 때 호출될 메서드
         nextButtonTapped()
