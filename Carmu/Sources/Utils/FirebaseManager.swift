@@ -113,7 +113,7 @@ class FirebaseManager {
         }
         var crewAndPoint = [String: String]()
         var newPoint = pointModel
-        newPoint.pointID = key
+        newPoint.id = key
 
         guard let boardingCrew = newPoint.boardingCrew else {
             return [String: String]()
