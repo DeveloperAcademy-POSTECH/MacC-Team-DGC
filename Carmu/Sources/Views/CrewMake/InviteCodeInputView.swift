@@ -7,7 +7,7 @@
 
 import UIKit
 
-class InviteCodeInputView: UIView {
+final class InviteCodeInputView: UIView {
 
     private let firstLineTitleStack = UIStackView()
     private let secondLineTitleStack = UIStackView()
