@@ -28,17 +28,40 @@ final class SessionStartViewController: UIViewController {
 
         sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        checkGroup()
+    }
 }
 
 // MARK: Layout
 extension SessionStartViewController {
     private func setupUI() {
         view.addSubview(sessionStartView)
+        view.addSubview(sessionStartMidView)
+        view.addSubview(sessionStartMidNoGroupView)
     }
     private func setupConstraints() {
         sessionStartView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+
+    // 그룹이 없을 때
+    private func settingNoGroupView() {
+        sessionStartMidView.isHidden = true
+        sessionStartMidNoGroupView.isHidden = false
+
+        sessionStartMidNoGroupView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
+            make.bottom.equalToSuperview().inset(165)
+        }
+    }
+    // 그룹이 있을 때
+    private func settingGroupView() {
+        sessionStartMidView.isHidden = false
+        sessionStartMidNoGroupView.isHidden = true
     }
 }
 
@@ -47,6 +70,15 @@ extension SessionStartViewController {
     @objc private func myPageButtonDidTapped() {
         let myPageVC = MyPageViewController()
         navigationController?.pushViewController(myPageVC, animated: true)
+    }
+
+    // 그룹의 유무 확인
+    private func checkGroup() {
+        if groupData == nil {
+            settingNoGroupView()
+        } else {
+            settingGroupView()
+        }
     }
 }
 
