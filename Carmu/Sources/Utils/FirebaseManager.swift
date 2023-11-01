@@ -149,6 +149,15 @@ class FirebaseManager {
     }
 
     /**
+     friendship에서 특정 friendship id에 해당하는 노드를 삭제해주는 메서드
+     */
+    func deleteFriendship(friendshipID: String) {
+        let databaseRef = Database.database().reference().child("friendship/\(friendshipID)")
+        databaseRef.removeValue()
+        print("\(friendshipID)에 해당하는 Friendship이 삭제되었습니다!!")
+    }
+
+    /**
      닉네임에 해당하는 친구를 DB에서 검색하는 메서드
      */
     func searchUserNickname(searchNickname: String, completion: @escaping (User?) -> Void) {
