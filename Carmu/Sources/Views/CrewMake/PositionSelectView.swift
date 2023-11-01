@@ -16,6 +16,7 @@ final class PositionSelectView: UIView {
         skipButton.setTitle("건너뛰기", for: .normal)
         skipButton.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
         skipButton.setTitleColor(UIColor.theme.gray4, for: .highlighted)
+        skipButton.titleLabel?.font = UIFont.carmuFont.subhead3
         return skipButton
     }()
 
@@ -85,13 +86,13 @@ final class PositionSelectView: UIView {
 
     private func setAutoLayout() {
         skipButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12)
-            make.trailing.equalToSuperview().offset(-20)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(12)
+            make.trailing.equalToSuperview().inset(20)
         }
 
         titleLabel1.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(78)
-            make.leading.equalToSuperview().offset(20)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).inset(78)
+            make.leading.equalToSuperview().inset(20)
             make.bottom.equalTo(titleLabel5.snp.top)
         }
 
@@ -109,7 +110,7 @@ final class PositionSelectView: UIView {
 
         titleLabel4.snp.makeConstraints { make in
             make.top.equalTo(titleLabel1.snp.bottom)
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().inset(20)
         }
 
         titleLabel5.snp.makeConstraints { make in
@@ -118,14 +119,14 @@ final class PositionSelectView: UIView {
         }
 
         selectDriverButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().inset(20)
             make.top.equalTo(titleLabel4.snp.bottom).offset(120)
             make.width.equalTo(165)
             make.height.equalTo(240)
         }
 
         selectCrewButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-20)
+            make.trailing.equalToSuperview().inset(20)
             make.top.equalTo(titleLabel4.snp.bottom).offset(120)
             make.leading.greaterThanOrEqualTo(selectDriverButton.snp.trailing).offset(2)
             make.width.equalTo(165)
