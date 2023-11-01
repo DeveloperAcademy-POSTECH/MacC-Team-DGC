@@ -25,6 +25,8 @@ final class SessionStartViewController: UIViewController {
         view.backgroundColor = .white
         setupUI()
         setupConstraints()
+
+        sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
     }
 }
 
@@ -42,7 +44,10 @@ extension SessionStartViewController {
 
 // MARK: Actions
 extension SessionStartViewController {
-
+    @objc private func myPageButtonDidTapped() {
+        let myPageVC = MyPageViewController()
+        navigationController?.pushViewController(myPageVC, animated: true)
+    }
 }
 
 extension SessionStartViewController {

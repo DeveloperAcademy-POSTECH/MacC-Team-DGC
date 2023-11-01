@@ -2,15 +2,16 @@ import UIKit
 
 final class SessionStartView: UIView {
 
-    private let myPageButton: UIButton = {
+    lazy var myPageButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("테스트", for: .normal)
-        btn.backgroundColor = .red
-        btn.setTitleColor(UIColor.blue, for: .normal)
+        if let myPageImage = UIImage(named: "myPageButton") {
+            let resizedImage = myPageImage.resizedImage(targetSize: CGSize(width: 48, height: 48))
+            btn.setImage(resizedImage, for: .normal)
+        }
         return btn
     }()
 
-    private let topComment: UILabel = {
+    private lazy var topComment: UILabel = {
         let lbl = UILabel()
         lbl.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         lbl.font = UIFont.carmuFont.headline2
@@ -35,7 +36,7 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    private let notifyComment: UILabel = {
+    private lazy var notifyComment: UILabel = {
         let lbl = UILabel()
         lbl.text = "운전자의 전달여부"
         lbl.numberOfLines = 0
@@ -45,14 +46,14 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    private let leftButton: UIButton = {
+    private lazy var leftButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("왼쪽", for: .normal)
 
         return btn
     }()
 
-    let rightButton: UIButton = {
+    private lazy var rightButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("오른쪽", for: .normal)
 
