@@ -150,7 +150,7 @@ extension SessionStartViewController {
 
     private func showAlertDialog() {
         let alertController = UIAlertController(
-            title: selectedGroupData?.groupName,
+            title: selectedGroupData?.name,
             message: "크루원들을 기다리지 않고\n여정을 바로 시작하시겠어요?",
             preferredStyle: .alert
         )
@@ -419,9 +419,9 @@ extension SessionStartViewController: UICollectionViewDataSource {
         } else {
             // 데이터가 없는 경우, 기본 값을 설정
             cell?.groupData = Group(
-                groupID: nil,
-                groupName: nil,
-                groupImage: nil,
+                id: nil,
+                name: nil,
+                image: nil,
                 captainID: nil,
                 sessionDay: nil,
                 crewAndPoint: nil,

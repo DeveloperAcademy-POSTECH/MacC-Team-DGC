@@ -361,7 +361,7 @@ extension SessionStartMidView {
             // TODO: - 데이터 변경
             // TODO: - 시간 형식 변경
             // TODO: - 그룹이 없을 때 경우 설정
-            groupNameLabel.text = selectedGroup.groupName
+            groupNameLabel.text = selectedGroup.name
             dayLabel.text = "주중 (월 ~ 금)"
 
             // TODO: - 데이터 들어오면 해당 부분 설정
@@ -377,7 +377,7 @@ extension SessionStartMidView {
                 personLabel.text = "\(count) 명"
             }
             commentUnderLineView.text = "오늘도 즐거운 여정을 시작해 보세요!"
-            groupNameLabel.text = selectedGroup.groupName
+            groupNameLabel.text = selectedGroup.name
 
         } else {
             // 선택한 그룹 데이터가 없을 때에 대한 처리

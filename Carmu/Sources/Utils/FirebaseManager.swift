@@ -148,8 +148,8 @@ class FirebaseManager {
 
         // DB에 추가할 그룹 객체
         let newGroup = Group(
-            groupID: key,
-            groupName: groupName,
+            id: key,
+            name: groupName,
             // groupImage 추가 필요
             captainID: captainID,
             sessionDay: [1, 2, 3, 4, 5],
@@ -226,9 +226,9 @@ class FirebaseManager {
                 return
             }
             let group = Group(
-                groupID: snapshotValue["groupID"] as? String ?? "",
-                groupName: snapshotValue["groupName"] as? String ?? "",
-                groupImage: snapshotValue["groupImage"] as? String ?? "profile",
+                id: snapshotValue["groupID"] as? String ?? "",
+                name: snapshotValue["groupName"] as? String ?? "",
+                image: snapshotValue["groupImage"] as? String ?? "profile",
                 captainID: snapshotValue["captainID"] as? String ?? "",
                 sessionDay: snapshotValue["sessionDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                 crewAndPoint: snapshotValue["crewAndPoint"] as? [String: String] ?? ["": ""],

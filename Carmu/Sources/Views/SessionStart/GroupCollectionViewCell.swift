@@ -20,7 +20,7 @@ final class GroupCollectionViewCell: UICollectionViewCell {
                 return
             }
 
-            if let imageString = groupData.groupImage, let image = UIImage(named: imageString) {
+            if let imageString = groupData.image, let image = UIImage(named: imageString) {
                 groupImage.image = image
             } else {
                 groupImage.contentMode = .scaleAspectFill
@@ -28,7 +28,7 @@ final class GroupCollectionViewCell: UICollectionViewCell {
                 groupImage.image = UIImage(named: "defaultStoryImage")
             }
 
-            if let groupName = groupData.groupName {
+            if let groupName = groupData.name {
                 groupNameLabel.text = groupName
             } else {
                 groupNameLabel.text = "---"
