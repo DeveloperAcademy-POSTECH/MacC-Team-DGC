@@ -86,48 +86,48 @@ final class PositionSelectView: UIView {
     private func setAutoLayout() {
         skipButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(12)
-            make.right.equalToSuperview().offset(-20)
+            make.trailing.equalToSuperview().offset(-20)
         }
 
         titleLabel1.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(78)
-            make.left.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(20)
             make.bottom.equalTo(titleLabel5.snp.top)
         }
 
         titleLabel2.snp.makeConstraints { make in
             make.top.equalTo(titleLabel1)
-            make.left.equalTo(titleLabel1.snp.right)
+            make.leading.equalTo(titleLabel1.snp.trailing)
             make.bottom.equalTo(titleLabel5.snp.top)
         }
 
         titleLabel3.snp.makeConstraints { make in
             make.top.equalTo(titleLabel2)
-            make.left.equalTo(titleLabel2.snp.right)
+            make.leading.equalTo(titleLabel2.snp.trailing)
             make.bottom.equalTo(titleLabel5.snp.top)
         }
 
         titleLabel4.snp.makeConstraints { make in
             make.top.equalTo(titleLabel1.snp.bottom)
-            make.left.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(20)
         }
 
         titleLabel5.snp.makeConstraints { make in
             make.top.equalTo(titleLabel2.snp.bottom)
-            make.left.equalTo(titleLabel4.snp.right)
+            make.leading.equalTo(titleLabel4.snp.trailing)
         }
 
         selectDriverButton.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(20)
+            make.leading.equalToSuperview().offset(20)
             make.top.equalTo(titleLabel4.snp.bottom).offset(120)
             make.width.equalTo(165)
             make.height.equalTo(240)
         }
 
         selectCrewButton.snp.makeConstraints { make in
-            make.right.equalToSuperview().offset(-20)
+            make.trailing.equalToSuperview().offset(-20)
             make.top.equalTo(titleLabel4.snp.bottom).offset(120)
-            make.left.greaterThanOrEqualTo(selectDriverButton.snp.right).offset(2)
+            make.leading.greaterThanOrEqualTo(selectDriverButton.snp.trailing).offset(2)
             make.width.equalTo(165)
             make.height.equalTo(240)
         }
