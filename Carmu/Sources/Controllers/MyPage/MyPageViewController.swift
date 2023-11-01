@@ -41,7 +41,7 @@ final class MyPageViewController: UIViewController {
                 }
             } else {
                 print("프로필 이미지가 없습니다.")
-                self.myPageView.imageView.image = UIImage(named: "profile")
+                self.myPageView.imageView.image = UIImage(named: "myPageButton")
             }
         }
 
