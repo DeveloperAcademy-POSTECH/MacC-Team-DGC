@@ -19,16 +19,11 @@ final class SessionStartMidNoGroupView: UIView {
         view.backgroundColor = .white
         return view
     }()
+
     // 앞면 뷰
     private lazy var frontView = FrontView()
-
     // 뒷면 뷰
-    private lazy var backView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.isHidden = true
-        return view
-    }()
+    private lazy var backView = BackView()
 
     init() {
         super.init(frame: .zero)
@@ -58,6 +53,7 @@ extension SessionStartMidNoGroupView {
         addSubview(contentView)
         contentView.addSubview(frontView)
         contentView.addSubview(backView)
+        backView.isHidden = true
 
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
@@ -83,13 +79,13 @@ extension SessionStartMidNoGroupView {
 
 // MARK: - 앞면 뷰
 final class FrontView: UIView {
-    lazy var frontImage: UIImageView = {
+    private lazy var frontImage: UIImageView = {
         let img = UIImage(named: "NoGroupBlinker")
         let imageView = UIImageView(image: img)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    lazy var frontComment: UILabel = {
+    private lazy var comment: UILabel = {
         let lbl = UILabel()
 
         let attributedText = NSMutableAttributedString(string: "아직 참여중인\n여정이 없어요", attributes: [
@@ -109,7 +105,7 @@ final class FrontView: UIView {
 
         return lbl
     }()
-    lazy var createGroupButton: UIButton = {
+    private lazy var createGroupButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("크루 만들기", for: .normal)
         btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
@@ -118,7 +114,7 @@ final class FrontView: UIView {
         btn.layer.cornerRadius = 30
         return btn
     }()
-    lazy var inviteCodeButton: UIButton = {
+    private lazy var inviteCodeButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("초대코드 입력하기", for: .normal)
         btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
@@ -140,24 +136,23 @@ final class FrontView: UIView {
 
     private func setupFrontView() {
         addSubview(frontImage)
-        addSubview(frontComment)
+        addSubview(comment)
         addSubview(createGroupButton)
         addSubview(inviteCodeButton)
     }
 
     private func setupConstraints() {
-        // Add your constraints for the FrontView's subviews here.
         frontImage.snp.makeConstraints { make in
             make.top.lessThanOrEqualToSuperview().inset(40)
             make.leading.trailing.equalToSuperview().inset(124)
             make.height.equalTo(70)
         }
-        frontComment.snp.makeConstraints { make in
+        comment.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(frontImage.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(28)
         }
         createGroupButton.snp.makeConstraints { make in
-            make.top.equalTo(frontComment.snp.bottom).offset(24)
+            make.top.equalTo(comment.snp.bottom).offset(24)
             make.centerX.equalToSuperview()
             make.width.equalTo(170)
             make.height.equalTo(60)
@@ -165,10 +160,73 @@ final class FrontView: UIView {
         inviteCodeButton.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(createGroupButton.snp.bottom).offset(12)
             make.bottom.greaterThanOrEqualToSuperview().inset(24)
-            make.bottom.lessThanOrEqualToSuperview().inset(60)
+            make.bottom.lessThanOrEqualToSuperview().inset(60).priority(.high)
             make.centerX.equalToSuperview()
             make.width.equalTo(170)
             make.height.equalTo(60)
+        }
+    }
+}
+
+// MARK: - 뒷면 뷰
+
+final class BackView: UIView {
+
+    private lazy var comment: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "카뮤와 함께 즐겁게 카풀하기 위한 규칙"
+        lbl.font = UIFont.carmuFont.subhead3
+        lbl.textColor = UIColor.semantic.textPrimary
+        lbl.textAlignment = .center
+        return lbl
+    }()
+
+    // 운전자 규칙 뷰
+    private lazy var driverView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.semantic.backgroundSecond
+        view.layer.cornerRadius = 20
+        return view
+    }()
+
+    // 동승자 규칙 뷰
+    private lazy var passengerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.semantic.backgroundSecond
+        view.layer.cornerRadius = 20
+        return view
+    }()
+
+    init() {
+        super.init(frame: .zero)
+        setupBackView()
+        setupConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupBackView() {
+        addSubview(comment)
+        addSubview(driverView)
+        addSubview(passengerView)
+    }
+    private func setupConstraints() {
+        comment.snp.makeConstraints { make in
+            make.top.lessThanOrEqualToSuperview().inset(28)
+            make.leading.trailing.equalToSuperview().inset(52)
+        }
+        driverView.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(comment.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.lessThanOrEqualTo(160)
+        }
+        passengerView.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(driverView.snp.bottom).offset(16)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.lessThanOrEqualToSuperview().inset(20)
+            make.height.equalTo(driverView)
         }
     }
 }
