@@ -19,27 +19,30 @@ final class SessionStartView: UIView {
         return lbl
     }()
 
-    private lazy var notifyComment: UILabel = {
+    lazy var notifyComment: UILabel = {
         let lbl = UILabel()
-        lbl.text = "운전자의 전달여부"
         lbl.numberOfLines = 0
         lbl.textAlignment = .center
         lbl.font = UIFont.carmuFont.body3Long
-
+        lbl.textColor = UIColor.semantic.textBody
         return lbl
     }()
 
-    private lazy var leftButton: UIButton = {
+    lazy var individualButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("왼쪽", for: .normal)
-
+        btn.backgroundColor = UIColor.semantic.negative
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.titleLabel?.font = UIFont.carmuFont.headline1
+        btn.layer.cornerRadius = 30
         return btn
     }()
 
-    private lazy var rightButton: UIButton = {
+    lazy var togetherButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("오른쪽", for: .normal)
-
+        btn.backgroundColor = UIColor.semantic.accPrimary
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.titleLabel?.font = UIFont.carmuFont.headline1
+        btn.layer.cornerRadius = 30
         return btn
     }()
 
@@ -62,8 +65,8 @@ extension SessionStartView {
         addSubview(myPageButton)
         addSubview(topComment)
         addSubview(notifyComment)
-        addSubview(leftButton)
-        addSubview(rightButton)
+        addSubview(individualButton)
+        addSubview(togetherButton)
     }
 
     private func setupConstraints() {
@@ -74,10 +77,9 @@ extension SessionStartView {
         topComment.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.top.equalTo(myPageButton.snp.bottom)
-
         }
     }
 
-    // TODO: - 그룹있을 때 notifyComment, leftButton, rightButton constraints 설정하기
+    // TODO: - 그룹있을 때 notifyComment, individualButton, togetherButton constraints 설정하기
 
 }
