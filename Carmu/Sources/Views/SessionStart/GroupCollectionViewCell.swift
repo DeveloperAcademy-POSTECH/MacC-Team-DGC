@@ -20,20 +20,11 @@ final class GroupCollectionViewCell: UICollectionViewCell {
                 return
             }
 
-            if let imageString = groupData.groupImage, let image = UIImage(named: imageString) {
-                groupImage.image = image
-            } else {
-                groupImage.contentMode = .scaleAspectFill
-                groupImage.clipsToBounds = true
-                groupImage.image = UIImage(named: "defaultStoryImage")
-            }
+            groupImage.contentMode = .scaleAspectFill
+            groupImage.clipsToBounds = true
+            groupImage.image = UIImage(named: "defaultStoryImage")
 
-            if let groupName = groupData.groupName {
-                groupNameLabel.text = groupName
-            } else {
-                groupNameLabel.text = "---"
-                groupNameLabel.textColor = UIColor.semantic.textBody
-            }
+            groupNameLabel.text = groupData.name
         }
     }
 

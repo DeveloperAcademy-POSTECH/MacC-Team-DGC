@@ -236,7 +236,7 @@ extension FirebaseManager {
                 return
             }
             let friend = User(
-                id: snapshotValue["id"] as? String ?? "",
+                id: snapshotValue["id"] as? UserIdentifier ?? "",
                 deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
                 email: snapshotValue["email"] as? String,
@@ -298,7 +298,7 @@ extension FirebaseManager {
                 if dict["nickname"] as? String == searchNickname {
                     print("\(searchNickname)이(가) 검색되었습니다!!!")
                     let searchedFriend = User(
-                        id: dict["id"] as? String ?? "",
+                        id: dict["id"] as? UserIdentifier ?? "",
                         deviceToken: dict["deviceToken"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
                         email: dict["email"] as? String,
@@ -388,15 +388,11 @@ extension FirebaseManager {
 
         // DB에 추가할 그룹 객체
         let newGroup = Group(
-            groupID: key,
-            groupName: groupName,
+            id: key,
+            name: groupName,
             // groupImage 추가 필요
             captainID: captainID,
-            sessionDay: [1, 2, 3, 4, 5],
-            crewAndPoint: crewAndPoint,
-            sessionList: [String](),
-            accumulateDistance: 0
-
+            crews: []
         )
         setGroupToUser(captainID, key)
         for (crewKey, _) in crewAndPoint {
@@ -473,56 +469,14 @@ extension FirebaseManager {
                 return
             }
             let group = Group(
-                groupID: snapshotValue["groupID"] as? String ?? "",
-                groupName: snapshotValue["groupName"] as? String ?? "",
-                groupImage: snapshotValue["groupImage"] as? String ?? "profile",
+                id: snapshotValue["id"] as? String ?? "",
+                name: snapshotValue["name"] as? String ?? "",
                 captainID: snapshotValue["captainID"] as? String ?? "",
-                sessionDay: snapshotValue["sessionDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                crewAndPoint: snapshotValue["crewAndPoint"] as? [String: String] ?? ["": ""],
-                sessionList: snapshotValue["sessionList"] as? [String] ?? [],
-                accumulateDistance: snapshotValue["accumulateDistance"] as? Int ?? 0
+                crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""]
             )
             completion(group)
         }
 
-    }
-}
-
-// MARK: - 포인트 관련 파이어베이스 메서드
-extension FirebaseManager {
-
-    /**
-     DB의 Point에 새로운 Point를 추가하는 메서드
-     - 호출되는 곳
-        - XXX
-     */
-    func addPoint(_ pointModel: Point) -> [String: String] {
-        guard let key = Database.database().reference().child("point").childByAutoId().key else {
-            return [String: String]()
-        }
-        var crewAndPoint = [String: String]()
-        var newPoint = pointModel
-        newPoint.pointID = key
-
-        guard let boardingCrew = newPoint.boardingCrew else {
-            return [String: String]()
-        }
-        for (element, _) in boardingCrew {
-            crewAndPoint[element] = key
-        }
-        do {
-            let data = try JSONEncoder().encode(newPoint)
-            let json = try JSONSerialization.jsonObject(with: data)
-            let childUpdates: [String: Any] = [
-                "point/\(key)": json
-            ]
-            Database.database().reference().updateChildValues(childUpdates)
-            print("포인트 값이 저장됨. 키: \(key)")
-        } catch {
-            print("Point CREATE fail...", error)
-        }
-
-        return crewAndPoint
     }
 }
 
