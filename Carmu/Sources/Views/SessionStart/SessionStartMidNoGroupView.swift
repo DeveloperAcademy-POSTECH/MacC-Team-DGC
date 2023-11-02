@@ -19,11 +19,59 @@ final class SessionStartMidNoGroupView: UIView {
         view.backgroundColor = .white
         return view
     }()
+
+    // 앞면 뷰
     private lazy var frontView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         return view
     }()
+    private lazy var frontImage: UIImageView = {
+        let img = UIImage(named: "NoGroupBlinker")
+        let imageView = UIImageView(image: img)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    private lazy var frontComment: UILabel = {
+        let lbl = UILabel()
+
+        let attributedText = NSMutableAttributedString(string: "아직 참여중인\n여정이 없어요", attributes: [
+            .font: UIFont.carmuFont.headline1
+        ])
+
+        let body1LongText = NSMutableAttributedString(string: "\n\n여정을 만들어 보세요!", attributes: [
+            .font: UIFont.carmuFont.body1Long,
+            .foregroundColor: UIColor.semantic.textTertiary as Any
+        ])
+
+        attributedText.append(body1LongText)
+
+        lbl.attributedText = attributedText
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 0
+
+        return lbl
+    }()
+    private lazy var createGroupButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("크루 만들기", for: .normal)
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        btn.backgroundColor = UIColor.semantic.accPrimary
+        btn.layer.cornerRadius = 30
+        return btn
+    }()
+    private lazy var inviteCodeButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("초대코드 입력하기", for: .normal)
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        btn.backgroundColor = UIColor.semantic.accPrimary
+        btn.layer.cornerRadius = 30
+        return btn
+    }()
+
+    // 뒷면 뷰
     private lazy var backView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -34,6 +82,7 @@ final class SessionStartMidNoGroupView: UIView {
     init() {
         super.init(frame: .zero)
         setupUI()
+        setupConstraints()
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(flip))  // flip 메서드 만들기
         addGestureRecognizer(tapGesture)
@@ -60,11 +109,41 @@ extension SessionStartMidNoGroupView {
         contentView.addSubview(frontView)
         contentView.addSubview(backView)
 
+        frontView.addSubview(frontImage)
+        frontView.addSubview(frontComment)
+        frontView.addSubview(createGroupButton)
+        frontView.addSubview(inviteCodeButton)
+
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
         layer.shadowOpacity = 0.5
         layer.shadowRadius = 10
 
+    }
+    private func setupConstraints() {
+        frontImage.snp.makeConstraints { make in
+            make.top.lessThanOrEqualToSuperview().inset(40)
+            make.leading.trailing.equalToSuperview().inset(124)
+            make.height.equalTo(70)
+        }
+        frontComment.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(frontImage.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview().inset(28)
+        }
+        createGroupButton.snp.makeConstraints { make in
+            make.top.equalTo(frontComment.snp.bottom).offset(24)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(170)
+            make.height.equalTo(60)
+        }
+        inviteCodeButton.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(createGroupButton.snp.bottom).offset(12)
+            make.bottom.greaterThanOrEqualToSuperview().inset(24)
+            make.bottom.lessThanOrEqualToSuperview().inset(60)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(170)
+            make.height.equalTo(60)
+        }
     }
 }
 
