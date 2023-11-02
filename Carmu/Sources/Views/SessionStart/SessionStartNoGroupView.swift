@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class SessionStartMidNoGroupView: UIView {
+final class SessionStartNoGroupView: UIView {
 
     private lazy var isFlipped = false
     private lazy var contentView: UIView = {
@@ -48,7 +48,7 @@ final class SessionStartMidNoGroupView: UIView {
 }
 
 // MARK: - Layout Methods
-extension SessionStartMidNoGroupView {
+extension SessionStartNoGroupView {
 
     private func setupUI() {
         addSubview(contentView)
@@ -64,7 +64,7 @@ extension SessionStartMidNoGroupView {
 }
 
 // MARK: - Actions
-extension SessionStartMidNoGroupView {
+extension SessionStartNoGroupView {
 
     @objc private func flip() {
         isFlipped.toggle()
@@ -284,7 +284,7 @@ final class BackView: UIView {
         passengerView.addSubview(passengerImage)
         passengerView.addSubview(passengerInfoLabel)
     }
-    
+
     private func setupConstraints() {
         comment.snp.makeConstraints { make in
             make.top.lessThanOrEqualToSuperview().inset(28)

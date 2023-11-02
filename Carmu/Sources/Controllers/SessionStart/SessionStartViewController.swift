@@ -16,17 +16,16 @@ import SnapKit
 final class SessionStartViewController: UIViewController {
 
     private let sessionStartView = SessionStartView()
-    private let sessionStartMidView = SessionStartMidView()
-    private let sessionStartMidNoGroupView = SessionStartMidNoGroupView()
+    private let sessionStartDriverView = SessionStartDriverView()
+    private let sessionStartPassengerView = SessionStartPassengerView()
+    private let sessionStartNoGroupView = SessionStartNoGroupView()
     private let firebaseManager = FirebaseManager()
 
 //    // 데이터가 없을 때
-//    let groupData: [Group]? = nil
+//    let groupData: Group? = nil
 
     // 데이터가 있을 때
-    let groupData: [Group]? = [
-        Group(id: "1", name: "aa", captainID: "ted", crews: ["uni", "rei", "bazzi"])
-    ]
+    let groupData: Group? = Group(id: "1", name: "aa", captainID: "ted", crews: ["uni", "rei", "bazzi"])
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +45,9 @@ final class SessionStartViewController: UIViewController {
 extension SessionStartViewController {
     private func setupUI() {
         view.addSubview(sessionStartView)
-        view.addSubview(sessionStartMidView)
-        view.addSubview(sessionStartMidNoGroupView)
+        view.addSubview(sessionStartDriverView)
+        view.addSubview(sessionStartPassengerView)
+        view.addSubview(sessionStartNoGroupView)
     }
     private func setupConstraints() {
         sessionStartView.snp.makeConstraints { make in
@@ -57,10 +57,11 @@ extension SessionStartViewController {
 
     // 그룹이 없을 때
     private func settingNoGroupView() {
-        sessionStartMidView.isHidden = true
-        sessionStartMidNoGroupView.isHidden = false
+        sessionStartDriverView.isHidden = true
+        sessionStartPassengerView.isHidden = true
+        sessionStartNoGroupView.isHidden = false
 
-        sessionStartMidNoGroupView.snp.makeConstraints { make in
+        sessionStartNoGroupView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
             make.bottom.equalToSuperview().inset(165)
@@ -68,8 +69,23 @@ extension SessionStartViewController {
     }
     // 그룹이 있을 때
     private func settingGroupView() {
-        sessionStartMidView.isHidden = false
-        sessionStartMidNoGroupView.isHidden = true
+
+        sessionStartNoGroupView.isHidden = true
+
+        // TODO: - 데이터 형식에 맞춰서 수정
+        if groupData?.captainID == "ted" {  // 운전자일 경우
+            sessionStartDriverView.isHidden = false
+            sessionStartPassengerView.isHidden = true
+
+            sessionStartDriverView.snp.makeConstraints { make in
+                make.leading.trailing.equalToSuperview().inset(20)
+                make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
+                make.bottom.equalToSuperview().inset(165)
+            }
+        }
+
+        // TODO: - 운전자인지, 크루원인지 구분하기
+
     }
 }
 

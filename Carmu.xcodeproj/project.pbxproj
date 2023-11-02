@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
-		161854AD2AE005F200961D2D /* SessionStartMidNoGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartMidNoGroupView.swift */; };
+		161854AD2AE005F200961D2D /* SessionStartNoGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoGroupView.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
-		16A84F782AD7E0F600C28F5F /* SessionStartMidView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */; };
+		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
+		16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */; };
 		16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* SessionMapViewController.swift */; };
 		B80CCA522ADB0955000A2ABB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B80CCA512ADB0955000A2ABB /* FirebaseStorage */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
@@ -83,9 +84,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		161854AC2AE005F200961D2D /* SessionStartMidNoGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartMidNoGroupView.swift; sourceTree = "<group>"; };
+		161854AC2AE005F200961D2D /* SessionStartNoGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoGroupView.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartMidView.swift; sourceTree = "<group>"; };
+		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
+		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
 		16E42C472AC411A20031486E /* SessionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapViewController.swift; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmu.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -329,8 +331,9 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */,
-				16A84F772AD7E0F600C28F5F /* SessionStartMidView.swift */,
-				161854AC2AE005F200961D2D /* SessionStartMidNoGroupView.swift */,
+				16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */,
+				16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */,
+				161854AC2AE005F200961D2D /* SessionStartNoGroupView.swift */,
 				BF0C33052AE5217100A6D8FE /* SessionMapView */,
 			);
 			path = SessionStart;
@@ -537,7 +540,7 @@
 				B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
 				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
-				161854AD2AE005F200961D2D /* SessionStartMidNoGroupView.swift in Sources */,
+				161854AD2AE005F200961D2D /* SessionStartNoGroupView.swift in Sources */,
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
 				C9F43BD22AF227B100BAA0E3 /* LargeSelectButton.swift in Sources */,
@@ -565,6 +568,7 @@
 				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
 				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,
+				16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
@@ -573,7 +577,7 @@
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
 				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
-				16A84F782AD7E0F600C28F5F /* SessionStartMidView.swift in Sources */,
+				16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */,
 				B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */,
 				C904D1612AD57AE8008BF5CE /* Group.swift in Sources */,
 				C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */,

@@ -9,12 +9,11 @@ import UIKit
 
 import SnapKit
 
-final class SessionStartMidView: UIView {
+final class SessionStartDriverView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .red
-        print("SessionStartMidView()")
     }
 
     required init?(coder: NSCoder) {
@@ -23,6 +22,6 @@ final class SessionStartMidView: UIView {
 }
 
 // MARK: - Data Methods
-extension SessionStartMidView {
+extension SessionStartDriverView {
 
 }
