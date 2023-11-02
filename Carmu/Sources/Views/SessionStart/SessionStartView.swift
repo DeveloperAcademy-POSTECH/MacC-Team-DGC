@@ -2,100 +2,98 @@ import UIKit
 
 final class SessionStartView: UIView {
 
-    // TODO: - 추후 setupConstraints() 생성
-
-    // 상단 그룹에 대한 컬렉션뷰입니다.
-    let groupCollectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .horizontal    // 좌우로 스크롤
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20) // 여백 조정
-
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(GroupCollectionViewCell.self, forCellWithReuseIdentifier: "groupCell")
-        collectionView.showsHorizontalScrollIndicator = false   // 스크롤바 숨기기
-        return collectionView
-    }()
-
-    // 여정 알리기 버튼
-    let journeyTogetherButton: UIButton = {
+    lazy var myPageButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("여정 알리기", for: .normal)
-        btn.backgroundColor = UIColor.semantic.accPrimary
-        btn.titleLabel?.font = UIFont.carmuFont.headline2
-        btn.setTitleColor(.white, for: .normal)
+        if let myPageImage = UIImage(named: "myPageButton") {
+            let resizedImage = myPageImage.resizedImage(targetSize: CGSize(width: 48, height: 48))
+            btn.setImage(resizedImage, for: .normal)
+        }
         return btn
     }()
 
-    // 동승자일 때 버튼
-    let noRideButton: UIButton = {
+    lazy var topComment: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
+        lbl.font = UIFont.carmuFont.headline2
+        lbl.textAlignment = .left
+        lbl.numberOfLines = 0
+
+        let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
+        if let range1 = lbl.text?.range(of: "카뮤") {
+            let nsRange1 = NSRange(range1, in: lbl.text!)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange1)
+        }
+        if let range2 = lbl.text?.range(of: "카풀 생활") {
+            let nsRange2 = NSRange(range2, in: lbl.text!)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange2)
+        }
+        lbl.attributedText = attributedText
+
+        return lbl
+    }()
+
+    private lazy var notifyComment: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "운전자의 전달여부"
+        lbl.numberOfLines = 0
+        lbl.textAlignment = .center
+        lbl.font = UIFont.carmuFont.body3Long
+
+        return lbl
+    }()
+
+    private lazy var leftButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("따로가기", for: .normal)
-        btn.backgroundColor = UIColor.semantic.backgroundSecond
-        btn.titleLabel?.font = UIFont.carmuFont.headline2
-        btn.setTitleColor(UIColor.theme.blue3, for: .normal)
+        btn.setTitle("왼쪽", for: .normal)
+
         return btn
     }()
-    let participateButton: UIButton = {
+
+    private lazy var rightButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("참여하기", for: .normal)
-        btn.backgroundColor = UIColor.semantic.backgroundSecond
-        btn.titleLabel?.font = UIFont.carmuFont.headline2
-        btn.setTitleColor(UIColor.theme.blue3, for: .normal)
+        btn.setTitle("오른쪽", for: .normal)
+
         return btn
     }()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
-        setupGroupData()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    override func draw(_ rect: CGRect) {
-        setCollectionView()
-    }
+}
 
-    override func layoutSublayers(of layer: CALayer) {
-        super.layoutSublayers(of: layer)
-    }
-
+// MARK: - Layout
+extension SessionStartView {
     private func setupUI() {
-
-        addSubview(groupCollectionView)
-        addSubview(journeyTogetherButton)
-        addSubview(noRideButton)
-        addSubview(participateButton)
+        addSubview(myPageButton)
+        addSubview(topComment)
+        addSubview(notifyComment)
+        addSubview(leftButton)
+        addSubview(rightButton)
     }
 
-    private func setCollectionView() {
-        groupCollectionView.backgroundColor = .white
-
-        let collectionViewHeight: CGFloat
-        if UIScreen.main.bounds.height >= 800 {
-            // iPhone 14와 같이 큰 화면
-            collectionViewHeight = 104
-        } else {
-            // iPhone SE와 같이 작은 화면
-            collectionViewHeight = 84
+    private func setupConstraints() {
+        myPageButton.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).inset(24)
+            make.trailing.equalToSuperview().inset(20)
         }
+        topComment.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(myPageButton.snp.bottom)
 
-        groupCollectionView.snp.makeConstraints { make in
-            make.height.equalTo(collectionViewHeight)
-            make.top.lessThanOrEqualTo(safeAreaLayoutGuide).inset(20)
-            make.leading.trailing.equalToSuperview()
         }
     }
 
-    private func setupGroupData() {
-        print("setupGroupData()")
-//        // 그룹이 없을 때 나타내는 정보들
-//        if groupData == nil {
-//            journeyTogetherButton.setTitleColor(UIColor.theme.blue3, for: .normal)
-//            journeyTogetherButton.backgroundColor = UIColor.semantic.backgroundSecond
-//            journeyTogetherButton.isEnabled = false
-//        }
-    }
+    // TODO: - 그룹있을 때 notifyComment, leftButton, rightButton constraints 설정하기
+
 }
