@@ -24,7 +24,7 @@ final class BoardingPointSelectView: UIView {
     lazy var customTableVieWCell: [StopoverSelectButton] = {
         var buttons: [StopoverSelectButton] = []
 
-        for (index, address) in ["출발지 주소", "경유지 주소", "경유지 2주소 입니다", "도착지 주소"].enumerated() {
+        for (index, address) in ["출발지 주소", "경유지 주소", "경유지 2주소 입니다dddfdfd", "도착지 주소"].enumerated() {
             let button = StopoverSelectButton(address: address, time: Date())
             button.tag = index
             buttons.append(button)
@@ -97,20 +97,16 @@ final class BoardingPointSelectView: UIView {
             make.top.equalTo(safeAreaLayoutGuide).offset(78)
             make.bottom.equalTo(secondLineTitleStack.snp.top)
             make.leading.equalToSuperview().inset(20)
-            make.height.equalTo(28)
         }
 
         secondLineTitleStack.snp.makeConstraints { make in
             make.top.equalTo(firstLineTitleStack.snp.bottom)
             make.leading.equalToSuperview().inset(20)
-            make.height.equalTo(28)
         }
 
         selectTableStack.snp.makeConstraints { make in
             make.top.equalTo(secondLineTitleStack.snp.bottom).offset(66)
-            make.top.greaterThanOrEqualTo(secondLineTitleStack.snp.bottom).offset(50)
             make.bottom.equalTo(nextButton.snp.top).offset(-60)
-            make.bottom.greaterThanOrEqualTo(nextButton.snp.top).offset(50)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 

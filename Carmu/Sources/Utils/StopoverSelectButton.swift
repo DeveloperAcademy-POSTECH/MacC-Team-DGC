@@ -67,20 +67,17 @@ final class StopoverSelectButton: UIButton {
         self.addressLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(20)
-            make.trailing.greaterThanOrEqualTo(timeLabel.snp.leading).offset(-30)
-            make.width.equalTo(140)
+            make.width.equalTo(150)
         }
 
         self.timeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalTo(detailTimeLabel.snp.leading).offset(-5)
-            make.width.equalTo(24)
         }
 
         self.detailTimeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(20)
-            make.width.equalTo(76)
         }
     }
 
