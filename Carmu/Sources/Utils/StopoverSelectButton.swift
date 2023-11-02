@@ -64,18 +64,18 @@ final class StopoverSelectButton: UIButton {
         layer.shadowRadius = 8
         layer.shadowOpacity = 0.2
 
-        self.addressLabel.snp.makeConstraints { make in
+        addressLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(20)
             make.width.equalTo(150)
         }
 
-        self.timeLabel.snp.makeConstraints { make in
+        timeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalTo(detailTimeLabel.snp.leading).offset(-5)
         }
 
-        self.detailTimeLabel.snp.makeConstraints { make in
+        detailTimeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(20)
         }

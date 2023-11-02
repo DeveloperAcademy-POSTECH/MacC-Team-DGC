@@ -61,8 +61,7 @@ final class CrewMakeUtil {
 
         purpleLineView.snp.makeConstraints { make in
             make.bottom.horizontalEdges.equalToSuperview()
-            make.width.equalTo(12)
-            make.height.equalTo(54)
+            make.width.height.equalTo(greenLineView)
         }
         return colorLineView
     }
