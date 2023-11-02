@@ -20,8 +20,13 @@ final class SessionStartViewController: UIViewController {
     private let sessionStartMidNoGroupView = SessionStartMidNoGroupView()
     private let firebaseManager = FirebaseManager()
 
-    // 데이터가 없을 때
-    let groupData: [Group]? = nil
+//    // 데이터가 없을 때
+//    let groupData: [Group]? = nil
+
+    // 데이터가 있을 때
+    let groupData: [Group]? = [
+        Group(id: "1", name: "aa", captainID: "ted", crews: ["uni", "rei", "bazzi"])
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
