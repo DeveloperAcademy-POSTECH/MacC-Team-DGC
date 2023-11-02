@@ -45,7 +45,7 @@ struct User: Codable {
     var nickname: String
     var email: String?
     var profileType: ProfileType
-    var groupList: String?    // [Group]
+    var groupList: [String]?    // [Group]
 }
 
 extension User {

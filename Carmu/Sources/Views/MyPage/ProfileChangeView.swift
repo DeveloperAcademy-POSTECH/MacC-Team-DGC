@@ -62,21 +62,25 @@ final class ProfileChangeView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setHeader()
-        setLabel()
-        setProfileCollectionView()
-        setSaveButton()
+        setupUI()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    func setHeader() {
+    private func setupUI() {
         addSubview(headerBar)
         headerBar.addSubview(headerTitleLabel)
         headerBar.addSubview(closeButton)
 
+        addSubview(guideLabel)
+        addSubview(profileCollectionView)
+        addSubview(saveButton)
+    }
+
+    private func setupConstraints() {
         headerBar.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(16)
             make.leading.trailing.equalToSuperview()
@@ -91,27 +95,16 @@ final class ProfileChangeView: UIView {
             make.centerY.equalToSuperview()
             make.width.height.equalTo(22)
         }
-    }
 
-    func setLabel() {
-        addSubview(guideLabel)
         guideLabel.snp.makeConstraints { make in
             make.top.equalTo(headerBar.snp.bottom).offset(60)
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalTo(profileCollectionView.snp.top).offset(-114)
         }
-    }
-
-    func setProfileCollectionView() {
-        addSubview(profileCollectionView)
         profileCollectionView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalTo(saveButton.snp.top).offset(-114)
         }
-    }
-
-    func setSaveButton() {
-        addSubview(saveButton)
         saveButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(80)

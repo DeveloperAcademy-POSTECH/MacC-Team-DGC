@@ -17,6 +17,10 @@ final class ProfileChangeViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
+        view.addSubview(profileChangeView)
+        profileChangeView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
