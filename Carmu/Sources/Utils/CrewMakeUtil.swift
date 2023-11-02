@@ -64,7 +64,70 @@ final class CrewMakeUtil {
             make.width.equalTo(12)
             make.height.equalTo(54)
         }
-        
         return colorLineView
+    }
+
+    static func stopoverPointSelectButton(address: String, _ isStartTime: Bool = true, time: Date) -> UIButton {
+        let button = UIButton()
+        let addressLabel = UILabel()
+        let timeLabel = UILabel()
+        let detailTimeLabel = UILabel()
+
+        addressLabel.text = address
+        timeLabel.text = isStartTime ? "출발" : "도착"
+        detailTimeLabel.text = Date.formattedDate(from: time, dateFormat: "aa hh:mm")
+
+        button.backgroundColor = UIColor.semantic.backgroundDefault
+        addressLabel.textColor = UIColor.semantic.textPrimary
+        timeLabel.textColor = UIColor.semantic.textPrimary
+        detailTimeLabel.textColor = UIColor.semantic.textPrimary
+        addressLabel.font = UIFont.carmuFont.headline1
+        timeLabel.font = UIFont.carmuFont.body1
+        detailTimeLabel.font = UIFont.carmuFont.subhead3
+
+        button.layer.cornerRadius = 8
+        button.layer.shadowColor = UIColor.theme.blue6?.cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 0)
+        button.layer.shadowRadius = 8
+        button.layer.shadowOpacity = 0.2
+
+        button.addSubview(addressLabel)
+        button.addSubview(timeLabel)
+        button.addSubview(detailTimeLabel)
+
+        button.snp.makeConstraints { make in
+            make.height.equalTo(54)
+        }
+
+        addressLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.leading.equalToSuperview().inset(20)
+            make.trailing.greaterThanOrEqualTo(timeLabel.snp.leading).offset(-30)
+            make.width.equalTo(140)
+        }
+
+        timeLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalTo(detailTimeLabel.snp.leading).offset(-5)
+            make.width.equalTo(22)
+        }
+
+        detailTimeLabel.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(20)
+            make.width.equalTo(74)
+        }
+
+        return button
+    }
+}
+
+// Preview
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct BoringPointSelectViewPreview: PreviewProvider {
+    static var previews: some View {
+        BPSViewControllerRepresentable()
     }
 }
