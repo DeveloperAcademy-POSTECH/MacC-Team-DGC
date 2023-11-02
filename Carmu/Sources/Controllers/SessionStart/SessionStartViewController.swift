@@ -80,7 +80,7 @@ extension SessionStartViewController {
         sessionStartNoGroupView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
-            make.bottom.equalToSuperview().inset(165)
+            make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
     }
     // 그룹이 있을 때
@@ -101,14 +101,27 @@ extension SessionStartViewController {
         // comment
         sessionStartView.topComment.text = "(그룹명),\n오늘 운행하시나요?"
         // 특정 부분 색상 넣기
-        let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
+        let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "(그룹명)") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)
         }
-        sessionStartView.topComment.attributedText = attributedText
+        sessionStartView.topComment.attributedText = topCommentText
+
+        sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
+        let notifyCommentText = NSMutableAttributedString(string: sessionStartView.notifyComment.text ?? "")
+        if let range2 = sessionStartView.notifyComment.text?.range(of: "30분 전") {
+            let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text!)
+            notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.textPrimary as Any,
+                                        range: nsRange2)
+        }
+        sessionStartView.notifyComment.attributedText = notifyCommentText
+
+        sessionStartView.individualButton.setTitle("운행하지 않아요", for: .normal)
+        sessionStartView.togetherButton.setTitle("운행해요", for: .normal)
 
         // view layout
         sessionStartDriverView.isHidden = false
@@ -117,11 +130,27 @@ extension SessionStartViewController {
         sessionStartDriverView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
-            make.bottom.equalToSuperview().inset(165)
+            make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
-
-
-
+        sessionStartView.notifyComment.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(sessionStartDriverView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+        }
+        sessionStartView.individualButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
+            make.width.lessThanOrEqualTo(170)
+            make.height.equalTo(60)
+            make.bottom.equalToSuperview().inset(60)
+        }
+        sessionStartView.togetherButton.snp.makeConstraints { make in
+            make.leading.equalTo(sessionStartView.individualButton.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(20)
+            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
+            make.width.equalTo(sessionStartView.individualButton.snp.width)
+            make.height.equalTo(60)
+            make.bottom.equalToSuperview().inset(60)
+        }
     }
 
     // 크루원일 때
@@ -143,7 +172,7 @@ extension SessionStartViewController {
         sessionStartPassengerView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
-            make.bottom.equalToSuperview().inset(165)
+            make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
     }
 }
