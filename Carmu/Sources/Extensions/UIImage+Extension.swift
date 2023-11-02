@@ -36,3 +36,14 @@ extension UIImage {
         return UIGraphicsGetImageFromCurrentImageContext() ?? UIImage()
     }
 }
+
+/// UIImage 사이즈 조정을 위한 함수입니다.
+/// ex. UIImage(named: "myPageButton").resizedImage(targetSize: CGSize(width: 48, height: 48))
+extension UIImage {
+    func resizedImage(targetSize: CGSize) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        return renderer.image { _ in
+            self.draw(in: CGRect(origin: .zero, size: targetSize))
+        }
+    }
+}
