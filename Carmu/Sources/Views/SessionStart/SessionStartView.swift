@@ -74,6 +74,7 @@ final class SessionStartView: UIView {
 
 // MARK: - Layout
 extension SessionStartView {
+    
     private func setupUI() {
         addSubview(myPageButton)
         addSubview(topComment)

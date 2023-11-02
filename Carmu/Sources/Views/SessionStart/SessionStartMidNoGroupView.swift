@@ -49,6 +49,7 @@ final class SessionStartMidNoGroupView: UIView {
 
 // MARK: - Layout Methods
 extension SessionStartMidNoGroupView {
+
     private func setupUI() {
         addSubview(contentView)
         contentView.addSubview(frontView)
@@ -59,12 +60,12 @@ extension SessionStartMidNoGroupView {
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
         layer.shadowOpacity = 0.5
         layer.shadowRadius = 10
-
     }
 }
 
 // MARK: - Actions
 extension SessionStartMidNoGroupView {
+
     @objc private func flip() {
         isFlipped.toggle()
 
@@ -79,6 +80,7 @@ extension SessionStartMidNoGroupView {
 
 // MARK: - 앞면 뷰
 final class FrontView: UIView {
+
     private lazy var frontImage: UIImageView = {
         let img = UIImage(named: "NoGroupBlinker")
         let imageView = UIImageView(image: img)
@@ -282,6 +284,7 @@ final class BackView: UIView {
         passengerView.addSubview(passengerImage)
         passengerView.addSubview(passengerInfoLabel)
     }
+    
     private func setupConstraints() {
         comment.snp.makeConstraints { make in
             make.top.lessThanOrEqualToSuperview().inset(28)
