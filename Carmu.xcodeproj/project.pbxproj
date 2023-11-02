@@ -199,14 +199,32 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		B83E23ED2AF3F1980048ED9A /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B8D73ABE2AD2914200D211DE /* SettingsView.swift */,
+				B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */,
+				B8D73AC22AD2FBE600D211DE /* InquiryView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		B83E23EE2AF3F2470048ED9A /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */,
+				B8EECE992AC96B5F004D310C /* InquiryViewController.swift */,
+				B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		B8A3EFD72AC5F27000433F5C /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				B83E23EE2AF3F2470048ED9A /* Settings */,
 				B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */,
-				B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */,
 				B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */,
-				B8EECE992AC96B5F004D310C /* InquiryViewController.swift */,
-				B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */,
 				B8DD15E12AD52CC300685E48 /* FriendAddViewController.swift */,
 				B8DD15E52AD63FD500685E48 /* FriendDetailViewController.swift */,
 				B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */,
@@ -217,10 +235,8 @@
 		B8D73ABB2AD2899200D211DE /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				B83E23ED2AF3F1980048ED9A /* Settings */,
 				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
-				B8D73ABE2AD2914200D211DE /* SettingsView.swift */,
-				B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */,
-				B8D73AC22AD2FBE600D211DE /* InquiryView.swift */,
 				B8DD15DD2AD4619B00685E48 /* FriendListView.swift */,
 				B8DD15DF2AD4677800685E48 /* FriendListTableViewCell.swift */,
 				B8DD15E32AD52D2F00685E48 /* FriendAddView.swift */,
