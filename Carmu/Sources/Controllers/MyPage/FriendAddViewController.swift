@@ -11,6 +11,7 @@ import FirebaseFunctions
 import FirebaseStorage
 
 final class FriendAddViewController: UIViewController {
+
     var searchedFriend: User? // 검색된 유저
     private let friendAddView = FriendAddView()
     private let encoder = JSONEncoder()
@@ -82,10 +83,12 @@ final class FriendAddViewController: UIViewController {
 
 // MARK: - @objc 메서드
 extension FriendAddViewController {
+
     // 상단 닫기 버튼 클릭 시 동작
     @objc private func closeFriendAddView() {
         self.dismiss(animated: true)
     }
+
     // [검색] 버튼을 눌렀을 때 동작
     @objc private func performFriendSearch() {
         dismissTextField()
@@ -93,7 +96,7 @@ extension FriendAddViewController {
         guard let searchKeyword = friendAddView.friendSearchTextField.text else {
             return
         }
-        searchUserNickname(searchNickname: searchKeyword) { searchedResult in
+        firebaseManager.searchUserNickname(searchNickname: searchKeyword) { searchedResult in
             if let searchedResult = searchedResult {
                 self.searchedFriend = searchedResult
                 self.setButtonState(isEnable: true)
@@ -104,10 +107,12 @@ extension FriendAddViewController {
             self.friendAddView.searchedFriendTableView.reloadData()
         }
     }
+
     // 텍스트필드 clear 버튼 눌렀을 때 동작
     @objc private func clearButtonPressed() {
         friendAddView.friendSearchTextField.text = ""
     }
+
     // 텍스트 필드 비활성화 시 동작
     @objc private func dismissTextField() {
         friendAddView.textFieldUtilityView.isHidden = true
@@ -115,6 +120,7 @@ extension FriendAddViewController {
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 1.0
         friendAddView.friendSearchTextField.resignFirstResponder() // 최초 응답자 해제
     }
+
     // [친구 추가하기] 버튼 눌렀을 때 동작
     @objc private func sendFriendRequest() {
         print("친구 추가하기 버튼 클릭됨")
@@ -127,7 +133,7 @@ extension FriendAddViewController {
         print("내Uid: \(myUID)")
         print("친구Uid: \(friendUID)")
 
-        self.addFriendship(myUID: myUID, friendUID: friendUID)
+        firebaseManager.addFriendship(myUID: myUID, friendUID: friendUID)
         firebaseManager.getFriendUser(friendID: friendUID) { friend in
             guard let friend = friend else {
                 return
@@ -138,6 +144,7 @@ extension FriendAddViewController {
         }
         showFriendRequestAlert()
     }
+
     // 키보드가 나타날 때 호출되는 메서드
     @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo else { return }
@@ -152,93 +159,10 @@ extension FriendAddViewController {
             )
         }
     }
+
     // 키보드가 사라질 때 호출되는 메서드
     @objc private func keyboardWillHide(notification: Notification) {
         self.friendAddView.friendAddButton.transform = .identity
-    }
-}
-
-// MARK: - Firebase Realtime Database DB 관련 메서드
-extension FriendAddViewController {
-
-    // MARK: - 닉네임에 해당하는 친구를 DB에서 검색하는 메서드
-    private func searchUserNickname(searchNickname: String, completion: @escaping (User?) -> Void) {
-        Database.database().reference().child("users").observeSingleEvent(of: .value) { snapshot in
-            for child in snapshot.children {
-                guard let snap = child as? DataSnapshot else {
-                    completion(nil)
-                    return
-                }
-                guard let dict = snap.value as? [String: Any] else {
-                    completion(nil)
-                    return
-                }
-                if dict["nickname"] as? String == searchNickname {
-                    print("\(searchNickname)이(가) 검색되었습니다!!!")
-                    let searchedFriend = User(
-                        id: dict["id"] as? String ?? "",
-                        deviceToken: dict["deviceToken"] as? String ?? "",
-                        nickname: dict["nickname"] as? String ?? "",
-                        email: dict["email"] as? String,
-                        imageURL: dict["imageURL"] as? String,
-                        friends: dict["friends"] as? [String]
-                    )
-                    completion(searchedFriend)
-                    return
-                }
-            }
-            completion(nil)
-        }
-    }
-
-    // MARK: - DB의 friendship에 새로운 친구 관계를 추가하는 메서드
-    private func addFriendship(myUID: String, friendUID: String) {
-        guard let key = Database.database().reference().child("friendship").childByAutoId().key else {
-            return
-        }
-        print("새로운 Friendship Key: \(key)")
-        // DB의 friendship에 새로 추가할 친구 관계 객체
-        let newFriendship = Friendship(
-            friendshipID: key,
-            senderID: myUID,
-            receiverID: friendUID,
-            status: true // TODO: - 이후 친구 수락 시 true로 바뀌게끔 수정 필요
-        )
-        // 사용자와 친구 DB의 friends에 새로운 friendship의 key를 추가해서 업데이트
-        addNewValueToUserFriends(uid: myUID, newValue: key)
-        addNewValueToUserFriends(uid: friendUID, newValue: key)
-        // 호환되는 타입으로 캐스팅 후 DB에 Friendship 추가
-        do {
-            let data = try JSONEncoder().encode(newFriendship)
-            let json = try JSONSerialization.jsonObject(with: data)
-            let childUpdates: [String: Any] = [
-                "friendship/\(key)": json
-            ]
-            Database.database().reference().updateChildValues(childUpdates)
-        } catch {
-            print("Friendship CREATE fail...", error)
-        }
-    }
-
-    // MARK: - DB에서 유저의 friends 목록에 새로운 friendshipId를 추가하는 메서드
-    private func addNewValueToUserFriends(uid: String, newValue: String) {
-        let databaseRef = Database.database().reference().child("users/\(uid)/friends")
-        print("다음 경로에 추가합니다!!! \(databaseRef)")
-        databaseRef.getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            if var friends = snapshot?.value as? [String] {
-                friends.append(newValue)
-                databaseRef.setValue(friends as NSArray)
-            } else {
-                // 아직 친구가 없는 경우 배열을 새로 만들어준다.
-                var newFriends = []
-                newFriends.append(newValue)
-                databaseRef.setValue(newFriends as NSArray)
-            }
-        }
     }
 }
 
@@ -265,37 +189,16 @@ extension FriendAddViewController {
     }
 }
 
-// MARK: - Firebase Storage 관련 메서드
-extension FriendAddViewController {
-
-    // MARK: - 파이어베이스 Storage에서 유저 이미지 불러오기
-    // TODO: - MyPageViewController와 중복되는 메서드 -> 정리 필요
-    private func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
-        let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
-        let megaByte = Int64(1 * 1024 * 1024)
-        firebaseStorageRef.getData(maxSize: megaByte) { data, error in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let imageData = data else {
-                completion(nil)
-                return
-            }
-            completion(UIImage(data: imageData))
-        }
-    }
-}
-
 // MARK: - UITextFieldDelegate 델리게이트 구현
 extension FriendAddViewController: UITextFieldDelegate {
+
     // 텍스트 필드의 편집이 시작될 때 호출되는 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
         friendAddView.friendSearchTextFieldView.backgroundColor = UIColor.semantic.backgroundSecond
         friendAddView.friendSearchTextFieldView.layer.borderWidth = 0
         friendAddView.textFieldUtilityView.isHidden = false
     }
+
     // 리턴 키를 눌렀을 때 호출되는 메서드
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         dismissTextField()
@@ -319,13 +222,16 @@ extension FriendAddViewController: UITextFieldDelegate {
 
 // MARK: - UITableViewDataSource 델리게이트 구현
 extension FriendAddViewController: UITableViewDataSource {
+
     // 셀의 개수 1개
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
+
     // 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if let searchedFriend = searchedFriend {
@@ -338,7 +244,7 @@ extension FriendAddViewController: UITableViewDataSource {
             }
             cell.nicknameLabel.text = searchedFriend.nickname
             if let imageURL = searchedFriend.imageURL {
-                loadProfileImage(urlString: imageURL) { userImage in
+                firebaseManager.loadProfileImage(urlString: imageURL) { userImage in
                     if let userImage = userImage {
                         cell.profileImageView.image = userImage
                     } else {
@@ -364,10 +270,12 @@ extension FriendAddViewController: UITableViewDataSource {
 
 // MARK: - UITableViewDelegate 델리게이트 구현
 extension FriendAddViewController: UITableViewDelegate {
+
     // 각 셀의 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 74
     }
+
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

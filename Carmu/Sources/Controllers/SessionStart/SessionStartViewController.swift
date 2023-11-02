@@ -20,6 +20,9 @@ final class SessionStartViewController: UIViewController {
     private let sessionStartMidNoGroupView = SessionStartMidNoGroupView()
     private let firebaseManager = FirebaseManager()
 
+    // 데이터가 없을 때
+    let groupData: [Group]? = nil
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -67,6 +70,7 @@ extension SessionStartViewController {
 
 // MARK: Actions
 extension SessionStartViewController {
+
     @objc private func myPageButtonDidTapped() {
         let myPageVC = MyPageViewController()
         navigationController?.pushViewController(myPageVC, animated: true)
