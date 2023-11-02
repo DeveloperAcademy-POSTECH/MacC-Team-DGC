@@ -49,7 +49,7 @@ extension BoardingPointSelectViewController {
 
         // 선택한 버튼의 색상 변경
         sender.setSelectedButtonAppearance()
-        
+
         boardingPointSelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
         boardingPointSelectView.nextButton.isEnabled = true
         selectedPoint = sender.tag
