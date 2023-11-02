@@ -25,6 +25,7 @@ struct SemanticColor {
     let textEnabled = UIColor.theme.gray7
     let textDisableBT = UIColor.theme.blue3
     let textNewCrew = UIColor.theme.red5
+    let textTertiary = UIColor.theme.blue8
 
     let negative = UIColor.theme.red7
     let error = UIColor.theme.red7
