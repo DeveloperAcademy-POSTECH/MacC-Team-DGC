@@ -50,7 +50,7 @@ final class SelectAddressViewController: UIViewController {
 
         selectAddressView.closeButton.addTarget(
             self,
-            action: #selector(closeFriendAddView),
+            action: #selector(closeAddressView),
             for: .touchUpInside
         )
         selectAddressView.addressSearchButton.addTarget(
@@ -100,8 +100,8 @@ final class SelectAddressViewController: UIViewController {
 extension SelectAddressViewController {
 
     // 상단 닫기 버튼 클릭 시 동작
-    @objc private func closeFriendAddView() {
-        self.dismiss(animated: true)
+    @objc private func closeAddressView() {
+        dismiss(animated: true)
     }
 
     // [검색] 버튼을 눌렀을 때 동작

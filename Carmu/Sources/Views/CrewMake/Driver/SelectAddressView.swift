@@ -28,9 +28,9 @@ final class SelectAddressView: UIView {
     }()
 
     // 모달 닫기 버튼
-    lazy var closeButton: UIButton = {
+    let closeButton: UIButton = {
         let closeButton = UIButton()
-        let buttonImage = UIImage(systemName: "chevron.left")
+        let buttonImage = UIImage(systemName: "xmark")
         closeButton.setBackgroundImage(buttonImage, for: .normal)
         closeButton.tintColor = UIColor.semantic.accPrimary
         closeButton.contentMode = .scaleAspectFit
@@ -149,9 +149,9 @@ final class SelectAddressView: UIView {
         }
 
         closeButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(7)
+            make.trailing.equalToSuperview().inset(16)
             make.centerY.equalToSuperview()
-            make.width.equalTo(15)
+            make.width.equalTo(21)
             make.height.equalTo(24)
         }
 
