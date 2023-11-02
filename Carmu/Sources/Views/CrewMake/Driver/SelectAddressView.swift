@@ -9,7 +9,7 @@ import UIKit
 
 final class SelectAddressView: UIView {
 
-    // MARK: - 친구 추가 모달 상단 바
+    // MARK: - 모달 상단 바
     private lazy var headerBar: UIView = {
         let headerStackView = UIView()
 
