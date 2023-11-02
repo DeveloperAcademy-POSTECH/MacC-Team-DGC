@@ -29,8 +29,7 @@ final class BoardingPointSelectViewController: UIViewController {
 // MARK: - @objc Method
 extension BoardingPointSelectViewController {
     @objc private func stopoverPointTapped(_ sender: UIButton) {
-        sender.
-
+        
     }
 }
 
