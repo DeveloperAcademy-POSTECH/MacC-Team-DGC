@@ -83,9 +83,6 @@ extension SessionStartViewController {
                 make.bottom.equalToSuperview().inset(165)
             }
         }
-
-        // TODO: - 운전자인지, 크루원인지 구분하기
-
     }
 }
 

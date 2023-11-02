@@ -23,7 +23,7 @@ final class SessionStartNoGroupView: UIView {
     // 앞면 뷰
     private lazy var noGroupFrontView = NoGroupFrontView()
     // 뒷면 뷰
-    private lazy var backView = BackView()
+    private lazy var noGroupBackView = NoGroupBackView()
 
     init() {
         super.init(frame: .zero)
@@ -42,7 +42,7 @@ final class SessionStartNoGroupView: UIView {
 
         contentView.frame = bounds
         noGroupFrontView.frame = bounds
-        backView.frame = bounds
+        noGroupBackView.frame = bounds
 
     }
 }
@@ -53,8 +53,8 @@ extension SessionStartNoGroupView {
     private func setupUI() {
         addSubview(contentView)
         contentView.addSubview(noGroupFrontView)
-        contentView.addSubview(backView)
-        backView.isHidden = true
+        contentView.addSubview(noGroupBackView)
+        noGroupBackView.isHidden = true
 
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
@@ -73,7 +73,7 @@ extension SessionStartNoGroupView {
 
         UIView.transition(with: contentView, duration: 0.4, options: transitionOptions, animations: {
             self.noGroupFrontView.isHidden = self.isFlipped
-            self.backView.isHidden = !self.isFlipped
+            self.noGroupBackView.isHidden = !self.isFlipped
         }, completion: nil)
     }
 }
@@ -171,8 +171,7 @@ final class NoGroupFrontView: UIView {
 }
 
 // MARK: - 뒷면 뷰
-
-final class BackView: UIView {
+final class NoGroupBackView: UIView {
 
     private lazy var comment: UILabel = {
         let lbl = UILabel()
