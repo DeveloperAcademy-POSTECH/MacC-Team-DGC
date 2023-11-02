@@ -63,14 +63,14 @@ final class StopoverPointCheckView: UIView {
 
         noStopoverButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
-            make.top.equalTo(titleStackView.snp.bottom).offset(120)
+            make.top.equalTo(titleStackView.snp.bottom).offset(176)
             make.width.equalTo(165)
             make.height.equalTo(240)
         }
 
         yesStopoverButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(titleStackView.snp.bottom).offset(120)
+            make.top.equalTo(noStopoverButton.snp.top)
             make.leading.greaterThanOrEqualTo(noStopoverButton.snp.trailing).offset(2)
             make.width.height.equalTo(noStopoverButton)
         }
