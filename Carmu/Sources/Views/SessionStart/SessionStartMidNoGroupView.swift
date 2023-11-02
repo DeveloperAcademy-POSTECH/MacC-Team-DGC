@@ -19,57 +19,8 @@ final class SessionStartMidNoGroupView: UIView {
         view.backgroundColor = .white
         return view
     }()
-
     // 앞면 뷰
-    private lazy var frontView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
-    private lazy var frontImage: UIImageView = {
-        let img = UIImage(named: "NoGroupBlinker")
-        let imageView = UIImageView(image: img)
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    private lazy var frontComment: UILabel = {
-        let lbl = UILabel()
-
-        let attributedText = NSMutableAttributedString(string: "아직 참여중인\n여정이 없어요", attributes: [
-            .font: UIFont.carmuFont.headline1
-        ])
-
-        let body1LongText = NSMutableAttributedString(string: "\n\n여정을 만들어 보세요!", attributes: [
-            .font: UIFont.carmuFont.body1Long,
-            .foregroundColor: UIColor.semantic.textTertiary as Any
-        ])
-
-        attributedText.append(body1LongText)
-
-        lbl.attributedText = attributedText
-        lbl.textAlignment = .center
-        lbl.numberOfLines = 0
-
-        return lbl
-    }()
-    private lazy var createGroupButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("크루 만들기", for: .normal)
-        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: .bold)
-        btn.backgroundColor = UIColor.semantic.accPrimary
-        btn.layer.cornerRadius = 30
-        return btn
-    }()
-    private lazy var inviteCodeButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("초대코드 입력하기", for: .normal)
-        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        btn.backgroundColor = UIColor.semantic.accPrimary
-        btn.layer.cornerRadius = 30
-        return btn
-    }()
+    private lazy var frontView = FrontView()
 
     // 뒷면 뷰
     private lazy var backView: UIView = {
@@ -82,7 +33,6 @@ final class SessionStartMidNoGroupView: UIView {
     init() {
         super.init(frame: .zero)
         setupUI()
-        setupConstraints()
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(flip))  // flip 메서드 만들기
         addGestureRecognizer(tapGesture)
@@ -109,18 +59,94 @@ extension SessionStartMidNoGroupView {
         contentView.addSubview(frontView)
         contentView.addSubview(backView)
 
-        frontView.addSubview(frontImage)
-        frontView.addSubview(frontComment)
-        frontView.addSubview(createGroupButton)
-        frontView.addSubview(inviteCodeButton)
-
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
         layer.shadowOpacity = 0.5
         layer.shadowRadius = 10
 
     }
+}
+
+// MARK: - Actions
+extension SessionStartMidNoGroupView {
+    @objc private func flip() {
+        isFlipped.toggle()
+
+        let transitionOptions: UIView.AnimationOptions = isFlipped ? .transitionFlipFromLeft : .transitionFlipFromRight
+
+        UIView.transition(with: contentView, duration: 0.4, options: transitionOptions, animations: {
+            self.frontView.isHidden = self.isFlipped
+            self.backView.isHidden = !self.isFlipped
+        }, completion: nil)
+    }
+}
+
+// MARK: - 앞면 뷰
+final class FrontView: UIView {
+    lazy var frontImage: UIImageView = {
+        let img = UIImage(named: "NoGroupBlinker")
+        let imageView = UIImageView(image: img)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    lazy var frontComment: UILabel = {
+        let lbl = UILabel()
+
+        let attributedText = NSMutableAttributedString(string: "아직 참여중인\n여정이 없어요", attributes: [
+            .font: UIFont.carmuFont.headline1
+        ])
+
+        let body1LongText = NSMutableAttributedString(string: "\n\n여정을 만들어 보세요!", attributes: [
+            .font: UIFont.carmuFont.body1Long,
+            .foregroundColor: UIColor.semantic.textTertiary as Any
+        ])
+
+        attributedText.append(body1LongText)
+
+        lbl.attributedText = attributedText
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 0
+
+        return lbl
+    }()
+    lazy var createGroupButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("크루 만들기", for: .normal)
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        btn.backgroundColor = UIColor.semantic.accPrimary
+        btn.layer.cornerRadius = 30
+        return btn
+    }()
+    lazy var inviteCodeButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("초대코드 입력하기", for: .normal)
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        btn.backgroundColor = UIColor.semantic.accPrimary
+        btn.layer.cornerRadius = 30
+        return btn
+    }()
+
+    init() {
+        super.init(frame: .zero)
+        setupFrontView()
+        setupConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupFrontView() {
+        addSubview(frontImage)
+        addSubview(frontComment)
+        addSubview(createGroupButton)
+        addSubview(inviteCodeButton)
+    }
+
     private func setupConstraints() {
+        // Add your constraints for the FrontView's subviews here.
         frontImage.snp.makeConstraints { make in
             make.top.lessThanOrEqualToSuperview().inset(40)
             make.leading.trailing.equalToSuperview().inset(124)
@@ -144,19 +170,5 @@ extension SessionStartMidNoGroupView {
             make.width.equalTo(170)
             make.height.equalTo(60)
         }
-    }
-}
-
-// MARK: - Actions
-extension SessionStartMidNoGroupView {
-    @objc private func flip() {
-        isFlipped.toggle()
-
-        let transitionOptions: UIView.AnimationOptions = isFlipped ? .transitionFlipFromLeft : .transitionFlipFromRight
-
-        UIView.transition(with: contentView, duration: 0.4, options: transitionOptions, animations: {
-            self.frontView.isHidden = self.isFlipped
-            self.backView.isHidden = !self.isFlipped
-        }, completion: nil)
     }
 }
