@@ -12,30 +12,28 @@ import SnapKit
 final class SessionStartMidNoGroupView: UIView {
 
     private lazy var isFlipped = false
-    private lazy var contentView = UIView()  // 앞면, 뒷면을 담을 뷰
-    private lazy var frontView = UIView() // 앞면 뷰
-    private lazy var backView = UIView() // 뒷면 뷰
-
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = 20
+        view.layer.masksToBounds = true
+        view.backgroundColor = .white
+        return view
+    }()
+    private lazy var frontView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    private lazy var backView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.isHidden = true
+        return view
+    }()
 
     init() {
         super.init(frame: .zero)
-
-        contentView.layer.cornerRadius = 10
-        contentView.layer.masksToBounds = true
-        contentView.layer.borderWidth = 1
-        contentView.layer.borderColor = UIColor.black.cgColor
-
-        // 앞면 뷰
-        frontView.backgroundColor = .white
-
-        // 뒷면 뷰
-        backView.backgroundColor = .systemBlue
-
-        backView.isHidden = true
-
-        addSubview(contentView)
-        contentView.addSubview(frontView)
-        contentView.addSubview(backView)
+        setupUI()
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(flip))  // flip 메서드 만들기
         addGestureRecognizer(tapGesture)
@@ -53,8 +51,26 @@ final class SessionStartMidNoGroupView: UIView {
         backView.frame = bounds
 
     }
+}
 
-    @objc func flip() {
+// MARK: - Layout Methods
+extension SessionStartMidNoGroupView {
+    private func setupUI() {
+        addSubview(contentView)
+        contentView.addSubview(frontView)
+        contentView.addSubview(backView)
+
+        layer.cornerRadius = 20
+        layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowRadius = 10
+
+    }
+}
+
+// MARK: - Actions
+extension SessionStartMidNoGroupView {
+    @objc private func flip() {
         isFlipped.toggle()
 
         let transitionOptions: UIView.AnimationOptions = isFlipped ? .transitionFlipFromLeft : .transitionFlipFromRight
@@ -64,9 +80,4 @@ final class SessionStartMidNoGroupView: UIView {
             self.backView.isHidden = !self.isFlipped
         }, completion: nil)
     }
-}
-
-// MARK: - Layout Methods
-extension SessionStartMidNoGroupView {
-
 }
