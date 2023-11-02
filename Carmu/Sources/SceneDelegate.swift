@@ -34,7 +34,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let sessionStartViewController = SessionStartViewController()
             let navigationController = UINavigationController(rootViewController: sessionStartViewController)
             window.rootViewController = navigationController
-            window.rootViewController = StartEndPointSelectViewController()
         } else {
             window.rootViewController = LoginViewController()
         }
