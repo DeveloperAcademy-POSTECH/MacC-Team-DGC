@@ -188,6 +188,37 @@ final class BackView: UIView {
         view.layer.cornerRadius = 20
         return view
     }()
+    private lazy var driverLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "운전자"
+        lbl.textColor = UIColor.semantic.textPrimary
+        lbl.font = UIFont.carmuFont.headline1
+        lbl.textAlignment = .center
+        return lbl
+    }()
+    private lazy var driverImage: UIImageView = {
+        let img = UIImage(named: "DriverBlinker")
+        let imageView = UIImageView(image: img)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    private lazy var driverInfoLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "적어도 출발시간 30분 전까지는\n카풀 운행 여부를 알려주세요"
+        lbl.font = UIFont.carmuFont.body3
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 0
+
+        let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
+        if let range1 = lbl.text?.range(of: "출발시간 30분 전") {
+            let nsRange1 = NSRange(range1, in: lbl.text!)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange1)
+        }
+        lbl.attributedText = attributedText
+        return lbl
+    }()
 
     // 동승자 규칙 뷰
     private lazy var passengerView: UIView = {
@@ -195,6 +226,37 @@ final class BackView: UIView {
         view.backgroundColor = UIColor.semantic.backgroundSecond
         view.layer.cornerRadius = 20
         return view
+    }()
+    private lazy var passengerLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "동승자"
+        lbl.textColor = UIColor.semantic.textPrimary
+        lbl.font = UIFont.carmuFont.headline1
+        lbl.textAlignment = .center
+        return lbl
+    }()
+    private lazy var passengerImage: UIImageView = {
+        let img = UIImage(named: "PassengerBlinker")
+        let imageView = UIImageView(image: img)
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    private lazy var passengerInfoLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "적어도 출발시간 20분 전까지는\n카풀 탑승 여부를 알려주세요"
+        lbl.font = UIFont.carmuFont.body3
+        lbl.textAlignment = .center
+        lbl.numberOfLines = 0
+
+        let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
+        if let range1 = lbl.text?.range(of: "출발시간 20분 전") {
+            let nsRange1 = NSRange(range1, in: lbl.text!)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange1)
+        }
+        lbl.attributedText = attributedText
+        return lbl
     }()
 
     init() {
@@ -211,6 +273,14 @@ final class BackView: UIView {
         addSubview(comment)
         addSubview(driverView)
         addSubview(passengerView)
+
+        driverView.addSubview(driverLabel)
+        driverView.addSubview(driverImage)
+        driverView.addSubview(driverInfoLabel)
+
+        passengerView.addSubview(passengerLabel)
+        passengerView.addSubview(passengerImage)
+        passengerView.addSubview(passengerInfoLabel)
     }
     private func setupConstraints() {
         comment.snp.makeConstraints { make in
@@ -220,13 +290,46 @@ final class BackView: UIView {
         driverView.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(comment.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
-            make.height.lessThanOrEqualTo(160)
+            make.width.equalTo(310)
+            make.height.greaterThanOrEqualTo(120)
         }
         passengerView.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(driverView.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
             make.bottom.lessThanOrEqualToSuperview().inset(20)
+            make.width.equalTo(driverView)
             make.height.equalTo(driverView)
+        }
+        driverLabel.snp.makeConstraints { make in
+            make.top.lessThanOrEqualToSuperview().inset(16)
+            make.centerX.equalToSuperview()
+        }
+        driverImage.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(driverLabel.snp.bottom).offset(6)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(60)
+            make.height.equalTo(50)
+        }
+        driverInfoLabel.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(driverImage.snp.bottom).offset(6)
+            make.centerX.equalToSuperview()
+            make.bottom.lessThanOrEqualToSuperview().inset(12)
+        }
+
+        passengerLabel.snp.makeConstraints { make in
+            make.top.lessThanOrEqualToSuperview().inset(16)
+            make.centerX.equalToSuperview()
+        }
+        passengerImage.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(passengerLabel.snp.bottom).offset(6)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(60)
+            make.height.equalTo(50)
+        }
+        passengerInfoLabel.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(passengerImage.snp.bottom).offset(6)
+            make.centerX.equalToSuperview()
+            make.bottom.lessThanOrEqualToSuperview().inset(12)
         }
     }
 }
