@@ -34,7 +34,13 @@ class FirebaseManager {
             return
         }
         print("FCMToken -> ", fcmToken)
-        let user = User(id: firebaseUser.uid, deviceToken: fcmToken, nickname: nickname, email: email)
+        let user = User(
+            id: firebaseUser.uid,
+            deviceToken: fcmToken,
+            nickname: nickname,
+            email: email,
+            profileType: .profileBlue // 기본 프로필
+        )
         do {
             let data = try encoder.encode(user)
 
@@ -78,85 +84,44 @@ class FirebaseManager {
     }
 
     /**
-     파이어베이스에 저장된 유저 확인 메서드
+     uid값으로 DB에서 저장된 유저 정보 불러오기 (READ)
      - 호출되는 곳
         - LoginViewController
      */
-    func checkUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
+    func readUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
         databasePath.getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
                 return
             }
-            if let value = snapshot?.value as? [String: Any] {
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: value)
-                    let user = try JSONDecoder().decode(User.self, from: data)
-                    completion(user)
-                } catch {
-                    print("User decoding error", error)
-                    completion(nil)
-                }
-            } else {
-                print("Invalid data format")
-                completion(nil)
-            }
-        }
-    }
-
-    /**
-     DB에서 유저의 nickname을 불러오는 메서드
-     - 호출되는 곳
-        - MyPageViewController
-     */
-    func readNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
-        databasePath.child("nickname").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
+            guard let value = snapshot?.value as? [String: Any] else {
                 completion(nil)
                 return
             }
-            let nickname = snapshot?.value as? String
-            completion(nickname)
+            do {
+                let data = try JSONSerialization.data(withJSONObject: value)
+                let user = try JSONDecoder().decode(User.self, from: data)
+                completion(user)
+            } catch {
+                print("User decoding error", error)
+                completion(nil)
+            }
         }
     }
 
+    // TODO: - ProfileChangeViewController에 적용해보기
     /**
-     DB 유저 정보에 이미지 경로 저장
+     DB에서 유저의 프로필 타입 업데이트
      - 호출되는 곳
-        - MyPageViewController
+        - ProfileChangeViewController
      */
-    func addImageUrlToDB(imageURL: String?) {
+    func updateUserProfileType(type: ProfileType) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        guard let imageURL = imageURL else {
-            databasePath.child("imageURL").setValue(nil)
-            return
-        }
-        databasePath.child("imageURL").setValue(imageURL as NSString)
-    }
-
-    /**
-     DB에서 유저 이미지 경로 불러오기
-     - 호출되는 곳
-        - MyPageViewController
-     */
-    func readProfileImageURL(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
-        databasePath.child("imageURL").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let snapshotValue = snapshot?.value else {
-                completion(nil)
-                return
-            }
-            let imageURL = snapshotValue as? String
-            completion(imageURL)
-        }
+        let profileType = type.rawValue
+        databasePath.child("profileType").setValue(profileType as NSString)
     }
 }
 
@@ -240,8 +205,7 @@ extension FirebaseManager {
                 deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
                 email: snapshotValue["email"] as? String,
-                imageURL: snapshotValue["imageURL"] as? String,
-                friends: snapshotValue["friends"] as? [String]
+                profileType: .profileBlue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
             )
             completion(friend)
         }
@@ -302,8 +266,7 @@ extension FirebaseManager {
                         deviceToken: dict["deviceToken"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
                         email: dict["email"] as? String,
-                        imageURL: dict["imageURL"] as? String,
-                        friends: dict["friends"] as? [String]
+                        profileType: .profileBlue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
                     )
                     completion(searchedFriend)
                     return
