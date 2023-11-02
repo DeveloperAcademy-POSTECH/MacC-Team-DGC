@@ -17,6 +17,7 @@
 		B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */; };
 		B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */; };
 		B83E23EC2AF3DBBC0048ED9A /* ProfileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */; };
+		B83E23F02AF3F3600048ED9A /* ProfileTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EF2AF3F3600048ED9A /* ProfileTypeCollectionViewCell.swift */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
 		B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */; };
 		B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */; };
@@ -93,6 +94,7 @@
 		B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeView.swift; sourceTree = "<group>"; };
 		B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeViewController.swift; sourceTree = "<group>"; };
 		B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileType.swift; sourceTree = "<group>"; };
+		B83E23EF2AF3F3600048ED9A /* ProfileTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmu.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				B8DD15ED2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift */,
 				B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */,
 				B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */,
+				B83E23EF2AF3F3600048ED9A /* ProfileTypeCollectionViewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */,
 				C9F43BDB2AF2700400BAA0E3 /* InviteCodeInputView.swift in Sources */,
 				C9F43BDD2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift in Sources */,
+				B83E23F02AF3F3600048ED9A /* ProfileTypeCollectionViewCell.swift in Sources */,
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,

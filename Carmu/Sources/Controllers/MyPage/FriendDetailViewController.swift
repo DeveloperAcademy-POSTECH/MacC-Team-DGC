@@ -95,7 +95,7 @@ extension FriendDetailViewController {
 // MARK: - UICollectionViewDataSource 델리게이트 구현
 extension FriendDetailViewController: UICollectionViewDataSource {
 
-    // 컬렉션 뷰의 아이템이 몇개인지
+    // 컬렉션 뷰의 아이템 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }
