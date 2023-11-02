@@ -29,9 +29,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // 로그인한 사용자가 있는지 체크
         if Auth.auth().currentUser != nil {
-            let sessionStartViewController = SessionStartViewController()
-            let navigationController = UINavigationController(rootViewController: sessionStartViewController)
-            window.rootViewController = navigationController
+
+//            // MARK: - SessionStartViewController()
+//            let sessionStartViewController = SessionStartViewController()
+//            let navigationController = UINavigationController(rootViewController: sessionStartViewController)
+//            window.rootViewController = navigationController
+
+            window.rootViewController = BoardingPointSelectViewController()
+
         } else {
             window.rootViewController = LoginViewController()
         }

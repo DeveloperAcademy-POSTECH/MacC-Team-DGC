@@ -14,6 +14,7 @@ struct SemanticColor {
 
     let backgroundDefault = UIColor.theme.white
     let backgroundSecond = UIColor.theme.blue1
+    let backgroundThird = UIColor.theme.blue2
     let backgroundAddress = UIColor.theme.gray1
     let backgroundTouchable = UIColor.theme.blue2
     let backgroundDisableBT = UIColor.theme.blue1
@@ -31,5 +32,5 @@ struct SemanticColor {
     let error = UIColor.theme.red7
 
     let accPrimary = UIColor.theme.blue6
-    let accSecondary = UIColor.theme.acua6
+    let accSecondary = UIColor.theme.acua5
 }
