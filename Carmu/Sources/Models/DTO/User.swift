@@ -25,18 +25,18 @@ typealias UserIdentifier = String
  👉 피그마 프로토타입의 프로필 설정 화면 기준으로 좌상단→우하단 순서대로 색에 맞게 이름을 지정했습니다.
  */
 enum ProfileType: String, Codable {
-    case blue1
-    case aqua1
-    case red1
-    case yellow1
-    case aquaBlue
-    case redBlue
-    case purpleBlue
-    case orangeBlue
-    case green
-    case navy
-    case darkNavy
-    case gray
+    case profileBlue
+    case profileAqua
+    case profileRed
+    case profileYellow
+    case profileAquaBlue
+    case profileRedBlue
+    case profilePurpleBlue
+    case profileOrangeBlue
+    case profileGreen
+    case profileNavy
+    case profileDarkNavy
+    case profileGray
 }
 
 struct User: Codable {
