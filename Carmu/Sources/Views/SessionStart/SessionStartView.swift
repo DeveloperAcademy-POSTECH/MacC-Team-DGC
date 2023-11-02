@@ -13,26 +13,9 @@ final class SessionStartView: UIView {
 
     lazy var topComment: UILabel = {
         let lbl = UILabel()
-        lbl.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         lbl.font = UIFont.carmuFont.headline2
         lbl.textAlignment = .left
         lbl.numberOfLines = 0
-
-        let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
-        if let range1 = lbl.text?.range(of: "카뮤") {
-            let nsRange1 = NSRange(range1, in: lbl.text!)
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
-        }
-        if let range2 = lbl.text?.range(of: "카풀 생활") {
-            let nsRange2 = NSRange(range2, in: lbl.text!)
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange2)
-        }
-        lbl.attributedText = attributedText
-
         return lbl
     }()
 
@@ -74,7 +57,7 @@ final class SessionStartView: UIView {
 
 // MARK: - Layout
 extension SessionStartView {
-    
+
     private func setupUI() {
         addSubview(myPageButton)
         addSubview(topComment)

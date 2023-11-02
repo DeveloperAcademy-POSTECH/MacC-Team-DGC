@@ -57,6 +57,22 @@ extension SessionStartViewController {
 
     // 그룹이 없을 때
     private func settingNoGroupView() {
+        sessionStartView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
+        let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
+        if let range1 = sessionStartView.topComment.text?.range(of: "카뮤") {
+            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange1)
+        }
+        if let range2 = sessionStartView.topComment.text?.range(of: "카풀 생활") {
+            let nsRange2 = NSRange(range2, in: sessionStartView.topComment.text!)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange2)
+        }
+        sessionStartView.topComment.attributedText = attributedText
+
         sessionStartDriverView.isHidden = true
         sessionStartPassengerView.isHidden = true
         sessionStartNoGroupView.isHidden = false
@@ -74,14 +90,60 @@ extension SessionStartViewController {
 
         // TODO: - 데이터 형식에 맞춰서 수정
         if groupData?.captainID == "ted" {  // 운전자일 경우
-            sessionStartDriverView.isHidden = false
-            sessionStartPassengerView.isHidden = true
+            settingDriverView()
+        } else {    // 크루원인 경우
+            settingPassengerView()
+        }
+    }
 
-            sessionStartDriverView.snp.makeConstraints { make in
-                make.leading.trailing.equalToSuperview().inset(20)
-                make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
-                make.bottom.equalToSuperview().inset(165)
-            }
+    // 운전자일 때
+    private func settingDriverView() {
+        // comment
+        sessionStartView.topComment.text = "(그룹명),\n오늘 운행하시나요?"
+        // 특정 부분 색상 넣기
+        let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
+        if let range1 = sessionStartView.topComment.text?.range(of: "(그룹명)") {
+            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange1)
+        }
+        sessionStartView.topComment.attributedText = attributedText
+
+        // view layout
+        sessionStartDriverView.isHidden = false
+        sessionStartPassengerView.isHidden = true
+
+        sessionStartDriverView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
+            make.bottom.equalToSuperview().inset(165)
+        }
+
+
+
+    }
+
+    // 크루원일 때
+    private func settingPassengerView() {
+        sessionStartView.topComment.text = "(그룹명)과\n함께 가시나요?"
+        // 특정 부분 색상 넣기
+        let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
+        if let range1 = sessionStartView.topComment.text?.range(of: "(그룹명)") {
+            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange1)
+        }
+        sessionStartView.topComment.attributedText = attributedText
+
+        sessionStartDriverView.isHidden = true
+        sessionStartPassengerView.isHidden = false
+
+        sessionStartPassengerView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
+            make.bottom.equalToSuperview().inset(165)
         }
     }
 }
