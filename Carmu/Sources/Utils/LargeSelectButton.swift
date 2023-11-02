@@ -18,14 +18,14 @@ final class LargeSelectButton: UIButton {
         return imageView
     }()
 
-    let topTitleLabel: UILabel = {
+    private let topTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.carmuFont.headline1
         label.textColor = UIColor.semantic.textPrimary
         return label
     }()
 
-    let bottomTitleLabel: UILabel = {
+    private let bottomTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.carmuFont.subhead3
         label.textColor = UIColor.semantic.textPrimary

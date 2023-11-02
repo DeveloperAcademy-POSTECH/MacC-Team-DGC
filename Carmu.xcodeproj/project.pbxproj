@@ -76,6 +76,9 @@
 		C9F43BD22AF227B100BAA0E3 /* LargeSelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */; };
 		C9F43BD92AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BD82AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift */; };
 		C9F43BDB2AF2700400BAA0E3 /* InviteCodeInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BDA2AF2700400BAA0E3 /* InviteCodeInputView.swift */; };
+		C9F43BDD2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BDC2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift */; };
+		C9F43BDF2AF2C09500BAA0E3 /* BoardingPointSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BDE2AF2C09500BAA0E3 /* BoardingPointSelectView.swift */; };
+		C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BE02AF3430C00BAA0E3 /* StopoverSelectButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -143,6 +146,9 @@
 		C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeSelectButton.swift; sourceTree = "<group>"; };
 		C9F43BD82AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeInputViewController.swift; sourceTree = "<group>"; };
 		C9F43BDA2AF2700400BAA0E3 /* InviteCodeInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InviteCodeInputView.swift; sourceTree = "<group>"; };
+		C9F43BDC2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardingPointSelectViewController.swift; sourceTree = "<group>"; };
+		C9F43BDE2AF2C09500BAA0E3 /* BoardingPointSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardingPointSelectView.swift; sourceTree = "<group>"; };
+		C9F43BE02AF3430C00BAA0E3 /* StopoverSelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverSelectButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,6 +386,7 @@
 				BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */,
 				C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */,
 				C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */,
+				C9F43BE02AF3430C00BAA0E3 /* StopoverSelectButton.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -389,6 +396,7 @@
 			children = (
 				C9F43BCA2AF2151500BAA0E3 /* PositionSelectViewController.swift */,
 				C9F43BD82AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift */,
+				C9F43BDC2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift */,
 			);
 			path = CrewMake;
 			sourceTree = "<group>";
@@ -398,6 +406,7 @@
 			children = (
 				C9F43BCD2AF2155400BAA0E3 /* PositionSelectView.swift */,
 				C9F43BDA2AF2700400BAA0E3 /* InviteCodeInputView.swift */,
+				C9F43BDE2AF2C09500BAA0E3 /* BoardingPointSelectView.swift */,
 			);
 			path = CrewMake;
 			sourceTree = "<group>";
@@ -531,6 +540,7 @@
 				B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */,
 				B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */,
 				C9F43BDB2AF2700400BAA0E3 /* InviteCodeInputView.swift in Sources */,
+				C9F43BDD2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift in Sources */,
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
@@ -544,9 +554,11 @@
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				C9F43BD92AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
+				C9F43BDF2AF2C09500BAA0E3 /* BoardingPointSelectView.swift in Sources */,
 				B8DD15E22AD52CC300685E48 /* FriendAddViewController.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
+				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
 				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
