@@ -16,30 +16,16 @@ final class MyPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
-        // 닉네임 불러오기
+        // 유저 정보 불러와서 닉네임, 프로필 표시
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        firebaseManager.readNickname(databasePath: databasePath) { storedNickname in
-            guard let storedNickname = storedNickname else {
+        firebaseManager.readUser(databasePath: databasePath) { userData in
+            guard let userData = userData else {
                 return
             }
-            self.myPageView.nicknameLabel.text = storedNickname
-        }
-        // 프로필 이미지 불러오기
-        firebaseManager.readProfileImageURL(databasePath: databasePath) { imageURL in
-            if let imageURL = imageURL {
-                print("프로필 이미지가 있습니다.")
-                self.firebaseManager.loadProfileImage(urlString: imageURL) { profileImage in
-                    guard let profileImage = profileImage else {
-                        return
-                    }
-                    self.myPageView.imageView.image = profileImage
-                }
-            } else {
-                print("프로필 이미지가 없습니다.")
-                self.myPageView.imageView.image = UIImage(named: "profile")
-            }
+            self.myPageView.nicknameLabel.text = userData.nickname
+            self.myPageView.imageView.image = UIImage(named: userData.profileType.rawValue)
         }
 
         let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
@@ -51,7 +37,7 @@ final class MyPageViewController: UIViewController {
         }
         myPageView.settingsButton.addTarget(self, action: #selector(showSettings), for: .touchUpInside)
         myPageView.editButton.addTarget(self, action: #selector(showTextField), for: .touchUpInside)
-        myPageView.addButton.addTarget(self, action: #selector(showImagePicker), for: .touchUpInside)
+        myPageView.addButton.addTarget(self, action: #selector(showProfileChangeView), for: .touchUpInside)
         myPageView.textFieldEditCancelButton.addTarget(self, action: #selector(dismissTextField), for: .touchUpInside)
         myPageView.textFieldEditDoneButton.addTarget(self, action: #selector(changeNickname), for: .touchUpInside)
 
@@ -116,34 +102,11 @@ extension MyPageViewController {
         dismissTextField()
     }
 
-    // 이미지 추가 버튼 클릭 시 액션 시트 호출
-    @objc private func showImagePicker() {
-        let alert = UIAlertController(
-            title: "프로필 사진 설정",
-            message: nil,
-            preferredStyle: .actionSheet
-        )
-        let album = UIAlertAction(title: "앨범에서 사진/동영상 선택", style: .default) { _ in
-            let picker = UIImagePickerController()
-            picker.sourceType = .photoLibrary
-            picker.allowsEditing = true
-            picker.delegate = self
-            self.present(picker, animated: true)
-        }
-        let defaultProfile = UIAlertAction(title: "기본 프로필 선택", style: .default) { _ in
-            self.firebaseManager.addImageUrlToDB(imageURL: nil) // 유저 DB의 imageURL 값을 nil로 설정
-            // Storage에서 이미지 삭제
-            guard let imageName = KeychainItem.currentUserIdentifier else {
-                return
-            }
-            self.firebaseManager.deleteProfileImage(imageName: "\(imageName).jpeg")
-            self.myPageView.imageView.image = UIImage(named: "profile")
-        }
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        alert.addAction(album)
-        alert.addAction(defaultProfile)
-        alert.addAction(cancel)
-        self.present(alert, animated: true)
+    // 프로필 설정 버튼 클릭 시 호출
+    @objc private func showProfileChangeView() {
+        let profileChangeVC = ProfileChangeViewController()
+        profileChangeVC.modalPresentationStyle = .formSheet
+        self.present(profileChangeVC, animated: true)
     }
 }
 
@@ -156,32 +119,4 @@ extension MyPageViewController: UITextFieldDelegate {
     }
 }
 
-// MARK: - 이미지 피커 델리게이트 구현
-extension MyPageViewController: UIImagePickerControllerDelegate {
-
-    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-        picker.dismiss(animated: false)
-    }
-    func imagePickerController(
-        _ picker: UIImagePickerController,
-        didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]
-    ) {
-        picker.dismiss(animated: false) { () in
-            if let editedImage = info[.editedImage] as? UIImage {
-                guard let imageName = KeychainItem.currentUserIdentifier else {
-                    return
-                }
-                // 파이어베이스 Storage에 이미지 저장
-                self.firebaseManager.uploadImageToStorage(image: editedImage, imageName: "\(imageName).jpeg") { url in
-                    guard let imageURL = url else {
-                        return
-                    }
-                    // 이미지 경로를 Realtime Database DB 유저 정보에 저장
-                    self.firebaseManager.addImageUrlToDB(imageURL: imageURL.absoluteString)
-                }
-                self.myPageView.imageView.image = editedImage
-            }
-        }
-    }
-}
 extension MyPageViewController: UINavigationControllerDelegate {}

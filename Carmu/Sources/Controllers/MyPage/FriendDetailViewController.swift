@@ -49,15 +49,8 @@ final class FriendDetailViewController: UIViewController {
         // 이전 친구 리스트 화면에서 전달받은 닉네임과 이미지를 반영
         if let friend = friend {
             friendDetailView.friendNickname.text = friend.nickname
-            if let imageURL = friend.imageURL { // imageURL이 있다면 이미지를 로드해서 반영해준다.
-                firebaseManager.loadProfileImage(urlString: imageURL) { friendImage in
-                    if let friendImage = friendImage {
-                        self.friendDetailView.friendImage.image = friendImage
-                    }
-                }
-            } else {
-                self.friendDetailView.friendImage.image = UIImage(named: "profile")
-            }
+            let profileType = friend.profileType.rawValue
+            self.friendDetailView.friendImage.image = UIImage(named: profileType)
         }
     }
 

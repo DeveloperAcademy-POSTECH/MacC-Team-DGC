@@ -107,7 +107,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             return
         }
         // 파이어베이스에 저장된 유저가 있는지 여부에 따라서 CREATE 혹은 UPDATE
-        firebaseManager.checkUser(databasePath: databasePath) { user in
+        firebaseManager.readUser(databasePath: databasePath) { user in
             guard let user = user else {
                 self.firebaseManager.createUser(user: firebaseUser)
                 return

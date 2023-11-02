@@ -243,17 +243,8 @@ extension FriendAddViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.nicknameLabel.text = searchedFriend.nickname
-            if let imageURL = searchedFriend.imageURL {
-                firebaseManager.loadProfileImage(urlString: imageURL) { userImage in
-                    if let userImage = userImage {
-                        cell.profileImageView.image = userImage
-                    } else {
-                        cell.profileImageView.image = UIImage(named: "profile")
-                    }
-                }
-            } else {
-                cell.profileImageView.image = UIImage(named: "profile")
-            }
+            let profileType = searchedFriend.profileType.rawValue
+            cell.profileImageView.image = UIImage(named: profileType)
             return cell
         } else {
             // MARK: - 검색된 친구가 없는 경우
