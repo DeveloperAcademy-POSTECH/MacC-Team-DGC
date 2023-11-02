@@ -21,7 +21,7 @@ final class SessionStartMidNoGroupView: UIView {
     }()
 
     // 앞면 뷰
-    private lazy var frontView = FrontView()
+    private lazy var noGroupFrontView = NoGroupFrontView()
     // 뒷면 뷰
     private lazy var backView = BackView()
 
@@ -41,7 +41,7 @@ final class SessionStartMidNoGroupView: UIView {
         super.layoutSubviews()
 
         contentView.frame = bounds
-        frontView.frame = bounds
+        noGroupFrontView.frame = bounds
         backView.frame = bounds
 
     }
@@ -52,7 +52,7 @@ extension SessionStartMidNoGroupView {
 
     private func setupUI() {
         addSubview(contentView)
-        contentView.addSubview(frontView)
+        contentView.addSubview(noGroupFrontView)
         contentView.addSubview(backView)
         backView.isHidden = true
 
@@ -72,14 +72,14 @@ extension SessionStartMidNoGroupView {
         let transitionOptions: UIView.AnimationOptions = isFlipped ? .transitionFlipFromLeft : .transitionFlipFromRight
 
         UIView.transition(with: contentView, duration: 0.4, options: transitionOptions, animations: {
-            self.frontView.isHidden = self.isFlipped
+            self.noGroupFrontView.isHidden = self.isFlipped
             self.backView.isHidden = !self.isFlipped
         }, completion: nil)
     }
 }
 
 // MARK: - 앞면 뷰
-final class FrontView: UIView {
+final class NoGroupFrontView: UIView {
 
     private lazy var frontImage: UIImageView = {
         let img = UIImage(named: "NoGroupBlinker")
