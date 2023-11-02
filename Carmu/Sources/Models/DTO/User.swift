@@ -4,9 +4,13 @@
 //
 //  Created by 김동현 on 2023/10/10.
 //
+
 import Foundation
 
 import FirebaseDatabase
+
+typealias UserIdentifier = String
+
 /**
  id : 파이어베이스 유저 등록 시 발급되는 uid
  deviceToken : 서버 푸쉬 알림 시에 유저를 식별하기 위한 토큰값
@@ -36,7 +40,7 @@ enum ProfileType: String, Codable {
 }
 
 struct User: Codable {
-    var id: String
+    var id: UserIdentifier
     var deviceToken: String
     var nickname: String
     var email: String?
