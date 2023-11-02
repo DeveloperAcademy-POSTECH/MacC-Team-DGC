@@ -19,6 +19,18 @@ final class BoardingPointSelectViewController: UIViewController {
         boardingPointSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        for element in boardingPointSelectView.customTableVieWCell {
+            element.addTarget(self, action: #selector(stopoverPointTapped), for: .touchUpInside)
+        }
+    }
+}
+
+// MARK: - @objc Method
+extension BoardingPointSelectViewController {
+    @objc private func stopoverPointTapped(_ sender: UIButton) {
+        sender.
+
     }
 }
 
