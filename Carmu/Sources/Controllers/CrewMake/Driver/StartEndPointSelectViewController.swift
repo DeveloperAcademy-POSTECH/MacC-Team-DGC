@@ -17,7 +17,7 @@ final class StartEndPointSelectViewController: UIViewController {
                 "     " + (startPointAddress ?? ""),
                 for: .normal
             )
-            if let endPointAddress {
+            if endPointAddress != nil {
                 startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
                 startEndPointSelectView.nextButton.isEnabled = true
             }
@@ -29,7 +29,7 @@ final class StartEndPointSelectViewController: UIViewController {
                 "     " + (startPointAddress ?? ""),
                 for: .normal
             )
-            if let startPointAddress {
+            if startPointAddress != nil {
                 startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
                 startEndPointSelectView.nextButton.isEnabled = true
             }
@@ -64,7 +64,7 @@ final class StartEndPointSelectViewController: UIViewController {
 
 // MARK: - @objc Method
 extension StartEndPointSelectViewController {
-    
+
     @objc private func findAddressButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectAddressViewController()
         let navigation = UINavigationController(rootViewController: detailViewController)
