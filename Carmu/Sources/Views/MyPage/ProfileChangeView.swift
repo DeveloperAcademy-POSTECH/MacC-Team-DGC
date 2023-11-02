@@ -10,13 +10,13 @@ import UIKit
 final class ProfileChangeView: UIView {
 
     // MARK: - 프로필 설정 모달 상단 바
-    private lazy var headerBar: UIView = {
+    private let headerBar: UIView = {
         let headerStackView = UIView()
         return headerStackView
     }()
 
     // 상단 바 제목
-    private lazy var headerTitleLabel: UILabel = {
+    private let headerTitleLabel: UILabel = {
         let headerTitleLabel = UILabel()
         headerTitleLabel.text = "프로필 변경"
         headerTitleLabel.textAlignment = .center
@@ -27,14 +27,14 @@ final class ProfileChangeView: UIView {
     }()
 
     // 모달 닫기 버튼
-    lazy var closeButton: UIButton = {
+    private let closeButton: UIButton = {
         let closeButton = UIButton()
         closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         closeButton.tintColor = UIColor.semantic.accPrimary
         return closeButton
     }()
 
-    lazy var guideLabel: UILabel = {
+    private let guideLabel: UILabel = {
         let guideLabel = UILabel()
         guideLabel.text = "변경할 프로필을 선택하세요"
         guideLabel.font = UIFont.carmuFont.headline2
@@ -43,14 +43,14 @@ final class ProfileChangeView: UIView {
     }()
 
     // 프로필 타입 선택 콜렉션 뷰
-    lazy var profileCollectionView: UIView = {
+    private let profileCollectionView: UIView = {
         let profileCollectionView = UIView()
         profileCollectionView.backgroundColor = .red
         return profileCollectionView
     }()
 
     // 저장 버튼
-    lazy var saveButton: UIButton = {
+    private let saveButton: UIButton = {
         let saveButton = UIButton()
         saveButton.backgroundColor = UIColor.semantic.accPrimary
         saveButton.setTitle("저장", for: .normal)

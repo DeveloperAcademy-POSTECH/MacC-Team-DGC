@@ -15,7 +15,7 @@ final class ProfileChangeViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.semantic.backgroundDefault
 
         view.addSubview(profileChangeView)
         profileChangeView.snp.makeConstraints { make in
