@@ -10,6 +10,8 @@ import UIKit
 final class BoardingPointSelectViewController: UIViewController {
 
     private let boardingPointSelectView = BoardingPointSelectView()
+    private var selectedButton: StopoverSelectButton?
+    private var selectedPoint: Int?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,8 +30,23 @@ final class BoardingPointSelectViewController: UIViewController {
 
 // MARK: - @objc Method
 extension BoardingPointSelectViewController {
-    @objc private func stopoverPointTapped(_ sender: UIButton) {
-        
+    @objc private func stopoverPointTapped(_ sender: StopoverSelectButton) {
+        if selectedButton == sender {
+            selectedButton?.resetButtonAppearance()
+            selectedPoint = nil
+            selectedButton = nil
+            return
+        }
+        // 이전에 선택한 버튼을 원래 상태로 복구
+        selectedButton?.resetButtonAppearance()
+
+        // 선택한 버튼 업데이트
+        selectedButton = sender
+
+        // 선택한 버튼의 색상 변경
+        sender.setSelectedButtonAppearance()
+        selectedPoint = sender.tag
+        print("버튼 태그: ", selectedPoint)
     }
 }
 

@@ -66,17 +66,46 @@ final class StopoverSelectButton: UIButton {
         self.timeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalTo(detailTimeLabel.snp.leading).offset(-5)
-            make.width.equalTo(22)
+            make.width.equalTo(24)
         }
 
         self.detailTimeLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.trailing.equalToSuperview().inset(20)
-            make.width.equalTo(74)
+            make.width.equalTo(76)
         }
     }
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+// MARK: - 버튼을 탭할 시 외형 변경에 필요한 메서드
+extension StopoverSelectButton {
+    // 선택한 버튼의 외관을 변경
+    func setSelectedButtonAppearance() {
+        backgroundColor = UIColor.theme.blue6
+        addressLabel.textColor = UIColor.semantic.textSecondary
+        timeLabel.textColor = UIColor.semantic.textSecondary
+        detailTimeLabel.textColor = UIColor.semantic.textSecondary
+    }
+
+    // 선택한 버튼의 외관을 복구
+    func resetButtonAppearance() {
+        backgroundColor = UIColor.semantic.backgroundDefault
+        addressLabel.textColor = UIColor.semantic.textPrimary
+        timeLabel.textColor = UIColor.semantic.textPrimary
+        detailTimeLabel.textColor = UIColor.semantic.textPrimary
+    }
+}
+
+// Preview
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct BoringPointSelectViewPreview: PreviewProvider {
+    static var previews: some View {
+        BPSViewControllerRepresentable()
     }
 }
