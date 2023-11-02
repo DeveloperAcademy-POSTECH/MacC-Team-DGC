@@ -36,7 +36,7 @@ final class BoardingPointSelectView: UIView {
     lazy var nextButton: UIButton = {
         let button = UIButton()
         button.setTitle("카풀 시작하기", for: .normal)
-        button.backgroundColor = UIColor.semantic.accPrimary
+        button.backgroundColor = UIColor.semantic.backgroundThird
         button.titleLabel?.font = UIFont.carmuFont.headline2
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
         button.setBackgroundImage(
@@ -44,6 +44,8 @@ final class BoardingPointSelectView: UIView {
             for: .highlighted
         )
         button.layer.cornerRadius = 30
+        button.isEnabled = false
+
         return button
     }()
 

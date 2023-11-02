@@ -67,4 +67,3 @@ final class CrewMakeUtil {
         return colorLineView
     }
 }
-

@@ -17,14 +17,16 @@ final class BoardingPointSelectViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
+        for element in boardingPointSelectView.customTableVieWCell {
+            element.addTarget(self, action: #selector(stopoverPointTapped), for: .touchUpInside)
+        }
+        boardingPointSelectView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+
         view.addSubview(boardingPointSelectView)
         boardingPointSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
 
-        for element in boardingPointSelectView.customTableVieWCell {
-            element.addTarget(self, action: #selector(stopoverPointTapped), for: .touchUpInside)
-        }
     }
 }
 
@@ -35,6 +37,8 @@ extension BoardingPointSelectViewController {
             selectedButton?.resetButtonAppearance()
             selectedPoint = nil
             selectedButton = nil
+            boardingPointSelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+            boardingPointSelectView.nextButton.isEnabled = false
             return
         }
         // 이전에 선택한 버튼을 원래 상태로 복구
@@ -45,8 +49,14 @@ extension BoardingPointSelectViewController {
 
         // 선택한 버튼의 색상 변경
         sender.setSelectedButtonAppearance()
+        
+        boardingPointSelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
+        boardingPointSelectView.nextButton.isEnabled = true
         selectedPoint = sender.tag
-        print("버튼 태그: ", selectedPoint)
+    }
+
+    @objc private func nextButtonTapped() {
+        // TODO: 다음화면 이동 구현 필요
     }
 }
 

@@ -7,6 +7,9 @@
 
 import UIKit
 
+/**
+ 경유지 설정 화면에서 선택하는 버튼.
+ */
 final class StopoverSelectButton: UIButton {
 
     private let addressLabel: UILabel = {
@@ -38,6 +41,11 @@ final class StopoverSelectButton: UIButton {
         return CGSize(width: UIView.noIntrinsicMetric, height: 54)
     }
 
+    /**
+     address: 출발지의 대표명
+     isStart: 도착지라면 false(기본값 true)
+     time: 출발 또는 도착 시간
+     */
     init(address: String, _ isStart: Bool = true, time: Date) {
         super.init(frame: .zero)
 
