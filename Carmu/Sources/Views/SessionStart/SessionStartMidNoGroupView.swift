@@ -144,12 +144,12 @@ final class FrontView: UIView {
     private func setupConstraints() {
         frontImage.snp.makeConstraints { make in
             make.top.lessThanOrEqualToSuperview().inset(40)
-            make.leading.trailing.equalToSuperview().inset(124)
+            make.centerX.equalToSuperview()
             make.height.equalTo(70)
         }
         comment.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(frontImage.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(28)
+            make.centerX.equalToSuperview()
         }
         createGroupButton.snp.makeConstraints { make in
             make.top.equalTo(comment.snp.bottom).offset(24)
@@ -215,16 +215,16 @@ final class BackView: UIView {
     private func setupConstraints() {
         comment.snp.makeConstraints { make in
             make.top.lessThanOrEqualToSuperview().inset(28)
-            make.leading.trailing.equalToSuperview().inset(52)
+            make.centerX.equalToSuperview()
         }
         driverView.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(comment.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.centerX.equalToSuperview()
             make.height.lessThanOrEqualTo(160)
         }
         passengerView.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(driverView.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.centerX.equalToSuperview()
             make.bottom.lessThanOrEqualToSuperview().inset(20)
             make.height.equalTo(driverView)
         }
