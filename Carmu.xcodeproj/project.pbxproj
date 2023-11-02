@@ -439,11 +439,19 @@
 			children = (
 				C931166F2AF3ABB20014E702 /* StartEndPointSelectView.swift */,
 				C93116732AF3B5320014E702 /* SelectAddressView.swift */,
-				C93116752AF3B5F00014E702 /* SelectAddressTableViewCell.swift */,
-				C93116772AF3B6310014E702 /* DefaultAddressTableViewCell.swift */,
 				C931167F2AF3B7E30014E702 /* SelectDetailPointMapView.swift */,
+				C93116812AF3DE890014E702 /* Cell */,
 			);
 			path = Driver;
+			sourceTree = "<group>";
+		};
+		C93116812AF3DE890014E702 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				C93116752AF3B5F00014E702 /* SelectAddressTableViewCell.swift */,
+				C93116772AF3B6310014E702 /* DefaultAddressTableViewCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		C95C07AC2AE0BB3E007E7589 /* Utils */ = {

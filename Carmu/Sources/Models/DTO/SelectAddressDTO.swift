@@ -17,5 +17,3 @@ struct SelectAddressDTO {
     var detailAddress: String?
     var coordinate: CLLocationCoordinate2D?
 }
-
-

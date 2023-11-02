@@ -53,7 +53,7 @@ final class SelectAddressViewController: UIViewController {
             action: #selector(closeFriendAddView),
             for: .touchUpInside
         )
-        selectAddressView.friendSearchButton.addTarget(
+        selectAddressView.addressSearchButton.addTarget(
             self,
             action: #selector(performAddressSearch),
             for: .touchUpInside
@@ -63,7 +63,7 @@ final class SelectAddressViewController: UIViewController {
             action: #selector(clearButtonPressed),
             for: .touchUpInside
         )
-        selectAddressView.friendSearchTextField.addTarget(
+        selectAddressView.addressSearchTextField.addTarget(
             self,
             action: #selector(textFieldDidChange),
             for: .editingChanged
@@ -74,7 +74,7 @@ final class SelectAddressViewController: UIViewController {
         self.searchCompleter?.resultTypes = .query
         self.searchCompleter?.region = koreaBounds
 
-        selectAddressView.friendSearchTextField.delegate = self
+        selectAddressView.addressSearchTextField.delegate = self
         selectAddressView.tableViewComponent.delegate = self
         selectAddressView.tableViewComponent.dataSource = self
 
@@ -111,7 +111,7 @@ extension SelectAddressViewController {
             dismissTextField()
         }
 
-        if let searchText = selectAddressView.friendSearchTextField.text, !searchText.isEmpty {
+        if let searchText = selectAddressView.addressSearchTextField.text, !searchText.isEmpty {
             // 사용자가 입력한 주소 또는 장소명
             let address = searchText
 
@@ -131,16 +131,16 @@ extension SelectAddressViewController {
 
     // 텍스트필드 clear 버튼 눌렀을 때 동작
     @objc private func clearButtonPressed() {
-        selectAddressView.friendSearchTextField.text = nil
+        selectAddressView.addressSearchTextField.text = nil
         completerResults = nil
         selectAddressView.tableViewComponent.reloadData()
     }
 
     @objc private func dismissTextField() {
         if !isKeyboardActive {
-            selectAddressView.friendSearchTextFieldView.backgroundColor = .clear
-            selectAddressView.friendSearchTextFieldView.layer.borderWidth = 1.0
-            selectAddressView.friendSearchTextField.resignFirstResponder()
+            selectAddressView.addressSearchTextFieldView.backgroundColor = .clear
+            selectAddressView.addressSearchTextFieldView.layer.borderWidth = 1.0
+            selectAddressView.addressSearchTextField.resignFirstResponder()
             selectAddressView.tableViewComponent.reloadData()
         }
     }
@@ -255,8 +255,8 @@ extension SelectAddressViewController: UITextFieldDelegate {
     // 텍스트 필드의 편집이 시작될 때 호출되는 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isKeyboardActive = true
-        selectAddressView.friendSearchTextFieldView.backgroundColor = UIColor.semantic.backgroundSecond
-        selectAddressView.friendSearchTextFieldView.layer.borderWidth = 0
+        selectAddressView.addressSearchTextFieldView.backgroundColor = UIColor.semantic.backgroundSecond
+        selectAddressView.addressSearchTextFieldView.layer.borderWidth = 0
         selectAddressView.tableViewComponent.reloadData()
     }
 
@@ -268,7 +268,7 @@ extension SelectAddressViewController: UITextFieldDelegate {
     // 리턴 키를 눌렀을 때 호출되는 메서드
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         selectAddressView.tableViewComponent.reloadData()
-        selectAddressView.friendSearchTextField.resignFirstResponder()
+        selectAddressView.addressSearchTextField.resignFirstResponder()
         return true
     }
 }

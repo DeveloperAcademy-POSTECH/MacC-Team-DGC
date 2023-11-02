@@ -39,36 +39,36 @@ final class SelectAddressView: UIView {
     }()
 
     // MARK: - 텍스트 필드 배경
-    lazy var friendSearchTextFieldView: UIView = {
-        let friendSearchTextFieldView = UIView()
-        friendSearchTextFieldView.layer.cornerRadius = 20
-        friendSearchTextFieldView.layer.borderWidth = 1.0
-        friendSearchTextFieldView.layer.borderColor = UIColor.theme.blue3?.cgColor
+    lazy var addressSearchTextFieldView: UIView = {
+        let txfieldView = UIView()
+        txfieldView.layer.cornerRadius = 20
+        txfieldView.layer.borderWidth = 1.0
+        txfieldView.layer.borderColor = UIColor.theme.blue3?.cgColor
 
-        return friendSearchTextFieldView
+        return txfieldView
     }()
 
     // MARK: - 텍스트 필드
-    lazy var friendSearchTextField: UITextField = {
-        let friendSearchTextField = UITextField()
-        friendSearchTextField.textAlignment = .left
-        friendSearchTextField.font = UIFont.carmuFont.body2Long
-        friendSearchTextField.textColor = UIColor.semantic.textPrimary
-        friendSearchTextField.autocapitalizationType = .none
+    lazy var addressSearchTextField: UITextField = {
+        let textField = UITextField()
+        textField.textAlignment = .left
+        textField.font = UIFont.carmuFont.body2Long
+        textField.textColor = UIColor.semantic.textPrimary
+        textField.autocapitalizationType = .none
 
         let placeholderAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.semantic.textPrimary as Any,
             .font: UIFont.carmuFont.body2Long
         ]
-        friendSearchTextField.attributedPlaceholder = NSAttributedString(
+        textField.attributedPlaceholder = NSAttributedString(
             string: "주소지를 검색하세요",
             attributes: placeholderAttributes
         )
 
-        friendSearchTextField.rightView = textFieldUtilityStackView
-        friendSearchTextField.rightViewMode = .whileEditing
+        textField.rightView = textFieldUtilityStackView
+        textField.rightViewMode = .whileEditing
 
-        return friendSearchTextField
+        return textField
     }()
 
     // MARK: - 텍스트 필드 우측 스택
@@ -91,13 +91,13 @@ final class SelectAddressView: UIView {
     }()
 
     // MARK: - 텍스트 필드 검색 버튼
-    lazy var friendSearchButton: UIButton = {
-        let friendSearchButton = UIButton()
-        friendSearchButton.setTitle("검색", for: .normal)
-        friendSearchButton.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
-        friendSearchButton.titleLabel?.font = UIFont.carmuFont.body2Long
+    lazy var addressSearchButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("검색", for: .normal)
+        button.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.body2Long
 
-        return friendSearchButton
+        return button
     }()
 
     let tableViewComponent: UITableView = {
@@ -125,14 +125,14 @@ final class SelectAddressView: UIView {
 
     private func setupUI() {
         addSubview(headerBar)
-        addSubview(friendSearchTextFieldView)
+        addSubview(addressSearchTextFieldView)
         headerBar.addSubview(headerTitleLabel)
         headerBar.addSubview(closeButton)
-        friendSearchTextFieldView.addSubview(friendSearchTextField)
+        addressSearchTextFieldView.addSubview(addressSearchTextField)
         addSubview(tableViewComponent)
 
         textFieldUtilityStackView.addArrangedSubview(clearButton)
-        textFieldUtilityStackView.addArrangedSubview(friendSearchButton)
+        textFieldUtilityStackView.addArrangedSubview(addressSearchButton)
     }
 
     // MARK: - 오토 레이아웃 설정 메서드
@@ -155,23 +155,23 @@ final class SelectAddressView: UIView {
             make.height.equalTo(24)
         }
 
-        friendSearchTextFieldView.snp.makeConstraints { make in
+        addressSearchTextFieldView.snp.makeConstraints { make in
             make.top.equalTo(headerBar.snp.bottom).offset(20)
             make.leading.trailing.equalTo(safeAreaLayoutGuide).inset(20)
             make.height.equalTo(38)
         }
 
-        friendSearchTextField.snp.makeConstraints { make in
+        addressSearchTextField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.bottom.equalToSuperview().inset(8)
         }
 
         clearButton.snp.makeConstraints { make in
-            make.trailing.equalTo(friendSearchButton.snp.leading).offset(-10)
+            make.trailing.equalTo(addressSearchButton.snp.leading).offset(-10)
         }
 
         tableViewComponent.snp.makeConstraints { make in
-            make.top.equalTo(friendSearchTextFieldView.snp.bottom).offset(8)
+            make.top.equalTo(addressSearchTextFieldView.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
         }
