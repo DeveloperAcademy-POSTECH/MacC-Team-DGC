@@ -8,21 +8,40 @@ import Foundation
 
 import FirebaseDatabase
 /**
- user_id : user에게 고유하게 부여되는 번호(UUID로 변경예정)
- username: 유저 닉네임
- email : 유저에게서 수집한 이메일
- imageURL : 추후 Firebase Storage에 저장할 image의 URL
- friends : Friends 저장소(static 배열)에 들어가있는 Friendship 고유 번호
- groupList : Group 저장소(static 배열)에 들어가있는 group 고유 번호
+ id : 파이어베이스 유저 등록 시 발급되는 uid
+ deviceToken : 서버 푸쉬 알림 시에 유저를 식별하기 위한 토큰값
+ nickname: 유저 닉네임 (디폴트: 애플 로그인 시 받아오는 값)
+ email : 유저 이메일 (애플 로그인 시 받아오는 값)
+ profileType : 유저가 설정한 프로필의 타입
+ groupList : 유저가 속한 그룹의 id
  */
+
+/**
+ 유저의 프로필 이미지 타입을 구분하기 위한 enum 타입
+ 👉 피그마 프로토타입의 프로필 설정 화면 기준으로 좌상단→우하단 순서대로 색에 맞게 이름을 지정했습니다.
+ */
+enum ProfileType: String, Codable {
+    case blue1
+    case aqua1
+    case red1
+    case yellow1
+    case aquaBlue
+    case redBlue
+    case purpleBlue
+    case orangeBlue
+    case green
+    case navy
+    case darkNavy
+    case gray
+}
+
 struct User: Codable {
     var id: String
     var deviceToken: String
     var nickname: String
     var email: String?
-    var imageURL: String?
-    var friends: [String]?  // [Friendship]
-    var groupList: [String]?    // [Group]
+    var profileType: ProfileType
+    var groupList: String?    // [Group]
 }
 
 extension User {
