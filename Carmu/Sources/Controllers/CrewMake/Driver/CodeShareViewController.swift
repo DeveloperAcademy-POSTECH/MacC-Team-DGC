@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CodeShareViewController: UIViewController {
+final class CodeShareViewController: UIViewController {
 
     private let codeShareView = CodeShareView()
 
