@@ -348,7 +348,6 @@ extension FirebaseManager {
             return
         }
         guard let captainID = KeychainItem.currentUserIdentifier else { return }
-
         // DB에 추가할 크루 객체
         let newCrew = Crew(
             id: key,
