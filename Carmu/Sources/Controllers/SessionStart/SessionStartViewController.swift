@@ -21,12 +21,6 @@ final class SessionStartViewController: UIViewController {
     private let sessionStartNoGroupView = SessionStartNoGroupView()
     private let firebaseManager = FirebaseManager()
 
-//    // 데이터가 없을 때
-//    let groupData: Group? = nil
-
-    // 데이터가 있을 때
-    let groupData: Group? = Group(id: "1", name: "aa", captainID: "ted", crews: ["uni", "rei", "bazzi"])
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
@@ -80,7 +74,8 @@ extension SessionStartViewController {
         sessionStartNoGroupView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
-            make.bottom.lessThanOrEqualToSuperview().inset(216)
+            make.bottom.lessThanOrEqualToSuperview().inset(216).priority(.high)
+            make.bottom.equalToSuperview().inset(216)
         }
     }
     // 그룹이 있을 때
