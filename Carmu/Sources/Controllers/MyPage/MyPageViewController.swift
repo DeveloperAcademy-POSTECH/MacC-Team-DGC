@@ -121,7 +121,7 @@ extension MyPageViewController {
         profileChangeVC.delegate = self
         profileChangeVC.selectedProfileTypeIdx = selectedProfileTypeIdx
         profileChangeVC.modalPresentationStyle = .formSheet
-        self.present(profileChangeVC, animated: true)
+        present(profileChangeVC, animated: true)
     }
 }
 
