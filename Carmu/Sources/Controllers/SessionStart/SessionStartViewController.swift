@@ -21,7 +21,7 @@ final class SessionStartViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
 
     // 데이터가 없을 때
-    let groupData: [Group]? = nil
+    let groupData: [Crew]? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()

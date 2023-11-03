@@ -350,7 +350,7 @@ extension FirebaseManager {
         guard let captainID = KeychainItem.currentUserIdentifier else { return }
 
         // DB에 추가할 그룹 객체
-        let newGroup = Group(
+        let newGroup = Crew(
             id: key,
             name: groupName,
             // groupImage 추가 필요
@@ -421,7 +421,7 @@ extension FirebaseManager {
      - 호출되는 곳
         - SessionStartViewController
      */
-    func getUserGroup(groupID: String, completion: @escaping (Group?) -> Void) {
+    func getUserGroup(groupID: String, completion: @escaping (Crew?) -> Void) {
         Database.database().reference().child("group/\(groupID)").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
@@ -431,7 +431,7 @@ extension FirebaseManager {
             guard let snapshotValue = snapshot?.value as? [String: Any] else {
                 return
             }
-            let group = Group(
+            let group = Crew(
                 id: snapshotValue["id"] as? String ?? "",
                 name: snapshotValue["name"] as? String ?? "",
                 captainID: snapshotValue["captainID"] as? String ?? "",
