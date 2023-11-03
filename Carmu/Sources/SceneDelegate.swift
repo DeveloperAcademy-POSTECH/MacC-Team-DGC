@@ -12,6 +12,8 @@ import FirebaseAuth
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    // 크루가 있는지 확인하는 임시변수. 추후 Firebase 데이터베이스 확인 후 설정하는 로직으로 변경예정
+    static var hasCrew = false
 
     // 앱의 Scene이 처음으로 연결될 때 호출되는 메소드
     func scene(
@@ -30,10 +32,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // 로그인한 사용자가 있는지 체크
         if Auth.auth().currentUser != nil {
 
-            // MARK: - SessionStartViewController()
-            let sessionStartViewController = SessionStartViewController()
-            let navigationController = UINavigationController(rootViewController: sessionStartViewController)
-            window.rootViewController = navigationController
+            if SceneDelegate.hasCrew {
+                // MARK: - SessionStartViewController()
+                let rootViewController = SessionStartViewController()
+                let navigationController = UINavigationController(rootViewController: rootViewController)
+                window.rootViewController = navigationController
+            } else {
+                let rootViewController = PositionSelectViewController()
+                let navigationController = UINavigationController(rootViewController: rootViewController)
+                window.rootViewController = navigationController
+            }
         } else {
             window.rootViewController = LoginViewController()
         }
