@@ -14,10 +14,43 @@ final class PositionSelectViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
+
+        positionSelectView.selectDriverButton.addTarget(
+            self,
+            action: #selector(driverButtonTapped),
+            for: .touchUpInside
+        )
+        positionSelectView.selectCrewButton.addTarget(
+            self,
+            action: #selector(crewButtonTapped),
+            for: .touchUpInside
+        )
+        positionSelectView.skipButton.addTarget(
+            self,
+            action: #selector(skipButtonTapped),
+            for: .touchUpInside
+        )
         view.addSubview(positionSelectView)
         positionSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+}
+
+// MARK: - @objc Method
+extension PositionSelectViewController {
+    @objc private func driverButtonTapped() {
+        let viewController = StartEndPointSelectViewController()
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    @objc private func crewButtonTapped() {
+        let viewController = InviteCodeInputViewController()
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    @objc private func skipButtonTapped() {
+        SceneDelegate.updateIsFirstValue(false)
     }
 }
 

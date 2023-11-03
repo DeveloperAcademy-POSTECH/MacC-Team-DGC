@@ -57,7 +57,7 @@ final class StopoverPointCheckView: UIView {
     private func setAutoLayout() {
 
         titleStackView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(78)
+            make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
         }
 
