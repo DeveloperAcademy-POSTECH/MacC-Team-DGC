@@ -11,6 +11,8 @@ import FirebaseAuth
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+
+    // TODO: 추후 AppStorage 처리 추가 필요. 개발 편의를 위해 static 변수로 둠.
     static var isFirst = true
 
     func scene(

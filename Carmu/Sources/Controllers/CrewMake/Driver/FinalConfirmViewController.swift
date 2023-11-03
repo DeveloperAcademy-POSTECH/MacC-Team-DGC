@@ -15,10 +15,26 @@ final class FinalConfirmViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
+        finalConfirmView.nextButton.addTarget(
+            self,
+            action: #selector(nextButtonTapped),
+            for: .touchUpInside
+        )
+
         view.addSubview(finalConfirmView)
         finalConfirmView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+}
+
+// MARK: - @objc Method
+extension FinalConfirmViewController {
+
+    @objc private func nextButtonTapped() {
+        // TODO: 다음화면 이동 구현 필요
+        let viewController = CodeShareViewController()
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

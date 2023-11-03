@@ -17,13 +17,13 @@ final class StopoverPointCheckView: UIView {
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "경유지")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "가 있으신가요?")
 
-    private let noStopoverButton = LargeSelectButton(
+    lazy var noStopoverButton = LargeSelectButton(
         topTitle: "아니오",
         bottomTitle: "넘어가기",
         imageName: "NoStopoverPoint"
     )
 
-    private let yesStopoverButton = LargeSelectButton(
+    lazy var yesStopoverButton = LargeSelectButton(
         topTitle: "네",
         bottomTitle: "경유지 추가하기",
         imageName: "YesStopoverPoint"

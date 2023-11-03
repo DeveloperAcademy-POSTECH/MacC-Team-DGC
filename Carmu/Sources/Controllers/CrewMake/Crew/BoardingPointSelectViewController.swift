@@ -32,6 +32,7 @@ final class BoardingPointSelectViewController: UIViewController {
 
 // MARK: - @objc Method
 extension BoardingPointSelectViewController {
+
     @objc private func stopoverPointTapped(_ sender: StopoverSelectButton) {
         if selectedButton == sender {
             selectedButton?.resetButtonAppearance()
@@ -57,7 +58,6 @@ extension BoardingPointSelectViewController {
 
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
-
         if SceneDelegate.isFirst {
             SceneDelegate.updateIsFirstValue(false)
         } else {

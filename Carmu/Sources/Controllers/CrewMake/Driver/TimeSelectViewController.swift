@@ -48,12 +48,10 @@ final class TimeSelectViewController: UIViewController {
 // MARK: - @objc Method
 extension TimeSelectViewController {
 
-    @objc private func findAddressButtonTapped(_ sender: UIButton) {
-
-    }
-
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
+        let viewController = RepeatDaySelectViewController()
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
