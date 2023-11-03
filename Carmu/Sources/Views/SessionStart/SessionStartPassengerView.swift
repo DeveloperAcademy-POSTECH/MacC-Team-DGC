@@ -16,7 +16,7 @@ final class SessionStartPassengerView: UIView {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.layer.masksToBounds = true
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.semantic.backgroundDefault
         return view
     }()
 
