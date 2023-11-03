@@ -35,7 +35,7 @@ final class SessionStartViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        checkGroup()
+        checkCrew()
     }
 }
 
@@ -53,8 +53,8 @@ extension SessionStartViewController {
         }
     }
 
-    // 그룹이 없을 때
-    private func settingNoGroupView() {
+    // 크루가 없을 때
+    private func settingNoCrewView() {
         sessionStartView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "카뮤") {
@@ -82,8 +82,9 @@ extension SessionStartViewController {
             make.bottom.equalToSuperview().inset(216)
         }
     }
-    // 그룹이 있을 때
-    private func settingGroupView() {
+
+    // 크루가 있을 때
+    private func settingCrewView() {
 
         sessionStartNoCrewView.isHidden = true
 
@@ -244,12 +245,12 @@ extension SessionStartViewController {
         navigationController?.pushViewController(myPageVC, animated: true)
     }
 
-    // 그룹의 유무 확인
-    private func checkGroup() {
+    // 크루의 유무 확인
+    private func checkCrew() {
         if crewData == nil {
-            settingNoGroupView()
+            settingNoCrewView()
         } else {
-            settingGroupView()
+            settingCrewView()
         }
     }
 

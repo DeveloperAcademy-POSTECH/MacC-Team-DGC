@@ -90,7 +90,6 @@ extension SessionStartView {
             make.top.equalTo(myPageButton.snp.bottom)
         }
     }
-
+    
     // TODO: - 그룹있을 때 notifyComment, individualButton, togetherButton constraints 설정하기
-
 }

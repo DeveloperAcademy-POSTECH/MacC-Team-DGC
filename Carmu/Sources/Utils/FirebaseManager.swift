@@ -34,7 +34,13 @@ class FirebaseManager {
             return
         }
         print("FCMToken -> ", fcmToken)
-        let user = User(id: firebaseUser.uid, deviceToken: fcmToken, nickname: nickname, email: email)
+        let user = User(
+            id: firebaseUser.uid,
+            deviceToken: fcmToken,
+            nickname: nickname,
+            email: email,
+            profileType: .profileBlue // 기본 프로필
+        )
         do {
             let data = try encoder.encode(user)
 
@@ -78,85 +84,44 @@ class FirebaseManager {
     }
 
     /**
-     파이어베이스에 저장된 유저 확인 메서드
+     uid값으로 DB에서 저장된 유저 정보 불러오기 (READ)
      - 호출되는 곳
         - LoginViewController
      */
-    func checkUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
+    func readUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
         databasePath.getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
                 return
             }
-            if let value = snapshot?.value as? [String: Any] {
-                do {
-                    let data = try JSONSerialization.data(withJSONObject: value)
-                    let user = try JSONDecoder().decode(User.self, from: data)
-                    completion(user)
-                } catch {
-                    print("User decoding error", error)
-                    completion(nil)
-                }
-            } else {
-                print("Invalid data format")
-                completion(nil)
-            }
-        }
-    }
-
-    /**
-     DB에서 유저의 nickname을 불러오는 메서드
-     - 호출되는 곳
-        - MyPageViewController
-     */
-    func readNickname(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
-        databasePath.child("nickname").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
+            guard let value = snapshot?.value as? [String: Any] else {
                 completion(nil)
                 return
             }
-            let nickname = snapshot?.value as? String
-            completion(nickname)
+            do {
+                let data = try JSONSerialization.data(withJSONObject: value)
+                let user = try JSONDecoder().decode(User.self, from: data)
+                completion(user)
+            } catch {
+                print("User decoding error", error)
+                completion(nil)
+            }
         }
     }
 
+    // TODO: - ProfileChangeViewController에 적용해보기
     /**
-     DB 유저 정보에 이미지 경로 저장
+     DB에서 유저의 프로필 타입 업데이트
      - 호출되는 곳
-        - MyPageViewController
+        - ProfileChangeViewController
      */
-    func addImageUrlToDB(imageURL: String?) {
+    func updateUserProfileType(type: ProfileType) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        guard let imageURL = imageURL else {
-            databasePath.child("imageURL").setValue(nil)
-            return
-        }
-        databasePath.child("imageURL").setValue(imageURL as NSString)
-    }
-
-    /**
-     DB에서 유저 이미지 경로 불러오기
-     - 호출되는 곳
-        - MyPageViewController
-     */
-    func readProfileImageURL(databasePath: DatabaseReference, completion: @escaping (String?) -> Void) {
-        databasePath.child("imageURL").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let snapshotValue = snapshot?.value else {
-                completion(nil)
-                return
-            }
-            let imageURL = snapshotValue as? String
-            completion(imageURL)
-        }
+        let profileType = type.rawValue
+        databasePath.child("profileType").setValue(profileType as NSString)
     }
 }
 
@@ -240,8 +205,7 @@ extension FirebaseManager {
                 deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
                 email: snapshotValue["email"] as? String,
-                imageURL: snapshotValue["imageURL"] as? String,
-                friends: snapshotValue["friends"] as? [String]
+                profileType: .profileBlue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
             )
             completion(friend)
         }
@@ -302,8 +266,7 @@ extension FirebaseManager {
                         deviceToken: dict["deviceToken"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
                         email: dict["email"] as? String,
-                        imageURL: dict["imageURL"] as? String,
-                        friends: dict["friends"] as? [String]
+                        profileType: .profileBlue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
                     )
                     completion(searchedFriend)
                     return
@@ -372,94 +335,93 @@ extension FirebaseManager {
     }
 }
 
-// MARK: - 그룹 관련 파이어베이스 메서드
+// MARK: - 크루 관련 파이어베이스 메서드
 extension FirebaseManager {
 
     /**
-     DB의 Group에 새로운 그룹을 추가하는 메서드
+     DB의 Crew에 새로운 크루를 추가하는 메서드
      - 호출되는 곳
         - XXX
      */
-    func addGroup(_ crewAndPoint: [String: String], _ groupName: String) {
-        guard let key = Database.database().reference().child("group").childByAutoId().key else {
+    func addCrew(_ crewAndPoint: [String: String], _ crewName: String) {
+        guard let key = Database.database().reference().child("crew").childByAutoId().key else {
             return
         }
         guard let captainID = KeychainItem.currentUserIdentifier else { return }
-
-        // DB에 추가할 그룹 객체
-        let newGroup = Crew(
+        // DB에 추가할 크루 객체
+        let newCrew = Crew(
             id: key,
-            name: groupName,
-            // groupImage 추가 필요
+            name: crewName,
+            // crewImage 추가 필요
             captainID: captainID,
             crews: []
         )
-        setGroupToUser(captainID, key)
+        setCrewToUser(captainID, key)
         for (crewKey, _) in crewAndPoint {
-            setGroupToUser(crewKey, key)
+            setCrewToUser(crewKey, key)
         }
 
         do {
-            let data = try JSONEncoder().encode(newGroup)
+            let data = try JSONEncoder().encode(newCrew)
             let json = try JSONSerialization.jsonObject(with: data)
             let childUpdates: [String: Any] = [
-                "group/\(key)": json
+                "crew/\(key)": json
             ]
             Database.database().reference().updateChildValues(childUpdates)
         } catch {
-            print("Group CREATE fail...", error)
+            print("Crew CREATE fail...", error)
         }
     }
 
     /**
-     크루 만들기에서 추가된 탑승자들의 User/groupList에 groupID를 추가하는 메서드
+     크루 만들기에서 추가된 탑승자들의 User/crewList에 crewID를 추가하는 메서드
      - 호출되는 곳
         -
      */
-    func setGroupToUser(_ userID: String, _ groupID: String) {
-        let databaseRef = Database.database().reference().child("users/\(userID)/groupList")
+    func setCrewToUser(_ userID: String, _ crewID: String) {
+        let databaseRef = Database.database().reference().child("users/\(userID)/crewList")
 
         databaseRef.getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            if var groupList = snapshot?.value as? [String] {
-                groupList.append(groupID)
-                databaseRef.setValue(groupList as NSArray)
+            if var crewList = snapshot?.value as? [String] {
+                crewList.append(crewID)
+                databaseRef.setValue(crewList as NSArray)
             } else {
-                // 아직 그룹이 없는 경우 배열을 새로 만들어준다.
-                var newGroup = []
-                newGroup.append(groupID)
-                databaseRef.setValue(newGroup as NSArray)
+                // 아직 크루가 없는 경우 배열을 새로 만들어준다.
+                var newCrew = []
+                newCrew.append(crewID)
+                databaseRef.setValue(newCrew as NSArray)
             }
         }
     }
 
     /**
-     DB에서 유저의 Group 목록(groupList)을 불러오는 메서드
+     DB에서 유저의 Crew 목록(crewList)을 불러오는 메서드
      - 호출되는 곳
         - SessionStartViewController
      */
-    func readGroupID(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
-        databasePath.child("groupList").getData { error, snapshot in
+    func readCrewID(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
+        databasePath.child("crewList").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
                 return
             }
-            let groups = snapshot?.value as? [String]
-            completion(groups)
+            let crews = snapshot?.value as? [String]
+            completion(crews)
         }
     }
 
     /**
-     groupList의 uid로 DB에서 그룹 데이터 불러오는 메서드
+     crewList의 uid로 DB에서 크루 데이터 불러오는 메서드
      - 호출되는 곳
         - SessionStartViewController
      */
-    func getUserGroup(groupID: String, completion: @escaping (Crew?) -> Void) {
-        Database.database().reference().child("group/\(groupID)").getData { error, snapshot in
+    func getUserCrew(crewID: String, completion: @escaping (Crew?) -> Void) {
+        Database.database().reference().child("crew/\(crewID)").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
@@ -468,13 +430,13 @@ extension FirebaseManager {
             guard let snapshotValue = snapshot?.value as? [String: Any] else {
                 return
             }
-            let group = Crew(
+            let crew = Crew(
                 id: snapshotValue["id"] as? String ?? "",
                 name: snapshotValue["name"] as? String ?? "",
-                captainID: snapshotValue["captainID"] as? String ?? "",
+                captainID: snapshotValue["captainID"] as? UserIdentifier ?? "",
                 crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""]
             )
-            completion(group)
+            completion(crew)
         }
 
     }
