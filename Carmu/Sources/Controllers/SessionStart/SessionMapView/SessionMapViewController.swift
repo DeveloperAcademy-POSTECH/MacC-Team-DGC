@@ -145,7 +145,7 @@ final class SessionMapViewController: UIViewController {
         locationManager.startUpdatingLocation()
     }
 
-    // TODO: - 그룹의 실제 위경도 입력 받아서 넣어주기
+    // TODO: - 크루의 실제 위경도 입력 받아서 넣어주기
     private func showPickuplocations() {
         startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
         startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
