@@ -33,7 +33,6 @@ extension CodeShareViewController {
 
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
-
         if SceneDelegate.isFirst {
             SceneDelegate.updateIsFirstValue(false)
         } else {
