@@ -110,7 +110,6 @@ class FirebaseManager {
         }
     }
 
-    // TODO: - ProfileChangeViewController에 적용해보기
     /**
      DB에서 유저의 프로필 타입 업데이트
      - 호출되는 곳

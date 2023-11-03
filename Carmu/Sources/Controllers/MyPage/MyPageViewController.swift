@@ -13,6 +13,12 @@ final class MyPageViewController: UIViewController {
     private let myPageView = MyPageView()
     private let firebaseManager = FirebaseManager()
 
+    var selectedProfileType: ProfileType = .blue // 프로필 이미지를 표시해주기 위한 ProfileType 값
+    var selectedProfileTypeIdx: Int {
+        // 컬렉션 뷰 셀의 인덱스에 대응하도록 ProfileType 값의 인덱스를 반환하는 프로퍼티
+        return ProfileType.allCases.firstIndex(of: selectedProfileType) ?? 0
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -25,7 +31,8 @@ final class MyPageViewController: UIViewController {
                 return
             }
             self.myPageView.nicknameLabel.text = userData.nickname
-            self.myPageView.imageView.image = UIImage(profileType: userData.profileType)
+            self.selectedProfileType = userData.profileType
+            self.updateProfileImageView(profileType: self.selectedProfileType)
         }
 
         let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
@@ -59,6 +66,12 @@ final class MyPageViewController: UIViewController {
         super.viewWillDisappear(animated)
         // 마이페이지에서 설정 화면으로 넘어갈 때는 내비게이션 바가 보이도록 해준다.
         navigationController?.setNavigationBarHidden(false, animated: false)
+    }
+
+    // 프로필 이미지뷰를 업데이트해주는 메서드
+    func updateProfileImageView(profileType: ProfileType) {
+        print("프로필 이미지 뷰 업데이트!!!")
+        self.myPageView.imageView.image = UIImage(profileType: profileType)
     }
 }
 
@@ -105,6 +118,8 @@ extension MyPageViewController {
     // 프로필 설정 버튼 클릭 시 호출
     @objc private func showProfileChangeView() {
         let profileChangeVC = ProfileChangeViewController()
+        profileChangeVC.delegate = self
+        profileChangeVC.selectedProfileTypeIdx = selectedProfileTypeIdx
         profileChangeVC.modalPresentationStyle = .formSheet
         self.present(profileChangeVC, animated: true)
     }
@@ -119,4 +134,14 @@ extension MyPageViewController: UITextFieldDelegate {
     }
 }
 
-extension MyPageViewController: UINavigationControllerDelegate {}
+// MARK: - ProfileChangeViewControllerDelegate 델리게이트 구현
+/**
+ ProfileChangeViewController에서 프로필 타입 데이터가 변경되었을 때를 감지하여 호출
+ */
+extension MyPageViewController: ProfileChangeViewControllerDelegate {
+
+    func sendProfileType(profileType: ProfileType) {
+        selectedProfileType = profileType
+        updateProfileImageView(profileType: profileType)
+    }
+}

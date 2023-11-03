@@ -7,10 +7,24 @@
 
 import UIKit
 
+// 수정된 프로필 타입 값을 이전 화면(MyPageView)에 전달하기 위한 델리게이트 프로토콜
+protocol ProfileChangeViewControllerDelegate: AnyObject {
+
+    func sendProfileType(profileType: ProfileType)
+}
+
 // MARK: - 프로필 변경 화면 뷰 컨트롤러
 final class ProfileChangeViewController: UIViewController {
 
-    var selectedProfileTypeIdx: Int = 0 // 선택한 프로필 타입
+    // 델리게이트 선언
+    weak var delegate: ProfileChangeViewControllerDelegate?
+
+    var selectedProfileTypeIdx: Int = 0 // 선택한 프로필 타입 인덱스
+    var selectedProfileType: ProfileType {
+        // 선택한 프로필 타입의 ProfileType 값을 반환해주는 프로퍼티
+        return ProfileType.allCases[selectedProfileTypeIdx]
+    }
+
     private let profileChangeView = ProfileChangeView()
     private let firebaseManager = FirebaseManager()
 
@@ -34,18 +48,15 @@ final class ProfileChangeViewController: UIViewController {
         profileChangeView.saveButton.addTarget(self, action: #selector(performProfileUpdate), for: .touchUpInside)
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-//        // 마이페이지에서는 내비게이션 바가 보이지 않도록 한다.
-//        navigationController?.setNavigationBarHidden(true, animated: false)
-//        // 마이페이지에서는 탭 바가 보이도록 한다.
-//        tabBarController?.tabBar.isHidden = false
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-//        // 마이페이지에서 설정 화면으로 넘어갈 때는 내비게이션 바가 보이도록 해준다.
-//        navigationController?.setNavigationBarHidden(false, animated: false)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        // 현재 설정되어 있는 프로필 값이 선택돼있도록 체크
+        let indexPath = IndexPath(item: selectedProfileTypeIdx, section: 0)
+        profileChangeView.profileCollectionView.selectItem(
+            at: indexPath,
+            animated: true,
+            scrollPosition: .centeredHorizontally
+        )
     }
 }
 
@@ -59,8 +70,10 @@ extension ProfileChangeViewController {
 
     // [저장] 버튼을 눌렀을 때 동작
     @objc private func performProfileUpdate() {
-        // TODO: - 구현 필요
-        print("프로필 변경!!!")
+        // 델리게이트를 통해 MyPageViewController로 수정된 프로필 타입 값을 전달
+        delegate?.sendProfileType(profileType: selectedProfileType)
+        // 파이어베이스 DB에 수정된 프로필 타입 저장
+        firebaseManager.updateUserProfileType(type: ProfileType.allCases[selectedProfileTypeIdx])
         self.dismiss(animated: true)
     }
 }
@@ -84,8 +97,10 @@ extension ProfileChangeViewController: UICollectionViewDataSource {
         ) as? ProfileTypeCollectionViewCell else {
             return UICollectionViewCell()
         }
+
         cell.profileType = ProfileType.allCases[indexPath.row]
         cell.profileImageView.image = UIImage(profileType: ProfileType.allCases[indexPath.row])
+
         return cell
     }
 }
@@ -108,7 +123,6 @@ extension ProfileChangeViewController: UICollectionViewDelegateFlowLayout {
         layout collectionViewLayout: UICollectionViewLayout,
         minimumInteritemSpacingForSectionAt section: Int
     ) -> CGFloat {
-//        return 20.67
         return 10.335
     }
 
