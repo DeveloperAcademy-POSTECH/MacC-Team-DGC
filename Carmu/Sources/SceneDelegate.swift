@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         if Auth.auth().currentUser != nil {
 
             // MARK: - SessionStartViewController()
-            let sessionStartViewController = RepeatDaySelectViewController()
+            let sessionStartViewController = SessionStartViewController()
             let navigationController = UINavigationController(rootViewController: sessionStartViewController)
             window.rootViewController = navigationController
         } else {
