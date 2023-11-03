@@ -1,5 +1,5 @@
 //
-//  SessionStartMidView.swift
+//  SessionStartDriverView.swift
 //  Carmu
 //
 //  Created by 김태형 on 2023/10/12.
@@ -16,7 +16,7 @@ final class SessionStartDriverView: UIView {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.layer.masksToBounds = true
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.semantic.backgroundDefault
         return view
     }()
 
