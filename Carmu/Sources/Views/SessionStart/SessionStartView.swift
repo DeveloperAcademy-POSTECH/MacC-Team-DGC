@@ -13,50 +13,46 @@ final class SessionStartView: UIView {
 
     lazy var topComment: UILabel = {
         let lbl = UILabel()
-        lbl.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         lbl.font = UIFont.carmuFont.headline2
         lbl.textAlignment = .left
         lbl.numberOfLines = 0
-
-        let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
-        if let range1 = lbl.text?.range(of: "카뮤") {
-            let nsRange1 = NSRange(range1, in: lbl.text!)
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
-        }
-        if let range2 = lbl.text?.range(of: "카풀 생활") {
-            let nsRange2 = NSRange(range2, in: lbl.text!)
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange2)
-        }
-        lbl.attributedText = attributedText
-
         return lbl
     }()
 
-    private lazy var notifyComment: UILabel = {
+    lazy var notifyComment: UILabel = {
         let lbl = UILabel()
-        lbl.text = "운전자의 전달여부"
         lbl.numberOfLines = 0
         lbl.textAlignment = .center
         lbl.font = UIFont.carmuFont.body3Long
-
+        lbl.textColor = UIColor.semantic.textBody
         return lbl
     }()
 
-    private lazy var leftButton: UIButton = {
+    lazy var individualButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("왼쪽", for: .normal)
-
+        btn.backgroundColor = UIColor.semantic.negative
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.titleLabel?.font = UIFont.carmuFont.headline1
+        btn.layer.cornerRadius = 30
         return btn
     }()
 
-    private lazy var rightButton: UIButton = {
+    lazy var togetherButton: UIButton = {
         let btn = UIButton()
-        btn.setTitle("오른쪽", for: .normal)
+        btn.backgroundColor = UIColor.semantic.accPrimary
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.titleLabel?.font = UIFont.carmuFont.headline1
+        btn.layer.cornerRadius = 30
+        return btn
+    }()
 
+    lazy var carpoolStartButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("여정 지금 시작하기", for: .normal)
+        btn.titleLabel?.font = UIFont.carmuFont.headline2
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.layer.cornerRadius = 30
+        btn.backgroundColor = UIColor.semantic.accPrimary
         return btn
     }()
 
@@ -74,12 +70,14 @@ final class SessionStartView: UIView {
 
 // MARK: - Layout
 extension SessionStartView {
+
     private func setupUI() {
         addSubview(myPageButton)
         addSubview(topComment)
         addSubview(notifyComment)
-        addSubview(leftButton)
-        addSubview(rightButton)
+        addSubview(individualButton)
+        addSubview(togetherButton)
+        addSubview(carpoolStartButton)
     }
 
     private func setupConstraints() {
@@ -90,10 +88,8 @@ extension SessionStartView {
         topComment.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.top.equalTo(myPageButton.snp.bottom)
-
         }
     }
-
-    // TODO: - 크루있을 때 notifyComment, leftButton, rightButton constraints 설정하기
-
+    
+    // TODO: - 그룹있을 때 notifyComment, individualButton, togetherButton constraints 설정하기
 }

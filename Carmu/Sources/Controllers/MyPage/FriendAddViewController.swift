@@ -92,7 +92,7 @@ extension FriendAddViewController {
     // [검색] 버튼을 눌렀을 때 동작
     @objc private func performFriendSearch() {
         dismissTextField()
-        print("검색 텍스트: \(friendAddView.friendSearchTextField.text!)")
+        print("검색 텍스트: \(friendAddView.friendSearchTextField.text ?? "")")
         guard let searchKeyword = friendAddView.friendSearchTextField.text else {
             return
         }
