@@ -16,7 +16,7 @@ struct Crew: Codable {
 
 // 더미 데이터
 //    // 데이터가 없을 때
-//    let groupData: Group? = nil
+//    let crewData: Crew? = nil
 
     // 데이터가 있을 때
     let crewData: Crew? = Crew(id: "1", name: "그룹 이름111", captainID: "ted", crews: ["uni", "rei", "bazzi"])
