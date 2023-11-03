@@ -56,7 +56,7 @@ final class CodeShareView: UIView {
 
     private func setAutoLayout() {
         titleLabel1.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(36)
+            make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
         }
 

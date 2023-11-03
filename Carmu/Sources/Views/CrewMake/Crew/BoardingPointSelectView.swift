@@ -94,7 +94,7 @@ final class BoardingPointSelectView: UIView {
 
     private func setAutoLayout() {
         firstLineTitleStack.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(36)
+            make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.bottom.equalTo(secondLineTitleStack.snp.top)
             make.leading.equalToSuperview().inset(20)
         }
