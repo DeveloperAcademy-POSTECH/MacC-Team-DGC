@@ -212,7 +212,7 @@ final class NoCrewBackView: UIView {
 
         let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
         if let range1 = lbl.text?.range(of: "출발시간 30분 전") {
-            let nsRange1 = NSRange(range1, in: lbl.text!)
+            let nsRange1 = NSRange(range1, in: lbl.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)
@@ -251,7 +251,7 @@ final class NoCrewBackView: UIView {
 
         let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
         if let range1 = lbl.text?.range(of: "출발시간 20분 전") {
-            let nsRange1 = NSRange(range1, in: lbl.text!)
+            let nsRange1 = NSRange(range1, in: lbl.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)

@@ -58,13 +58,13 @@ extension SessionStartViewController {
         sessionStartView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "카뮤") {
-            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
+            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)
         }
         if let range2 = sessionStartView.topComment.text?.range(of: "카풀 생활") {
-            let nsRange2 = NSRange(range2, in: sessionStartView.topComment.text!)
+            let nsRange2 = NSRange(range2, in: sessionStartView.topComment.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange2)
@@ -105,7 +105,7 @@ extension SessionStartViewController {
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData?.name ?? "그룹명")") {
-            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
+            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)
@@ -115,7 +115,7 @@ extension SessionStartViewController {
         sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
         let notifyCommentText = NSMutableAttributedString(string: sessionStartView.notifyComment.text ?? "")
         if let range2 = sessionStartView.notifyComment.text?.range(of: "30분 전") {
-            let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text!)
+            let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text ?? "")
             notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.textPrimary as Any,
                                         range: nsRange2)
@@ -177,7 +177,7 @@ extension SessionStartViewController {
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData?.name ?? "그룹명")") {
-            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
+            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)
@@ -208,7 +208,7 @@ extension SessionStartViewController {
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
         sessionStartView.notifyComment.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(sessionStartDriverView.snp.bottom).offset(20)
+            make.top.lessThanOrEqualTo(sessionStartPassengerView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
         sessionStartView.individualButton.snp.makeConstraints { make in
