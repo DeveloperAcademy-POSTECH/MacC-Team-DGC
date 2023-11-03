@@ -46,6 +46,16 @@ final class SessionStartView: UIView {
         return btn
     }()
 
+    lazy var carpoolStartButton: UIButton = {
+        let btn = UIButton()
+        btn.setTitle("여정 지금 시작하기", for: .normal)
+        btn.titleLabel?.font = UIFont.carmuFont.headline2
+        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        btn.layer.cornerRadius = 30
+        btn.backgroundColor = UIColor.semantic.accPrimary
+        return btn
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -67,6 +77,7 @@ extension SessionStartView {
         addSubview(notifyComment)
         addSubview(individualButton)
         addSubview(togetherButton)
+        addSubview(carpoolStartButton)
     }
 
     private func setupConstraints() {

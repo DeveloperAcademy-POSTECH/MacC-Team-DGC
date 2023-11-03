@@ -28,6 +28,10 @@ final class SessionStartViewController: UIViewController {
         setupConstraints()
 
         sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
+        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
+        sessionStartView.carpoolStartButton.addTarget(self,
+                                                      action: #selector(carpoolStartButtonDidTapped),
+                                                      for: .touchUpInside)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -122,30 +126,12 @@ extension SessionStartViewController {
         sessionStartDriverView.isHidden = false
         sessionStartPassengerView.isHidden = true
 
-        sessionStartDriverView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
-            make.bottom.lessThanOrEqualToSuperview().inset(216)
-        }
-        sessionStartView.notifyComment.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(sessionStartDriverView.snp.bottom).offset(20)
-            make.centerX.equalToSuperview()
-        }
-        sessionStartView.individualButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
-            make.width.lessThanOrEqualTo(170)
-            make.height.equalTo(60)
-            make.bottom.equalToSuperview().inset(60)
-        }
-        sessionStartView.togetherButton.snp.makeConstraints { make in
-            make.leading.equalTo(sessionStartView.individualButton.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
-            make.width.equalTo(sessionStartView.individualButton.snp.width)
-            make.height.equalTo(60)
-            make.bottom.equalToSuperview().inset(60)
-        }
+        // button layout
+        sessionStartView.individualButton.isHidden = false
+        sessionStartView.togetherButton.isHidden = false
+        sessionStartView.carpoolStartButton.isHidden = true
+
+        settingDriverConstraints()
     }
 
     // 크루원일 때
@@ -170,6 +156,41 @@ extension SessionStartViewController {
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
     }
+
+    // Driver Layout
+    private func settingDriverConstraints() {
+        sessionStartDriverView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
+            make.bottom.lessThanOrEqualToSuperview().inset(216)
+        }
+        sessionStartView.notifyComment.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(sessionStartDriverView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+        }
+        sessionStartView.individualButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
+            make.width.lessThanOrEqualTo(170)
+            make.height.equalTo(60)
+            make.bottom.equalToSuperview().inset(60)
+        }
+        sessionStartView.togetherButton.snp.makeConstraints { make in
+            make.leading.equalTo(sessionStartView.individualButton.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(20)
+            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
+            make.width.equalTo(sessionStartView.individualButton.snp.width)
+            make.height.equalTo(60)
+            make.bottom.equalToSuperview().inset(60)
+        }
+        sessionStartView.carpoolStartButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
+            make.width.lessThanOrEqualTo(350)
+            make.height.equalTo(60)
+            make.bottom.equalToSuperview().inset(60)
+        }
+    }
 }
 
 // MARK: Actions
@@ -187,6 +208,18 @@ extension SessionStartViewController {
         } else {
             settingGroupView()
         }
+    }
+
+    @objc private func togetherButtonDidTapped() {
+        sessionStartView.individualButton.isHidden = true
+        sessionStartView.togetherButton.isHidden = true
+        sessionStartView.carpoolStartButton.isHidden = false
+    }
+
+    @objc private func carpoolStartButtonDidTapped() {
+        let mapView = SessionMapViewController()
+        mapView.modalPresentationStyle = .fullScreen
+        self.present(mapView, animated: true, completion: nil)
     }
 }
 
