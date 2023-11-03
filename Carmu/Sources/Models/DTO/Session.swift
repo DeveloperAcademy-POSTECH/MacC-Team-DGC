@@ -19,7 +19,7 @@ struct Session: Codable {
     var id: String
     var name: String
     var captainID: UserIdentifier
-    var points: [String]
+    var points: [Point]
     var sessionStatus: Bool
     var crewStatus: [UserIdentifier: Bool]
 
