@@ -88,7 +88,7 @@ extension SessionStartViewController {
         sessionStartNoCrewView.isHidden = true
 
         // TODO: - 데이터 형식에 맞춰서 수정
-        if groupData?.captainID == "ted" {  // 운전자일 경우
+        if crewData?.captainID == "ted" {  // 운전자일 경우
             settingDriverView()
         } else {    // 크루원인 경우
             settingPassengerView()
@@ -101,10 +101,10 @@ extension SessionStartViewController {
         // 비활성화
         sessionStartDriverView.layer.opacity = 0.5
         // comment
-        sessionStartView.topComment.text = "\(groupData?.name ?? "그룹명"),\n오늘 운행하시나요?"
+        sessionStartView.topComment.text = "\(crewData?.name ?? "그룹명"),\n오늘 운행하시나요?"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "\(groupData?.name ?? "그룹명")") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData?.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
@@ -206,7 +206,7 @@ extension SessionStartViewController {
 
     // 그룹의 유무 확인
     private func checkGroup() {
-        if groupData == nil {
+        if crewData == nil {
             settingNoGroupView()
         } else {
             settingGroupView()

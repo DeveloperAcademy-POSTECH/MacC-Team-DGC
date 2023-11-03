@@ -157,7 +157,7 @@ final class DriverFrontView: UIView {
 
     // TODO: - 실제 데이터로 변경
     private func settingData() {
-        totalCrewMemeberLabel.text = "/ \(groupData?.crews.count ?? 0)"
+        totalCrewMemeberLabel.text = "/ \(crewData?.crews.count ?? 0)"
         todayCrewMemeberLabel.text = "1"
     }
 }
@@ -166,10 +166,25 @@ final class DriverFrontView: UIView {
 
 final class DriverBackView: UIView {
 
+    private lazy var personImage: UIImageView = {
+        let img = UIImage(systemName: "person.fill")
+        let imageView = UIImageView(image: img)
+        imageView.tintColor = UIColor.semantic.textPrimary
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    private lazy var totalCrewMemeberLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.font = UIFont.carmuFont.subhead3
+        lbl.textColor = UIColor.semantic.textPrimary
+        return lbl
+    }()
+
     init() {
         super.init(frame: .zero)
         setupBackView()
         setupConstraints()
+        settingData()
     }
 
     required init?(coder: NSCoder) {
@@ -177,9 +192,23 @@ final class DriverBackView: UIView {
     }
 
     private func setupBackView() {
-
+        addSubview(personImage)
+        addSubview(totalCrewMemeberLabel)
     }
 
     private func setupConstraints() {
+        personImage.snp.makeConstraints { make in
+            make.leading.top.equalToSuperview().inset(20)
+            make.width.height.equalTo(22)
+        }
+        totalCrewMemeberLabel.snp.makeConstraints { make in
+            make.leading.equalTo(personImage.snp.trailing).offset(4)
+            make.centerY.equalTo(personImage)
+        }
+    }
+
+    // TODO: - 실제 데이터로 변경
+    private func settingData() {
+        totalCrewMemeberLabel.text = "\(crewData?.crews.count ?? 0)명"
     }
 }

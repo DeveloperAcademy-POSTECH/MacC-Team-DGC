@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Group: Codable {
+struct Crew: Codable {
     var id: String
     var name: String
     var captainID: UserIdentifier
@@ -19,4 +19,4 @@ struct Group: Codable {
 //    let groupData: Group? = nil
 
     // 데이터가 있을 때
-    let groupData: Group? = Group(id: "1", name: "그룹 이름111", captainID: "ted", crews: ["uni", "rei", "bazzi"])
+    let crewData: Crew? = Crew(id: "1", name: "그룹 이름111", captainID: "ted", crews: ["uni", "rei", "bazzi"])
