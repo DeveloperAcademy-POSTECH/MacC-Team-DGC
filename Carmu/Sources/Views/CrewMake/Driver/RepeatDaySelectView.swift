@@ -80,6 +80,6 @@ import SwiftUI
 struct RepeatDaySelectViewPreview: PreviewProvider {
 
     static var previews: some View {
-        SelectDetailControllerRepresentable()
+        RDSViewControllerRepresentable()
     }
 }
