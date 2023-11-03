@@ -97,6 +97,9 @@ extension SessionStartViewController {
 
     // 운전자일 때
     private func settingDriverView() {
+
+        // 비활성화
+        sessionStartDriverView.layer.opacity = 0.5
         // comment
         sessionStartView.topComment.text = "\(groupData?.name ?? "그룹명"),\n오늘 운행하시나요?"
         // 특정 부분 색상 넣기
@@ -214,6 +217,9 @@ extension SessionStartViewController {
         sessionStartView.individualButton.isHidden = true
         sessionStartView.togetherButton.isHidden = true
         sessionStartView.carpoolStartButton.isHidden = false
+
+        // 활성화
+        sessionStartDriverView.layer.opacity = 1.0
     }
 
     @objc private func carpoolStartButtonDidTapped() {
