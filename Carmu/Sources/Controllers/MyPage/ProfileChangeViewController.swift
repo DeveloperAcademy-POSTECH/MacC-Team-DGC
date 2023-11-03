@@ -10,20 +10,7 @@ import UIKit
 // MARK: - 프로필 변경 화면 뷰 컨트롤러
 final class ProfileChangeViewController: UIViewController {
 
-    let profileTypeNames = [
-        "profileBlue",
-        "profileAqua",
-        "profileRed",
-        "profileYellow",
-        "profileAquaBlue",
-        "profileRedBlue",
-        "profilePurpleBlue",
-        "profileOrangeBlue",
-        "profileGreen",
-        "profileNavy",
-        "profileDarkNavy",
-        "profileGray"
-    ]
+    var selectedProfileTypeIdx: Int = 0 // 선택한 프로필 타입
     private let profileChangeView = ProfileChangeView()
     private let firebaseManager = FirebaseManager()
 
@@ -42,6 +29,9 @@ final class ProfileChangeViewController: UIViewController {
         )
         profileChangeView.profileCollectionView.delegate = self
         profileChangeView.profileCollectionView.dataSource = self
+
+        profileChangeView.closeButton.addTarget(self, action: #selector(closeProfileChangeView), for: .touchUpInside)
+        profileChangeView.saveButton.addTarget(self, action: #selector(performProfileUpdate), for: .touchUpInside)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -59,12 +49,28 @@ final class ProfileChangeViewController: UIViewController {
     }
 }
 
+// MARK: - @objc 메서드
+extension ProfileChangeViewController {
+
+    // 상단 닫기 버튼 클릭 시 동작
+    @objc private func closeProfileChangeView() {
+        self.dismiss(animated: true)
+    }
+
+    // [저장] 버튼을 눌렀을 때 동작
+    @objc private func performProfileUpdate() {
+        // TODO: - 구현 필요
+        print("프로필 변경!!!")
+        self.dismiss(animated: true)
+    }
+}
+
 // MARK: - UICollectionViewDataSource 델리게이트 구현
 extension ProfileChangeViewController: UICollectionViewDataSource {
 
     // 컬렉션 뷰의 아이템 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        12
+        ProfileType.allCases.count
     }
 
     // 컬렉션 뷰 셀 구성
@@ -78,7 +84,8 @@ extension ProfileChangeViewController: UICollectionViewDataSource {
         ) as? ProfileTypeCollectionViewCell else {
             return UICollectionViewCell()
         }
-        cell.profileImageView.image = UIImage(named: profileTypeNames[indexPath.row])
+        cell.profileType = ProfileType.allCases[indexPath.row]
+        cell.profileImageView.image = UIImage(profileType: ProfileType.allCases[indexPath.row])
         return cell
     }
 }
@@ -114,6 +121,12 @@ extension ProfileChangeViewController: UICollectionViewDelegateFlowLayout {
         // 컬렉션 뷰의 프레임을 기준으로 셀의 크기를 잡아준다.
         let cellSize: CGFloat = profileChangeView.profileCollectionView.frame.width / 4.86
         return CGSize(width: cellSize, height: cellSize)
+    }
+
+    // 컬렉션 뷰 선택 시
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        selectedProfileTypeIdx = indexPath.row // 선택한 인덱스 값을 저장한다.
+        print("선택한 인덱스: \(selectedProfileTypeIdx)")
     }
 }
 

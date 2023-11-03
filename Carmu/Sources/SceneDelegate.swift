@@ -28,6 +28,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
 
         // 로그인한 사용자가 있는지 체크
+        // TODO: - 로그인 여부 + 회원가입 여부 모두 체크해서 분기처리 필요함 (온보딩 화면 작업 마무리 시에 작업)
         if Auth.auth().currentUser != nil {
 
             // MARK: - SessionStartViewController()

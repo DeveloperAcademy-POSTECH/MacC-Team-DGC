@@ -27,7 +27,7 @@ final class ProfileChangeView: UIView {
     }()
 
     // 모달 닫기 버튼
-    private let closeButton: UIButton = {
+    let closeButton: UIButton = {
         let closeButton = UIButton()
         closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         closeButton.tintColor = UIColor.semantic.accPrimary
@@ -48,12 +48,13 @@ final class ProfileChangeView: UIView {
             frame: .zero,
             collectionViewLayout: UICollectionViewFlowLayout()
         )
-        profileCollectionView.backgroundColor = .gray
+//        profileCollectionView.backgroundColor = .gray
+        profileCollectionView.allowsMultipleSelection = false
         return profileCollectionView
     }()
 
     // 저장 버튼
-    private let saveButton: UIButton = {
+    let saveButton: UIButton = {
         let saveButton = UIButton()
         saveButton.backgroundColor = UIColor.semantic.accPrimary
         saveButton.setTitle("저장", for: .normal)

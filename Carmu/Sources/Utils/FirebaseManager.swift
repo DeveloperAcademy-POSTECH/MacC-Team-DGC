@@ -39,7 +39,7 @@ class FirebaseManager {
             deviceToken: fcmToken,
             nickname: nickname,
             email: email,
-            profileType: .profileBlue // 기본 프로필
+            profileType: .blue // 기본 프로필
         )
         do {
             let data = try encoder.encode(user)
@@ -205,7 +205,7 @@ extension FirebaseManager {
                 deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
                 email: snapshotValue["email"] as? String,
-                profileType: .profileBlue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
+                profileType: .blue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
             )
             completion(friend)
         }
@@ -266,7 +266,7 @@ extension FirebaseManager {
                         deviceToken: dict["deviceToken"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
                         email: dict["email"] as? String,
-                        profileType: .profileBlue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
+                        profileType: .blue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
                     )
                     completion(searchedFriend)
                     return
