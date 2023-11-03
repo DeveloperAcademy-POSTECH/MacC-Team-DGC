@@ -334,94 +334,93 @@ extension FirebaseManager {
     }
 }
 
-// MARK: - 그룹 관련 파이어베이스 메서드
+// MARK: - 크루 관련 파이어베이스 메서드
 extension FirebaseManager {
 
     /**
-     DB의 Group에 새로운 그룹을 추가하는 메서드
+     DB의 Crew에 새로운 크루를 추가하는 메서드
      - 호출되는 곳
         - XXX
      */
-    func addGroup(_ crewAndPoint: [String: String], _ groupName: String) {
-        guard let key = Database.database().reference().child("group").childByAutoId().key else {
+    func addCrew(_ crewAndPoint: [String: String], _ crewName: String) {
+        guard let key = Database.database().reference().child("crew").childByAutoId().key else {
             return
         }
         guard let captainID = KeychainItem.currentUserIdentifier else { return }
-
-        // DB에 추가할 그룹 객체
-        let newGroup = Group(
+        // DB에 추가할 크루 객체
+        let newCrew = Crew(
             id: key,
-            name: groupName,
-            // groupImage 추가 필요
+            name: crewName,
+            // crewImage 추가 필요
             captainID: captainID,
             crews: []
         )
-        setGroupToUser(captainID, key)
+        setCrewToUser(captainID, key)
         for (crewKey, _) in crewAndPoint {
-            setGroupToUser(crewKey, key)
+            setCrewToUser(crewKey, key)
         }
 
         do {
-            let data = try JSONEncoder().encode(newGroup)
+            let data = try JSONEncoder().encode(newCrew)
             let json = try JSONSerialization.jsonObject(with: data)
             let childUpdates: [String: Any] = [
-                "group/\(key)": json
+                "crew/\(key)": json
             ]
             Database.database().reference().updateChildValues(childUpdates)
         } catch {
-            print("Group CREATE fail...", error)
+            print("Crew CREATE fail...", error)
         }
     }
 
     /**
-     크루 만들기에서 추가된 탑승자들의 User/groupList에 groupID를 추가하는 메서드
+     크루 만들기에서 추가된 탑승자들의 User/crewList에 crewID를 추가하는 메서드
      - 호출되는 곳
         -
      */
-    func setGroupToUser(_ userID: String, _ groupID: String) {
-        let databaseRef = Database.database().reference().child("users/\(userID)/groupList")
+    func setCrewToUser(_ userID: String, _ crewID: String) {
+        let databaseRef = Database.database().reference().child("users/\(userID)/crewList")
 
         databaseRef.getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            if var groupList = snapshot?.value as? [String] {
-                groupList.append(groupID)
-                databaseRef.setValue(groupList as NSArray)
+            if var crewList = snapshot?.value as? [String] {
+                crewList.append(crewID)
+                databaseRef.setValue(crewList as NSArray)
             } else {
-                // 아직 그룹이 없는 경우 배열을 새로 만들어준다.
-                var newGroup = []
-                newGroup.append(groupID)
-                databaseRef.setValue(newGroup as NSArray)
+                // 아직 크루가 없는 경우 배열을 새로 만들어준다.
+                var newCrew = []
+                newCrew.append(crewID)
+                databaseRef.setValue(newCrew as NSArray)
             }
         }
     }
 
     /**
-     DB에서 유저의 Group 목록(groupList)을 불러오는 메서드
+     DB에서 유저의 Crew 목록(crewList)을 불러오는 메서드
      - 호출되는 곳
         - SessionStartViewController
      */
-    func readGroupID(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
-        databasePath.child("groupList").getData { error, snapshot in
+    func readCrewID(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
+        databasePath.child("crewList").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
                 return
             }
-            let groups = snapshot?.value as? [String]
-            completion(groups)
+            let crews = snapshot?.value as? [String]
+            completion(crews)
         }
     }
 
     /**
-     groupList의 uid로 DB에서 그룹 데이터 불러오는 메서드
+     crewList의 uid로 DB에서 크루 데이터 불러오는 메서드
      - 호출되는 곳
         - SessionStartViewController
      */
-    func getUserGroup(groupID: String, completion: @escaping (Group?) -> Void) {
-        Database.database().reference().child("group/\(groupID)").getData { error, snapshot in
+    func getUserCrew(crewID: String, completion: @escaping (Crew?) -> Void) {
+        Database.database().reference().child("crew/\(crewID)").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 completion(nil)
@@ -430,13 +429,13 @@ extension FirebaseManager {
             guard let snapshotValue = snapshot?.value as? [String: Any] else {
                 return
             }
-            let group = Group(
+            let crew = Crew(
                 id: snapshotValue["id"] as? String ?? "",
                 name: snapshotValue["name"] as? String ?? "",
-                captainID: snapshotValue["captainID"] as? String ?? "",
+                captainID: snapshotValue["captainID"] as? UserIdentifier ?? "",
                 crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""]
             )
-            completion(group)
+            completion(crew)
         }
 
     }

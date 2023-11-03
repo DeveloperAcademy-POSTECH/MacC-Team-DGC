@@ -1,5 +1,5 @@
 //
-//  SessionStartMidNoGroupView.swift
+//  SessionStartMidNoCrewView.swift
 //  Carmu
 //
 //  Created by 김태형 on 2023/10/18.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class SessionStartMidNoGroupView: UIView {
+final class SessionStartNoCrewView: UIView {
 
     private lazy var isFlipped = false
     private lazy var contentView: UIView = {
@@ -21,9 +21,9 @@ final class SessionStartMidNoGroupView: UIView {
     }()
 
     // 앞면 뷰
-    private lazy var frontView = FrontView()
+    private lazy var noCrewFrontView = NoCrewFrontView()
     // 뒷면 뷰
-    private lazy var backView = BackView()
+    private lazy var noCrewBackView = NoCrewBackView()
 
     init() {
         super.init(frame: .zero)
@@ -41,46 +41,48 @@ final class SessionStartMidNoGroupView: UIView {
         super.layoutSubviews()
 
         contentView.frame = bounds
-        frontView.frame = bounds
-        backView.frame = bounds
+        noCrewFrontView.frame = bounds
+        noCrewBackView.frame = bounds
 
     }
 }
 
 // MARK: - Layout Methods
-extension SessionStartMidNoGroupView {
+extension SessionStartNoCrewView {
+
     private func setupUI() {
         addSubview(contentView)
-        contentView.addSubview(frontView)
-        contentView.addSubview(backView)
-        backView.isHidden = true
+        contentView.addSubview(noCrewFrontView)
+        contentView.addSubview(noCrewBackView)
+        noCrewBackView.isHidden = true
 
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
         layer.shadowOpacity = 0.5
         layer.shadowRadius = 10
-
     }
 }
 
 // MARK: - Actions
-extension SessionStartMidNoGroupView {
+extension SessionStartNoCrewView {
+
     @objc private func flip() {
         isFlipped.toggle()
 
         let transitionOptions: UIView.AnimationOptions = isFlipped ? .transitionFlipFromLeft : .transitionFlipFromRight
 
         UIView.transition(with: contentView, duration: 0.4, options: transitionOptions, animations: {
-            self.frontView.isHidden = self.isFlipped
-            self.backView.isHidden = !self.isFlipped
+            self.noCrewFrontView.isHidden = self.isFlipped
+            self.noCrewBackView.isHidden = !self.isFlipped
         }, completion: nil)
     }
 }
 
 // MARK: - 앞면 뷰
-final class FrontView: UIView {
+final class NoCrewFrontView: UIView {
+
     private lazy var frontImage: UIImageView = {
-        let img = UIImage(named: "NoGroupBlinker")
+        let img = UIImage(named: "NoCrewBlinker")
         let imageView = UIImageView(image: img)
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -105,7 +107,7 @@ final class FrontView: UIView {
 
         return lbl
     }()
-    private lazy var createGroupButton: UIButton = {
+    private lazy var createCrewButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("크루 만들기", for: .normal)
         btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
@@ -137,7 +139,7 @@ final class FrontView: UIView {
     private func setupFrontView() {
         addSubview(frontImage)
         addSubview(comment)
-        addSubview(createGroupButton)
+        addSubview(createCrewButton)
         addSubview(inviteCodeButton)
     }
 
@@ -151,14 +153,14 @@ final class FrontView: UIView {
             make.top.lessThanOrEqualTo(frontImage.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
-        createGroupButton.snp.makeConstraints { make in
+        createCrewButton.snp.makeConstraints { make in
             make.top.equalTo(comment.snp.bottom).offset(24)
             make.centerX.equalToSuperview()
             make.width.equalTo(170)
             make.height.equalTo(60)
         }
         inviteCodeButton.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(createGroupButton.snp.bottom).offset(12)
+            make.top.lessThanOrEqualTo(createCrewButton.snp.bottom).offset(12)
             make.bottom.greaterThanOrEqualToSuperview().inset(24)
             make.bottom.lessThanOrEqualToSuperview().inset(60).priority(.high)
             make.centerX.equalToSuperview()
@@ -169,8 +171,7 @@ final class FrontView: UIView {
 }
 
 // MARK: - 뒷면 뷰
-
-final class BackView: UIView {
+final class NoCrewBackView: UIView {
 
     private lazy var comment: UILabel = {
         let lbl = UILabel()
@@ -211,7 +212,7 @@ final class BackView: UIView {
 
         let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
         if let range1 = lbl.text?.range(of: "출발시간 30분 전") {
-            let nsRange1 = NSRange(range1, in: lbl.text!)
+            let nsRange1 = NSRange(range1, in: lbl.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)
@@ -250,7 +251,7 @@ final class BackView: UIView {
 
         let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
         if let range1 = lbl.text?.range(of: "출발시간 20분 전") {
-            let nsRange1 = NSRange(range1, in: lbl.text!)
+            let nsRange1 = NSRange(range1, in: lbl.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)
@@ -282,6 +283,7 @@ final class BackView: UIView {
         passengerView.addSubview(passengerImage)
         passengerView.addSubview(passengerInfoLabel)
     }
+
     private func setupConstraints() {
         comment.snp.makeConstraints { make in
             make.top.lessThanOrEqualToSuperview().inset(28)
