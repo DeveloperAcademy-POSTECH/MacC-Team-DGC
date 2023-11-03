@@ -17,7 +17,7 @@ typealias UserIdentifier = String
  nickname: 유저 닉네임 (디폴트: 애플 로그인 시 받아오는 값)
  email : 유저 이메일 (애플 로그인 시 받아오는 값)
  profileType : 유저가 설정한 프로필의 타입
- groupList : 유저가 속한 그룹의 id
+ crewList : 유저가 속한 크루의 id
  */
 
 struct User: Codable {
@@ -26,7 +26,7 @@ struct User: Codable {
     var nickname: String
     var email: String?
     var profileType: ProfileType
-    var groupList: [String]?    // [Group]
+    var crewList: [String]?    // [Crew]
 }
 
 extension User {

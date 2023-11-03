@@ -94,6 +94,6 @@ extension SessionStartView {
         }
     }
 
-    // TODO: - 그룹있을 때 notifyComment, leftButton, rightButton constraints 설정하기
+    // TODO: - 크루있을 때 notifyComment, leftButton, rightButton constraints 설정하기
 
 }

@@ -17,11 +17,11 @@ final class SessionStartViewController: UIViewController {
 
     private let sessionStartView = SessionStartView()
     private let sessionStartMidView = SessionStartMidView()
-    private let sessionStartMidNoGroupView = SessionStartMidNoGroupView()
+    private let sessionStartMidNoCrewView = SessionStartMidNoCrewView()
     private let firebaseManager = FirebaseManager()
 
     // 데이터가 없을 때
-    let groupData: [Group]? = nil
+    let crewData: [Crew]? = nil
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ final class SessionStartViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        checkGroup()
+        checkCrew()
     }
 }
 
@@ -42,7 +42,7 @@ extension SessionStartViewController {
     private func setupUI() {
         view.addSubview(sessionStartView)
         view.addSubview(sessionStartMidView)
-        view.addSubview(sessionStartMidNoGroupView)
+        view.addSubview(sessionStartMidNoCrewView)
     }
     private func setupConstraints() {
         sessionStartView.snp.makeConstraints { make in
@@ -50,21 +50,21 @@ extension SessionStartViewController {
         }
     }
 
-    // 그룹이 없을 때
-    private func settingNoGroupView() {
+    // 크루가 없을 때
+    private func settingNoCrewView() {
         sessionStartMidView.isHidden = true
-        sessionStartMidNoGroupView.isHidden = false
+        sessionStartMidNoCrewView.isHidden = false
 
-        sessionStartMidNoGroupView.snp.makeConstraints { make in
+        sessionStartMidNoCrewView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
             make.bottom.equalToSuperview().inset(165)
         }
     }
-    // 그룹이 있을 때
-    private func settingGroupView() {
+    // 크루가 있을 때
+    private func settingCrewView() {
         sessionStartMidView.isHidden = false
-        sessionStartMidNoGroupView.isHidden = true
+        sessionStartMidNoCrewView.isHidden = true
     }
 }
 
@@ -76,12 +76,12 @@ extension SessionStartViewController {
         navigationController?.pushViewController(myPageVC, animated: true)
     }
 
-    // 그룹의 유무 확인
-    private func checkGroup() {
-        if groupData == nil {
-            settingNoGroupView()
+    // 크루의 유무 확인
+    private func checkCrew() {
+        if crewData == nil {
+            settingNoCrewView()
         } else {
-            settingGroupView()
+            settingCrewView()
         }
     }
 }
