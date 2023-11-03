@@ -192,6 +192,7 @@
 		16E42CDE2AC47E790031486E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */,
 				C92CFB3E2ACC24E80068273A /* DTO */,
 				C92CFB372ACBC9090068273A /* Font */,
 				C92CFB362AC9B6CD0068273A /* Color */,
@@ -403,7 +404,6 @@
 				C904D1552AD5786A008BF5CE /* User.swift */,
 				C904D1572AD57942008BF5CE /* Friendship.swift */,
 				C904D1602AD57AE8008BF5CE /* Group.swift */,
-				B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
