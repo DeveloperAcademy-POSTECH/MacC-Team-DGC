@@ -434,7 +434,7 @@ extension FirebaseManager {
             let crew = Crew(
                 id: snapshotValue["id"] as? String ?? "",
                 name: snapshotValue["name"] as? String ?? "",
-                captainID: snapshotValue["captainID"] as? String ?? "",
+                captainID: snapshotValue["captainID"] as? UserIdentifier ?? "",
                 crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""]
             )
             completion(crew)
