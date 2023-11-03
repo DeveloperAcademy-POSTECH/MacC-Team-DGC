@@ -136,33 +136,73 @@ extension SessionStartViewController {
 
         settingDriverConstraints()
     }
-
-    // 크루원일 때
-    private func settingPassengerView() {
-        sessionStartView.topComment.text = "(그룹명)과\n함께 가시나요?"
-        // 특정 부분 색상 넣기
-        let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "(그룹명)") {
-            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
-        }
-        sessionStartView.topComment.attributedText = attributedText
-
-        sessionStartDriverView.isHidden = true
-        sessionStartPassengerView.isHidden = false
-
-        sessionStartPassengerView.snp.makeConstraints { make in
+    // Driver Layout
+    private func settingDriverConstraints() {
+        sessionStartDriverView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
+        sessionStartView.notifyComment.snp.makeConstraints { make in
+            make.top.lessThanOrEqualTo(sessionStartDriverView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+        }
+        sessionStartView.individualButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
+            make.width.lessThanOrEqualTo(170)
+            make.height.equalTo(60)
+            make.bottom.equalToSuperview().inset(60)
+        }
+        sessionStartView.togetherButton.snp.makeConstraints { make in
+            make.leading.equalTo(sessionStartView.individualButton.snp.trailing).offset(10)
+            make.trailing.equalToSuperview().inset(20)
+            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
+            make.width.equalTo(sessionStartView.individualButton.snp.width)
+            make.height.equalTo(60)
+            make.bottom.equalToSuperview().inset(60)
+        }
+        sessionStartView.carpoolStartButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.lessThanOrEqualTo(sessionStartView.notifyComment.snp.bottom).offset(20)
+            make.width.lessThanOrEqualTo(350)
+            make.height.equalTo(60)
+            make.bottom.equalToSuperview().inset(60)
+        }
     }
 
-    // Driver Layout
-    private func settingDriverConstraints() {
-        sessionStartDriverView.snp.makeConstraints { make in
+    // 크루원일 때
+    private func settingPassengerView() {
+        sessionStartView.topComment.text = "\(crewData?.name ?? "그룹명")과\n함께 가시나요?"
+        // 특정 부분 색상 넣기
+        let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData?.name ?? "그룹명")") {
+            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange1)
+        }
+        sessionStartView.topComment.attributedText = topCommentText
+
+        sessionStartView.notifyComment.text = "기본값은 없어야 함"
+
+        sessionStartView.individualButton.setTitle("따로가요", for: .normal)
+        sessionStartView.togetherButton.setTitle("함께가요", for: .normal)
+
+        // view layout
+        sessionStartDriverView.isHidden = true
+        sessionStartPassengerView.isHidden = false
+
+        // button layout
+        sessionStartView.individualButton.isHidden = false
+        sessionStartView.togetherButton.isHidden = false
+        sessionStartView.carpoolStartButton.isHidden = true
+
+        settingPassengerConstraints()
+    }
+    // Passenger Layout
+    private func settingPassengerConstraints() {
+        sessionStartPassengerView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
