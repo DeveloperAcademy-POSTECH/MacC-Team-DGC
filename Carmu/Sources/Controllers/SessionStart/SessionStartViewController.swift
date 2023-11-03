@@ -94,10 +94,10 @@ extension SessionStartViewController {
     // 운전자일 때
     private func settingDriverView() {
         // comment
-        sessionStartView.topComment.text = "(그룹명),\n오늘 운행하시나요?"
+        sessionStartView.topComment.text = "\(groupData?.name ?? "그룹명"),\n오늘 운행하시나요?"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "(그룹명)") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(groupData?.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text!)
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,

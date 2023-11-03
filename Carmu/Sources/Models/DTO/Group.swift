@@ -14,9 +14,9 @@ struct Group: Codable {
     var crews: [UserIdentifier]
 }
 
-/// 더미 데이터
+// 더미 데이터
 //    // 데이터가 없을 때
 //    let groupData: Group? = nil
 
     // 데이터가 있을 때
-    let groupData: Group? = Group(id: "1", name: "aa", captainID: "ted", crews: ["uni", "rei", "bazzi"])
+    let groupData: Group? = Group(id: "1", name: "그룹 이름111", captainID: "ted", crews: ["uni", "rei", "bazzi"])
