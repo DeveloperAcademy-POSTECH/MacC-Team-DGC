@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FinalConfirmViewController: UIViewController {
+final class FinalConfirmViewController: UIViewController {
 
     private let finalConfirmView = FinalConfirmView()
 
