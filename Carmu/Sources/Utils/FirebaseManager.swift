@@ -120,8 +120,8 @@ class FirebaseManager {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        let profileType = type.rawValue
-        databasePath.child("profileType").setValue(profileType as NSString)
+        let profileTypeValue = type.rawValue
+        databasePath.child("profileType").setValue(profileTypeValue as NSString)
     }
 }
 

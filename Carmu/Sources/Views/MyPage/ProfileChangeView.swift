@@ -48,8 +48,7 @@ final class ProfileChangeView: UIView {
             frame: .zero,
             collectionViewLayout: UICollectionViewFlowLayout()
         )
-//        profileCollectionView.backgroundColor = .gray
-        profileCollectionView.allowsMultipleSelection = false
+        profileCollectionView.allowsMultipleSelection = false // 복수 선택 허용 X
         return profileCollectionView
     }()
 

@@ -25,7 +25,7 @@ final class MyPageViewController: UIViewController {
                 return
             }
             self.myPageView.nicknameLabel.text = userData.nickname
-            self.myPageView.imageView.image = UIImage(named: userData.profileType.rawValue)
+            self.myPageView.imageView.image = UIImage(profileType: userData.profileType)
         }
 
         let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)

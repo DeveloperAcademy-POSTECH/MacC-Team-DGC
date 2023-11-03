@@ -12,7 +12,10 @@ final class ProfileTypeCollectionViewCell: UICollectionViewCell {
 
     static let cellIdentifier = "profileTypeCollectionViewCell"
 
+    // 셀에 대응하는 프로필 타입
     var profileType: ProfileType = .blue
+
+    // 셀의 선택 여부에 따른 이미지 표시
     override var isSelected: Bool {
         didSet {
             if isSelected {
@@ -28,7 +31,6 @@ final class ProfileTypeCollectionViewCell: UICollectionViewCell {
     let profileImageView: UIImageView = {
         let profileImageView = UIImageView()
         profileImageView.contentMode = .scaleAspectFit
-//        profileImageView.backgroundColor = .yellow
         return profileImageView
     }()
 

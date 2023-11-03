@@ -80,7 +80,7 @@ final class FriendDetailView: UIView {
     // MARK: - 친구 프로필 이미지
     lazy var friendImage: UIImageView = {
         let friendImage = UIImageView()
-        friendImage.image = UIImage(named: "profileBlue")
+        friendImage.image = UIImage(profileType: .blue)
         friendImage.contentMode = .scaleAspectFit
         // TODO: - 이미지 프레임 추후 비율에 맞게 수정 필요
         let size = CGFloat(137)

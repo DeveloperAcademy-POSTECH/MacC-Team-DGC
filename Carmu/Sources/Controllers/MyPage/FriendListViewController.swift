@@ -126,8 +126,7 @@ extension FriendListViewController: UITableViewDataSource {
         if let friend = friendList[indexPath.section][1] as? User {
             cell.nicknameLabel.text = friend.nickname
             // 친구 이미지 불러오기
-            let profileType = friend.profileType.rawValue
-            cell.profileImageView.image = UIImage(named: profileType)
+            cell.profileImageView.image = UIImage(profileType: friend.profileType)
         }
         let chevronImage = UIImageView(image: UIImage(systemName: "chevron.right"))
         chevronImage.tintColor = UIColor.semantic.textBody

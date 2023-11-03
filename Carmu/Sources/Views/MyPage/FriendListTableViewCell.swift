@@ -14,7 +14,7 @@ final class FriendListTableViewCell: UITableViewCell {
     // MARK: - 친구 프로필 이미지
     lazy var profileImageView: UIImageView = {
         let profileImageView = UIImageView()
-        if let profileImage = UIImage(named: "profileBlue") {
+        if let profileImage = UIImage(profileType: .blue) {
             profileImageView.contentMode = .scaleAspectFit
             profileImageView.image = profileImage
             // TODO: - 이미지 프레임 추후 비율에 맞게 수정 필요
