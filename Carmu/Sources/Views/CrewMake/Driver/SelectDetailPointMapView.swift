@@ -9,7 +9,7 @@ import UIKit
 
 import NMapsMap
 
-class SelectDetailPointMapView: UIView {
+final class SelectDetailPointMapView: UIView {
 
     let mapView = NMFMapView()
 
