@@ -430,7 +430,6 @@
 		C93116692AF3AB150014E702 /* Crew */ = {
 			isa = PBXGroup;
 			children = (
-				C9F43BCA2AF2151500BAA0E3 /* PositionSelectViewController.swift */,
 				C9F43BD82AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift */,
 				C9F43BDC2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift */,
 			);
@@ -501,6 +500,7 @@
 		C9F43BC72AF214CB00BAA0E3 /* CrewMake */ = {
 			isa = PBXGroup;
 			children = (
+				C9F43BCA2AF2151500BAA0E3 /* PositionSelectViewController.swift */,
 				C93116692AF3AB150014E702 /* Crew */,
 				C931166A2AF3AB250014E702 /* Driver */,
 			);
