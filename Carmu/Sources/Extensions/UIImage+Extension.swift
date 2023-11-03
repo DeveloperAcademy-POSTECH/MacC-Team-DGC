@@ -19,6 +19,18 @@ extension UIImage {
         self.init(cgImage: image!.cgImage!)
     }
 
+    // enum 타입의 ProfileType 값을 받아서 대응하는 [일반 프로필 이미지]로 초기화해주는 이니셜라이저
+    convenience init?(profileType: ProfileType) {
+        let imageName = "profile" + profileType.rawValue.capitalizedFirstCharacter()
+        self.init(named: imageName)
+    }
+
+    // enum 타입의 ProfileType 값을 받아서 대응하는 [선택된 프로필 이미지]로 초기화해주는 이니셜라이저
+    convenience init?(selectedProfileType: ProfileType) {
+        let selectedName = "selectedProfile" + selectedProfileType.rawValue.capitalizedFirstCharacter()
+        self.init(named: selectedName)
+    }
+
     public static func pixel(ofColor color: UIColor) -> UIImage {
         let pixel = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
         UIGraphicsBeginImageContext(pixel.size)
