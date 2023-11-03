@@ -78,8 +78,8 @@ extension SessionStartViewController {
         sessionStartNoCrewView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
-            make.bottom.lessThanOrEqualToSuperview().inset(216).priority(.high)
-            make.bottom.equalToSuperview().inset(216)
+            make.bottom.lessThanOrEqualToSuperview().inset(165)
+            make.bottom.equalToSuperview().inset(165)
         }
     }
 
