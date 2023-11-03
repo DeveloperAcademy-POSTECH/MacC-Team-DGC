@@ -28,14 +28,14 @@ struct KeychainItem {
 
     private(set) var account: String
 
-    let accessGroup: String?
+    let accessCrew: String?
 
     // MARK: - 이니셜라이저
 
-    init(service: String, account: String, accessGroup: String? = nil) {
+    init(service: String, account: String, accessCrew: String? = nil) {
         self.service = service
         self.account = account
-        self.accessGroup = accessGroup
+        self.accessCrew = accessCrew
     }
 
     // MARK: Keychain 접근 메소드
@@ -45,9 +45,9 @@ struct KeychainItem {
      */
     func readItem() throws -> String {
         /*
-         service, account, accessGroup과 매치되는 키체인 item을 찾기 위한 쿼리를 생성해줍니다.
+         service, account, accessCrew와 매치되는 키체인 item을 찾기 위한 쿼리를 생성해줍니다.
          */
-        var query = KeychainItem.keychainQuery(withService: service, account: account, accessGrouop: accessGroup)
+        var query = KeychainItem.keychainQuery(withService: service, account: account, accessCrew: accessCrew)
         query[kSecMatchLimit as String] = kSecMatchLimitOne
         query[kSecReturnAttributes as String] = kCFBooleanTrue
         query[kSecReturnData as String] = kCFBooleanTrue
@@ -92,7 +92,7 @@ struct KeychainItem {
             var attributesToUpdate = [String: AnyObject]()
             attributesToUpdate[kSecValueData as String] = encodedPassword as AnyObject?
 
-            let query = KeychainItem.keychainQuery(withService: service, account: account, accessGrouop: accessGroup)
+            let query = KeychainItem.keychainQuery(withService: service, account: account, accessCrew: accessCrew)
             let status = SecItemUpdate(query as CFDictionary, attributesToUpdate as CFDictionary)
 
             // 에러 처리
@@ -102,7 +102,7 @@ struct KeychainItem {
              키체인에 해당 password 데이터가 없다는 것이 확인되면,
              새로운 Keychain item으로 저장할 딕셔너리를 만들어준다
              */
-            var newItem = KeychainItem.keychainQuery(withService: service, account: account, accessGrouop: accessGroup)
+            var newItem = KeychainItem.keychainQuery(withService: service, account: account, accessCrew: accessCrew)
             newItem[kSecValueData as String] = encodedPassword as AnyObject?
 
             // 키체인에 새로운 item을 저장
@@ -123,7 +123,7 @@ struct KeychainItem {
      */
     func deleteItem() throws {
         // 키체인에서 item 삭제
-        let query = KeychainItem.keychainQuery(withService: service, account: account, accessGrouop: accessGroup)
+        let query = KeychainItem.keychainQuery(withService: service, account: account, accessCrew: accessCrew)
         let status = SecItemDelete(query as CFDictionary)
 
         // 에러 처리
@@ -138,7 +138,7 @@ struct KeychainItem {
     private static func keychainQuery(
         withService service: String,
         account: String? = nil,
-        accessGrouop: String? = nil
+        accessCrew: String? = nil
     ) -> [String: AnyObject] {
         var query = [String: AnyObject]()
         query[kSecClass as String] = kSecClassGenericPassword
@@ -148,8 +148,8 @@ struct KeychainItem {
             query[kSecAttrAccount as String] = account as AnyObject?
         }
 
-        if let accessGrouop = accessGrouop {
-            query[kSecAttrAccessGroup as String] = accessGrouop as AnyObject?
+        if let accessCrew = accessCrew {
+            query[kSecAttrAccessGroup as String] = accessCrew as AnyObject?
         }
 
         return query

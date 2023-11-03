@@ -1,5 +1,5 @@
 //
-//  SessionStartMidNoGroupView.swift
+//  SessionStartMidNoCrewView.swift
 //  Carmu
 //
 //  Created by 김태형 on 2023/10/18.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class SessionStartMidNoGroupView: UIView {
+final class SessionStartMidNoCrewView: UIView {
 
     private lazy var isFlipped = false
     private lazy var contentView: UIView = {
@@ -48,7 +48,7 @@ final class SessionStartMidNoGroupView: UIView {
 }
 
 // MARK: - Layout Methods
-extension SessionStartMidNoGroupView {
+extension SessionStartMidNoCrewView {
     private func setupUI() {
         addSubview(contentView)
         contentView.addSubview(frontView)
@@ -64,7 +64,7 @@ extension SessionStartMidNoGroupView {
 }
 
 // MARK: - Actions
-extension SessionStartMidNoGroupView {
+extension SessionStartMidNoCrewView {
     @objc private func flip() {
         isFlipped.toggle()
 
@@ -80,7 +80,7 @@ extension SessionStartMidNoGroupView {
 // MARK: - 앞면 뷰
 final class FrontView: UIView {
     private lazy var frontImage: UIImageView = {
-        let img = UIImage(named: "NoGroupBlinker")
+        let img = UIImage(named: "NoCrewBlinker")
         let imageView = UIImageView(image: img)
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -105,7 +105,7 @@ final class FrontView: UIView {
 
         return lbl
     }()
-    private lazy var createGroupButton: UIButton = {
+    private lazy var createCrewButton: UIButton = {
         let btn = UIButton()
         btn.setTitle("크루 만들기", for: .normal)
         btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
@@ -137,7 +137,7 @@ final class FrontView: UIView {
     private func setupFrontView() {
         addSubview(frontImage)
         addSubview(comment)
-        addSubview(createGroupButton)
+        addSubview(createCrewButton)
         addSubview(inviteCodeButton)
     }
 
@@ -151,14 +151,14 @@ final class FrontView: UIView {
             make.top.lessThanOrEqualTo(frontImage.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
-        createGroupButton.snp.makeConstraints { make in
+        createCrewButton.snp.makeConstraints { make in
             make.top.equalTo(comment.snp.bottom).offset(24)
             make.centerX.equalToSuperview()
             make.width.equalTo(170)
             make.height.equalTo(60)
         }
         inviteCodeButton.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(createGroupButton.snp.bottom).offset(12)
+            make.top.lessThanOrEqualTo(createCrewButton.snp.bottom).offset(12)
             make.bottom.greaterThanOrEqualToSuperview().inset(24)
             make.bottom.lessThanOrEqualToSuperview().inset(60).priority(.high)
             make.centerX.equalToSuperview()
