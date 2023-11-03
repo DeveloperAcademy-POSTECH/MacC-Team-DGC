@@ -433,7 +433,6 @@
 				C9F43BCA2AF2151500BAA0E3 /* PositionSelectViewController.swift */,
 				C9F43BD82AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift */,
 				C9F43BDC2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift */,
-				C93116652AF382260014E702 /* StopoverPointCheckViewController.swift */,
 			);
 			path = Crew;
 			sourceTree = "<group>";
@@ -444,6 +443,7 @@
 				C931166D2AF3AB980014E702 /* StartEndPointSelectViewController.swift */,
 				C93116712AF3B5190014E702 /* SelectAddressViewController.swift */,
 				C931167D2AF3B7760014E702 /* SelectDetailPointMapViewController.swift */,
+				C93116652AF382260014E702 /* StopoverPointCheckViewController.swift */,
 				C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */,
 				C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */,
 				C9D8E4E52AF484F3007570EE /* FinalConfirmViewController.swift */,
@@ -457,7 +457,6 @@
 			children = (
 				C9F43BDA2AF2700400BAA0E3 /* InviteCodeInputView.swift */,
 				C9F43BDE2AF2C09500BAA0E3 /* BoardingPointSelectView.swift */,
-				C93116672AF3822D0014E702 /* StopoverPointCheckView.swift */,
 			);
 			path = Crew;
 			sourceTree = "<group>";
@@ -468,6 +467,7 @@
 				C931166F2AF3ABB20014E702 /* StartEndPointSelectView.swift */,
 				C93116732AF3B5320014E702 /* SelectAddressView.swift */,
 				C931167F2AF3B7E30014E702 /* SelectDetailPointMapView.swift */,
+				C93116672AF3822D0014E702 /* StopoverPointCheckView.swift */,
 				C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */,
 				C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */,
 				C9D8E4E32AF484B3007570EE /* FinalConfirmView.swift */,
