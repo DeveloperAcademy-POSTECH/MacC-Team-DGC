@@ -88,6 +88,8 @@
 		C9D8E4DE2AF48172007570EE /* TimeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */; };
 		C9D8E4E02AF482B9007570EE /* RepeatDaySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */; };
 		C9D8E4E22AF482D0007570EE /* RepeatDaySelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */; };
+		C9D8E4E42AF484B3007570EE /* FinalConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4E32AF484B3007570EE /* FinalConfirmView.swift */; };
+		C9D8E4E62AF484F3007570EE /* FinalConfirmViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4E52AF484F3007570EE /* FinalConfirmViewController.swift */; };
 		C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BCA2AF2151500BAA0E3 /* PositionSelectViewController.swift */; };
 		C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BCD2AF2155400BAA0E3 /* PositionSelectView.swift */; };
 		C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */; };
@@ -176,6 +178,8 @@
 		C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectView.swift; sourceTree = "<group>"; };
 		C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectViewController.swift; sourceTree = "<group>"; };
 		C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectView.swift; sourceTree = "<group>"; };
+		C9D8E4E32AF484B3007570EE /* FinalConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalConfirmView.swift; sourceTree = "<group>"; };
+		C9D8E4E52AF484F3007570EE /* FinalConfirmViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinalConfirmViewController.swift; sourceTree = "<group>"; };
 		C9F43BCA2AF2151500BAA0E3 /* PositionSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionSelectViewController.swift; sourceTree = "<group>"; };
 		C9F43BCD2AF2155400BAA0E3 /* PositionSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionSelectView.swift; sourceTree = "<group>"; };
 		C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewMakeUtil.swift; sourceTree = "<group>"; };
@@ -438,6 +442,7 @@
 				C931167D2AF3B7760014E702 /* SelectDetailPointMapViewController.swift */,
 				C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */,
 				C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */,
+				C9D8E4E52AF484F3007570EE /* FinalConfirmViewController.swift */,
 			);
 			path = Driver;
 			sourceTree = "<group>";
@@ -459,8 +464,9 @@
 				C931166F2AF3ABB20014E702 /* StartEndPointSelectView.swift */,
 				C93116732AF3B5320014E702 /* SelectAddressView.swift */,
 				C931167F2AF3B7E30014E702 /* SelectDetailPointMapView.swift */,
-				C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */,
 				C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */,
+				C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */,
+				C9D8E4E32AF484B3007570EE /* FinalConfirmView.swift */,
 				C93116812AF3DE890014E702 /* Cell */,
 			);
 			path = Driver;
@@ -630,6 +636,7 @@
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
 				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
 				C931167A2AF3B69F0014E702 /* SelectAddressDTO.swift in Sources */,
+				C9D8E4E62AF484F3007570EE /* FinalConfirmViewController.swift in Sources */,
 				161854AD2AE005F200961D2D /* SessionStartMidNoGroupView.swift in Sources */,
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
@@ -662,6 +669,7 @@
 				B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */,
 				C9F43BDF2AF2C09500BAA0E3 /* BoardingPointSelectView.swift in Sources */,
 				B8DD15E22AD52CC300685E48 /* FriendAddViewController.swift in Sources */,
+				C9D8E4E42AF484B3007570EE /* FinalConfirmView.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				C93116782AF3B6310014E702 /* DefaultAddressTableViewCell.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
