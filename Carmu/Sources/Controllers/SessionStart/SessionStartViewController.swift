@@ -18,7 +18,7 @@ final class SessionStartViewController: UIViewController {
     private let sessionStartView = SessionStartView()
     private let sessionStartDriverView = SessionStartDriverView()
     private let sessionStartPassengerView = SessionStartPassengerView()
-    private let sessionStartNoGroupView = SessionStartNoGroupView()
+    private let sessionStartNoCrewView = SessionStartNoCrewView()
     private let firebaseManager = FirebaseManager()
 
     override func viewDidLoad() {
@@ -45,7 +45,7 @@ extension SessionStartViewController {
         view.addSubview(sessionStartView)
         view.addSubview(sessionStartDriverView)
         view.addSubview(sessionStartPassengerView)
-        view.addSubview(sessionStartNoGroupView)
+        view.addSubview(sessionStartNoCrewView)
     }
     private func setupConstraints() {
         sessionStartView.snp.makeConstraints { make in
@@ -73,9 +73,9 @@ extension SessionStartViewController {
 
         sessionStartDriverView.isHidden = true
         sessionStartPassengerView.isHidden = true
-        sessionStartNoGroupView.isHidden = false
+        sessionStartNoCrewView.isHidden = false
 
-        sessionStartNoGroupView.snp.makeConstraints { make in
+        sessionStartNoCrewView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
             make.bottom.lessThanOrEqualToSuperview().inset(216).priority(.high)
@@ -85,7 +85,7 @@ extension SessionStartViewController {
     // 그룹이 있을 때
     private func settingGroupView() {
 
-        sessionStartNoGroupView.isHidden = true
+        sessionStartNoCrewView.isHidden = true
 
         // TODO: - 데이터 형식에 맞춰서 수정
         if groupData?.captainID == "ted" {  // 운전자일 경우

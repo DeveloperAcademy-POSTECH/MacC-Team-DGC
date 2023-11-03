@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class SessionStartNoGroupView: UIView {
+final class SessionStartNoCrewView: UIView {
 
     private lazy var isFlipped = false
     private lazy var contentView: UIView = {
@@ -21,9 +21,9 @@ final class SessionStartNoGroupView: UIView {
     }()
 
     // 앞면 뷰
-    private lazy var noGroupFrontView = NoGroupFrontView()
+    private lazy var noCrewFrontView = NoCrewFrontView()
     // 뒷면 뷰
-    private lazy var noGroupBackView = NoGroupBackView()
+    private lazy var noCrewBackView = NoCrewBackView()
 
     init() {
         super.init(frame: .zero)
@@ -41,20 +41,20 @@ final class SessionStartNoGroupView: UIView {
         super.layoutSubviews()
 
         contentView.frame = bounds
-        noGroupFrontView.frame = bounds
-        noGroupBackView.frame = bounds
+        noCrewFrontView.frame = bounds
+        noCrewBackView.frame = bounds
 
     }
 }
 
 // MARK: - Layout Methods
-extension SessionStartNoGroupView {
+extension SessionStartNoCrewView {
 
     private func setupUI() {
         addSubview(contentView)
-        contentView.addSubview(noGroupFrontView)
-        contentView.addSubview(noGroupBackView)
-        noGroupBackView.isHidden = true
+        contentView.addSubview(noCrewFrontView)
+        contentView.addSubview(noCrewBackView)
+        noCrewBackView.isHidden = true
 
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
@@ -64,7 +64,7 @@ extension SessionStartNoGroupView {
 }
 
 // MARK: - Actions
-extension SessionStartNoGroupView {
+extension SessionStartNoCrewView {
 
     @objc private func flip() {
         isFlipped.toggle()
@@ -72,14 +72,14 @@ extension SessionStartNoGroupView {
         let transitionOptions: UIView.AnimationOptions = isFlipped ? .transitionFlipFromLeft : .transitionFlipFromRight
 
         UIView.transition(with: contentView, duration: 0.4, options: transitionOptions, animations: {
-            self.noGroupFrontView.isHidden = self.isFlipped
-            self.noGroupBackView.isHidden = !self.isFlipped
+            self.noCrewFrontView.isHidden = self.isFlipped
+            self.noCrewBackView.isHidden = !self.isFlipped
         }, completion: nil)
     }
 }
 
 // MARK: - 앞면 뷰
-final class NoGroupFrontView: UIView {
+final class NoCrewFrontView: UIView {
 
     private lazy var frontImage: UIImageView = {
         let img = UIImage(named: "NoGroupBlinker")
@@ -171,7 +171,7 @@ final class NoGroupFrontView: UIView {
 }
 
 // MARK: - 뒷면 뷰
-final class NoGroupBackView: UIView {
+final class NoCrewBackView: UIView {
 
     private lazy var comment: UILabel = {
         let lbl = UILabel()

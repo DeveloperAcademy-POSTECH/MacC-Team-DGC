@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
-		161854AD2AE005F200961D2D /* SessionStartNoGroupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoGroupView.swift */; };
+		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
@@ -84,7 +84,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		161854AC2AE005F200961D2D /* SessionStartNoGroupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoGroupView.swift; sourceTree = "<group>"; };
+		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
 		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
@@ -333,7 +333,7 @@
 				BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */,
 				16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */,
-				161854AC2AE005F200961D2D /* SessionStartNoGroupView.swift */,
+				161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */,
 				BF0C33052AE5217100A6D8FE /* SessionMapView */,
 			);
 			path = SessionStart;
@@ -540,7 +540,7 @@
 				B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
 				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
-				161854AD2AE005F200961D2D /* SessionStartNoGroupView.swift in Sources */,
+				161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */,
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
 				C9F43BD22AF227B100BAA0E3 /* LargeSelectButton.swift in Sources */,
