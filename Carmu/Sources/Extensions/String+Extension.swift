@@ -21,4 +21,9 @@ extension String {
 
         return modifiedSubtitle.trimmingCharacters(in: .whitespaces)
     }
+
+    // 문자열의 앞글자만 대문자로 바꿔주는 메서드 (프로필 이미지 초기화에 필요)
+    func capitalizedFirstCharacter() -> String {
+        return prefix(1).uppercased() + dropFirst()
+    }
 }
