@@ -16,7 +16,7 @@ typealias UserIdentifier = String
  deviceToken : 서버 푸쉬 알림 시에 유저를 식별하기 위한 토큰값
  nickname: 유저 닉네임 (디폴트: 애플 로그인 시 받아오는 값)
  email : 유저 이메일 (애플 로그인 시 받아오는 값)
- profileType : 유저가 설정한 프로필의 타입
+ profileImageColor : 유저가 설정한 프로필 이미지 색상
  crewID : 유저가 속한 크루의 id
  */
 
@@ -25,7 +25,7 @@ struct User: Codable {
     var deviceToken: String
     var nickname: String
     var email: String?
-    var profileType: ProfileType
+    var profileImageColor: ProfileImageColor
     var crewID: String?    // Crew
 }
 

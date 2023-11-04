@@ -19,7 +19,8 @@
 		B80CCA522ADB0955000A2ABB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B80CCA512ADB0955000A2ABB /* FirebaseStorage */; };
 		B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */; };
 		B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */; };
-		B83E23EC2AF3DBBC0048ED9A /* ProfileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */; };
+		B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */; };
+		B83E23F02AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EF2AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
 		B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */; };
 		B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */; };
@@ -107,16 +108,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		164E823A2AF539AF00848BFF /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
-		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
 		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
 		16E42C472AC411A20031486E /* SessionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapViewController.swift; sourceTree = "<group>"; };
 		B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeView.swift; sourceTree = "<group>"; };
 		B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeViewController.swift; sourceTree = "<group>"; };
-		B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileType.swift; sourceTree = "<group>"; };
+		B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageColor.swift; sourceTree = "<group>"; };
+		B83E23EF2AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageColorCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmu.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -232,6 +234,7 @@
 		16E42CDE2AC47E790031486E /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */,
 				C92CFB3E2ACC24E80068273A /* DTO */,
 				C92CFB372ACBC9090068273A /* Font */,
 				C92CFB362AC9B6CD0068273A /* Color */,
@@ -241,14 +244,32 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		B83E23ED2AF3F1980048ED9A /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B8D73ABE2AD2914200D211DE /* SettingsView.swift */,
+				B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */,
+				B8D73AC22AD2FBE600D211DE /* InquiryView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		B83E23EE2AF3F2470048ED9A /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */,
+				B8EECE992AC96B5F004D310C /* InquiryViewController.swift */,
+				B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		B8A3EFD72AC5F27000433F5C /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				B83E23EE2AF3F2470048ED9A /* Settings */,
 				B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */,
-				B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */,
 				B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */,
-				B8EECE992AC96B5F004D310C /* InquiryViewController.swift */,
-				B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */,
 				B8DD15E12AD52CC300685E48 /* FriendAddViewController.swift */,
 				B8DD15E52AD63FD500685E48 /* FriendDetailViewController.swift */,
 				B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */,
@@ -259,10 +280,8 @@
 		B8D73ABB2AD2899200D211DE /* MyPage */ = {
 			isa = PBXGroup;
 			children = (
+				B83E23ED2AF3F1980048ED9A /* Settings */,
 				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
-				B8D73ABE2AD2914200D211DE /* SettingsView.swift */,
-				B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */,
-				B8D73AC22AD2FBE600D211DE /* InquiryView.swift */,
 				B8DD15DD2AD4619B00685E48 /* FriendListView.swift */,
 				B8DD15DF2AD4677800685E48 /* FriendListTableViewCell.swift */,
 				B8DD15E32AD52D2F00685E48 /* FriendAddView.swift */,
@@ -271,6 +290,7 @@
 				B8DD15ED2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift */,
 				B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */,
 				B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */,
+				B83E23EF2AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -431,7 +451,6 @@
 				164E823A2AF539AF00848BFF /* Session.swift */,
 				C93116792AF3B69F0014E702 /* SelectAddressDTO.swift */,
 				C931167B2AF3B7070014E702 /* AddressDTO.swift */,
-				B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -663,6 +682,7 @@
 				B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */,
 				C9F43BDB2AF2700400BAA0E3 /* InviteCodeInputView.swift in Sources */,
 				C9F43BDD2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift in Sources */,
+				B83E23F02AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift in Sources */,
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
@@ -699,7 +719,7 @@
 				16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
-				B83E23EC2AF3DBBC0048ED9A /* ProfileType.swift in Sources */,
+				B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				164E823B2AF539AF00848BFF /* Session.swift in Sources */,
 				BFFA10B42AE62FAF003CE661 /* NoticeLateView.swift in Sources */,
