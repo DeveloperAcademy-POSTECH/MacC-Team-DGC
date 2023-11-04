@@ -339,8 +339,8 @@ extension FirebaseManager {
 
     /**
      DB의 Crew에 새로운 크루를 추가하는 메서드
-     - 호출되는 곳
-        - XXX
+        호출되는 곳
+            FinalConfirmViewController
      */
     func addCrew(_ crewAndPoint: [String: String], _ crewName: String) {
         guard let key = Database.database().reference().child("crew").childByAutoId().key else {
@@ -374,8 +374,9 @@ extension FirebaseManager {
 
     /**
      크루 만들기에서 추가된 탑승자들의 User/crewList에 crewID를 추가하는 메서드
-     - 호출되는 곳
-        -
+        호출되는 곳
+            BoardingPointSelectViewController
+            FinalConfirmViewController
      */
     func setCrewToUser(_ userID: String, _ crewID: String) {
         let databaseRef = Database.database().reference().child("users/\(userID)/crewList")
