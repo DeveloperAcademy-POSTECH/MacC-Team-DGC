@@ -436,6 +436,7 @@ extension FirebaseManager {
                 captainID: snapshotValue["captainID"] as? UserIdentifier ?? "",
                 crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""],
                 points: snapshotValue["points"] as? [Point] ?? [Point](),
+                inviteCode: snapshotValue["inviteCode"] as? String ?? "",
                 repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5]
             )
             completion(crew)

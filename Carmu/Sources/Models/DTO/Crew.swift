@@ -21,7 +21,7 @@ struct Crew: Codable {
     var captainID: UserIdentifier
     var crews: [UserIdentifier]
     var points: [Point]
-    var inviteCode: String?
+    var inviteCode: String
     var repeatDay: [Int]
 }
 
@@ -39,15 +39,22 @@ struct Crew: Codable {
             Point(
                 id: 0,
                 name: "포항터미널",
+                detailAddress: "경상북도 포항시 남구 중흥로 85",
+                pointLat: 36.0133,
+                pointLng: 129.3496,
                 arrivalTime: Date(),
                 crews: []
             ),
             Point(
                 id: 1,
                 name: "C5",
+                detailAddress: "경상북도 포항시 남구 지곡로 80",
+                pointLat: 36.0141,
+                pointLng: 129.3258,
                 arrivalTime: Date(),
                 crews: []
             )
         ],
+        inviteCode: "0101010",
         repeatDay: [1, 2, 3, 4, 5]
     )
