@@ -120,7 +120,7 @@ final class StartEndPointSelectView: UIView {
 
     private func setAutoLayout() {
         firstLineTitleStack.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(78)
+            make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
         }
 

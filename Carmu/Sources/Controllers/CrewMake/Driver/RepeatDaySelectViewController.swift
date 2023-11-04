@@ -15,10 +15,26 @@ final class RepeatDaySelectViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
+        repeatDaySelectView.nextButton.addTarget(
+            self,
+            action: #selector(nextButtonTapped),
+            for: .touchUpInside
+        )
+
         view.addSubview(repeatDaySelectView)
         repeatDaySelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+}
+
+// MARK: - @objc Method
+extension RepeatDaySelectViewController {
+
+    @objc private func nextButtonTapped() {
+        // TODO: 다음화면 이동 구현 필요
+        let viewController = FinalConfirmViewController()
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

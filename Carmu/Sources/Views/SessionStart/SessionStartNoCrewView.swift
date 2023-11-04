@@ -16,7 +16,7 @@ final class SessionStartNoCrewView: UIView {
         let view = UIView()
         view.layer.cornerRadius = 20
         view.layer.masksToBounds = true
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor.semantic.backgroundDefault
         return view
     }()
 
@@ -111,7 +111,7 @@ final class NoCrewFrontView: UIView {
         let btn = UIButton()
         btn.setTitle("크루 만들기", for: .normal)
         btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        btn.titleLabel?.font = UIFont.carmuFont.headline1
         btn.backgroundColor = UIColor.semantic.accPrimary
         btn.layer.cornerRadius = 30
         return btn

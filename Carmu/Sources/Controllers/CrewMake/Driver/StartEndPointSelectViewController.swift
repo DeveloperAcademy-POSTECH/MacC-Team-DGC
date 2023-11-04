@@ -90,6 +90,8 @@ extension StartEndPointSelectViewController {
 
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
+        let viewController = StopoverPointCheckViewController()
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 

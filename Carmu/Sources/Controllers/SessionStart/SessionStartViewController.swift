@@ -15,11 +15,11 @@ import SnapKit
 
 final class SessionStartViewController: UIViewController {
 
-    private let sessionStartView = SessionStartView()
-    private let sessionStartDriverView = SessionStartDriverView()
-    private let sessionStartPassengerView = SessionStartPassengerView()
-    private let sessionStartNoCrewView = SessionStartNoCrewView()
-    private let firebaseManager = FirebaseManager()
+    private lazy var sessionStartView = SessionStartView()
+    private lazy var sessionStartDriverView = SessionStartDriverView()
+    private lazy var sessionStartPassengerView = SessionStartPassengerView()
+    private lazy var sessionStartNoCrewView = SessionStartNoCrewView()
+    private lazy var firebaseManager = FirebaseManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -266,7 +266,7 @@ extension SessionStartViewController {
     @objc private func carpoolStartButtonDidTapped() {
         let mapView = SessionMapViewController()
         mapView.modalPresentationStyle = .fullScreen
-        self.present(mapView, animated: true, completion: nil)
+        present(mapView, animated: true, completion: nil)
     }
 }
 
