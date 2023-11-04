@@ -53,7 +53,23 @@ extension SessionStartViewController {
         }
     }
 
-    // 크루가 없을 때
+    // 크루가 있을 때
+    private func settingCrewView() {
+
+        sessionStartNoCrewView.isHidden = true
+
+        // TODO: - 데이터 형식에 맞춰서 수정
+        if crewData?.captainID == "ted" {  // 운전자일 경우
+            settingDriverView()
+        } else {    // 크루원인 경우
+            settingPassengerView()
+        }
+    }
+}
+
+// MARK: - 크루가 없을 때
+extension SessionStartViewController {
+
     private func settingNoCrewView() {
         sessionStartView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
@@ -82,21 +98,11 @@ extension SessionStartViewController {
             make.bottom.equalToSuperview().inset(165)
         }
     }
+}
 
-    // 크루가 있을 때
-    private func settingCrewView() {
+// MARK: - 크루가 있을 때 - 운전자일 때
+extension SessionStartViewController {
 
-        sessionStartNoCrewView.isHidden = true
-
-        // TODO: - 데이터 형식에 맞춰서 수정
-        if crewData?.captainID == "ted" {  // 운전자일 경우
-            settingDriverView()
-        } else {    // 크루원인 경우
-            settingPassengerView()
-        }
-    }
-
-    // 운전자일 때
     private func settingDriverView() {
 
         // 비활성화
@@ -171,8 +177,11 @@ extension SessionStartViewController {
             make.bottom.equalToSuperview().inset(60)
         }
     }
+}
 
-    // 크루원일 때
+// MARK: - 크루가 있을 때 - 크루원일 때
+extension SessionStartViewController {
+
     private func settingPassengerView() {
         sessionStartView.topComment.text = "\(crewData?.name ?? "그룹명")과\n함께 가시나요?"
         // 특정 부분 색상 넣기
