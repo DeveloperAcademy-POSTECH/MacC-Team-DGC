@@ -19,7 +19,7 @@
 		B80CCA522ADB0955000A2ABB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B80CCA512ADB0955000A2ABB /* FirebaseStorage */; };
 		B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */; };
 		B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */; };
-		B83E23EC2AF3DBBC0048ED9A /* ProfileType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */; };
+		B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */; };
 		B83E23F02AF3F3600048ED9A /* ProfileTypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EF2AF3F3600048ED9A /* ProfileTypeCollectionViewCell.swift */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
 		B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */; };
@@ -108,16 +108,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		164E823A2AF539AF00848BFF /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
-		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
 		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
 		16E42C472AC411A20031486E /* SessionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapViewController.swift; sourceTree = "<group>"; };
 		B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeView.swift; sourceTree = "<group>"; };
 		B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeViewController.swift; sourceTree = "<group>"; };
-		B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileType.swift; sourceTree = "<group>"; };
+		B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageColor.swift; sourceTree = "<group>"; };
 		B83E23EF2AF3F3600048ED9A /* ProfileTypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileTypeCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmu.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -234,7 +234,7 @@
 		16E42CDE2AC47E790031486E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */,
+				B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */,
 				C92CFB3E2ACC24E80068273A /* DTO */,
 				C92CFB372ACBC9090068273A /* Font */,
 				C92CFB362AC9B6CD0068273A /* Color */,
@@ -451,7 +451,6 @@
 				164E823A2AF539AF00848BFF /* Session.swift */,
 				C93116792AF3B69F0014E702 /* SelectAddressDTO.swift */,
 				C931167B2AF3B7070014E702 /* AddressDTO.swift */,
-				B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -720,7 +719,7 @@
 				16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
 				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
-				B83E23EC2AF3DBBC0048ED9A /* ProfileType.swift in Sources */,
+				B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
 				164E823B2AF539AF00848BFF /* Session.swift in Sources */,
 				BFFA10B42AE62FAF003CE661 /* NoticeLateView.swift in Sources */,

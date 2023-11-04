@@ -19,15 +19,15 @@ extension UIImage {
         self.init(cgImage: image!.cgImage!)
     }
 
-    // enum 타입의 ProfileType 값을 받아서 대응하는 [일반 프로필 이미지]로 초기화해주는 이니셜라이저
-    convenience init?(profileType: ProfileType) {
-        let imageName = "profile" + profileType.rawValue.capitalizedFirstCharacter()
+    // enum 타입의 ProfileImageColor 값을 받아서 대응하는 [일반 프로필 이미지]로 초기화해주는 이니셜라이저
+    convenience init?(profileImageColor: ProfileImageColor) {
+        let imageName = "profile" + profileImageColor.rawValue.capitalized()
         self.init(named: imageName)
     }
 
-    // enum 타입의 ProfileType 값을 받아서 대응하는 [선택된 프로필 이미지]로 초기화해주는 이니셜라이저
-    convenience init?(selectedProfileType: ProfileType) {
-        let selectedName = "selectedProfile" + selectedProfileType.rawValue.capitalizedFirstCharacter()
+    // enum 타입의 ProfileImageColor 값을 받아서 대응하는 [선택된 프로필 이미지]로 초기화해주는 이니셜라이저
+    convenience init?(selectedProfileImageColor: ProfileImageColor) {
+        let selectedName = "selectedProfile" + selectedProfileImageColor.rawValue.capitalized()
         self.init(named: selectedName)
     }
 

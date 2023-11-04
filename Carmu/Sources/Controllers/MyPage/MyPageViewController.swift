@@ -13,10 +13,10 @@ final class MyPageViewController: UIViewController {
     private let myPageView = MyPageView()
     private let firebaseManager = FirebaseManager()
 
-    var selectedProfileType: ProfileType = .blue // 프로필 이미지를 표시해주기 위한 ProfileType 값
-    var selectedProfileTypeIdx: Int {
-        // 컬렉션 뷰 셀의 인덱스에 대응하도록 ProfileType 값의 인덱스를 반환하는 프로퍼티
-        return ProfileType.allCases.firstIndex(of: selectedProfileType) ?? 0
+    var selectedProfileImageColor: ProfileImageColor = .blue // 프로필 이미지를 표시해주기 위한 ProfileImageColor 값
+    var selectedProfileImageColorIdx: Int {
+        // 컬렉션 뷰 셀의 인덱스에 대응하도록 ProfileImageColor 값의 인덱스를 반환하는 프로퍼티
+        return ProfileImageColor.allCases.firstIndex(of: selectedProfileImageColor) ?? 0
     }
 
     override func viewDidLoad() {
@@ -31,8 +31,8 @@ final class MyPageViewController: UIViewController {
                 return
             }
             self.myPageView.nicknameLabel.text = userData.nickname
-            self.selectedProfileType = userData.profileType
-            self.updateProfileImageView(profileType: self.selectedProfileType)
+            self.selectedProfileImageColor = userData.profileImageColor
+            self.updateProfileImageView(profileImageColor: self.selectedProfileImageColor)
         }
 
         let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
@@ -69,9 +69,9 @@ final class MyPageViewController: UIViewController {
     }
 
     // 프로필 이미지뷰를 업데이트해주는 메서드
-    func updateProfileImageView(profileType: ProfileType) {
+    func updateProfileImageView(profileImageColor: ProfileImageColor) {
         print("프로필 이미지 뷰 업데이트!!!")
-        self.myPageView.imageView.image = UIImage(profileType: profileType)
+        myPageView.imageView.image = UIImage(profileImageColor: profileImageColor)
     }
 }
 
@@ -119,7 +119,7 @@ extension MyPageViewController {
     @objc private func showProfileChangeView() {
         let profileChangeVC = ProfileChangeViewController()
         profileChangeVC.delegate = self
-        profileChangeVC.selectedProfileTypeIdx = selectedProfileTypeIdx
+        profileChangeVC.selectedProfileImageColorIdx = selectedProfileImageColorIdx
         profileChangeVC.modalPresentationStyle = .formSheet
         present(profileChangeVC, animated: true)
     }
@@ -136,12 +136,12 @@ extension MyPageViewController: UITextFieldDelegate {
 
 // MARK: - ProfileChangeViewControllerDelegate 델리게이트 구현
 /**
- ProfileChangeViewController에서 프로필 타입 데이터가 변경되었을 때를 감지하여 호출
+ ProfileChangeViewController에서 프로필 이미지 데이터가 변경되었을 때를 감지하여 호출
  */
 extension MyPageViewController: ProfileChangeViewControllerDelegate {
 
-    func sendProfileType(profileType: ProfileType) {
-        selectedProfileType = profileType
-        updateProfileImageView(profileType: profileType)
+    func sendProfileImageColor(profileImageColor: ProfileImageColor) {
+        selectedProfileImageColor = profileImageColor
+        updateProfileImageView(profileImageColor: profileImageColor)
     }
 }

@@ -42,7 +42,7 @@ final class ProfileChangeView: UIView {
         return guideLabel
     }()
 
-    // 프로필 타입 선택 콜렉션 뷰
+    // 프로필 이미지 선택 콜렉션 뷰
     let profileCollectionView: UICollectionView = {
         let profileCollectionView = UICollectionView(
             frame: .zero,

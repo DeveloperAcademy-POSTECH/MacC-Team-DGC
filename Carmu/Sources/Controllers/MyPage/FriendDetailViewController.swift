@@ -49,7 +49,7 @@ final class FriendDetailViewController: UIViewController {
         // 이전 친구 리스트 화면에서 전달받은 닉네임과 이미지를 반영
         if let friend = friend {
             friendDetailView.friendNickname.text = friend.nickname
-            self.friendDetailView.friendImage.image = UIImage(profileType: friend.profileType)
+            friendDetailView.friendImage.image = UIImage(profileImageColor: friend.profileImageColor)
         }
     }
 

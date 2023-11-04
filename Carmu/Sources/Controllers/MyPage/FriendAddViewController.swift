@@ -243,7 +243,7 @@ extension FriendAddViewController: UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.nicknameLabel.text = searchedFriend.nickname
-            cell.profileImageView.image = UIImage(profileType: searchedFriend.profileType)
+            cell.profileImageView.image = UIImage(profileImageColor: searchedFriend.profileImageColor)
             return cell
         } else {
             // MARK: - 검색된 친구가 없는 경우

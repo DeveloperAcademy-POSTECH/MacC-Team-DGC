@@ -7,10 +7,10 @@
 
 import UIKit
 
-// 수정된 프로필 타입 값을 이전 화면(MyPageView)에 전달하기 위한 델리게이트 프로토콜
+// 수정된 프로필 이미지 값을 이전 화면(MyPageView)에 전달하기 위한 델리게이트 프로토콜
 protocol ProfileChangeViewControllerDelegate: AnyObject {
 
-    func sendProfileType(profileType: ProfileType)
+    func sendProfileImageColor(profileImageColor: ProfileImageColor)
 }
 
 // MARK: - 프로필 변경 화면 뷰 컨트롤러
@@ -19,10 +19,10 @@ final class ProfileChangeViewController: UIViewController {
     // 델리게이트 선언
     weak var delegate: ProfileChangeViewControllerDelegate?
 
-    var selectedProfileTypeIdx: Int = 0 // 선택한 프로필 타입 인덱스
-    var selectedProfileType: ProfileType {
-        // 선택한 프로필 타입의 ProfileType 값을 반환해주는 프로퍼티
-        return ProfileType.allCases[selectedProfileTypeIdx]
+    var selectedProfileImageColorIdx: Int = 0 // 선택한 프로필 이미지의 인덱스
+    var selectedProfileImageColor: ProfileImageColor {
+        // 선택한 프로필 이미지의 ProfileImageColor 값을 반환해주는 프로퍼티
+        return ProfileImageColor.allCases[selectedProfileImageColorIdx]
     }
 
     private let profileChangeView = ProfileChangeView()
@@ -38,8 +38,8 @@ final class ProfileChangeViewController: UIViewController {
         }
 
         profileChangeView.profileCollectionView.register(
-            ProfileTypeCollectionViewCell.self,
-            forCellWithReuseIdentifier: ProfileTypeCollectionViewCell.cellIdentifier
+            ProfileImageColorCollectionViewCell.self,
+            forCellWithReuseIdentifier: ProfileImageColorCollectionViewCell.cellIdentifier
         )
         profileChangeView.profileCollectionView.delegate = self
         profileChangeView.profileCollectionView.dataSource = self
@@ -51,7 +51,7 @@ final class ProfileChangeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         // 현재 설정되어 있는 프로필 값이 선택돼있도록 체크
-        let indexPath = IndexPath(item: selectedProfileTypeIdx, section: 0)
+        let indexPath = IndexPath(item: selectedProfileImageColorIdx, section: 0)
         profileChangeView.profileCollectionView.selectItem(
             at: indexPath,
             animated: true,
@@ -65,16 +65,16 @@ extension ProfileChangeViewController {
 
     // 상단 닫기 버튼 클릭 시 동작
     @objc private func closeProfileChangeView() {
-        self.dismiss(animated: true)
+        dismiss(animated: true)
     }
 
     // [저장] 버튼을 눌렀을 때 동작
     @objc private func performProfileUpdate() {
-        // 델리게이트를 통해 MyPageViewController로 수정된 프로필 타입 값을 전달
-        delegate?.sendProfileType(profileType: selectedProfileType)
-        // 파이어베이스 DB에 수정된 프로필 타입 저장
-        firebaseManager.updateUserProfileType(type: ProfileType.allCases[selectedProfileTypeIdx])
-        self.dismiss(animated: true)
+        // 델리게이트를 통해 MyPageViewController로 수정된 프로필 이미지 값을 전달
+        delegate?.sendProfileImageColor(profileImageColor: selectedProfileImageColor)
+        // 파이어베이스 DB에 수정된 프로필 이미지 값 저장
+        firebaseManager.updateUserProfileImageColor(profileImageColor: ProfileImageColor.allCases[selectedProfileImageColorIdx])
+        dismiss(animated: true)
     }
 }
 
@@ -83,7 +83,7 @@ extension ProfileChangeViewController: UICollectionViewDataSource {
 
     // 컬렉션 뷰의 아이템 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        ProfileType.allCases.count
+        ProfileImageColor.allCases.count
     }
 
     // 컬렉션 뷰 셀 구성
@@ -92,14 +92,14 @@ extension ProfileChangeViewController: UICollectionViewDataSource {
         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: ProfileTypeCollectionViewCell.cellIdentifier,
+            withReuseIdentifier: ProfileImageColorCollectionViewCell.cellIdentifier,
             for: indexPath
-        ) as? ProfileTypeCollectionViewCell else {
+        ) as? ProfileImageColorCollectionViewCell else {
             return UICollectionViewCell()
         }
 
-        cell.profileType = ProfileType.allCases[indexPath.row]
-        cell.profileImageView.image = UIImage(profileType: ProfileType.allCases[indexPath.row])
+        cell.profileImageColor = ProfileImageColor.allCases[indexPath.row]
+        cell.profileImageView.image = UIImage(profileImageColor: ProfileImageColor.allCases[indexPath.row])
 
         return cell
     }
@@ -139,8 +139,8 @@ extension ProfileChangeViewController: UICollectionViewDelegateFlowLayout {
 
     // 컬렉션 뷰 선택 시
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        selectedProfileTypeIdx = indexPath.row // 선택한 인덱스 값을 저장한다.
-        print("선택한 인덱스: \(selectedProfileTypeIdx)")
+        selectedProfileImageColorIdx = indexPath.row // 선택한 인덱스 값을 저장한다.
+        print("선택한 인덱스: \(selectedProfileImageColorIdx)")
     }
 }
 

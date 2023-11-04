@@ -39,7 +39,7 @@ class FirebaseManager {
             deviceToken: fcmToken,
             nickname: nickname,
             email: email,
-            profileType: .blue // 기본 프로필
+            profileImageColor: .blue // 기본 프로필
         )
         do {
             let data = try encoder.encode(user)
@@ -111,16 +111,16 @@ class FirebaseManager {
     }
 
     /**
-     DB에서 유저의 프로필 타입 업데이트
+     DB에서 유저의 프로필 이미지 값 업데이트
      - 호출되는 곳
         - ProfileChangeViewController
      */
-    func updateUserProfileType(type: ProfileType) {
+    func updateUserProfileImageColor(profileImageColor: ProfileImageColor) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        let profileTypeValue = type.rawValue
-        databasePath.child("profileType").setValue(profileTypeValue as NSString)
+        let profileImageColorValue = profileImageColor.rawValue
+        databasePath.child("profileImageColor").setValue(profileImageColorValue as NSString)
     }
 }
 
@@ -204,7 +204,7 @@ extension FirebaseManager {
                 deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
                 email: snapshotValue["email"] as? String,
-                profileType: .blue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
+                profileImageColor: .blue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
             )
             completion(friend)
         }
@@ -265,7 +265,7 @@ extension FirebaseManager {
                         deviceToken: dict["deviceToken"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
                         email: dict["email"] as? String,
-                        profileType: .blue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
+                        profileImageColor: .blue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
                     )
                     completion(searchedFriend)
                     return
