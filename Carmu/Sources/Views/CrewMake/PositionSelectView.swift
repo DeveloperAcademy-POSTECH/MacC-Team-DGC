@@ -11,7 +11,7 @@ import SnapKit
 
 final class PositionSelectView: UIView {
 
-    private var skipButton: UIButton = {
+    lazy var skipButton: UIButton = {
         let skipButton = UIButton()
         skipButton.setTitle("건너뛰기", for: .normal)
         skipButton.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
@@ -26,13 +26,13 @@ final class PositionSelectView: UIView {
     private var titleLabel4 = CrewMakeUtil.accPrimaryTitle(titleText: "포지션")
     private var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "을 설정해주세요")
 
-    private let selectDriverButton = LargeSelectButton(
+    lazy var selectDriverButton = LargeSelectButton(
         topTitle: "운전자",
         bottomTitle: "여정 만들기",
         imageName: "PositionSelectDriver"
     )
 
-    private let selectCrewButton = LargeSelectButton(
+    lazy var selectCrewButton = LargeSelectButton(
         topTitle: "동승자",
         bottomTitle: "여정 합류하기",
         imageName: "PositionSelectCrew"
@@ -86,12 +86,12 @@ final class PositionSelectView: UIView {
 
     private func setAutoLayout() {
         skipButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(12)
+            make.top.equalTo(safeAreaLayoutGuide).inset(-20)
             make.trailing.equalToSuperview().inset(20)
         }
 
         titleLabel1.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(78)
+            make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
             make.bottom.equalTo(titleLabel5.snp.top)
         }
