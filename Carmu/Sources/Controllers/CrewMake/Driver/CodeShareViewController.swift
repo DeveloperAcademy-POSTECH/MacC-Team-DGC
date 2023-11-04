@@ -10,6 +10,7 @@ import UIKit
 final class CodeShareViewController: UIViewController {
 
     private let codeShareView = CodeShareView()
+    var inviteCode: String?
 
     override func viewDidLoad() {
         super.viewDidLoad()

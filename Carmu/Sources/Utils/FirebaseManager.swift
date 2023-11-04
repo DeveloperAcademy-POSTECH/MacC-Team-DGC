@@ -342,7 +342,7 @@ extension FirebaseManager {
         호출되는 곳
             FinalConfirmViewController
      */
-    func addCrew(crewName: String, points: [Point], repeatDay: [Int]) {
+    func addCrew(crewName: String, points: [Point], inviteCode: String, repeatDay: [Int]) {
         guard let key = Database.database().reference().child("crew").childByAutoId().key else {
             return
         }
@@ -355,6 +355,7 @@ extension FirebaseManager {
             captainID: captainID,
             crews: [],
             points: points,
+            inviteCode: inviteCode,
             repeatDay: repeatDay
         )
         setCrewToUser(captainID, key)
@@ -435,7 +436,7 @@ extension FirebaseManager {
                 captainID: snapshotValue["captainID"] as? UserIdentifier ?? "",
                 crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""],
                 points: snapshotValue["points"] as? [Point] ?? [Point](),
-                repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4 ,5]
+                repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5]
             )
             completion(crew)
         }
