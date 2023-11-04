@@ -19,3 +19,9 @@ struct Point: Codable {
     var arrivalTime: Date
     var crews: [UserIdentifier]
 }
+
+// Point 더미 데이터
+let point1 = Point(id: "1", name: "출발지", arrivalTime: Date(), crews: ["ted"])
+let point2 = Point(id: "2", name: "경유지1", arrivalTime: Date(), crews: ["uni", "rei"])
+let point3 = Point(id: "3", name: "경유지2", arrivalTime: Date(), crews: ["rei"])
+let point4 = Point(id: "4", name: "도착지", arrivalTime: Date(), crews: [])
