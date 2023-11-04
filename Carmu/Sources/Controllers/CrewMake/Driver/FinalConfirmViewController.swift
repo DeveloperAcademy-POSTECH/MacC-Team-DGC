@@ -104,7 +104,7 @@ extension FinalConfirmViewController {
             inviteCode = randomCode
         }
 
-        let viewController = CodeShareViewController()
+        let viewController = CodeShareViewController(inviteCode: inviteCode ?? randomCode)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }

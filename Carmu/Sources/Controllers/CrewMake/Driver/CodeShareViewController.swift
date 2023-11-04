@@ -10,7 +10,12 @@ import UIKit
 final class CodeShareViewController: UIViewController {
 
     private let codeShareView = CodeShareView()
-    var inviteCode: String?
+    var inviteCode: String
+
+    init(inviteCode: String) {
+        self.inviteCode = inviteCode
+        super.init(nibName: nil, bundle: nil)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +31,10 @@ final class CodeShareViewController: UIViewController {
         codeShareView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
 
@@ -48,7 +57,7 @@ import SwiftUI
 struct CSViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = CodeShareViewController
     func makeUIViewController(context: Context) -> CodeShareViewController {
-        return CodeShareViewController()
+        return CodeShareViewController(inviteCode: "00000000")
     }
     func updateUIViewController(_ uiViewController: CodeShareViewController, context: Context) {}
 }
