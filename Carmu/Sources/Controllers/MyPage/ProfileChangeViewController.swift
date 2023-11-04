@@ -73,7 +73,9 @@ extension ProfileChangeViewController {
         // 델리게이트를 통해 MyPageViewController로 수정된 프로필 이미지 값을 전달
         delegate?.sendProfileImageColor(profileImageColor: selectedProfileImageColor)
         // 파이어베이스 DB에 수정된 프로필 이미지 값 저장
-        firebaseManager.updateUserProfileImageColor(profileImageColor: ProfileImageColor.allCases[selectedProfileImageColorIdx])
+        firebaseManager.updateUserProfileImageColor(
+            imageColor: ProfileImageColor.allCases[selectedProfileImageColorIdx]
+        )
         dismiss(animated: true)
     }
 }

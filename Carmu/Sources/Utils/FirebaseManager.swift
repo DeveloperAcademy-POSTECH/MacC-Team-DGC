@@ -115,11 +115,11 @@ class FirebaseManager {
      - 호출되는 곳
         - ProfileChangeViewController
      */
-    func updateUserProfileImageColor(profileImageColor: ProfileImageColor) {
+    func updateUserProfileImageColor(imageColor: ProfileImageColor) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        let profileImageColorValue = profileImageColor.rawValue
+        let profileImageColorValue = imageColor.rawValue
         databasePath.child("profileImageColor").setValue(profileImageColorValue as NSString)
     }
 }
