@@ -294,14 +294,14 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
-		BF0C33052AE5217100A6D8FE /* SessionMapView */ = {
+		BF0C33052AE5217100A6D8FE /* MapView */ = {
 			isa = PBXGroup;
 			children = (
 				BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */,
 				BF0C33082AE5239700A6D8FE /* TimeDataView.swift */,
 				BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */,
 			);
-			path = SessionMapView;
+			path = MapView;
 			sourceTree = "<group>";
 		};
 		BF24481B2AD6D66200F4089A /* Frameworks */ = {
@@ -390,6 +390,7 @@
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
 				C9F43BCC2AF2153100BAA0E3 /* CrewMake */,
 				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
+				BF0C33052AE5217100A6D8FE /* MapView */,
 				B8D73ABB2AD2899200D211DE /* MyPage */,
 			);
 			path = Views;
@@ -402,7 +403,6 @@
 				16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */,
 				161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */,
-				BF0C33052AE5217100A6D8FE /* SessionMapView */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
