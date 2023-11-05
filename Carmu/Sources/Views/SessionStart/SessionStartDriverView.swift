@@ -21,7 +21,7 @@ final class SessionStartDriverView: UIView {
     }()
 
     // 앞면 뷰
-    private lazy var driverFrontView = DriverFrontView()
+    lazy var driverFrontView = DriverFrontView()
     // 뒷면 뷰
     private lazy var driverBackView = DriverBackView()
 
@@ -123,11 +123,36 @@ final class DriverFrontView: UIView {
         return view
     }()
 
+    // 당일에 운행이 없을 때 나타나는 뷰
+    lazy var noDriveViewForDriver: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.semantic.backgroundSecond
+        view.layer.cornerRadius = 16
+        return view
+    }()
+    private lazy var noDriveImage: UIImageView = {
+        let img = UIImage(named: "NoSessionBlinker")
+        let imgView = UIImageView(image: img)
+        imgView.contentMode = .scaleAspectFit
+        return imgView
+    }()
+    private lazy var noDriveComment: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "오늘은 카풀을 운행하지 않아요"
+        lbl.font = UIFont.carmuFont.subhead3
+        lbl.textColor = UIColor.semantic.negative
+        lbl.textAlignment = .center
+        return lbl
+    }()
+
     init() {
         super.init(frame: .zero)
         setupFrontView()
         setupConstraints()
         settingData()
+
+        // TODO: - 데이터 수정 후 변경 -> session 여부에 따라 true, false로 변경하기
+        noDriveViewForDriver.isHidden = true
     }
 
     required init?(coder: NSCoder) {
@@ -139,6 +164,10 @@ final class DriverFrontView: UIView {
         addSubview(totalCrewMemeberLabel)
         addSubview(todayCrewMemeberLabel)
         addSubview(crewView)
+
+        addSubview(noDriveViewForDriver)
+        noDriveViewForDriver.addSubview(noDriveImage)
+        noDriveViewForDriver.addSubview(noDriveComment)
     }
 
     private func setupConstraints() {
@@ -152,6 +181,19 @@ final class DriverFrontView: UIView {
             make.top.equalTo(totalCrewMemeberLabel)
             make.centerY.equalTo(totalCrewMemeberLabel)
             make.trailing.equalTo(totalCrewMemeberLabel.snp.leading).offset(-4)
+        }
+
+        noDriveViewForDriver.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(20).priority(.high)
+        }
+        noDriveImage.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.equalTo(62)
+            make.height.equalTo(64)
+        }
+        noDriveComment.snp.makeConstraints { make in
+            make.top.equalTo(noDriveImage.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
         }
     }
 
