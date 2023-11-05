@@ -294,14 +294,14 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
-		BF0C33052AE5217100A6D8FE /* MapView */ = {
+		BF0C33052AE5217100A6D8FE /* Map */ = {
 			isa = PBXGroup;
 			children = (
 				BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */,
 				BF0C33082AE5239700A6D8FE /* TimeDataView.swift */,
 				BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */,
 			);
-			path = MapView;
+			path = Map;
 			sourceTree = "<group>";
 		};
 		BF24481B2AD6D66200F4089A /* Frameworks */ = {
@@ -378,7 +378,7 @@
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
 				C9F43BC72AF214CB00BAA0E3 /* CrewMake */,
 				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
-				BFFA10B02AE60FFA003CE661 /* MapView */,
+				BFFA10B02AE60FFA003CE661 /* Map */,
 				B8A3EFD72AC5F27000433F5C /* MyPage */,
 			);
 			path = Controllers;
@@ -390,7 +390,7 @@
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
 				C9F43BCC2AF2153100BAA0E3 /* CrewMake */,
 				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
-				BF0C33052AE5217100A6D8FE /* MapView */,
+				BF0C33052AE5217100A6D8FE /* Map */,
 				B8D73ABB2AD2899200D211DE /* MyPage */,
 			);
 			path = Views;
@@ -407,13 +407,13 @@
 			path = SessionStart;
 			sourceTree = "<group>";
 		};
-		BFFA10B02AE60FFA003CE661 /* MapView */ = {
+		BFFA10B02AE60FFA003CE661 /* Map */ = {
 			isa = PBXGroup;
 			children = (
 				16E42C472AC411A20031486E /* MapViewController.swift */,
 				BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */,
 			);
-			path = MapView;
+			path = Map;
 			sourceTree = "<group>";
 		};
 		C92CFB2B2AC9398B0068273A /* Resources */ = {
