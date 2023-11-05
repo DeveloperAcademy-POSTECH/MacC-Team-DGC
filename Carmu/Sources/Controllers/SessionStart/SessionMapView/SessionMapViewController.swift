@@ -35,6 +35,10 @@ final class SessionMapViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private let points = Points()
 
+    private let firebaseManager = FirebaseManager()
+
+    private let isDriver = true
+
     private let startingPoint = {
         let marker = NMFMarker()
         return marker
@@ -323,6 +327,11 @@ extension SessionMapViewController: CLLocationManagerDelegate {
         carMarker.mapView = mapView
         // 카메라 시점도 자동차 위치로 변경
         mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: location.coordinate)))
+
+        // 운전자인 경우 DB에 위도, 경도 업데이트
+        if isDriver {
+            firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
+        }
     }
 
     // 에러시 호출되는 함수

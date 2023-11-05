@@ -5,6 +5,7 @@
 //  Created by 김동현 on 2023/10/19.
 //
 
+import CoreLocation
 import UIKit
 
 import FirebaseAuth
@@ -513,5 +514,15 @@ extension FirebaseManager {
                 print("이미지가 성공적으로 삭제되었습니다.")
             }
         }
+    }
+}
+
+extension FirebaseManager {
+
+    func updateDriverCoordinate(coordinate: CLLocationCoordinate2D) {
+        // TODO: - 가입되어있는 크루로 연결 필요
+        let firebaseStorageRef = Database.database().reference().child("test")
+        firebaseStorageRef.child("latitude").setValue(coordinate.latitude)
+        firebaseStorageRef.child("longitude").setValue(coordinate.longitude)
     }
 }
