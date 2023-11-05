@@ -77,26 +77,22 @@ extension FinalConfirmViewController {
         // TODO: points, repeatDay 실 데이터 삽입 작업 추후 예정
         firebaseManager.addCrew(
             crewName: makeRandomCrewName(),
-            points: [
-                Point(
-                    id: 0,
-                    name: "포항터미널",
-                    detailAddress: "경상북도 포항시 남구 중흥로 85",
-                    pointLat: 36.0133,
-                    pointLng: 129.3496,
-                    arrivalTime: Date(),
-                    crews: []
-                ),
-                Point(
-                    id: 1,
-                    name: "C5",
-                    detailAddress: "경상북도 포항시 남구 지곡로 80",
-                    pointLat: 36.0141,
-                    pointLng: 129.3258,
-                    arrivalTime: Date(),
-                    crews: []
-                )
-            ],
+            startingPoint: Point(
+                name: "포항터미널",
+                detailAddress: "경상북도 포항시 남구 중흥로 85",
+                pointLat: 36.0133,
+                pointLng: 129.3496,
+                arrivalTime: Date(),
+                crews: []
+            ),
+            destination: Point(
+                name: "C5",
+                detailAddress: "경상북도 포항시 남구 지곡로 80",
+                pointLat: 36.0141,
+                pointLng: 129.3258,
+                arrivalTime: Date(),
+                crews: []
+            ),
             inviteCode: inviteCode ?? randomCode,
             repeatDay: [1, 2, 3, 4, 5]
         )
