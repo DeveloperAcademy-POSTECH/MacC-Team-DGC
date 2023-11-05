@@ -467,11 +467,9 @@
 		C931166A2AF3AB250014E702 /* Driver */ = {
 			isa = PBXGroup;
 			children = (
-				C931166D2AF3AB980014E702 /* StartEndPointSelectViewController.swift */,
-				C93116712AF3B5190014E702 /* SelectAddressViewController.swift */,
-				C931167D2AF3B7760014E702 /* SelectDetailPointMapViewController.swift */,
+				C95462122AF74BFC004C4F6D /* StartEndPointSelect */,
 				C93116652AF382260014E702 /* StopoverPointCheckViewController.swift */,
-				C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */,
+				C95462132AF74C0B004C4F6D /* TimeSelect */,
 				C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */,
 				C9D8E4E52AF484F3007570EE /* FinalConfirmViewController.swift */,
 				C9D8E4E72AF48650007570EE /* CodeShareViewController.swift */,
@@ -491,11 +489,9 @@
 		C931166C2AF3AB3F0014E702 /* Driver */ = {
 			isa = PBXGroup;
 			children = (
-				C931166F2AF3ABB20014E702 /* StartEndPointSelectView.swift */,
-				C93116732AF3B5320014E702 /* SelectAddressView.swift */,
-				C931167F2AF3B7E30014E702 /* SelectDetailPointMapView.swift */,
+				C95462112AF74BEA004C4F6D /* StartEndPointSelect */,
 				C93116672AF3822D0014E702 /* StopoverPointCheckView.swift */,
-				C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */,
+				C95462102AF74BD4004C4F6D /* TimeSelect */,
 				C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */,
 				C9D8E4E32AF484B3007570EE /* FinalConfirmView.swift */,
 				C9D8E4E92AF486B6007570EE /* CodeShareView.swift */,
@@ -511,6 +507,42 @@
 				C93116772AF3B6310014E702 /* DefaultAddressTableViewCell.swift */,
 			);
 			path = Cell;
+			sourceTree = "<group>";
+		};
+		C95462102AF74BD4004C4F6D /* TimeSelect */ = {
+			isa = PBXGroup;
+			children = (
+				C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */,
+			);
+			path = TimeSelect;
+			sourceTree = "<group>";
+		};
+		C95462112AF74BEA004C4F6D /* StartEndPointSelect */ = {
+			isa = PBXGroup;
+			children = (
+				C931166F2AF3ABB20014E702 /* StartEndPointSelectView.swift */,
+				C93116732AF3B5320014E702 /* SelectAddressView.swift */,
+				C931167F2AF3B7E30014E702 /* SelectDetailPointMapView.swift */,
+			);
+			path = StartEndPointSelect;
+			sourceTree = "<group>";
+		};
+		C95462122AF74BFC004C4F6D /* StartEndPointSelect */ = {
+			isa = PBXGroup;
+			children = (
+				C931166D2AF3AB980014E702 /* StartEndPointSelectViewController.swift */,
+				C93116712AF3B5190014E702 /* SelectAddressViewController.swift */,
+				C931167D2AF3B7760014E702 /* SelectDetailPointMapViewController.swift */,
+			);
+			path = StartEndPointSelect;
+			sourceTree = "<group>";
+		};
+		C95462132AF74C0B004C4F6D /* TimeSelect */ = {
+			isa = PBXGroup;
+			children = (
+				C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */,
+			);
+			path = TimeSelect;
 			sourceTree = "<group>";
 		};
 		C95C07AC2AE0BB3E007E7589 /* Utils */ = {
