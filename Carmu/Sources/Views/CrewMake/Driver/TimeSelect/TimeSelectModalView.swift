@@ -30,9 +30,7 @@ final class TimeSelectModalView: UIView {
     let closeButton: UIButton = {
         let button = UIButton()
         let backgroundImage = UIImage(named: "stopoverRemove")
-
         button.setBackgroundImage(backgroundImage, for: .normal)
-
         button.setTitleColor(UIColor.blue, for: .normal)
         return button
     }()
@@ -43,7 +41,6 @@ final class TimeSelectModalView: UIView {
         picker.preferredDatePickerStyle = .wheels
         picker.timeZone = .autoupdatingCurrent
         picker.locale = Locale(identifier: "ko_KR") // 오전/오후로 표시하게 하는 코드
-
         return picker
     }()
 
@@ -55,17 +52,18 @@ final class TimeSelectModalView: UIView {
         button.layer.cornerRadius = 30
         button.layer.masksToBounds = true
         button.setTitleColor(UIColor.theme.white, for: .normal)
-
         return button
     }()
 
-    init() {
-        super.init(frame: .zero)
-        setupUI()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+
+    override func draw(_ rect: CGRect) {
         setupUI()
         setupConstraints()
     }

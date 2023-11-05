@@ -19,8 +19,8 @@ import Foundation
 struct Point: Codable {
     var name: String
     var detailAddress: String
-    var pointLat: Double
-    var pointLng: Double
+    var latitude: Double
+    var longitude: Double
     var arrivalTime: Date
     var crews: [UserIdentifier]
 }
