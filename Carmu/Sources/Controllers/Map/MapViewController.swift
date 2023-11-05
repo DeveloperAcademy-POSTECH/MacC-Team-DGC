@@ -29,7 +29,7 @@ struct Points {
 
 final class MapViewController: UIViewController {
 
-    private let mapView = NMFMapView()
+    private let mapView = MapView()
     private let detailView = MapDetailView()
     // 자동차 위치를 표시하기 위한 마커
     private let carMarker = NMFMarker()
@@ -148,7 +148,7 @@ final class MapViewController: UIViewController {
             self.touchMarker(location: .startingPoint, address: "기숙사 18동")
             return true
         }
-        startingPoint.mapView = mapView
+        startingPoint.mapView = mapView.naverMap
 
         if let coordinate = points.pickupLocation1 {
             pickupLocation1.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
@@ -158,7 +158,7 @@ final class MapViewController: UIViewController {
                 self.touchMarker(location: .pickupLocation1, address: "테드집")
                 return true
             }
-            pickupLocation1.mapView = mapView
+            pickupLocation1.mapView = mapView.naverMap
         }
 
         if let coordinate = points.pickupLocation2 {
@@ -169,7 +169,7 @@ final class MapViewController: UIViewController {
                 self.touchMarker(location: .pickupLocation2, address: "롯데리아")
                 return true
             }
-            pickupLocation2.mapView = mapView
+            pickupLocation2.mapView = mapView.naverMap
         }
 
         if let coordinate = points.pickupLocation3 {
@@ -180,7 +180,7 @@ final class MapViewController: UIViewController {
                 self.touchMarker(location: .pickupLocation3, address: "미정")
                 return true
             }
-            pickupLocation3.mapView = mapView
+            pickupLocation3.mapView = mapView.naverMap
         }
 
         destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
@@ -189,7 +189,7 @@ final class MapViewController: UIViewController {
             self.touchMarker(location: .destination, address: "애플 디벨로퍼 아카데미")
             return true
         }
-        destination.mapView = mapView
+        destination.mapView = mapView.naverMap
     }
 
     private func fetchDirections() {
@@ -234,7 +234,7 @@ final class MapViewController: UIViewController {
                 }
                 self.pathOverlay.path = NMGLineString(points: points)
                 DispatchQueue.main.async {
-                    self.pathOverlay.mapView = self.mapView
+                    self.pathOverlay.mapView = self.mapView.naverMap
                 }
             }
         }
@@ -310,8 +310,8 @@ final class MapViewController: UIViewController {
     /// 위도, 경도를 입력받아 자동차의 현재 위치를 맵뷰에서 업데이트
     func updateCarMarker(latitide: Double, longitude: Double) {
         carMarker.position = NMGLatLng(lat: latitide, lng: longitude)
-        carMarker.mapView = mapView
-        mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitide, lng: longitude)))
+        carMarker.mapView = mapView.naverMap
+        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitide, lng: longitude)))
     }
 }
 

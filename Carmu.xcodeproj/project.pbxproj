@@ -61,6 +61,7 @@
 		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
 		BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */; };
 		BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */; };
+		BFD765862AF7E16F0074277B /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD765852AF7E16F0074277B /* MapView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		BFFA10AF2AE609B8003CE661 /* PickupLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */; };
 		BFFA10B22AE61012003CE661 /* NoticeLateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */; };
@@ -161,6 +162,7 @@
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartView.swift; sourceTree = "<group>"; };
+		BFD765852AF7E16F0074277B /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupLocation.swift; sourceTree = "<group>"; };
 		BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateViewController.swift; sourceTree = "<group>"; };
 		BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateView.swift; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 		BF0C33052AE5217100A6D8FE /* Map */ = {
 			isa = PBXGroup;
 			children = (
+				BFD765852AF7E16F0074277B /* MapView.swift */,
 				BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */,
 				BF0C33082AE5239700A6D8FE /* TimeDataView.swift */,
 				BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */,
@@ -742,6 +745,7 @@
 				B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				C9F43BD92AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift in Sources */,
+				BFD765862AF7E16F0074277B /* MapView.swift in Sources */,
 				C93116702AF3ABB20014E702 /* StartEndPointSelectView.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
 				B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */,
