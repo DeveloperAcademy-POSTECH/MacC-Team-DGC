@@ -52,4 +52,18 @@ extension Date {
 
         return formattedDate
     }
+
+    static func formattedDate(string: String, dateFormat: String) -> Date? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = dateFormat
+        dateFormatter.locale = Locale(identifier: "ko_KR")  // 필요한 로케일로 설정
+
+        // DateFormatter를 사용하여 String에서 Date로 변환
+        if let date = dateFormatter.date(from: string) {
+            return date
+        } else {
+            // 날짜 형식과 맞지 않는 경우 nil 반환
+            return nil
+        }
+    }
 }

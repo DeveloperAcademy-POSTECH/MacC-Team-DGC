@@ -70,6 +70,10 @@ extension TimeSelectViewController {
         if sender.tag > 0 {
 
         }
+        detailViewController.timeSelectView.timePicker.date = Date.formattedDate(
+            string: timeSelectView.customTableVieWCell[sender.tag].detailTimeButton.titleLabel?.text ?? "오전 12:00",
+            dateFormat: "aa hh:mm"
+        ) ?? Date()
 
         // 클로저를 통해 선택한 시간을 받음
         detailViewController.timeSelectionHandler = { [weak self] selectedTime in

@@ -9,7 +9,7 @@ import UIKit
 
 final class TimeSelectModalViewController: UIViewController {
 
-    let selectStartTimeView = TimeSelectModalView()
+    let timeSelectView = TimeSelectModalView()
     var timeSelectionHandler: ((Date) -> Void)?
     private var selectedTime: Date?
     weak var timeSelectViewController: TimeSelectViewController?
@@ -23,14 +23,14 @@ final class TimeSelectModalViewController: UIViewController {
         timeSelectViewController = presentingViewController as? TimeSelectViewController
         view.backgroundColor = .systemBackground
 
-        view.addSubview(selectStartTimeView)
-        selectStartTimeView.snp.makeConstraints { make in
+        view.addSubview(timeSelectView)
+        timeSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
 
-        selectStartTimeView.closeButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
-        selectStartTimeView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
-        selectStartTimeView.timePicker.addTarget(self, action: #selector(timePickerValueChanged), for: .valueChanged)
+        timeSelectView.closeButton.addTarget(self, action: #selector(backButtonAction), for: .touchUpInside)
+        timeSelectView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
+        timeSelectView.timePicker.addTarget(self, action: #selector(timePickerValueChanged), for: .valueChanged)
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
@@ -50,7 +50,7 @@ extension TimeSelectModalViewController {
     }
 
     @objc private func timePickerValueChanged() {
-        selectedTime = selectStartTimeView.timePicker.date
+        selectedTime = timeSelectView.timePicker.date
     }
 }
 
