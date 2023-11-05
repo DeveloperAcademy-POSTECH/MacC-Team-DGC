@@ -19,7 +19,13 @@ final class RepeatDaySelectView: UIView {
     let weekendButton = DaySelectButton(buttonTitle: "주말")
     let everydayButton = DaySelectButton(buttonTitle: "매일")
 
-    let dayTableView = UITableView()
+    let dayTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.isScrollEnabled = false
+        tableView.layer.cornerRadius = 10
+        return tableView
+    }()
+
     let nextButton = NextButton(buttonTitle: "다음")
 
     override init(frame: CGRect) {
@@ -81,6 +87,13 @@ extension RepeatDaySelectView {
             make.centerY.equalTo(weekdayButton)
             make.trailing.equalToSuperview().inset(20)
             make.width.equalTo(60)
+        }
+
+        dayTableView.snp.makeConstraints { make in
+            make.top.equalTo(weekdayButton.snp.bottom).offset(24)
+            make.bottom.equalTo(nextButton.snp.top).offset(-120)
+            make.horizontalEdges.equalToSuperview().inset(20)
+
         }
 
         nextButton.snp.makeConstraints { make in
