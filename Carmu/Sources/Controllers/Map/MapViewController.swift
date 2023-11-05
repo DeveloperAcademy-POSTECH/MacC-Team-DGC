@@ -320,10 +320,8 @@ extension MapViewController: CLLocationManagerDelegate {
     // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
-
         // 운전자화면에서 자동차 마커 위치 변경
         updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
-
         // 운전자인 경우 DB에 위도, 경도 업데이트
         firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
     }

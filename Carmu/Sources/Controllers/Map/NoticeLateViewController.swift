@@ -59,21 +59,18 @@ final class NoticeLateViewController: UIViewController {
     }
 
     @objc private func lateThreeMinutesButtonDidTap() {
-
         lateMin = "3"
         sendLateNotification(lateMin)
         sendToastMessage()
     }
 
     @objc private func lateFiveMinutesButtonDidTap() {
-
         lateMin = "5"
         sendLateNotification(lateMin)
         sendToastMessage()
     }
 
     @objc private func lateTenMinutesButtonDidTap() {
-
         lateMin = "10"
         sendLateNotification(lateMin)
         sendToastMessage()
@@ -113,7 +110,6 @@ extension NoticeLateViewController {
                         guard let friend = friend else {
                             return
                         }
-
                         // TODO: - 리팩토링 할 때 분리하기
                         self.functions
                             .httpsCallable("lateNotification")
@@ -126,11 +122,9 @@ extension NoticeLateViewController {
                                 }
                             }
                         }
-
                     }
                 }
             }
-
         }
     }
 }
