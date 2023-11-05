@@ -26,7 +26,7 @@ final class SessionStartViewController: UIViewController {
         view.backgroundColor = UIColor.semantic.backgroundDefault
         setupUI()
         setupConstraints()
-        addTargetButton()
+        setTargetButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -332,7 +332,7 @@ extension SessionStartViewController {
     }
 
     /// 버튼들 addTarget
-    private func addTargetButton() {
+    private func setTargetButton() {
         sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
         sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
         sessionStartView.carpoolStartButton.addTarget(self,

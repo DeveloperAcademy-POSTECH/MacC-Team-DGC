@@ -12,10 +12,6 @@ extension UIViewController {
     // TODO: - Firebase 형식에 맞게 변경
     /// 운전자인지 여부 확인
     func isCaptain() -> Bool {
-        if crewData?.captainID == "ted" {
-            return true
-        } else {
-            return false
-        }
+        crewData?.captainID == "ted"
     }
 }

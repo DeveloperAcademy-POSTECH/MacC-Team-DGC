@@ -444,8 +444,8 @@ extension FirebaseManager {
             let defaultPoint = Point(
                 name: "C5",
                 detailAddress: "C5",
-                pointLat: 0.0,
-                pointLng: 0.0,
+                latitude: 0.0,
+                longitude: 0.0,
                 arrivalTime: Date(),
                 crews: []
             )

@@ -19,8 +19,8 @@ import Foundation
 struct Point: Codable {
     var name: String
     var detailAddress: String
-    var pointLat: Double
-    var pointLng: Double
+    var latitude: Double
+    var longitude: Double
     var arrivalTime: Date
     var crews: [UserIdentifier]
 }
@@ -28,25 +28,25 @@ struct Point: Codable {
 // Point 더미 데이터
 let point1 = Point(name: "출발지",
                    detailAddress: "출발지의 상세 주소",
-                   pointLat: 128.00,
-                   pointLng: 62.42,
+                   latitude: 128.00,
+                   longitude: 62.42,
                    arrivalTime: Date(),
                    crews: ["ted"])
 let point2 = Point(name: "경유지1",
                    detailAddress: "경유지1 상세 주소",
-                   pointLat: 218.214,
-                   pointLng: 63.125,
+                   latitude: 218.214,
+                   longitude: 63.125,
                    arrivalTime: Date(),
                    crews: ["uni", "rei"])
 let point3 = Point(name: "경유지2",
                    detailAddress: "경유지2 상세 주소",
-                   pointLat: 127.436,
-                   pointLng: 52.662,
+                   latitude: 127.436,
+                   longitude: 52.662,
                    arrivalTime: Date(),
                    crews: ["rei"])
 let point4 = Point(name: "도착지",
                    detailAddress: "도착지 상세 주소",
-                   pointLat: 127.458,
-                   pointLng: 62.125,
+                   latitude: 127.458,
+                   longitude: 62.125,
                    arrivalTime: Date(),
                    crews: [])
