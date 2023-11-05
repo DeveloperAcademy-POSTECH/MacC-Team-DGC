@@ -437,7 +437,7 @@ extension FirebaseManager {
             guard let snapshotValue = snapshot?.value as? [String: Any] else {
                 return
             }
-            
+
             let defaultPoint = Point(
                 name: "C5",
                 detailAddress: "C5",
