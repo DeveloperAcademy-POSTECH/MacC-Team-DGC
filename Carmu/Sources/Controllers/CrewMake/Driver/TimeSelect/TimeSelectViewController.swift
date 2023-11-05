@@ -70,7 +70,7 @@ extension TimeSelectViewController {
         if sender.tag > 0 {
 
         }
-        detailViewController.timeSelectView.timePicker.date = Date.formattedDate(
+        detailViewController.timeSelectModalView.timePicker.date = Date.formattedDate(
             string: timeSelectView.customTableVieWCell[sender.tag].detailTimeButton.titleLabel?.text ?? "오전 12:00",
             dateFormat: "aa hh:mm"
         ) ?? Date()

@@ -67,6 +67,7 @@ final class TimeSelectModalView: UIView {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupUI()
+        setupConstraints()
     }
 
     private func setupUI() {
@@ -75,7 +76,9 @@ final class TimeSelectModalView: UIView {
         addSubview(closeButton)
         addSubview(timePicker)
         addSubview(saveButton)
+    }
 
+    private func setupConstraints() {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(32)
             make.leading.equalToSuperview().inset(20)
