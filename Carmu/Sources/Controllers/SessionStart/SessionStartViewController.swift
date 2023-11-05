@@ -300,7 +300,7 @@ extension SessionStartViewController {
     }
 
     @objc private func carpoolStartButtonDidTapped() {
-        let mapView = SessionMapViewController()
+        let mapView = MapViewController()
         mapView.modalPresentationStyle = .fullScreen
         present(mapView, animated: true, completion: nil)
     }

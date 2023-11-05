@@ -1,5 +1,5 @@
 //
-//  SessionMapViewController.swift
+//  MapViewController.swift
 //  Carmu
 //
 //  Created by 김태형 on 2023/09/27.
@@ -8,6 +8,7 @@
 import CoreLocation
 import UIKit
 
+import FirebaseDatabase
 import NMapsMap
 import SnapKit
 
@@ -26,14 +27,18 @@ struct Points {
 }
 // Firebase 데이터 받아오기 전까지만 사용하는 더미데이터
 
-final class SessionMapViewController: UIViewController {
+final class MapViewController: UIViewController {
 
     private let mapView = NMFMapView()
-    private let detailView = SessionMapDetailView()
+    private let detailView = MapDetailView()
     // 자동차 위치를 표시하기 위한 마커
     private let carMarker = NMFMarker()
     private let locationManager = CLLocationManager()
     private let points = Points()
+
+    private let firebaseManager = FirebaseManager()
+
+    private let isDriver = true
 
     private let startingPoint = {
         let marker = NMFMarker()
@@ -78,10 +83,15 @@ final class SessionMapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        startUpdatingLocation()
+        if isDriver {
+            startUpdatingLocation()
+        } else {
+            firebaseManager.startObservingDriveLocation { latitude, longitude in
+                self.updateCarMarker(latitide: latitude, longitude: longitude)
+            }
+        }
         showNaverMap()
         showBackButton()
-        showQuitButton()
         showPickuplocations()
         detailView.setDetailView(location: .startingPoint, address: "기숙사 18동") // TODO: 데이터 받아오는 시점으로 이동
         changeMarkerColor(location: .startingPoint)
@@ -114,21 +124,6 @@ final class SessionMapViewController: UIViewController {
             make.leading.equalTo(20)
             make.top.equalTo(50)
             make.width.height.equalTo(60)
-        }
-    }
-
-    private func showQuitButton() {
-        let quitButton = UIButton(type: .custom, primaryAction: UIAction(handler: { _ in
-            self.locationManager.stopUpdatingLocation()
-            self.dismiss(animated: true)
-        }))
-        quitButton.setImage(UIImage(named: "quitCarpoolButton"), for: .normal)
-        quitButton.imageView?.contentMode = .scaleAspectFit
-        view.addSubview(quitButton)
-        quitButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(7)
-            make.centerY.equalTo(backButton)
-            make.width.equalTo(120)
         }
     }
 
@@ -289,7 +284,7 @@ final class SessionMapViewController: UIViewController {
     // Toast 알림 띄워주기
     func showToast(_ message: String, withDuration: Double, delay: Double) {
         let toastLabel = UILabel(frame: CGRect(
-            x: (self.view.frame.size.width - 350) / 2,
+            x: (view.frame.size.width - 350) / 2,
             y: 60,
             width: 350,
             height: 60)
@@ -303,7 +298,7 @@ final class SessionMapViewController: UIViewController {
         toastLabel.layer.cornerRadius = 16
         toastLabel.clipsToBounds  =  true
 
-        self.view.addSubview(toastLabel)
+        view.addSubview(toastLabel)
 
         UIView.animate(withDuration: withDuration, delay: delay, options: .curveEaseOut, animations: {
             toastLabel.alpha = 0.0
@@ -311,18 +306,24 @@ final class SessionMapViewController: UIViewController {
             toastLabel.removeFromSuperview()
         })
     }
+
+    /// 위도, 경도를 입력받아 자동차의 현재 위치를 맵뷰에서 업데이트
+    func updateCarMarker(latitide: Double, longitude: Double) {
+        carMarker.position = NMGLatLng(lat: latitide, lng: longitude)
+        carMarker.mapView = mapView
+        mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitide, lng: longitude)))
+    }
 }
 
-extension SessionMapViewController: CLLocationManagerDelegate {
+extension MapViewController: CLLocationManagerDelegate {
 
     // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
-        // 지도상의 자동차 위치 갱신
-        carMarker.position = NMGLatLng(from: location.coordinate)
-        carMarker.mapView = mapView
-        // 카메라 시점도 자동차 위치로 변경
-        mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: location.coordinate)))
+        // 운전자화면에서 자동차 마커 위치 변경
+        updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        // 운전자인 경우 DB에 위도, 경도 업데이트
+        firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
     }
 
     // 에러시 호출되는 함수

@@ -59,21 +59,18 @@ final class NoticeLateViewController: UIViewController {
     }
 
     @objc private func lateThreeMinutesButtonDidTap() {
-
         lateMin = "3"
         sendLateNotification(lateMin)
         sendToastMessage()
     }
 
     @objc private func lateFiveMinutesButtonDidTap() {
-
         lateMin = "5"
         sendLateNotification(lateMin)
         sendToastMessage()
     }
 
     @objc private func lateTenMinutesButtonDidTap() {
-
         lateMin = "10"
         sendLateNotification(lateMin)
         sendToastMessage()
@@ -81,8 +78,8 @@ final class NoticeLateViewController: UIViewController {
 
     // Toast 메세지 보내기
     private func sendToastMessage() {
-        guard let pvc = self.presentingViewController as? SessionMapViewController else { return }
-        self.dismiss(animated: true) {
+        guard let pvc = presentingViewController as? MapViewController else { return }
+        dismiss(animated: true) {
             pvc.showToast("지각 알림을 보냈어요", withDuration: 1.0, delay: 2.0)
         }
     }
@@ -113,7 +110,6 @@ extension NoticeLateViewController {
                         guard let friend = friend else {
                             return
                         }
-
                         // TODO: - 리팩토링 할 때 분리하기
                         self.functions
                             .httpsCallable("lateNotification")
@@ -126,11 +122,9 @@ extension NoticeLateViewController {
                                 }
                             }
                         }
-
                     }
                 }
             }
-
         }
     }
 }
