@@ -157,6 +157,13 @@ extension SessionStartViewController {
         sessionStartView.individualButton.setTitle("운행하지 않아요", for: .normal)
         sessionStartView.togetherButton.setTitle("운행해요", for: .normal)
 
+        settingDriverUI()
+        settingDriverConstraints()
+    }
+
+    // Driver UI
+    private func settingDriverUI() {
+
         // view layout
         sessionStartDriverView.isHidden = false
         sessionStartPassengerView.isHidden = true
@@ -165,9 +172,8 @@ extension SessionStartViewController {
         sessionStartView.individualButton.isHidden = false
         sessionStartView.togetherButton.isHidden = false
         sessionStartView.carpoolStartButton.isHidden = true
-
-        settingDriverConstraints()
     }
+
     // Driver Layout
     private func settingDriverConstraints() {
         sessionStartDriverView.snp.makeConstraints { make in
@@ -224,6 +230,13 @@ extension SessionStartViewController {
         sessionStartView.individualButton.setTitle("따로가요", for: .normal)
         sessionStartView.togetherButton.setTitle("함께가요", for: .normal)
 
+        settingPassengerUI()
+        settingPassengerConstraints()
+    }
+
+    // Passenger UI
+    private func settingPassengerUI() {
+
         // view layout
         sessionStartDriverView.isHidden = true
         sessionStartPassengerView.isHidden = false
@@ -232,8 +245,6 @@ extension SessionStartViewController {
         sessionStartView.individualButton.isHidden = false
         sessionStartView.togetherButton.isHidden = false
         sessionStartView.carpoolStartButton.isHidden = true
-
-        settingPassengerConstraints()
     }
     // Passenger Layout
     private func settingPassengerConstraints() {
@@ -331,8 +342,6 @@ extension SessionStartViewController {
                                                     action: #selector(individualButtonDidTapped),
                                                     for: .touchUpInside)
     }
-
-
 }
 
 extension SessionStartViewController {
