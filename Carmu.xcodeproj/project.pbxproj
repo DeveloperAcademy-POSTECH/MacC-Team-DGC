@@ -15,7 +15,7 @@
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
 		16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */; };
-		16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* SessionMapViewController.swift */; };
+		16E42C482AC411A20031486E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* MapViewController.swift */; };
 		B80CCA522ADB0955000A2ABB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B80CCA512ADB0955000A2ABB /* FirebaseStorage */; };
 		B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */; };
 		B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */; };
@@ -114,7 +114,7 @@
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
 		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
-		16E42C472AC411A20031486E /* SessionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapViewController.swift; sourceTree = "<group>"; };
+		16E42C472AC411A20031486E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeView.swift; sourceTree = "<group>"; };
 		B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeViewController.swift; sourceTree = "<group>"; };
 		B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageColor.swift; sourceTree = "<group>"; };
@@ -410,7 +410,7 @@
 		BFFA10B02AE60FFA003CE661 /* SessionMapView */ = {
 			isa = PBXGroup;
 			children = (
-				16E42C472AC411A20031486E /* SessionMapViewController.swift */,
+				16E42C472AC411A20031486E /* MapViewController.swift */,
 				BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */,
 			);
 			path = SessionMapView;
@@ -693,7 +693,7 @@
 				C9D8E4EA2AF486B6007570EE /* CodeShareView.swift in Sources */,
 				B8DD15EE2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift in Sources */,
 				B8DD15E02AD4677800685E48 /* FriendListTableViewCell.swift in Sources */,
-				16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */,
+				16E42C482AC411A20031486E /* MapViewController.swift in Sources */,
 				1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */,
 				C9D8E4DC2AF4814E007570EE /* TimeSelectViewController.swift in Sources */,
 				C931167E2AF3B7760014E702 /* SelectDetailPointMapViewController.swift in Sources */,

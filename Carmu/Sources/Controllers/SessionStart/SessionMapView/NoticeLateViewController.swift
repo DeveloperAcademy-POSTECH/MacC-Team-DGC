@@ -81,7 +81,7 @@ final class NoticeLateViewController: UIViewController {
 
     // Toast 메세지 보내기
     private func sendToastMessage() {
-        guard let pvc = self.presentingViewController as? SessionMapViewController else { return }
+        guard let pvc = self.presentingViewController as? MapViewController else { return }
         self.dismiss(animated: true) {
             pvc.showToast("지각 알림을 보냈어요", withDuration: 1.0, delay: 2.0)
         }

@@ -1,5 +1,5 @@
 //
-//  SessionMapViewController.swift
+//  MapViewController.swift
 //  Carmu
 //
 //  Created by 김태형 on 2023/09/27.
@@ -27,7 +27,7 @@ struct Points {
 }
 // Firebase 데이터 받아오기 전까지만 사용하는 더미데이터
 
-final class SessionMapViewController: UIViewController {
+final class MapViewController: UIViewController {
 
     private let mapView = NMFMapView()
     private let detailView = SessionMapDetailView()
@@ -331,7 +331,7 @@ final class SessionMapViewController: UIViewController {
     }
 }
 
-extension SessionMapViewController: CLLocationManagerDelegate {
+extension MapViewController: CLLocationManagerDelegate {
 
     // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
