@@ -354,7 +354,11 @@ extension FirebaseManager {
             name: crewName,
             // crewImage 추가 필요
             captainID: captainID,
-            crews: []
+            crews: [],
+            // 이하 추가 필요
+            points: [],
+            sessionStatus: true,
+            crewStatus: [:]
         )
         setCrewToUser(captainID, key)
         for (crewKey, _) in crewAndPoint {
@@ -434,7 +438,11 @@ extension FirebaseManager {
                 id: snapshotValue["id"] as? String ?? "",
                 name: snapshotValue["name"] as? String ?? "",
                 captainID: snapshotValue["captainID"] as? UserIdentifier ?? "",
-                crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""]
+                // 이하 추가 필요
+                crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""],
+                points: snapshotValue["points"] as? [Point] ?? [],
+                sessionStatus: snapshotValue["sessionStatus"] as? Bool ?? true,
+                crewStatus: snapshotValue["crewStatus"] as? [UserIdentifier: Bool] ?? [:]
             )
             completion(crew)
         }

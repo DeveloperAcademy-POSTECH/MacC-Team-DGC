@@ -10,7 +10,6 @@
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
 		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
-		164E823B2AF539AF00848BFF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E823A2AF539AF00848BFF /* Session.swift */; };
 		164E823D2AF53AB400848BFF /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E823C2AF53AB400848BFF /* Point.swift */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
@@ -107,9 +106,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		164E823A2AF539AF00848BFF /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
-		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
+		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
 		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
@@ -428,7 +426,6 @@
 				C904D1572AD57942008BF5CE /* Friendship.swift */,
 				C904D1602AD57AE8008BF5CE /* Crew.swift */,
 				164E823C2AF53AB400848BFF /* Point.swift */,
-				164E823A2AF539AF00848BFF /* Session.swift */,
 				C93116792AF3B69F0014E702 /* SelectAddressDTO.swift */,
 				C931167B2AF3B7070014E702 /* AddressDTO.swift */,
 				B83E23EB2AF3DBBC0048ED9A /* ProfileType.swift */,
@@ -701,7 +698,6 @@
 				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
 				B83E23EC2AF3DBBC0048ED9A /* ProfileType.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
-				164E823B2AF539AF00848BFF /* Session.swift in Sources */,
 				BFFA10B42AE62FAF003CE661 /* NoticeLateView.swift in Sources */,
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,

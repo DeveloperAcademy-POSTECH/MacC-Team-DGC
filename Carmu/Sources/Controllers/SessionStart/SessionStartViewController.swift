@@ -109,7 +109,7 @@ extension SessionStartViewController {
 // MARK: - 크루가 있을 때 - 공통
 extension SessionStartViewController {
     private func settingData() {
-        if sessionData.sessionStatus == true {  // 당일 운행을 할 때
+        if crewData?.sessionStatus == true {  // 당일 운행을 할 때
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
         } else {    // 당일 운행을 하지 않을 때
