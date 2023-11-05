@@ -10,10 +10,44 @@ import UIKit
 final class RepeatDaySelectViewController: UIViewController {
 
     private let repeatDaySelectView = RepeatDaySelectView()
+    private var selectedButton: DaySelectButton?
+    private var selectedPoint: [Int]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
+
+        repeatDaySelectView.weekdayButton.addTarget(
+            self,
+            action: #selector(daySettingButtonTapped),
+            for: .touchUpInside
+        )
+        repeatDaySelectView.weekendButton.addTarget(
+            self,
+            action: #selector(daySettingButtonTapped),
+            for: .touchUpInside
+        )
+        repeatDaySelectView.everydayButton.addTarget(
+            self,
+            action: #selector(daySettingButtonTapped),
+            for: .touchUpInside
+        )
+
+        repeatDaySelectView.weekdayButton.addTarget(
+            self,
+            action: #selector(weekdayButtonTapped),
+            for: .touchUpInside
+        )
+        repeatDaySelectView.weekendButton.addTarget(
+            self,
+            action: #selector(weekendButtonTapped),
+            for: .touchUpInside
+        )
+        repeatDaySelectView.everydayButton.addTarget(
+            self,
+            action: #selector(everydayButtonTapped),
+            for: .touchUpInside
+        )
 
         repeatDaySelectView.nextButton.addTarget(
             self,
@@ -30,6 +64,30 @@ final class RepeatDaySelectViewController: UIViewController {
 
 // MARK: - @objc Method
 extension RepeatDaySelectViewController {
+
+    @objc private func weekdayButtonTapped(_ sender: DaySelectButton) {
+
+    }
+
+    @objc private func weekendButtonTapped(_ sender: DaySelectButton) {
+
+    }
+
+    @objc private func everydayButtonTapped(_ sender: DaySelectButton) {
+
+    }
+
+    @objc private func daySettingButtonTapped(_ sender: DaySelectButton) {
+        if selectedButton == sender {
+            selectedButton?.resetButtonAppearance()
+            selectedPoint = nil
+            selectedButton = nil
+            return
+        }
+        selectedButton?.resetButtonAppearance()
+        selectedButton = sender
+        sender.setSelectedButtonAppearance()
+    }
 
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요

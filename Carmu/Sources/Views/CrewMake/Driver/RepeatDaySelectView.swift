@@ -9,26 +9,18 @@ import UIKit
 
 final class RepeatDaySelectView: UIView {
 
-    private lazy var secondLineTitleStack = UIStackView()
+    private let secondLineTitleStack = UIStackView()
 
-    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀이 반복되는")
-    private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "요일을 설정")
-    private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "해주세요")
+    private let titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀이 반복되는")
+    private let titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "요일을 설정")
+    private let titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "해주세요")
 
-    lazy var nextButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("다음", for: .normal)
-        button.backgroundColor = UIColor.semantic.accPrimary
-        button.titleLabel?.font = UIFont.carmuFont.headline2
-        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        button.setBackgroundImage(
-            UIImage(color: UIColor.semantic.textSecondary ?? .white),
-            for: .highlighted
-        )
-        button.layer.cornerRadius = 30
+    let weekdayButton = DaySelectButton(buttonTitle: "주중")
+    let weekendButton = DaySelectButton(buttonTitle: "주말")
+    let everydayButton = DaySelectButton(buttonTitle: "매일")
 
-        return button
-    }()
+    let dayTableView = UITableView()
+    let nextButton = NextButton(buttonTitle: "다음")
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,6 +34,10 @@ final class RepeatDaySelectView: UIView {
         setupViews()
         setAutoLayout()
     }
+}
+
+// MARK: - Setup UI, Constraint
+extension RepeatDaySelectView {
 
     private func setupViews() {
         secondLineTitleStack.axis = .horizontal
@@ -51,6 +47,10 @@ final class RepeatDaySelectView: UIView {
 
         addSubview(titleLabel1)
         addSubview(secondLineTitleStack)
+        addSubview(weekdayButton)
+        addSubview(weekendButton)
+        addSubview(everydayButton)
+        addSubview(dayTableView)
         addSubview(nextButton)
     }
 
@@ -65,10 +65,27 @@ final class RepeatDaySelectView: UIView {
             make.leading.equalToSuperview().inset(20)
         }
 
+        weekdayButton.snp.makeConstraints { make in
+            make.top.equalTo(secondLineTitleStack.snp.bottom).offset(24)
+            make.leading.equalToSuperview().inset(20)
+            make.width.equalTo(60)
+        }
+
+        weekendButton.snp.makeConstraints { make in
+            make.centerY.equalTo(weekdayButton)
+            make.leading.equalTo(weekdayButton.snp.trailing).offset(10)
+            make.width.equalTo(60)
+        }
+
+        everydayButton.snp.makeConstraints { make in
+            make.centerY.equalTo(weekdayButton)
+            make.trailing.equalToSuperview().inset(20)
+            make.width.equalTo(60)
+        }
+
         nextButton.snp.makeConstraints { make in
             make.bottom.equalTo(safeAreaLayoutGuide).inset(60)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(60)
         }
     }
 }
