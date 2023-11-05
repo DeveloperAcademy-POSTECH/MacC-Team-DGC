@@ -284,7 +284,7 @@ final class MapViewController: UIViewController {
     // Toast 알림 띄워주기
     func showToast(_ message: String, withDuration: Double, delay: Double) {
         let toastLabel = UILabel(frame: CGRect(
-            x: (self.view.frame.size.width - 350) / 2,
+            x: (view.frame.size.width - 350) / 2,
             y: 60,
             width: 350,
             height: 60)
@@ -298,7 +298,7 @@ final class MapViewController: UIViewController {
         toastLabel.layer.cornerRadius = 16
         toastLabel.clipsToBounds  =  true
 
-        self.view.addSubview(toastLabel)
+        view.addSubview(toastLabel)
 
         UIView.animate(withDuration: withDuration, delay: delay, options: .curveEaseOut, animations: {
             toastLabel.alpha = 0.0
