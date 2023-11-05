@@ -32,10 +32,16 @@ final class SessionStartViewController: UIViewController {
         sessionStartView.carpoolStartButton.addTarget(self,
                                                       action: #selector(carpoolStartButtonDidTapped),
                                                       for: .touchUpInside)
+        sessionStartView.individualButton.addTarget(self,
+                                                    action: #selector(individualButtonDidTapped),
+                                                    for: .touchUpInside)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         checkCrew()
+
+        // TODO: - 비동기 처리로 변경해주기
+        settingData()
     }
 }
 
@@ -96,6 +102,35 @@ extension SessionStartViewController {
             make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
             make.bottom.lessThanOrEqualToSuperview().inset(165)
             make.bottom.equalToSuperview().inset(165)
+        }
+    }
+}
+
+// MARK: - 크루가 있을 때 - 공통
+extension SessionStartViewController {
+    private func settingData() {
+        if sessionData.sessionStatus == true {  // 당일 운행을 할 때
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
+        } else {    // 당일 운행을 하지 않을 때
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+
+            // TODO: - 데이터 형식에 맞추기
+            if crewData?.captainID == "ted" {    // 운전자일 때
+                sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+            } else {    // 크루원일 때
+                sessionStartView.notifyComment.text = "운전자의 사정으로\n오늘은 카풀이 운행되지 않아요"
+            }
+
+            // 활성화
+            sessionStartDriverView.layer.opacity = 1.0
+
+            // TODO: - 버튼 색상 상의하기 !
+            sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+            sessionStartView.individualButton.isEnabled = false
+            sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+            sessionStartView.togetherButton.isEnabled = false
         }
     }
 }
@@ -276,6 +311,19 @@ extension SessionStartViewController {
         let mapView = SessionMapViewController()
         mapView.modalPresentationStyle = .fullScreen
         present(mapView, animated: true, completion: nil)
+    }
+
+    // TODO: - 실제 데이터로 변경
+    @objc private func individualButtonDidTapped() {
+        print("clicked")
+        sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+        sessionStartDriverView.layer.opacity = 1.0
+
+        // TODO: - 버튼 색상 상의하기 !
+        sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+        sessionStartView.individualButton.isEnabled = false
+        sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+        sessionStartView.togetherButton.isEnabled = false
     }
 }
 
