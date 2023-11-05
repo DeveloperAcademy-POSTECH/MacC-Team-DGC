@@ -81,7 +81,7 @@ extension SessionStartPassengerView {
 // MARK: - 앞면 뷰
 final class PassengerFrontView: UIView {
 
-    // 어디에 몇 시까지 나갸아 할 지 알려주는 뷰
+    // 어디에 몇 시까지 나가야 하는지 알려주는 뷰
     private lazy var locationAndTimeView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor.semantic.backgroundDefault

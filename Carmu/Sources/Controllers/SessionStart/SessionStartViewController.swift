@@ -15,7 +15,7 @@ import SnapKit
 
 final class SessionStartViewController: UIViewController {
 
-    private lazy var sessionStartView = SessionStartView()
+    private let sessionStartView = SessionStartView()
     private lazy var sessionStartDriverView = SessionStartDriverView()
     private lazy var sessionStartPassengerView = SessionStartPassengerView()
     private lazy var sessionStartNoCrewView = SessionStartNoCrewView()
@@ -26,15 +26,7 @@ final class SessionStartViewController: UIViewController {
         view.backgroundColor = UIColor.semantic.backgroundDefault
         setupUI()
         setupConstraints()
-
-        sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
-        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
-        sessionStartView.carpoolStartButton.addTarget(self,
-                                                      action: #selector(carpoolStartButtonDidTapped),
-                                                      for: .touchUpInside)
-        sessionStartView.individualButton.addTarget(self,
-                                                    action: #selector(individualButtonDidTapped),
-                                                    for: .touchUpInside)
+        addTargetButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -56,19 +48,6 @@ extension SessionStartViewController {
     private func setupConstraints() {
         sessionStartView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
-        }
-    }
-
-    // 크루가 있을 때
-    private func settingCrewView() {
-
-        sessionStartNoCrewView.isHidden = true
-
-        // TODO: - 데이터 형식에 맞춰서 수정
-        if crewData?.captainID == "ted" {  // 운전자일 경우
-            settingDriverView()
-        } else {    // 크루원인 경우
-            settingPassengerView()
         }
     }
 }
@@ -108,6 +87,18 @@ extension SessionStartViewController {
 
 // MARK: - 크루가 있을 때 - 공통
 extension SessionStartViewController {
+
+    private func settingCrewView() {
+
+        sessionStartNoCrewView.isHidden = true
+
+        if isCaptain() {
+            settingDriverView()
+        } else {
+            settingPassengerView()
+        }
+    }
+
     private func settingData() {
         if crewData?.sessionStatus == true {  // 당일 운행을 할 때
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
@@ -116,10 +107,9 @@ extension SessionStartViewController {
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
 
-            // TODO: - 데이터 형식에 맞추기
-            if crewData?.captainID == "ted" {    // 운전자일 때
+            if isCaptain() {
                 sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
-            } else {    // 크루원일 때
+            } else {
                 sessionStartView.notifyComment.text = "운전자의 사정으로\n오늘은 카풀이 운행되지 않아요"
             }
 
@@ -281,21 +271,12 @@ extension SessionStartViewController {
     }
 }
 
-// MARK: Actions
+// MARK: @objc Method
 extension SessionStartViewController {
 
     @objc private func myPageButtonDidTapped() {
         let myPageVC = MyPageViewController()
         navigationController?.pushViewController(myPageVC, animated: true)
-    }
-
-    // 크루의 유무 확인
-    private func checkCrew() {
-        if crewData == nil {
-            settingNoCrewView()
-        } else {
-            settingCrewView()
-        }
     }
 
     @objc private func togetherButtonDidTapped() {
@@ -325,6 +306,33 @@ extension SessionStartViewController {
         sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
         sessionStartView.togetherButton.isEnabled = false
     }
+}
+
+// MARK: - Action
+extension SessionStartViewController {
+
+    /// 크루의 유무 확인
+    private func checkCrew() {
+        if crewData == nil {
+            settingNoCrewView()
+        } else {
+            settingCrewView()
+        }
+    }
+
+    /// 버튼들 addTarget
+    private func addTargetButton() {
+        sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
+        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
+        sessionStartView.carpoolStartButton.addTarget(self,
+                                                      action: #selector(carpoolStartButtonDidTapped),
+                                                      for: .touchUpInside)
+        sessionStartView.individualButton.addTarget(self,
+                                                    action: #selector(individualButtonDidTapped),
+                                                    for: .touchUpInside)
+    }
+
+
 }
 
 extension SessionStartViewController {
