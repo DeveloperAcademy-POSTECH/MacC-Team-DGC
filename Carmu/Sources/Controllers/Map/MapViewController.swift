@@ -92,7 +92,6 @@ final class MapViewController: UIViewController {
         }
         showNaverMap()
         showBackButton()
-        showQuitButton()
         showPickuplocations()
         detailView.setDetailView(location: .startingPoint, address: "기숙사 18동") // TODO: 데이터 받아오는 시점으로 이동
         changeMarkerColor(location: .startingPoint)
@@ -125,21 +124,6 @@ final class MapViewController: UIViewController {
             make.leading.equalTo(20)
             make.top.equalTo(50)
             make.width.height.equalTo(60)
-        }
-    }
-
-    private func showQuitButton() {
-        let quitButton = UIButton(type: .custom, primaryAction: UIAction(handler: { _ in
-            self.locationManager.stopUpdatingLocation()
-            self.dismiss(animated: true)
-        }))
-        quitButton.setImage(UIImage(named: "quitCarpoolButton"), for: .normal)
-        quitButton.imageView?.contentMode = .scaleAspectFit
-        view.addSubview(quitButton)
-        quitButton.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().inset(7)
-            make.centerY.equalTo(backButton)
-            make.width.equalTo(120)
         }
     }
 
