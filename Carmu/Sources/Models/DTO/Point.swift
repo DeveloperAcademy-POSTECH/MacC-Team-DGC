@@ -17,7 +17,6 @@ import Foundation
  crews: 해당 경유지에서 타는 인원들
  */
 struct Point: Codable {
-    var id: Int
     var name: String
     var detailAddress: String
     var pointLat: Double

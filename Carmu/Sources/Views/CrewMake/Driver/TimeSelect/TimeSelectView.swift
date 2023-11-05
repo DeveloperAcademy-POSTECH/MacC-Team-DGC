@@ -16,7 +16,27 @@ final class TimeSelectView: UIView {
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "을")
     private lazy var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "설정해주세요")
 
+    lazy var selectTableStack = UIStackView()
     private lazy var colorLine = CrewMakeUtil.createColorLineView()
+    var customTableView = UIStackView()
+    lazy var customTableVieWCell: [TimeSelectCellView] = {
+        var cells: [TimeSelectCellView] = []
+
+        var timeAddressDict = [
+            ("출발지 주소", Date.now),
+            ("경유지 주소", Date.now + 600),
+            ("경유지 2주소 입니다dddfdfd", Date.now + 1200),
+            ("도착지 주소", Date.now + 1800)
+        ]
+        for (index, (address, time)) in timeAddressDict.enumerated() {
+            let cellView = TimeSelectCellView(address: address, time: time)
+            cellView.detailTimeButton.setTitle(Date.formattedDate(from: time, dateFormat: "aa hh:mm"), for: .normal)
+            cellView.detailTimeButton.tag = index
+            cells.append(cellView)
+        }
+
+        return cells
+    }()
 
     lazy var nextButton: UIButton = {
         let button = UIButton()
@@ -48,15 +68,29 @@ final class TimeSelectView: UIView {
 
     private func setupViews() {
         firstLineTitleStack.axis = .horizontal
+        selectTableStack.axis = .horizontal
+        selectTableStack.spacing = 12
+        customTableView.axis = .vertical
+        customTableView.distribution = .equalSpacing
 
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
         firstLineTitleStack.addArrangedSubview(titleLabel3)
 
+        selectTableStack.addArrangedSubview(colorLine)
+        selectTableStack.addArrangedSubview(customTableView)
+
         addSubview(firstLineTitleStack)
         addSubview(titleLabel5)
-        addSubview(colorLine)
+        addSubview(selectTableStack)
         addSubview(nextButton)
+
+        for element in customTableVieWCell {
+            element.snp.makeConstraints { make in
+                make.height.equalTo(54)
+            }
+            customTableView.addArrangedSubview(element)
+        }
     }
 
     private func setAutoLayout() {
@@ -70,10 +104,21 @@ final class TimeSelectView: UIView {
             make.leading.equalToSuperview().inset(20)
         }
 
+        selectTableStack.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel5.snp.bottom).offset(66)
+            make.bottom.equalTo(nextButton.snp.top).offset(-60)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
         colorLine.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel5.snp.bottom).offset(40)
-            make.bottom.equalTo(nextButton.snp.top).offset(-52)
-            make.leading.equalToSuperview().inset(20)
+            make.verticalEdges.leading.equalToSuperview()
+            make.trailing.equalTo(customTableView.snp.leading).offset(-12)
+            make.width.equalTo(12)
+        }
+
+        customTableView.snp.makeConstraints { make in
+            make.verticalEdges.trailing.equalToSuperview()
+            make.leading.equalTo(colorLine.snp.trailing).offset(12)
         }
 
         nextButton.snp.makeConstraints { make in

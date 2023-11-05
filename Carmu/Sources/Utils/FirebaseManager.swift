@@ -342,7 +342,13 @@ extension FirebaseManager {
         호출되는 곳
             FinalConfirmViewController
      */
-    func addCrew(crewName: String, points: [Point], inviteCode: String, repeatDay: [Int]) {
+    func addCrew(
+        crewName: String,
+        startingPoint: Point,
+        destination: Point,
+        inviteCode: String,
+        repeatDay: [Int]
+    ) {
         guard let key = Database.database().reference().child("crew").childByAutoId().key else {
             return
         }
@@ -354,7 +360,8 @@ extension FirebaseManager {
             // crewImage 추가 필요
             captainID: captainID,
             crews: [],
-            points: points,
+            startingPoint: startingPoint,
+            destination: destination,
             inviteCode: inviteCode,
             repeatDay: repeatDay
         )
@@ -430,12 +437,23 @@ extension FirebaseManager {
             guard let snapshotValue = snapshot?.value as? [String: Any] else {
                 return
             }
+
+            let defaultPoint = Point(
+                name: "C5",
+                detailAddress: "C5",
+                pointLat: 0.0,
+                pointLng: 0.0,
+                arrivalTime: Date(),
+                crews: []
+            )
+
             let crew = Crew(
                 id: snapshotValue["id"] as? String ?? "",
                 name: snapshotValue["name"] as? String ?? "",
                 captainID: snapshotValue["captainID"] as? UserIdentifier ?? "",
                 crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""],
-                points: snapshotValue["points"] as? [Point] ?? [Point](),
+                startingPoint: snapshotValue["startingPoint"] as? Point ?? defaultPoint,
+                destination: snapshotValue["destination"] as? Point ?? defaultPoint,
                 inviteCode: snapshotValue["inviteCode"] as? String ?? "",
                 repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5]
             )
