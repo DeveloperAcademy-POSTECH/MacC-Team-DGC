@@ -32,7 +32,7 @@ final class SettingsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
-        navigationItem.title = "설정"
+        navigationController?.navigationBar.topItem?.title = "" // 백버튼 텍스트 제거
 
         view.addSubview(settingsView)
         settingsView.snp.makeConstraints { make in
@@ -46,10 +46,8 @@ final class SettingsViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        navigationItem.backButtonTitle = ""
-        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
-        // 설정 화면에서는 탭 바가 보이지 않도록 한다.
-        tabBarController?.tabBar.isHidden = true
+        super.viewWillAppear(animated)
+        navigationItem.title = "설정"
     }
 
     // MARK: - 로그아웃 알럿

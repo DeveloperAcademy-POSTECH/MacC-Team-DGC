@@ -21,7 +21,23 @@ final class MyPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor.semantic.backgroundSecond
+
+        // 내비게이션 바 appearance 설정 (배경색)
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = UIColor.semantic.backgroundDefault
+        appearance.shadowColor = .red
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        // 백버튼 텍스트 제거
+        navigationController?.navigationBar.topItem?.title = ""
+        // 설정 버튼 추가
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "gearshape.fill"),
+            style: .plain,
+            target: self,
+            action: #selector(showSettings)
+        )
+
         // 유저 정보 불러와서 닉네임, 프로필 표시
         guard let databasePath = User.databasePathWithUID else {
             return
@@ -34,9 +50,6 @@ final class MyPageViewController: UIViewController {
             self.selectedProfileImageColor = userData.profileImageColor
             self.updateProfileImageView(profileImageColor: self.selectedProfileImageColor)
         }
-
-        let backButtonItem = UIBarButtonItem(title: " ", style: .plain, target: nil, action: nil)
-        navigationItem.backBarButtonItem = backButtonItem
 
         view.addSubview(myPageView)
         myPageView.snp.makeConstraints { make in
@@ -56,16 +69,11 @@ final class MyPageViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        // 마이페이지에서는 내비게이션 바가 보이지 않도록 한다.
-        navigationController?.setNavigationBarHidden(true, animated: false)
-        // 마이페이지에서는 탭 바가 보이도록 한다.
-        tabBarController?.tabBar.isHidden = false
+        navigationItem.title = "My Page"
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        // 마이페이지에서 설정 화면으로 넘어갈 때는 내비게이션 바가 보이도록 해준다.
-        navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
     // 프로필 이미지뷰를 업데이트해주는 메서드

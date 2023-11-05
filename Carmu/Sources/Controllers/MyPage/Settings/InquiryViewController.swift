@@ -18,7 +18,8 @@ final class InquiryViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
-        navigationItem.title = "문의하기"
+        navigationController?.navigationBar.topItem?.title = "" // 백버튼 텍스트 제거
+
         view.addSubview(inquiryView)
         inquiryView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -30,8 +31,8 @@ final class InquiryViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        navigationItem.backButtonTitle = ""
-        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+        super.viewWillAppear(animated)
+        navigationItem.title = "문의하기"
     }
 
     // MARK: - 이메일 작성 화면 띄우기
