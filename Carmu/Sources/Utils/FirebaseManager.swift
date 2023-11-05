@@ -39,7 +39,7 @@ class FirebaseManager {
             deviceToken: fcmToken,
             nickname: nickname,
             email: email,
-            profileType: .profileBlue // 기본 프로필
+            profileImageColor: .blue // 기본 프로필
         )
         do {
             let data = try encoder.encode(user)
@@ -110,18 +110,17 @@ class FirebaseManager {
         }
     }
 
-    // TODO: - ProfileChangeViewController에 적용해보기
     /**
-     DB에서 유저의 프로필 타입 업데이트
+     DB에서 유저의 프로필 이미지 값 업데이트
      - 호출되는 곳
         - ProfileChangeViewController
      */
-    func updateUserProfileType(type: ProfileType) {
+    func updateUserProfileImageColor(imageColor: ProfileImageColor) {
         guard let databasePath = User.databasePathWithUID else {
             return
         }
-        let profileType = type.rawValue
-        databasePath.child("profileType").setValue(profileType as NSString)
+        let profileImageColorValue = imageColor.rawValue
+        databasePath.child("profileImageColor").setValue(profileImageColorValue as NSString)
     }
 }
 
@@ -205,7 +204,7 @@ extension FirebaseManager {
                 deviceToken: snapshotValue["deviceToken"] as? String ?? "",
                 nickname: snapshotValue["nickname"] as? String ?? "",
                 email: snapshotValue["email"] as? String,
-                profileType: .profileBlue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
+                profileImageColor: .blue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
             )
             completion(friend)
         }
@@ -266,7 +265,7 @@ extension FirebaseManager {
                         deviceToken: dict["deviceToken"] as? String ?? "",
                         nickname: dict["nickname"] as? String ?? "",
                         email: dict["email"] as? String,
-                        profileType: .profileBlue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
+                        profileImageColor: .blue // TODO: - 일단 기본 프로필로 불러오게 했는데 수정 필요함
                     )
                     completion(searchedFriend)
                     return
@@ -340,10 +339,16 @@ extension FirebaseManager {
 
     /**
      DB의 Crew에 새로운 크루를 추가하는 메서드
-     - 호출되는 곳
-        - XXX
+        호출되는 곳
+            FinalConfirmViewController
      */
-    func addCrew(_ crewAndPoint: [String: String], _ crewName: String) {
+    func addCrew(
+        crewName: String,
+        startingPoint: Point,
+        destination: Point,
+        inviteCode: String,
+        repeatDay: [Int]
+    ) {
         guard let key = Database.database().reference().child("crew").childByAutoId().key else {
             return
         }
@@ -355,15 +360,14 @@ extension FirebaseManager {
             // crewImage 추가 필요
             captainID: captainID,
             crews: [],
-            // 이하 추가 필요
-            points: [],
+            startingPoint: startingPoint,
+            destination: destination,
+            inviteCode: inviteCode,
+            repeatDay: repeatDay,
             sessionStatus: true,
             crewStatus: [:]
         )
         setCrewToUser(captainID, key)
-        for (crewKey, _) in crewAndPoint {
-            setCrewToUser(crewKey, key)
-        }
 
         do {
             let data = try JSONEncoder().encode(newCrew)
@@ -379,8 +383,9 @@ extension FirebaseManager {
 
     /**
      크루 만들기에서 추가된 탑승자들의 User/crewList에 crewID를 추가하는 메서드
-     - 호출되는 곳
-        -
+        호출되는 곳
+            BoardingPointSelectViewController
+            FinalConfirmViewController
      */
     func setCrewToUser(_ userID: String, _ crewID: String) {
         let databaseRef = Database.database().reference().child("users/\(userID)/crewList")
@@ -434,13 +439,25 @@ extension FirebaseManager {
             guard let snapshotValue = snapshot?.value as? [String: Any] else {
                 return
             }
+
+            let defaultPoint = Point(
+                name: "C5",
+                detailAddress: "C5",
+                pointLat: 0.0,
+                pointLng: 0.0,
+                arrivalTime: Date(),
+                crews: []
+            )
+
             let crew = Crew(
                 id: snapshotValue["id"] as? String ?? "",
                 name: snapshotValue["name"] as? String ?? "",
                 captainID: snapshotValue["captainID"] as? UserIdentifier ?? "",
-                // 이하 추가 필요
                 crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""],
-                points: snapshotValue["points"] as? [Point] ?? [],
+                startingPoint: snapshotValue["startingPoint"] as? Point ?? defaultPoint,
+                destination: snapshotValue["destination"] as? Point ?? defaultPoint,
+                inviteCode: snapshotValue["inviteCode"] as? String ?? "",
+                repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                 sessionStatus: snapshotValue["sessionStatus"] as? Bool ?? true,
                 crewStatus: snapshotValue["crewStatus"] as? [UserIdentifier: Bool] ?? [:]
             )

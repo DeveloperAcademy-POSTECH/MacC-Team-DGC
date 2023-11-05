@@ -17,13 +17,13 @@ final class StopoverPointCheckView: UIView {
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "경유지")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "가 있으신가요?")
 
-    private let noStopoverButton = LargeSelectButton(
+    let noStopoverButton = LargeSelectButton(
         topTitle: "아니오",
         bottomTitle: "넘어가기",
         imageName: "NoStopoverPoint"
     )
 
-    private let yesStopoverButton = LargeSelectButton(
+    let yesStopoverButton = LargeSelectButton(
         topTitle: "네",
         bottomTitle: "경유지 추가하기",
         imageName: "YesStopoverPoint"
@@ -57,7 +57,7 @@ final class StopoverPointCheckView: UIView {
     private func setAutoLayout() {
 
         titleStackView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(78)
+            make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
         }
 

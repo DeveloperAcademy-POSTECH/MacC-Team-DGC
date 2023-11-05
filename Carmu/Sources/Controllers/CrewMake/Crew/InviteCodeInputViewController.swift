@@ -64,6 +64,8 @@ extension InviteCodeInputViewController {
 
     @objc private func nextButtonTapped() {
         // TODO: 코드 유효성 텍스트 라벨 표시 로직 추가 필요
+        let viewController = BoardingPointSelectViewController()
+        navigationController?.pushViewController(viewController, animated: true)
         inviteCodeInputView.conformCodeLabel.isHidden = false
     }
 

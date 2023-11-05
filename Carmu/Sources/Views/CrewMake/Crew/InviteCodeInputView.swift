@@ -126,7 +126,7 @@ final class InviteCodeInputView: UIView {
 
     private func setAutoLayout() {
         firstLineTitleStack.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).offset(78)
+            make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
             make.bottom.equalTo(secondLineTitleStack.snp.top)
         }

@@ -27,7 +27,7 @@ final class ProfileChangeView: UIView {
     }()
 
     // 모달 닫기 버튼
-    private let closeButton: UIButton = {
+    let closeButton: UIButton = {
         let closeButton = UIButton()
         closeButton.setImage(UIImage(systemName: "xmark"), for: .normal)
         closeButton.tintColor = UIColor.semantic.accPrimary
@@ -42,15 +42,18 @@ final class ProfileChangeView: UIView {
         return guideLabel
     }()
 
-    // 프로필 타입 선택 콜렉션 뷰
-    private let profileCollectionView: UIView = {
-        let profileCollectionView = UIView()
-        profileCollectionView.backgroundColor = .red
+    // 프로필 이미지 선택 콜렉션 뷰
+    let profileCollectionView: UICollectionView = {
+        let profileCollectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: UICollectionViewFlowLayout()
+        )
+        profileCollectionView.allowsMultipleSelection = false // 복수 선택 허용 X
         return profileCollectionView
     }()
 
     // 저장 버튼
-    private let saveButton: UIButton = {
+    let saveButton: UIButton = {
         let saveButton = UIButton()
         saveButton.backgroundColor = UIColor.semantic.accPrimary
         saveButton.setTitle("저장", for: .normal)
@@ -76,8 +79,8 @@ final class ProfileChangeView: UIView {
         headerBar.addSubview(closeButton)
 
         addSubview(guideLabel)
-        addSubview(profileCollectionView)
         addSubview(saveButton)
+        addSubview(profileCollectionView)
     }
 
     private func setupConstraints() {
@@ -99,33 +102,17 @@ final class ProfileChangeView: UIView {
         guideLabel.snp.makeConstraints { make in
             make.top.equalTo(headerBar.snp.bottom).offset(60)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(profileCollectionView.snp.top).offset(-114)
-        }
-        profileCollectionView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(saveButton.snp.top).offset(-114)
+            make.height.equalTo(34)
         }
         saveButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(80)
+            make.bottom.equalTo(safeAreaLayoutGuide).inset(59)
+            make.height.equalTo(60)
         }
-    }
-}
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct ProfileChangeViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = ProfileChangeViewController
-    func makeUIViewController(context: Context) -> ProfileChangeViewController {
-        return ProfileChangeViewController()
-    }
-    func updateUIViewController(_ uiViewController: ProfileChangeViewController, context: Context) {
-    }
-}
-@available(iOS 13.0.0, *)
-struct ProfileChangeViewPreview: PreviewProvider {
-    static var previews: some View {
-        ProfileChangeViewControllerRepresentable()
+        profileCollectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(272)
+        }
     }
 }

@@ -49,8 +49,7 @@ final class FriendDetailViewController: UIViewController {
         // 이전 친구 리스트 화면에서 전달받은 닉네임과 이미지를 반영
         if let friend = friend {
             friendDetailView.friendNickname.text = friend.nickname
-            let profileType = friend.profileType.rawValue
-            self.friendDetailView.friendImage.image = UIImage(named: profileType)
+            friendDetailView.friendImage.image = UIImage(profileImageColor: friend.profileImageColor)
         }
     }
 
@@ -95,7 +94,7 @@ extension FriendDetailViewController {
 // MARK: - UICollectionViewDataSource 델리게이트 구현
 extension FriendDetailViewController: UICollectionViewDataSource {
 
-    // 컬렉션 뷰의 아이템이 몇개인지
+    // 컬렉션 뷰의 아이템 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 4
     }

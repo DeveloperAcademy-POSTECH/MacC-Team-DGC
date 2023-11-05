@@ -8,20 +8,45 @@
 import Foundation
 
 /**
- id: 해당 Point의 고유 번호
+ id: 해당 Point의 탑승 순서(출발지 0, 도착지 마지막 인덱스)
  name: 해당 지점의 이름
+ detailAddress: 해당 지점의 상세주소
+ pointLat: 해당 지점의 위도
+ pointLng: 해당 지점의 경도
  arrivalTime: 해당 경유지에서 출발하거나 도착하는 시간
  crews: 해당 경유지에서 타는 인원들
  */
 struct Point: Codable {
-    var id: String
     var name: String
+    var detailAddress: String
+    var pointLat: Double
+    var pointLng: Double
     var arrivalTime: Date
     var crews: [UserIdentifier]
 }
 
 // Point 더미 데이터
-let point1 = Point(id: "1", name: "출발지", arrivalTime: Date(), crews: ["ted"])
-let point2 = Point(id: "2", name: "경유지1", arrivalTime: Date(), crews: ["uni", "rei"])
-let point3 = Point(id: "3", name: "경유지2", arrivalTime: Date(), crews: ["rei"])
-let point4 = Point(id: "4", name: "도착지", arrivalTime: Date(), crews: [])
+let point1 = Point(name: "출발지",
+                   detailAddress: "출발지의 상세 주소",
+                   pointLat: 128.00,
+                   pointLng: 62.42,
+                   arrivalTime: Date(),
+                   crews: ["ted"])
+let point2 = Point(name: "경유지1",
+                   detailAddress: "경유지1 상세 주소",
+                   pointLat: 218.214,
+                   pointLng: 63.125,
+                   arrivalTime: Date(),
+                   crews: ["uni", "rei"])
+let point3 = Point(name: "경유지2",
+                   detailAddress: "경유지2 상세 주소",
+                   pointLat: 127.436,
+                   pointLng: 52.662,
+                   arrivalTime: Date(),
+                   crews: ["rei"])
+let point4 = Point(name: "도착지",
+                   detailAddress: "도착지 상세 주소",
+                   pointLat: 127.458,
+                   pointLng: 62.125,
+                   arrivalTime: Date(),
+                   crews: [])
