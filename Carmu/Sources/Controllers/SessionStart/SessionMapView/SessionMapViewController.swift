@@ -8,6 +8,7 @@
 import CoreLocation
 import UIKit
 
+import FirebaseDatabase
 import NMapsMap
 import SnapKit
 
@@ -82,7 +83,13 @@ final class SessionMapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        startUpdatingLocation()
+        if isDriver {
+            startUpdatingLocation()
+        } else {
+            firebaseManager.startObservingDriveLocation { latitude, longitude in
+                self.updateCarMarker(latitide: latitude, longitude: longitude)
+            }
+        }
         showNaverMap()
         showBackButton()
         showQuitButton()
@@ -315,6 +322,13 @@ final class SessionMapViewController: UIViewController {
             toastLabel.removeFromSuperview()
         })
     }
+
+    /// 위도, 경도를 입력받아 자동차의 현재 위치를 맵뷰에서 업데이트
+    func updateCarMarker(latitide: Double, longitude: Double) {
+        carMarker.position = NMGLatLng(lat: latitide, lng: longitude)
+        carMarker.mapView = mapView
+        mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitide, lng: longitude)))
+    }
 }
 
 extension SessionMapViewController: CLLocationManagerDelegate {
@@ -322,16 +336,12 @@ extension SessionMapViewController: CLLocationManagerDelegate {
     // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
-        // 지도상의 자동차 위치 갱신
-        carMarker.position = NMGLatLng(from: location.coordinate)
-        carMarker.mapView = mapView
-        // 카메라 시점도 자동차 위치로 변경
-        mapView.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: location.coordinate)))
+
+        // 운전자화면에서 자동차 마커 위치 변경
+        updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
 
         // 운전자인 경우 DB에 위도, 경도 업데이트
-        if isDriver {
-            firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
-        }
+        firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
     }
 
     // 에러시 호출되는 함수

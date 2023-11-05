@@ -521,8 +521,19 @@ extension FirebaseManager {
 
     func updateDriverCoordinate(coordinate: CLLocationCoordinate2D) {
         // TODO: - 가입되어있는 크루로 연결 필요
-        let firebaseStorageRef = Database.database().reference().child("test")
-        firebaseStorageRef.child("latitude").setValue(coordinate.latitude)
-        firebaseStorageRef.child("longitude").setValue(coordinate.longitude)
+        Database.database().reference().child("test/coordinate").setValue([
+            "latitude": coordinate.latitude,
+            "longitude": coordinate.longitude
+        ])
+    }
+
+    func startObservingDriveLocation(completion: @escaping (Double, Double) -> Void) {
+        Database.database().reference().child("test").observe(.childChanged, with: { snapshot in
+            if let messageData = snapshot.value as? [String: Any],
+               let latitude = messageData["latitude"] as? Double,
+               let longitude = messageData["longitude"] as? Double {
+                completion(latitude, longitude)
+            }
+        })
     }
 }
