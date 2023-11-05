@@ -30,7 +30,7 @@ struct Points {
 final class MapViewController: UIViewController {
 
     private let mapView = NMFMapView()
-    private let detailView = SessionMapDetailView()
+    private let detailView = MapDetailView()
     // 자동차 위치를 표시하기 위한 마커
     private let carMarker = NMFMarker()
     private let locationManager = CLLocationManager()

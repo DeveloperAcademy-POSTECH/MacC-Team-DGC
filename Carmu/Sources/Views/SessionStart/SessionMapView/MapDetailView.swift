@@ -1,5 +1,5 @@
 //
-//  SessionMapDetailView.swift
+//  MapDetailView.swift
 //  Carmu
 //
 //  Created by 허준혁 on 10/22/23.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class SessionMapDetailView: UIView {
+final class MapDetailView: UIView {
 
     private let titleLabel: UILabel = {
         let label = PaddingLabel(padding: UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20))

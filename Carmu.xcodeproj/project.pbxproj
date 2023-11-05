@@ -46,7 +46,7 @@
 		B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */; };
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
 		BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */; };
-		BF0C33022AE50AFB00A6D8FE /* SessionMapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33012AE50AFB00A6D8FE /* SessionMapDetailView.swift */; };
+		BF0C33022AE50AFB00A6D8FE /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */; };
 		BF0C33042AE51E7C00A6D8FE /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */; };
 		BF0C33092AE5239700A6D8FE /* TimeDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33082AE5239700A6D8FE /* TimeDataView.swift */; };
 		BF24481D2AD6D66200F4089A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = BF24481C2AD6D66200F4089A /* FirebaseDatabase */; };
@@ -143,7 +143,7 @@
 		B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		BF0C33012AE50AFB00A6D8FE /* SessionMapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapDetailView.swift; sourceTree = "<group>"; };
+		BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		BF0C33082AE5239700A6D8FE /* TimeDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeDataView.swift; sourceTree = "<group>"; };
 		BF37D9C92AB939A3005331AD /* Carmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -297,7 +297,7 @@
 		BF0C33052AE5217100A6D8FE /* SessionMapView */ = {
 			isa = PBXGroup;
 			children = (
-				BF0C33012AE50AFB00A6D8FE /* SessionMapDetailView.swift */,
+				BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */,
 				BF0C33082AE5239700A6D8FE /* TimeDataView.swift */,
 				BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */,
 			);
@@ -686,7 +686,7 @@
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
-				BF0C33022AE50AFB00A6D8FE /* SessionMapDetailView.swift in Sources */,
+				BF0C33022AE50AFB00A6D8FE /* MapDetailView.swift in Sources */,
 				C9D8E4DE2AF48172007570EE /* TimeSelectView.swift in Sources */,
 				BF0C33092AE5239700A6D8FE /* TimeDataView.swift in Sources */,
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
