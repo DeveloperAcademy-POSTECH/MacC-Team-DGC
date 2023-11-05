@@ -226,7 +226,6 @@
 			isa = PBXGroup;
 			children = (
 				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
-				BFFA10B02AE60FFA003CE661 /* SessionMapView */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
@@ -379,6 +378,7 @@
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
 				C9F43BC72AF214CB00BAA0E3 /* CrewMake */,
 				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
+				BFFA10B02AE60FFA003CE661 /* MapView */,
 				B8A3EFD72AC5F27000433F5C /* MyPage */,
 			);
 			path = Controllers;
@@ -407,13 +407,13 @@
 			path = SessionStart;
 			sourceTree = "<group>";
 		};
-		BFFA10B02AE60FFA003CE661 /* SessionMapView */ = {
+		BFFA10B02AE60FFA003CE661 /* MapView */ = {
 			isa = PBXGroup;
 			children = (
 				16E42C472AC411A20031486E /* MapViewController.swift */,
 				BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */,
 			);
-			path = SessionMapView;
+			path = MapView;
 			sourceTree = "<group>";
 		};
 		C92CFB2B2AC9398B0068273A /* Resources */ = {
