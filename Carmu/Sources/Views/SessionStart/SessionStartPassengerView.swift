@@ -88,20 +88,20 @@ final class PassengerFrontView: UIView {
         return view
     }()
     private lazy var locationLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.carmuFont.headline1
-        lbl.textColor = UIColor.semantic.textPrimary
-        lbl.textAlignment = .center
-        lbl.numberOfLines = 0
-        return lbl
+        let label = UILabel()
+        label.font = UIFont.carmuFont.headline1
+        label.textColor = UIColor.semantic.textPrimary
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
     }()
     private lazy var timeLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.carmuFont.headline1
-        lbl.textColor = UIColor.semantic.textPrimary
-        lbl.textAlignment = .center
-        lbl.numberOfLines = 0
-        return lbl
+        let label = UILabel()
+        label.font = UIFont.carmuFont.headline1
+        label.textColor = UIColor.semantic.textPrimary
+        label.textAlignment = .center
+        label.numberOfLines = 0
+        return label
     }()
 
     // 운행 여부를 알려주는 뷰
@@ -112,17 +112,17 @@ final class PassengerFrontView: UIView {
         return view
     }()
     private lazy var statusImageView: UIImageView = {
-        let img = UIImage(named: "HourglassBlinker")
-        let imageView = UIImageView(image: img)
+        let image = UIImage(named: "HourglassBlinker")
+        let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private lazy var statusLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.carmuFont.subhead3
-        lbl.textColor = UIColor.semantic.textPrimary
-        lbl.textAlignment = .center
-        return lbl
+        let label = UILabel()
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.textPrimary
+        label.textAlignment = .center
+        return label
     }()
 
     // 당일에 운행이 없을 때 나타나는 뷰
@@ -133,18 +133,18 @@ final class PassengerFrontView: UIView {
         return view
     }()
     private lazy var noDriveImage: UIImageView = {
-        let img = UIImage(named: "NoSessionBlinker")
-        let imgView = UIImageView(image: img)
+        let image = UIImage(named: "NoSessionBlinker")
+        let imgView = UIImageView(image: image)
         imgView.contentMode = .scaleAspectFit
         return imgView
     }()
     private lazy var noDriveComment: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "오늘은 카풀을 운행하지 않아요"
-        lbl.font = UIFont.carmuFont.subhead3
-        lbl.textColor = UIColor.semantic.negative
-        lbl.textAlignment = .center
-        return lbl
+        let label = UILabel()
+        label.text = "오늘은 카풀을 운행하지 않아요"
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.negative
+        label.textAlignment = .center
+        return label
     }()
 
     init() {
@@ -252,17 +252,17 @@ final class PassengerFrontView: UIView {
 final class PassengerBackView: UIView {
 
     private lazy var personImage: UIImageView = {
-        let img = UIImage(systemName: "person.fill")
-        let imageView = UIImageView(image: img)
+        let image = UIImage(systemName: "person.fill")
+        let imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.semantic.textPrimary
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private lazy var totalCrewMemeberLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.carmuFont.subhead3
-        lbl.textColor = UIColor.semantic.textPrimary
-        return lbl
+        let label = UILabel()
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.textPrimary
+        return label
     }()
 
     init() {

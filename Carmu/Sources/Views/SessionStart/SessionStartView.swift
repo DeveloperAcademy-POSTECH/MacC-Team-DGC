@@ -3,57 +3,57 @@ import UIKit
 final class SessionStartView: UIView {
 
     lazy var myPageButton: UIButton = {
-        let btn = UIButton()
+        let button = UIButton()
         if let myPageImage = UIImage(named: "myPageButton") {
             let resizedImage = myPageImage.resizedImage(targetSize: CGSize(width: 48, height: 48))
-            btn.setImage(resizedImage, for: .normal)
+            button.setImage(resizedImage, for: .normal)
         }
-        return btn
+        return button
     }()
 
     lazy var topComment: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.carmuFont.headline2
-        lbl.textAlignment = .left
-        lbl.numberOfLines = 0
-        return lbl
+        let label = UILabel()
+        label.font = UIFont.carmuFont.headline2
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        return label
     }()
 
     lazy var notifyComment: UILabel = {
-        let lbl = UILabel()
-        lbl.numberOfLines = 0
-        lbl.textAlignment = .center
-        lbl.font = UIFont.carmuFont.body3Long
-        lbl.textColor = UIColor.semantic.textBody
-        return lbl
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.font = UIFont.carmuFont.body3Long
+        label.textColor = UIColor.semantic.textBody
+        return label
     }()
 
     lazy var individualButton: UIButton = {
-        let btn = UIButton()
-        btn.backgroundColor = UIColor.semantic.negative
-        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        btn.titleLabel?.font = UIFont.carmuFont.headline1
-        btn.layer.cornerRadius = 30
-        return btn
+        let button = UIButton()
+        button.backgroundColor = UIColor.semantic.negative
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.headline1
+        button.layer.cornerRadius = 30
+        return button
     }()
 
     lazy var togetherButton: UIButton = {
-        let btn = UIButton()
-        btn.backgroundColor = UIColor.semantic.accPrimary
-        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        btn.titleLabel?.font = UIFont.carmuFont.headline1
-        btn.layer.cornerRadius = 30
-        return btn
+        let button = UIButton()
+        button.backgroundColor = UIColor.semantic.accPrimary
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.headline1
+        button.layer.cornerRadius = 30
+        return button
     }()
 
     lazy var carpoolStartButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("여정 지금 시작하기", for: .normal)
-        btn.titleLabel?.font = UIFont.carmuFont.headline2
-        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        btn.layer.cornerRadius = 30
-        btn.backgroundColor = UIColor.semantic.accPrimary
-        return btn
+        let button = UIButton()
+        button.setTitle("여정 지금 시작하기", for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.headline2
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.layer.cornerRadius = 30
+        button.backgroundColor = UIColor.semantic.accPrimary
+        return button
     }()
 
     override init(frame: CGRect) {
