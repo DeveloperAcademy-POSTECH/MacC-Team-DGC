@@ -15,10 +15,10 @@ final class MyPageView: UIView {
     lazy var userInfoView: UIView = {
         let userInfoView = UIView()
         userInfoView.layer.cornerRadius = 16
-        userInfoView.layer.shadowColor = UIColor.black.cgColor
-        userInfoView.layer.shadowOpacity = 0.5
+        userInfoView.layer.shadowColor = UIColor.theme.blue6?.cgColor
+        userInfoView.layer.shadowOpacity = 0.2
         userInfoView.layer.shadowOffset = CGSize(width: 0, height: 1)
-        userInfoView.layer.shadowRadius = 5
+        userInfoView.layer.shadowRadius = 8
         userInfoView.backgroundColor = UIColor.semantic.backgroundDefault
         return userInfoView
     }()
