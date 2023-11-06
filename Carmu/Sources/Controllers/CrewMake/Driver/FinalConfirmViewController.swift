@@ -18,6 +18,10 @@ final class FinalConfirmViewController: UIViewController {
         view.backgroundColor = UIColor.semantic.backgroundDefault
         navigationItem.rightBarButtonItem = RightNavigationBarButton(buttonTitle: "수정하기")
 
+        finalConfirmView.daySelectButton.setTitle(
+            setDayButtonTitle([0, 1, 2, 3, 4]),
+            for: .normal
+        )
         finalConfirmView.nextButton.addTarget(
             self,
             action: #selector(nextButtonTapped),
@@ -49,7 +53,6 @@ extension FinalConfirmViewController {
             "우아한", "소중한", "예쁜", "인기있는", "우아한", "아름다운", "가까운", "훈훈한", "좋아요",
             "뒷목잡는", "막강한", "웃긴", "재미있는", "선남선녀", "우주최강", "날로먹는", "간편한"
         ]
-
         return "\(randomNameList.randomElement() ?? "좋아요") 카풀팟"
     }
 
@@ -65,8 +68,35 @@ extension FinalConfirmViewController {
             let randomCharacter = letters[letters.index(letters.startIndex, offsetBy: randomIndex)]
             randomString.append(randomCharacter)
         }
-
         return randomString
+    }
+
+    /**
+     상단 요일버튼 String 생성 메서드
+     */
+    private func setDayButtonTitle(_ selectedDay: [Int]) -> String {
+        let days = ["월", "화", "수", "목", "금", "토", "일"]
+        let selectedDay = selectedDay.sorted(by: <)
+        var returnString = [String]()
+
+        switch selectedDay {
+        case [0, 1, 2, 3, 4]:
+            returnString.append("주중")
+        case [5, 6]:
+            returnString.append("주말")
+        case [0, 1, 2, 3, 4, 5, 6]:
+            returnString.append("매일")
+        default:
+            for index in selectedDay {
+                returnString.append(days[index])
+            }
+        }
+
+        if returnString.count == 1 {
+            return returnString[0]
+        } else {
+            return returnString.joined(separator: ", ")
+        }
     }
 }
 

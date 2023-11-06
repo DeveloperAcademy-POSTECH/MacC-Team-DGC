@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 final class FinalConfirmView: UIView {
 
     private lazy var firstLineTitleStack = UIStackView()
@@ -15,19 +17,26 @@ final class FinalConfirmView: UIView {
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "확인")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "해주세요")
 
-    lazy var containerStack = UIStackView()
-    lazy var colorLine = CrewMakeUtil.createColorLineView()
-    var customTableStack = UIStackView()
+    let daySelectButton: DaySelectButton = {
+        let button = DaySelectButton(buttonTitle: "")
+        button.backgroundColor = UIColor.semantic.backgroundSecond
+        button.setTitleColor(UIColor.semantic.textBody, for: .normal)
+        button.titleLabel?.numberOfLines = 1
+        button.contentHorizontalAlignment = .center
+        return button
+    }()
+    private let containerStack = UIStackView()
+    private let colorLine = CrewMakeUtil.createColorLineView()
+    private var customTableStack = UIStackView()
     lazy var customStackCell: [StopoverSelectButton] = {
         var buttons: [StopoverSelectButton] = []
 
-        for (index, address) in ["출발지 주소", "경유지 주소", "경유지 2주소 입니다dddfdfd", "도착지 주소"].enumerated() {
+        for (index, address) in ["출발지 주소", "경유지 주소", "경유지 2의 주소지 주소지 입니다.", "도착지 주소"].enumerated() {
             let button = StopoverSelectButton(address: address, time: Date())
             button.isEnabled = false
             button.tag = index
             buttons.append(button)
         }
-
         return buttons
     }()
 
@@ -42,7 +51,6 @@ final class FinalConfirmView: UIView {
             for: .highlighted
         )
         button.layer.cornerRadius = 30
-
         return button
     }()
 
@@ -67,6 +75,7 @@ final class FinalConfirmView: UIView {
         customTableStack.distribution = .equalSpacing
 
         addSubview(firstLineTitleStack)
+        addSubview(daySelectButton)
         addSubview(containerStack)
         addSubview(nextButton)
 
@@ -86,6 +95,13 @@ final class FinalConfirmView: UIView {
         firstLineTitleStack.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
+        }
+
+        daySelectButton.snp.makeConstraints { make in
+            make.bottom.equalTo(containerStack.snp.top).offset(-16)
+            make.trailing.equalToSuperview().inset(20)
+            make.width.equalTo(daySelectButton.titleLabel?.snp.width ?? 0).offset(27.5)
+            make.height.equalTo(30)
         }
 
         containerStack.snp.makeConstraints { make in
