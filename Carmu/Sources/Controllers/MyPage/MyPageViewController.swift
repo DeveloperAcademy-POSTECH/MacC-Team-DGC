@@ -28,6 +28,8 @@ final class MyPageViewController: UIViewController {
         appearance.backgroundColor = UIColor.semantic.backgroundDefault
         appearance.shadowColor = .red
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.compactAppearance = appearance
         // 백버튼 텍스트 제거
         navigationController?.navigationBar.topItem?.title = ""
         // 설정 버튼 추가

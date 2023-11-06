@@ -29,20 +29,8 @@ final class MyPageView: UIView {
         userInfoView.layer.shadowOpacity = 0.5
         userInfoView.layer.shadowOffset = CGSize(width: 0, height: 1)
         userInfoView.layer.shadowRadius = 5
+        userInfoView.backgroundColor = UIColor.semantic.backgroundDefault
         return userInfoView
-    }()
-
-    lazy var gradient: CAGradientLayer = {
-        let gradient = CAGradientLayer()
-        gradient.cornerRadius = 16
-        gradient.colors = [
-            UIColor.theme.blue6!.cgColor,
-            UIColor.theme.acua5!.cgColor
-        ]
-        gradient.locations = [0.0, 1.0]
-        gradient.startPoint = CGPoint(x: 0, y: 0.5)
-        gradient.endPoint = CGPoint(x: 1, y: 1)
-        return gradient
     }()
 
     // MARK: - 닉네임 스택
@@ -58,7 +46,7 @@ final class MyPageView: UIView {
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
         label.text = "홍길동"
-        label.textColor = .white
+        label.textColor = UIColor.semantic.textPrimary
         label.font = UIFont.boldSystemFont(ofSize: 28)
         return label
     }()
@@ -66,15 +54,23 @@ final class MyPageView: UIView {
     // 닉네임 편집 버튼
     lazy var editButton: UIButton = {
         let button = UIButton()
+        // 폰트 설정
+        let buttonFont = UIFont.systemFont(ofSize: 12)
         // 버튼 텍스트 설정
-        var titleAttr = AttributedString("닉네임 편집하기✏️")
-        titleAttr.font = UIFont.systemFont(ofSize: 12)
+        var titleAttr = AttributedString("닉네임 편집하기 ")
+        titleAttr.font = buttonFont
+        // SF Symbol 설정
+        let symbolConfiguration = UIImage.SymbolConfiguration(font: buttonFont)
+        let symbolImage = UIImage(systemName: "pencil", withConfiguration: symbolConfiguration)
+
         // 버튼 Configuration 설정
         var config = UIButton.Configuration.filled()
         config.attributedTitle = titleAttr
+        config.image = symbolImage
+        config.imagePlacement = .trailing
         config.background.cornerRadius = 12
-        config.baseBackgroundColor = UIColor.theme.blue1?.withAlphaComponent(0.2)
-        config.baseForegroundColor = UIColor.semantic.textSecondary
+        config.baseBackgroundColor = UIColor.theme.blueTrans20?.withAlphaComponent(0.2)
+        config.baseForegroundColor = UIColor.semantic.textTertiary
         let verticalPad: CGFloat = 4.0
         let horizontalPad: CGFloat = 8.0
         config.contentInsets = NSDirectionalEdgeInsets(
@@ -191,7 +187,7 @@ final class MyPageView: UIView {
     override func draw(_ rect: CGRect) {
         addSubview(userInfoView)
 
-        userInfoView.layer.addSublayer(gradient)
+//        userInfoView.layer.addSublayer(gradient)
         userInfoView.addSubview(settingsButton)
         userInfoView.addSubview(nicknameStack)
 
@@ -218,15 +214,12 @@ final class MyPageView: UIView {
     // 상위 뷰의 크기가 변경되었을 때 하위 뷰에 적용되는 변경사항을 반영
     override func layoutSubviews() {
         super.layoutSubviews()
-        // userInfoView의 사이즈가 정해지고 나면 gradient.frame을 맞춰준다.
-        gradient.frame = userInfoView.bounds
     }
 
     // MARK: - 오토 레이아웃 설정 메서드
     func setAutoLayout() {
         userInfoView.snp.makeConstraints { make in
-            // userInfoView에 cornerRadius를 주면서 상단 모서리가 잘리는 부분을 없애주기 위해 화면 크기보다 위로 조금 넘치게 설정
-            make.top.equalToSuperview().inset(-20)
+            make.top.equalTo(safeAreaLayoutGuide).inset(-20)
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(340)
         }
