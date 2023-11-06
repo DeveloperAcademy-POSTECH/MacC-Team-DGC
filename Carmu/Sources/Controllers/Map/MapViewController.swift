@@ -31,8 +31,7 @@ final class MapViewController: UIViewController {
 
     private let mapView = MapView()
     private let detailView = MapDetailView()
-    // 자동차 위치를 표시하기 위한 마커
-    private let carMarker = NMFMarker()
+
     private let locationManager = CLLocationManager()
     private let points = Points()
 
@@ -59,7 +58,7 @@ final class MapViewController: UIViewController {
             startUpdatingLocation()
         } else {
             firebaseManager.startObservingDriveLocation { latitude, longitude in
-                self.updateCarMarker(latitide: latitude, longitude: longitude)
+                self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
             }
         }
         showNaverMap()
@@ -236,13 +235,6 @@ final class MapViewController: UIViewController {
             toastLabel.removeFromSuperview()
         })
     }
-
-    /// 위도, 경도를 입력받아 자동차의 현재 위치를 맵뷰에서 업데이트
-    func updateCarMarker(latitide: Double, longitude: Double) {
-        carMarker.position = NMGLatLng(lat: latitide, lng: longitude)
-        carMarker.mapView = mapView.naverMap
-        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitide, lng: longitude)))
-    }
 }
 
 extension MapViewController: CLLocationManagerDelegate {
@@ -251,7 +243,7 @@ extension MapViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         // 운전자화면에서 자동차 마커 위치 변경
-        updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
+        mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
         // 운전자인 경우 DB에 위도, 경도 업데이트
         firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
     }

@@ -13,6 +13,8 @@ final class MapView: UIView {
 
     let naverMap = NMFMapView()
 
+    private let carMarker = NMFMarker()
+
     let startingPoint = {
         let marker = NMFMarker()
         marker.iconImage = NMFOverlayImage(name: "startingPoint")
@@ -92,5 +94,12 @@ final class MapView: UIView {
             pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
             destination.iconImage = NMFOverlayImage(name: "destinationTapped")
         }
+    }
+
+    /// 위도, 경도를 입력받아 자동차의 현재 위치를 맵뷰에서 업데이트
+    func updateCarMarker(latitide: Double, longitude: Double) {
+        carMarker.position = NMGLatLng(lat: latitide, lng: longitude)
+        carMarker.mapView = naverMap
+        naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitide, lng: longitude)))
     }
 }
