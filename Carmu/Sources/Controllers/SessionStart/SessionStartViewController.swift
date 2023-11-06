@@ -100,10 +100,10 @@ extension SessionStartViewController {
     }
 
     private func settingData() {
-        if crewData?.sessionStatus == true {  // 당일 운행을 할 때
+        if crewData?.sessionStatus == .accept {  // 당일 운행을 할 때
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
-        } else {    // 당일 운행을 하지 않을 때
+        } else if crewData?.sessionStatus == .decline {    // 당일 운행을 하지 않을 때
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
 
@@ -121,6 +121,9 @@ extension SessionStartViewController {
             sessionStartView.individualButton.isEnabled = false
             sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
             sessionStartView.togetherButton.isEnabled = false
+        } else {    // 미응답일 때
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
         }
     }
 }
