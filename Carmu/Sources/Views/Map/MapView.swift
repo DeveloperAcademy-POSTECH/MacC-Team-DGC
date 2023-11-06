@@ -48,12 +48,25 @@ final class MapView: UIView {
         return marker
     }()
 
+    let backButton = {
+        let backButton = UIButton()
+        backButton.setImage(UIImage(named: "mapViewBackButton"), for: .normal)
+        return backButton
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
         addSubview(naverMap)
         naverMap.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+
+        addSubview(backButton)
+        backButton.snp.makeConstraints { make in
+            make.leading.equalTo(20)
+            make.top.equalTo(50)
+            make.width.height.equalTo(60)
         }
     }
 

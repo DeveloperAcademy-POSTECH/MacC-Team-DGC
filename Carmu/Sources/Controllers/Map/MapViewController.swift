@@ -44,14 +44,6 @@ final class MapViewController: UIViewController {
         return pathOverlay
     }()
 
-    private lazy var backButton = {
-        let backButton = UIButton(type: .custom, primaryAction: UIAction(handler: { _ in
-            self.dismiss(animated: true)
-        }))
-        backButton.setImage(UIImage(named: "mapViewBackButton"), for: .normal)
-        return backButton
-    }()
-
     override func viewDidLoad() {
         super.viewDidLoad()
         if isDriver {
@@ -62,11 +54,15 @@ final class MapViewController: UIViewController {
             }
         }
         showNaverMap()
-        showBackButton()
         showPickuplocations()
         touchMarker(location: .startingPoint, address: "기숙사 18동")
         fetchDirections()
+        mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
+    }
+
+    @objc private func backButtonDidTap() {
+        dismiss(animated: true)
     }
 
     @objc private func showNoticeLateModal() {
@@ -84,15 +80,6 @@ final class MapViewController: UIViewController {
         mapView.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
             make.bottom.equalTo(detailView.snp.top)
-        }
-    }
-
-    private func showBackButton() {
-        view.addSubview(backButton)
-        backButton.snp.makeConstraints { make in
-            make.leading.equalTo(20)
-            make.top.equalTo(50)
-            make.width.height.equalTo(60)
         }
     }
 
