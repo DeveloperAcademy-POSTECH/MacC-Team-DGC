@@ -47,7 +47,6 @@ extension RepeatDaySelectView {
 
     private func setupViews() {
         secondLineTitleStack.axis = .horizontal
-
         secondLineTitleStack.addArrangedSubview(titleLabel2)
         secondLineTitleStack.addArrangedSubview(titleLabel3)
 
@@ -93,7 +92,6 @@ extension RepeatDaySelectView {
             make.top.equalTo(weekdayButton.snp.bottom).offset(24)
             make.bottom.equalTo(nextButton.snp.top).offset(-40)
             make.horizontalEdges.equalToSuperview().inset(20)
-
         }
 
         nextButton.snp.makeConstraints { make in

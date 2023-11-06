@@ -21,7 +21,7 @@ final class RepeatDaySelectViewController: UIViewController {
         repeatDaySelectView.dayTableView.dataSource = self
         repeatDaySelectView.dayTableView.allowsMultipleSelection = true
         repeatDaySelectView.dayTableView.register(
-            RepeatDaySelectTableViewCell.self,
+            UITableViewCell.self,
             forCellReuseIdentifier: "repeatDayCell"
         )
 
