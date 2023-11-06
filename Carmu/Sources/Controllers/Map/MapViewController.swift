@@ -54,8 +54,6 @@ final class MapViewController: UIViewController {
             }
         }
         showNaverMap()
-        showPickuplocations()
-        touchMarker(location: .startingPoint, address: "기숙사 18동")
         fetchDirections()
         mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
@@ -94,39 +92,6 @@ final class MapViewController: UIViewController {
         locationManager.requestWhenInUseAuthorization()
         // 위도, 경도 정보 가져오기 시작
         locationManager.startUpdatingLocation()
-    }
-
-    private func showPickuplocations() {
-        mapView.startingPoint.touchHandler = { (_: NMFOverlay) -> Bool in
-            self.touchMarker(location: .startingPoint, address: "기숙사 18동")
-            return true
-        }
-
-        if let coordinate = points.pickupLocation1 {
-            mapView.pickupLocation1.touchHandler = { (_: NMFOverlay) -> Bool in
-                self.touchMarker(location: .pickupLocation1, address: "테드집")
-                return true
-            }
-        }
-
-        if let coordinate = points.pickupLocation2 {
-            mapView.pickupLocation2.touchHandler = { (_: NMFOverlay) -> Bool in
-                self.touchMarker(location: .pickupLocation2, address: "롯데리아")
-                return true
-            }
-        }
-
-        if let coordinate = points.pickupLocation3 {
-            mapView.pickupLocation3.touchHandler = { (_: NMFOverlay) -> Bool in
-                self.touchMarker(location: .pickupLocation3, address: "미정")
-                return true
-            }
-        }
-
-        mapView.destination.touchHandler = { (_: NMFOverlay) -> Bool in
-            self.touchMarker(location: .destination, address: "애플 디벨로퍼 아카데미")
-            return true
-        }
     }
 
     private func fetchDirections() {
@@ -176,11 +141,6 @@ final class MapViewController: UIViewController {
             }
         }
         task.resume()
-    }
-
-    private func touchMarker(location: PickupLocation, address: String) {
-        mapView.changeMarkerColor(location: location)
-        detailView.setDetailView(location: location, address: address)
     }
 
     // Toast 알림 띄워주기
