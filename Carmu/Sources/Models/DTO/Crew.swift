@@ -37,30 +37,30 @@ struct Crew: Codable {
 //    // 데이터가 없을 때
 //    let crewData: Crew? = nil
 
-    // 데이터가 있을 때
-    let crewData: Crew? = Crew(
-        id: "1",
-        name: "그룹 이름111",
-        captainID: "ted",
-        crews: ["uni", "rei", "bazzi"],
-        startingPoint: Point(
-            name: "포항터미널",
-            detailAddress: "경상북도 포항시 남구 중흥로 85",
-            latitude: 36.0133,
-            longitude: 129.3496,
-            arrivalTime: Date(),
-            crews: []
-        ),
-        destination: Point(
-            name: "C5",
-            detailAddress: "경상북도 포항시 남구 지곡로 80",
-            latitude: 36.0141,
-            longitude: 129.3258,
-            arrivalTime: Date(),
-            crews: []
-        ),
-        inviteCode: "0101010",
-        repeatDay: [1, 2, 3, 4, 5],
-        sessionStatus: true,
-        crewStatus: ["uni": false, "rei": false, "bazzi": false]
-    )
+// 데이터가 있을 때
+let crewData: Crew? = Crew(
+    id: "1",
+    name: "그룹 이름111",
+    captainID: "ted",
+    crews: ["uni", "rei", "bazzi"],
+    startingPoint: Point(
+        name: "포항터미널",
+        detailAddress: "경상북도 포항시 남구 중흥로 85",
+        latitude: 36.0133,
+        longitude: 129.3496,
+        arrivalTime: Date(),
+        crews: []
+    ),
+    destination: Point(
+        name: "C5",
+        detailAddress: "경상북도 포항시 남구 지곡로 80",
+        latitude: 36.0141,
+        longitude: 129.3258,
+        arrivalTime: Date(),
+        crews: []
+    ),
+    inviteCode: "0101010",
+    repeatDay: [1, 2, 3, 4, 5],
+    sessionStatus: true,
+    crewStatus: ["uni": false, "rei": false, "bazzi": false]
+)

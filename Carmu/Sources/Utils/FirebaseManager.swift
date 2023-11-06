@@ -464,7 +464,6 @@ extension FirebaseManager {
             )
             completion(crew)
         }
-
     }
 }
 

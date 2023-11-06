@@ -13,7 +13,6 @@ final class TimeSelectCellView: UIView {
         let label = UILabel()
         label.textColor = UIColor.semantic.textPrimary
         label.font = UIFont.carmuFont.headline1
-
         return label
     }()
 
@@ -21,7 +20,6 @@ final class TimeSelectCellView: UIView {
         let label = UILabel()
         label.textColor = UIColor.semantic.textPrimary
         label.font = UIFont.carmuFont.body1
-
         return label
     }()
 
@@ -34,7 +32,6 @@ final class TimeSelectCellView: UIView {
         button.titleLabel?.font = UIFont.carmuFont.subhead3
         button.layer.cornerRadius = 4
         button.clipsToBounds = true
-
         return button
     }()
 
@@ -49,14 +46,24 @@ final class TimeSelectCellView: UIView {
         addressLabel.text = address
         timeLabel.text = isStart ? "출발" : "도착"
         detailTimeButton.setTitle(Date.formattedDate(from: time, dateFormat: "aa hh:mm"), for: .normal)
+        setupUI()
+        setupConstraints()
+    }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    private func setupUI() {
         addSubview(addressLabel)
         addSubview(timeLabel)
         addSubview(detailTimeButton)
+    }
 
+    private func setupConstraints() {
         addressLabel.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
-            make.leading.equalToSuperview().inset(20)
+            make.leading.equalToSuperview()
             make.width.equalTo(150)
         }
 
@@ -71,9 +78,5 @@ final class TimeSelectCellView: UIView {
             make.width.equalTo(84)
             make.height.equalTo(30)
         }
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
