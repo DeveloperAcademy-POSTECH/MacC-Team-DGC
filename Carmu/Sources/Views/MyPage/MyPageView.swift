@@ -78,7 +78,7 @@ final class MyPageView: UIView {
     // MARK: - 프로필 이미지
     lazy var profileImageView: UIImageView = {
         let profileImageView = UIImageView()
-        profileImageView.image = UIImage(profileImageColor: .blue)
+        profileImageView.image = UIImage(myPageImageColor: .blue)
         profileImageView.contentMode = .scaleAspectFit
         // TODO: - 이미지 프레임 추후 비율에 맞게 수정 필요
         let size = CGFloat(80)

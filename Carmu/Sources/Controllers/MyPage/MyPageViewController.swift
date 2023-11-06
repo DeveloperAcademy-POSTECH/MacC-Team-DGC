@@ -88,7 +88,7 @@ final class MyPageViewController: UIViewController {
     // 프로필 이미지뷰를 업데이트해주는 메서드
     func updateProfileImageView(profileImageColor: ProfileImageColor) {
         print("프로필 이미지 뷰 업데이트!!!")
-        myPageView.profileImageView.image = UIImage(profileImageColor: profileImageColor)
+        myPageView.profileImageView.image = UIImage(myPageImageColor: profileImageColor)
     }
 }
 
