@@ -19,7 +19,7 @@ final class MapView: UIView {
 
     let startingPoint = {
         let marker = NMFMarker()
-        marker.iconImage = NMFOverlayImage(name: "startingPoint")
+        marker.iconImage = NMFOverlayImage(name: "startingPointTapped")
         return marker
     }()
 
@@ -46,7 +46,7 @@ final class MapView: UIView {
 
     let destination = {
         let marker = NMFMarker()
-        marker.iconImage = NMFOverlayImage(name: "destination")
+        marker.iconImage = NMFOverlayImage(name: "destinationTapped")
         return marker
     }()
 
@@ -118,41 +118,6 @@ final class MapView: UIView {
 
         destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
         destination.mapView = naverMap
-    }
-
-    func changeMarkerColor(location: PickupLocation) {
-        switch location {
-        case .startingPoint:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPointTapped")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
-            destination.iconImage = NMFOverlayImage(name: "destination")
-        case .pickupLocation1:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1Tapped")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
-            destination.iconImage = NMFOverlayImage(name: "destination")
-        case .pickupLocation2:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2Tapped")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
-            destination.iconImage = NMFOverlayImage(name: "destination")
-        case .pickupLocation3:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3Tapped")
-            destination.iconImage = NMFOverlayImage(name: "destination")
-        case .destination:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
-            destination.iconImage = NMFOverlayImage(name: "destinationTapped")
-        }
     }
 
     /// 위도, 경도를 입력받아 자동차의 현재 위치를 맵뷰에서 업데이트
