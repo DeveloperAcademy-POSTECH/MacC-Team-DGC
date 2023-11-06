@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 // MARK: - 내 정보 탭 화면 뷰 컨트롤러
 final class MyPageViewController: UIViewController {
 
@@ -79,10 +81,6 @@ final class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "My Page"
-    }
-
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
     }
 
     // 프로필 이미지뷰를 업데이트해주는 메서드
