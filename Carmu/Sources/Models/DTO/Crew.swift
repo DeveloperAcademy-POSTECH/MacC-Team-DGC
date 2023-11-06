@@ -14,6 +14,8 @@ import Foundation
  points: 출발, 경유, 도착지의 Point 모델 배열
  inviteCode: 초대코드
  repeatDay: 반복요일 저장 Int 배열(일: 0 ~ 토: 6)
+ sessionStatus: 당일 출발 여부
+ crewStatus: 크루원의 출석 여부
  */
 struct Crew: Codable {
     var id: String
@@ -27,6 +29,8 @@ struct Crew: Codable {
     var destination: Point
     var inviteCode: String
     var repeatDay: [Int]
+    var sessionStatus: Bool
+    var crewStatus: [UserIdentifier: Bool]
 }
 
 // 더미 데이터
@@ -42,19 +46,21 @@ struct Crew: Codable {
         startingPoint: Point(
             name: "포항터미널",
             detailAddress: "경상북도 포항시 남구 중흥로 85",
-            pointLat: 36.0133,
-            pointLng: 129.3496,
+            latitude: 36.0133,
+            longitude: 129.3496,
             arrivalTime: Date(),
             crews: []
         ),
         destination: Point(
             name: "C5",
             detailAddress: "경상북도 포항시 남구 지곡로 80",
-            pointLat: 36.0141,
-            pointLng: 129.3258,
+            latitude: 36.0141,
+            longitude: 129.3258,
             arrivalTime: Date(),
             crews: []
         ),
         inviteCode: "0101010",
-        repeatDay: [1, 2, 3, 4, 5]
+        repeatDay: [1, 2, 3, 4, 5],
+        sessionStatus: true,
+        crewStatus: ["uni": false, "rei": false, "bazzi": false]
     )

@@ -364,7 +364,9 @@ extension FirebaseManager {
             startingPoint: startingPoint,
             destination: destination,
             inviteCode: inviteCode,
-            repeatDay: repeatDay
+            repeatDay: repeatDay,
+            sessionStatus: true,
+            crewStatus: [:]
         )
         setCrewToUser(captainID, key)
 
@@ -442,8 +444,8 @@ extension FirebaseManager {
             let defaultPoint = Point(
                 name: "C5",
                 detailAddress: "C5",
-                pointLat: 0.0,
-                pointLng: 0.0,
+                latitude: 0.0,
+                longitude: 0.0,
                 arrivalTime: Date(),
                 crews: []
             )
@@ -456,7 +458,9 @@ extension FirebaseManager {
                 startingPoint: snapshotValue["startingPoint"] as? Point ?? defaultPoint,
                 destination: snapshotValue["destination"] as? Point ?? defaultPoint,
                 inviteCode: snapshotValue["inviteCode"] as? String ?? "",
-                repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5]
+                repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+                sessionStatus: snapshotValue["sessionStatus"] as? Bool ?? true,
+                crewStatus: snapshotValue["crewStatus"] as? [UserIdentifier: Bool] ?? [:]
             )
             completion(crew)
         }

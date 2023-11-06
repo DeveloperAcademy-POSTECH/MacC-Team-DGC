@@ -82,13 +82,13 @@ extension SessionStartNoCrewView {
 final class NoCrewFrontView: UIView {
 
     private lazy var frontImage: UIImageView = {
-        let img = UIImage(named: "NoCrewBlinker")
-        let imageView = UIImageView(image: img)
+        let image = UIImage(named: "NoCrewBlinker")
+        let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private lazy var comment: UILabel = {
-        let lbl = UILabel()
+        let label = UILabel()
 
         let attributedText = NSMutableAttributedString(string: "아직 참여중인\n여정이 없어요", attributes: [
             .font: UIFont.carmuFont.headline1
@@ -101,29 +101,29 @@ final class NoCrewFrontView: UIView {
 
         attributedText.append(body1LongText)
 
-        lbl.attributedText = attributedText
-        lbl.textAlignment = .center
-        lbl.numberOfLines = 0
+        label.attributedText = attributedText
+        label.textAlignment = .center
+        label.numberOfLines = 0
 
-        return lbl
+        return label
     }()
     private lazy var createCrewButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("크루 만들기", for: .normal)
-        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        btn.titleLabel?.font = UIFont.carmuFont.headline1
-        btn.backgroundColor = UIColor.semantic.accPrimary
-        btn.layer.cornerRadius = 30
-        return btn
+        let button = UIButton()
+        button.setTitle("크루 만들기", for: .normal)
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.titleLabel?.font = UIFont.carmuFont.headline1
+        button.backgroundColor = UIColor.semantic.accPrimary
+        button.layer.cornerRadius = 30
+        return button
     }()
     private lazy var inviteCodeButton: UIButton = {
-        let btn = UIButton()
-        btn.setTitle("초대코드 입력하기", for: .normal)
-        btn.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
-        btn.backgroundColor = UIColor.semantic.accPrimary
-        btn.layer.cornerRadius = 30
-        return btn
+        let button = UIButton()
+        button.setTitle("초대코드 입력하기", for: .normal)
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        button.backgroundColor = UIColor.semantic.accPrimary
+        button.layer.cornerRadius = 30
+        return button
     }()
 
     init() {
@@ -174,12 +174,12 @@ final class NoCrewFrontView: UIView {
 final class NoCrewBackView: UIView {
 
     private lazy var comment: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "카뮤와 함께 즐겁게 카풀하기 위한 규칙"
-        lbl.font = UIFont.carmuFont.subhead3
-        lbl.textColor = UIColor.semantic.textPrimary
-        lbl.textAlignment = .center
-        return lbl
+        let label = UILabel()
+        label.text = "카뮤와 함께 즐겁게 카풀하기 위한 규칙"
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.textPrimary
+        label.textAlignment = .center
+        return label
     }()
 
     // 운전자 규칙 뷰
@@ -190,35 +190,35 @@ final class NoCrewBackView: UIView {
         return view
     }()
     private lazy var driverLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "운전자"
-        lbl.textColor = UIColor.semantic.textPrimary
-        lbl.font = UIFont.carmuFont.headline1
-        lbl.textAlignment = .center
-        return lbl
+        let label = UILabel()
+        label.text = "운전자"
+        label.textColor = UIColor.semantic.textPrimary
+        label.font = UIFont.carmuFont.headline1
+        label.textAlignment = .center
+        return label
     }()
     private lazy var driverImage: UIImageView = {
-        let img = UIImage(named: "DriverBlinker")
-        let imageView = UIImageView(image: img)
+        let image = UIImage(named: "DriverBlinker")
+        let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private lazy var driverInfoLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "적어도 출발시간 30분 전까지는\n카풀 운행 여부를 알려주세요"
-        lbl.font = UIFont.carmuFont.body3
-        lbl.textAlignment = .center
-        lbl.numberOfLines = 0
+        let label = UILabel()
+        label.text = "적어도 출발시간 30분 전까지는\n카풀 운행 여부를 알려주세요"
+        label.font = UIFont.carmuFont.body3
+        label.textAlignment = .center
+        label.numberOfLines = 0
 
-        let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
-        if let range1 = lbl.text?.range(of: "출발시간 30분 전") {
-            let nsRange1 = NSRange(range1, in: lbl.text ?? "")
+        let attributedText = NSMutableAttributedString(string: label.text ?? "")
+        if let range1 = label.text?.range(of: "출발시간 30분 전") {
+            let nsRange1 = NSRange(range1, in: label.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)
         }
-        lbl.attributedText = attributedText
-        return lbl
+        label.attributedText = attributedText
+        return label
     }()
 
     // 동승자 규칙 뷰
@@ -229,35 +229,35 @@ final class NoCrewBackView: UIView {
         return view
     }()
     private lazy var passengerLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "동승자"
-        lbl.textColor = UIColor.semantic.textPrimary
-        lbl.font = UIFont.carmuFont.headline1
-        lbl.textAlignment = .center
-        return lbl
+        let label = UILabel()
+        label.text = "동승자"
+        label.textColor = UIColor.semantic.textPrimary
+        label.font = UIFont.carmuFont.headline1
+        label.textAlignment = .center
+        return label
     }()
     private lazy var passengerImage: UIImageView = {
-        let img = UIImage(named: "PassengerBlinker")
-        let imageView = UIImageView(image: img)
+        let image = UIImage(named: "PassengerBlinker")
+        let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private lazy var passengerInfoLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.text = "적어도 출발시간 20분 전까지는\n카풀 탑승 여부를 알려주세요"
-        lbl.font = UIFont.carmuFont.body3
-        lbl.textAlignment = .center
-        lbl.numberOfLines = 0
+        let label = UILabel()
+        label.text = "적어도 출발시간 20분 전까지는\n카풀 탑승 여부를 알려주세요"
+        label.font = UIFont.carmuFont.body3
+        label.textAlignment = .center
+        label.numberOfLines = 0
 
-        let attributedText = NSMutableAttributedString(string: lbl.text ?? "")
-        if let range1 = lbl.text?.range(of: "출발시간 20분 전") {
-            let nsRange1 = NSRange(range1, in: lbl.text ?? "")
+        let attributedText = NSMutableAttributedString(string: label.text ?? "")
+        if let range1 = label.text?.range(of: "출발시간 20분 전") {
+            let nsRange1 = NSRange(range1, in: label.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
                                         range: nsRange1)
         }
-        lbl.attributedText = attributedText
-        return lbl
+        label.attributedText = attributedText
+        return label
     }()
 
     init() {

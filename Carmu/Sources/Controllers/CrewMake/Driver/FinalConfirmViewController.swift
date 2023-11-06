@@ -80,16 +80,16 @@ extension FinalConfirmViewController {
             startingPoint: Point(
                 name: "포항터미널",
                 detailAddress: "경상북도 포항시 남구 중흥로 85",
-                pointLat: 36.0133,
-                pointLng: 129.3496,
+                latitude: 36.0133,
+                longitude: 129.3496,
                 arrivalTime: Date(),
                 crews: []
             ),
             destination: Point(
                 name: "C5",
                 detailAddress: "경상북도 포항시 남구 지곡로 80",
-                pointLat: 36.0141,
-                pointLng: 129.3258,
+                latitude: 36.0141,
+                longitude: 129.3258,
                 arrivalTime: Date(),
                 crews: []
             ),
