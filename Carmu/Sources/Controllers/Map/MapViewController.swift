@@ -40,34 +40,6 @@ final class MapViewController: UIViewController {
 
     private let isDriver = true
 
-    private let startingPoint = {
-        let marker = NMFMarker()
-        return marker
-    }()
-
-    private let pickupLocation1 = {
-        let marker = NMFMarker()
-        marker.hidden = true
-        return marker
-    }()
-
-    private let pickupLocation2 = {
-        let marker = NMFMarker()
-        marker.hidden = true
-        return marker
-    }()
-
-    private let pickupLocation3 = {
-        let marker = NMFMarker()
-        marker.hidden = true
-        return marker
-    }()
-
-    private let destination = {
-        let marker = NMFMarker()
-        return marker
-    }()
-
     private let pathOverlay = {
         let pathOverlay = NMFPath()
         return pathOverlay
@@ -93,10 +65,8 @@ final class MapViewController: UIViewController {
         showNaverMap()
         showBackButton()
         showPickuplocations()
-        detailView.setDetailView(location: .startingPoint, address: "기숙사 18동") // TODO: 데이터 받아오는 시점으로 이동
-        changeMarkerColor(location: .startingPoint)
+        touchMarker(location: .startingPoint, address: "기숙사 18동")
         fetchDirections()
-
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
     }
 
@@ -142,54 +112,49 @@ final class MapViewController: UIViewController {
 
     // TODO: - 크루의 실제 위경도 입력 받아서 넣어주기
     private func showPickuplocations() {
-        startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
-        startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-        startingPoint.touchHandler = { (_: NMFOverlay) -> Bool in
+        mapView.startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
+        mapView.startingPoint.touchHandler = { (_: NMFOverlay) -> Bool in
             self.touchMarker(location: .startingPoint, address: "기숙사 18동")
             return true
         }
-        startingPoint.mapView = mapView.naverMap
+        mapView.startingPoint.mapView = mapView.naverMap
 
         if let coordinate = points.pickupLocation1 {
-            pickupLocation1.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
-            pickupLocation1.hidden = false
-            pickupLocation1.touchHandler = { (_: NMFOverlay) -> Bool in
+            mapView.pickupLocation1.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            mapView.pickupLocation1.hidden = false
+            mapView.pickupLocation1.touchHandler = { (_: NMFOverlay) -> Bool in
                 self.touchMarker(location: .pickupLocation1, address: "테드집")
                 return true
             }
-            pickupLocation1.mapView = mapView.naverMap
+            mapView.pickupLocation1.mapView = mapView.naverMap
         }
 
         if let coordinate = points.pickupLocation2 {
-            pickupLocation2.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
-            pickupLocation2.hidden = false
-            pickupLocation2.touchHandler = { (_: NMFOverlay) -> Bool in
+            mapView.pickupLocation2.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            mapView.pickupLocation2.hidden = false
+            mapView.pickupLocation2.touchHandler = { (_: NMFOverlay) -> Bool in
                 self.touchMarker(location: .pickupLocation2, address: "롯데리아")
                 return true
             }
-            pickupLocation2.mapView = mapView.naverMap
+            mapView.pickupLocation2.mapView = mapView.naverMap
         }
 
         if let coordinate = points.pickupLocation3 {
-            pickupLocation3.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
-            pickupLocation3.hidden = false
-            pickupLocation3.touchHandler = { (_: NMFOverlay) -> Bool in
+            mapView.pickupLocation3.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            mapView.pickupLocation3.hidden = false
+            mapView.pickupLocation3.touchHandler = { (_: NMFOverlay) -> Bool in
                 self.touchMarker(location: .pickupLocation3, address: "미정")
                 return true
             }
-            pickupLocation3.mapView = mapView.naverMap
+            mapView.pickupLocation3.mapView = mapView.naverMap
         }
 
-        destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
-        destination.iconImage = NMFOverlayImage(name: "destination")
-        destination.touchHandler = { (_: NMFOverlay) -> Bool in
+        mapView.destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
+        mapView.destination.touchHandler = { (_: NMFOverlay) -> Bool in
             self.touchMarker(location: .destination, address: "애플 디벨로퍼 아카데미")
             return true
         }
-        destination.mapView = mapView.naverMap
+        mapView.destination.mapView = mapView.naverMap
     }
 
     private func fetchDirections() {
@@ -242,43 +207,8 @@ final class MapViewController: UIViewController {
     }
 
     private func touchMarker(location: PickupLocation, address: String) {
-        changeMarkerColor(location: location)
-        detailView.setDetailView(location: location, address: "미정")
-    }
-
-    private func changeMarkerColor(location: PickupLocation) {
-        switch location {
-        case .startingPoint:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPointTapped")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
-            destination.iconImage = NMFOverlayImage(name: "destination")
-        case .pickupLocation1:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1Tapped")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
-            destination.iconImage = NMFOverlayImage(name: "destination")
-        case .pickupLocation2:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2Tapped")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
-            destination.iconImage = NMFOverlayImage(name: "destination")
-        case .pickupLocation3:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3Tapped")
-            destination.iconImage = NMFOverlayImage(name: "destination")
-        case .destination:
-            startingPoint.iconImage = NMFOverlayImage(name: "startingPoint")
-            pickupLocation1.iconImage = NMFOverlayImage(name: "pickupLocation1")
-            pickupLocation2.iconImage = NMFOverlayImage(name: "pickupLocation2")
-            pickupLocation3.iconImage = NMFOverlayImage(name: "pickupLocation3")
-            destination.iconImage = NMFOverlayImage(name: "destinationTapped")
-        }
+        mapView.changeMarkerColor(location: location)
+        detailView.setDetailView(location: location, address: address)
     }
 
     // Toast 알림 띄워주기
