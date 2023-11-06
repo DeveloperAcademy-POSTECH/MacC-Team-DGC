@@ -25,6 +25,7 @@ final class RepeatDaySelectViewController: UIViewController {
             forCellReuseIdentifier: "repeatDayCell"
         )
 
+        setupAddTarget()
         view.addSubview(repeatDaySelectView)
         repeatDaySelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -127,6 +128,11 @@ extension RepeatDaySelectViewController {
         )
     }
 
+    /**
+     테이블뷰의 셀을 탭했을 때, 선택된 셀들이 주중, 주말, 매일에 해당하는지 체크하는 메서드
+     해당하면, 그 버튼이 강조처리 된다.
+     해당하지 않으면, 어떤 버튼이든 강조처리가 없어진다.
+     */
     private func checkDefaultDay() {
         let weekday = Set([0, 1, 2, 3, 4])
         let weekend = Set([5, 6])

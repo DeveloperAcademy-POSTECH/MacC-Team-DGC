@@ -91,7 +91,7 @@ extension RepeatDaySelectView {
 
         dayTableView.snp.makeConstraints { make in
             make.top.equalTo(weekdayButton.snp.bottom).offset(24)
-            make.bottom.equalTo(nextButton.snp.top).offset(-120)
+            make.bottom.equalTo(nextButton.snp.top).offset(-40)
             make.horizontalEdges.equalToSuperview().inset(20)
 
         }
