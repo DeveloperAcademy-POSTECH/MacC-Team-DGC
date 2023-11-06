@@ -90,15 +90,15 @@ final class MyPageView: UIView {
 
     // MARK: - 프로필 이미지
     lazy var imageView: UIImageView = {
-        let imgView = UIImageView()
-        imgView.image = UIImage(profileImageColor: .blue)
-        imgView.contentMode = .scaleAspectFit
+        let imageView = UIImageView()
+        imageView.image = UIImage(profileImageColor: .blue)
+        imageView.contentMode = .scaleAspectFit
         // TODO: - 이미지 프레임 추후 비율에 맞게 수정 필요
         let size = CGFloat(80)
-        imgView.frame = CGRect(x: 0, y: 0, width: size, height: size)
-        imgView.layer.cornerRadius = size / 2
-        imgView.clipsToBounds = true
-        return imgView
+        imageView.frame = CGRect(x: 0, y: 0, width: size, height: size)
+        imageView.layer.cornerRadius = size / 2
+        imageView.clipsToBounds = true
+        return imageView
     }()
 
     // MARK: - 이미지 추가 버튼

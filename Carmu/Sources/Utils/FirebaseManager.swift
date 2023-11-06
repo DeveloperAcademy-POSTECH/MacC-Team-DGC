@@ -5,6 +5,7 @@
 //  Created by 김동현 on 2023/10/19.
 //
 
+import CoreLocation
 import UIKit
 
 import FirebaseAuth
@@ -363,7 +364,9 @@ extension FirebaseManager {
             startingPoint: startingPoint,
             destination: destination,
             inviteCode: inviteCode,
-            repeatDay: repeatDay
+            repeatDay: repeatDay,
+            sessionStatus: true,
+            crewStatus: [:]
         )
         setCrewToUser(captainID, key)
 
@@ -455,7 +458,9 @@ extension FirebaseManager {
                 startingPoint: snapshotValue["startingPoint"] as? Point ?? defaultPoint,
                 destination: snapshotValue["destination"] as? Point ?? defaultPoint,
                 inviteCode: snapshotValue["inviteCode"] as? String ?? "",
-                repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5]
+                repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+                sessionStatus: snapshotValue["sessionStatus"] as? Bool ?? true,
+                crewStatus: snapshotValue["crewStatus"] as? [UserIdentifier: Bool] ?? [:]
             )
             completion(crew)
         }
@@ -530,5 +535,26 @@ extension FirebaseManager {
                 print("이미지가 성공적으로 삭제되었습니다.")
             }
         }
+    }
+}
+
+extension FirebaseManager {
+
+    func updateDriverCoordinate(coordinate: CLLocationCoordinate2D) {
+        // TODO: - 가입되어있는 크루로 연결 필요
+        Database.database().reference().child("test/coordinate").setValue([
+            "latitude": coordinate.latitude,
+            "longitude": coordinate.longitude
+        ])
+    }
+
+    func startObservingDriveLocation(completion: @escaping (Double, Double) -> Void) {
+        Database.database().reference().child("test").observe(.childChanged, with: { snapshot in
+            if let messageData = snapshot.value as? [String: Any],
+               let latitude = messageData["latitude"] as? Double,
+               let longitude = messageData["longitude"] as? Double {
+                completion(latitude, longitude)
+            }
+        })
     }
 }

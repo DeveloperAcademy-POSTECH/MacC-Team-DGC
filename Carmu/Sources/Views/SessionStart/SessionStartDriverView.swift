@@ -21,7 +21,7 @@ final class SessionStartDriverView: UIView {
     }()
 
     // 앞면 뷰
-    private lazy var driverFrontView = DriverFrontView()
+    lazy var driverFrontView = DriverFrontView()
     // 뒷면 뷰
     private lazy var driverBackView = DriverBackView()
 
@@ -81,7 +81,7 @@ extension SessionStartDriverView {
 // MARK: - 앞면 뷰
 final class DriverFrontView: UIView {
     private lazy var comment: UILabel = {
-        let lbl = UILabel()
+        let label = UILabel()
 
         let firstLine = NSMutableAttributedString(string: "오늘 함께할 크루원들", attributes: [
             .font: UIFont.carmuFont.headline1,
@@ -94,26 +94,26 @@ final class DriverFrontView: UIView {
 
         firstLine.append(secondLine)
 
-        lbl.attributedText = firstLine
-        lbl.textAlignment = .left
-        lbl.numberOfLines = 0
-        return lbl
+        label.attributedText = firstLine
+        label.textAlignment = .left
+        label.numberOfLines = 0
+        return label
     }()
 
     // /(총인원)에 대한 라벨
     private lazy var totalCrewMemeberLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.carmuFont.subhead2
-        lbl.textColor = UIColor.semantic.textBody
-        return lbl
+        let label = UILabel()
+        label.font = UIFont.carmuFont.subhead2
+        label.textColor = UIColor.semantic.textBody
+        return label
     }()
 
     // 실시간 탑승 여부 인원에 대한 라벨
     lazy var todayCrewMemeberLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.carmuFont.headline1
-        lbl.textColor = UIColor.semantic.accPrimary
-        return lbl
+        let label = UILabel()
+        label.font = UIFont.carmuFont.headline1
+        label.textColor = UIColor.semantic.accPrimary
+        return label
     }()
 
     private lazy var crewView: UIView = {
@@ -123,11 +123,36 @@ final class DriverFrontView: UIView {
         return view
     }()
 
+    // 당일에 운행이 없을 때 나타나는 뷰
+    lazy var noDriveViewForDriver: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.semantic.backgroundSecond
+        view.layer.cornerRadius = 16
+        return view
+    }()
+    private lazy var noDriveImage: UIImageView = {
+        let image = UIImage(named: "NoSessionBlinker")
+        let imgView = UIImageView(image: image)
+        imgView.contentMode = .scaleAspectFit
+        return imgView
+    }()
+    private lazy var noDriveComment: UILabel = {
+        let label = UILabel()
+        label.text = "오늘은 카풀을 운행하지 않아요"
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.negative
+        label.textAlignment = .center
+        return label
+    }()
+
     init() {
         super.init(frame: .zero)
         setupFrontView()
         setupConstraints()
         settingData()
+
+        // TODO: - 데이터 수정 후 변경 -> session 여부에 따라 true, false로 변경하기
+        noDriveViewForDriver.isHidden = true
     }
 
     required init?(coder: NSCoder) {
@@ -139,6 +164,10 @@ final class DriverFrontView: UIView {
         addSubview(totalCrewMemeberLabel)
         addSubview(todayCrewMemeberLabel)
         addSubview(crewView)
+
+        addSubview(noDriveViewForDriver)
+        noDriveViewForDriver.addSubview(noDriveImage)
+        noDriveViewForDriver.addSubview(noDriveComment)
     }
 
     private func setupConstraints() {
@@ -152,6 +181,19 @@ final class DriverFrontView: UIView {
             make.top.equalTo(totalCrewMemeberLabel)
             make.centerY.equalTo(totalCrewMemeberLabel)
             make.trailing.equalTo(totalCrewMemeberLabel.snp.leading).offset(-4)
+        }
+
+        noDriveViewForDriver.snp.makeConstraints { make in
+            make.edges.equalToSuperview().inset(20).priority(.high)
+        }
+        noDriveImage.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.equalTo(62)
+            make.height.equalTo(64)
+        }
+        noDriveComment.snp.makeConstraints { make in
+            make.top.equalTo(noDriveImage.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
         }
     }
 
@@ -167,17 +209,17 @@ final class DriverFrontView: UIView {
 final class DriverBackView: UIView {
 
     private lazy var personImage: UIImageView = {
-        let img = UIImage(systemName: "person.fill")
-        let imageView = UIImageView(image: img)
+        let image = UIImage(systemName: "person.fill")
+        let imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.semantic.textPrimary
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     private lazy var totalCrewMemeberLabel: UILabel = {
-        let lbl = UILabel()
-        lbl.font = UIFont.carmuFont.subhead3
-        lbl.textColor = UIColor.semantic.textPrimary
-        return lbl
+        let label = UILabel()
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.textPrimary
+        return label
     }()
 
     init() {
