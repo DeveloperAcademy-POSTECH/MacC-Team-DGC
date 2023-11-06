@@ -44,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         if Auth.auth().currentUser != nil {
             if SceneDelegate.isFirst {
-                rootViewController = PositionSelectViewController()
+                rootViewController = RepeatDaySelectViewController()
             } else {
                 rootViewController = SessionStartViewController()
             }

@@ -16,8 +16,7 @@ final class FinalConfirmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
-
-        inviteCode = generateRandomCode()
+        navigationItem.rightBarButtonItem = RightNavigationBarButton(buttonTitle: "수정하기")
 
         finalConfirmView.nextButton.addTarget(
             self,
@@ -29,6 +28,8 @@ final class FinalConfirmViewController: UIViewController {
         finalConfirmView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        inviteCode = generateRandomCode()
     }
 }
 
@@ -45,7 +46,8 @@ extension FinalConfirmViewController {
             "훈훈한", "황금빛", "순백의", "바쁜", "활발한", "선선한", "정직한", "강력한", "가난한",
             "훈남훈녀", "맑은", "부드러운", "흥미로운", "어두운", "행복한", "놀라운", "성실한", "창조적인", "운좋은",
             "훌륭한", "안정된", "명확한", "화려한", "바람직한", "조용한", "귀여운", "편안한", "어려운", "단단한",
-            "우아한", "소중한", "예쁜", "인기있는", "우아한", "아름다운", "가까운", "훈훈한", "좋아요"
+            "우아한", "소중한", "예쁜", "인기있는", "우아한", "아름다운", "가까운", "훈훈한", "좋아요",
+            "뒷목잡는", "막강한", "웃긴", "재미있는", "선남선녀", "우주최강", "날로먹는", "간편한"
         ]
 
         return "\(randomNameList.randomElement() ?? "좋아요") 카풀팟"
@@ -70,6 +72,10 @@ extension FinalConfirmViewController {
 
 // MARK: - @objc Method
 extension FinalConfirmViewController {
+
+    @objc private func editButtonTapped() {
+
+    }
 
     @objc private func nextButtonTapped() {
         let randomCode = generateRandomCode()
