@@ -342,6 +342,12 @@ extension SessionStartViewController {
                                                     action: #selector(individualButtonDidTapped),
                                                     for: .touchUpInside)
     }
+
+    // TODO: - Firebase 형식에 맞게 변경
+    /// 운전자인지 여부 확인
+    private func isCaptain() -> Bool {
+        crewData?.captainID == "ted"
+    }
 }
 
 extension SessionStartViewController {

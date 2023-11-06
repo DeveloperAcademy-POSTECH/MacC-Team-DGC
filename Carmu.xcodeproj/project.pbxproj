@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		16114ADC2AF7BD1A003325B6 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16114ADB2AF7BD1A003325B6 /* UIViewController+Extension.swift */; };
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
 		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
@@ -111,7 +110,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		16114ADB2AF7BD1A003325B6 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -360,7 +358,6 @@
 				C92CFB3A2ACBF6C40068273A /* UIImage+Extension.swift */,
 				1695CAE32AD4E62500858071 /* Date+Extension.swift */,
 				C9C7C1202ADE25590016DE13 /* String+Extension.swift */,
-				16114ADB2AF7BD1A003325B6 /* UIViewController+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -769,7 +766,6 @@
 				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
 				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
 				16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */,
-				16114ADC2AF7BD1A003325B6 /* UIViewController+Extension.swift in Sources */,
 				C931166E2AF3AB980014E702 /* StartEndPointSelectViewController.swift in Sources */,
 				C9D8E4E22AF482D0007570EE /* RepeatDaySelectView.swift in Sources */,
 				B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */,
