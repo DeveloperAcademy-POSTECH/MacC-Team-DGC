@@ -10,12 +10,11 @@
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
 		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
-		164E823B2AF539AF00848BFF /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E823A2AF539AF00848BFF /* Session.swift */; };
 		164E823D2AF53AB400848BFF /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E823C2AF53AB400848BFF /* Point.swift */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
 		16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */; };
-		16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* SessionMapViewController.swift */; };
+		16E42C482AC411A20031486E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* MapViewController.swift */; };
 		B80CCA522ADB0955000A2ABB /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = B80CCA512ADB0955000A2ABB /* FirebaseStorage */; };
 		B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */; };
 		B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */; };
@@ -46,9 +45,8 @@
 		B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */; };
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
 		BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */; };
-		BF0C33022AE50AFB00A6D8FE /* SessionMapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33012AE50AFB00A6D8FE /* SessionMapDetailView.swift */; };
+		BF0C33022AE50AFB00A6D8FE /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */; };
 		BF0C33042AE51E7C00A6D8FE /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */; };
-		BF0C33092AE5239700A6D8FE /* TimeDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33082AE5239700A6D8FE /* TimeDataView.swift */; };
 		BF24481D2AD6D66200F4089A /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = BF24481C2AD6D66200F4089A /* FirebaseDatabase */; };
 		BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CC2AB939A3005331AD /* AppDelegate.swift */; };
 		BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */; };
@@ -61,6 +59,7 @@
 		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
 		BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */; };
 		BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */; };
+		BFD765862AF7E16F0074277B /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD765852AF7E16F0074277B /* MapView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		BFFA10AF2AE609B8003CE661 /* PickupLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */; };
 		BFFA10B22AE61012003CE661 /* NoticeLateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */; };
@@ -89,6 +88,8 @@
 		C95462152AF74D46004C4F6D /* TimeSelectCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95462142AF74D46004C4F6D /* TimeSelectCellView.swift */; };
 		C95462172AF75A29004C4F6D /* TimeSelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95462162AF75A29004C4F6D /* TimeSelectModalView.swift */; };
 		C95462192AF75A42004C4F6D /* TimeSelectModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95462182AF75A42004C4F6D /* TimeSelectModalViewController.swift */; };
+		C954621E2AF77D9D004C4F6D /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954621D2AF77D9D004C4F6D /* NextButton.swift */; };
+		C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */; };
 		C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */; };
 		C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C1202ADE25590016DE13 /* String+Extension.swift */; };
 		C9D8E4DC2AF4814E007570EE /* TimeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */; };
@@ -112,12 +113,11 @@
 
 /* Begin PBXFileReference section */
 		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
-		164E823A2AF539AF00848BFF /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
 		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
-		16E42C472AC411A20031486E /* SessionMapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapViewController.swift; sourceTree = "<group>"; };
+		16E42C472AC411A20031486E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeView.swift; sourceTree = "<group>"; };
 		B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeViewController.swift; sourceTree = "<group>"; };
 		B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageColor.swift; sourceTree = "<group>"; };
@@ -146,9 +146,8 @@
 		B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		BF0C33012AE50AFB00A6D8FE /* SessionMapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionMapDetailView.swift; sourceTree = "<group>"; };
+		BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
-		BF0C33082AE5239700A6D8FE /* TimeDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeDataView.swift; sourceTree = "<group>"; };
 		BF37D9C92AB939A3005331AD /* Carmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Carmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BF37D9CC2AB939A3005331AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BF37D9CE2AB939A3005331AD /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -161,6 +160,7 @@
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartView.swift; sourceTree = "<group>"; };
+		BFD765852AF7E16F0074277B /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupLocation.swift; sourceTree = "<group>"; };
 		BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateViewController.swift; sourceTree = "<group>"; };
 		BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateView.swift; sourceTree = "<group>"; };
@@ -188,6 +188,8 @@
 		C95462142AF74D46004C4F6D /* TimeSelectCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectCellView.swift; sourceTree = "<group>"; };
 		C95462162AF75A29004C4F6D /* TimeSelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectModalView.swift; sourceTree = "<group>"; };
 		C95462182AF75A42004C4F6D /* TimeSelectModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectModalViewController.swift; sourceTree = "<group>"; };
+		C954621D2AF77D9D004C4F6D /* NextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButton.swift; sourceTree = "<group>"; };
+		C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectButton.swift; sourceTree = "<group>"; };
 		C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		C9C7C1202ADE25590016DE13 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectViewController.swift; sourceTree = "<group>"; };
@@ -232,7 +234,6 @@
 			isa = PBXGroup;
 			children = (
 				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
-				BFFA10B02AE60FFA003CE661 /* SessionMapView */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
@@ -301,14 +302,14 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
-		BF0C33052AE5217100A6D8FE /* SessionMapView */ = {
+		BF0C33052AE5217100A6D8FE /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				BF0C33012AE50AFB00A6D8FE /* SessionMapDetailView.swift */,
-				BF0C33082AE5239700A6D8FE /* TimeDataView.swift */,
+				BFD765852AF7E16F0074277B /* MapView.swift */,
+				BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */,
 				BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */,
 			);
-			path = SessionMapView;
+			path = Map;
 			sourceTree = "<group>";
 		};
 		BF24481B2AD6D66200F4089A /* Frameworks */ = {
@@ -385,6 +386,7 @@
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
 				C9F43BC72AF214CB00BAA0E3 /* CrewMake */,
 				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
+				BFFA10B02AE60FFA003CE661 /* Map */,
 				B8A3EFD72AC5F27000433F5C /* MyPage */,
 			);
 			path = Controllers;
@@ -396,6 +398,7 @@
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
 				C9F43BCC2AF2153100BAA0E3 /* CrewMake */,
 				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
+				BF0C33052AE5217100A6D8FE /* Map */,
 				B8D73ABB2AD2899200D211DE /* MyPage */,
 			);
 			path = Views;
@@ -408,18 +411,17 @@
 				16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */,
 				161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */,
-				BF0C33052AE5217100A6D8FE /* SessionMapView */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
 		};
-		BFFA10B02AE60FFA003CE661 /* SessionMapView */ = {
+		BFFA10B02AE60FFA003CE661 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				16E42C472AC411A20031486E /* SessionMapViewController.swift */,
+				16E42C472AC411A20031486E /* MapViewController.swift */,
 				BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */,
 			);
-			path = SessionMapView;
+			path = Map;
 			sourceTree = "<group>";
 		};
 		C92CFB2B2AC9398B0068273A /* Resources */ = {
@@ -454,7 +456,6 @@
 				C904D1572AD57942008BF5CE /* Friendship.swift */,
 				C904D1602AD57AE8008BF5CE /* Crew.swift */,
 				164E823C2AF53AB400848BFF /* Point.swift */,
-				164E823A2AF539AF00848BFF /* Session.swift */,
 				C93116792AF3B69F0014E702 /* SelectAddressDTO.swift */,
 				C931167B2AF3B7070014E702 /* AddressDTO.swift */,
 			);
@@ -476,7 +477,7 @@
 				C95462122AF74BFC004C4F6D /* StartEndPointSelect */,
 				C93116652AF382260014E702 /* StopoverPointCheckViewController.swift */,
 				C95462132AF74C0B004C4F6D /* TimeSelect */,
-				C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */,
+				C95462212AF7B2B0004C4F6D /* RepeatDaySelect */,
 				C9D8E4E52AF484F3007570EE /* FinalConfirmViewController.swift */,
 				C9D8E4E72AF48650007570EE /* CodeShareViewController.swift */,
 			);
@@ -498,7 +499,7 @@
 				C95462112AF74BEA004C4F6D /* StartEndPointSelect */,
 				C93116672AF3822D0014E702 /* StopoverPointCheckView.swift */,
 				C95462102AF74BD4004C4F6D /* TimeSelect */,
-				C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */,
+				C95462242AF7B300004C4F6D /* RepeatDaySelect */,
 				C9D8E4E32AF484B3007570EE /* FinalConfirmView.swift */,
 				C9D8E4E92AF486B6007570EE /* CodeShareView.swift */,
 				C93116812AF3DE890014E702 /* Cell */,
@@ -554,14 +555,40 @@
 			path = TimeSelect;
 			sourceTree = "<group>";
 		};
+		C954621C2AF77D52004C4F6D /* ButtonComponent */ = {
+			isa = PBXGroup;
+			children = (
+				C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */,
+				C9F43BE02AF3430C00BAA0E3 /* StopoverSelectButton.swift */,
+				C954621D2AF77D9D004C4F6D /* NextButton.swift */,
+				C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */,
+			);
+			path = ButtonComponent;
+			sourceTree = "<group>";
+		};
+		C95462212AF7B2B0004C4F6D /* RepeatDaySelect */ = {
+			isa = PBXGroup;
+			children = (
+				C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */,
+			);
+			path = RepeatDaySelect;
+			sourceTree = "<group>";
+		};
+		C95462242AF7B300004C4F6D /* RepeatDaySelect */ = {
+			isa = PBXGroup;
+			children = (
+				C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */,
+			);
+			path = RepeatDaySelect;
+			sourceTree = "<group>";
+		};
 		C95C07AC2AE0BB3E007E7589 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
 				BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */,
 				C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */,
-				C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */,
-				C9F43BE02AF3430C00BAA0E3 /* StopoverSelectButton.swift */,
+				C954621C2AF77D52004C4F6D /* ButtonComponent */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -709,6 +736,7 @@
 				B8DD15E62AD63FD500685E48 /* FriendDetailViewController.swift in Sources */,
 				B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
+				C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */,
 				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
 				161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */,
 				C9D8E4E82AF48650007570EE /* CodeShareViewController.swift in Sources */,
@@ -727,14 +755,13 @@
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
-				BF0C33022AE50AFB00A6D8FE /* SessionMapDetailView.swift in Sources */,
+				BF0C33022AE50AFB00A6D8FE /* MapDetailView.swift in Sources */,
 				C9D8E4DE2AF48172007570EE /* TimeSelectView.swift in Sources */,
-				BF0C33092AE5239700A6D8FE /* TimeDataView.swift in Sources */,
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
 				C9D8E4EA2AF486B6007570EE /* CodeShareView.swift in Sources */,
 				B8DD15EE2AD6EE9400685E48 /* CustomIntensityVisualEffectView.swift in Sources */,
 				B8DD15E02AD4677800685E48 /* FriendListTableViewCell.swift in Sources */,
-				16E42C482AC411A20031486E /* SessionMapViewController.swift in Sources */,
+				16E42C482AC411A20031486E /* MapViewController.swift in Sources */,
 				1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */,
 				C9D8E4DC2AF4814E007570EE /* TimeSelectViewController.swift in Sources */,
 				C931167E2AF3B7760014E702 /* SelectDetailPointMapViewController.swift in Sources */,
@@ -742,8 +769,10 @@
 				B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				C9F43BD92AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift in Sources */,
+				BFD765862AF7E16F0074277B /* MapView.swift in Sources */,
 				C93116702AF3ABB20014E702 /* StartEndPointSelectView.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
+				C954621E2AF77D9D004C4F6D /* NextButton.swift in Sources */,
 				B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */,
 				C9F43BDF2AF2C09500BAA0E3 /* BoardingPointSelectView.swift in Sources */,
 				B8DD15E22AD52CC300685E48 /* FriendAddViewController.swift in Sources */,
@@ -763,7 +792,6 @@
 				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
 				B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
-				164E823B2AF539AF00848BFF /* Session.swift in Sources */,
 				BFFA10B42AE62FAF003CE661 /* NoticeLateView.swift in Sources */,
 				BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,

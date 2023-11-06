@@ -15,7 +15,7 @@ import SnapKit
 
 final class SessionStartViewController: UIViewController {
 
-    private lazy var sessionStartView = SessionStartView()
+    private let sessionStartView = SessionStartView()
     private lazy var sessionStartDriverView = SessionStartDriverView()
     private lazy var sessionStartPassengerView = SessionStartPassengerView()
     private lazy var sessionStartNoCrewView = SessionStartNoCrewView()
@@ -26,16 +26,14 @@ final class SessionStartViewController: UIViewController {
         view.backgroundColor = UIColor.semantic.backgroundDefault
         setupUI()
         setupConstraints()
-
-        sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
-        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
-        sessionStartView.carpoolStartButton.addTarget(self,
-                                                      action: #selector(carpoolStartButtonDidTapped),
-                                                      for: .touchUpInside)
+        setTargetButton()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         checkCrew()
+
+        // TODO: - 비동기 처리로 변경해주기
+        settingData()
     }
 }
 
@@ -52,8 +50,11 @@ extension SessionStartViewController {
             make.edges.equalToSuperview()
         }
     }
+}
 
-    // 크루가 없을 때
+// MARK: - 크루가 없을 때
+extension SessionStartViewController {
+
     private func settingNoCrewView() {
         sessionStartView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
@@ -82,21 +83,59 @@ extension SessionStartViewController {
             make.bottom.equalToSuperview().inset(165)
         }
     }
+}
 
-    // 크루가 있을 때
+// MARK: - 크루가 있을 때 - 공통
+extension SessionStartViewController {
+
     private func settingCrewView() {
 
         sessionStartNoCrewView.isHidden = true
 
-        // TODO: - 데이터 형식에 맞춰서 수정
-        if crewData?.captainID == "ted" {  // 운전자일 경우
+        if isCaptain() {
             settingDriverView()
-        } else {    // 크루원인 경우
+        } else {
             settingPassengerView()
         }
     }
 
-    // 운전자일 때
+    private func settingData() {
+        if crewData?.sessionStatus == .accept {  // 당일 운행을 할 때
+            sessionStartView.topComment.text = "운전자의 시작을\n기다리세요"
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
+        } else if crewData?.sessionStatus == .decline {    // 당일 운행을 하지 않을 때
+            sessionStartView.topComment.text = ""
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+
+            sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀이 운행되지 않아요"
+            sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.negative
+
+            if isCaptain() {
+                sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+            } else {
+                sessionStartView.notifyComment.text = "운전자의 사정으로\n오늘은 카풀이 운행되지 않아요"
+            }
+
+            // 활성화
+            sessionStartDriverView.layer.opacity = 1.0
+
+            // TODO: - 버튼 색상 상의하기 !
+            sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+            sessionStartView.individualButton.isEnabled = false
+            sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+            sessionStartView.togetherButton.isEnabled = false
+        } else {    // 미응답일 때
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
+        }
+    }
+}
+
+// MARK: - 크루가 있을 때 - 운전자일 때
+extension SessionStartViewController {
+
     private func settingDriverView() {
 
         // 비활성화
@@ -126,6 +165,13 @@ extension SessionStartViewController {
         sessionStartView.individualButton.setTitle("운행하지 않아요", for: .normal)
         sessionStartView.togetherButton.setTitle("운행해요", for: .normal)
 
+        settingDriverUI()
+        settingDriverConstraints()
+    }
+
+    // Driver UI
+    private func settingDriverUI() {
+
         // view layout
         sessionStartDriverView.isHidden = false
         sessionStartPassengerView.isHidden = true
@@ -134,9 +180,8 @@ extension SessionStartViewController {
         sessionStartView.individualButton.isHidden = false
         sessionStartView.togetherButton.isHidden = false
         sessionStartView.carpoolStartButton.isHidden = true
-
-        settingDriverConstraints()
     }
+
     // Driver Layout
     private func settingDriverConstraints() {
         sessionStartDriverView.snp.makeConstraints { make in
@@ -171,8 +216,11 @@ extension SessionStartViewController {
             make.bottom.equalToSuperview().inset(60)
         }
     }
+}
 
-    // 크루원일 때
+// MARK: - 크루가 있을 때 - 크루원일 때
+extension SessionStartViewController {
+
     private func settingPassengerView() {
         sessionStartView.topComment.text = "\(crewData?.name ?? "그룹명")과\n함께 가시나요?"
         // 특정 부분 색상 넣기
@@ -185,10 +233,17 @@ extension SessionStartViewController {
         }
         sessionStartView.topComment.attributedText = topCommentText
 
-        sessionStartView.notifyComment.text = "기본값은 없어야 함"
+        sessionStartView.notifyComment.text = ""
 
         sessionStartView.individualButton.setTitle("따로가요", for: .normal)
         sessionStartView.togetherButton.setTitle("함께가요", for: .normal)
+
+        settingPassengerUI()
+        settingPassengerConstraints()
+    }
+
+    // Passenger UI
+    private func settingPassengerUI() {
 
         // view layout
         sessionStartDriverView.isHidden = true
@@ -198,8 +253,6 @@ extension SessionStartViewController {
         sessionStartView.individualButton.isHidden = false
         sessionStartView.togetherButton.isHidden = false
         sessionStartView.carpoolStartButton.isHidden = true
-
-        settingPassengerConstraints()
     }
     // Passenger Layout
     private func settingPassengerConstraints() {
@@ -237,21 +290,12 @@ extension SessionStartViewController {
     }
 }
 
-// MARK: Actions
+// MARK: @objc Method
 extension SessionStartViewController {
 
     @objc private func myPageButtonDidTapped() {
         let myPageVC = MyPageViewController()
         navigationController?.pushViewController(myPageVC, animated: true)
-    }
-
-    // 크루의 유무 확인
-    private func checkCrew() {
-        if crewData == nil {
-            settingNoCrewView()
-        } else {
-            settingCrewView()
-        }
     }
 
     @objc private func togetherButtonDidTapped() {
@@ -264,9 +308,67 @@ extension SessionStartViewController {
     }
 
     @objc private func carpoolStartButtonDidTapped() {
-        let mapView = SessionMapViewController()
+        let mapView = MapViewController()
         mapView.modalPresentationStyle = .fullScreen
         present(mapView, animated: true, completion: nil)
+    }
+
+    // TODO: - 실제 데이터로 변경
+    @objc private func individualButtonDidTapped() {
+        print("clicked")
+
+        // 운전자가 클릭했을 때
+        if isCaptain() {
+            sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+            sessionStartDriverView.layer.opacity = 1.0
+        } else {    // 크루원이 클릭했을 때 -> 텍스트 변경
+            if crewData?.sessionStatus != .decline {    // 응답을 하지 않았거나, 수락을 했을 때
+                sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
+                sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
+                sessionStartView.notifyComment.text = ""
+            }
+
+            // 크루원의 뷰 나타내기
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+            sessionStartPassengerView.layer.opacity = 1.0
+        }
+        sessionStartView.topComment.text = ""
+        sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+        sessionStartView.individualButton.isEnabled = false
+        sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+        sessionStartView.togetherButton.isEnabled = false
+    }
+}
+
+// MARK: - Action
+extension SessionStartViewController {
+
+    /// 크루의 유무 확인
+    private func checkCrew() {
+        if crewData == nil {
+            settingNoCrewView()
+        } else {
+            settingCrewView()
+        }
+    }
+
+    /// 버튼들 addTarget
+    private func setTargetButton() {
+        sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
+        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
+        sessionStartView.carpoolStartButton.addTarget(self,
+                                                      action: #selector(carpoolStartButtonDidTapped),
+                                                      for: .touchUpInside)
+        sessionStartView.individualButton.addTarget(self,
+                                                    action: #selector(individualButtonDidTapped),
+                                                    for: .touchUpInside)
+    }
+
+    // TODO: - Firebase 형식에 맞게 변경
+    /// 운전자인지 여부 확인
+    private func isCaptain() -> Bool {
+        crewData?.captainID == "ted"
     }
 }
 

@@ -25,3 +25,12 @@ struct Session: Codable {
 
     // 추가적으로 캡틴의 현재 위치 설정
 }
+
+// 세션이 열렸을 때
+var sessionData: Session = Session(
+    id: "11",
+    name: "김테드",
+    captainID: "ted",
+    points: [point1, point2, point3, point4],
+    sessionStatus: true,
+    crewStatus: ["uni": false, "rei": false, "bazzi": false])

@@ -40,7 +40,6 @@ final class TimeSelectViewController: UIViewController {
         )
         for element in timeSelectView.customTableVieWCell {
             element.detailTimeButton.addTarget(self, action: #selector(setTimeButtonTapped), for: .touchUpInside)
-
         }
         view.addSubview(timeSelectView)
         timeSelectView.snp.makeConstraints { make in
