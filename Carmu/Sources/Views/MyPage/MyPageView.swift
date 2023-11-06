@@ -11,16 +11,6 @@ import FirebaseAuth
 
 final class MyPageView: UIView {
 
-    // MARK: - 설정 버튼
-    lazy var settingsButton: UIButton = {
-        let button = UIButton()
-        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 24, weight: .bold, scale: .large)
-        let symbol = UIImage(systemName: "gearshape", withConfiguration: symbolConfig)
-        button.setImage(symbol, for: .normal)
-        button.tintColor = .white
-        return button
-    }()
-
     // MARK: - 상단 유저 정보 뷰
     lazy var userInfoView: UIView = {
         let userInfoView = UIView()
@@ -34,12 +24,13 @@ final class MyPageView: UIView {
     }()
 
     // MARK: - 닉네임 스택
-    private lazy var nicknameStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.alignment = .leading
-        stack.distribution = .fillProportionally
-        return stack
+    private lazy var nicknameStackView: UIStackView = {
+        let nicknameStackView = UIStackView()
+        nicknameStackView.axis = .vertical
+        nicknameStackView.alignment = .leading
+        nicknameStackView.distribution = .fillProportionally
+        nicknameStackView.spacing = 4
+        return nicknameStackView
     }()
 
     // 닉네임 라벨
@@ -52,8 +43,8 @@ final class MyPageView: UIView {
     }()
 
     // 닉네임 편집 버튼
-    lazy var editButton: UIButton = {
-        let button = UIButton()
+    lazy var nicknameEditButton: UIButton = {
+        let nicknameEditButton = UIButton()
         // 폰트 설정
         let buttonFont = UIFont.systemFont(ofSize: 12)
         // 버튼 텍스트 설정
@@ -79,66 +70,74 @@ final class MyPageView: UIView {
             bottom: verticalPad,
             trailing: horizontalPad
         )
-        button.configuration = config
+        nicknameEditButton.configuration = config
 
-        return button
+        return nicknameEditButton
     }()
 
     // MARK: - 프로필 이미지
-    lazy var imageView: UIImageView = {
-        let imgView = UIImageView()
-        imgView.image = UIImage(profileImageColor: .blue)
-        imgView.contentMode = .scaleAspectFit
+    lazy var profileImageView: UIImageView = {
+        let profileImageView = UIImageView()
+        profileImageView.image = UIImage(profileImageColor: .blue)
+        profileImageView.contentMode = .scaleAspectFit
         // TODO: - 이미지 프레임 추후 비율에 맞게 수정 필요
         let size = CGFloat(80)
-        imgView.frame = CGRect(x: 0, y: 0, width: size, height: size)
-        imgView.layer.cornerRadius = size / 2
-        imgView.clipsToBounds = true
-        return imgView
+        profileImageView.frame = CGRect(x: 0, y: 0, width: size, height: size)
+        profileImageView.layer.cornerRadius = size / 2
+        profileImageView.clipsToBounds = true
+        return profileImageView
     }()
 
     // MARK: - 이미지 추가 버튼
-    lazy var addButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(UIImage(named: "cameraBtn"), for: .normal)
-        return button
+    lazy var profileImageEditButton: UIButton = {
+        let profileImageEditButton = UIButton(type: .custom)
+        profileImageEditButton.setImage(UIImage(named: "profileEditBtn"), for: .normal)
+        return profileImageEditButton
     }()
 
-    // MARK: - 텍스트 필드
-    lazy var textField: UITextField = {
-        let textField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
-        textField.placeholder = "입력하세요"
-        textField.textAlignment = .center
-        textField.textColor = .white
-        textField.tintColor = .white
-        textField.clearButtonMode = .always
-        textField.borderStyle = .none
+    // MARK: - 닉네임 텍스트 필드
+    lazy var nicknameTextField: UITextField = {
+        let nicknameTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
+        nicknameTextField.placeholder = "닉네임을 입력하세요"
+        nicknameTextField.textAlignment = .center
+        nicknameTextField.textColor = UIColor.semantic.textSecondary
+        nicknameTextField.tintColor = UIColor.semantic.textSecondary
+        nicknameTextField.clearButtonMode = .always
+        nicknameTextField.borderStyle = .none
+        nicknameTextField.font = UIFont.carmuFont.headline1
 
-        if let placeholder = textField.placeholder {
-            textField.attributedPlaceholder = NSAttributedString(
+        if let placeholder = nicknameTextField.placeholder {
+            nicknameTextField.attributedPlaceholder = NSAttributedString(
                 string: placeholder,
                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray]
             )
         }
-        if let clearButton = textField.value(forKey: "_clearButton") as? UIButton {
+        if let clearButton = nicknameTextField.value(forKey: "_clearButton") as? UIButton {
             clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
             clearButton.tintColor = .white
         }
-        textField.addSubview(bottomLine)
-        return textField
+        nicknameTextField.addSubview(bottomLine)
+        return nicknameTextField
     }()
 
-    private var bottomLine = {
+    private lazy var bottomLine = {
         let bottomLine = UIView()
-        bottomLine.backgroundColor = .white
+        bottomLine.backgroundColor = UIColor.theme.blue3
         return bottomLine
     }()
 
     // MARK: - 텍스트 필드 활성화 시 어두운 배경
     lazy var darkOverlayView: UIView = {
         let darkOverlayView = UIView()
-        darkOverlayView.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        darkOverlayView.backgroundColor = UIColor.theme.trans60
         return darkOverlayView
+    }()
+    // 블러 효과
+    // TODO: - 피그마에 나와있는 정확한 값을 반영하는 방법 찾아보기
+    lazy var blurEffectView: CustomIntensityVisualEffectView = {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurView = CustomIntensityVisualEffectView(effect: blurEffect, intensity: 0.4)
+        return blurView
     }()
 
     // MARK: - 텍스트 필드 활성화 시 상단 편집 바
@@ -147,6 +146,8 @@ final class MyPageView: UIView {
         textFieldEditStack.axis = .horizontal
         textFieldEditStack.alignment = .center
         textFieldEditStack.distribution = .equalCentering
+        textFieldEditStack.layoutMargins = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        textFieldEditStack.isLayoutMarginsRelativeArrangement = true
 
         textFieldEditStack.addArrangedSubview(textFieldEditCancelButton)
         textFieldEditStack.addArrangedSubview(textFieldEditTitle)
@@ -187,26 +188,18 @@ final class MyPageView: UIView {
     override func draw(_ rect: CGRect) {
         addSubview(userInfoView)
 
-//        userInfoView.layer.addSublayer(gradient)
-        userInfoView.addSubview(settingsButton)
-        userInfoView.addSubview(nicknameStack)
+        userInfoView.addSubview(nicknameStackView)
 
-        nicknameStack.addArrangedSubview(nicknameLabel)
-        nicknameStack.addArrangedSubview(editButton)
+        nicknameStackView.addArrangedSubview(nicknameLabel)
+        nicknameStackView.addArrangedSubview(nicknameEditButton)
 
-        userInfoView.addSubview(imageView)
-        userInfoView.addSubview(addButton)
+        userInfoView.addSubview(profileImageView)
+        userInfoView.addSubview(profileImageEditButton)
 
         darkOverlayView.isHidden = true
-        addSubview(darkOverlayView)
-        darkOverlayView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        textField.isHidden = true
-        textFieldEditStack.isHidden = true
-        addSubview(textField)
-        addSubview(textFieldEditStack)
+        darkOverlayView.addSubview(blurEffectView)
+        darkOverlayView.addSubview(nicknameTextField)
+        darkOverlayView.addSubview(textFieldEditStack)
 
         setAutoLayout()
     }
@@ -214,47 +207,41 @@ final class MyPageView: UIView {
     // 상위 뷰의 크기가 변경되었을 때 하위 뷰에 적용되는 변경사항을 반영
     override func layoutSubviews() {
         super.layoutSubviews()
+        blurEffectView.frame = darkOverlayView.bounds
     }
 
     // MARK: - 오토 레이아웃 설정 메서드
     func setAutoLayout() {
         userInfoView.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(-20)
+            make.top.equalToSuperview()
             make.leading.trailing.equalToSuperview()
-            make.height.equalTo(340)
+            make.height.equalTo(247)
         }
-        settingsButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(12)
-            make.trailing.equalToSuperview().inset(20)
-        }
-        imageView.snp.makeConstraints { make in
+        profileImageView.snp.makeConstraints { make in
             make.width.height.equalTo(80)
             make.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(59)
+            make.bottom.equalToSuperview().inset(28)
         }
-        addButton.snp.makeConstraints { make in
-            make.trailing.bottom.equalTo(imageView)
+        profileImageEditButton.snp.makeConstraints { make in
+            make.trailing.bottom.equalTo(profileImageView)
             make.width.height.equalTo(24)
         }
-        nicknameStack.snp.makeConstraints { make in
+        nicknameStackView.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(67)
+            make.bottom.equalToSuperview().inset(27)
         }
-        editButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-        }
-        textField.snp.makeConstraints { make in
+        nicknameTextField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalTo(userInfoView.snp.bottom).offset(-30)
+            make.top.equalTo(userInfoView.snp.bottom).offset(10)
         }
         bottomLine.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(textField.snp.bottom).inset(-5)
+            make.top.equalTo(nicknameTextField.snp.bottom).inset(-5)
             make.height.equalTo(1)
         }
         textFieldEditStack.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(2)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.top.equalToSuperview().inset(49)
+            make.leading.trailing.equalToSuperview()
             make.height.equalTo(42)
         }
     }
