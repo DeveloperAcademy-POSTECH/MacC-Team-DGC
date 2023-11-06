@@ -40,19 +40,7 @@ final class FinalConfirmView: UIView {
         return buttons
     }()
 
-    lazy var nextButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("카풀 초대하기", for: .normal)
-        button.backgroundColor = UIColor.semantic.accPrimary
-        button.titleLabel?.font = UIFont.carmuFont.headline2
-        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        button.setBackgroundImage(
-            UIImage(color: UIColor.semantic.textSecondary ?? .white),
-            for: .highlighted
-        )
-        button.layer.cornerRadius = 30
-        return button
-    }()
+    let nextButton = NextButton(buttonTitle: "카풀 초대하기")
 
     override init(frame: CGRect) {
         super.init(frame: frame)

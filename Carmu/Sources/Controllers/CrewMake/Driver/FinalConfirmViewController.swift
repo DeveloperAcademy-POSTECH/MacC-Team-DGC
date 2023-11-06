@@ -18,16 +18,7 @@ final class FinalConfirmViewController: UIViewController {
         view.backgroundColor = UIColor.semantic.backgroundDefault
         navigationItem.rightBarButtonItem = RightNavigationBarButton(buttonTitle: "수정하기")
 
-        finalConfirmView.daySelectButton.setTitle(
-            setDayButtonTitle([0, 1, 2, 3, 4]),
-            for: .normal
-        )
-        finalConfirmView.nextButton.addTarget(
-            self,
-            action: #selector(nextButtonTapped),
-            for: .touchUpInside
-        )
-
+        additionalSetting()
         view.addSubview(finalConfirmView)
         finalConfirmView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -39,6 +30,19 @@ final class FinalConfirmViewController: UIViewController {
 
 // MARK: - custom Method
 extension FinalConfirmViewController {
+
+    private func additionalSetting() {
+        finalConfirmView.daySelectButton.setTitle(
+            // TODO: 추후 이전 화면에서 설정된 배열로 파라미터 전달
+            setDayButtonTitle([0, 1, 2, 3, 4]),
+            for: .normal
+        )
+        finalConfirmView.nextButton.addTarget(
+            self,
+            action: #selector(nextButtonTapped),
+            for: .touchUpInside
+        )
+    }
 
     /**
      그룹이름 랜덤 생성 메서드
@@ -104,7 +108,7 @@ extension FinalConfirmViewController {
 extension FinalConfirmViewController {
 
     @objc private func editButtonTapped() {
-
+        // TODO: 수정 화면 present 구현
     }
 
     @objc private func nextButtonTapped() {
