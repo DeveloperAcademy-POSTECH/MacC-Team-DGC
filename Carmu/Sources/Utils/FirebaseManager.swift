@@ -365,7 +365,7 @@ extension FirebaseManager {
             destination: destination,
             inviteCode: inviteCode,
             repeatDay: repeatDay,
-            sessionStatus: true,
+            sessionStatus: .waiting,
             crewStatus: [:]
         )
         setCrewToUser(captainID, key)
@@ -459,8 +459,8 @@ extension FirebaseManager {
                 destination: snapshotValue["destination"] as? Point ?? defaultPoint,
                 inviteCode: snapshotValue["inviteCode"] as? String ?? "",
                 repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                sessionStatus: snapshotValue["sessionStatus"] as? Bool ?? true,
-                crewStatus: snapshotValue["crewStatus"] as? [UserIdentifier: Bool] ?? [:]
+                sessionStatus: snapshotValue["sessionStatus"] as? Status ?? .waiting,
+                crewStatus: snapshotValue["crewStatus"] as? [UserIdentifier: Status] ?? [:]
             )
             completion(crew)
         }

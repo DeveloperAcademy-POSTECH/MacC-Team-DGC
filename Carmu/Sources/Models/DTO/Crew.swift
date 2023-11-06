@@ -29,8 +29,18 @@ struct Crew: Codable {
     var destination: Point
     var inviteCode: String
     var repeatDay: [Int]
-    var sessionStatus: Bool
-    var crewStatus: [UserIdentifier: Bool]
+    var sessionStatus: Status
+    var crewStatus: [UserIdentifier: Status]
+}
+
+/**
+ 세션의 상태와 크루원의 상태를 구분하기 위한 enum 타입
+ 미응답, 승인, 거절의 경우로 나누었습니다.
+ */
+enum Status: String, Codable {
+    case waiting
+    case accept
+    case decline
 }
 
 // 더미 데이터
@@ -61,6 +71,6 @@ let crewData: Crew? = Crew(
     ),
     inviteCode: "0101010",
     repeatDay: [1, 2, 3, 4, 5],
-    sessionStatus: true,
-    crewStatus: ["uni": false, "rei": false, "bazzi": false]
+    sessionStatus: .waiting,
+    crewStatus: ["uni": .waiting, "rei": .waiting, "bazzi": .waiting]
 )
