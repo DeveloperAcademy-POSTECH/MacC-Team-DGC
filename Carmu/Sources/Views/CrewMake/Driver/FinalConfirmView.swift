@@ -66,7 +66,10 @@ final class FinalConfirmView: UIView {
         setupViews()
         setAutoLayout()
     }
+}
 
+// MARK: - Setup UI, Constraints
+extension FinalConfirmView {
     private func setupViews() {
         firstLineTitleStack.axis = .horizontal
         containerStack.axis = .horizontal
