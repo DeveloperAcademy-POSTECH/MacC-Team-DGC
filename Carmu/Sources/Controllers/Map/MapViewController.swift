@@ -29,7 +29,7 @@ struct Points {
 
 final class MapViewController: UIViewController {
 
-    private let mapView = MapView()
+    private lazy var mapView = MapView(points: points)
     private let detailView = MapDetailView()
 
     private let locationManager = CLLocationManager()
@@ -96,51 +96,37 @@ final class MapViewController: UIViewController {
         locationManager.startUpdatingLocation()
     }
 
-    // TODO: - 크루의 실제 위경도 입력 받아서 넣어주기
     private func showPickuplocations() {
-        mapView.startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
         mapView.startingPoint.touchHandler = { (_: NMFOverlay) -> Bool in
             self.touchMarker(location: .startingPoint, address: "기숙사 18동")
             return true
         }
-        mapView.startingPoint.mapView = mapView.naverMap
 
         if let coordinate = points.pickupLocation1 {
-            mapView.pickupLocation1.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
-            mapView.pickupLocation1.hidden = false
             mapView.pickupLocation1.touchHandler = { (_: NMFOverlay) -> Bool in
                 self.touchMarker(location: .pickupLocation1, address: "테드집")
                 return true
             }
-            mapView.pickupLocation1.mapView = mapView.naverMap
         }
 
         if let coordinate = points.pickupLocation2 {
-            mapView.pickupLocation2.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
-            mapView.pickupLocation2.hidden = false
             mapView.pickupLocation2.touchHandler = { (_: NMFOverlay) -> Bool in
                 self.touchMarker(location: .pickupLocation2, address: "롯데리아")
                 return true
             }
-            mapView.pickupLocation2.mapView = mapView.naverMap
         }
 
         if let coordinate = points.pickupLocation3 {
-            mapView.pickupLocation3.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
-            mapView.pickupLocation3.hidden = false
             mapView.pickupLocation3.touchHandler = { (_: NMFOverlay) -> Bool in
                 self.touchMarker(location: .pickupLocation3, address: "미정")
                 return true
             }
-            mapView.pickupLocation3.mapView = mapView.naverMap
         }
 
-        mapView.destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
         mapView.destination.touchHandler = { (_: NMFOverlay) -> Bool in
             self.touchMarker(location: .destination, address: "애플 디벨로퍼 아카데미")
             return true
         }
-        mapView.destination.mapView = mapView.naverMap
     }
 
     private func fetchDirections() {

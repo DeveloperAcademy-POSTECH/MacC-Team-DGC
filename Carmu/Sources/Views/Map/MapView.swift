@@ -15,6 +15,8 @@ final class MapView: UIView {
 
     private let carMarker = NMFMarker()
 
+    private let points: Points
+
     let startingPoint = {
         let marker = NMFMarker()
         marker.iconImage = NMFOverlayImage(name: "startingPoint")
@@ -66,9 +68,16 @@ final class MapView: UIView {
         return toastLabel
     }()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(points: Points) {
+        self.points = points
+        super.init(frame: .zero)
+    }
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func draw(_ rect: CGRect) {
         addSubview(naverMap)
         naverMap.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -80,10 +89,35 @@ final class MapView: UIView {
             make.top.equalTo(50)
             make.width.height.equalTo(60)
         }
+
+        showPoints()
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
+    // TODO: - 크루의 실제 위경도 입력 받아서 넣어주기
+    func showPoints() {
+        startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
+        startingPoint.mapView = naverMap
+
+        if let coordinate = points.pickupLocation1 {
+            pickupLocation1.hidden = false
+            pickupLocation1.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            pickupLocation1.mapView = naverMap
+        }
+
+        if let coordinate = points.pickupLocation2 {
+            pickupLocation2.hidden = false
+            pickupLocation2.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            pickupLocation2.mapView = naverMap
+        }
+
+        if let coordinate = points.pickupLocation3 {
+            pickupLocation3.hidden = false
+            pickupLocation3.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            pickupLocation3.mapView = naverMap
+        }
+
+        destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
+        destination.mapView = naverMap
     }
 
     func changeMarkerColor(location: PickupLocation) {
