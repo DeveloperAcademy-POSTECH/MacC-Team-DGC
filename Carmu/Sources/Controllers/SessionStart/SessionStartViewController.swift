@@ -101,11 +101,16 @@ extension SessionStartViewController {
 
     private func settingData() {
         if crewData?.sessionStatus == .accept {  // 당일 운행을 할 때
+            sessionStartView.topComment.text = "운전자의 시작을\n기다리세요"
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
         } else if crewData?.sessionStatus == .decline {    // 당일 운행을 하지 않을 때
+            sessionStartView.topComment.text = ""
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+
+            sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀이 운행되지 않아요"
+            sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.negative
 
             if isCaptain() {
                 sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
@@ -228,7 +233,7 @@ extension SessionStartViewController {
         }
         sessionStartView.topComment.attributedText = topCommentText
 
-        sessionStartView.notifyComment.text = "기본값은 없어야 함"
+        sessionStartView.notifyComment.text = ""
 
         sessionStartView.individualButton.setTitle("따로가요", for: .normal)
         sessionStartView.togetherButton.setTitle("함께가요", for: .normal)
@@ -311,10 +316,24 @@ extension SessionStartViewController {
     // TODO: - 실제 데이터로 변경
     @objc private func individualButtonDidTapped() {
         print("clicked")
-        sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
-        sessionStartDriverView.layer.opacity = 1.0
 
-        // TODO: - 버튼 색상 상의하기 !
+        // 운전자가 클릭했을 때
+        if isCaptain() {
+            sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+            sessionStartDriverView.layer.opacity = 1.0
+        } else {    // 크루원이 클릭했을 때 -> 텍스트 변경
+            if crewData?.sessionStatus != .decline {    // 응답을 하지 않았거나, 수락을 했을 때
+                sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
+                sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
+                sessionStartView.notifyComment.text = ""
+            }
+
+            // 크루원의 뷰 나타내기
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+            sessionStartPassengerView.layer.opacity = 1.0
+        }
+        sessionStartView.topComment.text = ""
         sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
         sessionStartView.individualButton.isEnabled = false
         sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird

@@ -138,12 +138,11 @@ final class PassengerFrontView: UIView {
         imgView.contentMode = .scaleAspectFit
         return imgView
     }()
-    private lazy var noDriveComment: UILabel = {
+    lazy var noDriveComment: UILabel = {
         let label = UILabel()
-        label.text = "오늘은 카풀을 운행하지 않아요"
         label.font = UIFont.carmuFont.subhead3
-        label.textColor = UIColor.semantic.negative
         label.textAlignment = .center
+        label.numberOfLines = 0
         return label
     }()
 
