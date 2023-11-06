@@ -16,24 +16,33 @@ final class FinalConfirmViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
+        navigationItem.rightBarButtonItem = RightNavigationBarButton(buttonTitle: "수정하기")
 
-        inviteCode = generateRandomCode()
-
-        finalConfirmView.nextButton.addTarget(
-            self,
-            action: #selector(nextButtonTapped),
-            for: .touchUpInside
-        )
-
+        additionalSetting()
         view.addSubview(finalConfirmView)
         finalConfirmView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        inviteCode = generateRandomCode()
     }
 }
 
 // MARK: - custom Method
 extension FinalConfirmViewController {
+
+    private func additionalSetting() {
+        finalConfirmView.daySelectButton.setTitle(
+            // TODO: 추후 이전 화면에서 설정된 배열로 파라미터 전달
+            setDayButtonTitle([0, 1, 2, 3, 4]),
+            for: .normal
+        )
+        finalConfirmView.nextButton.addTarget(
+            self,
+            action: #selector(nextButtonTapped),
+            for: .touchUpInside
+        )
+    }
 
     /**
      그룹이름 랜덤 생성 메서드
@@ -45,9 +54,9 @@ extension FinalConfirmViewController {
             "훈훈한", "황금빛", "순백의", "바쁜", "활발한", "선선한", "정직한", "강력한", "가난한",
             "훈남훈녀", "맑은", "부드러운", "흥미로운", "어두운", "행복한", "놀라운", "성실한", "창조적인", "운좋은",
             "훌륭한", "안정된", "명확한", "화려한", "바람직한", "조용한", "귀여운", "편안한", "어려운", "단단한",
-            "우아한", "소중한", "예쁜", "인기있는", "우아한", "아름다운", "가까운", "훈훈한", "좋아요"
+            "우아한", "소중한", "예쁜", "인기있는", "우아한", "아름다운", "가까운", "훈훈한", "좋아요",
+            "뒷목잡는", "막강한", "웃긴", "재미있는", "선남선녀", "우주최강", "날로먹는", "간편한"
         ]
-
         return "\(randomNameList.randomElement() ?? "좋아요") 카풀팟"
     }
 
@@ -63,13 +72,44 @@ extension FinalConfirmViewController {
             let randomCharacter = letters[letters.index(letters.startIndex, offsetBy: randomIndex)]
             randomString.append(randomCharacter)
         }
-
         return randomString
+    }
+
+    /**
+     상단 요일버튼 String 생성 메서드
+     */
+    private func setDayButtonTitle(_ selectedDay: [Int]) -> String {
+        let days = ["월", "화", "수", "목", "금", "토", "일"]
+        let selectedDay = selectedDay.sorted(by: <)
+        var returnString = [String]()
+
+        switch selectedDay {
+        case [0, 1, 2, 3, 4]:
+            returnString.append("주중")
+        case [5, 6]:
+            returnString.append("주말")
+        case [0, 1, 2, 3, 4, 5, 6]:
+            returnString.append("매일")
+        default:
+            for index in selectedDay {
+                returnString.append(days[index])
+            }
+        }
+
+        if returnString.count == 1 {
+            return returnString[0]
+        } else {
+            return returnString.joined(separator: ", ")
+        }
     }
 }
 
 // MARK: - @objc Method
 extension FinalConfirmViewController {
+
+    @objc private func editButtonTapped() {
+        // TODO: 수정 화면 present 구현
+    }
 
     @objc private func nextButtonTapped() {
         let randomCode = generateRandomCode()
