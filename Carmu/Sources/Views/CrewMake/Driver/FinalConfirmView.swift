@@ -15,7 +15,21 @@ final class FinalConfirmView: UIView {
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "확인")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "해주세요")
 
-    private lazy var colorLine = CrewMakeUtil.createColorLineView()
+    lazy var containerStack = UIStackView()
+    lazy var colorLine = CrewMakeUtil.createColorLineView()
+    var customTableStack = UIStackView()
+    lazy var customStackCell: [StopoverSelectButton] = {
+        var buttons: [StopoverSelectButton] = []
+
+        for (index, address) in ["출발지 주소", "경유지 주소", "경유지 2주소 입니다dddfdfd", "도착지 주소"].enumerated() {
+            let button = StopoverSelectButton(address: address, time: Date())
+            button.isEnabled = false
+            button.tag = index
+            buttons.append(button)
+        }
+
+        return buttons
+    }()
 
     lazy var nextButton: UIButton = {
         let button = UIButton()
@@ -47,14 +61,25 @@ final class FinalConfirmView: UIView {
 
     private func setupViews() {
         firstLineTitleStack.axis = .horizontal
+        containerStack.axis = .horizontal
+        containerStack.spacing = 10
+        customTableStack.axis = .vertical
+        customTableStack.distribution = .equalSpacing
+
+        addSubview(firstLineTitleStack)
+        addSubview(containerStack)
+        addSubview(nextButton)
 
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
         firstLineTitleStack.addArrangedSubview(titleLabel3)
 
-        addSubview(firstLineTitleStack)
-        addSubview(colorLine)
-        addSubview(nextButton)
+        containerStack.addArrangedSubview(colorLine)
+        containerStack.addArrangedSubview(customTableStack)
+
+        for element in customStackCell {
+            customTableStack.addArrangedSubview(element)
+        }
     }
 
     private func setAutoLayout() {
@@ -63,10 +88,19 @@ final class FinalConfirmView: UIView {
             make.leading.equalToSuperview().inset(20)
         }
 
+        containerStack.snp.makeConstraints { make in
+            make.top.equalTo(firstLineTitleStack.snp.bottom).offset(80)
+            make.bottom.equalTo(nextButton.snp.top).offset(-54)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
         colorLine.snp.makeConstraints { make in
-            make.top.equalTo(firstLineTitleStack.snp.bottom).offset(40)
-            make.bottom.equalTo(nextButton.snp.top).offset(-52)
-            make.leading.equalToSuperview().inset(20)
+            make.verticalEdges.leading.equalToSuperview()
+            make.width.equalTo(12)
+        }
+
+        customTableStack.snp.makeConstraints { make in
+            make.verticalEdges.trailing.equalToSuperview()
         }
 
         nextButton.snp.makeConstraints { make in
