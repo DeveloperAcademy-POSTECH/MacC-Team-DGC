@@ -311,10 +311,19 @@ extension SessionStartViewController {
     // TODO: - 실제 데이터로 변경
     @objc private func individualButtonDidTapped() {
         print("clicked")
-        sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
-        sessionStartDriverView.layer.opacity = 1.0
 
-        // TODO: - 버튼 색상 상의하기 !
+        // 운전자가 클릭했을 때
+        if isCaptain() {
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+            sessionStartDriverView.layer.opacity = 1.0
+        } else {    // 크루원이 클릭했을 때
+            if crewData?.sessionStatus == .decline {    // 당일에 운전을 하지 않을 때
+                sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+                sessionStartPassengerView.layer.opacity = 1.0
+            } else {    // 응답을 하지 않았거나, 수락을 했을 때
+                print("거절")
+            }
+        }
         sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
         sessionStartView.individualButton.isEnabled = false
         sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
