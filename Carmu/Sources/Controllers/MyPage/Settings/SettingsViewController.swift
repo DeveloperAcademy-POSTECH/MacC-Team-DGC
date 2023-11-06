@@ -25,7 +25,7 @@ final class SettingsViewController: UIViewController {
         case friendAndOthers // 친구 및 기타 섹션
         case accountManagement // 계정 관리 섹션
     }
-    let friendAndOthersContents = ["친구 관리", "개인정보 처리방침", "문의하기"]
+    let friendAndOthersContents = ["개인정보 처리방침", "문의하기"]
     let accountManagementContents = ["로그아웃", "회원 탈퇴"]
 
     override func viewDidLoad() {
@@ -208,12 +208,9 @@ extension SettingsViewController: UITableViewDelegate {
         if indexPath.section == 0 {
             switch indexPath.row {
             case 0:
-                let friendListVC = FriendListViewController()
-                navigationController?.pushViewController(friendListVC, animated: true)
-            case 1:
                 let privacyVC = PrivacyViewController()
                 navigationController?.pushViewController(privacyVC, animated: true)
-            case 2:
+            case 1:
                 let inquiryVC = InquiryViewController()
                 navigationController?.pushViewController(inquiryVC, animated: true)
             default:
