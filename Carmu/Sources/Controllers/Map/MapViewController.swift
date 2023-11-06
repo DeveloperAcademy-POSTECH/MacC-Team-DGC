@@ -199,27 +199,12 @@ final class MapViewController: UIViewController {
 
     // Toast 알림 띄워주기
     func showToast(_ message: String, withDuration: Double, delay: Double) {
-        let toastLabel = UILabel(frame: CGRect(
-            x: (view.frame.size.width - 350) / 2,
-            y: 60,
-            width: 350,
-            height: 60)
-        )
-        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-        toastLabel.textColor = UIColor.white
-        toastLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
-        toastLabel.textAlignment = .center
-        toastLabel.text = message
-        toastLabel.alpha = 1.0
-        toastLabel.layer.cornerRadius = 16
-        toastLabel.clipsToBounds  =  true
-
-        view.addSubview(toastLabel)
-
+        mapView.toastLabel.text = message
+        view.addSubview(mapView.toastLabel)
         UIView.animate(withDuration: withDuration, delay: delay, options: .curveEaseOut, animations: {
-            toastLabel.alpha = 0.0
+            self.mapView.toastLabel.alpha = 0.0
         }, completion: {(_) in
-            toastLabel.removeFromSuperview()
+            self.mapView.toastLabel.removeFromSuperview()
         })
     }
 }

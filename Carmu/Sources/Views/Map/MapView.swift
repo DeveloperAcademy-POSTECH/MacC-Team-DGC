@@ -54,6 +54,18 @@ final class MapView: UIView {
         return backButton
     }()
 
+    lazy var toastLabel = {
+        let toastLabel = UILabel(frame: CGRect(x: (frame.size.width - 350) / 2, y: 60, width: 350, height: 60))
+        toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
+        toastLabel.textAlignment = .center
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 16
+        toastLabel.clipsToBounds = true
+        return toastLabel
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
