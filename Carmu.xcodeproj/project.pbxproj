@@ -88,6 +88,8 @@
 		C95462152AF74D46004C4F6D /* TimeSelectCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95462142AF74D46004C4F6D /* TimeSelectCellView.swift */; };
 		C95462172AF75A29004C4F6D /* TimeSelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95462162AF75A29004C4F6D /* TimeSelectModalView.swift */; };
 		C95462192AF75A42004C4F6D /* TimeSelectModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95462182AF75A42004C4F6D /* TimeSelectModalViewController.swift */; };
+		C954621E2AF77D9D004C4F6D /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954621D2AF77D9D004C4F6D /* NextButton.swift */; };
+		C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */; };
 		C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */; };
 		C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C1202ADE25590016DE13 /* String+Extension.swift */; };
 		C9D8E4DC2AF4814E007570EE /* TimeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */; };
@@ -186,6 +188,8 @@
 		C95462142AF74D46004C4F6D /* TimeSelectCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectCellView.swift; sourceTree = "<group>"; };
 		C95462162AF75A29004C4F6D /* TimeSelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectModalView.swift; sourceTree = "<group>"; };
 		C95462182AF75A42004C4F6D /* TimeSelectModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectModalViewController.swift; sourceTree = "<group>"; };
+		C954621D2AF77D9D004C4F6D /* NextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButton.swift; sourceTree = "<group>"; };
+		C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectButton.swift; sourceTree = "<group>"; };
 		C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		C9C7C1202ADE25590016DE13 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectViewController.swift; sourceTree = "<group>"; };
@@ -473,7 +477,7 @@
 				C95462122AF74BFC004C4F6D /* StartEndPointSelect */,
 				C93116652AF382260014E702 /* StopoverPointCheckViewController.swift */,
 				C95462132AF74C0B004C4F6D /* TimeSelect */,
-				C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */,
+				C95462212AF7B2B0004C4F6D /* RepeatDaySelect */,
 				C9D8E4E52AF484F3007570EE /* FinalConfirmViewController.swift */,
 				C9D8E4E72AF48650007570EE /* CodeShareViewController.swift */,
 			);
@@ -495,7 +499,7 @@
 				C95462112AF74BEA004C4F6D /* StartEndPointSelect */,
 				C93116672AF3822D0014E702 /* StopoverPointCheckView.swift */,
 				C95462102AF74BD4004C4F6D /* TimeSelect */,
-				C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */,
+				C95462242AF7B300004C4F6D /* RepeatDaySelect */,
 				C9D8E4E32AF484B3007570EE /* FinalConfirmView.swift */,
 				C9D8E4E92AF486B6007570EE /* CodeShareView.swift */,
 				C93116812AF3DE890014E702 /* Cell */,
@@ -551,14 +555,40 @@
 			path = TimeSelect;
 			sourceTree = "<group>";
 		};
+		C954621C2AF77D52004C4F6D /* ButtonComponent */ = {
+			isa = PBXGroup;
+			children = (
+				C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */,
+				C9F43BE02AF3430C00BAA0E3 /* StopoverSelectButton.swift */,
+				C954621D2AF77D9D004C4F6D /* NextButton.swift */,
+				C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */,
+			);
+			path = ButtonComponent;
+			sourceTree = "<group>";
+		};
+		C95462212AF7B2B0004C4F6D /* RepeatDaySelect */ = {
+			isa = PBXGroup;
+			children = (
+				C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */,
+			);
+			path = RepeatDaySelect;
+			sourceTree = "<group>";
+		};
+		C95462242AF7B300004C4F6D /* RepeatDaySelect */ = {
+			isa = PBXGroup;
+			children = (
+				C9D8E4E12AF482D0007570EE /* RepeatDaySelectView.swift */,
+			);
+			path = RepeatDaySelect;
+			sourceTree = "<group>";
+		};
 		C95C07AC2AE0BB3E007E7589 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
 				BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */,
 				C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */,
-				C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */,
-				C9F43BE02AF3430C00BAA0E3 /* StopoverSelectButton.swift */,
+				C954621C2AF77D52004C4F6D /* ButtonComponent */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -706,6 +736,7 @@
 				B8DD15E62AD63FD500685E48 /* FriendDetailViewController.swift in Sources */,
 				B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
+				C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */,
 				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
 				161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */,
 				C9D8E4E82AF48650007570EE /* CodeShareViewController.swift in Sources */,
@@ -741,6 +772,7 @@
 				C9F43BD92AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift in Sources */,
 				C93116702AF3ABB20014E702 /* StartEndPointSelectView.swift in Sources */,
 				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
+				C954621E2AF77D9D004C4F6D /* NextButton.swift in Sources */,
 				B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */,
 				C9F43BDF2AF2C09500BAA0E3 /* BoardingPointSelectView.swift in Sources */,
 				B8DD15E22AD52CC300685E48 /* FriendAddViewController.swift in Sources */,

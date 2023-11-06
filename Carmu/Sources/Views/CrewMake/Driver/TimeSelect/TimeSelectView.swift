@@ -21,7 +21,6 @@ final class TimeSelectView: UIView {
     var customTableView = UIStackView()
     lazy var customTableVieWCell: [TimeSelectCellView] = {
         var cells: [TimeSelectCellView] = []
-
         var timeAddressDict = [
             ("출발지 주소", Date.now),
             ("경유지 주소", Date.now + 600),
@@ -34,7 +33,6 @@ final class TimeSelectView: UIView {
             cellView.detailTimeButton.tag = index
             cells.append(cellView)
         }
-
         return cells
     }()
 
@@ -49,7 +47,6 @@ final class TimeSelectView: UIView {
             for: .highlighted
         )
         button.layer.cornerRadius = 30
-
         return button
     }()
 
@@ -62,11 +59,11 @@ final class TimeSelectView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        setupViews()
-        setAutoLayout()
+        setupUI()
+        setupConstraints()
     }
 
-    private func setupViews() {
+    private func setupUI() {
         firstLineTitleStack.axis = .horizontal
         selectTableStack.axis = .horizontal
         selectTableStack.spacing = 12
@@ -93,7 +90,7 @@ final class TimeSelectView: UIView {
         }
     }
 
-    private func setAutoLayout() {
+    private func setupConstraints() {
         firstLineTitleStack.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
@@ -112,13 +109,11 @@ final class TimeSelectView: UIView {
 
         colorLine.snp.makeConstraints { make in
             make.verticalEdges.leading.equalToSuperview()
-            make.trailing.equalTo(customTableView.snp.leading).offset(-12)
             make.width.equalTo(12)
         }
 
         customTableView.snp.makeConstraints { make in
             make.verticalEdges.trailing.equalToSuperview()
-            make.leading.equalTo(colorLine.snp.trailing).offset(12)
         }
 
         nextButton.snp.makeConstraints { make in
