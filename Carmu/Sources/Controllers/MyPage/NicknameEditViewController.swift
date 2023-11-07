@@ -9,9 +9,21 @@ import UIKit
 
 import SnapKit
 
+// 수정된 닉네임 값을 이전 화면(MyPageView)에 전달하기 위한 델리게이트 프로토콜
+protocol NicknameEditViewControllerDelegate: AnyObject {
+
+    func sendNewNickname(newNickname: String)
+}
+
+// MARK: - 닉네임 변경 화면 뷰 컨트롤러
 final class NicknameEditViewController: UIViewController {
 
+    // 델리게이트 선언
+    weak var delegate: NicknameEditViewControllerDelegate?
+
     private let nicknameEditView = NicknameEditView()
+
+    // 뒷배경을 흐리게 하기 위한 블러 뷰
     lazy var blurEffectView: UIView = {
         let containerView = UIView()
         let blurEffect = UIBlurEffect(style: .dark)
@@ -43,16 +55,32 @@ final class NicknameEditViewController: UIViewController {
         nicknameEditView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        // 블러효과 적용
         view.addSubview(blurEffectView)
         view.sendSubviewToBack(blurEffectView)
 
-        nicknameEditView.textFieldEditCancelButton.addTarget(self, action: #selector(dismissTextField), for: .touchUpInside)
-        nicknameEditView.textFieldEditDoneButton.addTarget(self, action: #selector(changeNickname), for: .touchUpInside)
+        // 버튼에 타겟 추가
+        nicknameEditView.textFieldEditCancelButton.addTarget(
+            self,
+            action: #selector(dismissNicknameEditView),
+            for: .touchUpInside
+        )
+        nicknameEditView.textFieldEditDoneButton.addTarget(
+            self,
+            action: #selector(performNicknameChange),
+            for: .touchUpInside
+        )
 
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissNicknameEditView))
         nicknameEditView.addGestureRecognizer(tapGesture)
 
         nicknameEditView.nicknameTextField.delegate = self
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 화면이 나올 때 바로 키보드 입력 가능하도록 최초 응답자 지정
+        nicknameEditView.nicknameTextField.becomeFirstResponder()
     }
 }
 
@@ -60,12 +88,13 @@ final class NicknameEditViewController: UIViewController {
 extension NicknameEditViewController {
 
     // 어두운 뷰 탭하면 텍스트 필드를 포함하고 있는 darkOverlayView 비활성화
-    @objc private func dismissTextField() {
+    @objc private func dismissNicknameEditView() {
         presentingViewController?.dismiss(animated: false)
     }
 
-    // [확인] 혹은 키보드의 엔터 버튼을 눌렀을 때 닉네임 수정사항을 DB에 반영해주는 메서드
-    @objc private func changeNickname() {
+    // [확인] 혹은 키보드의 엔터 버튼을 눌렀을 때 닉네임 수정사항을 반영해주는 메서드
+    @objc private func performNicknameChange() {
+        // 파이어베이스 DB에 닉네임 업데이트
         guard let databasePath = User.databasePathWithUID else {
             return
         }
@@ -74,8 +103,8 @@ extension NicknameEditViewController {
         }
         databasePath.child("nickname").setValue(newNickname as NSString)
 
-//        myPageView.nicknameLabel.text = myPageView.nicknameTextField.text // TODO: - 마이페이지 텍스트에 반영
-        dismissTextField()
+        delegate?.sendNewNickname(newNickname: newNickname) // 마이페이지 뷰에 변경된 값 반영
+        dismissNicknameEditView()
     }
 }
 
@@ -83,7 +112,7 @@ extension NicknameEditViewController {
 extension NicknameEditViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        changeNickname()
+        performNicknameChange()
         return true
     }
 }

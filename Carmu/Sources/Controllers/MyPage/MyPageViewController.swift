@@ -50,7 +50,7 @@ final class MyPageViewController: UIViewController {
             guard let userData = userData else {
                 return
             }
-            self.myPageView.nicknameLabel.text = userData.nickname
+            self.updateNickname(newNickname: userData.nickname)
             self.selectedProfileImageColor = userData.profileImageColor
             self.updateProfileImageView(profileImageColor: self.selectedProfileImageColor)
         }
@@ -68,6 +68,12 @@ final class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "My Page"
+    }
+
+    // 변경된 닉네임을 업데이트해주는 메서드
+    func updateNickname(newNickname: String) {
+        print("닉네임 업데이트!!!")
+        myPageView.nicknameLabel.text = newNickname
     }
 
     // 프로필 이미지뷰를 업데이트해주는 메서드
@@ -89,6 +95,7 @@ extension MyPageViewController {
     // 닉네임 편집 버튼을 누르면 텍스트 필드를 포함하고 있는 darkOverlayView 활성화
     @objc private func showTextField() {
         let nicknameEditVC = NicknameEditViewController(nickname: myPageView.nicknameLabel.text ?? "")
+        nicknameEditVC.delegate = self
         nicknameEditVC.modalPresentationStyle = .overCurrentContext
         present(nicknameEditVC, animated: false)
     }
@@ -105,12 +112,23 @@ extension MyPageViewController {
 
 // MARK: - ProfileChangeViewControllerDelegate 델리게이트 구현
 /**
- ProfileChangeViewController에서 프로필 이미지 데이터가 변경되었을 때를 감지하여 호출
+ ProfileChangeViewController에서 프로필 이미지 데이터가 수정되었을 때 호출
  */
 extension MyPageViewController: ProfileChangeViewControllerDelegate {
 
     func sendProfileImageColor(profileImageColor: ProfileImageColor) {
         selectedProfileImageColor = profileImageColor
         updateProfileImageView(profileImageColor: profileImageColor)
+    }
+}
+
+// MARK: - NicknameEditViewControllerDelegate 델리게이트 구현
+/**
+ NicknameEditViewController에서 닉네임 데이터가 수정되었을 때 호출
+ */
+extension MyPageViewController: NicknameEditViewControllerDelegate {
+
+    func sendNewNickname(newNickname: String) {
+        updateNickname(newNickname: newNickname)
     }
 }
