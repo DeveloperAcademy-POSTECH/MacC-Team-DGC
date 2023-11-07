@@ -70,15 +70,34 @@ final class MyPageViewController: UIViewController {
         myPageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        // 크루 유무, 운전자 여부에 따른 화면 처리
+        setupCrewInfoView()
 
-        // 버튼에 Target 추가
-        myPageView.nicknameEditButton.addTarget(self, action: #selector(showTextField), for: .touchUpInside)
-        myPageView.profileImageEditButton.addTarget(self, action: #selector(showProfileChangeView), for: .touchUpInside)
+        addTargetToButtons()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "My Page"
+    }
+
+    // 버튼에 Target 추가
+    private func addTargetToButtons() {
+        myPageView.nicknameEditButton.addTarget(
+            self,
+            action: #selector(showTextField),
+            for: .touchUpInside
+        )
+        myPageView.profileImageEditButton.addTarget(
+            self,
+            action: #selector(showProfileChangeView),
+            for: .touchUpInside
+        )
+        crewInfoPassengerView.exitCrewButton.addTarget(
+            self,
+            action: #selector(exitCrewButtonTapped),
+            for: .touchUpInside
+        )
     }
 
     // 변경된 닉네임을 업데이트해주는 메서드
@@ -91,42 +110,6 @@ final class MyPageViewController: UIViewController {
     func updateProfileImageView(profileImageColor: ProfileImageColor) {
         print("프로필 이미지 뷰 업데이트!!!")
         myPageView.profileImageView.image = UIImage(myPageImageColor: profileImageColor)
-    }
-
-    // 크루 없을 때의 화면 오토 레이아웃
-    func setupNoCrewView() {
-        crewInfoNoCrewView.snp.makeConstraints { make in
-            make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(136)
-        }
-    }
-    // 크루 있을 때의 화면 (운전자)
-    func setupDriverView() {
-        crewInfoDriverView.snp.makeConstraints { make in
-            make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview().inset(136)
-        }
-
-        crewInfoDriverView.crewManageTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
-        crewInfoDriverView.crewManageTableView.dataSource = self
-        crewInfoDriverView.crewManageTableView.delegate = self
-    }
-    // 크루 있을 때의 화면 (동승자)
-    func setupPassengerView() {
-        crewInfoPassengerView.snp.makeConstraints { make in
-            make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview()
-        }
-
-        crewInfoPassengerView.giftCollectionView.register(
-            GiftCardCollectionViewCell.self,
-            forCellWithReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier
-        )
-        crewInfoPassengerView.giftCollectionView.delegate = self
-        crewInfoPassengerView.giftCollectionView.dataSource = self
     }
 }
 
@@ -154,6 +137,94 @@ extension MyPageViewController {
         profileChangeVC.selectedProfileImageColorIdx = selectedProfileImageColorIdx
         profileChangeVC.modalPresentationStyle = .formSheet
         present(profileChangeVC, animated: true)
+    }
+
+    // [크루 나가기] 버튼 클릭 시 호출
+    @objc private func exitCrewButtonTapped() {
+        // TODO: - 구현 필요
+        print("크루 나가기 버튼 클릭됨!!")
+    }
+}
+
+// MARK: - 크루 정보 화면 구성 관련 메서드
+extension MyPageViewController {
+
+    private func setupCrewInfoView() {
+        if !checkCrew() { // 그룹이 없을 때
+            setupNoCrewView()
+        } else { // 그룹이 있을 때
+            if isCaptain() { // 운전자일 경우
+                setupDriverView()
+            } else { // 동승자일 경우
+                setupPassengerView()
+            }
+        }
+    }
+
+    // 크루 유무 확인
+    // TODO: - 데이터 연결 로직 추가 필요
+    private func checkCrew() -> Bool {
+        if crewData == nil {
+            return false
+        } else {
+            return true
+        }
+    }
+
+    // 운전자 여부 확인
+    // TODO: - 데이터 연결 로직 추가 필요
+    private func isCaptain() -> Bool {
+        return false // 테스트용 값 설정
+    }
+
+    // 크루 없을 때의 화면 구성
+    func setupNoCrewView() {
+        crewInfoNoCrewView.isHidden = false
+        crewInfoDriverView.isHidden = true
+        crewInfoPassengerView.isHidden = true
+
+        crewInfoNoCrewView.snp.makeConstraints { make in
+            make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(136)
+        }
+    }
+
+    // 크루 있을 때의 화면 구성 (운전자)
+    func setupDriverView() {
+        crewInfoNoCrewView.isHidden = true
+        crewInfoDriverView.isHidden = false
+        crewInfoPassengerView.isHidden = true
+
+        crewInfoDriverView.snp.makeConstraints { make in
+            make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().inset(136)
+        }
+
+        crewInfoDriverView.crewManageTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
+        crewInfoDriverView.crewManageTableView.dataSource = self
+        crewInfoDriverView.crewManageTableView.delegate = self
+    }
+
+    // 크루 있을 때의 화면 구성 (동승자)
+    func setupPassengerView() {
+        crewInfoNoCrewView.isHidden = true
+        crewInfoDriverView.isHidden = true
+        crewInfoPassengerView.isHidden = false
+
+        crewInfoPassengerView.snp.makeConstraints { make in
+            make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview()
+        }
+
+        crewInfoPassengerView.giftCollectionView.register(
+            GiftCardCollectionViewCell.self,
+            forCellWithReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier
+        )
+        crewInfoPassengerView.giftCollectionView.delegate = self
+        crewInfoPassengerView.giftCollectionView.dataSource = self
     }
 }
 

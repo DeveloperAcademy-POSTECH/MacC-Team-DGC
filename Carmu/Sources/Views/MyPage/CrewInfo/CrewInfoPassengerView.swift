@@ -58,7 +58,7 @@ final class CrewInfoPassengerView: UIView {
     }()
 
     // 크루 나가기 버튼
-    private let exitCrewButton: UIButton = {
+    let exitCrewButton: UIButton = {
         let exitCrewButton = UIButton()
         let buttonFont = UIFont.carmuFont.subhead1
         var titleAttr = AttributedString(" 크루 나가기")
