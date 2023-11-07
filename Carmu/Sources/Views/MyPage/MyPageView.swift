@@ -132,21 +132,3 @@ final class MyPageView: UIView {
         }
     }
 }
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct MyPageViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyPageViewController
-    func makeUIViewController(context: Context) -> MyPageViewController {
-        return MyPageViewController()
-    }
-    func updateUIViewController(_ uiViewController: MyPageViewController, context: Context) {
-    }
-}
-@available(iOS 13.0.0, *)
-struct MyPageViewPreview: PreviewProvider {
-    static var previews: some View {
-        MyPageViewControllerRepresentable()
-    }
-}

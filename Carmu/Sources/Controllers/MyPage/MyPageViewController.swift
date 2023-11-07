@@ -13,6 +13,7 @@ import SnapKit
 final class MyPageViewController: UIViewController {
 
     private let myPageView = MyPageView()
+    private lazy var crewInfoNoCrewView = CrewInfoNoCrewView()
     private let firebaseManager = FirebaseManager()
 
     var selectedProfileImageColor: ProfileImageColor = .blue // 프로필 이미지를 표시해주기 위한 ProfileImageColor 값
@@ -56,9 +57,11 @@ final class MyPageViewController: UIViewController {
         }
 
         view.addSubview(myPageView)
+        view.addSubview(crewInfoNoCrewView)
         myPageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
 
         // 버튼에 Target 추가
         myPageView.nicknameEditButton.addTarget(self, action: #selector(showTextField), for: .touchUpInside)
@@ -80,6 +83,15 @@ final class MyPageViewController: UIViewController {
     func updateProfileImageView(profileImageColor: ProfileImageColor) {
         print("프로필 이미지 뷰 업데이트!!!")
         myPageView.profileImageView.image = UIImage(myPageImageColor: profileImageColor)
+    }
+
+    // 크루 없을 때의 화면 오토 레이아웃
+    func setupNoCrewView() {
+        crewInfoNoCrewView.snp.makeConstraints { make in
+            make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(136)
+        }
     }
 }
 
