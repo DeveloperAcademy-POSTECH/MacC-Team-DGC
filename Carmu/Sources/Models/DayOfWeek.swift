@@ -19,7 +19,7 @@ enum DayOfWeek: Int {
     static let weekday: Set<DayOfWeek> = [.mon, .tue, .wed, .thu, .fri]
     static let weekend: Set<DayOfWeek> = [.sat, .sun]
     static let everyday: Set<DayOfWeek> = [.mon, .tue, .wed, .thu, .fri, .sat, .sun]
-    
+
     var dayString: String {
         switch self {
         case .mon: return "월"

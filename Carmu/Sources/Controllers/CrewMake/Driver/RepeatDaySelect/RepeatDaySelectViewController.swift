@@ -39,17 +39,17 @@ final class RepeatDaySelectViewController: UIViewController {
 extension RepeatDaySelectViewController {
 
     @objc private func weekdayButtonTapped(_ sender: DaySelectButton) {
-        selectedRows = Set<DayOfWeek>([.mon, .tue, .wed, .thu, .fri])
+        selectedRows = DayOfWeek.weekday
         repeatDaySelectView.dayTableView.reloadData()
     }
 
     @objc private func weekendButtonTapped(_ sender: DaySelectButton) {
-        selectedRows = Set<DayOfWeek>([.sat, .sun])
+        selectedRows = DayOfWeek.weekend
         repeatDaySelectView.dayTableView.reloadData()
     }
 
     @objc private func everydayButtonTapped(_ sender: DaySelectButton) {
-        selectedRows = Set<DayOfWeek>([.mon, .tue, .wed, .thu, .fri, .sat, .sun])
+        selectedRows = DayOfWeek.everyday
         repeatDaySelectView.dayTableView.reloadData()
     }
 
@@ -69,6 +69,7 @@ extension RepeatDaySelectViewController {
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
         let viewController = FinalConfirmViewController()
+        viewController.selectedDay = selectedRows
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -147,10 +148,10 @@ extension RepeatDaySelectViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dayOfWeek: [DayOfWeek] = [.mon, .tue, .wed, .thu, .fri, .sat, .sun]
+        let day = DayOfWeek(rawValue: indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "repeatDayCell", for: indexPath)
-        cell.textLabel?.text = "\(dayOfWeek[indexPath.row].dayString)요일 마다"
-        cell.accessoryType = selectedRows.contains(dayOfWeek[indexPath.row]) ? .checkmark : .none
+        cell.textLabel?.text = "\(day?.dayString ?? "")요일 마다"
+        cell.accessoryType = selectedRows.contains(day ?? .mon) ? .checkmark : .none
         return cell
     }
 }
