@@ -29,11 +29,11 @@ final class FriendDetailView: UIView {
         return conicGradientLayer
     }()
 
-    private lazy var blurView: CustomIntensityVisualEffectView = {
-        let blurEffect = UIBlurEffect(style: .regular)
-        let blurView = CustomIntensityVisualEffectView(effect: blurEffect, intensity: 0.4)
-        return blurView
-    }()
+//    private lazy var blurView: CustomIntensityVisualEffectView = {
+//        let blurEffect = UIBlurEffect(style: .regular)
+//        let blurView = CustomIntensityVisualEffectView(effect: blurEffect, intensity: 0.4)
+//        return blurView
+//    }()
 
     // MARK: - 친구 닉네임
     lazy var friendNickname: UILabel = {
@@ -129,14 +129,14 @@ final class FriendDetailView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        blurView.frame = conicGradientView.bounds
+//        blurView.frame = conicGradientView.bounds
         conicGradientLayer.frame = conicGradientView.bounds
     }
 
     func setupUI() {
         addSubview(conicGradientView)
         conicGradientView.layer.addSublayer(conicGradientLayer)
-        addSubview(blurView)
+//        addSubview(blurView)
         conicGradientView.snp.makeConstraints { make in
             make.top.leading.trailing.equalToSuperview()
             make.height.equalTo(303)
