@@ -33,4 +33,6 @@ struct SemanticColor {
 
     let accPrimary = UIColor.theme.blue6
     let accSecondary = UIColor.theme.acua5
+
+    let stoke = UIColor.theme.blue3
 }

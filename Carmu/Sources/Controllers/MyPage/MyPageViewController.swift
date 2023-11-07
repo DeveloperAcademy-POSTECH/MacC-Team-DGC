@@ -12,9 +12,14 @@ import SnapKit
 // MARK: - 내 정보 탭 화면 뷰 컨트롤러
 final class MyPageViewController: UIViewController {
 
+    let dummyImage = ["coffee", "letter", "shoppingBag"]
+    let dummydistance = [200, 200, 200]
+    let dummyName = ["커피 한 잔", "주유상품권", "차량세척용품"]
+
     private let myPageView = MyPageView()
     private lazy var crewInfoNoCrewView = CrewInfoNoCrewView()
     private lazy var crewInfoDriverView = CrewInfoDriverView()
+    private lazy var crewInfoPassengerView = CrewInfoPassengerView()
 
     private let firebaseManager = FirebaseManager()
 
@@ -61,6 +66,7 @@ final class MyPageViewController: UIViewController {
         view.addSubview(myPageView)
         view.addSubview(crewInfoNoCrewView)
         view.addSubview(crewInfoDriverView)
+        view.addSubview(crewInfoPassengerView)
         myPageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -106,6 +112,21 @@ final class MyPageViewController: UIViewController {
         crewInfoDriverView.crewManageTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
         crewInfoDriverView.crewManageTableView.dataSource = self
         crewInfoDriverView.crewManageTableView.delegate = self
+    }
+    // 크루 있을 때의 화면 (동승자)
+    func setupPassengerView() {
+        crewInfoPassengerView.snp.makeConstraints { make in
+            make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview()
+        }
+
+        crewInfoPassengerView.giftCollectionView.register(
+            GiftCardCollectionViewCell.self,
+            forCellWithReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier
+        )
+        crewInfoPassengerView.giftCollectionView.delegate = self
+        crewInfoPassengerView.giftCollectionView.dataSource = self
     }
 }
 
@@ -203,20 +224,52 @@ extension MyPageViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
+// MARK: - UICollectionViewDataSource 델리게이트 구현
+extension MyPageViewController: UICollectionViewDataSource {
 
-struct MyPageViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyPageViewController
-    func makeUIViewController(context: Context) -> MyPageViewController {
-        return MyPageViewController()
+    // 컬렉션 뷰의 아이템 개수 설정
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
     }
-    func updateUIViewController(_ uiViewController: MyPageViewController, context: Context) {
+
+    // 컬렉션 뷰 구성
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier,
+            for: indexPath
+        ) as? GiftCardCollectionViewCell else {
+            return UICollectionViewCell()
+        }
+        cell.giftImageView.image = UIImage(named: dummyImage[indexPath.row])
+        cell.distanceLabel.text = "\(dummydistance[indexPath.row])km"
+        cell.giftNameLabel.text = dummyName[indexPath.row]
+        return cell
     }
 }
-@available(iOS 13.0.0, *)
-struct MyPageViewPreview: PreviewProvider {
-    static var previews: some View {
-        MyPageViewControllerRepresentable()
+
+// MARK: - UICollectionViewDelegateFlowLayout 델리게이트 구현 (UICollectionViewDelegate는 해당 프로토콜에서 채택 중)
+extension MyPageViewController: UICollectionViewDelegateFlowLayout {
+
+    // 기준 행 또는 열 사이에 들어가는 아이템 사이의 간격
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        minimumInteritemSpacingForSectionAt section: Int
+    ) -> CGFloat {
+        return 12
+    }
+
+    // 컬렉션 뷰의 사이즈
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        let cellHeight: CGFloat = crewInfoPassengerView.giftCollectionView.frame.height - 40
+        let cellWidth: CGFloat = crewInfoPassengerView.giftCollectionView.frame.width * 19 / 70
+        return CGSize(width: cellWidth, height: cellHeight)
     }
 }

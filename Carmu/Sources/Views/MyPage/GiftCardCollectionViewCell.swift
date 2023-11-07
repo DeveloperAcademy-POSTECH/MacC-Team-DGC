@@ -7,7 +7,7 @@
 
 import UIKit
 
-// MARK: - 친구 상세페이지 추천 선물 컬렉션 뷰 셀
+// MARK: - 동승자 크루 정보 화면 선물 컬렉션 뷰
 final class GiftCardCollectionViewCell: UICollectionViewCell {
 
     static let cellIdentifier = "giftCardCollectionViewCell"
@@ -40,9 +40,6 @@ final class GiftCardCollectionViewCell: UICollectionViewCell {
         setupViews()
         setAutoLayout()
 
-        self.layer.borderWidth = 1
-        self.layer.borderColor = UIColor.theme.blue3?.cgColor
-        self.layer.cornerRadius = 20
     }
     required init?(coder: NSCoder) {
         super.init(coder: coder)
