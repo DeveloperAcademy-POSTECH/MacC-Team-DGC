@@ -14,6 +14,8 @@ final class MyPageViewController: UIViewController {
 
     private let myPageView = MyPageView()
     private lazy var crewInfoNoCrewView = CrewInfoNoCrewView()
+    private lazy var crewInfoDriverView = CrewInfoDriverView()
+
     private let firebaseManager = FirebaseManager()
 
     var selectedProfileImageColor: ProfileImageColor = .blue // 프로필 이미지를 표시해주기 위한 ProfileImageColor 값
@@ -29,7 +31,7 @@ final class MyPageViewController: UIViewController {
         // 내비게이션 바 appearance 설정 (배경색)
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = UIColor.semantic.backgroundDefault
-        appearance.shadowColor = .red
+        appearance.shadowColor = UIColor.semantic.backgroundSecond
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.compactAppearance = appearance
@@ -58,10 +60,10 @@ final class MyPageViewController: UIViewController {
 
         view.addSubview(myPageView)
         view.addSubview(crewInfoNoCrewView)
+        view.addSubview(crewInfoDriverView)
         myPageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
 
         // 버튼에 Target 추가
         myPageView.nicknameEditButton.addTarget(self, action: #selector(showTextField), for: .touchUpInside)
@@ -92,6 +94,18 @@ final class MyPageViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(136)
         }
+    }
+    // 크루 있을 때의 화면 (운전자)
+    func setupDriverView() {
+        crewInfoDriverView.snp.makeConstraints { make in
+            make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(136)
+        }
+
+        crewInfoDriverView.crewManageTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
+        crewInfoDriverView.crewManageTableView.dataSource = self
+        crewInfoDriverView.crewManageTableView.delegate = self
     }
 }
 
@@ -142,5 +156,66 @@ extension MyPageViewController: NicknameEditViewControllerDelegate {
 
     func sendNewNickname(newNickname: String) {
         updateNickname(newNickname: newNickname)
+    }
+}
+
+// MARK: - UITableViewDataSource 프로토콜 구현
+extension MyPageViewController: UITableViewDataSource {
+
+    // 각 섹션의 row 수 반환
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+
+    // 각 row에 대한 셀 구성
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
+        cell.textLabel?.text = "크루 정보 수정하기"
+        cell.accessoryType = .disclosureIndicator
+        return cell
+    }
+}
+
+// MARK: UITableViewDelegate 프로토콜 구현
+extension MyPageViewController: UITableViewDelegate {
+
+    // 테이블 뷰 섹션 헤더 뷰 설정
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = .clear
+        return headerView
+    }
+
+    // 테이블 뷰 섹션 헤더 높이 설정
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 0
+    }
+
+    // 테이블 뷰 셀을 눌렀을 때에 대한 동작
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            // TODO: - 크루 정보 수정하기로 이동
+            print("크루 정보 수정하기")
+        }
+        // 클릭 후에는 셀의 선택이 해제된다.
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+// MARK: - 프리뷰 canvas 세팅
+import SwiftUI
+
+struct MyPageViewControllerRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = MyPageViewController
+    func makeUIViewController(context: Context) -> MyPageViewController {
+        return MyPageViewController()
+    }
+    func updateUIViewController(_ uiViewController: MyPageViewController, context: Context) {
+    }
+}
+@available(iOS 13.0.0, *)
+struct MyPageViewPreview: PreviewProvider {
+    static var previews: some View {
+        MyPageViewControllerRepresentable()
     }
 }

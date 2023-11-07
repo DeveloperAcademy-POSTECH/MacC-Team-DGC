@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - 마이페이지 하단 크루 정보 뷰 (크루가 없을 때)
 final class CrewInfoNoCrewView: UIView {
 
     private let noCrewStackView: UIStackView = {
@@ -72,23 +73,5 @@ final class CrewInfoNoCrewView: UIView {
         noCrewLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
         }
-    }
-}
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct MyPageViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = MyPageViewController
-    func makeUIViewController(context: Context) -> MyPageViewController {
-        return MyPageViewController()
-    }
-    func updateUIViewController(_ uiViewController: MyPageViewController, context: Context) {
-    }
-}
-@available(iOS 13.0.0, *)
-struct MyPageViewPreview: PreviewProvider {
-    static var previews: some View {
-        MyPageViewControllerRepresentable()
     }
 }
