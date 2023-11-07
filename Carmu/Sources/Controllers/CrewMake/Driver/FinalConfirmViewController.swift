@@ -34,7 +34,7 @@ extension FinalConfirmViewController {
     private func additionalSetting() {
         finalConfirmView.daySelectButton.setTitle(
             // TODO: 추후 이전 화면에서 설정된 배열로 파라미터 전달
-            setDayButtonTitle([0, 1, 2, 3, 4]),
+            setDayButtonTitle([.mon, .tue, .wed, .thu, .fri]),
             for: .normal
         )
         finalConfirmView.nextButton.addTarget(
@@ -78,21 +78,19 @@ extension FinalConfirmViewController {
     /**
      상단 요일버튼 String 생성 메서드
      */
-    private func setDayButtonTitle(_ selectedDay: [Int]) -> String {
-        let days = ["월", "화", "수", "목", "금", "토", "일"]
-        let selectedDay = selectedDay.sorted(by: <)
+    private func setDayButtonTitle(_ selectedDay: [DayOfWeek]) -> String {
         var returnString = [String]()
 
         switch selectedDay {
-        case [0, 1, 2, 3, 4]:
+        case [.mon, .tue, .wed, .thu, .fri]:
             returnString.append("주중")
-        case [5, 6]:
+        case [.sat, .sun]:
             returnString.append("주말")
-        case [0, 1, 2, 3, 4, 5, 6]:
+        case [.mon, .tue, .wed, .thu, .fri, .sat, .sun]:
             returnString.append("매일")
         default:
-            for index in selectedDay {
-                returnString.append(days[index])
+            for day in selectedDay {
+                returnString.append(day.dayString)
             }
         }
 
