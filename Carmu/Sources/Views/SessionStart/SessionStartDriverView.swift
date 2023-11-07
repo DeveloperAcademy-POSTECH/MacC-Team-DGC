@@ -589,8 +589,27 @@ final class DriverBackView: UIView {
     private func threeStopOverPoints() {
 
         setupThreeStopOverUI()
+
+        dotImage2.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(8)
+        }
+        dotImage1.snp.makeConstraints { make in
+            make.centerX.equalTo(dotImage2)
+            make.top.equalTo(dotImage2).dividedBy(1.4)
+            make.width.height.equalTo(8)
+        }
+        dotImage3.snp.makeConstraints { make in
+            make.centerX.equalTo(dotImage2)
+            make.bottom.equalTo(dotImage2).dividedBy(0.8)
+            make.width.height.equalTo(8)
+        }
+
+        setupThressStopOverConstraints()
     }
 }
+
+// MARK: - BackView Layouts
 
 extension DriverBackView {
     // 경유지들 addSubview
