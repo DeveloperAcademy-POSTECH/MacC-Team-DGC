@@ -238,7 +238,6 @@ final class DriverBackView: UIView {
         label.textAlignment = .center
         return label
     }()
-
     private lazy var startTimeLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
@@ -250,7 +249,6 @@ final class DriverBackView: UIView {
         label.layer.masksToBounds = true
         return label
     }()
-
     private lazy var startLabel: UILabel = {
         let label = UILabel()
         label.text = "출발"
@@ -269,7 +267,6 @@ final class DriverBackView: UIView {
         label.textAlignment = .center
         return label
     }()
-
     private lazy var endTimeLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
@@ -281,7 +278,6 @@ final class DriverBackView: UIView {
         label.layer.masksToBounds = true
         return label
     }()
-
     private lazy var endLabel: UILabel = {
         let label = UILabel()
         label.text = "도착"
@@ -291,10 +287,173 @@ final class DriverBackView: UIView {
         return label
     }()
 
+    // 경유지 관련
+    private lazy var stopOver1LocationLabel: UILabel = {
+        let label = UILabel()
+
+        // 이미지 추가
+        let imageAttachment = NSTextAttachment()
+        if let image = UIImage(systemName: "circle.fill") {
+            let tintedImage = image.withTintColor(UIColor.theme.blue3 ?? UIColor.systemBlue)
+            imageAttachment.image = tintedImage
+        }
+
+        // 이미지 크기 변경
+        let imageSize = CGSize(width: 8, height: 8)
+        imageAttachment.bounds = CGRect(origin: .zero, size: imageSize)
+
+        // 텍스트 추가
+        let text = " 경유지1 대표 명칭"
+        let attributedText = NSMutableAttributedString(string: "")
+        attributedText.append(NSAttributedString(attachment: imageAttachment))
+        attributedText.append(NSAttributedString(string: text))
+
+        // label에 attributedText 설정
+        label.attributedText = attributedText
+
+        // 나머지 속성 설정
+        label.font = UIFont.carmuFont.subhead1
+        label.textColor = UIColor.semantic.textPrimary
+        label.textAlignment = .center
+
+        return label
+    }()
+    private lazy var stopOver1TimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textAlignment = .center
+        label.font = UIFont.carmuFont.subhead1
+        label.textColor = UIColor.semantic.textTertiary
+        return label
+    }()
+    private lazy var stopOver1Label: UILabel = {
+        let label = UILabel()
+        label.text = "도착"
+        label.font = UIFont.carmuFont.body2
+        label.textColor = UIColor.semantic.textTertiary
+        label.textAlignment = .center
+        return label
+    }()
+    private lazy var stopOver2LocationLabel: UILabel = {
+        let label = UILabel()
+
+        // 이미지 추가
+        let imageAttachment = NSTextAttachment()
+        if let image = UIImage(systemName: "circle.fill") {
+            let tintedImage = image.withTintColor(UIColor.theme.blue3 ?? UIColor.systemBlue)
+            imageAttachment.image = tintedImage
+        }
+
+        // 이미지 크기 변경
+        let imageSize = CGSize(width: 8, height: 8)
+        imageAttachment.bounds = CGRect(origin: .zero, size: imageSize)
+
+        // 텍스트 추가
+        let text = " 경유지2 대표 명칭"
+        let attributedText = NSMutableAttributedString(string: "")
+        attributedText.append(NSAttributedString(attachment: imageAttachment))
+        attributedText.append(NSAttributedString(string: text))
+
+        // label에 attributedText 설정
+        label.attributedText = attributedText
+
+        // 나머지 속성 설정
+        label.font = UIFont.carmuFont.subhead1
+        label.textColor = UIColor.semantic.textPrimary
+        label.textAlignment = .center
+
+        return label
+    }()
+    private lazy var stopOver2TimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textAlignment = .center
+        label.font = UIFont.carmuFont.subhead1
+        label.textColor = UIColor.semantic.textTertiary
+        return label
+    }()
+    private lazy var stopOver2Label: UILabel = {
+        let label = UILabel()
+        label.text = "도착"
+        label.font = UIFont.carmuFont.body2
+        label.textColor = UIColor.semantic.textTertiary
+        label.textAlignment = .center
+        return label
+    }()
+    private lazy var stopOver3LocationLabel: UILabel = {
+        let label = UILabel()
+
+        // 이미지 추가
+        let imageAttachment = NSTextAttachment()
+        if let image = UIImage(systemName: "circle.fill") {
+            let tintedImage = image.withTintColor(UIColor.theme.blue3 ?? UIColor.systemBlue)
+            imageAttachment.image = tintedImage
+        }
+
+        // 이미지 크기 변경
+        let imageSize = CGSize(width: 8, height: 8)
+        imageAttachment.bounds = CGRect(origin: .zero, size: imageSize)
+
+        // 텍스트 추가
+        let text = " 경유지3 대표 명칭"
+        let attributedText = NSMutableAttributedString(string: "")
+        attributedText.append(NSAttributedString(attachment: imageAttachment))
+        attributedText.append(NSAttributedString(string: text))
+
+        // label에 attributedText 설정
+        label.attributedText = attributedText
+
+        // 나머지 속성 설정
+        label.font = UIFont.carmuFont.subhead1
+        label.textColor = UIColor.semantic.textPrimary
+        label.textAlignment = .center
+
+        return label
+    }()
+    private lazy var stopOver3TimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textAlignment = .center
+        label.font = UIFont.carmuFont.subhead1
+        label.textColor = UIColor.semantic.textTertiary
+        return label
+    }()
+    private lazy var stopOver3Label: UILabel = {
+        let label = UILabel()
+        label.text = "도착"
+        label.font = UIFont.carmuFont.body2
+        label.textColor = UIColor.semantic.textTertiary
+        label.textAlignment = .center
+        return label
+    }()
+
+    private lazy var dotImage1: UIImageView = {
+        let image = UIImage(systemName: "circle.fill")
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = UIColor.semantic.backgroundDefault
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    private lazy var dotImage2: UIImageView = {
+        let image = UIImage(systemName: "circle.fill")
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = UIColor.semantic.backgroundDefault
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    private lazy var dotImage3: UIImageView = {
+        let image = UIImage(systemName: "circle.fill")
+        let imageView = UIImageView(image: image)
+        imageView.tintColor = UIColor.semantic.backgroundDefault
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+
     init() {
         super.init(frame: .zero)
         setupBackView()
         setupConstraints()
+        checkStopOverPoint()
         settingData()
     }
 
@@ -370,5 +529,53 @@ final class DriverBackView: UIView {
     // TODO: - 실제 데이터로 변경
     private func settingData() {
         totalCrewMemeberLabel.text = "\(crewData?.crews.count ?? 0)명"
+    }
+
+    // TODO: - 실제 데이터로 변경
+    private func checkStopOverPoint() {
+        if crewData?.stopover1 == nil {
+            return
+        } else {
+            settingStopOverPoints()
+        }
+    }
+
+    // 경유지 관련 설정
+    private func settingStopOverPoints() {
+
+        // TODO: - 실제 데이터로 변경
+        if crewData?.stopover1 != nil, crewData?.stopover2 == nil, crewData?.stopover3 == nil {
+            oneStopOverPoint()
+        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 == nil {
+            twoStopOverPoints()
+        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 != nil {
+            threeStopOverPoints()
+        }
+    }
+
+    // 경유지1만 있을 때
+    private func oneStopOverPoint() {
+
+        addSubview(dotImage1)
+        addSubview(stopOver1LocationLabel)
+
+        dotImage1.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(8)
+        }
+        stopOver1LocationLabel.snp.makeConstraints { make in
+            make.leading.equalTo(startLocationLabel)
+            make.top.equalTo(dotImage1)
+        }
+    }
+
+    // 경유지2까지 있을 때
+    private func twoStopOverPoints() {
+
+    }
+
+    // 경유지3까지 있을 때
+    private func threeStopOverPoints() {
+
     }
 }
