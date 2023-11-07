@@ -71,18 +71,13 @@ extension CodeShareViewController {
 
                         우리 카풀, 오래가자
                         카뮤
-                    """
+                        """
 
         let activityViewController = UIActivityViewController(
             activityItems: [message],
             applicationActivities: nil
         )
         activityViewController.excludedActivityTypes = [.message]
-
-        guard let popoverController = activityViewController.popoverPresentationController else { return }
-        popoverController.sourceView = self.view
-        popoverController.sourceRect = CGRect(x: 0, y: 0, width: 0, height: 0)
-
         present(activityViewController, animated: true, completion: nil)
     }
 
