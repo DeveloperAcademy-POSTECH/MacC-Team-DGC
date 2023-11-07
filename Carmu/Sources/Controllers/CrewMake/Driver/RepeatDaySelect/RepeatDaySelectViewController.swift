@@ -122,18 +122,14 @@ extension RepeatDaySelectViewController {
      해당하지 않으면, 어떤 버튼이든 강조처리가 없어진다.
      */
     private func checkDefaultDay() {
-        let weekday: Set<DayOfWeek> = Set([.mon, .tue, .wed, .thu, .fri])
-        let weekend: Set<DayOfWeek> = Set([.sat, .sun])
-        let everyday: Set<DayOfWeek> = Set([.mon, .tue, .wed, .thu, .fri, .sat, .sun])
-
         switch selectedRows {
-        case weekday:
+        case DayOfWeek.weekday:
             selectedButton = repeatDaySelectView.weekdayButton
             selectedButton?.setSelectedButtonAppearance()
-        case weekend:
+        case DayOfWeek.weekend:
             selectedButton = repeatDaySelectView.weekendButton
             selectedButton?.setSelectedButtonAppearance()
-        case everyday:
+        case DayOfWeek.everyday:
             selectedButton = repeatDaySelectView.everydayButton
             selectedButton?.setSelectedButtonAppearance()
         default:
