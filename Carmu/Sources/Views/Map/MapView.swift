@@ -95,9 +95,9 @@ final class MapView: UIView {
 
         addSubview(backButton)
         backButton.snp.makeConstraints { make in
-            make.leading.equalTo(20)
-            make.top.equalTo(50)
-            make.width.height.equalTo(60)
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(safeAreaLayoutGuide).inset(16)
+            make.width.height.equalTo(55)
         }
 
         showPoints()
