@@ -41,6 +41,8 @@ final class MapViewController: UIViewController {
 
     private let pathOverlay = {
         let pathOverlay = NMFPath()
+        pathOverlay.color = UIColor.theme.blue6 ?? .blue
+        pathOverlay.outlineColor = UIColor.theme.blue3 ?? .blue
         return pathOverlay
     }()
 
