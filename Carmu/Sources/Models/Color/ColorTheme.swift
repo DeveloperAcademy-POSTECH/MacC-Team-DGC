@@ -17,6 +17,7 @@ struct ColorTheme {
     let white = UIColor(named: "White")
     let trans20 = UIColor(named: "Trans20")
     let trans40 = UIColor(named: "Trans40")
+    let trans60 = UIColor(named: "Trans60")
 
     // MARK: Gray Color
     let gray1 = UIColor(named: "Gray1")
