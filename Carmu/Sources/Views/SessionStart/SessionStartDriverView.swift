@@ -222,6 +222,75 @@ final class DriverBackView: UIView {
         return label
     }()
 
+    private lazy var stickImage: UIImageView = {
+        let image = UIImage(named: "LocationStick")
+        let imageView = UIImageView(image: image)
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+
+    private lazy var startLocationLabel: UILabel = {
+        let label = UILabel()
+        label.text = "출발지"
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.textPrimary
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+
+    private lazy var startTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textAlignment = .center
+        label.font = UIFont.carmuFont.subhead1
+        label.textColor = UIColor.semantic.textPrimary
+        label.backgroundColor = UIColor.theme.acuaTrans20
+        label.layer.cornerRadius = 10
+        label.layer.masksToBounds = true
+        return label
+    }()
+
+    private lazy var startLabel: UILabel = {
+        let label = UILabel()
+        label.text = "출발"
+        label.font = UIFont.carmuFont.body2
+        label.textColor = UIColor.theme.acua9
+        label.textAlignment = .center
+        return label
+    }()
+
+    private lazy var endLocationLabel: UILabel = {
+        let label = UILabel()
+        label.text = "도착지"
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.textPrimary
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+
+    private lazy var endTimeLabel: UILabel = {
+        let label = UILabel()
+        label.text = "00:00"
+        label.textAlignment = .center
+        label.font = UIFont.carmuFont.subhead1
+        label.textColor = UIColor.semantic.textPrimary
+        label.backgroundColor = UIColor.theme.acuaTrans20
+        label.layer.cornerRadius = 10
+        label.layer.masksToBounds = true
+        return label
+    }()
+
+    private lazy var endLabel: UILabel = {
+        let label = UILabel()
+        label.text = "도착"
+        label.font = UIFont.carmuFont.body2
+        label.textColor = UIColor.theme.acua9
+        label.textAlignment = .center
+        return label
+    }()
+
     init() {
         super.init(frame: .zero)
         setupBackView()
@@ -236,6 +305,15 @@ final class DriverBackView: UIView {
     private func setupBackView() {
         addSubview(personImage)
         addSubview(totalCrewMemeberLabel)
+        addSubview(stickImage)
+
+        addSubview(startLocationLabel)
+        addSubview(startTimeLabel)
+        addSubview(startLabel)
+
+        addSubview(endLocationLabel)
+        addSubview(endTimeLabel)
+        addSubview(endLabel)
     }
 
     private func setupConstraints() {
@@ -246,6 +324,46 @@ final class DriverBackView: UIView {
         totalCrewMemeberLabel.snp.makeConstraints { make in
             make.leading.equalTo(personImage.snp.trailing).offset(4)
             make.centerY.equalTo(personImage)
+        }
+        stickImage.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.greaterThanOrEqualToSuperview().inset(73)
+            make.bottom.lessThanOrEqualToSuperview().inset(53).priority(.high)
+            make.height.lessThanOrEqualTo(296).priority(.low)
+            make.width.equalTo(24)
+        }
+
+        startLocationLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(32)
+            make.top.lessThanOrEqualTo(stickImage)
+            make.trailing.equalTo(stickImage.snp.leading).offset(-32).priority(.high)
+            make.width.lessThanOrEqualTo(92)
+        }
+        startTimeLabel.snp.makeConstraints { make in
+            make.leading.lessThanOrEqualTo(stickImage.snp.trailing).offset(32)
+            make.top.equalTo(startLocationLabel)
+            make.width.equalTo(50)
+            make.height.equalTo(20)
+        }
+        startLabel.snp.makeConstraints { make in
+            make.leading.equalTo(startTimeLabel.snp.trailing).offset(8)
+            make.top.equalTo(startLocationLabel)
+        }
+
+        endLocationLabel.snp.makeConstraints { make in
+            make.bottom.lessThanOrEqualTo(stickImage)
+            make.leading.trailing.equalTo(startLocationLabel)
+            make.width.equalTo(startLocationLabel)
+        }
+        endTimeLabel.snp.makeConstraints { make in
+            make.leading.equalTo(startTimeLabel)
+            make.bottom.equalTo(endLocationLabel)
+            make.width.equalTo(50)
+            make.height.equalTo(20)
+        }
+        endLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(startLabel)
+            make.bottom.equalTo(endLocationLabel)
         }
     }
 
