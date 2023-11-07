@@ -7,11 +7,13 @@
 
 import UIKit
 
+import SnapKit
+
 final class RepeatDaySelectViewController: UIViewController {
 
     private let repeatDaySelectView = RepeatDaySelectView()
     private var selectedButton: DaySelectButton?
-    private var selectedRows = Set<Int>()
+    private var selectedRows = Set<DayOfWeek>()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,31 +39,17 @@ final class RepeatDaySelectViewController: UIViewController {
 extension RepeatDaySelectViewController {
 
     @objc private func weekdayButtonTapped(_ sender: DaySelectButton) {
-        selectedRows.removeAll()
-        if sender == selectedButton {
-            for index in 0...4 {
-                selectedRows.insert(index)
-            }
-        }
+        selectedRows = DayOfWeek.weekday
         repeatDaySelectView.dayTableView.reloadData()
     }
 
     @objc private func weekendButtonTapped(_ sender: DaySelectButton) {
-        selectedRows.removeAll()
-        if sender == selectedButton {
-            selectedRows.insert(5)
-            selectedRows.insert(6)
-        }
+        selectedRows = DayOfWeek.weekend
         repeatDaySelectView.dayTableView.reloadData()
     }
 
     @objc private func everydayButtonTapped(_ sender: DaySelectButton) {
-        selectedRows.removeAll()
-        if sender == selectedButton {
-            for index in 0...6 {
-                selectedRows.insert(index)
-            }
-        }
+        selectedRows = DayOfWeek.everyday
         repeatDaySelectView.dayTableView.reloadData()
     }
 
@@ -81,6 +69,7 @@ extension RepeatDaySelectViewController {
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
         let viewController = FinalConfirmViewController()
+        viewController.selectedDay = selectedRows
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -134,18 +123,14 @@ extension RepeatDaySelectViewController {
      해당하지 않으면, 어떤 버튼이든 강조처리가 없어진다.
      */
     private func checkDefaultDay() {
-        let weekday = Set([0, 1, 2, 3, 4])
-        let weekend = Set([5, 6])
-        let everyday = Set([0, 1, 2, 3, 4, 5, 6])
-
         switch selectedRows {
-        case weekday:
+        case DayOfWeek.weekday:
             selectedButton = repeatDaySelectView.weekdayButton
             selectedButton?.setSelectedButtonAppearance()
-        case weekend:
+        case DayOfWeek.weekend:
             selectedButton = repeatDaySelectView.weekendButton
             selectedButton?.setSelectedButtonAppearance()
-        case everyday:
+        case DayOfWeek.everyday:
             selectedButton = repeatDaySelectView.everydayButton
             selectedButton?.setSelectedButtonAppearance()
         default:
@@ -163,10 +148,10 @@ extension RepeatDaySelectViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let dayOfWeek = ["월", "화", "수", "목", "금", "토", "일"]
+        let day = DayOfWeek(rawValue: indexPath.row)
         let cell = tableView.dequeueReusableCell(withIdentifier: "repeatDayCell", for: indexPath)
-        cell.textLabel?.text = "\(dayOfWeek[indexPath.row])요일 마다"
-        cell.accessoryType = selectedRows.contains(indexPath.row) ? .checkmark : .none
+        cell.textLabel?.text = "\(day?.dayString ?? "")요일 마다"
+        cell.accessoryType = selectedRows.contains(day ?? .mon) ? .checkmark : .none
         return cell
     }
 }
@@ -176,24 +161,22 @@ extension RepeatDaySelectViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
-
-        if cell.accessoryType == .checkmark {
-            cell.accessoryType = .none
-            if let index = selectedRows.firstIndex(of: indexPath.row) {
-                selectedRows.remove(at: index)
+        if let selectedDay = DayOfWeek(rawValue: indexPath.row) {
+            if cell.accessoryType == .checkmark {
+                cell.accessoryType = .none
+                selectedRows.remove(selectedDay)
+            } else {
+                cell.accessoryType = .checkmark
+                selectedRows.insert(selectedDay)
             }
-        } else {
-            cell.accessoryType = .checkmark
-            selectedRows.insert(indexPath.row)
+            checkDefaultDay()
         }
-
-        checkDefaultDay()
         tableView.deselectRow(at: indexPath, animated: true)
     }
 
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        if selectedRows.contains(indexPath.row) {
-            selectedRows.remove(indexPath.row)
+        if let deselectedDay = DayOfWeek(rawValue: indexPath.row), selectedRows.contains(deselectedDay) {
+            selectedRows.remove(deselectedDay)
         }
         tableView.reloadRows(at: [indexPath], with: .none)
     }

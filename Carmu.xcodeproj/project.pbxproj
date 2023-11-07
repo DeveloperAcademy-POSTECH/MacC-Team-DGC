@@ -93,6 +93,7 @@
 		C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */; };
 		C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C1202ADE25590016DE13 /* String+Extension.swift */; };
 		C9D04C652AF89953007E615B /* RightNavigationBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C642AF89953007E615B /* RightNavigationBarButton.swift */; };
+		C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C682AF9D312007E615B /* DayOfWeek.swift */; };
 		C9D8E4DC2AF4814E007570EE /* TimeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */; };
 		C9D8E4DE2AF48172007570EE /* TimeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */; };
 		C9D8E4E02AF482B9007570EE /* RepeatDaySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */; };
@@ -194,6 +195,7 @@
 		C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
 		C9C7C1202ADE25590016DE13 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C9D04C642AF89953007E615B /* RightNavigationBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightNavigationBarButton.swift; sourceTree = "<group>"; };
+		C9D04C682AF9D312007E615B /* DayOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
 		C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectViewController.swift; sourceTree = "<group>"; };
 		C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectView.swift; sourceTree = "<group>"; };
 		C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectViewController.swift; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 			isa = PBXGroup;
 			children = (
 				B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */,
+				C9D04C682AF9D312007E615B /* DayOfWeek.swift */,
 				C92CFB3E2ACC24E80068273A /* DTO */,
 				C92CFB372ACBC9090068273A /* Font */,
 				C92CFB362AC9B6CD0068273A /* Color */,
@@ -783,6 +786,7 @@
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				C93116782AF3B6310014E702 /* DefaultAddressTableViewCell.swift in Sources */,
 				164E823D2AF53AB400848BFF /* Point.swift in Sources */,
+				C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
 				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
