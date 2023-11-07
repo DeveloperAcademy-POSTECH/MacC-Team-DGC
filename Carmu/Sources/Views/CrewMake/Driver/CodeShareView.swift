@@ -35,7 +35,7 @@ final class CodeShareView: UIView {
 
     var codeLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.carmuFont.subhead3
+        label.font = UIFont.carmuFont.body2
         label.textColor = UIColor.semantic.textPrimary
         return label
     }()
@@ -51,7 +51,21 @@ final class CodeShareView: UIView {
             for: .highlighted
         )
         button.layer.cornerRadius = 20
+        button.clipsToBounds = true
         return button
+    }()
+
+    lazy var messageLabel: UILabel = {
+        let label = UILabel()
+        label.text = "클립보드에 복사되었습니다"
+        label.font = UIFont.carmuFont.subhead2
+        label.textColor = UIColor.semantic.textPrimary
+        label.textAlignment = .center
+        label.backgroundColor = UIColor.semantic.backgroundSecond
+        label.layer.cornerRadius = 20
+        label.clipsToBounds = true
+        label.isHidden = true
+        return label
     }()
 
     let nextButton = NextButton(buttonTitle: "카풀 시작하기")
@@ -86,6 +100,7 @@ extension CodeShareView {
         addSubview(characterImage)
         addSubview(codeStackView)
         addSubview(nextButton)
+        addSubview(messageLabel)
     }
 
     private func setAutoLayout() {
@@ -120,6 +135,13 @@ extension CodeShareView {
         copyButton.snp.makeConstraints { make in
             make.verticalEdges.trailing.equalToSuperview()
             make.width.equalTo(80)
+        }
+
+        messageLabel.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(codeStackView.snp.bottom).offset(20)
+            make.width.equalTo(200)
+            make.height.equalTo(40)
         }
 
         nextButton.snp.makeConstraints { make in

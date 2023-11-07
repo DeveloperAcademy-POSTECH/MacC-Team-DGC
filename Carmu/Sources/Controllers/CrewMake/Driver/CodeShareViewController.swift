@@ -29,6 +29,11 @@ final class CodeShareViewController: UIViewController {
         addRightBarButton()
 
         codeShareView.codeLabel.text = inviteCode
+        codeShareView.copyButton.addTarget(
+            self,
+            action: #selector(copyButtonTapped),
+            for: .touchUpInside
+        )
         codeShareView.nextButton.addTarget(
             self,
             action: #selector(nextButtonTapped),
@@ -44,6 +49,15 @@ final class CodeShareViewController: UIViewController {
 
 // MARK: - @objc Method
 extension CodeShareViewController {
+
+    @objc private func copyButtonTapped() {
+        let pasteboard = UIPasteboard.general
+        pasteboard.string = inviteCode
+        codeShareView.messageLabel.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.codeShareView.messageLabel.isHidden = true
+        }
+    }
 
     @objc private func shareButtonTapped() {
         // TODO: - Activity View 구현 필요
