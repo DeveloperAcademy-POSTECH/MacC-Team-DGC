@@ -558,6 +558,8 @@ final class DriverBackView: UIView {
 
         addSubview(dotImage1)
         addSubview(stopOver1LocationLabel)
+        addSubview(stopOver1TimeLabel)
+        addSubview(stopOver1Label)
 
         dotImage1.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -565,6 +567,14 @@ final class DriverBackView: UIView {
         }
         stopOver1LocationLabel.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
+            make.top.equalTo(dotImage1)
+        }
+        stopOver1TimeLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(startTimeLabel)
+            make.top.equalTo(dotImage1)
+        }
+        stopOver1Label.snp.makeConstraints { make in
+            make.leading.equalTo(startLabel)
             make.top.equalTo(dotImage1)
         }
     }
