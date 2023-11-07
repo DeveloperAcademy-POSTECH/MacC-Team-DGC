@@ -59,10 +59,10 @@ final class CodeShareView: UIView {
         let label = UILabel()
         label.text = "클립보드에 복사되었습니다"
         label.font = UIFont.carmuFont.subhead2
-        label.textColor = UIColor.semantic.textPrimary
+        label.textColor = UIColor.semantic.textSecondary
         label.textAlignment = .center
-        label.backgroundColor = UIColor.semantic.backgroundSecond
-        label.layer.cornerRadius = 20
+        label.backgroundColor = UIColor.theme.trans60
+        label.layer.cornerRadius = 15
         label.clipsToBounds = true
         label.isHidden = true
         return label
@@ -140,8 +140,8 @@ extension CodeShareView {
         messageLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(codeStackView.snp.bottom).offset(20)
-            make.width.equalTo(200)
-            make.height.equalTo(40)
+            make.width.equalTo(192)
+            make.height.equalTo(30)
         }
 
         nextButton.snp.makeConstraints { make in

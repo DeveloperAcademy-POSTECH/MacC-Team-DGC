@@ -60,7 +60,25 @@ extension CodeShareViewController {
     }
 
     @objc private func shareButtonTapped() {
-        // TODO: - Activity View 구현 필요
+        // TODO: - 추후 카카오톡 API 사용하여 메시지 형식 변경 예정
+        let message = """
+                        카풀을 함께해요!
+
+                        카풀에 초대되었습니다!
+                        카뮤 앱을 다운로드 받고, 동승자로 포지션을 설정한 후 아래의 코드를 입력하여 운전자와 카풀을 함께하세요!
+
+                        초대코드 : \(inviteCode)
+
+                        우리 카풀, 오래가자
+                        카뮤
+                        """
+
+        let activityViewController = UIActivityViewController(
+            activityItems: [message],
+            applicationActivities: nil
+        )
+        activityViewController.excludedActivityTypes = [.message]
+        present(activityViewController, animated: true, completion: nil)
     }
 
     @objc private func nextButtonTapped() {
