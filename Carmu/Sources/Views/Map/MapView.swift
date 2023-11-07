@@ -19,34 +19,34 @@ final class MapView: UIView {
 
     let startingPoint = {
         let marker = NMFMarker()
-        marker.iconImage = NMFOverlayImage(name: "startingPointTapped")
+        marker.iconImage = NMFOverlayImage(name: "startingPoint")
         return marker
     }()
 
     let pickupLocation1 = {
         let marker = NMFMarker()
-        marker.iconImage = NMFOverlayImage(name: "pickupLocation1")
+        marker.iconImage = NMFOverlayImage(name: "stopover1")
         marker.hidden = true
         return marker
     }()
 
     let pickupLocation2 = {
         let marker = NMFMarker()
-        marker.iconImage = NMFOverlayImage(name: "pickupLocation2")
+        marker.iconImage = NMFOverlayImage(name: "stopover2")
         marker.hidden = true
         return marker
     }()
 
     let pickupLocation3 = {
         let marker = NMFMarker()
-        marker.iconImage = NMFOverlayImage(name: "pickupLocation3")
+        marker.iconImage = NMFOverlayImage(name: "stopover3")
         marker.hidden = true
         return marker
     }()
 
     let destination = {
         let marker = NMFMarker()
-        marker.iconImage = NMFOverlayImage(name: "destinationTapped")
+        marker.iconImage = NMFOverlayImage(name: "destination")
         return marker
     }()
 
