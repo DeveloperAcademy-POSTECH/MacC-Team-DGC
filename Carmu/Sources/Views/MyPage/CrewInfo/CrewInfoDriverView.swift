@@ -22,7 +22,10 @@ final class CrewInfoDriverView: UIView {
 
     // 크루 관리 테이블 뷰
     lazy var crewManageTableView: UITableView = {
-        let crewManageTableView = UITableView(frame: self.bounds, style: .grouped)
+        let crewManageTableView = UITableView(frame: self.bounds, style: .insetGrouped)
+        crewManageTableView.separatorStyle = .none // 셀 구분선 제거
+        crewManageTableView.showsVerticalScrollIndicator = false
+        crewManageTableView.isScrollEnabled = false
         return crewManageTableView
     }()
 
@@ -38,7 +41,7 @@ final class CrewInfoDriverView: UIView {
     private func setupUI() {
         addSubview(crewManageTitleLabel)
         crewManageTitleLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(8.78)
+            make.leading.equalToSuperview().inset(28.78)
             make.top.trailing.equalToSuperview()
         }
 

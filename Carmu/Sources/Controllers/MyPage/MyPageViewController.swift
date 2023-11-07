@@ -99,7 +99,7 @@ final class MyPageViewController: UIViewController {
     func setupDriverView() {
         crewInfoDriverView.snp.makeConstraints { make in
             make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.trailing.equalToSuperview()
             make.bottom.equalToSuperview().inset(136)
         }
 
@@ -170,8 +170,9 @@ extension MyPageViewController: UITableViewDataSource {
     // 각 row에 대한 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
-        cell.textLabel?.text = "크루 정보 수정하기"
         cell.accessoryType = .disclosureIndicator
+        cell.textLabel?.text = "크루 정보 수정하기"
+        cell.tintColor = UIColor.semantic.accPrimary // TODO: - 악세사리버튼 색 수정 안됨
         return cell
     }
 }
