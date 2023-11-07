@@ -225,7 +225,7 @@ final class DriverBackView: UIView {
     private lazy var stickImage: UIImageView = {
         let image = UIImage(named: "LocationStick")
         let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
@@ -556,15 +556,66 @@ final class DriverBackView: UIView {
     // 경유지1만 있을 때
     private func oneStopOverPoint() {
 
-        addSubview(dotImage1)
-        addSubview(stopOver1LocationLabel)
-        addSubview(stopOver1TimeLabel)
-        addSubview(stopOver1Label)
+        setupOneStopOverUI()
 
         dotImage1.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.width.height.equalTo(8)
         }
+
+        setupOneStopOverConstraints()
+    }
+
+    // 경유지2까지 있을 때
+    private func twoStopOverPoints() {
+
+        setupTwoStopOverUI()
+
+        dotImage1.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(stickImage).dividedBy(0.5)
+            make.width.height.equalTo(8)
+        }
+        dotImage2.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(stickImage).dividedBy(1.4)
+            make.width.height.equalTo(8)
+        }
+
+        setupTwoStopOverConstraints()
+    }
+
+    // 경유지3까지 있을 때
+    private func threeStopOverPoints() {
+
+        setupThreeStopOverUI()
+    }
+}
+
+extension DriverBackView {
+    // 경유지들 addSubview
+    private func setupOneStopOverUI() {
+        addSubview(dotImage1)
+        addSubview(stopOver1LocationLabel)
+        addSubview(stopOver1TimeLabel)
+        addSubview(stopOver1Label)
+    }
+    private func setupTwoStopOverUI() {
+        setupOneStopOverUI()
+        addSubview(dotImage2)
+        addSubview(stopOver2LocationLabel)
+        addSubview(stopOver2TimeLabel)
+        addSubview(stopOver2Label)
+    }
+    private func setupThreeStopOverUI() {
+        setupTwoStopOverUI()
+        addSubview(dotImage3)
+        addSubview(stopOver3LocationLabel)
+        addSubview(stopOver3TimeLabel)
+        addSubview(stopOver3Label)
+    }
+
+    private func setupOneStopOverConstraints() {
         stopOver1LocationLabel.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
             make.top.equalTo(dotImage1)
@@ -578,14 +629,34 @@ final class DriverBackView: UIView {
             make.top.equalTo(dotImage1)
         }
     }
-
-    // 경유지2까지 있을 때
-    private func twoStopOverPoints() {
-
+    private func setupTwoStopOverConstraints() {
+        setupOneStopOverConstraints()
+        stopOver2LocationLabel.snp.makeConstraints { make in
+            make.leading.equalTo(startLocationLabel)
+            make.top.equalTo(dotImage2)
+        }
+        stopOver2TimeLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(startTimeLabel)
+            make.top.equalTo(dotImage2)
+        }
+        stopOver2Label.snp.makeConstraints { make in
+            make.leading.equalTo(startLabel)
+            make.top.equalTo(dotImage2)
+        }
     }
-
-    // 경유지3까지 있을 때
-    private func threeStopOverPoints() {
-
+    private func setupThressStopOverConstraints() {
+        setupTwoStopOverConstraints()
+        stopOver3LocationLabel.snp.makeConstraints { make in
+            make.leading.equalTo(startLocationLabel)
+            make.top.equalTo(dotImage3)
+        }
+        stopOver3TimeLabel.snp.makeConstraints { make in
+            make.centerX.equalTo(startTimeLabel)
+            make.top.equalTo(dotImage3)
+        }
+        stopOver3Label.snp.makeConstraints { make in
+            make.leading.equalTo(startLabel)
+            make.top.equalTo(dotImage3)
+        }
     }
 }

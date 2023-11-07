@@ -69,6 +69,14 @@ let crewData: Crew? = Crew(
         arrivalTime: Date(),
         crews: ["uni"]
     ),
+    stopover2: Point(
+        name: "경유지 2번",
+        detailAddress: "경유지 2번 상세 주소",
+        latitude: 35.634,
+        longitude: 128.523,
+        arrivalTime: Date(),
+        crews: ["rei"]
+    ),
     destination: Point(
         name: "C5",
         detailAddress: "경상북도 포항시 남구 지곡로 80",
