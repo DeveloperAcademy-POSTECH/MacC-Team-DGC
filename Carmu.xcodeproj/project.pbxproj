@@ -30,17 +30,9 @@
 		B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */; };
 		B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */; };
 		B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */; };
-		B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */; };
-		B8D507342ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */; };
 		B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73ABE2AD2914200D211DE /* SettingsView.swift */; };
 		B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */; };
 		B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC22AD2FBE600D211DE /* InquiryView.swift */; };
-		B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15DD2AD4619B00685E48 /* FriendListView.swift */; };
-		B8DD15E02AD4677800685E48 /* FriendListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15DF2AD4677800685E48 /* FriendListTableViewCell.swift */; };
-		B8DD15E22AD52CC300685E48 /* FriendAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15E12AD52CC300685E48 /* FriendAddViewController.swift */; };
-		B8DD15E42AD52D2F00685E48 /* FriendAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15E32AD52D2F00685E48 /* FriendAddView.swift */; };
-		B8DD15E62AD63FD500685E48 /* FriendDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15E52AD63FD500685E48 /* FriendDetailViewController.swift */; };
-		B8DD15E82AD641BC00685E48 /* FriendDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15E72AD641BC00685E48 /* FriendDetailView.swift */; };
 		B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */; };
 		B8DD15EE2AD6EE9400685E48 /* CustomVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15ED2AD6EE9400685E48 /* CustomVisualEffectView.swift */; };
 		B8EA07A02AE188CB007501E9 /* SecureKey-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8EA079F2AE188CB007501E9 /* SecureKey-Info.plist */; };
@@ -138,17 +130,9 @@
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListViewController.swift; sourceTree = "<group>"; };
-		B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoSearchedResultTableViewCell.swift; sourceTree = "<group>"; };
 		B8D73ABE2AD2914200D211DE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		B8D73AC22AD2FBE600D211DE /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
-		B8DD15DD2AD4619B00685E48 /* FriendListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListView.swift; sourceTree = "<group>"; };
-		B8DD15DF2AD4677800685E48 /* FriendListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendListTableViewCell.swift; sourceTree = "<group>"; };
-		B8DD15E12AD52CC300685E48 /* FriendAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendAddViewController.swift; sourceTree = "<group>"; };
-		B8DD15E32AD52D2F00685E48 /* FriendAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendAddView.swift; sourceTree = "<group>"; };
-		B8DD15E52AD63FD500685E48 /* FriendDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailViewController.swift; sourceTree = "<group>"; };
-		B8DD15E72AD641BC00685E48 /* FriendDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDetailView.swift; sourceTree = "<group>"; };
 		B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8DD15ED2AD6EE9400685E48 /* CustomVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisualEffectView.swift; sourceTree = "<group>"; };
 		B8EA079F2AE188CB007501E9 /* SecureKey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SecureKey-Info.plist"; sourceTree = "<group>"; };
@@ -301,9 +285,6 @@
 			children = (
 				B83E23EE2AF3F2470048ED9A /* Settings */,
 				B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */,
-				B8A3EFDC2AC5F5C600433F5C /* FriendListViewController.swift */,
-				B8DD15E12AD52CC300685E48 /* FriendAddViewController.swift */,
-				B8DD15E52AD63FD500685E48 /* FriendDetailViewController.swift */,
 				B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */,
 				B8376E472AF9BBB1007F1E0A /* NicknameEditViewController.swift */,
 			);
@@ -316,12 +297,7 @@
 				B8376E362AF93649007F1E0A /* CrewInfo */,
 				B83E23ED2AF3F1980048ED9A /* Settings */,
 				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
-				B8DD15DD2AD4619B00685E48 /* FriendListView.swift */,
-				B8DD15DF2AD4677800685E48 /* FriendListTableViewCell.swift */,
-				B8DD15E32AD52D2F00685E48 /* FriendAddView.swift */,
-				B8DD15E72AD641BC00685E48 /* FriendDetailView.swift */,
 				B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */,
-				B8D507332ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift */,
 				B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */,
 				B83E23EF2AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift */,
 				B8376E492AF9BC51007F1E0A /* NicknameEditView.swift */,
@@ -755,15 +731,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B8D507342ADDA3EE00404E7C /* NoSearchedResultTableViewCell.swift in Sources */,
 				BF0C33042AE51E7C00A6D8FE /* PaddingLabel.swift in Sources */,
-				B8DD15E42AD52D2F00685E48 /* FriendAddView.swift in Sources */,
 				BFFA10AF2AE609B8003CE661 /* PickupLocation.swift in Sources */,
 				BFFA10B22AE61012003CE661 /* NoticeLateViewController.swift in Sources */,
 				C93116662AF382260014E702 /* StopoverPointCheckViewController.swift in Sources */,
 				C9D8E4E02AF482B9007570EE /* RepeatDaySelectViewController.swift in Sources */,
-				B8DD15E62AD63FD500685E48 /* FriendDetailViewController.swift in Sources */,
-				B8DD15DE2AD4619B00685E48 /* FriendListView.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
 				C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */,
 				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
@@ -790,7 +762,6 @@
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
 				C9D8E4EA2AF486B6007570EE /* CodeShareView.swift in Sources */,
 				B8DD15EE2AD6EE9400685E48 /* CustomVisualEffectView.swift in Sources */,
-				B8DD15E02AD4677800685E48 /* FriendListTableViewCell.swift in Sources */,
 				16E42C482AC411A20031486E /* MapViewController.swift in Sources */,
 				1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */,
 				C9D8E4DC2AF4814E007570EE /* TimeSelectViewController.swift in Sources */,
@@ -801,11 +772,9 @@
 				C9F43BD92AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift in Sources */,
 				BFD765862AF7E16F0074277B /* MapView.swift in Sources */,
 				C93116702AF3ABB20014E702 /* StartEndPointSelectView.swift in Sources */,
-				B8A3EFDD2AC5F5C600433F5C /* FriendListViewController.swift in Sources */,
 				C954621E2AF77D9D004C4F6D /* NextButton.swift in Sources */,
 				B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */,
 				C9F43BDF2AF2C09500BAA0E3 /* BoardingPointSelectView.swift in Sources */,
-				B8DD15E22AD52CC300685E48 /* FriendAddViewController.swift in Sources */,
 				C9D8E4E42AF484B3007570EE /* FinalConfirmView.swift in Sources */,
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				C93116782AF3B6310014E702 /* DefaultAddressTableViewCell.swift in Sources */,
@@ -839,7 +808,6 @@
 				C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */,
 				BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */,
 				C95462172AF75A29004C4F6D /* TimeSelectModalView.swift in Sources */,
-				B8DD15E82AD641BC00685E48 /* FriendDetailView.swift in Sources */,
 				C904D1562AD5786A008BF5CE /* User.swift in Sources */,
 				B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */,
 				C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */,
