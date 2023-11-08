@@ -49,6 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 rootViewController = SessionStartViewController()
             }
             let navigationController = UINavigationController(rootViewController: rootViewController)
+            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary // 앱 전체에 내비게이션바 tintColor 적용
             window?.rootViewController = navigationController
         } else {
             window?.rootViewController = LoginViewController()

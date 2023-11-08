@@ -34,6 +34,17 @@ final class CrewMakeUtil {
     }
 
     /**
+     원하는 색상과 폰트가 적용된 UILabel 반환
+     */
+    static func carmuCustomLabel(text: String, font: UIFont, textColor: UIColor) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.font = font
+        label.textColor = textColor
+        return label
+    }
+
+    /**
      장소 선택 시 나오는 컬러 라인을 리턴하는 함수
      상단이 옥색, 하단이 보라색이다.
      */

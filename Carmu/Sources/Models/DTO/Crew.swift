@@ -13,7 +13,7 @@ import Foundation
  crews: 참여한 크루들의 userID
  points: 출발, 경유, 도착지의 Point 모델 배열
  inviteCode: 초대코드
- repeatDay: 반복요일 저장 Int 배열(일: 0 ~ 토: 6)
+ repeatDay: 반복요일 저장 Int 배열(월: 0 ~ 일: 6)
  sessionStatus: 당일 출발 여부
  crewStatus: 크루원의 출석 여부
  */

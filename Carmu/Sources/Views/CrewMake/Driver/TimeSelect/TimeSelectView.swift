@@ -28,7 +28,8 @@ final class TimeSelectView: UIView {
             ("도착지 주소", Date.now + 1800)
         ]
         for (index, (address, time)) in timeAddressDict.enumerated() {
-            let cellView = TimeSelectCellView(address: address, time: time)
+            let isStart = index == timeAddressDict.count - 1 ? false : true
+            let cellView = TimeSelectCellView(address: address, isStart, time: time)
             cellView.detailTimeButton.setTitle(Date.formattedDate(from: time, dateFormat: "aa hh:mm"), for: .normal)
             cellView.detailTimeButton.tag = index
             cells.append(cellView)
