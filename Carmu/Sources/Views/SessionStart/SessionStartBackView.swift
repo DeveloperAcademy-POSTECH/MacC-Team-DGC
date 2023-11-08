@@ -265,6 +265,39 @@ final class SessionStartBackView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // TODO: - 실제 데이터로 변경
+    private func settingData() {
+        totalCrewMemeberLabel.text = "\(crewData?.crews.count ?? 0)명"
+    }
+
+    // TODO: - 실제 데이터로 변경
+    private func checkStopOverPoint() {
+        if crewData?.stopover1 == nil {
+            return
+        } else {
+            settingStopOverPoints()
+        }
+    }
+
+    // 경유지 관련 설정
+    private func settingStopOverPoints() {
+
+        // TODO: - 실제 데이터로 변경
+        if crewData?.stopover1 != nil, crewData?.stopover2 == nil, crewData?.stopover3 == nil {
+            oneStopOverPoint()
+        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 == nil {
+            twoStopOverPoints()
+        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 != nil {
+            threeStopOverPoints()
+        }
+    }
+}
+
+// MARK: - BackView Layouts
+
+extension SessionStartBackView {
+
+    // 기본 컴포넌트들
     private func setupBackView() {
         addSubview(personImage)
         addSubview(totalCrewMemeberLabel)
@@ -330,33 +363,6 @@ final class SessionStartBackView: UIView {
         }
     }
 
-    // TODO: - 실제 데이터로 변경
-    private func settingData() {
-        totalCrewMemeberLabel.text = "\(crewData?.crews.count ?? 0)명"
-    }
-
-    // TODO: - 실제 데이터로 변경
-    private func checkStopOverPoint() {
-        if crewData?.stopover1 == nil {
-            return
-        } else {
-            settingStopOverPoints()
-        }
-    }
-
-    // 경유지 관련 설정
-    private func settingStopOverPoints() {
-
-        // TODO: - 실제 데이터로 변경
-        if crewData?.stopover1 != nil, crewData?.stopover2 == nil, crewData?.stopover3 == nil {
-            oneStopOverPoint()
-        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 == nil {
-            twoStopOverPoints()
-        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 != nil {
-            threeStopOverPoints()
-        }
-    }
-
     // 경유지1만 있을 때
     private func oneStopOverPoint() {
 
@@ -369,7 +375,6 @@ final class SessionStartBackView: UIView {
 
         setupOneStopOverConstraints()
     }
-
     // 경유지2까지 있을 때
     private func twoStopOverPoints() {
 
@@ -388,7 +393,6 @@ final class SessionStartBackView: UIView {
 
         setupTwoStopOverConstraints()
     }
-
     // 경유지3까지 있을 때
     private func threeStopOverPoints() {
 
@@ -411,11 +415,7 @@ final class SessionStartBackView: UIView {
 
         setupThressStopOverConstraints()
     }
-}
 
-// MARK: - BackView Layouts
-
-extension SessionStartBackView {
     // 경유지들 addSubview
     private func setupOneStopOverUI() {
         addSubview(dotImage1)
