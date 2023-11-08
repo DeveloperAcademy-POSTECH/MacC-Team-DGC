@@ -88,6 +88,7 @@ class FirebaseManager {
      uid값으로 DB에서 저장된 유저 정보 불러오기 (READ)
      - 호출되는 곳
         - LoginViewController
+        - MyPageViewController
      */
     func readUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
         databasePath.getData { error, snapshot in
@@ -109,6 +110,18 @@ class FirebaseManager {
                 completion(nil)
             }
         }
+    }
+
+    /**
+     DB에서 유저의 닉네임 값 업데이트
+     - 호출되는 곳
+        - NicknameEditViewController
+     */
+    func updateUserNickname(newNickname: String) {
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        databasePath.child("nickname").setValue(newNickname as NSString)
     }
 
     /**
