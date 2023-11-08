@@ -10,7 +10,6 @@ import UIKit
 
 import FirebaseAuth
 import FirebaseDatabase
-import FirebaseStorage
 
 // MARK: - 유저 관련 파이어베이스 메서드
 class FirebaseManager {
