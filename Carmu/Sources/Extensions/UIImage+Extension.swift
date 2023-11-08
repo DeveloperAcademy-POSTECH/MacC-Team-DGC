@@ -31,6 +31,12 @@ extension UIImage {
         self.init(named: selectedName)
     }
 
+    // enum 타입의 ProfileImageColor 값을 받아서 대응하는 [마이페이지에서 보여줄 프로필 이미지]로 초기화해주는 이니셜라이저
+    convenience init?(myPageImageColor: ProfileImageColor) {
+        let selectedName = "myPageProfile" + myPageImageColor.rawValue.capitalized()
+        self.init(named: selectedName)
+    }
+
     public static func pixel(ofColor color: UIColor) -> UIImage {
         let pixel = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
         UIGraphicsBeginImageContext(pixel.size)

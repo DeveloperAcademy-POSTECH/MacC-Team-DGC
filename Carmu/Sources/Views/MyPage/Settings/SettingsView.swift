@@ -16,13 +16,13 @@ final class SettingsView: UIView {
     }()
 
     // 앱 이름 라벨
-    lazy var appNameLabel: UILabel = {
-        let appNameLabel = UILabel()
-        appNameLabel.text = "Carmu"
-        appNameLabel.textAlignment = .center
-        appNameLabel.textColor = .gray
-        appNameLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        return appNameLabel
+    lazy var appLogoView: UIImageView = {
+        let appLogoView = UIImageView()
+        if let appLogo = UIImage(named: "appLogo") {
+            appLogoView.contentMode = .scaleAspectFit
+            appLogoView.image = appLogo
+        }
+        return appLogoView
     }()
 
     // 앱 버전 라벨
@@ -34,8 +34,8 @@ final class SettingsView: UIView {
             appVersionLabel.text = "앱 버전 정보를 찾을 수 없습니다."
         }
         appVersionLabel.textAlignment = .center
-        appVersionLabel.textColor = .lightGray
-        appVersionLabel.font = UIFont.systemFont(ofSize: 14)
+        appVersionLabel.textColor = UIColor.theme.blue3
+        appVersionLabel.font = UIFont.carmuFont.subhead1
         return appVersionLabel
     }()
 
@@ -63,10 +63,11 @@ final class SettingsView: UIView {
             make.bottom.equalToSuperview().inset(48)
         }
 
-        addSubview(appNameLabel)
-        appNameLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(appVersionLabel.snp.top).offset(-8)
+        addSubview(appLogoView)
+        appLogoView.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(appVersionLabel.snp.top).offset(-12)
+            make.height.equalTo(18)
         }
     }
 }

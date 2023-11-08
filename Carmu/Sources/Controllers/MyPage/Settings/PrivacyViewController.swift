@@ -15,7 +15,8 @@ final class PrivacyViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
 
-        navigationItem.title = "개인정보 처리방침"
+        navigationController?.navigationBar.topItem?.title = "" // 백버튼 텍스트 제거
+
         view.addSubview(privacyView)
         privacyView.snp.makeConstraints { make in
             make.edges.equalTo(view.safeAreaLayoutGuide)
@@ -23,7 +24,6 @@ final class PrivacyViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        navigationItem.backButtonTitle = ""
-        navigationController?.navigationBar.tintColor = UIColor.semantic.accPrimary
+        navigationItem.title = "개인정보 처리방침"
     }
 }
