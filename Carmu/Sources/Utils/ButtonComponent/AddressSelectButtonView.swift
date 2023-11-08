@@ -48,12 +48,9 @@ final class AddressSelectButtonView: UIView {
 
         pointLabel.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
-            make.leading.equalToSuperview().inset(20)
-
         }
 
         selectPointButton.snp.makeConstraints { make in
-            make.top.equalTo(pointLabel.snp.bottom).offset(12)
             make.bottom.horizontalEdges.equalToSuperview()
         }
     }
