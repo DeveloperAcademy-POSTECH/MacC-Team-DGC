@@ -20,6 +20,22 @@ final class MapDetailView: UIView {
         return label
     }()
 
+    let giveUpButton: UIButton = {
+        var config = UIButton.Configuration.filled()
+
+        var titleContainer = AttributeContainer()
+        titleContainer.font = UIFont.carmuFont.headline2
+        titleContainer.foregroundColor = UIColor.semantic.textSecondary
+
+        config.attributedTitle = AttributedString("포기하기", attributes: titleContainer)
+        config.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20)
+        config.cornerStyle = .capsule
+        config.baseBackgroundColor = UIColor.semantic.negative
+
+        let button = UIButton(configuration: config)
+        return button
+    }()
+
     let noticeLateButton: UIButton = {
         var config = UIButton.Configuration.filled()
 
@@ -47,7 +63,7 @@ final class MapDetailView: UIView {
 
     override func draw(_ rect: CGRect) {
         showTitleLabel()
-        showNoticeLateButton()
+        showBottomButtons()
     }
 
     private func showTitleLabel() {
@@ -57,12 +73,23 @@ final class MapDetailView: UIView {
         }
     }
 
-    private func showNoticeLateButton() {
+    private func showBottomButtons() {
+        let bottomPadding = 48
+        let outsidePadding = 20
+        let insidePadding = frame.size.width / 2 + 5
+
+        addSubview(giveUpButton)
+        giveUpButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(outsidePadding)
+            make.trailing.equalToSuperview().inset(insidePadding)
+            make.bottom.equalToSuperview().inset(bottomPadding)
+        }
+
         addSubview(noticeLateButton)
         noticeLateButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(frame.size.width / 2 + 5)
-            make.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview().inset(48)
+            make.leading.equalToSuperview().inset(insidePadding)
+            make.trailing.equalToSuperview().inset(outsidePadding)
+            make.bottom.equalToSuperview().inset(bottomPadding)
         }
     }
 }
