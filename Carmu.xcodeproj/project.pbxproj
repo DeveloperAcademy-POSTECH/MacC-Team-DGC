@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		16114ADE2AFB1D9C003325B6 /* SessionStartBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */; };
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
 		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
@@ -113,6 +114,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartBackView.swift; sourceTree = "<group>"; };
 		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -412,6 +414,7 @@
 				BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */,
 				16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */,
+				16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */,
 				161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */,
 			);
 			path = SessionStart;
@@ -808,6 +811,7 @@
 				C904D1612AD57AE8008BF5CE /* Crew.swift in Sources */,
 				C92CFB392ACBC9180068273A /* CarmuFont.swift in Sources */,
 				BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */,
+				16114ADE2AFB1D9C003325B6 /* SessionStartBackView.swift in Sources */,
 				C95462172AF75A29004C4F6D /* TimeSelectModalView.swift in Sources */,
 				B8DD15E82AD641BC00685E48 /* FriendDetailView.swift in Sources */,
 				C904D1562AD5786A008BF5CE /* User.swift in Sources */,
