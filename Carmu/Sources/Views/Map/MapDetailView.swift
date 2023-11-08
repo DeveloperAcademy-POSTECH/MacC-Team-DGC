@@ -28,7 +28,7 @@ final class MapDetailView: UIView {
         titleContainer.foregroundColor = UIColor.semantic.textSecondary
 
         config.attributedTitle = AttributedString("지각 알리기", attributes: titleContainer)
-        config.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 20, bottom: 13, trailing: 20)
+        config.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20)
         config.cornerStyle = .capsule
         config.baseBackgroundColor = UIColor.semantic.accPrimary
 
@@ -38,15 +38,16 @@ final class MapDetailView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-
         backgroundColor = UIColor.semantic.backgroundDefault
-
-        showTitleLabel()
-        showNoticeLateButton()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    }
+
+    override func draw(_ rect: CGRect) {
+        showTitleLabel()
+        showNoticeLateButton()
     }
 
     private func showTitleLabel() {
@@ -59,7 +60,8 @@ final class MapDetailView: UIView {
     private func showNoticeLateButton() {
         addSubview(noticeLateButton)
         noticeLateButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
+            make.leading.equalToSuperview().inset(frame.size.width / 2 + 5)
+            make.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(48)
         }
     }
