@@ -58,6 +58,7 @@ final class MapViewController: UIViewController {
         showNaverMap()
         fetchDirections()
         mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
     }
 
@@ -156,6 +157,17 @@ final class MapViewController: UIViewController {
         }, completion: {(_) in
             self.mapView.toastLabel.removeFromSuperview()
         })
+    }
+
+    @objc func giveUpButtonDidTap() {
+        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: "탑승을 중도 포기합니다", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
+        let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(giveUpAction)
+        present(alert, animated: true)
     }
 }
 
