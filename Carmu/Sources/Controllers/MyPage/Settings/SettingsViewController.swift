@@ -255,11 +255,6 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
         Task {
             do {
-                // Storage에 저장된 유저 이미지 삭제
-                guard let imageName = KeychainItem.currentUserIdentifier else {
-                    return
-                }
-                firebaseManager.deleteProfileImage(imageName: "\(imageName).jpeg")
                 // 유저와 관련된 친구 정보 삭제
                 performDeletingUsersFriendship()
                 // Firebase DB에서 유저 정보 삭제

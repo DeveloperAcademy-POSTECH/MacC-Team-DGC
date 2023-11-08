@@ -23,6 +23,8 @@ final class NicknameEditViewController: UIViewController {
 
     private let nicknameEditView = NicknameEditView()
 
+    private let firebaseManager = FirebaseManager()
+
     // 뒷배경을 흐리게 하기 위한 블러 뷰
     lazy var blurEffectView: UIView = {
         let containerView = UIView()
@@ -95,13 +97,10 @@ extension NicknameEditViewController {
     // [확인] 혹은 키보드의 엔터 버튼을 눌렀을 때 닉네임 수정사항을 반영해주는 메서드
     @objc private func performNicknameChange() {
         // 파이어베이스 DB에 닉네임 업데이트
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
         guard let newNickname = nicknameEditView.nicknameTextField.text else {
             return
         }
-        databasePath.child("nickname").setValue(newNickname as NSString)
+        firebaseManager.updateUserNickname(newNickname: newNickname)
 
         delegate?.sendNewNickname(newNickname: newNickname) // 마이페이지 뷰에 변경된 값 반영
         dismissNicknameEditView()
