@@ -144,7 +144,6 @@ extension FirebaseManager {
     /**
      DB에서 유저의 friendID 목록을 불러오는 메서드
      - 호출되는 곳
-        - SessionStartViewController
         - NoticeLateViewController
         - SettingsViewController
         - FriendListViewController
@@ -160,6 +159,9 @@ extension FirebaseManager {
             completion(friends)
         }
     }
+    /**
+     유저가 속한 크루의
+     */
 
     /**
      friendID 값으로 DB에서 Friendship의 친구 id를 불러오는 메서드
@@ -476,77 +478,6 @@ extension FirebaseManager {
                 crewStatus: snapshotValue["crewStatus"] as? [UserIdentifier: Status] ?? [:]
             )
             completion(crew)
-        }
-    }
-}
-
-// MARK: - 파이어베이스 Storage 관련 메서드
-extension FirebaseManager {
-
-    /**
-     파이어베이스 Storage에서 유저 이미지 불러오기
-     - 호출되는 곳
-        - MyPageViewController
-        - FriendListViewController
-        - FriendAddViewController
-        - FriendDetailViewController
-     */
-    func loadProfileImage(urlString: String, completion: @escaping (UIImage?) -> Void) {
-        let firebaseStorageRef = Storage.storage().reference(forURL: urlString)
-        let megaByte = Int64(1 * 1024 * 1024)
-        firebaseStorageRef.getData(maxSize: megaByte) { data, error in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let imageData = data else {
-                completion(nil)
-                return
-            }
-            completion(UIImage(data: imageData))
-        }
-    }
-
-    /**
-     파이어베이스 Storage에 이미지 업로드
-     - 호출되는 곳
-        - MyPageViewController
-     */
-    func uploadImageToStorage(image: UIImage, imageName: String, completion: @escaping (URL?) -> Void) {
-        guard let imageData = image.jpegData(compressionQuality: 0.4) else {
-            return
-        }
-        let metaData = StorageMetadata()
-        metaData.contentType = "image/jpeg"
-
-        // 파이어베이스 Storage에 대한 참조
-        let firebaseStorageRef = Storage.storage().reference().child("images/\(imageName)")
-        firebaseStorageRef.putData(imageData, metadata: metaData) { _, error in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            firebaseStorageRef.downloadURL { url, _ in
-                completion(url)
-            }
-        }
-    }
-
-    /**
-     파이어베이스 Storage에서 유저 이미지 삭제하기
-     - 호출되는 곳
-        - MyPageViewController
-        - SettingsViewController
-     */
-    func deleteProfileImage(imageName: String) {
-        let firebaseStorageRef = Storage.storage().reference().child("images/\(imageName)")
-        firebaseStorageRef.delete { error in
-            if let error = error {
-                print("이미지 삭제에 실패했습니다.", error.localizedDescription)
-            } else {
-                print("이미지가 성공적으로 삭제되었습니다.")
-            }
         }
     }
 }
