@@ -23,7 +23,7 @@ final class SessionStartDriverView: UIView {
     // 앞면 뷰
     lazy var driverFrontView = DriverFrontView()
     // 뒷면 뷰
-    private lazy var driverBackView = DriverBackView()
+    private lazy var sessionStartBackView = SessionStartBackView()
 
     init() {
         super.init(frame: .zero)
@@ -42,7 +42,7 @@ final class SessionStartDriverView: UIView {
 
         contentView.frame = bounds
         driverFrontView.frame = bounds
-        driverBackView.frame = bounds
+        sessionStartBackView.frame = bounds
 
     }
 }
@@ -53,8 +53,8 @@ extension SessionStartDriverView {
     private func setupUI() {
         addSubview(contentView)
         contentView.addSubview(driverFrontView)
-        contentView.addSubview(driverBackView)
-        driverBackView.isHidden = true
+        contentView.addSubview(sessionStartBackView)
+        sessionStartBackView.isHidden = true
 
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
@@ -73,7 +73,7 @@ extension SessionStartDriverView {
 
         UIView.transition(with: contentView, duration: 0.4, options: transitionOptions, animations: {
             self.driverFrontView.isHidden = self.isFlipped
-            self.driverBackView.isHidden = !self.isFlipped
+            self.sessionStartBackView.isHidden = !self.isFlipped
         }, completion: nil)
     }
 }
@@ -201,56 +201,5 @@ final class DriverFrontView: UIView {
     private func settingData() {
         totalCrewMemeberLabel.text = "/ \(crewData?.crews.count ?? 0)"
         todayCrewMemeberLabel.text = "1"
-    }
-}
-
-// MARK: - 뒷면 뷰
-
-final class DriverBackView: UIView {
-
-    private lazy var personImage: UIImageView = {
-        let image = UIImage(systemName: "person.fill")
-        let imageView = UIImageView(image: image)
-        imageView.tintColor = UIColor.semantic.textPrimary
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    private lazy var totalCrewMemeberLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.carmuFont.subhead3
-        label.textColor = UIColor.semantic.textPrimary
-        return label
-    }()
-
-    init() {
-        super.init(frame: .zero)
-        setupBackView()
-        setupConstraints()
-        settingData()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setupBackView() {
-        addSubview(personImage)
-        addSubview(totalCrewMemeberLabel)
-    }
-
-    private func setupConstraints() {
-        personImage.snp.makeConstraints { make in
-            make.leading.top.equalToSuperview().inset(20)
-            make.width.height.equalTo(22)
-        }
-        totalCrewMemeberLabel.snp.makeConstraints { make in
-            make.leading.equalTo(personImage.snp.trailing).offset(4)
-            make.centerY.equalTo(personImage)
-        }
-    }
-
-    // TODO: - 실제 데이터로 변경
-    private func settingData() {
-        totalCrewMemeberLabel.text = "\(crewData?.crews.count ?? 0)명"
     }
 }
