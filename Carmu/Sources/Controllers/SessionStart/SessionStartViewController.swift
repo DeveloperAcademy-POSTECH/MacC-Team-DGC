@@ -186,7 +186,7 @@ extension SessionStartViewController {
     private func settingDriverConstraints() {
         sessionStartDriverView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
+            make.top.lessThanOrEqualTo(sessionStartView.myPageButton.snp.bottom).offset(88)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
         sessionStartView.notifyComment.snp.makeConstraints { make in
@@ -258,7 +258,7 @@ extension SessionStartViewController {
     private func settingPassengerConstraints() {
         sessionStartPassengerView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(sessionStartView.topComment.snp.bottom).offset(36)
+            make.top.lessThanOrEqualTo(sessionStartView.myPageButton.snp.bottom).offset(88)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
         sessionStartView.notifyComment.snp.makeConstraints { make in

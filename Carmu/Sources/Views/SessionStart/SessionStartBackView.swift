@@ -29,7 +29,7 @@ final class SessionStartBackView: UIView {
     private lazy var stickImage: UIImageView = {
         let image = UIImage(named: "LocationStick")
         let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
