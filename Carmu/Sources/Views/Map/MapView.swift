@@ -13,7 +13,13 @@ final class MapView: UIView {
 
     let naverMap = NMFMapView()
 
-    private let carMarker = NMFMarker()
+    let carMarker = {
+        let marker = NMFMarker()
+        marker.iconImage = NMFOverlayImage(name: "car")
+        marker.width = 46
+        marker.height = 59
+        return marker
+    }()
 
     private let points: Points
 
