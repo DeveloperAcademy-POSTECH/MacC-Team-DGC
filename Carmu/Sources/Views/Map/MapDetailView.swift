@@ -11,13 +11,12 @@ import SnapKit
 
 final class MapDetailView: UIView {
 
-    private let titleLabel: UILabel = {
+    let titleLabel: UILabel = {
         let label = PaddingLabel(padding: UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20))
         label.backgroundColor = UIColor.semantic.backgroundSecond
-        label.text = "🍎 C5 출근팟 늦으면 죽음 뿐 🍎"
         label.textColor = UIColor.semantic.textPrimary
         label.font = UIFont.carmuFont.subhead3
-        label.textAlignment = .center
+        label.textAlignment = .left
         return label
     }()
 

@@ -76,6 +76,8 @@ final class MapViewController: UIViewController {
             make.height.equalTo(234)
         }
 
+        detailView.titleLabel.text = "운좋은 카풀팟"
+
         view.addSubview(mapView)
         mapView.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
