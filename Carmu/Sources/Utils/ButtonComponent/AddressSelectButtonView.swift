@@ -6,6 +6,7 @@
 //
 
 import Foundation
+
 /**
  경유지 설정 화면에서 선택하는 버튼.
  */
@@ -26,7 +27,7 @@ final class AddressSelectButtonView: UIView, SelectAddressButtonProtocol {
         return button
     }()
 
-    var button: UIButton = {
+    internal var button: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = UIFont.carmuFont.body2Long
         button.setTitleColor(UIColor.semantic.textBody, for: .normal)

@@ -9,11 +9,6 @@ import UIKit
 
 import SnapKit
 
-protocol SelectAddressButtonProtocol: UIView {
-    var button: UIButton { get set }
-    var label: UILabel { get set }
-}
-
 final class StopoverPointAddButtonView: UIView, SelectAddressButtonProtocol {
     var button: UIButton = {
         let button = UIButton(type: .system)

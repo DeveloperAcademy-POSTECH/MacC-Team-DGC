@@ -95,6 +95,7 @@
 		C9D04C6E2AFB81B2007E615B /* StopoverPointSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C6D2AFB81B2007E615B /* StopoverPointSelectView.swift */; };
 		C9D04C712AFB81F9007E615B /* StopoverPointSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C702AFB81F9007E615B /* StopoverPointSelectViewController.swift */; };
 		C9D04C732AFC65BE007E615B /* StopoverPointAddButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C722AFC65BE007E615B /* StopoverPointAddButtonView.swift */; };
+		C9D04C752AFCD315007E615B /* SelectAddressButtonProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C742AFCD315007E615B /* SelectAddressButtonProtocol.swift */; };
 		C9D8E4DC2AF4814E007570EE /* TimeSelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */; };
 		C9D8E4DE2AF48172007570EE /* TimeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */; };
 		C9D8E4E02AF482B9007570EE /* RepeatDaySelectViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */; };
@@ -199,6 +200,7 @@
 		C9D04C6D2AFB81B2007E615B /* StopoverPointSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverPointSelectView.swift; sourceTree = "<group>"; };
 		C9D04C702AFB81F9007E615B /* StopoverPointSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverPointSelectViewController.swift; sourceTree = "<group>"; };
 		C9D04C722AFC65BE007E615B /* StopoverPointAddButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverPointAddButtonView.swift; sourceTree = "<group>"; };
+		C9D04C742AFCD315007E615B /* SelectAddressButtonProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectAddressButtonProtocol.swift; sourceTree = "<group>"; };
 		C9D8E4DB2AF4814E007570EE /* TimeSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectViewController.swift; sourceTree = "<group>"; };
 		C9D8E4DD2AF48172007570EE /* TimeSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSelectView.swift; sourceTree = "<group>"; };
 		C9D8E4DF2AF482B9007570EE /* RepeatDaySelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectViewController.swift; sourceTree = "<group>"; };
@@ -574,6 +576,8 @@
 			children = (
 				C9F43BD12AF227B100BAA0E3 /* LargeSelectButton.swift */,
 				C9D04C6A2AFB7864007E615B /* AddressSelectButtonView.swift */,
+				C9D04C722AFC65BE007E615B /* StopoverPointAddButtonView.swift */,
+				C9D04C742AFCD315007E615B /* SelectAddressButtonProtocol.swift */,
 				C9F43BE02AF3430C00BAA0E3 /* StopoverSelectButton.swift */,
 				C954621D2AF77D9D004C4F6D /* NextButton.swift */,
 				C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */,
@@ -614,7 +618,6 @@
 			isa = PBXGroup;
 			children = (
 				C9D04C6D2AFB81B2007E615B /* StopoverPointSelectView.swift */,
-				C9D04C722AFC65BE007E615B /* StopoverPointAddButtonView.swift */,
 			);
 			path = StopoverPointSelect;
 			sourceTree = "<group>";
@@ -775,6 +778,7 @@
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
 				C9F43BD22AF227B100BAA0E3 /* LargeSelectButton.swift in Sources */,
+				C9D04C752AFCD315007E615B /* SelectAddressButtonProtocol.swift in Sources */,
 				C9D04C712AFB81F9007E615B /* StopoverPointSelectViewController.swift in Sources */,
 				C93116722AF3B5190014E702 /* SelectAddressViewController.swift in Sources */,
 				B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */,
