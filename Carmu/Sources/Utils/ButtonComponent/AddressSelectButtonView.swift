@@ -18,6 +18,14 @@ final class AddressSelectButtonView: UIView, SelectAddressButtonProtocol {
         return label
     }()
 
+    lazy var xButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "xmark"), for: .normal)
+        button.tintColor = UIColor.theme.blue3
+        button.isHidden = true
+        return button
+    }()
+
     var button: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = UIFont.carmuFont.body2Long
@@ -35,7 +43,7 @@ final class AddressSelectButtonView: UIView, SelectAddressButtonProtocol {
      isStart: 도착지라면 false(기본값 true)
      time: 출발 또는 도착 시간
      */
-    init(textFieldTitle: String) {
+    init(textFieldTitle: String, hasXButton: Bool = false) {
         super.init(frame: .zero)
 
         label.text = textFieldTitle
@@ -43,6 +51,14 @@ final class AddressSelectButtonView: UIView, SelectAddressButtonProtocol {
 
         addSubview(label)
         addSubview(button)
+        if hasXButton {
+            addSubview(xButton)
+            xButton.snp.makeConstraints { make in
+                make.centerY.equalTo(label)
+                make.trailing.equalToSuperview()
+                make.width.height.equalTo(20)
+            }
+        }
 
         label.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()

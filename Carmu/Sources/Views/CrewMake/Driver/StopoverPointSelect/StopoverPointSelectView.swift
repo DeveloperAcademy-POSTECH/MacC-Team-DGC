@@ -30,8 +30,8 @@ final class StopoverPointSelectView: UIView {
 
     let stopoverStackView = UIStackView()
     let stopover1 = AddressSelectButtonView(textFieldTitle: "경유지 1")
-    var stopover2 = AddressSelectButtonView(textFieldTitle: "경유지 2")
-    var stopover3 = AddressSelectButtonView(textFieldTitle: "경유지 3")
+    var stopover2 = AddressSelectButtonView(textFieldTitle: "경유지 2", hasXButton: true)
+    var stopover3 = AddressSelectButtonView(textFieldTitle: "경유지 3", hasXButton: true)
 
     let stopoverAddButton = StopoverPointAddButtonView()
 

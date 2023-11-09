@@ -22,7 +22,21 @@ final class StopoverPointSelectViewController: UIViewController {
             action: #selector(nextButtonTapped),
             for: .touchUpInside
         )
-        stopoverPointSelectView.stopoverAddButton.button.addTarget(self, action: #selector(addPointButtonTapped), for: .touchUpInside)
+        stopoverPointSelectView.stopoverAddButton.button.addTarget(
+            self,
+            action: #selector(addPointButtonTapped),
+            for: .touchUpInside
+        )
+        stopoverPointSelectView.stopover2.xButton.addTarget(
+            self,
+            action: #selector(deletePointButtonTapped),
+            for: .touchUpInside
+        )
+        stopoverPointSelectView.stopover3.xButton.addTarget(
+            self,
+            action: #selector(deletePointButtonTapped),
+            for: .touchUpInside
+        )
         view.addSubview(stopoverPointSelectView)
         stopoverPointSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -42,6 +56,7 @@ extension StopoverPointSelectViewController {
             }
             stopoverPointSelectView.stopover2.label.isHidden = false
             stopoverPointSelectView.stopover2.button.isHidden = false
+            stopoverPointSelectView.stopover2.xButton.isHidden = false
             stopoverCount += 1
         } else {
             stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
@@ -52,27 +67,43 @@ extension StopoverPointSelectViewController {
             stopoverPointSelectView.stopoverAddButton.isHidden = true
             stopoverPointSelectView.stopover3.label.isHidden = false
             stopoverPointSelectView.stopover3.button.isHidden = false
+            stopoverPointSelectView.stopover3.xButton.isHidden = false
             stopoverCount += 1
         }
     }
 
-    @objc private func findAddressButtonTapped(_ sender: UIButton) {
-        let detailViewController = SelectAddressViewController()
-        let navigation = UINavigationController(rootViewController: detailViewController)
-
-        detailViewController.selectAddressView.headerTitleLabel.text = {
-            if sender.titleLabel?.text == "     출발지 검색" {
-                return "출발지 주소 설정"
-            } else {
-                return "도착지 주소 설정"
+    @objc private func deletePointButtonTapped() {
+        if stopoverCount == 3 {
+            stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
+                make.top.equalTo(stopoverPointSelectView.titleLabel5.snp.bottom).offset(30)
+                make.bottom.equalTo(stopoverPointSelectView.stopover3).offset(30)
+                make.leading.equalTo(stopoverPointSelectView).inset(20)
             }
-        }()
+            stopoverPointSelectView.stopover3.label.isHidden = true
+            stopoverPointSelectView.stopover3.button.isHidden = true
+            stopoverPointSelectView.stopover3.xButton.isHidden = true
+            stopoverPointSelectView.stopoverAddButton.isHidden = false
+            stopoverCount -= 1
+        } else {
+            stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
+                make.top.equalTo(stopoverPointSelectView.titleLabel5.snp.bottom).offset(30)
+                make.bottom.equalTo(stopoverPointSelectView.stopover2).offset(30)
+                make.leading.equalToSuperview().inset(20)
+            }
+            stopoverPointSelectView.stopover2.label.isHidden = true
+            stopoverPointSelectView.stopover2.button.isHidden = true
+            stopoverPointSelectView.stopover2.xButton.isHidden = true
+            stopoverCount -= 1
+        }
+    }
 
+    @objc private func findAddressButtonTapped(_ sender: UIButton) {
+        let detailViewController = SelectDetailPointMapViewController(selectAddressModel: SelectAddressDTO())
 //        detailViewController.addressSelectionHandler = { [weak self] addressDTO in
 //            // TODO: 다음 작업에 Model에 값 적재하는 로직 구현 필요
 //
 //        }
-        present(navigation, animated: true)
+        present(detailViewController, animated: true)
     }
 
     @objc private func nextButtonTapped() {
