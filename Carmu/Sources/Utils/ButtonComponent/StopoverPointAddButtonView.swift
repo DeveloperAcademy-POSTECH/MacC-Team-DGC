@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 
 final class StopoverPointAddButtonView: UIView, SelectAddressButtonProtocol {
+
     var button: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("􀅼 경유지 추가", for: .normal)
