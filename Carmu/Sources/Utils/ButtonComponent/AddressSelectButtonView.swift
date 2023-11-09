@@ -9,17 +9,16 @@ import Foundation
 /**
  경유지 설정 화면에서 선택하는 버튼.
  */
-final class AddressSelectButtonView: UIView {
+final class AddressSelectButtonView: UIView, SelectAddressButtonProtocol {
 
-    private lazy var pointLabel: UILabel = {
+    internal var label: UILabel = {
         let label = UILabel()
         label.font = UIFont.carmuFont.headline1
         label.textColor = UIColor.semantic.textPrimary
-
         return label
     }()
 
-    lazy var selectPointButton: UIButton = {
+    var button: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = UIFont.carmuFont.body2Long
         button.setTitleColor(UIColor.semantic.textBody, for: .normal)
@@ -28,7 +27,6 @@ final class AddressSelectButtonView: UIView {
         button.layer.cornerRadius = 15
         button.contentHorizontalAlignment = .left
         button.isSpringLoaded = true
-
         return button
     }()
 
@@ -38,19 +36,19 @@ final class AddressSelectButtonView: UIView {
      time: 출발 또는 도착 시간
      */
     init(textFieldTitle: String) {
-        super.init(frame: .zero)
+        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 64))
 
-        pointLabel.text = textFieldTitle
-        selectPointButton.setTitle("     \(textFieldTitle) 검색", for: .normal)
+        label.text = textFieldTitle
+        button.setTitle("     \(textFieldTitle) 검색", for: .normal)
 
-        addSubview(pointLabel)
-        addSubview(selectPointButton)
+        addSubview(label)
+        addSubview(button)
 
-        pointLabel.snp.makeConstraints { make in
+        label.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
         }
 
-        selectPointButton.snp.makeConstraints { make in
+        button.snp.makeConstraints { make in
             make.bottom.horizontalEdges.equalToSuperview()
         }
     }

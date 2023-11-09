@@ -9,9 +9,13 @@ import UIKit
 
 import SnapKit
 
-final class StopoverPointAddButtonView: UIView {
+protocol SelectAddressButtonProtocol: UIView {
+    var button: UIButton { get set }
+    var label: UILabel { get set }
+}
 
-    let addPointButton: UIButton = {
+final class StopoverPointAddButtonView: UIView, SelectAddressButtonProtocol {
+    var button: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("􀅼 경유지 추가", for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.subhead2
@@ -22,7 +26,7 @@ final class StopoverPointAddButtonView: UIView {
         return button
     }()
 
-    private let buttonLabel: UILabel = {
+    var label: UILabel = {
         let label = UILabel()
         label.text = "경유지는 최대 3개까지 생성할 수 있습니다."
         label.font = UIFont.carmuFont.body1Long
@@ -30,28 +34,24 @@ final class StopoverPointAddButtonView: UIView {
         return label
     }()
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
+    init() {
+        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 50))
+        addSubview(button)
+        addSubview(label)
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func draw(_ rect: CGRect) {
-
-        addSubview(addPointButton)
-        addSubview(buttonLabel)
-
-        addPointButton.snp.makeConstraints { make in
+        button.snp.makeConstraints { make in
             make.top.leading.equalToSuperview()
             make.width.equalTo(108)
             make.height.equalTo(30)
         }
 
-        buttonLabel.snp.makeConstraints { make in
-            make.top.equalTo(addPointButton.snp.bottom).offset(12)
+        label.snp.makeConstraints { make in
+            make.top.equalTo(button.snp.bottom).offset(6)
             make.bottom.horizontalEdges.equalToSuperview()
         }
+    }
+
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
 }

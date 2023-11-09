@@ -10,6 +10,7 @@ import UIKit
 final class StopoverPointSelectViewController: UIViewController {
 
     private let stopoverPointSelectView = StopoverPointSelectView()
+    private var stopoverCount = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,6 +22,7 @@ final class StopoverPointSelectViewController: UIViewController {
             action: #selector(nextButtonTapped),
             for: .touchUpInside
         )
+        stopoverPointSelectView.stopoverAddButton.button.addTarget(self, action: #selector(addPointButtonTapped), for: .touchUpInside)
         view.addSubview(stopoverPointSelectView)
         stopoverPointSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -30,6 +32,29 @@ final class StopoverPointSelectViewController: UIViewController {
 
 // MARK: - @objc Method
 extension StopoverPointSelectViewController {
+
+    @objc private func addPointButtonTapped() {
+        if stopoverCount == 1 {
+            stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
+                make.top.equalTo(stopoverPointSelectView.titleLabel5.snp.bottom).offset(30)
+                make.bottom.equalTo(stopoverPointSelectView.stopover3).offset(30)
+                make.leading.equalTo(stopoverPointSelectView).inset(20)
+            }
+            stopoverPointSelectView.stopover2.label.isHidden = false
+            stopoverPointSelectView.stopover2.button.isHidden = false
+            stopoverCount += 1
+        } else {
+            stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
+                make.top.equalTo(stopoverPointSelectView.titleLabel5.snp.bottom).offset(30)
+                make.bottom.equalTo(stopoverPointSelectView.nextButton.snp.top).offset(-30)
+                make.leading.equalTo(stopoverPointSelectView).inset(20)
+            }
+            stopoverPointSelectView.stopoverAddButton.isHidden = true
+            stopoverPointSelectView.stopover3.label.isHidden = false
+            stopoverPointSelectView.stopover3.button.isHidden = false
+            stopoverCount += 1
+        }
+    }
 
     @objc private func findAddressButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectAddressViewController()
@@ -43,10 +68,10 @@ extension StopoverPointSelectViewController {
             }
         }()
 
-        detailViewController.addressSelectionHandler = { [weak self] addressDTO in
-            // TODO: 다음 작업에 Model에 값 적재하는 로직 구현 필요
-
-        }
+//        detailViewController.addressSelectionHandler = { [weak self] addressDTO in
+//            // TODO: 다음 작업에 Model에 값 적재하는 로직 구현 필요
+//
+//        }
         present(navigation, animated: true)
     }
 
