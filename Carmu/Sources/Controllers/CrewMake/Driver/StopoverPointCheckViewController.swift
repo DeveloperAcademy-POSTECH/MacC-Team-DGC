@@ -38,6 +38,8 @@ extension StopoverPointCheckViewController {
 
     @objc private func yesButtonTapped() {
         // TODO: - 경유지 설정 화면으로 이동 구현 필요
+        let viewController = StopoverPointSelectViewController()
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     @objc private func noButtonTapped() {

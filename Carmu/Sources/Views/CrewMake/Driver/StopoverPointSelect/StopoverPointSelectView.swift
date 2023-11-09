@@ -28,6 +28,11 @@ final class StopoverPointSelectView: UIView {
         return label
     }()
 
+    let stopoverStackView = UIStackView()
+    let stopover1 = AddressSelectButtonView(textFieldTitle: "경유지 1")
+    var stopover2: UIView = StopoverPointAddButtonView()
+    var stopover3: UIView?
+
     let endPointView: UILabel = {
         let label = UILabel()
         label.text = "도착지 주소"
@@ -48,25 +53,39 @@ final class StopoverPointSelectView: UIView {
 
     override func draw(_ rect: CGRect) {
         setupViews()
-        setAutoLayout()
+        setupConstraints()
     }
 
     private func setupViews() {
         firstLineTitleStack.axis = .horizontal
+        stopoverStackView.axis = .vertical
+        stopoverStackView.distribution = .equalSpacing
 
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
         firstLineTitleStack.addArrangedSubview(titleLabel3)
+        stopoverStackView.addArrangedSubview(stopover1)
+        stopoverStackView.addArrangedSubview(stopover2)
+
+        if let stopover3 = stopover3 {
+            stopoverStackView.addArrangedSubview(stopover3)
+        }
 
         addSubview(firstLineTitleStack)
         addSubview(titleLabel5)
         addSubview(colorLine)
         addSubview(startPointView)
+        addSubview(stopoverStackView)
         addSubview(endPointView)
         addSubview(nextButton)
     }
 
-    private func setAutoLayout() {
+    private func setupConstraints() {
+        setAutoLayout1()
+        setAutoLayout2()
+    }
+
+    private func setAutoLayout1() {
         firstLineTitleStack.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
@@ -78,19 +97,48 @@ final class StopoverPointSelectView: UIView {
         }
 
         colorLine.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel5.snp.bottom).offset(40)
+            make.top.equalTo(titleLabel5.snp.bottom).offset(30)
             make.leading.equalToSuperview().inset(20)
-            make.bottom.equalTo(nextButton.snp.top).offset(-56)
+            make.height.equalTo(314)
         }
 
         startPointView.snp.makeConstraints { make in
-            make.top.equalTo(colorLine).offset(12)
+            make.top.equalTo(colorLine).offset(2)
+            make.leading.equalTo(colorLine.snp.trailing).offset(12)
+            make.trailing.equalToSuperview().inset(32)
+        }
+    }
+
+    private func setAutoLayout2() {
+        stopoverStackView.snp.makeConstraints { make in
+            make.top.equalTo(startPointView.snp.bottom).offset(20)
+            make.bottom.equalTo(endPointView.snp.top).offset(-40)
             make.leading.equalTo(colorLine.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(32)
         }
 
+        stopover1.snp.makeConstraints { make in
+            make.top.equalToSuperview().inset(15)
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(64)
+        }
+
+        stopover2.snp.makeConstraints { make in
+            make.top.equalTo(stopover1.snp.bottom).offset(20)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(60)
+        }
+
+        if let stopover3 = stopover3 {
+            stopover3.snp.makeConstraints { make in
+                make.top.equalTo(stopover2.snp.bottom).offset(20)
+                make.leading.trailing.equalToSuperview()
+                make.height.equalTo(60)
+            }
+        }
+
         endPointView.snp.makeConstraints { make in
-            make.bottom.equalTo(colorLine).offset(-12)
+            make.bottom.equalTo(colorLine).offset(-2)
             make.leading.equalTo(colorLine.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(32)
         }
