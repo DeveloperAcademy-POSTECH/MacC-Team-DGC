@@ -35,12 +35,22 @@ struct Crew: Codable {
 
 /**
  세션의 상태와 크루원의 상태를 구분하기 위한 enum 타입
- 미응답, 승인, 거절의 경우로 나누었습니다.
+ 미응답, 승인, 거절, 세션 시작의 경우로 나누었습니다.
  */
 enum Status: String, Codable {
     case waiting
     case accept
     case decline
+    case sessionStart
+
+    var statusValue: String {
+        switch self {
+        case .waiting: return "미응답"
+        case .accept: return "참여"
+        case .decline: return "불참"
+        case .sessionStart: return "세션 시작"
+        }
+    }
 }
 
 // 더미 데이터
