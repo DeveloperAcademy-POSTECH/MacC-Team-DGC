@@ -11,15 +11,13 @@ import SnapKit
 
 final class StopoverPointSelectView: UIView {
 
-    private lazy var firstLineTitleStack = UIStackView()
-
-    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "크루원들의 ")
-    private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "경유지")
-    private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "를")
+    private let firstLineTitleStack = UIStackView()
+    private let titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "크루원들의 ")
+    private let titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "경유지")
+    private let titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "를")
     let titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "설정해주세요")
 
     let colorLine = CrewMakeUtil.createColorLineView()
-
     let startPointView: UILabel = {
         let label = UILabel()
         label.text = "출발지 주소"
@@ -27,14 +25,17 @@ final class StopoverPointSelectView: UIView {
         label.textColor = UIColor.semantic.textTertiary
         return label
     }()
-
     let stopoverStackView = UIStackView()
     let stopover1 = AddressSelectButtonView(textFieldTitle: "경유지 1")
-    var stopover2 = AddressSelectButtonView(textFieldTitle: "경유지 2", hasXButton: true)
-    var stopover3 = AddressSelectButtonView(textFieldTitle: "경유지 3", hasXButton: true)
-
+    lazy var stopover2 = AddressSelectButtonView(
+        textFieldTitle: "경유지 2",
+        hasXButton: true
+    )
+    lazy var stopover3 = AddressSelectButtonView(
+        textFieldTitle: "경유지 3",
+        hasXButton: true
+    )
     let stopoverAddButton = StopoverPointAddButtonView()
-
     let endPointView: UILabel = {
         let label = UILabel()
         label.text = "도착지 주소"
@@ -54,11 +55,15 @@ final class StopoverPointSelectView: UIView {
     }
 
     override func draw(_ rect: CGRect) {
-        setupViews()
+        setupUI()
         setupConstraints()
     }
+}
 
-    private func setupViews() {
+// MARK: - setup UI
+extension StopoverPointSelectView {
+
+    private func setupUI() {
         firstLineTitleStack.axis = .horizontal
         stopoverStackView.axis = .vertical
         stopoverStackView.distribution = .equalSpacing

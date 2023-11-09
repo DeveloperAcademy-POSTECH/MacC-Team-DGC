@@ -15,8 +15,19 @@ final class StopoverPointSelectViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
-
         // TODO: 출발지, 도착지 주소 텍스트 설정
+        addButtonTarget()
+        view.addSubview(stopoverPointSelectView)
+        stopoverPointSelectView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+}
+
+// MARK: - custom Method
+extension StopoverPointSelectViewController {
+
+    private func addButtonTarget() {
         stopoverPointSelectView.nextButton.addTarget(
             self,
             action: #selector(nextButtonTapped),
@@ -37,10 +48,6 @@ final class StopoverPointSelectViewController: UIViewController {
             action: #selector(deletePointButtonTapped),
             for: .touchUpInside
         )
-        view.addSubview(stopoverPointSelectView)
-        stopoverPointSelectView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
     }
 }
 
