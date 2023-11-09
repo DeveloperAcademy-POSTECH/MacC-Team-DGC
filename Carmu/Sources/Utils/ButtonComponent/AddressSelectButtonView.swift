@@ -36,7 +36,7 @@ final class AddressSelectButtonView: UIView, SelectAddressButtonProtocol {
      time: 출발 또는 도착 시간
      */
     init(textFieldTitle: String) {
-        super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 64))
+        super.init(frame: .zero)
 
         label.text = textFieldTitle
         button.setTitle("     \(textFieldTitle) 검색", for: .normal)

@@ -129,14 +129,17 @@ final class StopoverPointSelectView: UIView {
 
         stopover1.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(64)
         }
 
         stopover2.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
+            make.height.equalTo(64)
         }
 
         stopover3.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
+            make.height.equalTo(64)
         }
 
         endPointView.snp.makeConstraints { make in
