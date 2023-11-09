@@ -123,7 +123,7 @@ final class DriverFrontView: UIView {
         return view
     }()
 
-    private lazy var crewCollectionView: UICollectionView = {
+    lazy var crewCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.backgroundColor = UIColor.semantic.backgroundSecond
@@ -243,8 +243,12 @@ extension DriverFrontView: UICollectionViewDataSource {
         // crewStatus에서 현재 indexPath.row에 해당하는 크루의 상태 값을 가져옵니다.
         let crewID = userData[indexPath.row].id  // 예: "uni"
         if let crewStatus = crewData?.crewStatus[crewID] {
-            // 크루의 상태를 cell.statusLabel.text에 설정합니다.
-            cell.statusLabel.text = crewStatus.rawValue
+            // 운전자가 응답을 하지 않은 상황이면 Zzz..이고, 응답을 했다면 미응답으로 표현합니다.
+            if crewData?.sessionStatus == .waiting, crewStatus.statusValue == "미응답" {
+                cell.statusLabel.text = "Zzz.."
+            } else {
+                cell.statusLabel.text = crewStatus.statusValue
+            }
             cell.userNameLabel.text = crewID
         }
         cell.profileImageView.image = UIImage(profileImageColor: userData[indexPath.row].profileImageColor)
