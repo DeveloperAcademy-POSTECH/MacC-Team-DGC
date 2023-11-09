@@ -96,5 +96,28 @@ let crewData: Crew? = Crew(
     inviteCode: "0101010",
     repeatDay: [1, 2, 3, 4, 5],
     sessionStatus: .waiting,
-    crewStatus: ["uni": .waiting, "rei": .waiting, "bazzi": .waiting]
+    crewStatus: ["uni": .waiting, "rei": .waiting, "bazzi": .waiting, "jen": .waiting]
 )
+
+let userData: [User] = [
+    User(
+       id: "uni",
+       deviceToken: "uniDT",
+       nickname: "우니",
+       profileImageColor: .aqua),
+    User(
+        id: "rei",
+        deviceToken: "reiDT",
+        nickname: "레이",
+        profileImageColor: .red),
+    User(
+        id: "bazzi",
+        deviceToken: "bazziDT",
+        nickname: "배찌",
+        profileImageColor: .blue),
+    User(
+        id: "jen",
+        deviceToken: "jenDT",
+        nickname: "젠",
+        profileImageColor: .aquaBlue)
+]
