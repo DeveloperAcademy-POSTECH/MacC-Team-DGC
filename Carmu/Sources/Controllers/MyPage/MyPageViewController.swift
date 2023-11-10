@@ -85,7 +85,7 @@ final class MyPageViewController: UIViewController {
     private func addTargetToButtons() {
         myPageView.nicknameEditButton.addTarget(
             self,
-            action: #selector(showTextField),
+            action: #selector(showNicknameEditView),
             for: .touchUpInside
         )
         myPageView.profileImageEditButton.addTarget(
@@ -122,9 +122,12 @@ extension MyPageViewController {
         navigationController?.pushViewController(settingsVC, animated: true)
     }
 
-    // 닉네임 편집 버튼을 누르면 텍스트 필드를 포함하고 있는 darkOverlayView 활성화
-    @objc private func showTextField() {
-        let nicknameEditVC = NicknameEditViewController(nickname: myPageView.nicknameLabel.text ?? "")
+    // 닉네임 편집 버튼을 누르면 닉네임 편집 화면으로 전환
+    @objc private func showNicknameEditView() {
+        let nicknameEditVC = NameEditViewController(
+            nowName: myPageView.nicknameLabel.text ?? "",
+            isCrewNameEditView: false
+        )
         nicknameEditVC.delegate = self
         nicknameEditVC.modalPresentationStyle = .overCurrentContext
         present(nicknameEditVC, animated: false)
@@ -174,7 +177,7 @@ extension MyPageViewController {
     // 운전자 여부 확인
     // TODO: - 데이터 연결 로직 추가 필요
     private func isCaptain() -> Bool {
-        return false // 테스트용 값 설정
+        return true // 테스트용 값 설정
     }
 
     // 크루 없을 때의 화면 구성
@@ -240,14 +243,14 @@ extension MyPageViewController: ProfileChangeViewControllerDelegate {
     }
 }
 
-// MARK: - NicknameEditViewControllerDelegate 델리게이트 구현
-/**
- NicknameEditViewController에서 닉네임 데이터가 수정되었을 때 호출
- */
-extension MyPageViewController: NicknameEditViewControllerDelegate {
+// MARK: - NameEditViewControllerDelegate 델리게이트 구현
+extension MyPageViewController: NameEditViewControllerDelegate {
 
-    func sendNewNickname(newNickname: String) {
-        updateNickname(newNickname: newNickname)
+    /**
+     NameEditViewController에서 닉네임 데이터가 수정되었을 때 호출
+     */
+    func sendNewNameValue(newName: String) {
+        updateNickname(newNickname: newName)
     }
 }
 
@@ -287,8 +290,9 @@ extension MyPageViewController: UITableViewDelegate {
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            // TODO: - 크루 정보 수정하기로 이동
-            print("크루 정보 수정하기")
+            // [크루 정보 수정하기] 클릭
+            let crewInfoCheckVC = CrewInfoCheckViewController()
+            navigationController?.pushViewController(crewInfoCheckVC, animated: true)
         }
         // 클릭 후에는 셀의 선택이 해제된다.
         tableView.deselectRow(at: indexPath, animated: true)

@@ -7,31 +7,32 @@
 
 import UIKit
 
-final class NicknameEditView: UIView {
+// MARK: - 이름 편집 화면 (유저 닉네임 & 크루명)
+final class NameEditView: UIView {
 
-    // MARK: - 닉네임 텍스트 필드
-    lazy var nicknameTextField: UITextField = {
-        let nicknameTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
-        nicknameTextField.placeholder = "닉네임을 입력하세요"
-        nicknameTextField.textAlignment = .center
-        nicknameTextField.textColor = UIColor.semantic.textSecondary
-        nicknameTextField.tintColor = UIColor.semantic.textSecondary
-        nicknameTextField.clearButtonMode = .always
-        nicknameTextField.borderStyle = .none
-        nicknameTextField.font = UIFont.carmuFont.headline1
+    // MARK: - 텍스트 필드
+    lazy var nameEditTextField: UITextField = {
+        let nameEditTextField = UITextField(frame: CGRect(x: 0, y: 0, width: 200, height: 30))
+        nameEditTextField.placeholder = "닉네임을 입력하세요"
+        nameEditTextField.textAlignment = .center
+        nameEditTextField.textColor = UIColor.semantic.textSecondary
+        nameEditTextField.tintColor = UIColor.semantic.textSecondary
+        nameEditTextField.clearButtonMode = .always
+        nameEditTextField.borderStyle = .none
+        nameEditTextField.font = UIFont.carmuFont.headline1
 
-        if let placeholder = nicknameTextField.placeholder {
-            nicknameTextField.attributedPlaceholder = NSAttributedString(
+        if let placeholder = nameEditTextField.placeholder {
+            nameEditTextField.attributedPlaceholder = NSAttributedString(
                 string: placeholder,
                 attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray]
             )
         }
-        if let clearButton = nicknameTextField.value(forKey: "_clearButton") as? UIButton {
+        if let clearButton = nameEditTextField.value(forKey: "_clearButton") as? UIButton {
             clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
             clearButton.tintColor = .white
         }
-        nicknameTextField.addSubview(bottomLine)
-        return nicknameTextField
+        nameEditTextField.addSubview(bottomLine)
+        return nameEditTextField
     }()
 
     private lazy var bottomLine = {
@@ -100,15 +101,15 @@ final class NicknameEditView: UIView {
             make.height.equalTo(42)
         }
 
-        addSubview(nicknameTextField)
-        nicknameTextField.addSubview(bottomLine)
-        nicknameTextField.snp.makeConstraints { make in
+        addSubview(nameEditTextField)
+        nameEditTextField.addSubview(bottomLine)
+        nameEditTextField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.equalToSuperview().inset(247) // TODO: userInfoView bottom과 맞는지??
         }
         bottomLine.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
-            make.top.equalTo(nicknameTextField.snp.bottom).offset(5)
+            make.top.equalTo(nameEditTextField.snp.bottom).offset(5)
             make.height.equalTo(1)
         }
     }
@@ -122,17 +123,17 @@ final class NicknameEditView: UIView {
 // MARK: - 프리뷰 canvas 세팅
 import SwiftUI
 
-struct NicknameEditViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = NicknameEditViewController
-    func makeUIViewController(context: Context) -> NicknameEditViewController {
-        return NicknameEditViewController(nickname: "홍길동")
+struct NameEditViewControllerRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = NameEditViewController
+    func makeUIViewController(context: Context) -> NameEditViewController {
+        return NameEditViewController(nowName: "홍길동", isCrewNameEditView: false)
     }
-    func updateUIViewController(_ uiViewController: NicknameEditViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: NameEditViewController, context: Context) {
     }
 }
 @available(iOS 13.0.0, *)
-struct NicknameEditViewPreview: PreviewProvider {
+struct NameEditViewPreview: PreviewProvider {
     static var previews: some View {
-        NicknameEditViewControllerRepresentable()
+        NameEditViewControllerRepresentable()
     }
 }
