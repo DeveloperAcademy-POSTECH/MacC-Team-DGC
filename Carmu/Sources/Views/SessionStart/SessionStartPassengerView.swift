@@ -145,6 +145,10 @@ final class PassengerFrontView: UIView {
         label.numberOfLines = 0
         return label
     }()
+    private lazy var carpoolPlanLabel: CarpoolPlanLabel = {
+        let label = CarpoolPlanLabel()
+        return label
+    }()
 
     init() {
         super.init(frame: .zero)
@@ -173,6 +177,7 @@ final class PassengerFrontView: UIView {
         addSubview(noDriveViewForPassenger)
         noDriveViewForPassenger.addSubview(noDriveImage)
         noDriveViewForPassenger.addSubview(noDriveComment)
+        noDriveViewForPassenger.addSubview(carpoolPlanLabel)
     }
 
     private func setupConstraints() {
@@ -216,6 +221,10 @@ final class PassengerFrontView: UIView {
         }
         noDriveComment.snp.makeConstraints { make in
             make.top.equalTo(noDriveImage.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+        }
+        carpoolPlanLabel.snp.makeConstraints { make in
+            make.top.equalTo(noDriveComment.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
     }
