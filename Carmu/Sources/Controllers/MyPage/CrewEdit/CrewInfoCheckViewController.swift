@@ -96,10 +96,27 @@ final class CrewInfoCheckViewController: UIViewController {
         }
     }
 
-    // 크루 정보 화면에서 편집된 크루면으로 업데이트
+    // 크루 정보 화면에서 편집된 크루명으로 업데이트
     private func updateCrewName(newCrewName: String) {
         print("크루명 업데이트!!!")
         crewInfoCheckView.crewNameLabel.text = newCrewName
+    }
+
+    // 크루 나가기 알럿 띄우기
+    private func showCrewExitAlert() {
+        let alert = UIAlertController(
+            title: "크루에서 나가시겠습니까?",
+            message: "크루에 대한 모든 정보가 삭제됩니다.",
+            preferredStyle: .alert
+        )
+        let back = UIAlertAction(title: "돌아가기", style: .default)
+        let crewExit = UIAlertAction(title: "크루 나가기", style: .destructive) { _ in
+            // TODO: - 크루 나가기 구현 필요
+            print("크루 나가기!")
+        }
+        alert.addAction(back)
+        alert.addAction(crewExit)
+        present(alert, animated: true)
     }
 }
 
@@ -128,7 +145,7 @@ extension CrewInfoCheckViewController {
 
     // [크루 나가기] 버튼 클릭 시 호출
     @objc private func exitCrewButtonTapped() {
-        // TODO: - 구현 필요
+        showCrewExitAlert()
         print("크루 나가기 버튼 클릭됨!!")
     }
 }
