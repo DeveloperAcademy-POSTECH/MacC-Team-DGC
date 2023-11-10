@@ -130,6 +130,17 @@ extension SessionStartViewController {
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
         }
+
+        // TODO: - 실제 데이터로 변경
+        // 세션이 시작 중이면 버튼 텍스트 변경
+        guard let crewData = crewData else { return }
+        if crewData.sessionStatus == .sessionStart {
+            sessionStartView.individualButton.isHidden = true
+            sessionStartView.togetherButton.isHidden = true
+            sessionStartView.carpoolStartButton.isHidden = false
+            sessionStartDriverView.layer.opacity = 1.0
+            sessionStartView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
+        }
     }
 }
 
@@ -306,12 +317,17 @@ extension SessionStartViewController {
         // 활성화
         sessionStartDriverView.layer.opacity = 1.0
 
+        checkingCrewStatus()
+
         // TODO: - 실제 데이터로 변경
         crewData?.sessionStatus = .accept
         sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
     }
 
     @objc private func carpoolStartButtonDidTapped() {
+        // 세션 시작으로 상태 변경
+        crewData?.sessionStatus = .sessionStart
+
         let mapView = MapViewController()
         mapView.modalPresentationStyle = .fullScreen
         present(mapView, animated: true, completion: nil)
@@ -325,6 +341,7 @@ extension SessionStartViewController {
         if isCaptain() {
             sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+            sessionStartDriverView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
             sessionStartDriverView.layer.opacity = 1.0
         } else {    // 크루원이 클릭했을 때 -> 텍스트 변경
             if crewData?.sessionStatus != .decline {    // 응답을 하지 않았거나, 수락을 했을 때
@@ -373,6 +390,26 @@ extension SessionStartViewController {
     /// 운전자인지 여부 확인
     private func isCaptain() -> Bool {
         crewData?.captainID == "ted"
+    }
+
+    // TODO: - 실제 데이터로 변경 및 데이터 값 변경될 때 Observer로 확인
+    // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
+    private func checkingCrewStatus() {
+        guard let crewData = crewData else { return }
+
+        // crewStatus를 순회하면서 .accept 상태의 크루원 확인
+        let isAnyCrewAccepted = crewData.crewStatus.values.contains { status in
+            return status == .accept
+        }
+
+        if isAnyCrewAccepted {
+            sessionStartView.carpoolStartButton.isEnabled = true
+            print(".accept있음")
+        } else {
+            sessionStartView.carpoolStartButton.isEnabled = false
+            sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
+            print("없음")
+        }
     }
 }
 

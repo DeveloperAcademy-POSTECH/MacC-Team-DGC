@@ -10,6 +10,7 @@
 		16114ADE2AFB1D9C003325B6 /* SessionStartBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */; };
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
 		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
+		163422342AFDFFFE00196EB2 /* CarpoolPlanLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163422332AFDFFFE00196EB2 /* CarpoolPlanLabel.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
 		164E823D2AF53AB400848BFF /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E823C2AF53AB400848BFF /* Point.swift */; };
 		1667F61D2AFC622400393111 /* CrewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */; };
@@ -121,6 +122,7 @@
 /* Begin PBXFileReference section */
 		16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartBackView.swift; sourceTree = "<group>"; };
 		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
+		163422332AFDFFFE00196EB2 /* CarpoolPlanLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolPlanLabel.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewCollectionViewCell.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -244,6 +246,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		163422322AFDFFE700196EB2 /* LabelComponent */ = {
+			isa = PBXGroup;
+			children = (
+				BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */,
+				163422332AFDFFFE00196EB2 /* CarpoolPlanLabel.swift */,
+			);
+			path = LabelComponent;
+			sourceTree = "<group>";
+		};
 		16DBA63D2AC1D07C00315ED7 /* SessionStart */ = {
 			isa = PBXGroup;
 			children = (
@@ -630,9 +641,9 @@
 		C95C07AC2AE0BB3E007E7589 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				163422322AFDFFE700196EB2 /* LabelComponent */,
 				B8DD15ED2AD6EE9400685E48 /* CustomVisualEffectView.swift */,
 				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
-				BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */,
 				C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */,
 				C954621C2AF77D52004C4F6D /* ButtonComponent */,
 			);
@@ -875,6 +886,7 @@
 				C95462172AF75A29004C4F6D /* TimeSelectModalView.swift in Sources */,
 				C904D1562AD5786A008BF5CE /* User.swift in Sources */,
 				B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */,
+				163422342AFDFFFE00196EB2 /* CarpoolPlanLabel.swift in Sources */,
 				C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */,
 				C93116682AF3822D0014E702 /* StopoverPointCheckView.swift in Sources */,
 				C95462192AF75A42004C4F6D /* TimeSelectModalViewController.swift in Sources */,
