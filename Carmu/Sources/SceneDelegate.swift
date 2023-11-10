@@ -41,23 +41,18 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func updateRootViewController() {
         var rootViewController: UIViewController
-
-//        if Auth.auth().currentUser != nil {
-//            if SceneDelegate.isFirst {
-//                rootViewController = PositionSelectViewController()
-//            } else {
-//                rootViewController = SessionStartViewController()
-//            }
-//            let navigationController = UINavigationController(rootViewController: rootViewController)
-//            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary // 앱 전체에 내비게이션바 tintColor 적용
-//            window?.rootViewController = navigationController
-//        } else {
-//            window?.rootViewController = LoginViewController()
-//        }
-        rootViewController = SessionStartViewController()
-        let navigationController = UINavigationController(rootViewController: rootViewController)
-        navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary // 앱 전체에 내비게이션바 tintColor 적용
-        window?.rootViewController = navigationController
+        if Auth.auth().currentUser != nil {
+            if SceneDelegate.isFirst {
+                rootViewController = StopoverPointCheckViewController()
+            } else {
+                rootViewController = SessionStartViewController()
+            }
+            let navigationController = UINavigationController(rootViewController: rootViewController)
+            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary // 앱 전체에 내비게이션바 tintColor 적용
+            window?.rootViewController = navigationController
+        } else {
+            window?.rootViewController = LoginViewController()
+        }
         window?.makeKeyAndVisible()
     }
 
