@@ -48,6 +48,21 @@ extension StopoverPointSelectViewController {
             action: #selector(deletePointButtonTapped),
             for: .touchUpInside
         )
+        stopoverPointSelectView.stopover1.button.addTarget(
+            self,
+            action: #selector(findAddressButtonTapped),
+            for: .touchUpInside
+        )
+        stopoverPointSelectView.stopover2.button.addTarget(
+            self,
+            action: #selector(findAddressButtonTapped),
+            for: .touchUpInside
+        )
+        stopoverPointSelectView.stopover3.button.addTarget(
+            self,
+            action: #selector(findAddressButtonTapped),
+            for: .touchUpInside
+        )
     }
 }
 
