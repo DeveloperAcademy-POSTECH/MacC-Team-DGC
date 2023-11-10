@@ -11,7 +11,7 @@ import UIKit
 final class CrewInfoCheckView: UIView {
 
     // 상단 크루 이름
-    private let crewNameLabel: UILabel = {
+    let crewNameLabel: UILabel = {
         let crewNameLabel = CrewMakeUtil.carmuCustomLabel(
             text: "크루 이름",
             font: UIFont.carmuFont.display1,
@@ -23,7 +23,7 @@ final class CrewInfoCheckView: UIView {
     // 크루명 편집하기 버튼
     // TODO: - MyPageView와 중복 -> 재사용 컴포넌트로 분리하기
     // TODO: - 동작 구현 필요
-    private let crewNameEditButton: UIButton = {
+    let crewNameEditButton: UIButton = {
         let crewNameEditButton = UIButton()
         // 폰트 설정
         let buttonFont = UIFont.systemFont(ofSize: 12)

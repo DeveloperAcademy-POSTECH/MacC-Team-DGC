@@ -57,7 +57,16 @@ final class CrewInfoCheckViewController: UIViewController {
             setDayButtonTitle(selectedDay),
             for: .normal
         )
-        crewInfoCheckView.exitCrewButton.addTarget(self, action: #selector(exitCrewButtonTapped), for: .touchUpInside)
+        crewInfoCheckView.exitCrewButton.addTarget(
+            self,
+            action: #selector(exitCrewButtonTapped),
+            for: .touchUpInside
+        )
+        crewInfoCheckView.crewNameEditButton.addTarget(
+            self,
+            action: #selector(showCrewNameEditView),
+            for: .touchUpInside
+        )
     }
 
     /**
@@ -86,10 +95,30 @@ final class CrewInfoCheckViewController: UIViewController {
             return returnString.joined(separator: ", ")
         }
     }
+
+    // 크루 정보 화면에서 편집된 크루면으로 업데이트
+    private func updateCrewName(newCrewName: String) {
+        print("크루명 업데이트!!!")
+        crewInfoCheckView.crewNameLabel.text = newCrewName
+    }
 }
 
 // MARK: - @objc 메서드
 extension CrewInfoCheckViewController {
+
+    // 크루명 편집 버튼 클릭 시 호출
+    @objc private func showCrewNameEditView() {
+        let crewNameEditVC = NameEditViewController(
+            nowName: crewInfoCheckView.crewNameLabel.text ?? "",
+            isCrewNameEditView: true
+        )
+        crewNameEditVC.delegate = self
+        crewNameEditVC.modalPresentationStyle = .overCurrentContext
+        // nameEditView의 화면 요소를 크루명에 맞게 수정
+        crewNameEditVC.nameEditView.nameEditTextField.placeholder = "크루명을 입력하세요"
+        crewNameEditVC.nameEditView.textFieldEditTitle.text = "크루명 편집하기"
+        present(crewNameEditVC, animated: false)
+    }
 
     // [편집] 버튼 클릭 시 호출
     @objc private func startCrewEdit() {
@@ -101,5 +130,16 @@ extension CrewInfoCheckViewController {
     @objc private func exitCrewButtonTapped() {
         // TODO: - 구현 필요
         print("크루 나가기 버튼 클릭됨!!")
+    }
+}
+
+// MARK: - NameEditViewControllerDelegate 델리게이트 구현
+extension CrewInfoCheckViewController: NameEditViewControllerDelegate {
+
+    /**
+     NameEditViewController에서 닉네임 데이터가 수정되었을 때 호출
+     */
+    func sendNewNameValue(newName: String) {
+        updateCrewName(newCrewName: newName)
     }
 }

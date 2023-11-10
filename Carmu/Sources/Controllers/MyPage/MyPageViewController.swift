@@ -85,7 +85,7 @@ final class MyPageViewController: UIViewController {
     private func addTargetToButtons() {
         myPageView.nicknameEditButton.addTarget(
             self,
-            action: #selector(showTextField),
+            action: #selector(showNicknameEditView),
             for: .touchUpInside
         )
         myPageView.profileImageEditButton.addTarget(
@@ -122,9 +122,12 @@ extension MyPageViewController {
         navigationController?.pushViewController(settingsVC, animated: true)
     }
 
-    // 닉네임 편집 버튼을 누르면 텍스트 필드를 포함하고 있는 darkOverlayView 활성화
-    @objc private func showTextField() {
-        let nicknameEditVC = NicknameEditViewController(nickname: myPageView.nicknameLabel.text ?? "")
+    // 닉네임 편집 버튼을 누르면 닉네임 편집 화면으로 전환
+    @objc private func showNicknameEditView() {
+        let nicknameEditVC = NameEditViewController(
+            nowName: myPageView.nicknameLabel.text ?? "",
+            isCrewNameEditView: false
+        )
         nicknameEditVC.delegate = self
         nicknameEditVC.modalPresentationStyle = .overCurrentContext
         present(nicknameEditVC, animated: false)
@@ -240,14 +243,14 @@ extension MyPageViewController: ProfileChangeViewControllerDelegate {
     }
 }
 
-// MARK: - NicknameEditViewControllerDelegate 델리게이트 구현
-/**
- NicknameEditViewController에서 닉네임 데이터가 수정되었을 때 호출
- */
-extension MyPageViewController: NicknameEditViewControllerDelegate {
+// MARK: - NameEditViewControllerDelegate 델리게이트 구현
+extension MyPageViewController: NameEditViewControllerDelegate {
 
-    func sendNewNickname(newNickname: String) {
-        updateNickname(newNickname: newNickname)
+    /**
+     NameEditViewController에서 닉네임 데이터가 수정되었을 때 호출
+     */
+    func sendNewNameValue(newName: String) {
+        updateNickname(newNickname: newName)
     }
 }
 

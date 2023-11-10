@@ -19,8 +19,8 @@
 		B8376E3C2AF936DB007F1E0A /* CrewInfoNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */; };
 		B8376E3E2AF936EB007F1E0A /* CrewInfoDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */; };
 		B8376E402AF936F4007F1E0A /* CrewInfoPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */; };
-		B8376E482AF9BBB1007F1E0A /* NicknameEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E472AF9BBB1007F1E0A /* NicknameEditViewController.swift */; };
-		B8376E4A2AF9BC51007F1E0A /* NicknameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E492AF9BC51007F1E0A /* NicknameEditView.swift */; };
+		B8376E482AF9BBB1007F1E0A /* NameEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E472AF9BBB1007F1E0A /* NameEditViewController.swift */; };
+		B8376E4A2AF9BC51007F1E0A /* NameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E492AF9BC51007F1E0A /* NameEditView.swift */; };
 		B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */; };
 		B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */; };
 		B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */; };
@@ -128,8 +128,8 @@
 		B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoNoCrewView.swift; sourceTree = "<group>"; };
 		B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoDriverView.swift; sourceTree = "<group>"; };
 		B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoPassengerView.swift; sourceTree = "<group>"; };
-		B8376E472AF9BBB1007F1E0A /* NicknameEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameEditViewController.swift; sourceTree = "<group>"; };
-		B8376E492AF9BC51007F1E0A /* NicknameEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameEditView.swift; sourceTree = "<group>"; };
+		B8376E472AF9BBB1007F1E0A /* NameEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameEditViewController.swift; sourceTree = "<group>"; };
+		B8376E492AF9BC51007F1E0A /* NameEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameEditView.swift; sourceTree = "<group>"; };
 		B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeView.swift; sourceTree = "<group>"; };
 		B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeViewController.swift; sourceTree = "<group>"; };
 		B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageColor.swift; sourceTree = "<group>"; };
@@ -318,7 +318,7 @@
 				B83E23EE2AF3F2470048ED9A /* Settings */,
 				B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */,
 				B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */,
-				B8376E472AF9BBB1007F1E0A /* NicknameEditViewController.swift */,
+				B8376E472AF9BBB1007F1E0A /* NameEditViewController.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -332,7 +332,7 @@
 				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
 				B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */,
 				B83E23EF2AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift */,
-				B8376E492AF9BC51007F1E0A /* NicknameEditView.swift */,
+				B8376E492AF9BC51007F1E0A /* NameEditView.swift */,
 			);
 			path = MyPage;
 			sourceTree = "<group>";
@@ -874,10 +874,10 @@
 				C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */,
 				C93116682AF3822D0014E702 /* StopoverPointCheckView.swift in Sources */,
 				C95462192AF75A42004C4F6D /* TimeSelectModalViewController.swift in Sources */,
-				B8376E4A2AF9BC51007F1E0A /* NicknameEditView.swift in Sources */,
+				B8376E4A2AF9BC51007F1E0A /* NameEditView.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,
 				C904D1582AD57942008BF5CE /* Friendship.swift in Sources */,
-				B8376E482AF9BBB1007F1E0A /* NicknameEditViewController.swift in Sources */,
+				B8376E482AF9BBB1007F1E0A /* NameEditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
