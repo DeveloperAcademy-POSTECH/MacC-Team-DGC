@@ -153,6 +153,14 @@ final class DriverFrontView: UIView {
         return label
     }()
 
+    private lazy var carpoolPlanLabel: UILabel = {
+        let label = UILabel()
+        label.text = "카풀 계획 보러가기 >"
+        label.font = UIFont.carmuFont.body1Long
+        label.textColor = UIColor.semantic.accPrimary
+        return label
+    }()
+
     init() {
         super.init(frame: .zero)
         setupFrontView()
@@ -182,6 +190,9 @@ final class DriverFrontView: UIView {
         crewCollectionView.delegate = self
         crewCollectionView.register(CrewCollectionViewCell.self,
                                     forCellWithReuseIdentifier: CrewCollectionViewCell.cellIdentifier)
+        crewCollectionView.register(UICollectionReusableView.self,
+                                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                    withReuseIdentifier: "FooterView")
     }
 
     private func setupConstraints() {
@@ -253,6 +264,22 @@ extension DriverFrontView: UICollectionViewDataSource {
         cell.profileImageView.image = UIImage(profileImageColor: userData[indexPath.row].profileImageColor)
         return cell
     }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionFooter {
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                             withReuseIdentifier: "FooterView",
+                                                                             for: indexPath)
+            footerView.addSubview(carpoolPlanLabel)
+            carpoolPlanLabel.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+            return footerView
+        }
+        return UICollectionReusableView()
+    }
 }
 
 // TODO: - 실제 데이터 적용하기
@@ -277,7 +304,7 @@ extension DriverFrontView: UICollectionViewDelegateFlowLayout {
         let totalWidth: CGFloat = totalCellWidth + totalSpacing
         let horizontalInset: CGFloat
 
-        if crewData?.crews.count ?? 0 <= numberOfCellsPerRow {
+        if crewData?.crewStatus.count ?? 0 <= numberOfCellsPerRow {
             // 4개 이하인 경우, 한 줄로 표시
             horizontalInset = (collectionView.frame.width - totalWidth) / 2
             return UIEdgeInsets(top: 50, left: horizontalInset, bottom: 0, right: horizontalInset)
@@ -289,5 +316,11 @@ extension DriverFrontView: UICollectionViewDelegateFlowLayout {
             horizontalInset = (collectionView.frame.width - totalRowWidth) / 2
             return UIEdgeInsets(top: 10, left: horizontalInset, bottom: 0, right: horizontalInset)
         }
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 18)
     }
 }
