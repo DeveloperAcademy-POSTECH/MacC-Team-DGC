@@ -266,6 +266,7 @@
 				B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */,
 				B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */,
 				B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */,
+				B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */,
 			);
 			path = CrewInfo;
 			sourceTree = "<group>";
@@ -307,7 +308,6 @@
 				B8376E362AF93649007F1E0A /* CrewInfo */,
 				B83E23ED2AF3F1980048ED9A /* Settings */,
 				BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */,
-				B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */,
 				B83E23E72AF34E460048ED9A /* ProfileChangeView.swift */,
 				B83E23EF2AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift */,
 				B8376E492AF9BC51007F1E0A /* NicknameEditView.swift */,
