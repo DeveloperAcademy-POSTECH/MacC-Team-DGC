@@ -130,9 +130,6 @@ final class DriverFrontView: UIView {
         collectionView.layer.cornerRadius = 16
         return collectionView
     }()
-    private let crewCollectionViewCellIdentifier = "crewCell"
-
-    let test = ["profileAquaBlue", "profileAquaBlue", "profileAquaBlue"]
 
     // 당일에 운행이 없을 때 나타나는 뷰
     lazy var noDriveViewForDriver: UIView = {
@@ -184,7 +181,7 @@ final class DriverFrontView: UIView {
         crewCollectionView.dataSource = self
         crewCollectionView.delegate = self
         crewCollectionView.register(CrewCollectionViewCell.self,
-                                    forCellWithReuseIdentifier: crewCollectionViewCellIdentifier)
+                                    forCellWithReuseIdentifier: CrewCollectionViewCell.cellIdentifier)
     }
 
     private func setupConstraints() {
@@ -228,14 +225,16 @@ final class DriverFrontView: UIView {
 
 // TODO: - 실제 데이터로 변경
 extension DriverFrontView: UICollectionViewDataSource {
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("count ", crewData?.crewStatus.count ?? 0)
         return crewData?.crewStatus.count ?? 0
     }
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: crewCollectionViewCellIdentifier,
+            withReuseIdentifier: CrewCollectionViewCell.cellIdentifier,
             for: indexPath
         ) as? CrewCollectionViewCell else {
             return UICollectionViewCell()
@@ -258,6 +257,7 @@ extension DriverFrontView: UICollectionViewDataSource {
 
 // TODO: - 실제 데이터 적용하기
 extension DriverFrontView: UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView,
                         layout collectionViewLayout: UICollectionViewLayout,
                         sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -277,7 +277,7 @@ extension DriverFrontView: UICollectionViewDelegateFlowLayout {
         let totalWidth: CGFloat = totalCellWidth + totalSpacing
         let horizontalInset: CGFloat
 
-        if test.count <= numberOfCellsPerRow {
+        if crewData?.crews.count ?? 0 <= numberOfCellsPerRow {
             // 4개 이하인 경우, 한 줄로 표시
             horizontalInset = (collectionView.frame.width - totalWidth) / 2
             return UIEdgeInsets(top: 50, left: horizontalInset, bottom: 0, right: horizontalInset)
