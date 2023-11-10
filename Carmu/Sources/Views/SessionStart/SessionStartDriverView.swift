@@ -230,7 +230,7 @@ extension DriverFrontView: UICollectionViewDataSource {
         print("count ", crewData?.crewStatus.count ?? 0)
         return crewData?.crewStatus.count ?? 0
     }
-    
+
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
