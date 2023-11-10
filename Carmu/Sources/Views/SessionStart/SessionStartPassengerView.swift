@@ -103,6 +103,10 @@ final class PassengerFrontView: UIView {
         label.numberOfLines = 0
         return label
     }()
+    private lazy var carpoolPlanLabel1: CarpoolPlanLabel = {
+        let label = CarpoolPlanLabel()
+        return label
+    }()
 
     // 운행 여부를 알려주는 뷰
     private lazy var driveInfoView: UIView = {
@@ -145,7 +149,7 @@ final class PassengerFrontView: UIView {
         label.numberOfLines = 0
         return label
     }()
-    private lazy var carpoolPlanLabel: CarpoolPlanLabel = {
+    private lazy var carpoolPlanLabel2: CarpoolPlanLabel = {
         let label = CarpoolPlanLabel()
         return label
     }()
@@ -170,6 +174,7 @@ final class PassengerFrontView: UIView {
 
         locationAndTimeView.addSubview(locationLabel)
         locationAndTimeView.addSubview(timeLabel)
+        locationAndTimeView.addSubview(carpoolPlanLabel1)
 
         driveInfoView.addSubview(statusImageView)
         driveInfoView.addSubview(statusLabel)
@@ -177,7 +182,7 @@ final class PassengerFrontView: UIView {
         addSubview(noDriveViewForPassenger)
         noDriveViewForPassenger.addSubview(noDriveImage)
         noDriveViewForPassenger.addSubview(noDriveComment)
-        noDriveViewForPassenger.addSubview(carpoolPlanLabel)
+        noDriveViewForPassenger.addSubview(carpoolPlanLabel2)
     }
 
     private func setupConstraints() {
@@ -198,6 +203,10 @@ final class PassengerFrontView: UIView {
         timeLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(locationLabel.snp.bottom).offset(4)
+        }
+        carpoolPlanLabel1.snp.makeConstraints { make in
+            make.top.equalTo(timeLabel.snp.bottom).offset(8)
+            make.centerX.equalToSuperview()
         }
 
         statusImageView.snp.makeConstraints { make in
@@ -223,7 +232,7 @@ final class PassengerFrontView: UIView {
             make.top.equalTo(noDriveImage.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
-        carpoolPlanLabel.snp.makeConstraints { make in
+        carpoolPlanLabel2.snp.makeConstraints { make in
             make.top.equalTo(noDriveComment.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
