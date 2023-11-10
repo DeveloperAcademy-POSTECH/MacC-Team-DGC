@@ -48,7 +48,7 @@ final class SessionStartView: UIView {
 
     lazy var carpoolStartButton: UIButton = {
         let button = UIButton()
-        button.setTitle("여정 지금 시작하기", for: .normal)
+        button.setTitle("카풀 운행하기", for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.headline2
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
         button.layer.cornerRadius = 30

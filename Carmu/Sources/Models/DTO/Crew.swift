@@ -106,7 +106,7 @@ var crewData: Crew? = Crew(
     inviteCode: "0101010",
     repeatDay: [1, 2, 3, 4, 5],
     sessionStatus: .waiting,
-    crewStatus: ["uni": .waiting, "rei": .waiting, "bazzi": .waiting, "jen": .waiting]
+    crewStatus: ["uni": .accept, "rei": .waiting, "bazzi": .waiting, "jen": .waiting]
 )
 
 var userData: [User] = [

@@ -11,6 +11,8 @@ import SnapKit
 
 final class CrewCollectionViewCell: UICollectionViewCell {
 
+    static let cellIdentifier = "crewCell"
+
     lazy var statusLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.semantic.textEnabled
@@ -47,6 +49,7 @@ final class CrewCollectionViewCell: UICollectionViewCell {
             make.centerX.equalToSuperview()
         }
     }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
