@@ -174,7 +174,7 @@ extension MyPageViewController {
     // 운전자 여부 확인
     // TODO: - 데이터 연결 로직 추가 필요
     private func isCaptain() -> Bool {
-        return false // 테스트용 값 설정
+        return true // 테스트용 값 설정
     }
 
     // 크루 없을 때의 화면 구성
@@ -287,8 +287,9 @@ extension MyPageViewController: UITableViewDelegate {
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            // TODO: - 크루 정보 수정하기로 이동
-            print("크루 정보 수정하기")
+            // [크루 정보 수정하기] 클릭
+            let crewInfoCheckVC = CrewInfoCheckViewController()
+            navigationController?.pushViewController(crewInfoCheckVC, animated: true)
         }
         // 클릭 후에는 셀의 선택이 해제된다.
         tableView.deselectRow(at: indexPath, animated: true)
