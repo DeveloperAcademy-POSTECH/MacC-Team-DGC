@@ -18,55 +18,8 @@ final class StartEndPointSelectView: UIView {
 
     private lazy var colorLine = CrewMakeUtil.createColorLineView()
 
-    private lazy var startPointStack = UIStackView()
-
-    private lazy var startLabel: UILabel = {
-        let label = UILabel()
-        label.text = "출발지"
-        label.font = UIFont.carmuFont.headline1
-        label.textColor = UIColor.semantic.textPrimary
-
-        return label
-    }()
-
-    lazy var startPointButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("     출발지 검색", for: .normal)
-        button.titleLabel?.font = UIFont.carmuFont.body2Long
-        button.setTitleColor(UIColor.semantic.textBody, for: .normal)
-        button.layer.borderColor = UIColor.theme.blue3?.cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 15
-        button.contentHorizontalAlignment = .left
-        button.isSpringLoaded = true
-
-        return button
-    }()
-
-    private lazy var endPointStack = UIStackView()
-
-    private lazy var endLabel: UILabel = {
-        let label = UILabel()
-        label.text = "도착지"
-        label.font = UIFont.carmuFont.headline1
-        label.textColor = UIColor.semantic.textPrimary
-
-        return label
-    }()
-
-    lazy var endPointButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("     도착지 검색", for: .normal)
-        button.titleLabel?.font = UIFont.carmuFont.body2Long
-        button.setTitleColor(UIColor.semantic.textBody, for: .normal)
-        button.layer.borderColor = UIColor.theme.blue3?.cgColor
-        button.layer.borderWidth = 1
-        button.layer.cornerRadius = 15
-        button.contentHorizontalAlignment = .left
-        button.isSpringLoaded = true
-
-        return button
-    }()
+    let startPointView = AddressSelectButtonView(textFieldTitle: "출발지")
+    let endPointView = AddressSelectButtonView(textFieldTitle: "도착지")
 
     lazy var nextButton: UIButton = {
         let button = UIButton()
@@ -99,22 +52,16 @@ final class StartEndPointSelectView: UIView {
 
     private func setupViews() {
         firstLineTitleStack.axis = .horizontal
-        startPointStack.axis = .vertical
-        endPointStack.axis = .vertical
 
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
         firstLineTitleStack.addArrangedSubview(titleLabel3)
-        startPointStack.addArrangedSubview(startLabel)
-        startPointStack.addArrangedSubview(startPointButton)
-        endPointStack.addArrangedSubview(endLabel)
-        endPointStack.addArrangedSubview(endPointButton)
 
         addSubview(firstLineTitleStack)
         addSubview(titleLabel5)
         addSubview(colorLine)
-        addSubview(startPointStack)
-        addSubview(endPointStack)
+        addSubview(startPointView)
+        addSubview(endPointView)
         addSubview(nextButton)
     }
 
@@ -135,18 +82,18 @@ final class StartEndPointSelectView: UIView {
             make.height.equalTo(200)
         }
 
-        startPointStack.snp.makeConstraints { make in
+        startPointView.snp.makeConstraints { make in
             make.top.equalTo(colorLine).offset(8)
             make.leading.equalTo(colorLine.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(32)
-            make.height.equalTo(74)
+            make.height.equalTo(64)
         }
 
-        endPointStack.snp.makeConstraints { make in
+        endPointView.snp.makeConstraints { make in
             make.bottom.equalTo(colorLine).offset(-8)
             make.leading.equalTo(colorLine.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(32)
-            make.height.equalTo(startPointStack)
+            make.height.equalTo(startPointView)
         }
 
         nextButton.snp.makeConstraints { make in

@@ -13,7 +13,7 @@ final class StartEndPointSelectViewController: UIViewController {
 
     private var startPointAddress: String? {
         didSet {
-            startEndPointSelectView.startPointButton.setTitle(
+            startEndPointSelectView.startPointView.button.setTitle(
                 "     " + (startPointAddress ?? ""),
                 for: .normal
             )
@@ -25,8 +25,8 @@ final class StartEndPointSelectViewController: UIViewController {
     }
     private var endPointAddress: String? {
         didSet {
-            startEndPointSelectView.endPointButton.setTitle(
-                "     " + (startPointAddress ?? ""),
+            startEndPointSelectView.endPointView.button.setTitle(
+                "     " + (endPointAddress ?? ""),
                 for: .normal
             )
             if startPointAddress != nil {
@@ -40,12 +40,12 @@ final class StartEndPointSelectViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
-        startEndPointSelectView.startPointButton.addTarget(
+        startEndPointSelectView.startPointView.button.addTarget(
             self,
             action: #selector(findAddressButtonTapped),
             for: .touchUpInside
         )
-        startEndPointSelectView.endPointButton.addTarget(
+        startEndPointSelectView.endPointView.button.addTarget(
             self,
             action: #selector(findAddressButtonTapped),
             for: .touchUpInside
