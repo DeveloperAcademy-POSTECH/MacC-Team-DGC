@@ -48,7 +48,7 @@ final class SessionStartView: UIView {
 
     lazy var carpoolStartButton: UIButton = {
         let button = UIButton()
-        button.setTitle("여정 지금 시작하기", for: .normal)
+        button.setTitle("카풀 운행하기", for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.headline2
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
         button.layer.cornerRadius = 30
@@ -82,7 +82,7 @@ extension SessionStartView {
 
     private func setupConstraints() {
         myPageButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(24)
+            make.top.equalTo(safeAreaLayoutGuide)
             make.trailing.equalToSuperview().inset(20)
         }
         topComment.snp.makeConstraints { make in

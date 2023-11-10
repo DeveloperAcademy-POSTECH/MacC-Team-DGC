@@ -56,7 +56,6 @@ struct ColorTheme {
     let blue8 = UIColor(named: "Blue8")
     let blue9 = UIColor(named: "Blue9")
     let blueTrans20 = UIColor(named: "BlueTrans20")
-    let blueTrans40 = UIColor(named: "BlueTrans40")
 
     // MARK: Red Color
     let red1 = UIColor(named: "Red1")
