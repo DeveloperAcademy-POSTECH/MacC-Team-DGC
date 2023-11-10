@@ -82,7 +82,7 @@ extension SessionStartView {
 
     private func setupConstraints() {
         myPageButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(24)
+            make.top.equalTo(safeAreaLayoutGuide)
             make.trailing.equalToSuperview().inset(20)
         }
         topComment.snp.makeConstraints { make in
