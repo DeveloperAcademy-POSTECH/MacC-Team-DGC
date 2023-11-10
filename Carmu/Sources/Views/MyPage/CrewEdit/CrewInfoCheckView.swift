@@ -40,7 +40,7 @@ final class CrewInfoCheckView: UIView {
         config.image = symbolImage
         config.imagePlacement = .trailing
         config.background.cornerRadius = 12
-        config.baseBackgroundColor = UIColor.theme.blueTrans20?.withAlphaComponent(0.2)
+        config.baseBackgroundColor = UIColor.theme.blueTrans20
         config.baseForegroundColor = UIColor.semantic.textTertiary
         let verticalPad: CGFloat = 4.0
         let horizontalPad: CGFloat = 8.0
