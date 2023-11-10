@@ -35,12 +35,22 @@ struct Crew: Codable {
 
 /**
  세션의 상태와 크루원의 상태를 구분하기 위한 enum 타입
- 미응답, 승인, 거절의 경우로 나누었습니다.
+ 미응답, 승인, 거절, 세션 시작의 경우로 나누었습니다.
  */
 enum Status: String, Codable {
     case waiting
     case accept
     case decline
+    case sessionStart
+
+    var statusValue: String {
+        switch self {
+        case .waiting: return "미응답"
+        case .accept: return "참여"
+        case .decline: return "불참"
+        case .sessionStart: return "세션 시작"
+        }
+    }
 }
 
 // 더미 데이터
@@ -48,7 +58,7 @@ enum Status: String, Codable {
 //    let crewData: Crew? = nil
 
 // 데이터가 있을 때
-let crewData: Crew? = Crew(
+var crewData: Crew? = Crew(
     id: "1",
     name: "그룹 이름111",
     captainID: "ted",
@@ -96,5 +106,28 @@ let crewData: Crew? = Crew(
     inviteCode: "0101010",
     repeatDay: [1, 2, 3, 4, 5],
     sessionStatus: .waiting,
-    crewStatus: ["uni": .waiting, "rei": .waiting, "bazzi": .waiting]
+    crewStatus: ["uni": .waiting, "rei": .waiting, "bazzi": .waiting, "jen": .waiting]
 )
+
+var userData: [User] = [
+    User(
+       id: "uni",
+       deviceToken: "uniDT",
+       nickname: "우니",
+       profileImageColor: .aqua),
+    User(
+        id: "rei",
+        deviceToken: "reiDT",
+        nickname: "레이",
+        profileImageColor: .red),
+    User(
+        id: "bazzi",
+        deviceToken: "bazziDT",
+        nickname: "배찌",
+        profileImageColor: .blue),
+    User(
+        id: "jen",
+        deviceToken: "jenDT",
+        nickname: "젠",
+        profileImageColor: .aquaBlue)
+]

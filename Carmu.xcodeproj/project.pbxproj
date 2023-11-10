@@ -12,6 +12,7 @@
 		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
 		164E823D2AF53AB400848BFF /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E823C2AF53AB400848BFF /* Point.swift */; };
+		1667F61D2AFC622400393111 /* CrewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
 		16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */; };
@@ -119,6 +120,7 @@
 		16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartBackView.swift; sourceTree = "<group>"; };
 		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewCollectionViewCell.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
 		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */,
+				1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */,
 				16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */,
 				16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */,
@@ -822,6 +825,7 @@
 				C93116742AF3B5320014E702 /* SelectAddressView.swift in Sources */,
 				C93116802AF3B7E30014E702 /* SelectDetailPointMapView.swift in Sources */,
 				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,
+				1667F61D2AFC622400393111 /* CrewCollectionViewCell.swift in Sources */,
 				B8376E3E2AF936EB007F1E0A /* CrewInfoDriverView.swift in Sources */,
 				C95462152AF74D46004C4F6D /* TimeSelectCellView.swift in Sources */,
 				16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */,
