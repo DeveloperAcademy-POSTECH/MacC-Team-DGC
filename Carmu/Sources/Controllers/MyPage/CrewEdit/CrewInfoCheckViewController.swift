@@ -57,6 +57,7 @@ final class CrewInfoCheckViewController: UIViewController {
             setDayButtonTitle(selectedDay),
             for: .normal
         )
+        crewInfoCheckView.exitCrewButton.addTarget(self, action: #selector(exitCrewButtonTapped), for: .touchUpInside)
     }
 
     /**
@@ -90,9 +91,15 @@ final class CrewInfoCheckViewController: UIViewController {
 // MARK: - @objc 메서드
 extension CrewInfoCheckViewController {
 
-    // 크루 정보 편집 버튼 클릭 시 호출
+    // [편집] 버튼 클릭 시 호출
     @objc private func startCrewEdit() {
         // TODO: - 구현하기
         print("크루 정보 편집 시작")
+    }
+
+    // [크루 나가기] 버튼 클릭 시 호출
+    @objc private func exitCrewButtonTapped() {
+        // TODO: - 구현 필요
+        print("크루 나가기 버튼 클릭됨!!")
     }
 }
