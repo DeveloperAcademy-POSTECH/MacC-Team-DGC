@@ -106,7 +106,7 @@ var crewData: Crew? = Crew(
     inviteCode: "0101010",
     repeatDay: [1, 2, 3, 4, 5],
     sessionStatus: .waiting,
-    crewStatus: ["uni": .accept, "rei": .waiting, "bazzi": .waiting, "jen": .waiting]
+    crewStatus: ["uni": .accept, "rei": .waiting, "bazzi": .waiting, "jen": .waiting, "JellyBeen": .waiting]
 )
 
 var userData: [User] = [
@@ -129,5 +129,10 @@ var userData: [User] = [
         id: "jen",
         deviceToken: "jenDT",
         nickname: "젠",
-        profileImageColor: .aquaBlue)
+        profileImageColor: .aquaBlue),
+    User(
+        id: "JellyBeen",
+        deviceToken: "JellyBeenDT",
+        nickname: "젤리빈",
+        profileImageColor: .yellow)
 ]

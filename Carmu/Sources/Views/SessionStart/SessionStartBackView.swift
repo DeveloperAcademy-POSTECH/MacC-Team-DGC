@@ -29,7 +29,7 @@ final class SessionStartBackView: UIView {
     private lazy var stickImage: UIImageView = {
         let image = UIImage(named: "LocationStick")
         let imageView = UIImageView(image: image)
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
@@ -232,21 +232,21 @@ final class SessionStartBackView: UIView {
     }()
 
     private lazy var dotImage1: UIImageView = {
-        let image = UIImage(systemName: "circle.fill")
+        let image = UIImage(systemName: "arrowtriangle.down.fill")
         let imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.semantic.backgroundDefault
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     private lazy var dotImage2: UIImageView = {
-        let image = UIImage(systemName: "circle.fill")
+        let image = UIImage(systemName: "arrowtriangle.down.fill")
         let imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.semantic.backgroundDefault
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     private lazy var dotImage3: UIImageView = {
-        let image = UIImage(systemName: "circle.fill")
+        let image = UIImage(systemName: "arrowtriangle.down.fill")
         let imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.semantic.backgroundDefault
         imageView.contentMode = .scaleAspectFill
