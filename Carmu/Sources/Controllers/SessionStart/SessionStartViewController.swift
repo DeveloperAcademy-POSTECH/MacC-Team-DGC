@@ -305,6 +305,10 @@ extension SessionStartViewController {
 
         // 활성화
         sessionStartDriverView.layer.opacity = 1.0
+
+        // TODO: - 실제 데이터로 변경
+        crewData?.sessionStatus = .accept
+        sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
     }
 
     @objc private func carpoolStartButtonDidTapped() {
