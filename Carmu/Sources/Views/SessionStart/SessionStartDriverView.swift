@@ -130,6 +130,10 @@ final class DriverFrontView: UIView {
         collectionView.layer.cornerRadius = 16
         return collectionView
     }()
+    private lazy var collectionViewFooterLabel: CarpoolPlanLabel = {
+        let label = CarpoolPlanLabel()
+        return label
+    }()
 
     // 당일에 운행이 없을 때 나타나는 뷰
     lazy var noDriveViewForDriver: UIView = {
@@ -152,12 +156,8 @@ final class DriverFrontView: UIView {
         label.textAlignment = .center
         return label
     }()
-
-    private lazy var carpoolPlanLabel: UILabel = {
-        let label = UILabel()
-        label.text = "카풀 계획 보러가기 >"
-        label.font = UIFont.carmuFont.body1Long
-        label.textColor = UIColor.semantic.accPrimary
+    private lazy var carpoolPlanLabel: CarpoolPlanLabel = {
+        let label = CarpoolPlanLabel()
         return label
     }()
 
@@ -184,6 +184,7 @@ final class DriverFrontView: UIView {
         addSubview(noDriveViewForDriver)
         noDriveViewForDriver.addSubview(noDriveImage)
         noDriveViewForDriver.addSubview(noDriveComment)
+        noDriveViewForDriver.addSubview(carpoolPlanLabel)
 
         addSubview(crewCollectionView)
         crewCollectionView.dataSource = self
@@ -218,6 +219,10 @@ final class DriverFrontView: UIView {
         }
         noDriveComment.snp.makeConstraints { make in
             make.top.equalTo(noDriveImage.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+        }
+        carpoolPlanLabel.snp.makeConstraints { make in
+            make.top.equalTo(noDriveComment.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
 
@@ -272,8 +277,8 @@ extension DriverFrontView: UICollectionViewDataSource {
             let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
                                                                              withReuseIdentifier: "FooterView",
                                                                              for: indexPath)
-            footerView.addSubview(carpoolPlanLabel)
-            carpoolPlanLabel.snp.makeConstraints { make in
+            footerView.addSubview(collectionViewFooterLabel)
+            collectionViewFooterLabel.snp.makeConstraints { make in
                 make.center.equalToSuperview()
             }
             return footerView
