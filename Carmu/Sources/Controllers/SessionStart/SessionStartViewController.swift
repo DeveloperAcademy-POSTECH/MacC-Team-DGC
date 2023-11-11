@@ -185,8 +185,8 @@ extension SessionStartViewController {
         if let range2 = sessionStartView.notifyComment.text?.range(of: "30분 전") {
             let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text ?? "")
             notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.textPrimary as Any,
-                                        range: nsRange2)
+                                           value: UIColor.semantic.textPrimary as Any,
+                                           range: nsRange2)
         }
         sessionStartView.notifyComment.attributedText = notifyCommentText
 
@@ -374,20 +374,24 @@ extension SessionStartViewController {
                 sessionStartView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
                 sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
                 sessionStartView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
-            } else {    // 운전자가 응답했을 때
-                if crewData?.sessionStatus != .decline {    // 응답을 하지 않았거나, 수락을 했을 때
-                    sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
-                    sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
-                    sessionStartView.notifyComment.text = ""
-                    sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
-                } else {    // 운전자가 거절했을 때
-                    sessionStartView.topComment.text = ""
-                    sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                    sessionStartView.individualButton.isEnabled = false
-                    sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-                    sessionStartView.togetherButton.isEnabled = false
-                }
+            } else if crewData?.sessionStatus == .accept {  // 운전자가 운행할 때
+                sessionStartView.topComment.text = ""
+                sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
+                sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
+                sessionStartView.notifyComment.text = ""
+                sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+                sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                sessionStartView.individualButton.isEnabled = false
+                sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+                sessionStartView.togetherButton.isEnabled = false
+            } else if crewData?.sessionStatus == .decline {    // 운전자가 거절했을 때
+                sessionStartView.topComment.text = ""
+                sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                sessionStartView.individualButton.isEnabled = false
+                sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+                sessionStartView.togetherButton.isEnabled = false
             }
+
         }
     }
 }
