@@ -52,6 +52,48 @@ final class MapDetailView: UIView {
         return button
     }()
 
+    lazy var myPickUpLocationTitleLabel = {
+        let label = UILabel()
+        label.text = "내 탑승위치"
+        label.font = UIFont.carmuFont.body2
+        label.textColor = UIColor.semantic.textBody
+        return label
+    }()
+
+    lazy var pickUpLocationAddressLabel = {
+        let label = UILabel()
+        label.text = "포항 시외버스터미널" // TODO: - 실제 데이터 사용하기
+        label.font = UIFont.carmuFont.headline1
+        label.textColor = UIColor.semantic.textPrimary
+        return label
+    }()
+
+    lazy var myPickUpTimeTitleLabel = {
+        let label = UILabel()
+        label.text = "내 탑승시간 (지연시간)"
+        label.font = UIFont.carmuFont.body2
+        label.textColor = UIColor.semantic.textBody
+        return label
+    }()
+
+    lazy var pickUpTimeLabel = {
+        let label = UILabel()
+        label.text = "9:45" // TODO: - 실제 데이터 사용하기
+        label.font = UIFont.carmuFont.headline2
+        label.textColor = UIColor.semantic.accPrimary
+        return label
+    }()
+
+    lazy var lateTimeLabel = {
+        let label = UILabel()
+        label.text = "(+0분)"
+        label.font = UIFont.carmuFont.headline2
+        label.textColor = UIColor.semantic.textPrimary
+        return label
+    }()
+
+    private let isDriver = true
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor.semantic.backgroundDefault
@@ -63,6 +105,9 @@ final class MapDetailView: UIView {
 
     override func draw(_ rect: CGRect) {
         showTitleLabel()
+
+        showDetailForCrew()
+
         showBottomButtons()
     }
 
@@ -70,6 +115,44 @@ final class MapDetailView: UIView {
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
+        }
+    }
+
+    private func showDetailForCrew() {
+        let outsidePadding = 20
+        let insidePadding = frame.size.width / 2 + 5
+
+        addSubview(myPickUpLocationTitleLabel)
+        myPickUpLocationTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(32)
+            make.leading.equalToSuperview().inset(outsidePadding)
+            make.trailing.equalToSuperview().inset(insidePadding)
+        }
+
+        addSubview(pickUpLocationAddressLabel)
+        pickUpLocationAddressLabel.snp.makeConstraints { make in
+            make.top.equalTo(myPickUpLocationTitleLabel.snp.bottom).offset(12)
+            make.leading.equalToSuperview().inset(outsidePadding)
+            make.trailing.equalToSuperview().inset(insidePadding)
+        }
+
+        addSubview(myPickUpTimeTitleLabel)
+        myPickUpTimeTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(myPickUpLocationTitleLabel)
+            make.leading.equalToSuperview().inset(insidePadding)
+            make.trailing.equalToSuperview().inset(outsidePadding)
+        }
+
+        addSubview(pickUpTimeLabel)
+        pickUpTimeLabel.snp.makeConstraints { make in
+            make.top.equalTo(myPickUpTimeTitleLabel.snp.bottom).offset(8)
+            make.leading.equalToSuperview().inset(insidePadding)
+        }
+
+        addSubview(lateTimeLabel)
+        lateTimeLabel.snp.makeConstraints { make in
+            make.top.equalTo(pickUpTimeLabel)
+            make.leading.equalTo(pickUpTimeLabel.snp.trailing).offset(3)
         }
     }
 
