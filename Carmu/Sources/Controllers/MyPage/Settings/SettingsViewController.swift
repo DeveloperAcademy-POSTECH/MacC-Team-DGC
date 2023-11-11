@@ -83,9 +83,13 @@ final class SettingsViewController: UIViewController {
 
     // MARK: - 회원 탈퇴 알럿
     private func showDeleteAccountAlert() {
-        let deleteAccountAlert = UIAlertController(title: "회원 탈퇴", message: "정말 계정을 삭제하시겠습니까?", preferredStyle: .alert)
-        let deleteAccountCancel = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAccountOK = UIAlertAction(title: "확인", style: .destructive) { _ in
+        let deleteAccountAlert = UIAlertController(
+            title: "카뮤에서 탈퇴하시겠습니까?",
+            message: "탈퇴 시 카뮤 앱 내의\n모든 정보가 사라집니다.",
+            preferredStyle: .alert
+        )
+        let deleteAccountCancel = UIAlertAction(title: "돌아가기", style: .cancel)
+        let deleteAccountOK = UIAlertAction(title: "회원탈퇴", style: .destructive) { _ in
             self.deleteAccount()
         }
         deleteAccountAlert.addAction(deleteAccountCancel)
