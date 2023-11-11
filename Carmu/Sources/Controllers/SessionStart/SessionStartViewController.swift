@@ -100,8 +100,17 @@ extension SessionStartViewController {
     }
 
     private func settingData() {
-        if crewData?.sessionStatus == .accept {  // 당일 운행을 할 때
-            sessionStartView.topComment.text = "운전자의 시작을\n기다리세요"
+
+        if crewData?.sessionStatus == .waiting {    // 미응답일 때
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
+            if !isCaptain() {    // 동승자일 때
+                sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "HourglassBlinker")
+                sessionStartPassengerView.passengerFrontView.statusLabel.text = "운전자의 확인을 기다리고 있어요"
+            }
+        } else if crewData?.sessionStatus == .accept {  // 당일 운행을 할 때
+            sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
+            sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
         } else if crewData?.sessionStatus == .decline {    // 당일 운행을 하지 않을 때
@@ -126,9 +135,6 @@ extension SessionStartViewController {
             sessionStartView.individualButton.isEnabled = false
             sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
             sessionStartView.togetherButton.isEnabled = false
-        } else {    // 미응답일 때
-            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
-            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
         }
 
         // TODO: - 실제 데이터로 변경
@@ -345,8 +351,14 @@ extension SessionStartViewController {
             // TODO: - 실제 데이터로 변경
             crewData?.sessionStatus = .accept
             sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
-        } else {
-            print("동승자")
+        } else {    // 동승자일 때
+            if crewData?.sessionStatus == .accept {  // 운전자가 운행할 때
+                sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
+                sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
+            }
+            sessionStartView.notifyComment.text = "함께가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+            sessionStartView.individualButton.backgroundColor = UIColor.semantic.negative
+            sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
         }
     }
 
@@ -361,7 +373,6 @@ extension SessionStartViewController {
 
     // TODO: - 실제 데이터로 변경
     @objc private func individualButtonDidTapped() {
-        print("clicked")
 
         // 운전자가 클릭했을 때
         if isCaptain() {
