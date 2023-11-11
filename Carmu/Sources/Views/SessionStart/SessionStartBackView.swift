@@ -99,144 +99,34 @@ final class SessionStartBackView: UIView {
         return label
     }()
 
+    // TODO: - 실제 데이터 추가하기
     // 경유지 관련
-    private lazy var stopOver1LocationLabel: UILabel = {
-        let label = UILabel()
-
-        // 이미지 추가
-        let imageAttachment = NSTextAttachment()
-        if let image = UIImage(systemName: "circle.fill") {
-            let tintedImage = image.withTintColor(UIColor.theme.blue3 ?? UIColor.systemBlue)
-            imageAttachment.image = tintedImage
-        }
-
-        // 이미지 크기 변경
-        let imageSize = CGSize(width: 8, height: 8)
-        imageAttachment.bounds = CGRect(origin: .zero, size: imageSize)
-
-        // 텍스트 추가
-        let text = " 경유지1 대표 명칭"
-        let attributedText = NSMutableAttributedString(string: "")
-        attributedText.append(NSAttributedString(attachment: imageAttachment))
-        attributedText.append(NSAttributedString(string: text))
-
-        // label에 attributedText 설정
-        label.attributedText = attributedText
-
-        // 나머지 속성 설정
-        label.font = UIFont.carmuFont.subhead1
-        label.textColor = UIColor.semantic.textPrimary
-        label.textAlignment = .center
-
-        return label
+    private lazy var stopOver1LeftView: StopOverInfoLeftView = {
+        let view = StopOverInfoLeftView()
+        return view
     }()
-    private lazy var stopOver1TimeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "00:00"
-        label.textAlignment = .center
-        label.font = UIFont.carmuFont.subhead1
-        label.textColor = UIColor.semantic.textTertiary
-        return label
+
+    private lazy var stopOver1RightView: StopOverInfoRightView = {
+        let view = StopOverInfoRightView()
+        return view
     }()
-    private lazy var stopOver1Label: UILabel = {
-        let label = UILabel()
-        label.text = "도착"
-        label.font = UIFont.carmuFont.body2
-        label.textColor = UIColor.semantic.textTertiary
-        label.textAlignment = .center
-        return label
+
+    private lazy var stopOver2LeftView: StopOverInfoLeftView = {
+        let view = StopOverInfoLeftView()
+        return view
     }()
-    private lazy var stopOver2LocationLabel: UILabel = {
-        let label = UILabel()
-
-        // 이미지 추가
-        let imageAttachment = NSTextAttachment()
-        if let image = UIImage(systemName: "circle.fill") {
-            let tintedImage = image.withTintColor(UIColor.theme.blue3 ?? UIColor.systemBlue)
-            imageAttachment.image = tintedImage
-        }
-
-        // 이미지 크기 변경
-        let imageSize = CGSize(width: 8, height: 8)
-        imageAttachment.bounds = CGRect(origin: .zero, size: imageSize)
-
-        // 텍스트 추가
-        let text = " 경유지2 대표 명칭"
-        let attributedText = NSMutableAttributedString(string: "")
-        attributedText.append(NSAttributedString(attachment: imageAttachment))
-        attributedText.append(NSAttributedString(string: text))
-
-        // label에 attributedText 설정
-        label.attributedText = attributedText
-
-        // 나머지 속성 설정
-        label.font = UIFont.carmuFont.subhead1
-        label.textColor = UIColor.semantic.textPrimary
-        label.textAlignment = .center
-
-        return label
+    private lazy var stopOver2RightView: StopOverInfoRightView = {
+        let view = StopOverInfoRightView()
+        return view
     }()
-    private lazy var stopOver2TimeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "00:00"
-        label.textAlignment = .center
-        label.font = UIFont.carmuFont.subhead1
-        label.textColor = UIColor.semantic.textTertiary
-        return label
+
+    private lazy var stopOver3LeftView: StopOverInfoLeftView = {
+        let view = StopOverInfoLeftView()
+        return view
     }()
-    private lazy var stopOver2Label: UILabel = {
-        let label = UILabel()
-        label.text = "도착"
-        label.font = UIFont.carmuFont.body2
-        label.textColor = UIColor.semantic.textTertiary
-        label.textAlignment = .center
-        return label
-    }()
-    private lazy var stopOver3LocationLabel: UILabel = {
-        let label = UILabel()
-
-        // 이미지 추가
-        let imageAttachment = NSTextAttachment()
-        if let image = UIImage(systemName: "circle.fill") {
-            let tintedImage = image.withTintColor(UIColor.theme.blue3 ?? UIColor.systemBlue)
-            imageAttachment.image = tintedImage
-        }
-
-        // 이미지 크기 변경
-        let imageSize = CGSize(width: 8, height: 8)
-        imageAttachment.bounds = CGRect(origin: .zero, size: imageSize)
-
-        // 텍스트 추가
-        let text = " 경유지3 대표 명칭"
-        let attributedText = NSMutableAttributedString(string: "")
-        attributedText.append(NSAttributedString(attachment: imageAttachment))
-        attributedText.append(NSAttributedString(string: text))
-
-        // label에 attributedText 설정
-        label.attributedText = attributedText
-
-        // 나머지 속성 설정
-        label.font = UIFont.carmuFont.subhead1
-        label.textColor = UIColor.semantic.textPrimary
-        label.textAlignment = .center
-
-        return label
-    }()
-    private lazy var stopOver3TimeLabel: UILabel = {
-        let label = UILabel()
-        label.text = "00:00"
-        label.textAlignment = .center
-        label.font = UIFont.carmuFont.subhead1
-        label.textColor = UIColor.semantic.textTertiary
-        return label
-    }()
-    private lazy var stopOver3Label: UILabel = {
-        let label = UILabel()
-        label.text = "도착"
-        label.font = UIFont.carmuFont.body2
-        label.textColor = UIColor.semantic.textTertiary
-        label.textAlignment = .center
-        return label
+    private lazy var stopOver3RightView: StopOverInfoRightView = {
+        let view = StopOverInfoRightView()
+        return view
     }()
 
     private lazy var dotImage1: UIImageView = {
@@ -422,7 +312,7 @@ extension SessionStartBackView {
         }
         dotImage3.snp.makeConstraints { make in
             make.centerX.equalTo(dotImage2)
-            make.bottom.equalTo(dotImage2).dividedBy(0.8)
+            make.bottom.equalTo(dotImage2).dividedBy(0.75)
             make.width.height.equalTo(8)
         }
 
@@ -432,66 +322,51 @@ extension SessionStartBackView {
     // 경유지들 addSubview
     private func setupOneStopOverUI() {
         addSubview(dotImage1)
-        addSubview(stopOver1LocationLabel)
-        addSubview(stopOver1TimeLabel)
-        addSubview(stopOver1Label)
+        addSubview(stopOver1LeftView)
+        addSubview(stopOver1RightView)
     }
     private func setupTwoStopOverUI() {
         setupOneStopOverUI()
         addSubview(dotImage2)
-        addSubview(stopOver2LocationLabel)
-        addSubview(stopOver2TimeLabel)
-        addSubview(stopOver2Label)
+        addSubview(stopOver2LeftView)
+        addSubview(stopOver2RightView)
     }
     private func setupThreeStopOverUI() {
         setupTwoStopOverUI()
         addSubview(dotImage3)
-        addSubview(stopOver3LocationLabel)
-        addSubview(stopOver3TimeLabel)
-        addSubview(stopOver3Label)
+        addSubview(stopOver3LeftView)
+        addSubview(stopOver3RightView)
     }
 
     private func setupOneStopOverConstraints() {
-        stopOver1LocationLabel.snp.makeConstraints { make in
+        stopOver1LeftView.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
             make.top.equalTo(dotImage1)
         }
-        stopOver1TimeLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(startTimeLabel)
-            make.top.equalTo(dotImage1)
-        }
-        stopOver1Label.snp.makeConstraints { make in
-            make.leading.equalTo(startLabel)
+        stopOver1RightView.snp.makeConstraints { make in
+            make.leading.equalTo(startTimeLabel).offset(6)
             make.top.equalTo(dotImage1)
         }
     }
     private func setupTwoStopOverConstraints() {
         setupOneStopOverConstraints()
-        stopOver2LocationLabel.snp.makeConstraints { make in
+        stopOver2LeftView.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
             make.top.equalTo(dotImage2)
         }
-        stopOver2TimeLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(startTimeLabel)
-            make.top.equalTo(dotImage2)
-        }
-        stopOver2Label.snp.makeConstraints { make in
-            make.leading.equalTo(startLabel)
+        stopOver2RightView.snp.makeConstraints { make in
+            make.leading.equalTo(startTimeLabel).offset(6)
             make.top.equalTo(dotImage2)
         }
     }
     private func setupThressStopOverConstraints() {
         setupTwoStopOverConstraints()
-        stopOver3LocationLabel.snp.makeConstraints { make in
+        stopOver3LeftView.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
             make.top.equalTo(dotImage3)
         }
-        stopOver3TimeLabel.snp.makeConstraints { make in
-            make.centerX.equalTo(startTimeLabel)
-            make.top.equalTo(dotImage3)
-        }
-        stopOver3Label.snp.makeConstraints { make in
-            make.leading.equalTo(startLabel)
+        stopOver3RightView.snp.makeConstraints { make in
+            make.leading.equalTo(startTimeLabel).offset(6)
             make.top.equalTo(dotImage3)
         }
     }
