@@ -73,15 +73,15 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 self.saveToDB(user: currentUser)
             }
             // 로그인 성공 시 여정화면으로 이동
-            let mainTabBarView = SessionStartViewController()
+            let SessionStartVC = SessionStartViewController()
             // present() 애니메이션 커스텀 (오른쪽->왼쪽)
             let transition = CATransition()
             transition.duration = 0.3
             transition.type = CATransitionType.push
             transition.subtype = CATransitionSubtype.fromRight
             self.view.window?.layer.add(transition, forKey: kCATransition)
-            mainTabBarView.modalPresentationStyle = .fullScreen
-            self.present(mainTabBarView, animated: true)
+            SessionStartVC.modalPresentationStyle = .fullScreen
+            self.present(SessionStartVC, animated: true)
         }
     }
 
