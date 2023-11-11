@@ -54,7 +54,7 @@ final class SelectDetailStopoverPointView: UIView {
     }()
 
     private let centerMarkerImage: UIImageView = {
-        let image = UIImage(named: "CenterMarker")
+        let image = UIImage(named: "centerMarker")
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = image
