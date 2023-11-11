@@ -103,6 +103,7 @@ final class SessionStartBackView: UIView {
     // 경유지 관련
     private lazy var stopOver1LeftView: StopOverInfoLeftView = {
         let view = StopOverInfoLeftView()
+        view.crewMember.text = "테드"
         return view
     }()
 
@@ -113,6 +114,7 @@ final class SessionStartBackView: UIView {
 
     private lazy var stopOver2LeftView: StopOverInfoLeftView = {
         let view = StopOverInfoLeftView()
+        view.crewMember.text = "젤리빈 젠"
         return view
     }()
     private lazy var stopOver2RightView: StopOverInfoRightView = {
@@ -122,6 +124,7 @@ final class SessionStartBackView: UIView {
 
     private lazy var stopOver3LeftView: StopOverInfoLeftView = {
         let view = StopOverInfoLeftView()
+        view.crewMember.text = "우니"
         return view
     }()
     private lazy var stopOver3RightView: StopOverInfoRightView = {
@@ -307,7 +310,7 @@ extension SessionStartBackView {
         }
         dotImage1.snp.makeConstraints { make in
             make.centerX.equalTo(dotImage2)
-            make.top.equalTo(dotImage2).dividedBy(1.4)
+            make.top.equalTo(dotImage2).dividedBy(1.45)
             make.width.height.equalTo(8)
         }
         dotImage3.snp.makeConstraints { make in
