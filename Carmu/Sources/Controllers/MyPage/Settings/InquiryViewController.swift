@@ -12,7 +12,7 @@ final class InquiryViewController: UIViewController {
 
     private let inquiryView = InquiryView()
 
-    let inquiryContents = ["평점 남기러 가기", "이메일로 문의하기"]
+    let inquiryContents = ["E-mail", "app store리뷰 남기기"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,8 +91,19 @@ extension InquiryViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
 
         cell.textLabel?.text = inquiryContents[indexPath.row]
-        cell.accessoryType = .disclosureIndicator
+        if indexPath.row == 1 {
+            cell.textLabel?.font = UIFont.carmuFont.subhead3
+            cell.textLabel?.textColor = UIColor.semantic.accPrimary
+        } else {
+            cell.textLabel?.font = UIFont.carmuFont.body3
+            cell.textLabel?.textColor = UIColor.semantic.textPrimary
+        }
         return cell
+    }
+
+    // 테이블 뷰 헤더 타이틀 구성
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return "1:1 문의하기"
     }
 }
 
@@ -102,10 +113,11 @@ extension InquiryViewController: UITableViewDelegate {
     // 테이블 뷰 셀을 눌렀을 때에 대한 동작
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
+            print("이메일 문의하기")
+            showEmailInquiryView()
+        } else {
             // TODO: - 평점 남기러 가기 구현하기
             print("평점 남기러 가기")
-        } else {
-            showEmailInquiryView()
         }
         // 클릭 후에는 셀의 선택이 해제된다.
         tableView.deselectRow(at: indexPath, animated: true)
