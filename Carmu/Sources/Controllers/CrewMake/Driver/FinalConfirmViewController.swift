@@ -12,6 +12,7 @@ final class FinalConfirmViewController: UIViewController {
     private let finalConfirmView = FinalConfirmView()
     private let firebaseManager = FirebaseManager()
     private var inviteCode: String?
+    var selectedDay: Set<DayOfWeek> = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,7 +35,7 @@ extension FinalConfirmViewController {
     private func additionalSetting() {
         finalConfirmView.daySelectButton.setTitle(
             // TODO: 추후 이전 화면에서 설정된 배열로 파라미터 전달
-            setDayButtonTitle([0, 1, 2, 3, 4]),
+            setDayButtonTitle(selectedDay),
             for: .normal
         )
         finalConfirmView.nextButton.addTarget(
@@ -78,21 +79,20 @@ extension FinalConfirmViewController {
     /**
      상단 요일버튼 String 생성 메서드
      */
-    private func setDayButtonTitle(_ selectedDay: [Int]) -> String {
-        let days = ["월", "화", "수", "목", "금", "토", "일"]
-        let selectedDay = selectedDay.sorted(by: <)
+    private func setDayButtonTitle(_ selectedDay: Set<DayOfWeek>) -> String {
         var returnString = [String]()
+        let sortedDays = selectedDay.sorted { $0.rawValue < $1.rawValue }
 
         switch selectedDay {
-        case [0, 1, 2, 3, 4]:
+        case DayOfWeek.weekday:
             returnString.append("주중")
-        case [5, 6]:
+        case DayOfWeek.weekend:
             returnString.append("주말")
-        case [0, 1, 2, 3, 4, 5, 6]:
+        case DayOfWeek.everyday:
             returnString.append("매일")
         default:
-            for index in selectedDay {
-                returnString.append(days[index])
+            for day in sortedDays {
+                returnString.append(day.dayString)
             }
         }
 

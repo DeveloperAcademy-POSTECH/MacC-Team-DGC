@@ -23,7 +23,7 @@ final class SessionStartDriverView: UIView {
     // 앞면 뷰
     lazy var driverFrontView = DriverFrontView()
     // 뒷면 뷰
-    private lazy var driverBackView = DriverBackView()
+    private lazy var sessionStartBackView = SessionStartBackView()
 
     init() {
         super.init(frame: .zero)
@@ -42,7 +42,7 @@ final class SessionStartDriverView: UIView {
 
         contentView.frame = bounds
         driverFrontView.frame = bounds
-        driverBackView.frame = bounds
+        sessionStartBackView.frame = bounds
 
     }
 }
@@ -53,8 +53,8 @@ extension SessionStartDriverView {
     private func setupUI() {
         addSubview(contentView)
         contentView.addSubview(driverFrontView)
-        contentView.addSubview(driverBackView)
-        driverBackView.isHidden = true
+        contentView.addSubview(sessionStartBackView)
+        sessionStartBackView.isHidden = true
 
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
@@ -73,7 +73,7 @@ extension SessionStartDriverView {
 
         UIView.transition(with: contentView, duration: 0.4, options: transitionOptions, animations: {
             self.driverFrontView.isHidden = self.isFlipped
-            self.driverBackView.isHidden = !self.isFlipped
+            self.sessionStartBackView.isHidden = !self.isFlipped
         }, completion: nil)
     }
 }
@@ -123,6 +123,18 @@ final class DriverFrontView: UIView {
         return view
     }()
 
+    lazy var crewCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.backgroundColor = UIColor.semantic.backgroundSecond
+        collectionView.layer.cornerRadius = 16
+        return collectionView
+    }()
+    private lazy var collectionViewFooterLabel: CarpoolPlanLabel = {
+        let label = CarpoolPlanLabel()
+        return label
+    }()
+
     // 당일에 운행이 없을 때 나타나는 뷰
     lazy var noDriveViewForDriver: UIView = {
         let view = UIView()
@@ -142,6 +154,10 @@ final class DriverFrontView: UIView {
         label.font = UIFont.carmuFont.subhead3
         label.textColor = UIColor.semantic.negative
         label.textAlignment = .center
+        return label
+    }()
+    private lazy var carpoolPlanLabel: CarpoolPlanLabel = {
+        let label = CarpoolPlanLabel()
         return label
     }()
 
@@ -168,6 +184,16 @@ final class DriverFrontView: UIView {
         addSubview(noDriveViewForDriver)
         noDriveViewForDriver.addSubview(noDriveImage)
         noDriveViewForDriver.addSubview(noDriveComment)
+        noDriveViewForDriver.addSubview(carpoolPlanLabel)
+
+        addSubview(crewCollectionView)
+        crewCollectionView.dataSource = self
+        crewCollectionView.delegate = self
+        crewCollectionView.register(CrewCollectionViewCell.self,
+                                    forCellWithReuseIdentifier: CrewCollectionViewCell.cellIdentifier)
+        crewCollectionView.register(UICollectionReusableView.self,
+                                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+                                    withReuseIdentifier: "FooterView")
     }
 
     private func setupConstraints() {
@@ -195,6 +221,15 @@ final class DriverFrontView: UIView {
             make.top.equalTo(noDriveImage.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
+        carpoolPlanLabel.snp.makeConstraints { make in
+            make.top.equalTo(noDriveComment.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+        }
+
+        crewCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(comment.snp.bottom).offset(16).priority(.high)
+            make.leading.trailing.bottom.equalToSuperview().inset(20).priority(.high)
+        }
     }
 
     // TODO: - 실제 데이터로 변경
@@ -204,53 +239,93 @@ final class DriverFrontView: UIView {
     }
 }
 
-// MARK: - 뒷면 뷰
+// TODO: - 실제 데이터로 변경
+extension DriverFrontView: UICollectionViewDataSource {
 
-final class DriverBackView: UIView {
-
-    private lazy var personImage: UIImageView = {
-        let image = UIImage(systemName: "person.fill")
-        let imageView = UIImageView(image: image)
-        imageView.tintColor = UIColor.semantic.textPrimary
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    private lazy var totalCrewMemeberLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.carmuFont.subhead3
-        label.textColor = UIColor.semantic.textPrimary
-        return label
-    }()
-
-    init() {
-        super.init(frame: .zero)
-        setupBackView()
-        setupConstraints()
-        settingData()
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("count ", crewData?.crewStatus.count ?? 0)
+        return crewData?.crewStatus.count ?? 0
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setupBackView() {
-        addSubview(personImage)
-        addSubview(totalCrewMemeberLabel)
-    }
-
-    private func setupConstraints() {
-        personImage.snp.makeConstraints { make in
-            make.leading.top.equalToSuperview().inset(20)
-            make.width.height.equalTo(22)
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: CrewCollectionViewCell.cellIdentifier,
+            for: indexPath
+        ) as? CrewCollectionViewCell else {
+            return UICollectionViewCell()
         }
-        totalCrewMemeberLabel.snp.makeConstraints { make in
-            make.leading.equalTo(personImage.snp.trailing).offset(4)
-            make.centerY.equalTo(personImage)
+        // crewStatus에서 현재 indexPath.row에 해당하는 크루의 상태 값을 가져옵니다.
+        let crewID = userData[indexPath.row].id  // 예: "uni"
+        if let crewStatus = crewData?.crewStatus[crewID] {
+            // 운전자가 응답을 하지 않은 상황이면 Zzz..이고, 응답을 했다면 미응답으로 표현합니다.
+            if crewData?.sessionStatus == .waiting, crewStatus.statusValue == "미응답" {
+                cell.statusLabel.text = "Zzz.."
+            } else {
+                cell.statusLabel.text = crewStatus.statusValue
+            }
+            cell.userNameLabel.text = crewID
+        }
+        cell.profileImageView.image = UIImage(profileImageColor: userData[indexPath.row].profileImageColor)
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        viewForSupplementaryElementOfKind kind: String,
+                        at indexPath: IndexPath) -> UICollectionReusableView {
+        if kind == UICollectionView.elementKindSectionFooter {
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
+                                                                             withReuseIdentifier: "FooterView",
+                                                                             for: indexPath)
+            footerView.addSubview(collectionViewFooterLabel)
+            collectionViewFooterLabel.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+            return footerView
+        }
+        return UICollectionReusableView()
+    }
+}
+
+// TODO: - 실제 데이터 적용하기
+extension DriverFrontView: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+
+        return CGSize(width: 48, height: 100)
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        insetForSectionAt section: Int) -> UIEdgeInsets {
+        let cellWidth: CGFloat = 48 // 셀의 너비
+        let cellSpacing: CGFloat = 10 // 셀 간격
+        let numberOfCellsPerRow: Int = 4 // 한 줄에 표시할 셀 개수
+
+        let totalCellWidth: CGFloat = CGFloat(crewData?.crewStatus.count ?? 0) * cellWidth
+        let totalSpacing: CGFloat = CGFloat(crewData?.crewStatus.count ?? 0 - 1) * cellSpacing
+        let totalWidth: CGFloat = totalCellWidth + totalSpacing
+        let horizontalInset: CGFloat
+
+        if crewData?.crewStatus.count ?? 0 <= numberOfCellsPerRow {
+            // 4개 이하인 경우, 한 줄로 표시
+            horizontalInset = (collectionView.frame.width - totalWidth) / 2
+            return UIEdgeInsets(top: 50, left: horizontalInset, bottom: 0, right: horizontalInset)
+        } else {
+            // 5개 이상인 경우, 두 줄로 표시
+            let totalCellWidth = CGFloat(numberOfCellsPerRow) * cellWidth
+            let totalSpacing = CGFloat(numberOfCellsPerRow - 1) * cellSpacing
+            let totalRowWidth = totalCellWidth + totalSpacing
+            horizontalInset = (collectionView.frame.width - totalRowWidth) / 2
+            return UIEdgeInsets(top: 10, left: horizontalInset, bottom: 0, right: horizontalInset)
         }
     }
 
-    // TODO: - 실제 데이터로 변경
-    private func settingData() {
-        totalCrewMemeberLabel.text = "\(crewData?.crews.count ?? 0)명"
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize(width: collectionView.bounds.width, height: 18)
     }
 }

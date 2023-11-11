@@ -25,11 +25,13 @@ final class BoardingPointSelectView: UIView {
         var buttons: [StopoverSelectButton] = []
 
         for (index, address) in ["출발지 주소", "경유지 주소", "경유지 2주소 입니다dddfdfd", "도착지 주소"].enumerated() {
-            let button = StopoverSelectButton(address: address, time: Date())
+            let isStart = index == 3 ? false : true
+            let button = StopoverSelectButton(address: address, isStart, time: Date())
+
             button.tag = index
+            button.isEnabled = index == 3 ? false : true
             buttons.append(button)
         }
-
         return buttons
     }()
 

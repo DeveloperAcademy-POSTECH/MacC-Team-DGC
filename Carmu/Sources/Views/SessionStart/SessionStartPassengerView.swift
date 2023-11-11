@@ -23,7 +23,7 @@ final class SessionStartPassengerView: UIView {
     // 앞면 뷰
     lazy var passengerFrontView = PassengerFrontView()
     // 뒷면 뷰
-    private lazy var passengerBackView = PassengerBackView()
+    private lazy var sessionStartBackView = SessionStartBackView()
 
     init() {
         super.init(frame: .zero)
@@ -42,7 +42,7 @@ final class SessionStartPassengerView: UIView {
 
         contentView.frame = bounds
         passengerFrontView.frame = bounds
-        passengerBackView.frame = bounds
+        sessionStartBackView.frame = bounds
 
     }
 }
@@ -53,8 +53,8 @@ extension SessionStartPassengerView {
     private func setupUI() {
         addSubview(contentView)
         contentView.addSubview(passengerFrontView)
-        contentView.addSubview(passengerBackView)
-        passengerBackView.isHidden = true
+        contentView.addSubview(sessionStartBackView)
+        sessionStartBackView.isHidden = true
 
         layer.cornerRadius = 20
         layer.shadowColor = UIColor.semantic.accPrimary?.cgColor
@@ -73,7 +73,7 @@ extension SessionStartPassengerView {
 
         UIView.transition(with: contentView, duration: 0.4, options: transitionOptions, animations: {
             self.passengerFrontView.isHidden = self.isFlipped
-            self.passengerBackView.isHidden = !self.isFlipped
+            self.sessionStartBackView.isHidden = !self.isFlipped
         }, completion: nil)
     }
 }
@@ -101,6 +101,10 @@ final class PassengerFrontView: UIView {
         label.textColor = UIColor.semantic.textPrimary
         label.textAlignment = .center
         label.numberOfLines = 0
+        return label
+    }()
+    private lazy var carpoolPlanLabel1: CarpoolPlanLabel = {
+        let label = CarpoolPlanLabel()
         return label
     }()
 
@@ -145,6 +149,10 @@ final class PassengerFrontView: UIView {
         label.numberOfLines = 0
         return label
     }()
+    private lazy var carpoolPlanLabel2: CarpoolPlanLabel = {
+        let label = CarpoolPlanLabel()
+        return label
+    }()
 
     init() {
         super.init(frame: .zero)
@@ -166,6 +174,7 @@ final class PassengerFrontView: UIView {
 
         locationAndTimeView.addSubview(locationLabel)
         locationAndTimeView.addSubview(timeLabel)
+        locationAndTimeView.addSubview(carpoolPlanLabel1)
 
         driveInfoView.addSubview(statusImageView)
         driveInfoView.addSubview(statusLabel)
@@ -173,6 +182,7 @@ final class PassengerFrontView: UIView {
         addSubview(noDriveViewForPassenger)
         noDriveViewForPassenger.addSubview(noDriveImage)
         noDriveViewForPassenger.addSubview(noDriveComment)
+        noDriveViewForPassenger.addSubview(carpoolPlanLabel2)
     }
 
     private func setupConstraints() {
@@ -193,6 +203,10 @@ final class PassengerFrontView: UIView {
         timeLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(locationLabel.snp.bottom).offset(4)
+        }
+        carpoolPlanLabel1.snp.makeConstraints { make in
+            make.top.equalTo(timeLabel.snp.bottom).offset(8)
+            make.centerX.equalToSuperview()
         }
 
         statusImageView.snp.makeConstraints { make in
@@ -216,6 +230,10 @@ final class PassengerFrontView: UIView {
         }
         noDriveComment.snp.makeConstraints { make in
             make.top.equalTo(noDriveImage.snp.bottom).offset(10)
+            make.centerX.equalToSuperview()
+        }
+        carpoolPlanLabel2.snp.makeConstraints { make in
+            make.top.equalTo(noDriveComment.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
     }
@@ -243,56 +261,5 @@ final class PassengerFrontView: UIView {
         timeLabel.attributedText = timeText
 
         statusLabel.text = "운전자의 확인을 기다리고 있어요"
-    }
-}
-
-// MARK: - 뒷면 뷰
-
-final class PassengerBackView: UIView {
-
-    private lazy var personImage: UIImageView = {
-        let image = UIImage(systemName: "person.fill")
-        let imageView = UIImageView(image: image)
-        imageView.tintColor = UIColor.semantic.textPrimary
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-    private lazy var totalCrewMemeberLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.carmuFont.subhead3
-        label.textColor = UIColor.semantic.textPrimary
-        return label
-    }()
-
-    init() {
-        super.init(frame: .zero)
-        setupBackView()
-        setupConstraints()
-        settingData()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setupBackView() {
-        addSubview(personImage)
-        addSubview(totalCrewMemeberLabel)
-    }
-
-    private func setupConstraints() {
-        personImage.snp.makeConstraints { make in
-            make.leading.top.equalToSuperview().inset(20)
-            make.width.height.equalTo(22)
-        }
-        totalCrewMemeberLabel.snp.makeConstraints { make in
-            make.leading.equalTo(personImage.snp.trailing).offset(4)
-            make.centerY.equalTo(personImage)
-        }
-    }
-
-    // TODO: - 실제 데이터로 변경
-    private func settingData() {
-        totalCrewMemeberLabel.text = "\(crewData?.crews.count ?? 0)명"
     }
 }
