@@ -38,6 +38,7 @@ final class SelectDetailStopoverPointViewController: UIViewController {
 
         navigationSetting()
         stopoverPointMapView.mapView.addCameraDelegate(delegate: self)
+        stopoverPointMapView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         stopoverPointMapView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
     }
 
@@ -49,6 +50,10 @@ final class SelectDetailStopoverPointViewController: UIViewController {
 
 // MARK: - @objc Method
 extension SelectDetailStopoverPointViewController {
+
+    @objc private func backButtonTapped() {
+        dismiss(animated: true)
+    }
 
     @objc private func saveButtonAction() {
         // TODO: 데이터 전달 구현

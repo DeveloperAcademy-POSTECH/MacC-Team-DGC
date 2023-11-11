@@ -27,6 +27,12 @@ final class SelectDetailStopoverPointView: UIView {
         return view
     }()
 
+    let backButton = {
+        let backButton = UIButton()
+        backButton.setImage(UIImage(named: "modalXButton"), for: .normal)
+        return backButton
+    }()
+
     let pathOverlay = {
         let pathOverlay = NMFPath()
         pathOverlay.color = UIColor.theme.blue6 ?? .blue
@@ -133,6 +139,7 @@ extension SelectDetailStopoverPointView {
     private func setupUI() {
         addSubview(mapView)
         addSubview(explainLabel)
+        addSubview(backButton)
         addSubview(centerMarkerImage)
         addSubview(backgroundView)
         addSubview(buildingNameLabel)
@@ -152,6 +159,12 @@ extension SelectDetailStopoverPointView {
             make.centerX.equalToSuperview()
             make.width.equalTo(223)
             make.height.equalTo(30)
+        }
+
+        backButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(safeAreaLayoutGuide).inset(16)
+            make.width.height.equalTo(36)
         }
 
         centerMarkerImage.snp.makeConstraints { make in
