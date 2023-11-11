@@ -120,7 +120,7 @@ extension StopoverPointSelectViewController {
     }
 
     @objc private func findAddressButtonTapped(_ sender: UIButton) {
-        let detailViewController = SelectDetailPointMapViewController(selectAddressModel: SelectAddressDTO())
+        let detailViewController = SelectDetailStopoverPointViewController()
 //        detailViewController.addressSelectionHandler = { [weak self] addressDTO in
 //            // TODO: 다음 작업에 Model에 값 적재하는 로직 구현 필요
 //
