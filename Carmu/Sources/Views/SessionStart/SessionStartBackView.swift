@@ -39,9 +39,17 @@ final class SessionStartBackView: UIView {
         label.font = UIFont.carmuFont.subhead3
         label.textColor = UIColor.semantic.textPrimary
         label.numberOfLines = 0
-        label.textAlignment = .center
+        label.textAlignment = .left
         return label
     }()
+    private lazy var startCrewMember: UILabel = {
+        let label = UILabel()
+        label.text = "배찌 레이"
+        label.font = UIFont.carmuFont.body2
+        label.textColor = UIColor.semantic.textBody
+        return label
+    }()
+
     private lazy var startTimeLabel: UILabel = {
         let label = UILabel()
         label.text = "00:00"
@@ -68,7 +76,7 @@ final class SessionStartBackView: UIView {
         label.font = UIFont.carmuFont.subhead3
         label.textColor = UIColor.semantic.textPrimary
         label.numberOfLines = 0
-        label.textAlignment = .center
+        label.textAlignment = .left
         return label
     }()
     private lazy var endTimeLabel: UILabel = {
@@ -304,6 +312,7 @@ extension SessionStartBackView {
         addSubview(stickImage)
 
         addSubview(startLocationLabel)
+        addSubview(startCrewMember)
         addSubview(startTimeLabel)
         addSubview(startLabel)
 
@@ -334,6 +343,10 @@ extension SessionStartBackView {
             make.top.lessThanOrEqualTo(stickImage)
             make.trailing.equalTo(stickImage.snp.leading).offset(-32).priority(.high)
             make.width.lessThanOrEqualTo(92)
+        }
+        startCrewMember.snp.makeConstraints { make in
+            make.leading.equalTo(startLocationLabel)
+            make.top.equalTo(startLocationLabel.snp.bottom).offset(8)
         }
         startTimeLabel.snp.makeConstraints { make in
             make.leading.lessThanOrEqualTo(stickImage.snp.trailing).offset(32)
