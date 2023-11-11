@@ -10,6 +10,8 @@
 		16114ADE2AFB1D9C003325B6 /* SessionStartBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */; };
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
 		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
+		163422362AFE636000196EB2 /* RuleDescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163422352AFE636000196EB2 /* RuleDescriptionViewController.swift */; };
+		163422382AFE67A400196EB2 /* RuleDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163422372AFE67A400196EB2 /* RuleDescriptionView.swift */; };
 		163422342AFDFFFE00196EB2 /* CarpoolPlanLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163422332AFDFFFE00196EB2 /* CarpoolPlanLabel.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
 		164E823D2AF53AB400848BFF /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E823C2AF53AB400848BFF /* Point.swift */; };
@@ -122,6 +124,8 @@
 /* Begin PBXFileReference section */
 		16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartBackView.swift; sourceTree = "<group>"; };
 		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
+		163422352AFE636000196EB2 /* RuleDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDescriptionViewController.swift; sourceTree = "<group>"; };
+		163422372AFE67A400196EB2 /* RuleDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDescriptionView.swift; sourceTree = "<group>"; };
 		163422332AFDFFFE00196EB2 /* CarpoolPlanLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolPlanLabel.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -259,6 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
+				163422352AFE636000196EB2 /* RuleDescriptionViewController.swift */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
@@ -461,6 +466,7 @@
 				16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */,
 				16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */,
 				161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */,
+				163422372AFE67A400196EB2 /* RuleDescriptionView.swift */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
@@ -827,6 +833,7 @@
 				C9D04C6B2AFB7864007E615B /* AddressSelectButtonView.swift in Sources */,
 				C9D04C732AFC65BE007E615B /* StopoverPointAddButtonView.swift in Sources */,
 				B83E23F02AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift in Sources */,
+				163422382AFE67A400196EB2 /* RuleDescriptionView.swift in Sources */,
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
@@ -856,6 +863,7 @@
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
 				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
+				163422362AFE636000196EB2 /* RuleDescriptionViewController.swift in Sources */,
 				C93116742AF3B5320014E702 /* SelectAddressView.swift in Sources */,
 				C93116802AF3B7E30014E702 /* SelectDetailPointMapView.swift in Sources */,
 				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,

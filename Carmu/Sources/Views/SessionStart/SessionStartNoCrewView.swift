@@ -221,6 +221,16 @@ final class NoCrewBackView: UIView {
         return label
     }()
 
+    lazy var driverDetailLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = UIFont.carmuFont.body1Long
+        label.textColor = UIColor.semantic.textBody
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+
     // 동승자 규칙 뷰
     private lazy var passengerView: UIView = {
         let view = UIView()
@@ -259,6 +269,15 @@ final class NoCrewBackView: UIView {
         label.attributedText = attributedText
         return label
     }()
+    lazy var passengerDetailLabel: UILabel = {
+        let label = UILabel()
+        label.text = ""
+        label.font = UIFont.carmuFont.body1Long
+        label.textColor = UIColor.semantic.textBody
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
 
     init() {
         super.init(frame: .zero)
@@ -278,10 +297,12 @@ final class NoCrewBackView: UIView {
         driverView.addSubview(driverLabel)
         driverView.addSubview(driverImage)
         driverView.addSubview(driverInfoLabel)
+        driverView.addSubview(driverDetailLabel)
 
         passengerView.addSubview(passengerLabel)
         passengerView.addSubview(passengerImage)
         passengerView.addSubview(passengerInfoLabel)
+        passengerView.addSubview(passengerDetailLabel)
     }
 
     private func setupConstraints() {
@@ -289,6 +310,11 @@ final class NoCrewBackView: UIView {
             make.top.lessThanOrEqualToSuperview().inset(28)
             make.centerX.equalToSuperview()
         }
+        driverConstraints()
+        passengerConstraints()
+    }
+
+    private func driverConstraints() {
         driverView.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(comment.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
@@ -317,7 +343,13 @@ final class NoCrewBackView: UIView {
             make.centerX.equalToSuperview()
             make.bottom.lessThanOrEqualToSuperview().inset(12)
         }
+        driverDetailLabel.snp.makeConstraints { make in
+            make.top.equalTo(driverInfoLabel.snp.bottom).offset(4)
+            make.centerX.equalToSuperview()
+        }
+    }
 
+    private func passengerConstraints() {
         passengerLabel.snp.makeConstraints { make in
             make.top.lessThanOrEqualToSuperview().inset(16)
             make.centerX.equalToSuperview()
@@ -332,6 +364,10 @@ final class NoCrewBackView: UIView {
             make.top.lessThanOrEqualTo(passengerImage.snp.bottom).offset(6)
             make.centerX.equalToSuperview()
             make.bottom.lessThanOrEqualToSuperview().inset(12)
+        }
+        passengerDetailLabel.snp.makeConstraints { make in
+            make.top.equalTo(passengerInfoLabel.snp.bottom).offset(4)
+            make.centerX.equalToSuperview()
         }
     }
 }

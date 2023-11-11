@@ -85,6 +85,7 @@ extension CodeShareViewController {
         // TODO: 다음화면 이동 구현 필요
         if SceneDelegate.isFirst {
             SceneDelegate.updateIsFirstValue(false)
+            SceneDelegate.isCrewCreated = true
         } else {
             // 초기 화면이 아닐 경우(건너가기 후 그룹코드 입력)
         }
