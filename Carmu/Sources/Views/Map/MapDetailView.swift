@@ -92,6 +92,19 @@ final class MapDetailView: UIView {
         return label
     }()
 
+    private let latenessTitleLabel = {
+        let label = UILabel()
+        label.text = "크루원 지각 현황"
+        label.font = UIFont.carmuFont.subhead2
+        label.textColor = UIColor.semantic.textBody
+        return label
+    }()
+
+    lazy var crewScrollView = {
+        let view = CrewScrollView()
+        return view
+    }()
+
     private let isDriver = true
 
     override init(frame: CGRect) {
@@ -105,16 +118,35 @@ final class MapDetailView: UIView {
 
     override func draw(_ rect: CGRect) {
         showTitleLabel()
-
-        showDetailForCrew()
-
         showBottomButtons()
+        if isDriver {
+            showDetailForDriver()
+        } else {
+            showDetailForCrew()
+        }
     }
 
     private func showTitleLabel() {
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview()
+            make.leading.top.trailing.equalToSuperview()
+        }
+    }
+
+    private func showDetailForDriver() {
+        let padding = 20
+
+        addSubview(latenessTitleLabel)
+        latenessTitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(padding)
+            make.leading.equalToSuperview().inset(padding)
+        }
+
+        addSubview(crewScrollView)
+        crewScrollView.snp.makeConstraints { make in
+            make.top.equalTo(latenessTitleLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(padding)
+            make.bottom.equalTo(giveUpButton.snp.top).offset(-padding)
         }
     }
 
