@@ -34,12 +34,24 @@ final class SelectDetailStopoverPointView: UIView {
         return pathOverlay
     }()
 
+    private let explainLabel: UILabel = {
+        let label = UILabel()
+        label.text = "정확한 경유 위치를 설정해주세요."
+        label.textAlignment = .center
+        label.font = UIFont.carmuFont.subhead2
+        label.textColor = UIColor.semantic.textSecondary
+        label.backgroundColor = UIColor.theme.trans60
+        label.layer.cornerRadius = 15
+        label.clipsToBounds = true
+        label.isHidden = true
+        return label
+    }()
+
     private let centerMarkerImage: UIImageView = {
         let image = UIImage(named: "CenterMarker")
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
         imageView.image = image
-
         return imageView
     }()
 
@@ -48,7 +60,6 @@ final class SelectDetailStopoverPointView: UIView {
         label.text = "주소지의 건물명"
         label.font = UIFont.carmuFont.body3
         label.textColor = UIColor.semantic.textPrimary
-
         return label
     }()
 
@@ -57,7 +68,6 @@ final class SelectDetailStopoverPointView: UIView {
         label.text = "경북 포항시 북구 지곡로 80"
         label.font = UIFont.carmuFont.body2
         label.textColor = UIColor.semantic.textBody
-
         return label
     }()
 
@@ -122,6 +132,7 @@ extension SelectDetailStopoverPointView {
 
     private func setupUI() {
         addSubview(mapView)
+        addSubview(explainLabel)
         addSubview(centerMarkerImage)
         addSubview(backgroundView)
         addSubview(buildingNameLabel)
@@ -134,6 +145,13 @@ extension SelectDetailStopoverPointView {
             make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(backgroundView.snp.top)
+        }
+
+        explainLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(centerMarkerImage.snp.top).offset(-20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(223)
+            make.height.equalTo(30)
         }
 
         centerMarkerImage.snp.makeConstraints { make in
@@ -195,6 +213,14 @@ extension SelectDetailStopoverPointView {
         destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
         destination.anchor = CGPoint(x: 0.5, y: 0.5)
         destination.mapView = mapView
+    }
+
+    func showExplain() {
+        self.explainLabel.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            // Set isHidden back to true after 1 second
+            self.explainLabel.isHidden = true
+        }
     }
 }
 
