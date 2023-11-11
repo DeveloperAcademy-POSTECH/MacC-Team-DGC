@@ -57,6 +57,7 @@ extension SelectDetailStopoverPointViewController {
 
     @objc private func saveButtonAction() {
         // TODO: 데이터 전달 구현
+        addressDTO.pointName = stopoverPointMapView.buildingNameLabel.text
         addressSelectionHandler?(addressDTO)
         dismiss(animated: true)
     }
