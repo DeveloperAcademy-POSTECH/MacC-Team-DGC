@@ -1,6 +1,7 @@
 {
   "images" : [
     {
+      "filename" : "centerMarker.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
@@ -9,7 +10,6 @@
       "scale" : "2x"
     },
     {
-      "filename" : "pickupLocation1Tapped.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

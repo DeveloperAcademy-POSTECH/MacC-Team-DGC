@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     // TODO: 추후 AppStorage 처리 추가 필요. 개발 편의를 위해 static 변수로 둠.
     static var isFirst = true
+    static var isCrewCreated = false
 
     func scene(
         _ scene: UIScene,
@@ -48,7 +49,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 rootViewController = SessionStartViewController()
             }
             let navigationController = UINavigationController(rootViewController: rootViewController)
-            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary // 앱 전체에 내비게이션바 tintColor 적용
+            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+            removeBackButtonTitle()
             window?.rootViewController = navigationController
         } else {
             window?.rootViewController = LoginViewController()
@@ -71,5 +73,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     static func updateIsFirstValue(_ newValue: Bool) {
         SceneDelegate.isFirst = newValue
         NotificationCenter.default.post(name: Notification.Name("IsFirstChanged"), object: nil)
+    }
+
+    private func removeBackButtonTitle() {
+        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.clear]
+        UIBarButtonItem.appearance().setTitleTextAttributes(attributes, for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes(attributes, for: .highlighted)
     }
 }

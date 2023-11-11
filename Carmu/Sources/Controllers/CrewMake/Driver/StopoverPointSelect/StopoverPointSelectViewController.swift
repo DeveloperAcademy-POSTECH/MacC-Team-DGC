@@ -48,6 +48,21 @@ extension StopoverPointSelectViewController {
             action: #selector(deletePointButtonTapped),
             for: .touchUpInside
         )
+        stopoverPointSelectView.stopover1.button.addTarget(
+            self,
+            action: #selector(findAddressButtonTapped),
+            for: .touchUpInside
+        )
+        stopoverPointSelectView.stopover2.button.addTarget(
+            self,
+            action: #selector(findAddressButtonTapped),
+            for: .touchUpInside
+        )
+        stopoverPointSelectView.stopover3.button.addTarget(
+            self,
+            action: #selector(findAddressButtonTapped),
+            for: .touchUpInside
+        )
     }
 }
 
@@ -105,17 +120,17 @@ extension StopoverPointSelectViewController {
     }
 
     @objc private func findAddressButtonTapped(_ sender: UIButton) {
-        let detailViewController = SelectDetailPointMapViewController(selectAddressModel: SelectAddressDTO())
-//        detailViewController.addressSelectionHandler = { [weak self] addressDTO in
-//            // TODO: 다음 작업에 Model에 값 적재하는 로직 구현 필요
-//
-//        }
+        let detailViewController = SelectDetailStopoverPointViewController()
+        detailViewController.addressSelectionHandler = { addressDTO in
+            // TODO: 다음 작업에 Model에 값 적재하는 로직 구현 필요
+            sender.setTitle("     \(addressDTO.pointName ?? "")", for: .normal)
+        }
         present(detailViewController, animated: true)
     }
 
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
-        let viewController = StopoverPointCheckViewController()
+        let viewController = TimeSelectViewController()
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
