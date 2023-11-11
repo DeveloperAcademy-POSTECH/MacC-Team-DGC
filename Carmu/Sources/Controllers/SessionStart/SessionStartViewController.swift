@@ -370,21 +370,25 @@ extension SessionStartViewController {
             sessionStartDriverView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
             sessionStartDriverView.layer.opacity = 1.0
         } else {    // 크루원이 클릭했을 때 -> 텍스트 변경
-            if crewData?.sessionStatus != .decline {    // 응답을 하지 않았거나, 수락을 했을 때
-                sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
-                sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
-                sessionStartView.notifyComment.text = ""
+            if crewData?.sessionStatus == .waiting {    // 운전자가 미응답일 때
+                sessionStartView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+                sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                sessionStartView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
+            } else {    // 운전자가 응답했을 때
+                if crewData?.sessionStatus != .decline {    // 응답을 하지 않았거나, 수락을 했을 때
+                    sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
+                    sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
+                    sessionStartView.notifyComment.text = ""
+                    sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+                } else {    // 운전자가 거절했을 때
+                    sessionStartView.topComment.text = ""
+                    sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                    sessionStartView.individualButton.isEnabled = false
+                    sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+                    sessionStartView.togetherButton.isEnabled = false
+                }
             }
-
-            // 크루원의 뷰 나타내기
-            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
-            sessionStartPassengerView.layer.opacity = 1.0
         }
-        sessionStartView.topComment.text = ""
-        sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-        sessionStartView.individualButton.isEnabled = false
-        sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-        sessionStartView.togetherButton.isEnabled = false
     }
 }
 
