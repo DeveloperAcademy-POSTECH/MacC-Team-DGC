@@ -13,13 +13,14 @@ final class PrivacyViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .clear
 
         navigationController?.navigationBar.topItem?.title = "" // 백버튼 텍스트 제거
 
         view.addSubview(privacyView)
         privacyView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
+            make.top.equalTo(view.safeAreaLayoutGuide)
+            make.horizontalEdges.bottom.equalToSuperview()
         }
     }
 
