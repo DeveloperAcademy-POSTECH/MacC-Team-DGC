@@ -140,6 +140,23 @@ extension SessionStartViewController {
             sessionStartView.carpoolStartButton.isHidden = false
             sessionStartDriverView.layer.opacity = 1.0
             sessionStartView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
+
+            // notifyComment 변경하기
+            sessionStartView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
+            let attributedText = NSMutableAttributedString(string: sessionStartView.notifyComment.text ?? "")
+            if let range1 = sessionStartView.notifyComment.text?.range(of: "현재 운행중인 카풀") {
+                let nsRange1 = NSRange(range1, in: sessionStartView.notifyComment.text ?? "")
+                attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                            value: UIColor.semantic.textTertiary as Any,
+                                            range: nsRange1)
+            }
+            if let range2 = sessionStartView.notifyComment.text?.range(of: "카풀 지도보기") {
+                let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text ?? "")
+                attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                            value: UIColor.semantic.textTertiary as Any,
+                                            range: nsRange2)
+            }
+            sessionStartView.notifyComment.attributedText = attributedText
         }
     }
 }
@@ -310,18 +327,27 @@ extension SessionStartViewController {
     }
 
     @objc private func togetherButtonDidTapped() {
-        sessionStartView.individualButton.isHidden = true
-        sessionStartView.togetherButton.isHidden = true
-        sessionStartView.carpoolStartButton.isHidden = false
 
-        // 활성화
-        sessionStartDriverView.layer.opacity = 1.0
+        // 운전자일 때
+        if isCaptain() {
+            sessionStartView.individualButton.isHidden = true
+            sessionStartView.togetherButton.isHidden = true
+            sessionStartView.carpoolStartButton.isHidden = false
 
-        checkingCrewStatus()
+            // 활성화
+            sessionStartDriverView.layer.opacity = 1.0
 
-        // TODO: - 실제 데이터로 변경
-        crewData?.sessionStatus = .accept
-        sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
+            // notifyComment 변경
+            sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+
+            checkingCrewStatus()
+
+            // TODO: - 실제 데이터로 변경
+            crewData?.sessionStatus = .accept
+            sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
+        } else {
+            print("동승자")
+        }
     }
 
     @objc private func carpoolStartButtonDidTapped() {
@@ -404,6 +430,7 @@ extension SessionStartViewController {
 
         if isAnyCrewAccepted {
             sessionStartView.carpoolStartButton.isEnabled = true
+            sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
             print(".accept있음")
         } else {
             sessionStartView.carpoolStartButton.isEnabled = false
