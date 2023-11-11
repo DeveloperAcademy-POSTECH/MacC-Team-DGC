@@ -28,7 +28,8 @@ final class RuleDescriptionViewController: UIViewController {
         }
         closeInfoButton.snp.makeConstraints { make in
             make.width.height.equalTo(28)
-            make.top.trailing.equalTo(ruleDescriptionView).inset(-8)
+            make.top.equalTo(ruleDescriptionView.snp.top).offset(-8)
+            make.trailing.equalTo(ruleDescriptionView.snp.trailing).offset(8)
         }
 
         view.addSubview(blurView)
