@@ -394,6 +394,10 @@ extension SessionStartViewController {
             sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
             sessionStartDriverView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
+            sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+            sessionStartView.individualButton.isEnabled = false
+            sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+            sessionStartView.togetherButton.isEnabled = false
             sessionStartDriverView.layer.opacity = 1.0
         } else {    // 크루원이 클릭했을 때 -> 텍스트 변경
             if crewData?.sessionStatus == .waiting {    // 운전자가 미응답일 때
