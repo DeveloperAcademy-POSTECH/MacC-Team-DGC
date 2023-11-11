@@ -35,6 +35,21 @@ final class SessionStartViewController: UIViewController {
         // TODO: - 비동기 처리로 변경해주기
         settingData()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if SceneDelegate.isCrewCreated {
+            showGuide()
+            SceneDelegate.isCrewCreated = false // 변경을 처리한 후 다시 초기화
+        }
+    }
+
+    private func showGuide() {
+        let ruleDescriptionViewController = RuleDescriptionViewController()
+        ruleDescriptionViewController.modalPresentationStyle = .overCurrentContext
+        present(ruleDescriptionViewController, animated: true)
+    }
+
 }
 
 // MARK: Layout

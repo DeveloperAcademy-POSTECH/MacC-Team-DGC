@@ -22,7 +22,7 @@ final class NoticeLateViewController: UIViewController {
         super.viewDidLoad()
 
         let customDetent = UISheetPresentationController.Detent.custom(identifier: .init("customDetent")) { _ in
-            return 320
+            return 301
         }
 
         if let sheet = sheetPresentationController {
@@ -45,11 +45,6 @@ final class NoticeLateViewController: UIViewController {
         noticeLateView.lateFiveMinutesButton.addTarget(
             self,
             action: #selector(lateFiveMinutesButtonDidTap),
-            for: .touchUpInside
-        )
-        noticeLateView.lateTenMinutesButton.addTarget(
-            self,
-            action: #selector(lateTenMinutesButtonDidTap),
             for: .touchUpInside
         )
     }
