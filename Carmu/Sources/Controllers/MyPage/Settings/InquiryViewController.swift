@@ -25,6 +25,10 @@ final class InquiryViewController: UIViewController {
             make.edges.equalToSuperview()
         }
 
+        inquiryView.question1Button.addTarget(self, action: #selector(moveToQuestionDetailView), for: .touchUpInside)
+        inquiryView.question2Button.addTarget(self, action: #selector(moveToQuestionDetailView), for: .touchUpInside)
+        inquiryView.question3Button.addTarget(self, action: #selector(moveToQuestionDetailView), for: .touchUpInside)
+
         inquiryView.inquiryTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
         inquiryView.inquiryTableView.dataSource = self
         inquiryView.inquiryTableView.delegate = self
@@ -33,6 +37,13 @@ final class InquiryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "문의하기"
+    }
+
+    // 자주 묻는 질문 클릭 시 질문 상세 뷰로 이동
+    // TODO: - 질문 별로 다른 내용 전달되도록 수정 필요
+    @objc private func moveToQuestionDetailView() {
+        let questionDetailVC = QuestionDetailViewController()
+        navigationController?.pushViewController(questionDetailVC, animated: true)
     }
 
     // MARK: - 이메일 작성 화면 띄우기

@@ -39,7 +39,7 @@ final class InquiryView: UIView {
     }()
 
     // 질문 1
-    private let question1Button: UIButton = {
+    let question1Button: UIButton = {
         let question1Button = UIButton()
         let question1Text = "자주 묻는 질문, 하나\n크루는 하나 이상 만들 수는 없나요?"
 
@@ -84,7 +84,7 @@ final class InquiryView: UIView {
     }()
 
     // 질문 2
-    private let question2Button: UIButton = {
+    let question2Button: UIButton = {
         let question2Button = UIButton()
         let question2Text = "자주 묻는 질문, 둘\n크루는 하나 이상 만들 수는 없나요?"
 
@@ -129,7 +129,7 @@ final class InquiryView: UIView {
     }()
 
     // 질문 3
-    private let question3Button: UIButton = {
+    let question3Button: UIButton = {
         let question3Button = UIButton()
         let question3Text = "자주 묻는 질문, 셋\n크루는 하나 이상 만들 수는 없나요?"
 
