@@ -101,12 +101,23 @@ extension SessionStartViewController {
 }
 
 // MARK: - 크루가 있을 때 - 공통
+/**
+ 경우의 수가 매우 많아 헷갈리지 않기 위해 모든 메서드를 다음과 같이 분리하겠습니다.
+    if 운전자인 경우
+        - waiting
+        - accept
+        - decline
+        - sessionStart
+    else 동승자인 경우
+        - waiting
+        - accept
+        - decline
+        - sessionStart
+ */
 extension SessionStartViewController {
 
     private func settingCrewView() {
-
         sessionStartNoCrewView.isHidden = true
-
         if isCaptain() {
             settingDriverView()
         } else {
@@ -116,69 +127,94 @@ extension SessionStartViewController {
 
     private func settingData() {
 
-        if crewData?.sessionStatus == .waiting {    // 미응답일 때
+        // 운전자일 때
+        if isCaptain() {
+            settingDriverData()
+        } else {    // 동승자일 때
+            settingPassengerData()
+        }
+    }
+
+    // 운전자일 때
+    private func settingDriverData() {
+        guard let crewData = crewData else { return }
+
+        switch crewData.sessionStatus {
+        case .waiting:
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
+        case .accept:
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
+        case .decline:
+            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+            sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+
+            settingDataDecline()
+        case .sessionStart:
+            settingDataSessionStart()
+        }
+    }
+
+    // 동승자일 때
+    private func settingPassengerData() {
+        guard let crewData = crewData else { return }
+
+        switch crewData.sessionStatus {
+        case .waiting:
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
-            if !isCaptain() {    // 동승자일 때
-                sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "HourglassBlinker")
-                sessionStartPassengerView.passengerFrontView.statusLabel.text = "운전자의 확인을 기다리고 있어요"
-            }
-        } else if crewData?.sessionStatus == .accept {  // 당일 운행을 할 때
+            sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "HourglassBlinker")
+            sessionStartPassengerView.passengerFrontView.statusLabel.text = "운전자의 확인을 기다리고 있어요"
+        case .accept:
+            // 당일 운행이 없다는 뷰 숨기기
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
             sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
             sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
-            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
-            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
-        } else if crewData?.sessionStatus == .decline {    // 당일 운행을 하지 않을 때
-            sessionStartView.topComment.text = ""
-            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+        case .decline:
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
-
             sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀이 운행되지 않아요"
             sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.negative
+            sessionStartView.notifyComment.text = "운전자의 사정으로\n오늘은 카풀이 운행되지 않아요"
 
-            if isCaptain() {
-                sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
-            } else {
-                sessionStartView.notifyComment.text = "운전자의 사정으로\n오늘은 카풀이 운행되지 않아요"
-            }
-
-            // 활성화
-            sessionStartDriverView.layer.opacity = 1.0
-
-            // TODO: - 버튼 색상 상의하기 !
-            sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-            sessionStartView.individualButton.isEnabled = false
-            sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-            sessionStartView.togetherButton.isEnabled = false
+            settingDataDecline()
+        case .sessionStart:
+            settingDataSessionStart()
         }
+    }
 
-        // TODO: - 실제 데이터로 변경
-        // 세션이 시작 중이면 버튼 텍스트 변경
-        guard let crewData = crewData else { return }
-        if crewData.sessionStatus == .sessionStart {
-            sessionStartView.individualButton.isHidden = true
-            sessionStartView.togetherButton.isHidden = true
-            sessionStartView.carpoolStartButton.isHidden = false
-            sessionStartDriverView.layer.opacity = 1.0
-            sessionStartView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
+    // 공통으로 사용되는 것
+    // settingData - .decline
+    private func settingDataDecline() {
+        sessionStartView.topComment.text = ""
+        sessionStartDriverView.layer.opacity = 1.0
+        sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+        sessionStartView.individualButton.isEnabled = false
+        sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+        sessionStartView.togetherButton.isEnabled = false
+    }
 
-            // notifyComment 변경하기
-            sessionStartView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
-            let attributedText = NSMutableAttributedString(string: sessionStartView.notifyComment.text ?? "")
-            if let range1 = sessionStartView.notifyComment.text?.range(of: "현재 운행중인 카풀") {
-                let nsRange1 = NSRange(range1, in: sessionStartView.notifyComment.text ?? "")
-                attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                            value: UIColor.semantic.textTertiary as Any,
-                                            range: nsRange1)
-            }
-            if let range2 = sessionStartView.notifyComment.text?.range(of: "카풀 지도보기") {
-                let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text ?? "")
-                attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                            value: UIColor.semantic.textTertiary as Any,
-                                            range: nsRange2)
-            }
-            sessionStartView.notifyComment.attributedText = attributedText
+    // settingData - .sessionStart
+    private func settingDataSessionStart() {
+        sessionStartView.individualButton.isHidden = true
+        sessionStartView.togetherButton.isHidden = true
+        sessionStartView.carpoolStartButton.isHidden = false
+        sessionStartDriverView.layer.opacity = 1.0
+        sessionStartView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
+
+        // notifyComment 변경하기
+        sessionStartView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
+        let attributedText = NSMutableAttributedString(string: sessionStartView.notifyComment.text ?? "")
+        if let range1 = sessionStartView.notifyComment.text?.range(of: "현재 운행중인 카풀") {
+            let nsRange1 = NSRange(range1, in: sessionStartView.notifyComment.text ?? "")
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.textTertiary as Any,
+                                        range: nsRange1)
         }
+        if let range2 = sessionStartView.notifyComment.text?.range(of: "카풀 지도보기") {
+            let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text ?? "")
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.textTertiary as Any,
+                                        range: nsRange2)
+        }
+        sessionStartView.notifyComment.attributedText = attributedText
     }
 }
 
@@ -441,13 +477,15 @@ extension SessionStartViewController {
     /// 버튼들 addTarget
     private func setTargetButton() {
         sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
-        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
-        sessionStartView.carpoolStartButton.addTarget(self,
-                                                      action: #selector(carpoolStartButtonDidTapped),
-                                                      for: .touchUpInside)
         sessionStartView.individualButton.addTarget(self,
                                                     action: #selector(individualButtonDidTapped),
                                                     for: .touchUpInside)
+        sessionStartView.togetherButton.addTarget(self,
+                                                  action: #selector(togetherButtonDidTapped),
+                                                  for: .touchUpInside)
+        sessionStartView.carpoolStartButton.addTarget(self,
+                                                      action: #selector(carpoolStartButtonDidTapped),
+                                                      for: .touchUpInside)
     }
 
     // TODO: - Firebase 형식에 맞게 변경
@@ -466,14 +504,12 @@ extension SessionStartViewController {
             return status == .accept
         }
 
-        if isAnyCrewAccepted {
+        if isAnyCrewAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
             sessionStartView.carpoolStartButton.isEnabled = true
             sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
-            print(".accept있음")
-        } else {
+        } else {    // 수락한 크루원이 없을 때
             sessionStartView.carpoolStartButton.isEnabled = false
             sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
-            print("없음")
         }
     }
 }
