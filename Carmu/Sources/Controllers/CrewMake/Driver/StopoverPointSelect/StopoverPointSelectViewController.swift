@@ -133,7 +133,7 @@ extension StopoverPointSelectViewController {
     }
 
     @objc private func findAddressButtonTapped(_ sender: UIButton) {
-        let detailViewController = SelectDetailStopoverPointViewController()
+        let detailViewController = SelectDetailStopoverPointViewController(crewData: crewData)
         detailViewController.addressSelectionHandler = { addressDTO in
             var point = Point()
             point.name = addressDTO.pointName

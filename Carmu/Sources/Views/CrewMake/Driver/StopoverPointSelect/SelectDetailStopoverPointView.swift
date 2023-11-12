@@ -197,7 +197,7 @@ extension SelectDetailStopoverPointView {
         }
     }
 
-    func showPoints(points: Point1) {
+    func showPoints(points: PointLatLng) {
         startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
         startingPoint.anchor = CGPoint(x: 0.5, y: 0.5)
         startingPoint.mapView = mapView
