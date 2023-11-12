@@ -16,17 +16,17 @@ final class CrewInfoCheckViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
     var selectedDay: Set<DayOfWeek> = []
 
-    var crewInfoData: Crew? // 크루 데이터
+    var userCrewData: Crew? // 불러온 유저의 크루 데이터
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
-        // TODO: - 크루 데이터 불러오기
-        guard let crewData = crewData else {
-            return
+        // TODO: - 크루 데이터 DB에서 불러오기
+        if let crewData = crewData {
+            userCrewData = crewData
+            updateCrewContents(crewData: userCrewData)
         }
-        crewInfoData = crewData
 
         // 백버튼 텍스트 제거
         navigationController?.navigationBar.topItem?.title = ""
@@ -52,11 +52,6 @@ final class CrewInfoCheckViewController: UIViewController {
 
     // 뷰 컨트롤러의 버튼들 관련 세팅
     private func performButtonSettings() {
-        crewInfoCheckView.daySelectButton.setTitle(
-            // TODO: 크루에 설정된 정보 받아서 세팅하도록 수정해야 함
-            setDayButtonTitle(selectedDay),
-            for: .normal
-        )
         crewInfoCheckView.exitCrewButton.addTarget(
             self,
             action: #selector(exitCrewButtonTapped),
@@ -102,6 +97,71 @@ final class CrewInfoCheckViewController: UIViewController {
         crewInfoCheckView.crewNameLabel.text = newCrewName
     }
 
+    // MARK: - 크루 데이터에 맞게 화면 정보 갱신
+    private func updateCrewContents(crewData: Crew?) {
+        guard let crewData = crewData else {
+            return
+        }
+        // 크루 이름
+        crewInfoCheckView.crewNameLabel.text = crewData.name
+
+        // 반복 요일 버튼 설정
+        for dayInt in crewData.repeatDay {
+            // 반복 요일 정수값을 DayOfWeek 값으로 변환한 값을 selectedDay에 넣어준다.
+            let dayOfWeekValue = DayOfWeek(rawValue: dayInt)
+            guard let dayOfWeekValue = dayOfWeekValue else {
+                return
+            }
+            selectedDay.insert(dayOfWeekValue)
+        }
+        // 갱신된 selectedDay 값에 맞게 뷰에 반영
+        let buttonFont = UIFont.carmuFont.subhead3
+        var titleAttr = AttributedString(setDayButtonTitle(selectedDay))
+        titleAttr.font = buttonFont
+        titleAttr.foregroundColor = UIColor.semantic.textBody
+        crewInfoCheckView.daySelectButton.configuration?.attributedTitle = titleAttr
+
+        // 출발지, 경유지, 도착지 정보가 있는 셀 생성 후 CrewInfoCheckView의 locationCellStack에 추가
+        lazy var locationCellArray: [StopoverSelectButton] = {
+            var locationCellArray: [StopoverSelectButton] = []
+            let crewPointsArray: [Point?] = [
+                crewData.startingPoint,
+                crewData.stopover1,
+                crewData.stopover2,
+                crewData.stopover3,
+                crewData.destination
+            ]
+            // 경유지 포인트의 nil값 여부로 도착지의 인덱스를 계산
+            // TODO: - 계산식 깔끔하게 수정하기
+            var lastPointIdx = 1
+            if crewData.stopover1 != nil {
+                lastPointIdx = 2
+            }
+            if crewData.stopover2 != nil {
+                lastPointIdx = 3
+            }
+            if crewData.stopover3 != nil {
+                lastPointIdx = 4
+            }
+            for (index, point) in crewPointsArray.enumerated() {
+                // 크루 데이터의 point들을 뷰에 반영 (경유지가 nil이 아닐 경우)
+                if let point = point {
+                    // 종료 지점 여부 체크
+                    let isStart = (index==lastPointIdx) ? false : true
+                    let stopoverButton = StopoverSelectButton(address: point.name, isStart, time: point.arrivalTime)
+                    stopoverButton.layer.shadowColor = UIColor.clear.cgColor
+                    stopoverButton.tag = isStart ? index : lastPointIdx // 종료 지점은 lastPoingIdx로 태그 부여
+                    stopoverButton.isEnabled = false
+                    locationCellArray.append(stopoverButton)
+                }
+            }
+            return locationCellArray
+        }()
+        for locationCell in locationCellArray {
+            crewInfoCheckView.locationCellStack.addArrangedSubview(locationCell)
+        }
+    }
+
     // 크루 나가기 알럿 띄우기
     private func showCrewExitAlert() {
         let alert = UIAlertController(
@@ -139,8 +199,12 @@ extension CrewInfoCheckViewController {
 
     // [편집] 버튼 클릭 시 호출
     @objc private func startCrewEdit() {
-        // TODO: - 구현하기
         print("크루 정보 편집 시작")
+        // 내비게이션 타이틀 크루명으로 설정
+        let crewEditVC = CrewEditViewController(
+            crewName: crewInfoCheckView.crewNameLabel.text ?? ""
+        )
+        navigationController?.pushViewController(crewEditVC, animated: true)
     }
 
     // [크루 나가기] 버튼 클릭 시 호출

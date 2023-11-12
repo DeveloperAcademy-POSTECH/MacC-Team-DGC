@@ -12,7 +12,7 @@ import UIKit
  */
 final class StopoverSelectButton: UIButton {
 
-    private let addressLabel: UILabel = {
+    let addressLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.semantic.textPrimary
         label.font = UIFont.carmuFont.headline1
@@ -28,7 +28,7 @@ final class StopoverSelectButton: UIButton {
         return label
     }()
 
-    private let detailTimeLabel: UILabel = {
+    let detailTimeLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.semantic.textPrimary
         label.font = UIFont.carmuFont.subhead3
