@@ -28,20 +28,7 @@ final class FinalConfirmView: UIView {
     private let containerStack = UIStackView()
     private let colorLine = CrewMakeUtil.createColorLineView()
     private var customTableStack = UIStackView()
-    lazy var customStackCell: [StopoverSelectButton] = {
-        var buttons: [StopoverSelectButton] = []
-
-        for (index, address) in ["출발지 주소", "경유지 주소", "경유지 2의 주소지 주소지 입니다.", "도착지 주소"].enumerated() {
-            // TODO: 들어오는 데이터에 맞춰 변형될 수 있도록 변경해야 함.
-            let isStart = index == 3 ? false : true
-            let button = StopoverSelectButton(address: address, isStart, time: Date())
-
-            button.tag = index
-            button.isEnabled = false
-            buttons.append(button)
-        }
-        return buttons
-    }()
+    lazy var customStackCell = [StopoverSelectButton]()
 
     let nextButton = NextButton(buttonTitle: "카풀 초대하기")
 
