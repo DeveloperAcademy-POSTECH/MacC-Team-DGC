@@ -357,31 +357,15 @@ extension FirebaseManager {
         호출되는 곳
             FinalConfirmViewController
      */
-    func addCrew(
-        crewName: String,
-        startingPoint: Point,
-        destination: Point,
-        inviteCode: String,
-        repeatDay: [Int]
-    ) {
+    func addCrew(crewData: Crew) {
         guard let key = Database.database().reference().child("crew").childByAutoId().key else {
             return
         }
         guard let captainID = KeychainItem.currentUserIdentifier else { return }
         // DB에 추가할 크루 객체
-        let newCrew = Crew(
-            id: key,
-            name: crewName,
-            // crewImage 추가 필요
-            captainID: captainID,
-            crews: [],
-            startingPoint: startingPoint,
-            destination: destination,
-            inviteCode: inviteCode,
-            repeatDay: repeatDay,
-            sessionStatus: .waiting,
-            crewStatus: [:]
-        )
+        var newCrew = crewData
+        newCrew.captainID = captainID
+        newCrew.id = key
         setCrewToUser(captainID, key)
 
         do {

@@ -11,6 +11,16 @@ final class StopoverPointSelectViewController: UIViewController {
 
     private let stopoverPointSelectView = StopoverPointSelectView()
     private var stopoverCount = 1
+    var crewData: Crew
+
+    init(crewData: Crew) {
+        self.crewData = crewData
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -122,7 +132,21 @@ extension StopoverPointSelectViewController {
     @objc private func findAddressButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectDetailStopoverPointViewController()
         detailViewController.addressSelectionHandler = { addressDTO in
-            // TODO: 다음 작업에 Model에 값 적재하는 로직 구현 필요
+            var point = Point()
+            point.name = addressDTO.pointName
+            point.detailAddress = addressDTO.pointDetailAddress
+            point.latitude = addressDTO.pointLat
+            point.longitude = addressDTO.pointLng
+
+            switch sender.titleLabel?.text {
+            case "     경유지 1 검색":
+                self.crewData.stopover1 = point
+            case "     경유지 2 검색":
+                self.crewData.stopover2 = point
+            default:
+                self.crewData.stopover3 = point
+            }
+
             sender.setTitle("     \(addressDTO.pointName ?? "")", for: .normal)
         }
         present(detailViewController, animated: true)
@@ -130,7 +154,7 @@ extension StopoverPointSelectViewController {
 
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
-        let viewController = TimeSelectViewController()
+        let viewController = TimeSelectViewController(crewData: crewData)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -141,7 +165,12 @@ import SwiftUI
 struct SOPViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = StopoverPointSelectViewController
     func makeUIViewController(context: Context) -> StopoverPointSelectViewController {
-        return StopoverPointSelectViewController()
+        return StopoverPointSelectViewController(
+            crewData: Crew(
+                crews: [UserIdentifier](),
+                crewStatus: [UserIdentifier: Status]()
+            )
+        )
     }
     func updateUIViewController(_ uiViewController: StopoverPointSelectViewController, context: Context) {}
 }

@@ -44,7 +44,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         var rootViewController: UIViewController
         if Auth.auth().currentUser != nil {
             if SceneDelegate.isFirst {
-                rootViewController = StopoverPointCheckViewController()
+                rootViewController = PositionSelectViewController()
             } else {
                 rootViewController = SessionStartViewController()
             }

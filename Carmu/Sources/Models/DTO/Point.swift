@@ -17,12 +17,12 @@ import Foundation
  crews: 해당 경유지에서 타는 인원들
  */
 struct Point: Codable {
-    var name: String
-    var detailAddress: String
-    var latitude: Double
-    var longitude: Double
-    var arrivalTime: Date
-    var crews: [UserIdentifier]
+    var name: String?
+    var detailAddress: String?
+    var latitude: Double?
+    var longitude: Double?
+    var arrivalTime: Date?
+    var crews: [UserIdentifier]?
 }
 
 // Point 더미 데이터

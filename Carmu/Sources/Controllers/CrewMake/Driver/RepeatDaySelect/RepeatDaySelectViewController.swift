@@ -14,6 +14,16 @@ final class RepeatDaySelectViewController: UIViewController {
     private let repeatDaySelectView = RepeatDaySelectView()
     private var selectedButton: DaySelectButton?
     private var selectedRows = Set<DayOfWeek>()
+    var crewData: Crew
+
+    init(crewData: Crew) {
+        self.crewData = crewData
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,8 +77,10 @@ extension RepeatDaySelectViewController {
     }
 
     @objc private func nextButtonTapped() {
-        // TODO: 다음화면 이동 구현 필요
-        let viewController = FinalConfirmViewController()
+        let selectedDayIntegers = selectedRows.map { $0.rawValue }
+        crewData.repeatDay = selectedDayIntegers
+
+        let viewController = FinalConfirmViewController(crewData: crewData)
         viewController.selectedDay = selectedRows
         navigationController?.pushViewController(viewController, animated: true)
     }
@@ -188,7 +200,12 @@ import SwiftUI
 struct RDSViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = RepeatDaySelectViewController
     func makeUIViewController(context: Context) -> RepeatDaySelectViewController {
-        return RepeatDaySelectViewController()
+        return RepeatDaySelectViewController(
+            crewData: Crew(
+                crews: [UserIdentifier](),
+                crewStatus: [UserIdentifier: Status]()
+            )
+        )
     }
     func updateUIViewController(_ uiViewController: RepeatDaySelectViewController, context: Context) {}
 }
