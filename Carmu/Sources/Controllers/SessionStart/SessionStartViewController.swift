@@ -176,6 +176,9 @@ extension SessionStartViewController {
 
             settingDataDecline()
         case .sessionStart:
+            sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
+            sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
+
             settingDataSessionStart()
         }
     }
@@ -198,6 +201,18 @@ extension SessionStartViewController {
         sessionStartView.carpoolStartButton.isHidden = false
         sessionStartDriverView.layer.opacity = 1.0
         sessionStartView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
+
+        // topComment 변경
+        sessionStartView.topComment.text = "\(crewData?.name ?? "그룹명")이\n시작되었습니다"
+        // 특정 부분 색상 넣기
+        let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData?.name ?? "그룹명")") {
+            let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
+                                        value: UIColor.semantic.accPrimary as Any,
+                                        range: nsRange1)
+        }
+        sessionStartView.topComment.attributedText = topCommentText
 
         // notifyComment 변경하기
         sessionStartView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
@@ -427,37 +442,58 @@ extension SessionStartViewController {
 
         // 운전자가 클릭했을 때
         if isCaptain() {
-            sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
-            sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
-            sessionStartDriverView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
+            settingIndividualButtonForDriver()
+        } else {    // 동승자가 클릭했을 때
+            settingIndividualButtonForPassenger()
+        }
+    }
+}
+
+// MARK: - individualButton Methods
+extension SessionStartViewController {
+
+    // 운전자일 때
+    private func settingIndividualButtonForDriver() {
+        guard let crewData = crewData else { return }
+
+        // 모든 경우에 같은 화면임
+        sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+        sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = false
+        sessionStartDriverView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
+        sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+        sessionStartView.individualButton.isEnabled = false
+        sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+        sessionStartView.togetherButton.isEnabled = false
+        sessionStartDriverView.layer.opacity = 1.0
+    }
+
+    // 동승자일 때
+    private func settingIndividualButtonForPassenger() {
+        guard let crewData = crewData else { return }
+
+        switch crewData.sessionStatus {
+        case .waiting:
+            sessionStartView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+            sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+            sessionStartView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
+        case .accept:
+            sessionStartView.topComment.text = ""
+            sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
+            sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
+            sessionStartView.notifyComment.text = ""
+            sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
             sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
             sessionStartView.individualButton.isEnabled = false
             sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
             sessionStartView.togetherButton.isEnabled = false
-            sessionStartDriverView.layer.opacity = 1.0
-        } else {    // 크루원이 클릭했을 때 -> 텍스트 변경
-            if crewData?.sessionStatus == .waiting {    // 운전자가 미응답일 때
-                sessionStartView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
-                sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
-            } else if crewData?.sessionStatus == .accept {  // 운전자가 운행할 때
-                sessionStartView.topComment.text = ""
-                sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
-                sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
-                sessionStartView.notifyComment.text = ""
-                sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
-                sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.individualButton.isEnabled = false
-                sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.togetherButton.isEnabled = false
-            } else if crewData?.sessionStatus == .decline {    // 운전자가 거절했을 때
-                sessionStartView.topComment.text = ""
-                sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.individualButton.isEnabled = false
-                sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.togetherButton.isEnabled = false
-            }
-
+        case .decline:
+            sessionStartView.topComment.text = ""
+            sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+            sessionStartView.individualButton.isEnabled = false
+            sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+            sessionStartView.togetherButton.isEnabled = false
+        case .sessionStart: break
+            // sessionStart일 때는 해당 버튼이 나타나지 않음
         }
     }
 }
