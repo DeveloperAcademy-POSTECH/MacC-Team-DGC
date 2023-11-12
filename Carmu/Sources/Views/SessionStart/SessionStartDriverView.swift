@@ -267,6 +267,21 @@ extension DriverFrontView: UICollectionViewDataSource {
             cell.userNameLabel.text = crewID
         }
         cell.profileImageView.image = UIImage(profileImageColor: userData[indexPath.row].profileImageColor)
+
+        // TODO: - 실제 데이터로 변경
+        // 운전자가 당일 운전을 진행할 때 글자 색상 변경
+        if crewData?.sessionStatus == .accept {
+            if let crewStatus = crewData?.crewStatus[crewID] {
+                if crewStatus == .accept {  // 크루원이 함께 간다고 했을 때
+                    cell.statusLabel.textColor = UIColor.semantic.accPrimary
+                    cell.statusLabel.font = UIFont.carmuFont.subhead3
+                } else if crewStatus == .decline {  // 크루원이 함께 가지 않는다고 했을 떄
+                    cell.statusLabel.textColor = UIColor.semantic.negative
+                    cell.statusLabel.font = UIFont.carmuFont.subhead3
+                }
+            }
+        }
+
         return cell
     }
 
