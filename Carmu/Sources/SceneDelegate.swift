@@ -13,7 +13,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     // TODO: 추후 AppStorage 처리 추가 필요. 개발 편의를 위해 static 변수로 둠.
-    static var isFirst = true
+    static var isFirst: Bool {
+        get {
+            return UserDefaults.standard.object(forKey: "isFirst") as? Bool ?? true
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isFirst")
+        }
+    }
     static var isCrewCreated = false
 
     func scene(
@@ -42,6 +49,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func updateRootViewController() {
         var rootViewController: UIViewController
+        print(SceneDelegate.isFirst)
         if Auth.auth().currentUser != nil {
             if SceneDelegate.isFirst {
                 rootViewController = PositionSelectViewController()
