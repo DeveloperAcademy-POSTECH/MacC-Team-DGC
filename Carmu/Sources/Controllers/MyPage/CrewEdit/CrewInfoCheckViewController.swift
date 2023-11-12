@@ -208,8 +208,12 @@ extension CrewInfoCheckViewController {
     @objc private func startCrewEdit() {
         print("크루 정보 편집 시작")
         // 내비게이션 타이틀 크루명으로 설정
+        guard let userCrewData = userCrewData else {
+            return
+        }
         let crewEditVC = CrewEditViewController(
-            crewName: crewInfoCheckView.crewNameLabel.text ?? ""
+            // TODO: - 실제 크루 데이터로 전달하도록 수정
+            userCrewData: userCrewData
         )
         navigationController?.pushViewController(crewEditVC, animated: true)
     }

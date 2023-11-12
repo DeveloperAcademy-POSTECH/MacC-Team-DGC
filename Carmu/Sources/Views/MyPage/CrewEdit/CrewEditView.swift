@@ -66,7 +66,7 @@ import SwiftUI
 struct CrewEditViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = CrewEditViewController
     func makeUIViewController(context: Context) -> CrewEditViewController {
-        return CrewEditViewController(crewName: "크루명")
+        return CrewEditViewController(userCrewData: crewData!) // 프리뷰라서 강제 바인딩 했습니다.
     }
     func updateUIViewController(_ uiViewController: CrewEditViewController, context: Context) {
     }

@@ -14,10 +14,11 @@ final class CrewEditViewController: UIViewController {
 
     private let crewEditView = CrewEditView()
     private let firebaseManager = FirebaseManager()
-    var crewName: String
+    var userCrewData: Crew? // 불러온 유저의 크루 데이터
 
-    init(crewName: String) {
-        self.crewName = crewName
+    init(userCrewData: Crew) {
+        // TODO: - 실제 DB 데이터 받아오도록 수정
+        self.userCrewData = userCrewData
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -48,8 +49,7 @@ final class CrewEditViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        navigationItem.title = "크루명"
-        navigationItem.title = crewName
+        navigationItem.title = userCrewData?.name // 내비게이션 제목 크루 이름으로 설정
     }
 }
 
