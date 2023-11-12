@@ -49,7 +49,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func updateRootViewController() {
         var rootViewController: UIViewController
-        print(SceneDelegate.isFirst)
         if Auth.auth().currentUser != nil {
             if SceneDelegate.isFirst {
                 rootViewController = PositionSelectViewController()

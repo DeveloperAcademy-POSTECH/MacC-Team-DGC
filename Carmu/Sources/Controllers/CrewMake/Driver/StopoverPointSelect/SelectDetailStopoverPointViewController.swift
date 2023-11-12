@@ -120,7 +120,6 @@ extension SelectDetailStopoverPointViewController {
      */
     private func mapBoundSetting() {
         let bounds = mapBoundsForPoints(points: points)
-        print("bounds: ", bounds)
         let cameraUpdate = NMFCameraUpdate(fit: bounds, padding: 50)
         stopoverPointMapView.mapView.moveCamera(cameraUpdate)
         currentLatLng = bounds.center
@@ -148,7 +147,6 @@ extension SelectDetailStopoverPointViewController {
             latLngs.append(latLng3)
         }
         latLngs.append(points.destination)
-        print("latLngs: ", latLngs)
         return NMGLatLngBounds(latLngs: latLngs)
     }
 
