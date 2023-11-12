@@ -40,22 +40,22 @@ final class SelectDetailStopoverPointViewController: UIViewController {
             )
         )
 
-        if let stopover1 = crewData.stopover1 {
+        if crewData.stopover1 != nil {
             self.points.pickupLocation1 = NMGLatLng(
-                lat: crewData.destination?.latitude ?? 37.234,
-                lng: crewData.destination?.longitude ?? 132.232
+                lat: crewData.stopover1?.latitude ?? 37.234,
+                lng: crewData.stopover1?.longitude ?? 132.232
             )
         }
-        if let stopover2 = crewData.stopover2 {
+        if crewData.stopover2 != nil {
             self.points.pickupLocation2 = NMGLatLng(
-                lat: crewData.destination?.latitude ?? 37.234,
-                lng: crewData.destination?.longitude ?? 132.232
+                lat: crewData.stopover2?.latitude ?? 37.234,
+                lng: crewData.stopover2?.longitude ?? 132.232
             )
         }
-        if let stopover3 = crewData.stopover3 {
+        if crewData.stopover3 != nil {
             self.points.pickupLocation3 = NMGLatLng(
-                lat: crewData.destination?.latitude ?? 37.234,
-                lng: crewData.destination?.longitude ?? 132.232
+                lat: crewData.stopover3?.latitude ?? 37.234,
+                lng: crewData.stopover3?.longitude ?? 132.232
             )
         }
         super.init(nibName: nil, bundle: nil)
@@ -120,6 +120,7 @@ extension SelectDetailStopoverPointViewController {
      */
     private func mapBoundSetting() {
         let bounds = mapBoundsForPoints(points: points)
+        print("bounds: ", bounds)
         let cameraUpdate = NMFCameraUpdate(fit: bounds, padding: 50)
         stopoverPointMapView.mapView.moveCamera(cameraUpdate)
         currentLatLng = bounds.center
@@ -147,7 +148,7 @@ extension SelectDetailStopoverPointViewController {
             latLngs.append(latLng3)
         }
         latLngs.append(points.destination)
-
+        print("latLngs: ", latLngs)
         return NMGLatLngBounds(latLngs: latLngs)
     }
 
@@ -252,6 +253,7 @@ extension SelectDetailStopoverPointViewController: NMFMapViewCameraDelegate {
             )
         )
         currentLatLng = center
+        print("currentLatLng: ", currentLatLng)
         // 주소와 건물명 가져오기
         getAddressAndBuildingName(for: center) { buildingName, detailAddress in
             // 주소와 건물명을 업데이트
