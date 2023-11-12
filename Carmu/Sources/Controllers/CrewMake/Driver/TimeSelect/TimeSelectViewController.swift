@@ -32,6 +32,37 @@ final class TimeSelectViewController: UIViewController {
 
     init(crewData: Crew) {
         self.crewData = crewData
+        self.timeSelectView.customTableVieWCell = {
+            var cells: [TimeSelectCellView] = []
+            var timeAddressTuple: [(String?, Date)] = []
+            var arrivalTime = Date()
+
+            timeAddressTuple.append((crewData.startingPoint?.name, arrivalTime))
+            if let stopover1 = crewData.stopover1 {
+                arrivalTime += 600
+                timeAddressTuple.append((stopover1.name, arrivalTime))
+            }
+            if let stopover2 = crewData.stopover2 {
+                arrivalTime += 600
+                timeAddressTuple.append((stopover2.name, arrivalTime))
+            }
+            if let stopover3 = crewData.stopover3 {
+                arrivalTime += 600
+                timeAddressTuple.append((stopover3.name, arrivalTime))
+            }
+            arrivalTime += 600
+            timeAddressTuple.append((crewData.destination?.name, arrivalTime))
+
+            for (index, (address, time)) in timeAddressTuple.enumerated() {
+                let isStart = index == timeAddressTuple.count - 1 ? false : true
+                let cellView = TimeSelectCellView(address: address ?? "주소", isStart, time: time)
+                cellView.detailTimeButton.setTitle(Date.formattedDate(from: time, dateFormat: "aa hh:mm"), for: .normal)
+                cellView.detailTimeButton.tag = index
+                cells.append(cellView)
+            }
+            return cells
+        }()
+
         super.init(nibName: nil, bundle: nil)
     }
 

@@ -19,23 +19,22 @@ final class TimeSelectView: UIView {
     lazy var selectTableStack = UIStackView()
     private lazy var colorLine = CrewMakeUtil.createColorLineView()
     var customTableView = UIStackView()
-    lazy var customTableVieWCell: [TimeSelectCellView] = {
-        var cells: [TimeSelectCellView] = []
-        var timeAddressDict = [
-            ("출발지 주소", Date.now),
-            ("경유지 주소", Date.now + 600),
-            ("경유지 2주소 입니다dddfdfd", Date.now + 1200),
-            ("도착지 주소", Date.now + 1800)
-        ]
-        for (index, (address, time)) in timeAddressDict.enumerated() {
-            let isStart = index == timeAddressDict.count - 1 ? false : true
-            let cellView = TimeSelectCellView(address: address, isStart, time: time)
-            cellView.detailTimeButton.setTitle(Date.formattedDate(from: time, dateFormat: "aa hh:mm"), for: .normal)
-            cellView.detailTimeButton.tag = index
-            cells.append(cellView)
-        }
-        return cells
-    }()
+    lazy var customTableVieWCell = [TimeSelectCellView]()
+//        var cells: [TimeSelectCellView] = []
+//        var timeAddressDict = [
+//            ("출발지 주소", Date.now),
+//            ("경유지 주소", Date.now + 600),
+//            ("경유지 2 주소", Date.now + 1200),
+//            ("도착지 주소", Date.now + 1800)
+//        ]
+//        for (index, (address, time)) in timeAddressDict.enumerated() {
+//            let isStart = index == timeAddressDict.count - 1 ? false : true
+//            let cellView = TimeSelectCellView(address: address, isStart, time: time)
+//            cellView.detailTimeButton.setTitle(Date.formattedDate(from: time, dateFormat: "aa hh:mm"), for: .normal)
+//            cellView.detailTimeButton.tag = index
+//            cells.append(cellView)
+//        }
+//        return cells
 
     lazy var nextButton: UIButton = {
         let button = UIButton()

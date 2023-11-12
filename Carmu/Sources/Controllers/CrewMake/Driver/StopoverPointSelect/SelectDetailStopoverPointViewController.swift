@@ -253,7 +253,6 @@ extension SelectDetailStopoverPointViewController: NMFMapViewCameraDelegate {
             )
         )
         currentLatLng = center
-        print("currentLatLng: ", currentLatLng)
         // 주소와 건물명 가져오기
         getAddressAndBuildingName(for: center) { buildingName, detailAddress in
             // 주소와 건물명을 업데이트

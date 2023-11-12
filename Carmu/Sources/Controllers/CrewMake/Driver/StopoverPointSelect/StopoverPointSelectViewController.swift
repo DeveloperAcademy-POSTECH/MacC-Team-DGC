@@ -12,6 +12,7 @@ final class StopoverPointSelectViewController: UIViewController {
     private let stopoverPointSelectView = StopoverPointSelectView()
     private var stopoverCount = 1
     var crewData: Crew
+    var pointList: [Point] = []
 
     init(crewData: Crew) {
         self.crewData = crewData
@@ -144,10 +145,13 @@ extension StopoverPointSelectViewController {
             switch sender.titleLabel?.text {
             case "     경유지 1 검색":
                 self.crewData.stopover1 = point
+                self.pointList.insert(point, at: 0)
             case "     경유지 2 검색":
                 self.crewData.stopover2 = point
+                self.pointList.insert(point, at: 1)
             default:
                 self.crewData.stopover3 = point
+                self.pointList.insert(point, at: 2)
             }
 
             sender.setTitle("     \(addressDTO.pointName ?? "")", for: .normal)
@@ -156,7 +160,7 @@ extension StopoverPointSelectViewController {
     }
 
     @objc private func nextButtonTapped() {
-        // TODO: 다음화면 이동 구현 필요
+        // TODO: pointList를 활용하여 최종 다음 화면으로 갈 때만 데이터 적재할 수 있도록 로직 변경
         let viewController = TimeSelectViewController(crewData: crewData)
         navigationController?.pushViewController(viewController, animated: true)
     }
