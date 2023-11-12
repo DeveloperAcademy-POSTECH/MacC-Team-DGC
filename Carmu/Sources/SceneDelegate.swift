@@ -75,6 +75,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         NotificationCenter.default.post(name: Notification.Name("IsFirstChanged"), object: nil)
     }
 
+    // TODO: - 내비게이션 바 버튼 색이 자꾸 .clear로 변하기 때문에 다른 방법 필요
     private func removeBackButtonTitle() {
         let attributes = [NSAttributedString.Key.foregroundColor: UIColor.clear]
         UIBarButtonItem.appearance().setTitleTextAttributes(attributes, for: .normal)
