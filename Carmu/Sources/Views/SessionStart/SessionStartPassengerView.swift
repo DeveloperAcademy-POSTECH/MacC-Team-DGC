@@ -115,13 +115,13 @@ final class PassengerFrontView: UIView {
         view.layer.cornerRadius = 16
         return view
     }()
-    private lazy var statusImageView: UIImageView = {
+    lazy var statusImageView: UIImageView = {
         let image = UIImage(named: "HourglassBlinker")
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
-    private lazy var statusLabel: UILabel = {
+    lazy var statusLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.carmuFont.subhead3
         label.textColor = UIColor.semantic.textPrimary

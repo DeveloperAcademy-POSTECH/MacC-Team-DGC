@@ -15,6 +15,8 @@
 		163422382AFE67A400196EB2 /* RuleDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163422372AFE67A400196EB2 /* RuleDescriptionView.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
 		164E823D2AF53AB400848BFF /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E823C2AF53AB400848BFF /* Point.swift */; };
+		165055AD2AFF54C50049EF73 /* StopOverInfoLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165055AC2AFF54C50049EF73 /* StopOverInfoLeftView.swift */; };
+		165055AF2AFF603D0049EF73 /* StopOverInfoRightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165055AE2AFF603D0049EF73 /* StopOverInfoRightView.swift */; };
 		1667F61D2AFC622400393111 /* CrewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
@@ -29,6 +31,10 @@
 		B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */; };
 		B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */; };
 		B83E23F02AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B83E23EF2AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift */; };
+		B84006AE2B00B2570009DCD2 /* CrewEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84006AD2B00B2570009DCD2 /* CrewEditViewController.swift */; };
+		B84006B02B00B2690009DCD2 /* CrewEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84006AF2B00B2690009DCD2 /* CrewEditView.swift */; };
+		B84B41852B000EFC007AC36F /* QuestionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84B41842B000EFC007AC36F /* QuestionDetailViewController.swift */; };
+		B84B41872B000F0D007AC36F /* QuestionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84B41862B000F0D007AC36F /* QuestionDetailView.swift */; };
 		B8726B1E2AFDB9990084B49C /* CrewInfoCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8726B1D2AFDB9990084B49C /* CrewInfoCheckView.swift */; };
 		B8726B222AFDBA240084B49C /* CrewInfoCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
@@ -131,6 +137,8 @@
 		163422352AFE636000196EB2 /* RuleDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDescriptionViewController.swift; sourceTree = "<group>"; };
 		163422372AFE67A400196EB2 /* RuleDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDescriptionView.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		165055AC2AFF54C50049EF73 /* StopOverInfoLeftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopOverInfoLeftView.swift; sourceTree = "<group>"; };
+		165055AE2AFF603D0049EF73 /* StopOverInfoRightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopOverInfoRightView.swift; sourceTree = "<group>"; };
 		1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewCollectionViewCell.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
@@ -145,6 +153,10 @@
 		B83E23E92AF34E550048ED9A /* ProfileChangeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileChangeViewController.swift; sourceTree = "<group>"; };
 		B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageColor.swift; sourceTree = "<group>"; };
 		B83E23EF2AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageColorCollectionViewCell.swift; sourceTree = "<group>"; };
+		B84006AD2B00B2570009DCD2 /* CrewEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewEditViewController.swift; sourceTree = "<group>"; };
+		B84006AF2B00B2690009DCD2 /* CrewEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewEditView.swift; sourceTree = "<group>"; };
+		B84B41842B000EFC007AC36F /* QuestionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionDetailViewController.swift; sourceTree = "<group>"; };
+		B84B41862B000F0D007AC36F /* QuestionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionDetailView.swift; sourceTree = "<group>"; };
 		B8726B1D2AFDB9990084B49C /* CrewInfoCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoCheckView.swift; sourceTree = "<group>"; };
 		B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoCheckViewController.swift; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmu.entitlements; sourceTree = "<group>"; };
@@ -305,6 +317,7 @@
 				B8D73ABE2AD2914200D211DE /* SettingsView.swift */,
 				B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */,
 				B8D73AC22AD2FBE600D211DE /* InquiryView.swift */,
+				B84B41862B000F0D007AC36F /* QuestionDetailView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -315,6 +328,7 @@
 				B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */,
 				B8EECE992AC96B5F004D310C /* InquiryViewController.swift */,
 				B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */,
+				B84B41842B000EFC007AC36F /* QuestionDetailViewController.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -323,6 +337,7 @@
 			isa = PBXGroup;
 			children = (
 				B8726B1D2AFDB9990084B49C /* CrewInfoCheckView.swift */,
+				B84006AF2B00B2690009DCD2 /* CrewEditView.swift */,
 			);
 			path = CrewEdit;
 			sourceTree = "<group>";
@@ -331,6 +346,7 @@
 			isa = PBXGroup;
 			children = (
 				B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */,
+				B84006AD2B00B2570009DCD2 /* CrewEditViewController.swift */,
 			);
 			path = CrewEdit;
 			sourceTree = "<group>";
@@ -472,6 +488,8 @@
 				16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */,
 				16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */,
+				165055AC2AFF54C50049EF73 /* StopOverInfoLeftView.swift */,
+				165055AE2AFF603D0049EF73 /* StopOverInfoRightView.swift */,
 				161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */,
 				163422372AFE67A400196EB2 /* RuleDescriptionView.swift */,
 			);
@@ -818,11 +836,13 @@
 				BFFA10B22AE61012003CE661 /* NoticeLateViewController.swift in Sources */,
 				C93116662AF382260014E702 /* StopoverPointCheckViewController.swift in Sources */,
 				C9D8E4E02AF482B9007570EE /* RepeatDaySelectViewController.swift in Sources */,
+				B84B41872B000F0D007AC36F /* QuestionDetailView.swift in Sources */,
 				C9D04C6E2AFB81B2007E615B /* StopoverPointSelectView.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
 				C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */,
 				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
 				161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */,
+				B84006B02B00B2690009DCD2 /* CrewEditView.swift in Sources */,
 				C9D8E4E82AF48650007570EE /* CodeShareViewController.swift in Sources */,
 				C931167A2AF3B69F0014E702 /* SelectAddressDTO.swift in Sources */,
 				C9D8E4E62AF484F3007570EE /* FinalConfirmViewController.swift in Sources */,
@@ -842,6 +862,7 @@
 				C9D04C6B2AFB7864007E615B /* AddressSelectButtonView.swift in Sources */,
 				C9D04C732AFC65BE007E615B /* StopoverPointAddButtonView.swift in Sources */,
 				B83E23F02AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift in Sources */,
+				165055AD2AFF54C50049EF73 /* StopOverInfoLeftView.swift in Sources */,
 				163422382AFE67A400196EB2 /* RuleDescriptionView.swift in Sources */,
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
@@ -870,6 +891,7 @@
 				BF37D9CD2AB939A3005331AD /* AppDelegate.swift in Sources */,
 				C93116782AF3B6310014E702 /* DefaultAddressTableViewCell.swift in Sources */,
 				164E823D2AF53AB400848BFF /* Point.swift in Sources */,
+				B84006AE2B00B2570009DCD2 /* CrewEditViewController.swift in Sources */,
 				C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
 				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
@@ -883,6 +905,7 @@
 				C95462152AF74D46004C4F6D /* TimeSelectCellView.swift in Sources */,
 				16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
+				165055AF2AFF603D0049EF73 /* StopOverInfoRightView.swift in Sources */,
 				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
 				B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
@@ -912,6 +935,7 @@
 				C95462192AF75A42004C4F6D /* TimeSelectModalViewController.swift in Sources */,
 				B8376E4A2AF9BC51007F1E0A /* NameEditView.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,
+				B84B41852B000EFC007AC36F /* QuestionDetailViewController.swift in Sources */,
 				C904D1582AD57942008BF5CE /* Friendship.swift in Sources */,
 				B8376E482AF9BBB1007F1E0A /* NameEditViewController.swift in Sources */,
 			);

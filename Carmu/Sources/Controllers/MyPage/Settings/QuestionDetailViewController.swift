@@ -1,15 +1,15 @@
 //
-//  PrivacyViewController.swift
+//  QuestionDetailViewController.swift
 //  Carmu
 //
-//  Created by 김영빈 on 2023/10/01.
+//  Created by 김영빈 on 2023/11/12.
 //
 
 import UIKit
 
-final class PrivacyViewController: UIViewController {
+final class QuestionDetailViewController: UIViewController {
 
-    private let privacyView = PrivacyView()
+    private let questionDetailView = QuestionDetailView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,14 +17,14 @@ final class PrivacyViewController: UIViewController {
 
         navigationController?.navigationBar.topItem?.title = "" // 백버튼 텍스트 제거
 
-        view.addSubview(privacyView)
-        privacyView.snp.makeConstraints { make in
+        view.addSubview(questionDetailView)
+        questionDetailView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.bottom.equalToSuperview()
         }
     }
 
     override func viewWillAppear(_ animated: Bool) {
-        navigationItem.title = "개인정보 처리방침"
+        navigationItem.title = "자주 묻는 질문"
     }
 }

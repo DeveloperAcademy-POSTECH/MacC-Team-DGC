@@ -13,7 +13,7 @@ final class CrewInfoCheckView: UIView {
     // 상단 크루 이름
     let crewNameLabel: UILabel = {
         let crewNameLabel = CrewMakeUtil.carmuCustomLabel(
-            text: "크루 이름",
+            text: "운좋은 카풀팟",
             font: UIFont.carmuFont.display1,
             textColor: UIColor.semantic.textPrimary ?? .black
         )
@@ -56,13 +56,27 @@ final class CrewInfoCheckView: UIView {
     }()
 
     // 요일 확인 라벨
-    let daySelectButton: DaySelectButton = {
-        let button = DaySelectButton(buttonTitle: "")
-        button.backgroundColor = UIColor.semantic.backgroundSecond
-        button.setTitleColor(UIColor.semantic.textBody, for: .normal)
-        button.titleLabel?.numberOfLines = 1
-        button.contentHorizontalAlignment = .center
-        return button
+    let daySelectButton: UIButton = {
+        let daySelectButton = UIButton()
+
+        let buttonFont = UIFont.carmuFont.subhead3
+        var titleAttr = AttributedString("")
+        titleAttr.font = buttonFont
+        titleAttr.foregroundColor = UIColor.semantic.textBody
+
+        var config = UIButton.Configuration.filled()
+        config.attributedTitle = titleAttr
+        config.background.cornerRadius = 15
+        config.contentInsets = NSDirectionalEdgeInsets(
+            top: 4,
+            leading: 12,
+            bottom: 4,
+            trailing: 12
+        )
+        config.baseBackgroundColor = UIColor.semantic.backgroundSecond
+        daySelectButton.configuration = config
+
+        return daySelectButton
     }()
 
     // 크루 정보 확인 화면 중앙 컨테이너 스택
@@ -77,28 +91,11 @@ final class CrewInfoCheckView: UIView {
     private let colorLine = CrewMakeUtil.createColorLineView()
 
     // 경로를 쌓을 스택
-    private var locationCellStack: UIStackView = {
+    var locationCellStack: UIStackView = {
         let locationCellStack = UIStackView()
         locationCellStack.axis = .vertical
         locationCellStack.distribution = .equalSpacing
         return locationCellStack
-    }()
-
-    // 각 경로 셀
-    lazy var locationCellArray: [StopoverSelectButton] = {
-        var buttons: [StopoverSelectButton] = []
-
-        // TODO: - 크루의 경유지 데이터로 바꿔줘야 함
-        for (index, address) in ["출발지 주소", "경유지1 주소", "경유지2 주소", "도착지 주소"].enumerated() {
-            // TODO: 들어오는 데이터에 맞춰 변형될 수 있도록 변경해야 함.
-            let isStart = (index==3) ? false : true
-            let button = StopoverSelectButton(address: address, isStart, time: Date())
-            button.layer.shadowColor = UIColor.clear.cgColor
-            button.tag = index
-            button.isEnabled = false
-            buttons.append(button)
-        }
-        return buttons
     }()
 
     // 크루 나가기 버튼
@@ -166,6 +163,7 @@ final class CrewInfoCheckView: UIView {
 
         addSubview(daySelectButton)
         daySelectButton.snp.makeConstraints { make in
+            make.top.equalTo(crewNameEditButton.snp.bottom).offset(24)
             make.trailing.equalToSuperview().inset(20)
         }
 
@@ -178,11 +176,8 @@ final class CrewInfoCheckView: UIView {
         addSubview(containerStack)
         containerStack.addArrangedSubview(colorLine)
         containerStack.addArrangedSubview(locationCellStack)
-        for locationCell in locationCellArray {
-            locationCellStack.addArrangedSubview(locationCell)
-        }
         containerStack.snp.makeConstraints { make in
-            make.top.equalTo(crewNameEditButton.snp.bottom).offset(70) // TODO: - 카풀 요일 라벨에 맞추기
+            make.top.equalTo(daySelectButton.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(exitCrewButton.snp.top).offset(-40)
         }

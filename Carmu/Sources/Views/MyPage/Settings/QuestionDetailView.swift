@@ -1,24 +1,25 @@
 //
-//  PrivacyView.swift
+//  QuestionDetailView.swift
 //  Carmu
 //
-//  Created by 김영빈 on 2023/10/08.
+//  Created by 김영빈 on 2023/11/12.
 //
 
 import UIKit
 
-// MARK: - 개인정보 처리방침 뷰
-final class PrivacyView: UIView {
+// MARK: - 자주 묻는 질문 뷰
+// TODO: - 개인정보 처리방침 뷰와 똑같음 (재사용 뷰로 분리 필요)
+final class QuestionDetailView: UIView {
 
-    // 상단 메인 문구
+    // 상단 메인 문구 (질문)
     private let mainLabel: UILabel = {
         let mainLabel = UILabel()
         mainLabel.numberOfLines = 0
         mainLabel.font = UIFont.carmuFont.headline2
         mainLabel.textColor = UIColor.semantic.textPrimary
-        let mainLabelText = "당신의 카풀생활이\n오래갈 수 있도록 Carmu."
+        let mainLabelText = "많은 사람들과 카풀을 하고 있는데, 크루는 하나 이상 만들 수는 없나요?"
         let attributedText = NSMutableAttributedString(string: mainLabelText)
-        if let range1 = mainLabelText.range(of: "카풀생활") {
+        if let range1 = mainLabelText.range(of: "카풀") {
             let nsRange1 = NSRange(range1, in: mainLabelText)
             attributedText.addAttribute(
                 NSAttributedString.Key.foregroundColor,
@@ -26,7 +27,7 @@ final class PrivacyView: UIView {
                 range: nsRange1
             )
         }
-        if let range2 = mainLabelText.range(of: "Carmu.") {
+        if let range2 = mainLabelText.range(of: "하나 이상") {
             let nsRange2 = NSRange(range2, in: mainLabelText)
             attributedText.addAttribute(
                 NSAttributedString.Key.foregroundColor,
@@ -41,24 +42,24 @@ final class PrivacyView: UIView {
     // 상단 서브 문구
     private let subLabel: UILabel = {
         let subLabel = UILabel()
-        subLabel.text = "이용자님의 개인정보를 위해 아래 처리 방침을 준수합니다."
+        subLabel.text = "상세한 문의사항이 있으시다면 1:1 문의하기로 문의주세요!"
         subLabel.font = UIFont.carmuFont.body2Long
         subLabel.textColor = UIColor.semantic.textBody
         return subLabel
     }()
 
-    // 개인정보 처리방침 내용 박스
-    private let privacyContentView: UIView = {
+    // 답변 내용 박스
+    private let answerContentView: UIView = {
         let privacyContentView = UIView()
         privacyContentView.layer.cornerRadius = 20
         privacyContentView.backgroundColor = UIColor.semantic.backgroundDefault
         return privacyContentView
     }()
 
-    // 개인정보 처리방침 내용
-    private let privacyContent: UILabel = {
+    // 답변 내용
+    private let answerContent: UILabel = {
         let privacyContent = UILabel()
-        privacyContent.text = "제 1조 1항\n개인정보라 함은 oooo이다."
+        privacyContent.text = "간략한 답변\n상세 변명 어쩌구..."
         privacyContent.textColor = UIColor.semantic.textPrimary
         privacyContent.numberOfLines = 0
         // TODO: - NSMutableAttributedString 활용해서 내용 채우기
@@ -108,14 +109,14 @@ final class PrivacyView: UIView {
             make.height.equalTo(18)
         }
 
-        addSubview(privacyContentView)
-        privacyContentView.snp.makeConstraints { make in
+        addSubview(answerContentView)
+        answerContentView.snp.makeConstraints { make in
             make.top.equalTo(subLabel.snp.bottom).offset(40)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(appLogo.snp.bottom).offset(-40)
         }
-        privacyContentView.addSubview(privacyContent)
-        privacyContent.snp.makeConstraints { make in
+        answerContentView.addSubview(answerContent)
+        answerContent.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(32)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
@@ -125,17 +126,17 @@ final class PrivacyView: UIView {
 // MARK: - 프리뷰 canvas 세팅
 import SwiftUI
 
-struct PrivacyViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = PrivacyViewController
-    func makeUIViewController(context: Context) -> PrivacyViewController {
-        return PrivacyViewController()
+struct QuestionDetailVCRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = QuestionDetailViewController
+    func makeUIViewController(context: Context) -> QuestionDetailViewController {
+        return QuestionDetailViewController()
     }
-    func updateUIViewController(_ uiViewController: PrivacyViewController, context: Context) {
+    func updateUIViewController(_ uiViewController: QuestionDetailViewController, context: Context) {
     }
 }
 @available(iOS 13.0.0, *)
-struct PrivacyViewPreview: PreviewProvider {
+struct QuestionDetailViewPreview: PreviewProvider {
     static var previews: some View {
-        PrivacyViewControllerRepresentable()
+        QuestionDetailVCRepresentable()
     }
 }
