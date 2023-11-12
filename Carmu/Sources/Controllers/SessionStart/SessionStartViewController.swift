@@ -44,6 +44,7 @@ final class SessionStartViewController: UIViewController {
         }
     }
 
+    // 가이드 화면 보여주는 메서드
     private func showGuide() {
         let ruleDescriptionViewController = RuleDescriptionViewController()
         ruleDescriptionViewController.modalPresentationStyle = .overCurrentContext
@@ -70,6 +71,7 @@ extension SessionStartViewController {
 // MARK: - 크루가 없을 때
 extension SessionStartViewController {
 
+    // 크루가 없을 때의 뷰 세팅
     private func settingNoCrewView() {
         sessionStartView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
@@ -116,6 +118,7 @@ extension SessionStartViewController {
  */
 extension SessionStartViewController {
 
+    // 크루가 있을 때의 세팅
     private func settingCrewView() {
         sessionStartNoCrewView.isHidden = true
         if isCaptain() {
