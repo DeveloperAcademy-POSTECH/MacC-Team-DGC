@@ -154,6 +154,7 @@ extension SessionStartViewController {
             settingDataDecline()
         case .sessionStart:
             settingDataSessionStart()
+        case .none: break
         }
     }
 
@@ -183,6 +184,7 @@ extension SessionStartViewController {
             sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
 
             settingDataSessionStart()
+        case .none: break
         }
     }
 
@@ -497,6 +499,7 @@ extension SessionStartViewController {
             sessionStartView.togetherButton.isEnabled = false
         case .sessionStart: break
             // sessionStart일 때는 해당 버튼이 나타나지 않음
+        case .none: break
         }
     }
 }
