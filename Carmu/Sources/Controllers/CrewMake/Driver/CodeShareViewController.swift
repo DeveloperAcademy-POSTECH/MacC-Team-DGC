@@ -45,6 +45,11 @@ final class CodeShareViewController: UIViewController {
             make.edges.equalToSuperview()
         }
     }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        SceneDelegate.updateIsFirstValue(false)
+        SceneDelegate.isCrewCreated = true
+    }
 }
 
 // MARK: - @objc Method

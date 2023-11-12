@@ -556,8 +556,8 @@
 			isa = PBXGroup;
 			children = (
 				C95462122AF74BFC004C4F6D /* StartEndPointSelect */,
-				C9D04C6F2AFB81E1007E615B /* StopoverPointSelect */,
 				C93116652AF382260014E702 /* StopoverPointCheckViewController.swift */,
+				C9D04C6F2AFB81E1007E615B /* StopoverPointSelect */,
 				C95462132AF74C0B004C4F6D /* TimeSelect */,
 				C95462212AF7B2B0004C4F6D /* RepeatDaySelect */,
 				C9D8E4E52AF484F3007570EE /* FinalConfirmViewController.swift */,

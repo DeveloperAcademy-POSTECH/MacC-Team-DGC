@@ -10,6 +10,7 @@ import UIKit
 final class StartEndPointSelectViewController: UIViewController {
 
     private let startEndPointSelectView = StartEndPointSelectView()
+    var crewData = Crew(crews: [UserIdentifier](), crewStatus: [UserIdentifier: Status]())
 
     private var startPointAddress: String? {
         didSet {
@@ -69,28 +70,27 @@ extension StartEndPointSelectViewController {
         let detailViewController = SelectAddressViewController()
         let navigation = UINavigationController(rootViewController: detailViewController)
 
-        detailViewController.selectAddressView.headerTitleLabel.text = {
-            if sender.titleLabel?.text == "     출발지 검색" {
-                return "출발지 주소 설정"
-            } else {
-                return "도착지 주소 설정"
-            }
-        }()
-
         detailViewController.addressSelectionHandler = { [weak self] addressDTO in
+            var point = Point()
+            point.name = addressDTO.pointName
+            point.detailAddress = addressDTO.pointDetailAddress
+            point.latitude = addressDTO.pointLat
+            point.longitude = addressDTO.pointLng
+
             if sender.titleLabel?.text == "     출발지 검색" {
                 self?.startPointAddress = addressDTO.pointName
+                self?.crewData.startingPoint = point
             } else {
                 self?.endPointAddress = addressDTO.pointName
+                self?.crewData.destination = point
             }
-            // TODO: 다음 작업에 Model에 값 적재하는 로직 구현 필요
         }
         present(navigation, animated: true)
     }
 
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
-        let viewController = StopoverPointCheckViewController()
+        let viewController = StopoverPointCheckViewController(crewData: crewData)
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
