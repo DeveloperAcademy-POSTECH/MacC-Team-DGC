@@ -18,18 +18,18 @@ import Foundation
  crewStatus: 크루원의 출석 여부
  */
 struct Crew: Codable {
-    var id: String
-    var name: String
-    var captainID: UserIdentifier
+    var id: String?
+    var name: String?
+    var captainID: UserIdentifier?
     var crews: [UserIdentifier]
-    var startingPoint: Point
+    var startingPoint: Point?
     var stopover1: Point?
     var stopover2: Point?
     var stopover3: Point?
-    var destination: Point
-    var inviteCode: String
-    var repeatDay: [Int]
-    var sessionStatus: Status
+    var destination: Point?
+    var inviteCode: String?
+    var repeatDay: [Int]?
+    var sessionStatus: Status?
     var crewStatus: [UserIdentifier: Status]
 }
 

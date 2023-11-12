@@ -197,33 +197,33 @@ extension SelectDetailStopoverPointView {
         }
     }
 
-    func showPoints(points: Point1) {
+    func showPoints(points: PointLatLng) {
         startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
         startingPoint.anchor = CGPoint(x: 0.5, y: 0.5)
         startingPoint.mapView = mapView
 
         if let coordinate = points.pickupLocation1 {
             pickupLocation1.hidden = false
-            pickupLocation1.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            pickupLocation1.position = coordinate
             pickupLocation1.anchor = CGPoint(x: 0.5, y: 0.5)
             pickupLocation1.mapView = mapView
         }
 
         if let coordinate = points.pickupLocation2 {
             pickupLocation2.hidden = false
-            pickupLocation2.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            pickupLocation2.position = coordinate
             pickupLocation2.anchor = CGPoint(x: 0.5, y: 0.5)
             pickupLocation2.mapView = mapView
         }
 
         if let coordinate = points.pickupLocation3 {
             pickupLocation3.hidden = false
-            pickupLocation3.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            pickupLocation3.position = coordinate
             pickupLocation3.anchor = CGPoint(x: 0.5, y: 0.5)
             pickupLocation3.mapView = mapView
         }
 
-        destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
+        destination.position = points.destination
         destination.anchor = CGPoint(x: 0.5, y: 0.5)
         destination.mapView = mapView
     }

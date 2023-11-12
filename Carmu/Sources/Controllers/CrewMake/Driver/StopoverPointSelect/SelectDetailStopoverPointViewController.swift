@@ -10,22 +10,60 @@ import UIKit
 import NMapsMap
 
 /**
- 개발용 임시 Point 모델
+ 이 컨트롤러에서만 사용하는 NMGLatLng Model
  */
-struct Point1 {
-    let startingPoint = NMGLatLng(lat: 36.01759520, lng: 129.32206275)
-    let pickupLocation1: NMGLatLng? = nil
-    let pickupLocation2: NMGLatLng? = nil
-    let pickupLocation3: NMGLatLng? = nil
-    let destination = NMGLatLng(lat: 36.0108783, lng: 129.327818)
+struct PointLatLng {
+    var startingPoint: NMGLatLng
+    var pickupLocation1: NMGLatLng?
+    var pickupLocation2: NMGLatLng?
+    var pickupLocation3: NMGLatLng?
+    var destination: NMGLatLng
 }
 
 final class SelectDetailStopoverPointViewController: UIViewController {
 
     private let stopoverPointMapView = SelectDetailStopoverPointView()
     var addressSelectionHandler: ((AddressDTO) -> Void)?
-    private let points = Point1()
+    private var points: PointLatLng
     private var addressDTO = AddressDTO()
+    private var currentLatLng: NMGLatLng?
+
+    init(crewData: Crew) {
+        self.points = PointLatLng(
+            startingPoint: NMGLatLng(
+                lat: crewData.startingPoint?.latitude ?? 37.234,
+                lng: crewData.startingPoint?.longitude ?? 132.232
+            ),
+            destination: NMGLatLng(
+                lat: crewData.destination?.latitude ?? 37.234,
+                lng: crewData.destination?.longitude ?? 132.232
+            )
+        )
+
+        if crewData.stopover1 != nil {
+            self.points.pickupLocation1 = NMGLatLng(
+                lat: crewData.stopover1?.latitude ?? 37.234,
+                lng: crewData.stopover1?.longitude ?? 132.232
+            )
+        }
+        if crewData.stopover2 != nil {
+            self.points.pickupLocation2 = NMGLatLng(
+                lat: crewData.stopover2?.latitude ?? 37.234,
+                lng: crewData.stopover2?.longitude ?? 132.232
+            )
+        }
+        if crewData.stopover3 != nil {
+            self.points.pickupLocation3 = NMGLatLng(
+                lat: crewData.stopover3?.latitude ?? 37.234,
+                lng: crewData.stopover3?.longitude ?? 132.232
+            )
+        }
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,6 +96,9 @@ extension SelectDetailStopoverPointViewController {
     @objc private func saveButtonAction() {
         // TODO: 데이터 전달 구현
         addressDTO.pointName = stopoverPointMapView.buildingNameLabel.text
+        addressDTO.pointDetailAddress = stopoverPointMapView.detailAddressLabel.text
+        addressDTO.pointLat = currentLatLng?.lat
+        addressDTO.pointLng = currentLatLng?.lng
         addressSelectionHandler?(addressDTO)
         dismiss(animated: true)
     }
@@ -72,11 +113,19 @@ extension SelectDetailStopoverPointViewController {
     private func navigationSetting() {
         stopoverPointMapView.showPoints(points: points)
         fetchDirections()
+    }
+
+    /**
+     출발, 도착, 경유지를 한 화면에 표시할 수 있는 영역을 보이도록 CameraUpdate 하는 메서드
+     */
+    private func mapBoundSetting() {
+        let bounds = mapBoundsForPoints(points: points)
+        let cameraUpdate = NMFCameraUpdate(fit: bounds, padding: 50)
+        stopoverPointMapView.mapView.moveCamera(cameraUpdate)
+        currentLatLng = bounds.center
+
         getAddressAndBuildingName(
-            for: NMGLatLng(
-                lat: calculateCenter(points: points, isLng: false),
-                lng: calculateCenter(points: points)
-            )
+            for: bounds.center
         ) { buildingName, detailAddress in
             // 주소와 건물명을 업데이트
             self.stopoverPointMapView.buildingNameLabel.text = buildingName
@@ -84,16 +133,7 @@ extension SelectDetailStopoverPointViewController {
         }
     }
 
-    /**
-     출발, 도착, 경유지를 한 화면에 표시할 수 있는 영역을 보이도록 CameraUpdate 하는 메서드
-     */
-    private func mapBoundSetting() {
-        let bounds = mapBoundsForPoints(points: Point1())
-        let cameraUpdate = NMFCameraUpdate(fit: bounds, padding: 50)
-        stopoverPointMapView.mapView.moveCamera(cameraUpdate)
-    }
-
-    private func mapBoundsForPoints(points: Point1) -> NMGLatLngBounds {
+    private func mapBoundsForPoints(points: PointLatLng) -> NMGLatLngBounds {
         var latLngs: [NMGLatLng] = []
 
         latLngs.append(points.startingPoint)
@@ -107,21 +147,7 @@ extension SelectDetailStopoverPointViewController {
             latLngs.append(latLng3)
         }
         latLngs.append(points.destination)
-
         return NMGLatLngBounds(latLngs: latLngs)
-    }
-
-    /**
-     중간 지점의 좌표를 반환하는 메서드
-        (기본값 : 경도 반환
-        isLng = false : 위도 반환)
-     */
-    private func calculateCenter(points: Point1, isLng: Bool = true) -> Double {
-        if isLng {
-            return (points.startingPoint.lng + points.destination.lng) / 2
-        } else {
-            return (points.startingPoint.lat + points.destination.lat) / 2
-        }
     }
 
     private func fetchDirections() {
@@ -224,7 +250,7 @@ extension SelectDetailStopoverPointViewController: NMFMapViewCameraDelegate {
                 y: mapView.frame.size.height / 2
             )
         )
-
+        currentLatLng = center
         // 주소와 건물명 가져오기
         getAddressAndBuildingName(for: center) { buildingName, detailAddress in
             // 주소와 건물명을 업데이트
@@ -242,7 +268,12 @@ struct SDSPControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = SelectDetailStopoverPointViewController
 
     func makeUIViewController(context: Context) -> SelectDetailStopoverPointViewController {
-        return SelectDetailStopoverPointViewController()
+        return SelectDetailStopoverPointViewController(
+            crewData: Crew(
+                crews: [UserIdentifier](),
+                crewStatus: [UserIdentifier: Status]()
+            )
+        )
     }
 
     func updateUIViewController(_ uiViewController: SelectDetailStopoverPointViewController, context: Context) {}

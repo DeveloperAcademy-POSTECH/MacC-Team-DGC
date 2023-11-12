@@ -52,6 +52,7 @@ extension PositionSelectViewController {
 
     @objc private func skipButtonTapped() {
         SceneDelegate.updateIsFirstValue(false)
+        UserDefaults.standard.set(false, forKey: "isFirst")
     }
 }
 
