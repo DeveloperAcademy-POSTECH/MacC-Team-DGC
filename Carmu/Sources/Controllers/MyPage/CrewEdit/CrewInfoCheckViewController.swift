@@ -106,7 +106,10 @@ final class CrewInfoCheckViewController: UIViewController {
         crewInfoCheckView.crewNameLabel.text = crewData.name
 
         // 반복 요일 버튼 설정
-        for dayInt in crewData.repeatDay {
+        guard let repeatDay = crewData.repeatDay else {
+            return
+        }
+        for dayInt in repeatDay {
             // 반복 요일 정수값을 DayOfWeek 값으로 변환한 값을 selectedDay에 넣어준다.
             let dayOfWeekValue = DayOfWeek(rawValue: dayInt)
             guard let dayOfWeekValue = dayOfWeekValue else {
@@ -148,7 +151,11 @@ final class CrewInfoCheckViewController: UIViewController {
                 if let point = point {
                     // 종료 지점 여부 체크
                     let isStart = (index==lastPointIdx) ? false : true
-                    let stopoverButton = StopoverSelectButton(address: point.name, isStart, time: point.arrivalTime)
+                    let stopoverButton = StopoverSelectButton(
+                        address: point.name ?? "",
+                        isStart,
+                        time: point.arrivalTime ?? Date()
+                    )
                     stopoverButton.layer.shadowColor = UIColor.clear.cgColor
                     stopoverButton.tag = isStart ? index : lastPointIdx // 종료 지점은 lastPoingIdx로 태그 부여
                     stopoverButton.isEnabled = false
