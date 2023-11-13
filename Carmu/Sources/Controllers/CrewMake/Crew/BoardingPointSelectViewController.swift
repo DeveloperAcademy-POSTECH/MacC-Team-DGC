@@ -99,11 +99,32 @@ extension BoardingPointSelectViewController {
         // TODO: 다음화면 이동 구현 필요
         firebaseManager.setCrewToUser(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
         firebaseManager.setUserToCrew(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
+        firebaseManager.setUserToPoint(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "", setUserToPoint())
 
         if SceneDelegate.isFirst {
             SceneDelegate.updateIsFirstValue(false)
         } else {
             // 초기 화면이 아닐 경우(건너가기 후 그룹코드 입력)
+        }
+    }
+}
+
+// MARK: - custom Method
+extension BoardingPointSelectViewController {
+
+    /**
+     경유지 선택 화면에서 선택된 버튼의 인덱스를 String으로 변환하는 메서드
+     */
+    private func setUserToPoint() -> String {
+        switch selectedPoint {
+        case 0:
+            return "startingPoint"
+        case 1:
+            return "stopover1"
+        case 2:
+            return "stopover2"
+        default:
+            return "stopover3"
         }
     }
 }

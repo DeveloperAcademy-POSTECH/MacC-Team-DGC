@@ -408,6 +408,8 @@ extension FirebaseManager {
 
     /**
      크루 만들기에서 추가된 크루의 crews, crewStatus에 user의 값을 집어넣는 메서드
+         호출되는 곳
+             BoardingPointSelectViewController
      */
     func setUserToCrew(_ userID: String, _ crewID: String) {
         let databaseRef = Database.database().reference().child("crew/\(crewID)")
@@ -417,7 +419,7 @@ extension FirebaseManager {
                 print(error.localizedDescription)
                 return
             }
-            
+
             if var crews = snapshot?.value as? [String] {
                 crews.append(userID)
                 databaseRef.child("crews").setValue(crews as NSArray)
@@ -441,6 +443,32 @@ extension FirebaseManager {
             } else {
                 let newCrewStatus = [userID: Status.waiting.rawValue]
                 databaseRef.child("crewStatus").setValue(newCrewStatus)
+            }
+        }
+    }
+
+    /**
+     크루 만들기에서 추가된 크루 특정 Point의 crews에 userID 값을 집어넣는 메서드
+         호출되는 곳
+             BoardingPointSelectViewController
+     */
+    func setUserToPoint(_ userID: String, _ crewID: String, _ point: String) {
+        let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)/crews")
+
+        databaseRef.getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+
+            if var crews = snapshot?.value as? [String] {
+                crews.append(userID)
+                databaseRef.setValue(crews as NSArray)
+            } else {
+                // 아직 크루가 없는 경우 배열을 새로 만들어준다.
+                var newCrew = []
+                newCrew.append(userID)
+                databaseRef.setValue(newCrew as NSArray)
             }
         }
     }
