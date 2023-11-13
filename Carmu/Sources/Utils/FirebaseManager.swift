@@ -478,15 +478,12 @@ extension FirebaseManager {
      - 호출되는 곳
         - SessionStartViewController
      */
-    func readCrewID(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
-        databasePath.child("crewList").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            let crews = snapshot?.value as? [String]
-            completion(crews)
+    func readCrewID(databasePath: DatabaseReference) async throws -> [String]? {
+        do {
+            let snapshot = try await databasePath.child("crewList").getData()
+            return snapshot.value as? [String]
+        } catch {
+            throw error
         }
     }
 
@@ -495,12 +492,14 @@ extension FirebaseManager {
      - 호출되는 곳
         - SessionStartViewController
      */
-    func getUserCrew(crewID: String, completion: @escaping (Crew?) -> Void) {
+    func getUserCrew(crewID: String) async throws -> Crew? {
         let crewRef = Database.database().reference().child("crew/\(crewID)")
-        crewRef.observeSingleEvent(of: .value) { (snapshot) in
+
+        do {
+            let snapshot = try await crewRef.getData()
+
             guard let crewData = snapshot.value as? [String: Any] else {
-                completion(nil)
-                return
+                return nil
             }
 
             var crew = Crew(
@@ -525,7 +524,10 @@ extension FirebaseManager {
             if crewData["stopover3"] != nil {
                 crew.stopover3 = self.convertDataToPoint(crewData["stopover3"] as? [String: Any] ?? [:])
             }
-            completion(crew)
+
+            return crew
+        } catch {
+            throw error
         }
     }
 
@@ -542,26 +544,20 @@ extension FirebaseManager {
          }
      }
      */
-    func getCrewData(completion: @escaping (Crew?) -> Void) {
-
+    func getCrewData() async throws -> Crew? {
         guard let databasePath = User.databasePathWithUID else {
-            completion(nil)
-            return
+            return nil
         }
 
-        self.readCrewID(databasePath: databasePath) { crewList in
-            guard let crewList = crewList else {
-                completion(nil)
-                return
-            }
-            guard let crewID = crewList.first else {
-                completion(nil)
-                return
-            }
-            self.getUserCrew(crewID: crewID) { crew in
-                completion(crew) // completion 핸들러를 사용하여 crew 값을 반환
-            }
+        guard let crewList = try await readCrewID(databasePath: databasePath) else {
+            return nil
         }
+
+        guard let crewID = crewList.first else {
+            return nil
+        }
+
+        return try await getUserCrew(crewID: crewID)
     }
 
     /**
@@ -576,32 +572,23 @@ extension FirebaseManager {
          }
      }
      */
-    func isCaptain(completion: @escaping (Bool) -> Void) {
+    func checkCaptain() async throws -> Bool {
         guard let databasePath = User.databasePathWithUID else {
-            completion(false)
-            return
+            return false
         }
 
-        readCrewID(databasePath: databasePath) { crewList in
-            guard let crewList = crewList else {
-                completion(false)
-                return
-            }
-            guard let crewID = crewList.first else {
-                completion(false)
-                return
-            }
-            self.getUserCrew(crewID: crewID) { crew in
-                guard let crew = crew else {
-                    completion(false)
-                    return
-                }
-                if crew.captainID == KeychainItem.currentUserIdentifier {
-                    completion(true)
-                } else {
-                    completion(false)
-                }
-            }
+        guard let crewList = try await readCrewID(databasePath: databasePath) else {
+            return false
+        }
+
+        guard let crewID = crewList.first else {
+            return false
+        }
+
+        if let crew = try await getUserCrew(crewID: crewID), crew.captainID == KeychainItem.currentUserIdentifier {
+            return true
+        } else {
+            return false
         }
     }
 
