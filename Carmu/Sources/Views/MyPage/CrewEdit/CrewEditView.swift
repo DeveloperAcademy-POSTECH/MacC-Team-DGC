@@ -44,27 +44,26 @@ final class CrewEditView: UIView {
     }()
 
     // 좌측 경로 표시 선
-    private let colorLine = CrewMakeUtil.createColorLineView()
-    // 출발지 ~ 도착지 포인트들에 대한 설정 뷰를 쌓을 스택 뷰
-    private let pointStackView: UIStackView = {
-        let pointStackView = UIStackView()
-        pointStackView.axis = .vertical
-        pointStackView.distribution = .equalCentering
-        pointStackView.backgroundColor = .yellow
-        return pointStackView
+    let colorLine = CrewMakeUtil.createColorLineView()
+    // 경유지들에 대한 설정 뷰를 쌓을 스택 뷰
+    let stopoverStackView: UIStackView = {
+        let stopoverStackView = UIStackView()
+        stopoverStackView.axis = .vertical
+        stopoverStackView.distribution = .equalSpacing
+        stopoverStackView.spacing = 52
+        return stopoverStackView
     }()
-    private let startPoint = PointEditView(originalAddress: "추울발", originalArrivalTime: Date())
-    private let endPoint = PointEditView(originalAddress: "도착맨", originalArrivalTime: Date())
-    private lazy var stopover1 = PointEditView(originalAddress: "경유1", originalArrivalTime: Date(), hasXButton: true)
-    private lazy var stopover2 = PointEditView(originalAddress: "등유2", originalArrivalTime: Date(), hasXButton: true)
-    private lazy var stopover3 = PointEditView(originalAddress: "휘발유3", originalArrivalTime: Date(), hasXButton: true)
-    private let stopoverAddButton = StopoverPointAddButtonView()
+    let startPoint = PointEditView(originalAddress: "출발지를 검색해주세요.", originalArrivalTime: Date())
+    let endPoint = PointEditView(originalAddress: "도착지를 검색해주세요.", originalArrivalTime: Date(), isDeparture: false)
+    lazy var stopover1 = PointEditView(originalAddress: "경유지1을 검색해주세요.", originalArrivalTime: Date(), hasXButton: true)
+    lazy var stopover2 = PointEditView(originalAddress: "경유지2를 검색해주세요.", originalArrivalTime: Date(), hasXButton: true)
+    lazy var stopover3 = PointEditView(originalAddress: "경유지3을 검색해주세요.", originalArrivalTime: Date(), hasXButton: true)
+    let stopoverAddButton = StopoverPointAddButtonView()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.semantic.backgroundDefault
         setupUI()
-        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -72,59 +71,53 @@ final class CrewEditView: UIView {
     }
 
     private func setupUI() {
+        // 반복요일 버튼
         addSubview(repeatDayEditButton)
-        addSubview(colorLine)
-        addSubview(pointStackView)
-        pointStackView.addArrangedSubview(startPoint)
-        pointStackView.addArrangedSubview(stopover1)
-        pointStackView.addArrangedSubview(stopover2)
-        pointStackView.addArrangedSubview(stopover3)
-        pointStackView.addArrangedSubview(endPoint)
-        addSubview(stopoverAddButton)
-    }
-
-    private func setupConstraints() {
         repeatDayEditButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(40)
             make.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(34)
         }
 
+        // 컬러라인
+        addSubview(colorLine)
         colorLine.snp.makeConstraints { make in
             make.top.equalTo(repeatDayEditButton.snp.bottom).offset(24)
             make.leading.equalToSuperview().inset(20)
-            make.bottom.equalTo(pointStackView)
-        }
-
-        pointStackView.snp.makeConstraints { make in
-            make.top.equalTo(colorLine)
-            make.leading.equalTo(colorLine.snp.trailing).offset(12)
-            make.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(179)
         }
 
+        // 출발지
+        addSubview(startPoint)
         startPoint.snp.makeConstraints { make in
+            make.top.equalTo(colorLine)
+            make.leading.equalTo(colorLine.snp.trailing).offset(12)
+            make.trailing.equalToSuperview().inset(20)
             make.height.equalTo(54)
         }
+        // 도착지
+        addSubview(endPoint)
         endPoint.snp.makeConstraints { make in
+            make.bottom.equalTo(colorLine)
+            make.leading.equalTo(startPoint)
+            make.trailing.equalToSuperview().inset(20)
             make.height.equalTo(54)
         }
-    }
-}
 
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct CrewEditViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = CrewEditViewController
-    func makeUIViewController(context: Context) -> CrewEditViewController {
-        return CrewEditViewController(userCrewData: crewData!) // 프리뷰라서 강제 바인딩 했습니다.
-    }
-    func updateUIViewController(_ uiViewController: CrewEditViewController, context: Context) {
-    }
-}
-@available(iOS 13.0.0, *)
-struct CrewEditViewPreview: PreviewProvider {
-    static var previews: some View {
-        CrewEditViewControllerRepresentable()
+        addSubview(stopoverStackView)
+        stopoverStackView.snp.makeConstraints { make in
+            make.leading.equalTo(colorLine.snp.trailing).offset(12)
+            make.trailing.equalToSuperview().inset(20)
+            make.centerY.equalTo(colorLine)
+        }
+        stopover1.snp.makeConstraints { make in
+            make.height.equalTo(62)
+        }
+        stopover2.snp.makeConstraints { make in
+            make.height.equalTo(62)
+        }
+        stopover3.snp.makeConstraints { make in
+            make.height.equalTo(62)
+        }
     }
 }

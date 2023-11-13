@@ -7,6 +7,11 @@
 
 import UIKit
 
+enum TimeType: String {
+    case departure = "출발"
+    case arrival = "도착"
+}
+
 /**
  크루 편집 화면에서 각 경유지의 주소와 시간을 편집할 수 있는 셀 형태의 뷰
  */
@@ -35,10 +40,11 @@ final class PointEditView: UIView {
      originalArrivalTime: 기존에 설정돼있던 출발 또는 도착 시간
      hasXButton: X버튼 여부 (경유지의 경우 필요함)
      */
-    init(originalAddress: String, originalArrivalTime: Date, hasXButton: Bool = false) {
+    init(originalAddress: String, originalArrivalTime: Date, hasXButton: Bool = false, isDeparture: Bool = true) {
         super.init(frame: .zero)
 
-        backgroundColor = .red
+        // 출발 - 도착 텍스트 구분
+        timeTypeLabel.text = isDeparture ? TimeType.departure.rawValue : TimeType.arrival.rawValue
 
         // TODO: - 시간 텍스트 변환 로직 필요
         addSubview(timeEditButton)
@@ -80,10 +86,19 @@ final class PointEditView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    func enableToAdd() {
+        let stopoverAddButton = StopoverPointAddButtonView()
+        addSubview(stopoverAddButton)
+        stopoverAddButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview()
+            make.top.equalTo(addressEditButton.snp.bottom).offset(20)
+        }
+    }
 }
 
 // MARK: - 주소 편집 버튼
-class AddressEditButton: UIButton {
+final class AddressEditButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -98,6 +113,10 @@ class AddressEditButton: UIButton {
         layer.cornerRadius = 16
         layer.borderWidth = 1
         layer.borderColor = UIColor.semantic.stoke?.cgColor
+        contentHorizontalAlignment = .leading
+        var config = UIButton.Configuration.plain()
+        config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
+        configuration = config
     }
 
     required init?(coder: NSCoder) {
@@ -106,12 +125,7 @@ class AddressEditButton: UIButton {
 }
 
 // MARK: - 시간 타입 라벨
-class TimeTypeLabel: UILabel {
-
-    enum TimeType: String {
-        case departure = "출발"
-        case arrival = "도착"
-    }
+final class TimeTypeLabel: UILabel {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -130,7 +144,7 @@ class TimeTypeLabel: UILabel {
 }
 
 // MARK: - 시간 설정 버튼
-class TimeEditButton: UIButton {
+final class TimeEditButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
