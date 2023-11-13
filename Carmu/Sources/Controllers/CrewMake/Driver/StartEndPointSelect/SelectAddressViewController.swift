@@ -53,11 +53,6 @@ final class SelectAddressViewController: UIViewController {
             action: #selector(closeAddressView),
             for: .touchUpInside
         )
-        selectAddressView.addressSearchButton.addTarget(
-            self,
-            action: #selector(performAddressSearch),
-            for: .touchUpInside
-        )
         selectAddressView.clearButton.addTarget(
             self,
             action: #selector(clearButtonPressed),
@@ -86,9 +81,17 @@ final class SelectAddressViewController: UIViewController {
         )
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // 뷰가 나타남과 동시에 텍스트 필드 on
+        selectAddressView.addressSearchTextField.becomeFirstResponder()
+        isKeyboardActive = true
+    }
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         searchCompleter = nil
+        dismissTextField()
     }
 
     deinit {
@@ -102,31 +105,6 @@ extension SelectAddressViewController {
     // 상단 닫기 버튼 클릭 시 동작
     @objc private func closeAddressView() {
         dismiss(animated: true)
-    }
-
-    // [검색] 버튼을 눌렀을 때 동작
-    @objc private func performAddressSearch() {
-        if isKeyboardActive {
-            isKeyboardActive = false
-            dismissTextField()
-        }
-
-        if let searchText = selectAddressView.addressSearchTextField.text, !searchText.isEmpty {
-            // 사용자가 입력한 주소 또는 장소명
-            let address = searchText
-
-            // 주소를 이용하여 상세한 좌표를 비동기적으로 가져오기
-            getCoordinates(for: address) { result in
-                switch result {
-                case .success(let (latitude, longitude)):
-                    // 여기에서 얻은 latitude와 longitude를 사용하여 원하는 작업을 수행합니다.
-                    print("Latitude: \(latitude), Longitude: \(longitude)")
-                case .failure(let error):
-                    // 좌표를 가져올 수 없는 경우에 대한 처리를 추가.
-                    print("Failed to get coordinates for the address: \(address). Error: \(error)")
-                }
-            }
-        }
     }
 
     // 텍스트필드 clear 버튼 눌렀을 때 동작
@@ -255,13 +233,13 @@ extension SelectAddressViewController: UITextFieldDelegate {
     // 텍스트 필드의 편집이 시작될 때 호출되는 메서드
     func textFieldDidBeginEditing(_ textField: UITextField) {
         isKeyboardActive = true
-        selectAddressView.addressSearchTextFieldView.backgroundColor = UIColor.semantic.backgroundSecond
-        selectAddressView.addressSearchTextFieldView.layer.borderWidth = 0
+        selectAddressView.clearButton.isHidden = false
         selectAddressView.tableViewComponent.reloadData()
     }
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         isKeyboardActive = false
+        selectAddressView.clearButton.isHidden = true
         dismissTextField()
     }
 
@@ -282,11 +260,12 @@ extension SelectAddressViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if isKeyboardActive {
-            isKeyboardActive = false
+            // 키보드가 열려있을 경우 키보드를 닫음
             dismissTextField()
-            return
+            isKeyboardActive = false
         }
 
+        // tableView의 선택 상태를 해제
         tableView.deselectRow(at: indexPath, animated: true)
 
         if let selectedSuggestion = completerResults?[indexPath.row] {
@@ -349,6 +328,7 @@ extension SelectAddressViewController: UITableViewDataSource {
             ) as? SelectAddressTableViewCell else {
                 return UITableViewCell()
             }
+            cell.selectionStyle = .none
 
             if let suggestion = completerResults?[indexPath.row] {
                 cell.buildingNameLabel.text = suggestion.title
@@ -360,6 +340,8 @@ extension SelectAddressViewController: UITableViewDataSource {
                 withIdentifier: "defaultAddressCell",
                 for: indexPath
             ) as? DefaultAddressTableViewCell {
+                cell.selectionStyle = .none
+                cell.isUserInteractionEnabled = false
                 return cell
             }
         }

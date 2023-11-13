@@ -69,6 +69,7 @@ extension StartEndPointSelectViewController {
     @objc private func findAddressButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectAddressViewController()
         let navigation = UINavigationController(rootViewController: detailViewController)
+        navigation.navigationBar.isHidden = true
 
         detailViewController.addressSelectionHandler = { [weak self] addressDTO in
             var point = Point()
