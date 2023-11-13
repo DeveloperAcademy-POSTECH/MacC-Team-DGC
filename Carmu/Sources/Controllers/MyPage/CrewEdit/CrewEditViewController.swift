@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-// MARK: - 크루 편집 뷰 컨트롤러
+// MARK: - 마이페이지(운전자) 크루 편집 뷰 컨트롤러
 final class CrewEditViewController: UIViewController {
 
     private let crewEditView = CrewEditView()
@@ -60,5 +60,14 @@ extension CrewEditViewController {
     @objc private func completeCrewEdit() {
         // TODO: - 구현하기
         print("크루 편집 완료")
+    }
+
+    // 반복 요일 버튼 클릭 시 호출
+    @objc private func showRepeatDaySelectModal() {
+        guard let userCrewData = userCrewData else {
+            return
+        }
+        let repeatDaySelectVC = RepeatDaySelectViewController(crewData: userCrewData)
+        
     }
 }

@@ -7,7 +7,9 @@
 
 import UIKit
 
-// MARK: - 마이페이지(운전자) 크루 정보 확인 뷰
+import SnapKit
+
+// MARK: - 마이페이지(운전자) 크루 편집 뷰
 final class CrewEditView: UIView {
 
     // 반복 요일 설정 버튼
@@ -41,10 +43,28 @@ final class CrewEditView: UIView {
         return repeatDayEditButton
     }()
 
+    // 좌측 경로 표시 선
+    private let colorLine = CrewMakeUtil.createColorLineView()
+    // 출발지 ~ 도착지 포인트들에 대한 설정 뷰를 쌓을 스택 뷰
+    private let pointStackView: UIStackView = {
+        let pointStackView = UIStackView()
+        pointStackView.axis = .vertical
+        pointStackView.distribution = .equalCentering
+        pointStackView.backgroundColor = .yellow
+        return pointStackView
+    }()
+    private let startPoint = PointEditView(originalAddress: "추울발", originalArrivalTime: Date())
+    private let endPoint = PointEditView(originalAddress: "도착맨", originalArrivalTime: Date())
+    private lazy var stopover1 = PointEditView(originalAddress: "경유1", originalArrivalTime: Date(), hasXButton: true)
+    private lazy var stopover2 = PointEditView(originalAddress: "등유2", originalArrivalTime: Date(), hasXButton: true)
+    private lazy var stopover3 = PointEditView(originalAddress: "휘발유3", originalArrivalTime: Date(), hasXButton: true)
+    private let stopoverAddButton = StopoverPointAddButtonView()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.semantic.backgroundDefault
         setupUI()
+        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -53,9 +73,40 @@ final class CrewEditView: UIView {
 
     private func setupUI() {
         addSubview(repeatDayEditButton)
+        addSubview(colorLine)
+        addSubview(pointStackView)
+        pointStackView.addArrangedSubview(startPoint)
+        pointStackView.addArrangedSubview(stopover1)
+        pointStackView.addArrangedSubview(stopover2)
+        pointStackView.addArrangedSubview(stopover3)
+        pointStackView.addArrangedSubview(endPoint)
+        addSubview(stopoverAddButton)
+    }
+
+    private func setupConstraints() {
         repeatDayEditButton.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(40)
             make.trailing.equalToSuperview().inset(20)
+        }
+
+        colorLine.snp.makeConstraints { make in
+            make.top.equalTo(repeatDayEditButton.snp.bottom).offset(24)
+            make.leading.equalToSuperview().inset(20)
+            make.bottom.equalTo(pointStackView)
+        }
+
+        pointStackView.snp.makeConstraints { make in
+            make.top.equalTo(colorLine)
+            make.leading.equalTo(colorLine.snp.trailing).offset(12)
+            make.trailing.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(179)
+        }
+
+        startPoint.snp.makeConstraints { make in
+            make.height.equalTo(54)
+        }
+        endPoint.snp.makeConstraints { make in
+            make.height.equalTo(54)
         }
     }
 }
