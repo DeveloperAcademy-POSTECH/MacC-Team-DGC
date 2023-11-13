@@ -21,19 +21,7 @@ final class BoardingPointSelectView: UIView {
     lazy var selectTableStack = UIStackView()
     lazy var colorLineView = CrewMakeUtil.createColorLineView()
     var customTableView = UIStackView()
-    lazy var customTableVieWCell: [StopoverSelectButton] = {
-        var buttons: [StopoverSelectButton] = []
-
-        for (index, address) in ["출발지 주소", "경유지 주소", "경유지 2주소 입니다dddfdfd", "도착지 주소"].enumerated() {
-            let isStart = index == 3 ? false : true
-            let button = StopoverSelectButton(address: address, isStart, time: Date())
-
-            button.tag = index
-            button.isEnabled = index == 3 ? false : true
-            buttons.append(button)
-        }
-        return buttons
-    }()
+    lazy var customTableVieWCell = [StopoverSelectButton]()
 
     lazy var nextButton: UIButton = {
         let button = UIButton()
