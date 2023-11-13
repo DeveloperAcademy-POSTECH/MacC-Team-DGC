@@ -1,5 +1,5 @@
 //
-//  StopOverInfoRightView.swift
+//  StopoverInfoRightView.swift
 //  Carmu
 //
 //  Created by 김태형 on 2023/11/11.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class StopOverInfoRightView: UIView {
+final class StopoverInfoRightView: UIView {
 
     lazy var arrivalTime: UILabel = {
         let label = UILabel()
@@ -40,7 +40,7 @@ final class StopOverInfoRightView: UIView {
     }
 }
 
-extension StopOverInfoRightView {
+extension StopoverInfoRightView {
 
     private func setupUI() {
         addSubview(arrivalTime)

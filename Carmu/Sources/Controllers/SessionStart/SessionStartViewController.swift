@@ -542,11 +542,11 @@ extension SessionStartViewController {
         guard let crewData = crewData else { return }
 
         // crewStatus를 순회하면서 .accept 상태의 크루원 확인
-        let isAnyCrewAccepted = crewData.crewStatus.values.contains { status in
+        let isAnyMemberAccepted = crewData.crewStatus.values.contains { status in
             return status == .accept
         }
 
-        if isAnyCrewAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
+        if isAnyMemberAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
             sessionStartView.carpoolStartButton.isEnabled = true
             sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
         } else {    // 수락한 크루원이 없을 때

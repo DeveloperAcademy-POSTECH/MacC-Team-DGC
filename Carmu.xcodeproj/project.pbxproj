@@ -15,8 +15,8 @@
 		163422382AFE67A400196EB2 /* RuleDescriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 163422372AFE67A400196EB2 /* RuleDescriptionView.swift */; };
 		163FA65A2AE15F04005F2A77 /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = 163FA6592AE15F04005F2A77 /* FirebaseFunctions */; };
 		164E823D2AF53AB400848BFF /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 164E823C2AF53AB400848BFF /* Point.swift */; };
-		165055AD2AFF54C50049EF73 /* StopOverInfoLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165055AC2AFF54C50049EF73 /* StopOverInfoLeftView.swift */; };
-		165055AF2AFF603D0049EF73 /* StopOverInfoRightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165055AE2AFF603D0049EF73 /* StopOverInfoRightView.swift */; };
+		165055AD2AFF54C50049EF73 /* StopoverInfoLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165055AC2AFF54C50049EF73 /* StopoverInfoLeftView.swift */; };
+		165055AF2AFF603D0049EF73 /* StopoverInfoRightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165055AE2AFF603D0049EF73 /* StopoverInfoRightView.swift */; };
 		1667F61D2AFC622400393111 /* CrewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
@@ -137,8 +137,8 @@
 		163422352AFE636000196EB2 /* RuleDescriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDescriptionViewController.swift; sourceTree = "<group>"; };
 		163422372AFE67A400196EB2 /* RuleDescriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RuleDescriptionView.swift; sourceTree = "<group>"; };
 		164E823C2AF53AB400848BFF /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
-		165055AC2AFF54C50049EF73 /* StopOverInfoLeftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopOverInfoLeftView.swift; sourceTree = "<group>"; };
-		165055AE2AFF603D0049EF73 /* StopOverInfoRightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopOverInfoRightView.swift; sourceTree = "<group>"; };
+		165055AC2AFF54C50049EF73 /* StopoverInfoLeftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverInfoLeftView.swift; sourceTree = "<group>"; };
+		165055AE2AFF603D0049EF73 /* StopoverInfoRightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverInfoRightView.swift; sourceTree = "<group>"; };
 		1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewCollectionViewCell.swift; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
@@ -488,8 +488,8 @@
 				16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */,
 				16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */,
 				16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */,
-				165055AC2AFF54C50049EF73 /* StopOverInfoLeftView.swift */,
-				165055AE2AFF603D0049EF73 /* StopOverInfoRightView.swift */,
+				165055AC2AFF54C50049EF73 /* StopoverInfoLeftView.swift */,
+				165055AE2AFF603D0049EF73 /* StopoverInfoRightView.swift */,
 				161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */,
 				163422372AFE67A400196EB2 /* RuleDescriptionView.swift */,
 			);
@@ -862,7 +862,7 @@
 				C9D04C6B2AFB7864007E615B /* AddressSelectButtonView.swift in Sources */,
 				C9D04C732AFC65BE007E615B /* StopoverPointAddButtonView.swift in Sources */,
 				B83E23F02AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift in Sources */,
-				165055AD2AFF54C50049EF73 /* StopOverInfoLeftView.swift in Sources */,
+				165055AD2AFF54C50049EF73 /* StopoverInfoLeftView.swift in Sources */,
 				163422382AFE67A400196EB2 /* RuleDescriptionView.swift in Sources */,
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
@@ -905,7 +905,7 @@
 				C95462152AF74D46004C4F6D /* TimeSelectCellView.swift in Sources */,
 				16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
-				165055AF2AFF603D0049EF73 /* StopOverInfoRightView.swift in Sources */,
+				165055AF2AFF603D0049EF73 /* StopoverInfoRightView.swift in Sources */,
 				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
 				B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */,
 				B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */,
