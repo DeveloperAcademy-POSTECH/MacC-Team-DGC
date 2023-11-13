@@ -11,7 +11,7 @@ final class InviteCodeInputViewController: UIViewController {
 
     private let inviteCodeInputView = InviteCodeInputView()
     private let firebaseManager = FirebaseManager()
-    private let crewData = Crew(crews: [UserIdentifier](), crewStatus: [UserIdentifier: Status]())
+    private var crewData = Crew(crews: [UserIdentifier](), crewStatus: [UserIdentifier: Status]())
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,11 +76,12 @@ extension InviteCodeInputViewController {
         if text.count >= 8 {
             // TODO: 8자 이상일 때 수행할 액션 추가
             firebaseManager.getCrewByInviteCode(inviteCode: text) { crewData in
-                if crewData != nil {
+                if let crewData = crewData {
                     self.inviteCodeInputView.conformCodeLabel.isHidden = false
                     self.inviteCodeInputView.rejectCodeLabel.isHidden = true
                     self.inviteCodeInputView.nextButton.isEnabled = true
                     self.inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.accPrimary
+                    self.crewData = crewData
                 } else {
                     self.inviteCodeInputView.conformCodeLabel.isHidden = true
                     self.inviteCodeInputView.rejectCodeLabel.isHidden = false

@@ -13,7 +13,7 @@ final class BoardingPointSelectViewController: UIViewController {
     private var selectedButton: StopoverSelectButton?
     private var selectedPoint: Int?
     var crewData: Crew
-    
+
     init(crewData: Crew) {
         self.crewData = crewData
         super.init(nibName: nil, bundle: nil)
@@ -26,6 +26,34 @@ final class BoardingPointSelectViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
+
+        boardingPointSelectView.customTableVieWCell = {
+            var buttons: [StopoverSelectButton] = []
+            var timeAddressTuple: [(String?, Date)] = []
+
+            timeAddressTuple.append((crewData.startingPoint?.name, crewData.startingPoint?.arrivalTime ?? Date()))
+            if let stopover1 = crewData.stopover1 {
+                timeAddressTuple.append((stopover1.name, crewData.stopover1?.arrivalTime ?? Date()))
+            }
+            if let stopover2 = crewData.stopover2 {
+                timeAddressTuple.append((stopover2.name, crewData.stopover2?.arrivalTime ?? Date()))
+            }
+            if let stopover3 = crewData.stopover3 {
+                timeAddressTuple.append((stopover3.name, crewData.stopover3?.arrivalTime ?? Date()))
+            }
+            timeAddressTuple.append((crewData.destination?.name, crewData.destination?.arrivalTime ?? Date()))
+
+            for (index, tuple) in timeAddressTuple.enumerated() {
+                // TODO: 들어오는 데이터에 맞춰 변형될 수 있도록 변경해야 함.
+                let isStart = index == timeAddressTuple.count - 1 ? false : true
+                let button = StopoverSelectButton(address: tuple.0 ?? "", isStart, time: tuple.1)
+                button.isEnabled = index == timeAddressTuple.count - 1 ? false : true
+
+                button.tag = index
+                buttons.append(button)
+            }
+            return buttons
+        }()
 
         for element in boardingPointSelectView.customTableVieWCell {
             element.addTarget(self, action: #selector(stopoverPointTapped), for: .touchUpInside)

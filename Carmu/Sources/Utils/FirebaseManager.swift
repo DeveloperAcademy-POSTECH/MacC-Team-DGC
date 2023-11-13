@@ -484,22 +484,13 @@ extension FirebaseManager {
                     return
                 }
 
-                let defaultPoint = Point(
-                    name: "C5",
-                    detailAddress: "C5",
-                    latitude: 0.0,
-                    longitude: 0.0,
-                    arrivalTime: Date(),
-                    crews: []
-                )
-
                 var crew = Crew(
                     id: crewData["id"] as? String ?? "",
                     name: crewData["name"] as? String ?? "",
                     captainID: crewData["captainID"] as? UserIdentifier ?? "",
                     crews: crewData["crews"] as? [UserIdentifier] ?? [""],
-                    startingPoint: crewData["startingPoint"] as? Point ?? defaultPoint,
-                    destination: crewData["destination"] as? Point ?? defaultPoint,
+                    startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
+                    destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: crewData["inviteCode"] as? String ?? "",
                     repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                     sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
@@ -507,17 +498,42 @@ extension FirebaseManager {
                 )
 
                 if let stopover1 = crewData["stopover1"] as? Point {
-                    crew.stopover1 = stopover1
+                    crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
                 }
                 if let stopover2 = crewData["stopover2"] as? Point {
-                    crew.stopover2 = stopover2
+                    crew.stopover2 = self.convertDataToPoint(crewData["stopover2"] as? [String: Any] ?? [:])
                 }
                 if let stopover3 = crewData["stopover3"] as? Point {
-                    crew.stopover3 = stopover3
+                    crew.stopover3 = self.convertDataToPoint(crewData["stopover3"] as? [String: Any] ?? [:])
                 }
 
                 completion(crew)
             }
+    }
+
+    /**
+     json ->  Point 객체로 바꿔주는 메서드
+        사용처
+            getCrewByInviteCode()
+     */
+    func convertDataToPoint(_ data: [String: Any]) -> Point {
+        var point = Point()
+
+        point.name = data["name"] as? String
+        point.detailAddress = data["detailAddress"] as? String
+        point.latitude = data["latitude"] as? Double
+        point.longitude = data["longitude"] as? Double
+
+        if let timestamp = data["arrivalTime"] as? TimeInterval {
+            point.arrivalTime = Date(timeIntervalSince1970: timestamp)
+        }
+
+        // crews에 대한 처리
+        if let crewsData = data["crews"] as? [UserIdentifier] {
+            point.crews = crewsData
+        }
+
+        return point
     }
 }
 
