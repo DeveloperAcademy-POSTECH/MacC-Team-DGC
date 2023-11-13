@@ -82,20 +82,7 @@ final class SelectDetailPointMapView: UIView {
         return label
     }()
 
-    let saveButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("상세 위치 설정 완료", for: .normal)
-        button.titleLabel?.font = UIFont.carmuFont.subhead3
-        button.setBackgroundImage(
-            .pixel(ofColor: UIColor.semantic.accPrimary!),
-            for: .normal
-        )
-        button.layer.cornerRadius = 30
-        button.layer.masksToBounds = true
-        button.setTitleColor(UIColor.theme.white, for: .normal)
-
-        return button
-    }()
+    let saveButton = NextButton(buttonTitle: "상세위치 설정")
 
     init() {
         super.init(frame: .zero)
