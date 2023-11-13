@@ -10,6 +10,8 @@ import UIKit
 final class InviteCodeInputViewController: UIViewController {
 
     private let inviteCodeInputView = InviteCodeInputView()
+    private let firebaseManager = FirebaseManager()
+    private let crewData = Crew(crews: [UserIdentifier](), crewStatus: [UserIdentifier: Status]())
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +35,11 @@ final class InviteCodeInputViewController: UIViewController {
             self,
             action: #selector(nextButtonTapped),
             for: .touchUpInside
+        )
+        inviteCodeInputView.codeSearchTextField.addTarget(
+            self,
+            action: #selector(textFieldDidChange(_:)),
+            for: .editingChanged
         )
 
         NotificationCenter.default.addObserver(
@@ -62,11 +69,35 @@ extension InviteCodeInputViewController {
         inviteCodeInputView.codeSearchTextField.text = ""
     }
 
+    @objc private func textFieldDidChange(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+
+        // 입력 길이가 8 이상인 경우
+        if text.count >= 8 {
+            // TODO: 8자 이상일 때 수행할 액션 추가
+            firebaseManager.getCrewByInviteCode(inviteCode: text) { crewData in
+                if crewData != nil {
+                    self.inviteCodeInputView.conformCodeLabel.isHidden = false
+                    self.inviteCodeInputView.rejectCodeLabel.isHidden = true
+                    self.inviteCodeInputView.nextButton.isEnabled = true
+                    self.inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.accPrimary
+                } else {
+                    self.inviteCodeInputView.conformCodeLabel.isHidden = true
+                    self.inviteCodeInputView.rejectCodeLabel.isHidden = false
+                }
+            }
+        } else {
+            self.inviteCodeInputView.conformCodeLabel.isHidden = true
+            self.inviteCodeInputView.rejectCodeLabel.isHidden = true
+            self.inviteCodeInputView.nextButton.isEnabled = false
+            self.inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        }
+    }
+
     @objc private func nextButtonTapped() {
         // TODO: 코드 유효성 텍스트 라벨 표시 로직 추가 필요
-        let viewController = BoardingPointSelectViewController()
+        let viewController = BoardingPointSelectViewController(crewData: crewData)
         navigationController?.pushViewController(viewController, animated: true)
-        inviteCodeInputView.conformCodeLabel.isHidden = false
     }
 
     @objc private func dismissTextField() {

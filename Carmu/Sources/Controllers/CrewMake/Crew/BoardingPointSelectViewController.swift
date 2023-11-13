@@ -12,6 +12,16 @@ final class BoardingPointSelectViewController: UIViewController {
     private let boardingPointSelectView = BoardingPointSelectView()
     private var selectedButton: StopoverSelectButton?
     private var selectedPoint: Int?
+    var crewData: Crew
+    
+    init(crewData: Crew) {
+        self.crewData = crewData
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -72,7 +82,12 @@ import SwiftUI
 struct BPSViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = BoardingPointSelectViewController
     func makeUIViewController(context: Context) -> BoardingPointSelectViewController {
-        return BoardingPointSelectViewController()
+        return BoardingPointSelectViewController(
+            crewData: Crew(
+                crews: [UserIdentifier](),
+                crewStatus: [UserIdentifier: Status]()
+            )
+        )
     }
     func updateUIViewController(_ uiViewController: BoardingPointSelectViewController, context: Context) {}
 }

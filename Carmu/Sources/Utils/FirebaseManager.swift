@@ -463,6 +463,62 @@ extension FirebaseManager {
             completion(crew)
         }
     }
+
+    /**
+     inviteCode를 기준으로 크루의 데이터를 불러오는 코드
+        사용되는 곳
+            InviteCodeInputVC
+     */
+    func getCrewByInviteCode(inviteCode: String, completion: @escaping (Crew?) -> Void) {
+        let crewsRef = Database.database().reference().child("crew")
+
+        crewsRef
+            .queryOrdered(byChild: "inviteCode")
+            .queryEqual(toValue: inviteCode)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let crewData = snapshot.children.allObjects
+                    .compactMap({ ($0 as? DataSnapshot)?.value as? [String: Any] })
+                    .first else {
+                    // Invite code에 해당하는 크루가 없음
+                    completion(nil)
+                    return
+                }
+
+                let defaultPoint = Point(
+                    name: "C5",
+                    detailAddress: "C5",
+                    latitude: 0.0,
+                    longitude: 0.0,
+                    arrivalTime: Date(),
+                    crews: []
+                )
+
+                var crew = Crew(
+                    id: crewData["id"] as? String ?? "",
+                    name: crewData["name"] as? String ?? "",
+                    captainID: crewData["captainID"] as? UserIdentifier ?? "",
+                    crews: crewData["crews"] as? [UserIdentifier] ?? [""],
+                    startingPoint: crewData["startingPoint"] as? Point ?? defaultPoint,
+                    destination: crewData["destination"] as? Point ?? defaultPoint,
+                    inviteCode: crewData["inviteCode"] as? String ?? "",
+                    repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+                    sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
+                    crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
+                )
+
+                if let stopover1 = crewData["stopover1"] as? Point {
+                    crew.stopover1 = stopover1
+                }
+                if let stopover2 = crewData["stopover2"] as? Point {
+                    crew.stopover2 = stopover2
+                }
+                if let stopover3 = crewData["stopover3"] as? Point {
+                    crew.stopover3 = stopover3
+                }
+
+                completion(crew)
+            }
+    }
 }
 
 extension FirebaseManager {
