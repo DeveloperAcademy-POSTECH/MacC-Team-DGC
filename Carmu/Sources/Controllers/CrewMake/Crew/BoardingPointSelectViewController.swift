@@ -45,7 +45,6 @@ final class BoardingPointSelectViewController: UIViewController {
             timeAddressTuple.append((crewData.destination?.name, crewData.destination?.arrivalTime ?? Date()))
 
             for (index, tuple) in timeAddressTuple.enumerated() {
-                // TODO: 들어오는 데이터에 맞춰 변형될 수 있도록 변경해야 함.
                 let isStart = index == timeAddressTuple.count - 1 ? false : true
                 let button = StopoverSelectButton(address: tuple.0 ?? "", isStart, time: tuple.1)
                 button.isEnabled = index == timeAddressTuple.count - 1 ? false : true
@@ -96,7 +95,6 @@ extension BoardingPointSelectViewController {
     }
 
     @objc private func nextButtonTapped() {
-        // TODO: 다음화면 이동 구현 필요
         firebaseManager.setCrewToUser(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
         firebaseManager.setUserToCrew(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
         firebaseManager.setUserToPoint(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "", setUserToPoint())
