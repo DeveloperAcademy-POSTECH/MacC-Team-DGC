@@ -10,6 +10,7 @@ import UIKit
 final class BoardingPointSelectViewController: UIViewController {
 
     private let boardingPointSelectView = BoardingPointSelectView()
+    private let firebaseManager = FirebaseManager()
     private var selectedButton: StopoverSelectButton?
     private var selectedPoint: Int?
     var crewData: Crew
@@ -96,6 +97,9 @@ extension BoardingPointSelectViewController {
 
     @objc private func nextButtonTapped() {
         // TODO: 다음화면 이동 구현 필요
+        firebaseManager.setCrewToUser(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
+        firebaseManager.setUserToCrew(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
+
         if SceneDelegate.isFirst {
             SceneDelegate.updateIsFirstValue(false)
         } else {

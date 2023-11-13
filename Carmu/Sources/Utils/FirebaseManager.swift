@@ -407,6 +407,45 @@ extension FirebaseManager {
     }
 
     /**
+     크루 만들기에서 추가된 크루의 crews, crewStatus에 user의 값을 집어넣는 메서드
+     */
+    func setUserToCrew(_ userID: String, _ crewID: String) {
+        let databaseRef = Database.database().reference().child("crew/\(crewID)")
+
+        databaseRef.child("crews").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            if var crews = snapshot?.value as? [String] {
+                crews.append(userID)
+                databaseRef.child("crews").setValue(crews as NSArray)
+            } else {
+                // 아직 크루가 없는 경우 배열을 새로 만들어준다.
+                var newCrew = []
+                newCrew.append(userID)
+                databaseRef.child("crews").setValue(newCrew as NSArray)
+            }
+        }
+
+        databaseRef.child("crewStatus").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+
+            if var crewStatus = snapshot?.value as? [String: String] {
+                crewStatus[userID] = Status.waiting.rawValue
+                databaseRef.child("crewStatus").setValue(crewStatus)
+            } else {
+                let newCrewStatus = [userID: Status.waiting.rawValue]
+                databaseRef.child("crewStatus").setValue(newCrewStatus)
+            }
+        }
+    }
+
+    /**
      DB에서 유저의 Crew 목록(crewList)을 불러오는 메서드
      - 호출되는 곳
         - SessionStartViewController
@@ -497,13 +536,13 @@ extension FirebaseManager {
                     crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
                 )
 
-                if let stopover1 = crewData["stopover1"] as? Point {
+                if crewData["stopover1"] != nil {
                     crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
                 }
-                if let stopover2 = crewData["stopover2"] as? Point {
+                if crewData["stopover2"] != nil {
                     crew.stopover2 = self.convertDataToPoint(crewData["stopover2"] as? [String: Any] ?? [:])
                 }
-                if let stopover3 = crewData["stopover3"] as? Point {
+                if crewData["stopover3"] != nil {
                     crew.stopover3 = self.convertDataToPoint(crewData["stopover3"] as? [String: Any] ?? [:])
                 }
 
