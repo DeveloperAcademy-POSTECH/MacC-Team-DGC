@@ -62,6 +62,10 @@ final class MapViewController: UIViewController {
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        initCameraUpdate()
+    }
+
     @objc private func backButtonDidTap() {
         dismiss(animated: true)
     }
@@ -84,6 +88,24 @@ final class MapViewController: UIViewController {
             make.leading.top.trailing.equalToSuperview()
             make.bottom.equalTo(detailView.snp.top)
         }
+    }
+
+    private func initCameraUpdate() {
+        var latLngs: [NMGLatLng] = []
+        latLngs.append(NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng))
+        latLngs.append(NMGLatLng(lat: points.destination.lat, lng: points.destination.lng))
+        if let coordinate = points.pickupLocation1 {
+            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
+        }
+        if let coordinate = points.pickupLocation2 {
+            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
+        }
+        if let coordinate = points.pickupLocation3 {
+            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
+        }
+        let paddingInsets = UIEdgeInsets(top: 170, left: 50, bottom: 50, right: 50)
+        let cameraUpdate = NMFCameraUpdate(fit: NMGLatLngBounds(latLngs: latLngs), paddingInsets: paddingInsets)
+        mapView.naverMap.moveCamera(cameraUpdate)
     }
 
     private func startUpdatingLocation() {

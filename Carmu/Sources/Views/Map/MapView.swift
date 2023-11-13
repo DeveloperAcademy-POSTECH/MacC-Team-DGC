@@ -145,6 +145,5 @@ final class MapView: UIView {
     func updateCarMarker(latitide: Double, longitude: Double) {
         carMarker.position = NMGLatLng(lat: latitide, lng: longitude)
         carMarker.mapView = naverMap
-        naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(lat: latitide, lng: longitude)))
     }
 }
