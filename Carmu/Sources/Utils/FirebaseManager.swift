@@ -407,6 +407,73 @@ extension FirebaseManager {
     }
 
     /**
+     크루 만들기에서 추가된 크루의 crews, crewStatus에 user의 값을 집어넣는 메서드
+         호출되는 곳
+             BoardingPointSelectViewController
+     */
+    func setUserToCrew(_ userID: String, _ crewID: String) {
+        let databaseRef = Database.database().reference().child("crew/\(crewID)")
+
+        databaseRef.child("crews").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+
+            if var crews = snapshot?.value as? [String] {
+                crews.append(userID)
+                databaseRef.child("crews").setValue(crews as NSArray)
+            } else {
+                // 아직 크루가 없는 경우 배열을 새로 만들어준다.
+                var newCrew = []
+                newCrew.append(userID)
+                databaseRef.child("crews").setValue(newCrew as NSArray)
+            }
+        }
+
+        databaseRef.child("crewStatus").getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+
+            if var crewStatus = snapshot?.value as? [String: String] {
+                crewStatus[userID] = Status.waiting.rawValue
+                databaseRef.child("crewStatus").setValue(crewStatus)
+            } else {
+                let newCrewStatus = [userID: Status.waiting.rawValue]
+                databaseRef.child("crewStatus").setValue(newCrewStatus)
+            }
+        }
+    }
+
+    /**
+     크루 만들기에서 추가된 크루 특정 Point의 crews에 userID 값을 집어넣는 메서드
+         호출되는 곳
+             BoardingPointSelectViewController
+     */
+    func setUserToPoint(_ userID: String, _ crewID: String, _ point: String) {
+        let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)/crews")
+
+        databaseRef.getData { error, snapshot in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+
+            if var crews = snapshot?.value as? [String] {
+                crews.append(userID)
+                databaseRef.setValue(crews as NSArray)
+            } else {
+                // 아직 크루가 없는 경우 배열을 새로 만들어준다.
+                var newCrew = []
+                newCrew.append(userID)
+                databaseRef.setValue(newCrew as NSArray)
+            }
+        }
+    }
+
+    /**
      DB에서 유저의 Crew 목록(crewList)을 불러오는 메서드
      - 호출되는 곳
         - SessionStartViewController
@@ -462,6 +529,78 @@ extension FirebaseManager {
             )
             completion(crew)
         }
+    }
+
+    /**
+     inviteCode를 기준으로 크루의 데이터를 불러오는 코드
+        사용되는 곳
+            InviteCodeInputVC
+     */
+    func getCrewByInviteCode(inviteCode: String, completion: @escaping (Crew?) -> Void) {
+        let crewsRef = Database.database().reference().child("crew")
+
+        crewsRef
+            .queryOrdered(byChild: "inviteCode")
+            .queryEqual(toValue: inviteCode)
+            .observeSingleEvent(of: .value) { snapshot in
+                guard let crewData = snapshot.children.allObjects
+                    .compactMap({ ($0 as? DataSnapshot)?.value as? [String: Any] })
+                    .first else {
+                    // Invite code에 해당하는 크루가 없음
+                    completion(nil)
+                    return
+                }
+
+                var crew = Crew(
+                    id: crewData["id"] as? String ?? "",
+                    name: crewData["name"] as? String ?? "",
+                    captainID: crewData["captainID"] as? UserIdentifier ?? "",
+                    crews: crewData["crews"] as? [UserIdentifier] ?? [""],
+                    startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
+                    destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
+                    inviteCode: crewData["inviteCode"] as? String ?? "",
+                    repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+                    sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
+                    crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
+                )
+
+                if crewData["stopover1"] != nil {
+                    crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
+                }
+                if crewData["stopover2"] != nil {
+                    crew.stopover2 = self.convertDataToPoint(crewData["stopover2"] as? [String: Any] ?? [:])
+                }
+                if crewData["stopover3"] != nil {
+                    crew.stopover3 = self.convertDataToPoint(crewData["stopover3"] as? [String: Any] ?? [:])
+                }
+
+                completion(crew)
+            }
+    }
+
+    /**
+     json ->  Point 객체로 바꿔주는 메서드
+        사용처
+            getCrewByInviteCode()
+     */
+    func convertDataToPoint(_ data: [String: Any]) -> Point {
+        var point = Point()
+
+        point.name = data["name"] as? String
+        point.detailAddress = data["detailAddress"] as? String
+        point.latitude = data["latitude"] as? Double
+        point.longitude = data["longitude"] as? Double
+
+        if let timestamp = data["arrivalTime"] as? TimeInterval {
+            point.arrivalTime = Date(timeIntervalSince1970: timestamp)
+        }
+
+        // crews에 대한 처리
+        if let crewsData = data["crews"] as? [UserIdentifier] {
+            point.crews = crewsData
+        }
+
+        return point
     }
 }
 
