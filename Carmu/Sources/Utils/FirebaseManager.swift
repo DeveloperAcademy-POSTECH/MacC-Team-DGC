@@ -529,9 +529,21 @@ extension FirebaseManager {
         }
     }
 
-    // crew 데이터 불러오기
+    /**
+     crew 데이터 불러오기
+
+     사용 예시
+     firebaseManager.getCrewData { crew in
+         if let crew = crew {
+             self.firebaseCrewData = crew
+             print("크루 있음 ", crew)
+         } else {
+             print("크루없음")
+         }
+     }
+     */
     func getCrewData(completion: @escaping (Crew?) -> Void) {
-        print("getCrewData()")
+
         guard let databasePath = User.databasePathWithUID else {
             completion(nil)
             return
@@ -551,17 +563,47 @@ extension FirebaseManager {
             }
         }
     }
+
     /**
+     유저가 운전자인지 여부를 확인
+
      사용 예시
-     firebaseManager.getCrewData { crew in
-         if let crew = crew {
-             self.firebaseCrewData = crew
-             print("크루 있음 ", crew)
+     firebaseManager.isCaptain { isCaptain in
+         if isCaptain {
+             print("캡틴임")
          } else {
-             print("크루없음")
+             print("캡틴 아님")
          }
      }
      */
+    func isCaptain(completion: @escaping (Bool) -> Void) {
+        guard let databasePath = User.databasePathWithUID else {
+            completion(false)
+            return
+        }
+
+        readCrewID(databasePath: databasePath) { crewList in
+            guard let crewList = crewList else {
+                completion(false)
+                return
+            }
+            guard let crewID = crewList.first else {
+                completion(false)
+                return
+            }
+            self.getUserCrew(crewID: crewID) { crew in
+                guard let crew = crew else {
+                    completion(false)
+                    return
+                }
+                if crew.captainID == KeychainItem.currentUserIdentifier {
+                    completion(true)
+                } else {
+                    completion(false)
+                }
+            }
+        }
+    }
 
     func getCrewByInviteCode(inviteCode: String, completion: @escaping (Crew?) -> Void) {
         let crewsRef = Database.database().reference().child("crew")
