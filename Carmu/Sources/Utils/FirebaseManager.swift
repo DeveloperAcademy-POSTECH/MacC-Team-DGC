@@ -529,6 +529,40 @@ extension FirebaseManager {
         }
     }
 
+    // crew 데이터 불러오기
+    func getCrewData(completion: @escaping (Crew?) -> Void) {
+        print("getCrewData()")
+        guard let databasePath = User.databasePathWithUID else {
+            completion(nil)
+            return
+        }
+
+        self.readCrewID(databasePath: databasePath) { crewList in
+            guard let crewList = crewList else {
+                completion(nil)
+                return
+            }
+            guard let crewID = crewList.first else {
+                completion(nil)
+                return
+            }
+            self.getUserCrew(crewID: crewID) { crew in
+                completion(crew) // completion 핸들러를 사용하여 crew 값을 반환
+            }
+        }
+    }
+    /**
+     사용 예시
+     firebaseManager.getCrewData { crew in
+         if let crew = crew {
+             self.firebaseCrewData = crew
+             print("크루 있음 ", crew)
+         } else {
+             print("크루없음")
+         }
+     }
+     */
+
     func getCrewByInviteCode(inviteCode: String, completion: @escaping (Crew?) -> Void) {
         let crewsRef = Database.database().reference().child("crew")
 
