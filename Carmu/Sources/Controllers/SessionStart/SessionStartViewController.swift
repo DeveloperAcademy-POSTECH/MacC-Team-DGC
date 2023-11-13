@@ -21,12 +21,18 @@ final class SessionStartViewController: UIViewController {
     private lazy var sessionStartNoCrewView = SessionStartNoCrewView()
     private lazy var firebaseManager = FirebaseManager()
 
+    var firebaseCrewData: Crew?
+    var firebaseStart: Point?
+    var firebaseDestination: Point?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
         setupUI()
         setupConstraints()
         setTargetButton()
+
+        getCrewData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -554,6 +560,33 @@ extension SessionStartViewController {
             sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
         }
     }
+}
+
+// MARK: - Firebase Methods
+extension SessionStartViewController {
+
+    // crew 데이터 불러오기
+    private func getCrewData() {
+        print("getCrewData()")
+        guard let databasePath = User.databasePathWithUID else { return }
+
+        firebaseManager.readCrewID(databasePath: databasePath) { crewList in
+            guard let crewList = crewList else { return }
+            guard let crewID = crewList.first else { return }
+            print("crewID -> ", crewID as Any)
+            self.firebaseManager.getUserCrew(crewID: crewID) { crew in
+                guard let crew = crew else { return }
+                self.firebaseCrewData = crew
+                self.firebaseStart = crew.startingPoint
+                self.firebaseDestination = crew.destination
+
+                print("data ", self.firebaseCrewData as Any)
+                print("start ", self.firebaseStart as Any)
+                print("destintaion ", self.firebaseDestination as Any)
+            }
+        }
+    }
+
 }
 
 extension SessionStartViewController {
