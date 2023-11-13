@@ -68,17 +68,20 @@ extension StopoverPointSelectView {
         stopoverStackView.axis = .vertical
         stopoverStackView.distribution = .equalSpacing
 
+        nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        nextButton.isEnabled = false
+
+        stopover2.label.isHidden = true
+        stopover2.button.isHidden = true
+        stopover3.label.isHidden = true
+        stopover3.button.isHidden = true
+
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
         firstLineTitleStack.addArrangedSubview(titleLabel3)
         stopoverStackView.addArrangedSubview(stopover1)
         stopoverStackView.addArrangedSubview(stopover2)
         stopoverStackView.addArrangedSubview(stopover3)
-
-        stopover2.label.isHidden = true
-        stopover2.button.isHidden = true
-        stopover3.label.isHidden = true
-        stopover3.button.isHidden = true
 
         addSubview(firstLineTitleStack)
         addSubview(titleLabel5)

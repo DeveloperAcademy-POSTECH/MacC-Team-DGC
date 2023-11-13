@@ -73,7 +73,7 @@ final class InviteCodeInputView: UIView {
         return label
     }()
 
-    lazy var nextButton = NextButton(buttonTitle: "다음")
+    let nextButton = NextButton(buttonTitle: "다음")
 
     override init(frame: CGRect) {
         super.init(frame: frame)
