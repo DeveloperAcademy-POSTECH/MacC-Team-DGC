@@ -234,7 +234,7 @@ final class DriverFrontView: UIView {
 
     // TODO: - 실제 데이터로 변경
     private func settingData() {
-        totalCrewMemeberLabel.text = "/ \(crewData?.crews.count ?? 0)"
+        totalCrewMemeberLabel.text = "/ \(dummyCrewData?.crews.count ?? 0)"
         todayCrewMemeberLabel.text = "1"
     }
 }
@@ -243,8 +243,8 @@ final class DriverFrontView: UIView {
 extension DriverFrontView: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("count ", crewData?.crewStatus.count ?? 0)
-        return crewData?.crewStatus.count ?? 0
+        print("count ", dummyCrewData?.crewStatus.count ?? 0)
+        return dummyCrewData?.crewStatus.count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView,
@@ -256,22 +256,22 @@ extension DriverFrontView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         // crewStatus에서 현재 indexPath.row에 해당하는 크루의 상태 값을 가져옵니다.
-        let crewID = userData[indexPath.row].id  // 예: "uni"
-        if let crewStatus = crewData?.crewStatus[crewID] {
+        let crewID = dummyUserData[indexPath.row].id  // 예: "uni"
+        if let crewStatus = dummyCrewData?.crewStatus[crewID] {
             // 운전자가 응답을 하지 않은 상황이면 Zzz..이고, 응답을 했다면 미응답으로 표현합니다.
-            if crewData?.sessionStatus == .waiting, crewStatus.statusValue == "미응답" {
+            if dummyCrewData?.sessionStatus == .waiting, crewStatus.statusValue == "미응답" {
                 cell.statusLabel.text = "Zzz.."
             } else {
                 cell.statusLabel.text = crewStatus.statusValue
             }
             cell.userNameLabel.text = crewID
         }
-        cell.profileImageView.image = UIImage(profileImageColor: userData[indexPath.row].profileImageColor)
+        cell.profileImageView.image = UIImage(profileImageColor: dummyUserData[indexPath.row].profileImageColor)
 
         // TODO: - 실제 데이터로 변경
         // 운전자가 당일 운전을 진행할 때 글자 색상 변경
-        if crewData?.sessionStatus == .accept {
-            if let crewStatus = crewData?.crewStatus[crewID] {
+        if dummyCrewData?.sessionStatus == .accept {
+            if let crewStatus = dummyCrewData?.crewStatus[crewID] {
                 if crewStatus == .accept {  // 크루원이 함께 간다고 했을 때
                     cell.statusLabel.textColor = UIColor.semantic.accPrimary
                     cell.statusLabel.font = UIFont.carmuFont.subhead3
@@ -319,12 +319,12 @@ extension DriverFrontView: UICollectionViewDelegateFlowLayout {
         let cellSpacing: CGFloat = 10 // 셀 간격
         let numberOfCellsPerRow: Int = 4 // 한 줄에 표시할 셀 개수
 
-        let totalCellWidth: CGFloat = CGFloat(crewData?.crewStatus.count ?? 0) * cellWidth
-        let totalSpacing: CGFloat = CGFloat(crewData?.crewStatus.count ?? 0 - 1) * cellSpacing
+        let totalCellWidth: CGFloat = CGFloat(dummyCrewData?.crewStatus.count ?? 0) * cellWidth
+        let totalSpacing: CGFloat = CGFloat(dummyCrewData?.crewStatus.count ?? 0 - 1) * cellSpacing
         let totalWidth: CGFloat = totalCellWidth + totalSpacing
         let horizontalInset: CGFloat
 
-        if crewData?.crewStatus.count ?? 0 <= numberOfCellsPerRow {
+        if dummyCrewData?.crewStatus.count ?? 0 <= numberOfCellsPerRow {
             // 4개 이하인 경우, 한 줄로 표시
             horizontalInset = (collectionView.frame.width - totalWidth) / 2
             return UIEdgeInsets(top: 50, left: horizontalInset, bottom: 0, right: horizontalInset)

@@ -168,12 +168,12 @@ final class SessionStartBackView: UIView {
 
     // TODO: - 실제 데이터로 변경
     private func settingData() {
-        totalCrewMemeberLabel.text = "\(crewData?.crews.count ?? 0)명"
+        totalCrewMemeberLabel.text = "\(dummyCrewData?.crews.count ?? 0)명"
     }
 
     // TODO: - 실제 데이터로 변경
     private func checkStopoverPoint() {
-        if crewData?.stopover1 == nil {
+        if dummyCrewData?.stopover1 == nil {
             return
         } else {
             settingStopoverPoints()
@@ -184,11 +184,11 @@ final class SessionStartBackView: UIView {
     private func settingStopoverPoints() {
 
         // TODO: - 실제 데이터로 변경
-        if crewData?.stopover1 != nil, crewData?.stopover2 == nil, crewData?.stopover3 == nil {
+        if dummyCrewData?.stopover1 != nil, dummyCrewData?.stopover2 == nil, dummyCrewData?.stopover3 == nil {
             oneStopoverPoint()
-        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 == nil {
+        } else if dummyCrewData?.stopover1 != nil, dummyCrewData?.stopover2 != nil, dummyCrewData?.stopover3 == nil {
             twoStopoverPoints()
-        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 != nil {
+        } else if dummyCrewData?.stopover1 != nil, dummyCrewData?.stopover2 != nil, dummyCrewData?.stopover3 != nil {
             threeStopoverPoints()
         }
     }
