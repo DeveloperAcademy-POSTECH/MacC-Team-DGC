@@ -105,6 +105,22 @@ final class MapDetailView: UIView {
         return view
     }()
 
+    let finishCarpoolButton = {
+        var config = UIButton.Configuration.filled()
+
+        var titleContainer = AttributeContainer()
+        titleContainer.font = UIFont.carmuFont.headline2
+        titleContainer.foregroundColor = UIColor.semantic.textSecondary
+
+        config.attributedTitle = AttributedString("카풀 종료하기", attributes: titleContainer)
+        config.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 20, bottom: 13, trailing: 20)
+        config.cornerStyle = .capsule
+        config.baseBackgroundColor = UIColor.semantic.accPrimary
+
+        let button = UIButton(configuration: config)
+        return button
+    }()
+
     private let isDriver = true
 
     override init(frame: CGRect) {
@@ -205,6 +221,27 @@ final class MapDetailView: UIView {
             make.leading.equalToSuperview().inset(insidePadding)
             make.trailing.equalToSuperview().inset(outsidePadding)
             make.bottom.equalToSuperview().inset(bottomPadding)
+        }
+    }
+
+    func showFinishCarpoolButton() {
+        // '카풀 종료하기' 버튼 표시 전에 기존 버튼들 제거
+        giveUpButton.removeFromSuperview()
+        noticeLateButton.removeFromSuperview()
+
+        let padding = 20
+
+        addSubview(finishCarpoolButton)
+        finishCarpoolButton.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview().inset(padding)
+            make.bottom.equalToSuperview().inset(48)
+        }
+
+        // 스크롤뷰 제약조건 '카풀 종료하기' 버튼에 맞춰 재정의
+        crewScrollView.snp.remakeConstraints { make in
+            make.top.equalTo(latenessTitleLabel.snp.bottom).offset(12)
+            make.leading.trailing.equalToSuperview().inset(padding)
+            make.bottom.equalTo(finishCarpoolButton.snp.top).offset(-padding)
         }
     }
 }

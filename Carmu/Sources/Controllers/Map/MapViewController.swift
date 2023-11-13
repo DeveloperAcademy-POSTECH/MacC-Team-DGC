@@ -23,7 +23,7 @@ struct Points {
     let pickupLocation1: Coordinate? = Coordinate(lat: 36.00609523, lng: 129.32232291)
     let pickupLocation2: Coordinate? = Coordinate(lat: 36.00739176, lng: 129.32907574)
     let pickupLocation3: Coordinate? = nil
-    let destination = Coordinate(lat: 36.0108783, lng: 129.327818)
+    let destination = Coordinate(lat: 36.01449161092546, lng: 129.32561818469742)
 }
 // Firebase 데이터 받아오기 전까지만 사용하는 더미데이터
 
@@ -191,6 +191,12 @@ final class MapViewController: UIViewController {
         alert.addAction(giveUpAction)
         present(alert, animated: true)
     }
+
+    private func distanceFromDestination(current: CLLocation) -> Double {
+        let destinationCoordinate = CLLocation(latitude: points.destination.lat, longitude: points.destination.lng)
+        let distance = destinationCoordinate.distance(from: current)
+        return Double(distance)
+    }
 }
 
 extension MapViewController: CLLocationManagerDelegate {
@@ -202,6 +208,10 @@ extension MapViewController: CLLocationManagerDelegate {
         mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
         // 운전자인 경우 DB에 위도, 경도 업데이트
         firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
+        // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
+        if distanceFromDestination(current: location) <= 200.0 {
+            detailView.showFinishCarpoolButton()
+        }
     }
 
     // 에러시 호출되는 함수
