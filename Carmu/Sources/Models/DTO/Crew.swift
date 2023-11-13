@@ -58,7 +58,7 @@ enum Status: String, Codable {
 //    let crewData: Crew? = nil
 
 // 데이터가 있을 때
-var crewData: Crew? = Crew(
+var dummyCrewData: Crew? = Crew(
     id: "1",
     name: "그룹 이름111",
     captainID: "ted",
@@ -109,7 +109,7 @@ var crewData: Crew? = Crew(
     crewStatus: ["uni": .accept, "rei": .waiting, "bazzi": .waiting, "jen": .waiting, "JellyBeen": .waiting]
 )
 
-var userData: [User] = [
+var dummyUserData: [User] = [
     User(
        id: "uni",
        deviceToken: "uniDT",
