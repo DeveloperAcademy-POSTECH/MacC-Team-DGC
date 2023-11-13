@@ -32,7 +32,7 @@ final class SessionStartViewController: UIViewController {
         setupConstraints()
         setTargetButton()
 
-        getCrewData()
+        setCrewData()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -566,27 +566,38 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     // crew 데이터 불러오기
-    private func getCrewData() {
+    private func getCrewData(completion: @escaping (Crew?) -> Void) {
         print("getCrewData()")
-        guard let databasePath = User.databasePathWithUID else { return }
+        guard let databasePath = User.databasePathWithUID else {
+            completion(nil)
+            return
+        }
 
         firebaseManager.readCrewID(databasePath: databasePath) { crewList in
-            guard let crewList = crewList else { return }
-            guard let crewID = crewList.first else { return }
-            print("crewID -> ", crewID as Any)
+            guard let crewList = crewList else {
+                completion(nil)
+                return
+            }
+            guard let crewID = crewList.first else {
+                completion(nil)
+                return
+            }
             self.firebaseManager.getUserCrew(crewID: crewID) { crew in
-                guard let crew = crew else { return }
-                self.firebaseCrewData = crew
-                self.firebaseStart = crew.startingPoint
-                self.firebaseDestination = crew.destination
-
-                print("data ", self.firebaseCrewData as Any)
-                print("start ", self.firebaseStart as Any)
-                print("destintaion ", self.firebaseDestination as Any)
+                completion(crew) // completion 핸들러를 사용하여 crew 값을 반환
             }
         }
     }
 
+    private func setCrewData() {
+        getCrewData { crew in
+            if let crew = crew {
+                self.firebaseCrewData = crew
+                print("크루 있음 ", crew)
+            } else {
+                print("크루없음")
+            }
+        }
+    }
 }
 
 extension SessionStartViewController {
