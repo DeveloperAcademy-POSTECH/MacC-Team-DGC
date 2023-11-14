@@ -89,6 +89,7 @@ extension StartEndPointSelectViewController {
                     UIColor.semantic.textTertiary,
                     for: .normal
                 )
+                self?.startEndPointSelectView.startPointView.button.titleLabel?.font = UIFont.carmuFont.subhead2
                 self?.crewData.startingPoint = point
             } else {
                 self?.endPointAddress = addressDTO.pointName
@@ -96,6 +97,7 @@ extension StartEndPointSelectViewController {
                     UIColor.semantic.textTertiary,
                     for: .normal
                  )
+                self?.startEndPointSelectView.endPointView.button.titleLabel?.font = UIFont.carmuFont.subhead2
                 self?.crewData.destination = point
             }
         }
