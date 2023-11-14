@@ -53,11 +53,35 @@ final class CrewEditView: UIView {
         stopoverStackView.spacing = 52
         return stopoverStackView
     }()
-    let startPoint = PointEditView(originalAddress: "출발지를 검색해주세요.", originalArrivalTime: Date())
-    let endPoint = PointEditView(originalAddress: "도착지를 검색해주세요.", originalArrivalTime: Date(), isDeparture: false)
-    lazy var stopover1 = PointEditView(originalAddress: "경유지1을 검색해주세요.", originalArrivalTime: Date(), hasXButton: true)
-    lazy var stopover2 = PointEditView(originalAddress: "경유지2를 검색해주세요.", originalArrivalTime: Date(), hasXButton: true)
-    lazy var stopover3 = PointEditView(originalAddress: "경유지3을 검색해주세요.", originalArrivalTime: Date(), hasXButton: true)
+    let startPoint = PointEditView(
+        pointType: .start,
+        originalAddress: "출발지를 검색해주세요.",
+        originalArrivalTime: Date()
+    )
+    let endPoint = PointEditView(
+        pointType: .end,
+        originalAddress: "도착지를 검색해주세요.",
+        originalArrivalTime: Date(),
+        isDeparture: false
+    )
+    lazy var stopover1 = PointEditView(
+        pointType: .stopover1,
+        originalAddress: "경유지1을 검색해주세요.",
+        originalArrivalTime: Date(),
+        hasXButton: true
+    )
+    lazy var stopover2 = PointEditView(
+        pointType: .stopover2,
+        originalAddress: "경유지2를 검색해주세요.",
+        originalArrivalTime: Date(),
+        hasXButton: true
+    )
+    lazy var stopover3 = PointEditView(
+        pointType: .stopover3,
+        originalAddress: "경유지3을 검색해주세요.",
+        originalArrivalTime: Date(),
+        hasXButton: true
+    )
     let stopoverAddButton = StopoverPointAddButtonView()
 
     override init(frame: CGRect) {

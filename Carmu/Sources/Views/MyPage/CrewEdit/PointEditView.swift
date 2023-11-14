@@ -12,6 +12,14 @@ enum TimeType: String {
     case arrival = "도착"
 }
 
+enum PointType {
+    case start
+    case stopover1
+    case stopover2
+    case stopover3
+    case end
+}
+
 /**
  크루 편집 화면에서 각 경유지의 주소와 시간을 편집할 수 있는 셀 형태의 뷰
  */
@@ -27,20 +35,20 @@ final class PointEditView: UIView {
     }()
 
     // MARK: - 상세주소 설정 버튼
-    let addressEditButton = AddressEditButton(originalAddress: "주소1")
+    let addressEditButton = AddressEditButton(originalAddress: "주소1", pointType: .start)
 
     // MARK: - 시간 타입 라벨 (출발 시간인지 도착 시간인지)
     let timeTypeLabel = TimeTypeLabel(timeType: .departure)
 
     // MARK: - 시간 설정 버튼
-    let timeEditButton = TimeEditButton(originalTime: "00:00 AM")
+    let timeEditButton = TimeEditButton(originalTime: "00:00 AM", pointType: .start)
 
     /**
      originalAddress: 기존에 설정돼있던 주소의 대표명
      originalArrivalTime: 기존에 설정돼있던 출발 또는 도착 시간
      hasXButton: X버튼 여부 (경유지의 경우 필요함)
      */
-    init(originalAddress: String, originalArrivalTime: Date, hasXButton: Bool = false, isDeparture: Bool = true) {
+    init(pointType: PointType, originalAddress: String, originalArrivalTime: Date, hasXButton: Bool = false, isDeparture: Bool = true) {
         super.init(frame: .zero)
 
         // 출발 - 도착 텍스트 구분
@@ -63,6 +71,7 @@ final class PointEditView: UIView {
             make.width.equalTo(22)
         }
 
+        addressEditButton.pointType = pointType
         addressEditButton.setTitle(originalAddress, for: .normal)
         addSubview(addressEditButton)
         addressEditButton.snp.makeConstraints { make in
@@ -100,12 +109,16 @@ final class PointEditView: UIView {
 // MARK: - 주소 편집 버튼
 final class AddressEditButton: UIButton {
 
+    // #selector 메서드에서 어떤 지점의 버튼인지를 식별하기 위한 값 (출발지,경유지,도착지)
+    var pointType: PointType?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
 
-    init(originalAddress: String) {
+    init(originalAddress: String, pointType: PointType) {
         super.init(frame: .zero)
+        self.pointType = pointType
         setTitle(originalAddress, for: .normal)
         titleLabel?.font = UIFont.carmuFont.subhead2
         setTitleColor(UIColor.semantic.textTertiary, for: .normal)
@@ -146,12 +159,16 @@ final class TimeTypeLabel: UILabel {
 // MARK: - 시간 설정 버튼
 final class TimeEditButton: UIButton {
 
+    // #selector 메서드에서 어떤 지점의 버튼인지를 식별하기 위한 값 (출발지,경유지,도착지)
+    var pointType: PointType?
+
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
 
-    init(originalTime: String) {
+    init(originalTime: String, pointType: PointType) {
         super.init(frame: .zero)
+        self.pointType = pointType
         setTitle(originalTime, for: .normal)
         titleLabel?.font = UIFont.carmuFont.subhead3
         setTitleColor(UIColor.semantic.accPrimary, for: .normal)

@@ -52,6 +52,11 @@ final class CrewEditViewController: UIViewController {
             action: #selector(showRepeatDaySelectModal),
             for: .touchUpInside
         )
+        crewEditView.startPoint.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
+        crewEditView.stopover1.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
+        crewEditView.stopover2.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
+        crewEditView.stopover3.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
+        crewEditView.endPoint.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -148,13 +153,17 @@ final class CrewEditViewController: UIViewController {
 // MARK: - @objc 메서드
 extension CrewEditViewController {
 
-    // [완료] 버튼 클릭 시 호출
+    /**
+     [완료] 버튼 클릭 시 호출
+     */
     @objc private func completeCrewEdit() {
-        // TODO: - 최종적으로 수정된 크루 데이터를 파이어베이스 DB에 전달
+        // TODO: - 최종적으로 수정된 [크루 데이터]를 파이어베이스 DB에 전달
         print("크루 편집 완료")
     }
 
-    // 반복 요일 설정 버튼 클릭 시 호출
+    /**
+     반복 요일 설정 버튼 클릭 시 호출
+     */
     @objc private func showRepeatDaySelectModal() {
         // 크루에 설정돼있는 반복 요일 데이터를 전달
         guard let originalRepeatDay = userCrewData?.repeatDay else {
@@ -176,6 +185,52 @@ extension CrewEditViewController {
         }
         present(repeatDaySelectModalVC, animated: true)
     }
+
+    /**
+     장소의 시간 설정 버튼 클릭 시 호출
+     */
+    @objc private func showTimeSelectModal(sender: TimeEditButton) {
+        let timeSelectModalVC = TimeSelectModalViewController()
+        // TODO: - Crew에 정보 입력하는 방식 이후, 타임 피커에 이전 경유지보다 늦은 시간부터 설정하는 로직 구현예정
+        guard let pointType = sender.pointType else {
+            return
+        }
+        // 시간 설정 모달에 기존의 값을 반영
+        switch pointType {
+        case .start:
+            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
+                string: sender.titleLabel?.text ?? "오전 08:00",
+                dateFormat: "aa hh:mm"
+            ) ?? Date()
+        case .stopover1:
+            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
+                string: sender.titleLabel?.text ?? "오전 08:00",
+                dateFormat: "aa hh:mm"
+            ) ?? Date()
+        case .stopover2:
+            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
+                string: sender.titleLabel?.text ?? "오전 08:00",
+                dateFormat: "aa hh:mm"
+            ) ?? Date()
+        case .stopover3:
+            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
+                string: sender.titleLabel?.text ?? "오전 08:00",
+                dateFormat: "aa hh:mm"
+            ) ?? Date()
+        case .end:
+            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
+                string: sender.titleLabel?.text ?? "오전 08:00",
+                dateFormat: "aa hh:mm"
+            ) ?? Date()
+        }
+
+        // 시간 설정 모달에서 선택된 값이 반영된다.
+        timeSelectModalVC.timeSelectionHandler = { [weak self] selectedTime in
+            sender.setTitle(Date.formattedDate(from: selectedTime, dateFormat: "aa hh:mm"), for: .normal)
+        }
+
+        present(timeSelectModalVC, animated: true)
+    }
 }
 
 // MARK: - RDSModalViewControllerDelegate 델리게이트 구현
@@ -189,13 +244,14 @@ extension CrewEditViewController: RDSModalViewControllerDelegate {
         // TODO: - 앱 상에서 갖고 있는 데이터에 반영해주기 (파이어베이스 DB에는 X)
     }
 }
+
 // MARK: - 프리뷰 canvas 세팅
 import SwiftUI
 
 struct CrewEditViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = CrewEditViewController
     func makeUIViewController(context: Context) -> CrewEditViewController {
-        return CrewEditViewController(userCrewData: crewData!) // 프리뷰라서 강제 바인딩 했습니다.
+        return CrewEditViewController(userCrewData: dummyCrewData!) // 프리뷰라서 강제 바인딩 했습니다.
     }
     func updateUIViewController(_ uiViewController: CrewEditViewController, context: Context) {
     }
