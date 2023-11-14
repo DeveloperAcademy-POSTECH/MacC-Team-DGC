@@ -11,7 +11,7 @@ import NMapsMap
 
 final class SelectDetailPointMapViewController: UIViewController {
 
-    private let selectDetailPointMapView = SelectDetailPointMapView()
+    let selectDetailPointMapView = SelectDetailPointMapView()
     private var selectAddressModel: SelectAddressDTO
     var addressSelectionHandler: ((AddressDTO) -> Void)?
     private var addressDTO = AddressDTO()

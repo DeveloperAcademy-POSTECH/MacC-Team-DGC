@@ -296,7 +296,17 @@ extension SelectAddressViewController: UITableViewDelegate {
                         self?.addressDTO = addressDTO
                     }
 
-                    detailViewController.title = "상세 위치 설정"
+                    if selectAddressView.headerTitleLabel.text == "출발지 주소 설정" {
+                        detailViewController
+                            .selectDetailPointMapView
+                            .saveButton
+                            .setTitle("출발지로 설정", for: .normal)
+                    } else {
+                        detailViewController
+                            .selectDetailPointMapView
+                            .saveButton
+                            .setTitle("도착지로 설정", for: .normal)
+                    }
                     self.navigationItem.backBarButtonItem = UIBarButtonItem(
                         title: "",
                         style: .plain,
