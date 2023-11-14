@@ -35,28 +35,20 @@ final class SessionStartViewController: UIViewController {
         Task {
             do {
                 showActivityIndicator()
-                if let crewData = try await firebaseManager.getCrewData() {
-                    setupUI()
-                    setupConstraints()
-                    setTargetButton()
-                    hideActivityIndicator()
-                    // 성공적으로 crew 데이터를 받아왔을 경우
-                    print("Received crew data: \(crewData)")
-                    isCaptain = try await firebaseManager.checkCaptain()
-
-                    checkCrew(crewData: crewData)
+                let crewData = try await firebaseManager.getCrewData()
+                hideActivityIndicator()
+                setupUI()
+                setupConstraints()
+                setTargetButton()
+                print("Received crew data: \(String(describing: crewData))")
+                isCaptain = try await firebaseManager.checkCaptain()
+                checkCrew(crewData: crewData)
+                if let crewData = crewData {
                     settingData(crewData: crewData)
-
                     // DriverView
                     sessionStartDriverView.driverFrontView.settingDriverFrontData(crewData: crewData)
-
                     sessionStartDriverView.driverFrontView.crewData = crewData
                     sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
-
-                } else {
-                    // crew 데이터를 받아오지 못했을 경우
-                    crewData = nil
-                    print("Failed to get crew data")
                 }
             } catch {
                 // 어떤 에러가 발생했을 경우
