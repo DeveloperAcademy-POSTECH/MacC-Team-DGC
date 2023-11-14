@@ -12,7 +12,6 @@ final class SelectAddressView: UIView {
     // MARK: - 모달 상단 바
     private lazy var headerBar: UIView = {
         let headerStackView = UIView()
-
         return headerStackView
     }()
 
@@ -23,7 +22,6 @@ final class SelectAddressView: UIView {
         headerTitleLabel.font = UIFont.boldSystemFont(ofSize: 17)
         headerTitleLabel.textAlignment = .center
         headerTitleLabel.textColor = UIColor.semantic.textPrimary
-
         return headerTitleLabel
     }()
 
@@ -34,22 +32,20 @@ final class SelectAddressView: UIView {
         closeButton.setBackgroundImage(buttonImage, for: .normal)
         closeButton.tintColor = UIColor.semantic.accPrimary
         closeButton.contentMode = .scaleAspectFit
-
         return closeButton
     }()
 
     // MARK: - 텍스트 필드 배경
-    lazy var addressSearchTextFieldView: UIView = {
+    let addressSearchTextFieldView: UIView = {
         let txfieldView = UIView()
         txfieldView.layer.cornerRadius = 20
         txfieldView.layer.borderWidth = 1.0
         txfieldView.layer.borderColor = UIColor.theme.blue3?.cgColor
-
         return txfieldView
     }()
 
     // MARK: - 텍스트 필드
-    lazy var addressSearchTextField: UITextField = {
+    let addressSearchTextField: UITextField = {
         let textField = UITextField()
         textField.textAlignment = .left
         textField.font = UIFont.carmuFont.body2Long
@@ -64,40 +60,16 @@ final class SelectAddressView: UIView {
             string: "주소지를 검색하세요",
             attributes: placeholderAttributes
         )
-
-        textField.rightView = textFieldUtilityStackView
-        textField.rightViewMode = .whileEditing
-
         return textField
     }()
 
-    // MARK: - 텍스트 필드 우측 스택
-    private lazy var textFieldUtilityStackView: UIStackView = {
-        let textFieldUtilityStackView = UIStackView()
-        textFieldUtilityStackView.axis = .horizontal
-        textFieldUtilityStackView.alignment = .center
-        textFieldUtilityStackView.distribution = .fill
-
-        return textFieldUtilityStackView
-    }()
-
     // MARK: - 텍스트 필드 clear 버튼
-    lazy var clearButton: UIButton = {
+    let clearButton: UIButton = {
         let clearButton = UIButton(type: .custom)
         clearButton.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         clearButton.tintColor = UIColor.semantic.accPrimary
-
+        clearButton.isHidden = true
         return clearButton
-    }()
-
-    // MARK: - 텍스트 필드 검색 버튼
-    lazy var addressSearchButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("검색", for: .normal)
-        button.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
-        button.titleLabel?.font = UIFont.carmuFont.body2Long
-
-        return button
     }()
 
     let tableViewComponent: UITableView = {
@@ -129,10 +101,8 @@ final class SelectAddressView: UIView {
         headerBar.addSubview(headerTitleLabel)
         headerBar.addSubview(closeButton)
         addressSearchTextFieldView.addSubview(addressSearchTextField)
+        addressSearchTextFieldView.addSubview(clearButton)
         addSubview(tableViewComponent)
-
-        textFieldUtilityStackView.addArrangedSubview(clearButton)
-        textFieldUtilityStackView.addArrangedSubview(addressSearchButton)
     }
 
     // MARK: - 오토 레이아웃 설정 메서드
@@ -167,7 +137,8 @@ final class SelectAddressView: UIView {
         }
 
         clearButton.snp.makeConstraints { make in
-            make.trailing.equalTo(addressSearchButton.snp.leading).offset(-10)
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().inset(20)
         }
 
         tableViewComponent.snp.makeConstraints { make in
@@ -175,5 +146,16 @@ final class SelectAddressView: UIView {
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalTo(safeAreaLayoutGuide).inset(20)
         }
+    }
+}
+
+// MARK: - Previewer
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct SelectAddressViewPreview: PreviewProvider {
+
+    static var previews: some View {
+        SelectAddressViewControllerRepresentable()
     }
 }

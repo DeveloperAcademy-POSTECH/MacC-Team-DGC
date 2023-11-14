@@ -40,7 +40,7 @@ final class DefaultAddressTableViewCell: UITableViewCell {
 
     private func setupConstraints() {
         cellBackgroundImage.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0))
             make.height.equalTo(82)
         }
 
