@@ -9,10 +9,9 @@ import UIKit
 
 final class SelectAddressTableViewCell: UITableViewCell {
 
-    private let cellBackgroundImage = UIView()
+    let cellBackgroundImage = UIView()
     let buildingNameLabel = UILabel()
     let detailAddressLabel = UILabel()
-    private let selectLabel = UILabel()
 
     // MARK: - 기본 override function
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -32,26 +31,21 @@ final class SelectAddressTableViewCell: UITableViewCell {
         cellBackgroundImage.backgroundColor = UIColor.semantic.backgroundAddress
         cellBackgroundImage.layer.cornerRadius = 20
 
-        selectLabel.text = "선택"
-
         buildingNameLabel.font = UIFont.carmuFont.body2
         buildingNameLabel.textColor = UIColor.semantic.textPrimary
         detailAddressLabel.font = UIFont.carmuFont.body2
         detailAddressLabel.textColor = UIColor.semantic.textBody
-        selectLabel.font = UIFont.carmuFont.body2
-        selectLabel.textColor = UIColor.semantic.accPrimary
 
         detailAddressLabel.textAlignment = .left
 
         contentView.addSubview(cellBackgroundImage)
         contentView.addSubview(buildingNameLabel)
         contentView.addSubview(detailAddressLabel)
-        contentView.addSubview(selectLabel)
     }
 
     private func setupConstraints() {
         cellBackgroundImage.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0))
             make.height.equalTo(82)
         }
         buildingNameLabel.snp.makeConstraints { make in
@@ -64,10 +58,16 @@ final class SelectAddressTableViewCell: UITableViewCell {
             make.horizontalEdges.equalToSuperview().inset(20)
             make.width.greaterThanOrEqualTo(200)
         }
+    }
+}
 
-        selectLabel.snp.makeConstraints { make in
-                make.top.equalToSuperview().inset(16)
-                make.trailing.equalToSuperview().inset(20)
-        }
+// MARK: - Previewer
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct SelectAddressCellPreview: PreviewProvider {
+
+    static var previews: some View {
+        SelectAddressViewControllerRepresentable()
     }
 }

@@ -69,6 +69,12 @@ extension StartEndPointSelectViewController {
     @objc private func findAddressButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectAddressViewController()
         let navigation = UINavigationController(rootViewController: detailViewController)
+        if sender == startEndPointSelectView.startPointView.button {
+            detailViewController.selectAddressView.headerTitleLabel.text = "출발지 주소 설정"
+        } else {
+            detailViewController.selectAddressView.headerTitleLabel.text = "도착지 주소 설정"
+        }
+        navigation.navigationBar.isHidden = true
 
         detailViewController.addressSelectionHandler = { [weak self] addressDTO in
             var point = Point()
@@ -77,11 +83,21 @@ extension StartEndPointSelectViewController {
             point.latitude = addressDTO.pointLat
             point.longitude = addressDTO.pointLng
 
-            if sender.titleLabel?.text == "     출발지 검색" {
+            if sender == self?.startEndPointSelectView.startPointView.button {
                 self?.startPointAddress = addressDTO.pointName
+                self?.startEndPointSelectView.startPointView.button.setTitleColor(
+                    UIColor.semantic.textTertiary,
+                    for: .normal
+                )
+                self?.startEndPointSelectView.startPointView.button.titleLabel?.font = UIFont.carmuFont.subhead2
                 self?.crewData.startingPoint = point
             } else {
                 self?.endPointAddress = addressDTO.pointName
+                self?.startEndPointSelectView.endPointView.button.setTitleColor(
+                    UIColor.semantic.textTertiary,
+                    for: .normal
+                 )
+                self?.startEndPointSelectView.endPointView.button.titleLabel?.font = UIFont.carmuFont.subhead2
                 self?.crewData.destination = point
             }
         }
