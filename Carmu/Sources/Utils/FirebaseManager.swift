@@ -512,8 +512,7 @@ extension FirebaseManager {
                 inviteCode: crewData["inviteCode"] as? String ?? "",
                 repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                 sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
-//                crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
-                crewStatus: crewData["crewStatus"] as? [CrewStatus]
+                crewStatus: self.convertDataToCrewStatus(crewData["crewStatus"] as? [[String: Any]] ?? [])
             )
 
             if crewData["stopover1"] != nil {
@@ -618,7 +617,7 @@ extension FirebaseManager {
                     inviteCode: crewData["inviteCode"] as? String ?? "",
                     repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
 //                    crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
-                    crewStatus: crewData["crewStatus"] as? [CrewStatus]
+                    crewStatus: self.convertDataToCrewStatus(crewData["crewStatus"] as? [[String: Any]] ?? [])
                 )
                 if crewData["stopover1"] != nil {
                     crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
@@ -659,15 +658,22 @@ extension FirebaseManager {
         return point
     }
 
-    func convertDataToCrewStatus(_ data: [String: Any]) -> CrewStatus {
-        var crewStatus = CrewStatus()
+    // Data를 CrewStatus로 불러옴
+    func convertDataToCrewStatus(_ data: [[String: Any]]) -> [CrewStatus] {
+        var crewStatusArray = [CrewStatus]()
 
-        crewStatus.name = data["name"] as? String
-        crewStatus.profileColor = data["profileColor"] as? String
-        crewStatus.status = data["status"] as? Status
-
-        return crewStatus
+        for statusData in data {
+            if let nickname = statusData["nickname"] as? String,
+               let profileColor = statusData["profileColor"] as? String,
+               let statusString = statusData["status"] as? String,
+               let statusEnum = Status(rawValue: statusString) {
+                let status = CrewStatus(nickname: nickname, profileColor: profileColor, status: statusEnum)
+                crewStatusArray.append(status)
+            }
+        }
+        return crewStatusArray
     }
+
 }
 
 extension FirebaseManager {

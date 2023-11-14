@@ -8,7 +8,7 @@
 import Foundation
 
 struct CrewStatus: Codable {
-    var name: String?
+    var nickname: String?
     var profileColor: String?
     var status: Status?
 }

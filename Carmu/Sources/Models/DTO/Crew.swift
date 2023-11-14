@@ -107,9 +107,9 @@ var dummyCrewData: Crew? = Crew(
     inviteCode: "0101010",
     repeatDay: [1, 2, 3, 4, 5],
     sessionStatus: .waiting,
-    crewStatus: [CrewStatus(name: "uni", profileColor: "blue", status: .waiting),
-                 CrewStatus(name: "rei", profileColor: "red", status: .waiting),
-                 CrewStatus(name: "bazzi", profileColor: "red", status: .waiting)]
+    crewStatus: [CrewStatus(nickname: "uni", profileColor: "blue", status: .waiting),
+                 CrewStatus(nickname: "rei", profileColor: "red", status: .waiting),
+                 CrewStatus(nickname: "bazzi", profileColor: "red", status: .waiting)]
 //    crewStatus: ["uni": .waiting, "rei": .waiting]
 )
 
