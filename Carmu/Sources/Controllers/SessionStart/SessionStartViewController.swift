@@ -35,28 +35,20 @@ final class SessionStartViewController: UIViewController {
         Task {
             do {
                 showActivityIndicator()
-                if let crewData = try await firebaseManager.getCrewData() {
-                    setupUI()
-                    setupConstraints()
-                    setTargetButton()
-                    hideActivityIndicator()
-                    // 성공적으로 crew 데이터를 받아왔을 경우
-                    print("Received crew data: \(crewData)")
-                    isCaptain = try await firebaseManager.checkCaptain()
-
-                    checkCrew(crewData: crewData)
+                let crewData = try await firebaseManager.getCrewData()
+                hideActivityIndicator()
+                setupUI()
+                setupConstraints()
+                setTargetButton()
+                print("Received crew data: \(String(describing: crewData))")
+                isCaptain = try await firebaseManager.checkCaptain()
+                checkCrew(crewData: crewData)
+                if let crewData = crewData {
                     settingData(crewData: crewData)
-
                     // DriverView
                     sessionStartDriverView.driverFrontView.settingDriverFrontData(crewData: crewData)
-
                     sessionStartDriverView.driverFrontView.crewData = crewData
                     sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
-
-                } else {
-                    // crew 데이터를 받아오지 못했을 경우
-                    crewData = nil
-                    print("Failed to get crew data")
                 }
             } catch {
                 // 어떤 에러가 발생했을 경우
@@ -490,7 +482,6 @@ extension SessionStartViewController {
 
     // 운전자일 때
     private func settingIndividualButtonForDriver() {
-        guard let crewData = dummyCrewData else { return }
 
         // 모든 경우에 같은 화면임
         sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
@@ -586,20 +577,20 @@ extension SessionStartViewController {
     // TODO: - 실제 데이터로 변경 및 데이터 값 변경될 때 Observer로 확인
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
     private func checkingCrewStatus() {
-        guard let crewData = dummyCrewData else { return }
-
-        // crewStatus를 순회하면서 .accept 상태의 크루원 확인
-        let isAnyMemberAccepted = crewData.crewStatus.values.contains { status in
-            return status == .accept
-        }
-
-        if isAnyMemberAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
-            sessionStartView.carpoolStartButton.isEnabled = true
-            sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
-        } else {    // 수락한 크루원이 없을 때
-            sessionStartView.carpoolStartButton.isEnabled = false
-            sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
-        }
+//        guard let crewData = dummyCrewData else { return }
+//
+//        // crewStatus를 순회하면서 .accept 상태의 크루원 확인
+//        let isAnyMemberAccepted = crewData.crewStatus.values.contains { status in
+//            return status == .accept
+//        }
+//
+//        if isAnyMemberAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
+//            sessionStartView.carpoolStartButton.isEnabled = true
+//            sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
+//        } else {    // 수락한 크루원이 없을 때
+//            sessionStartView.carpoolStartButton.isEnabled = false
+//            sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
+//        }
     }
 }
 

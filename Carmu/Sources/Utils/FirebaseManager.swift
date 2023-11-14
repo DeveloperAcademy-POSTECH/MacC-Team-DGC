@@ -431,18 +431,18 @@ extension FirebaseManager {
             }
         }
 
-        databaseRef.child("crewStatus").getData { error, snapshot in
+        databaseRef.child("memberStatus").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
 
-            if var crewStatus = snapshot?.value as? [String: String] {
-                crewStatus[userID] = Status.waiting.rawValue
-                databaseRef.child("crewStatus").setValue(crewStatus)
+            if var memberStatus = snapshot?.value as? [String: String] {
+                memberStatus[userID] = Status.waiting.rawValue
+                databaseRef.child("memberStatus").setValue(memberStatus)
             } else {
                 let newCrewStatus = [userID: Status.waiting.rawValue]
-                databaseRef.child("crewStatus").setValue(newCrewStatus)
+                databaseRef.child("memberStatus").setValue(newCrewStatus)
             }
         }
     }
@@ -512,7 +512,7 @@ extension FirebaseManager {
                 inviteCode: crewData["inviteCode"] as? String ?? "",
                 repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                 sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
-                crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
+                memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
             )
 
             if crewData["stopover1"] != nil {
@@ -616,7 +616,8 @@ extension FirebaseManager {
                     destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: crewData["inviteCode"] as? String ?? "",
                     repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                    crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
+//                    crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
+                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
                 )
                 if crewData["stopover1"] != nil {
                     crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
@@ -657,15 +658,28 @@ extension FirebaseManager {
         return point
     }
 
-    func convertDataToCrewStatus(_ data: [String: Any]) -> CrewStatus {
-        var crewStatus = CrewStatus()
+    // Data를 CrewStatus로 불러옴
+    func convertDataToMemberStatus(_ data: [[String: Any]]) -> [MemeberStatus] {
+        var crewStatusArray = [MemeberStatus]()
 
-        crewStatus.name = data["name"] as? String
-        crewStatus.profileColor = data["profileColor"] as? String
-        crewStatus.status = data["status"] as? Status
-
-        return crewStatus
+        for statusData in data {
+            if let nickname = statusData["nickname"] as? String,
+               let id = statusData["id"] as? String,
+               let deviceToken = statusData["deviceToken"] as? String,
+               let profileColor = statusData["profileColor"] as? String,
+               let statusString = statusData["status"] as? String,
+               let statusEnum = Status(rawValue: statusString) {
+                let status = MemeberStatus(id: id,
+                                           deviceToken: deviceToken,
+                                           nickname: nickname,
+                                           profileColor: profileColor,
+                                           status: statusEnum)
+                crewStatusArray.append(status)
+            }
+        }
+        return crewStatusArray
     }
+
 }
 
 extension FirebaseManager {
