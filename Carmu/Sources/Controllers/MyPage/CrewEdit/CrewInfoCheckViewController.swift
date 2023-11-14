@@ -54,7 +54,7 @@ final class CrewInfoCheckViewController: UIViewController {
     private func performButtonSettings() {
         crewInfoCheckView.exitCrewButton.addTarget(
             self,
-            action: #selector(exitCrewButtonTapped),
+            action: #selector(showCrewExitAlert),
             for: .touchUpInside
         )
         crewInfoCheckView.crewNameEditButton.addTarget(
@@ -168,23 +168,6 @@ final class CrewInfoCheckViewController: UIViewController {
             crewInfoCheckView.locationCellStack.addArrangedSubview(locationCell)
         }
     }
-
-    // 크루 나가기 알럿 띄우기
-    private func showCrewExitAlert() {
-        let alert = UIAlertController(
-            title: "크루에서 나가시겠습니까?",
-            message: "크루에 대한 모든 정보가 삭제됩니다.",
-            preferredStyle: .alert
-        )
-        let back = UIAlertAction(title: "돌아가기", style: .default)
-        let crewExit = UIAlertAction(title: "크루 나가기", style: .destructive) { _ in
-            // TODO: - 크루 나가기 구현 필요
-            print("크루 나가기!")
-        }
-        alert.addAction(back)
-        alert.addAction(crewExit)
-        present(alert, animated: true)
-    }
 }
 
 // MARK: - @objc 메서드
@@ -208,16 +191,32 @@ extension CrewInfoCheckViewController {
     @objc private func startCrewEdit() {
         print("크루 정보 편집 시작")
         // 내비게이션 타이틀 크루명으로 설정
+        guard let userCrewData = userCrewData else {
+            return
+        }
         let crewEditVC = CrewEditViewController(
-            crewName: crewInfoCheckView.crewNameLabel.text ?? ""
+            // TODO: - 실제 크루 데이터로 전달하도록 수정
+            userCrewData: userCrewData
         )
         navigationController?.pushViewController(crewEditVC, animated: true)
     }
 
-    // [크루 나가기] 버튼 클릭 시 호출
-    @objc private func exitCrewButtonTapped() {
-        showCrewExitAlert()
+    // [크루 나가기] 버튼 클릭 시 알럿
+    @objc private func showCrewExitAlert() {
         print("크루 나가기 버튼 클릭됨!!")
+        let alert = UIAlertController(
+            title: "크루에서 나가시겠습니까?",
+            message: "크루에 대한 모든 정보가 삭제됩니다.",
+            preferredStyle: .alert
+        )
+        let back = UIAlertAction(title: "돌아가기", style: .default)
+        let crewExit = UIAlertAction(title: "크루 나가기", style: .destructive) { _ in
+            // TODO: - 크루 나가기 구현 필요
+            print("크루 나가기!")
+        }
+        alert.addAction(back)
+        alert.addAction(crewExit)
+        present(alert, animated: true)
     }
 }
 
