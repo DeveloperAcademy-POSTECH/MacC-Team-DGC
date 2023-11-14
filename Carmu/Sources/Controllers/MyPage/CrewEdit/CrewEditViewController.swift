@@ -217,37 +217,11 @@ extension CrewEditViewController {
     @objc private func showTimeSelectModal(sender: TimeEditButton) {
         let timeSelectModalVC = TimeSelectModalViewController()
         // TODO: - Crew에 정보 입력하는 방식 이후, 타임 피커에 이전 경유지보다 늦은 시간부터 설정하는 로직 구현예정
-        guard let pointType = sender.pointType else {
-            return
-        }
         // 시간 설정 모달에 기존의 값을 반영
-        switch pointType {
-        case .start:
-            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
-                string: sender.titleLabel?.text ?? "오전 08:00",
-                dateFormat: "aa hh:mm"
-            ) ?? Date()
-        case .stopover1:
-            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
-                string: sender.titleLabel?.text ?? "오전 08:00",
-                dateFormat: "aa hh:mm"
-            ) ?? Date()
-        case .stopover2:
-            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
-                string: sender.titleLabel?.text ?? "오전 08:00",
-                dateFormat: "aa hh:mm"
-            ) ?? Date()
-        case .stopover3:
-            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
-                string: sender.titleLabel?.text ?? "오전 08:00",
-                dateFormat: "aa hh:mm"
-            ) ?? Date()
-        case .end:
-            timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
-                string: sender.titleLabel?.text ?? "오전 08:00",
-                dateFormat: "aa hh:mm"
-            ) ?? Date()
-        }
+        timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
+            string: sender.titleLabel?.text ?? "오전 08:00",
+            dateFormat: "aa hh:mm"
+        ) ?? Date()
 
         // 시간 설정 모달에서 선택된 값이 반영된다.
         timeSelectModalVC.timeSelectionHandler = { [weak self] selectedTime in

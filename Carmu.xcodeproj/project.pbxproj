@@ -350,6 +350,7 @@
 				B84006AF2B00B2690009DCD2 /* CrewEditView.swift */,
 				B8AF803A2B01B33A00CB2DEC /* PointEditView.swift */,
 				B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */,
+				B8293CCA2B0392FC002472AE /* DayButtonCollectionViewCell.swift */,
 			);
 			path = CrewEdit;
 			sourceTree = "<group>";
@@ -609,7 +610,6 @@
 			children = (
 				C93116752AF3B5F00014E702 /* SelectAddressTableViewCell.swift */,
 				C93116772AF3B6310014E702 /* DefaultAddressTableViewCell.swift */,
-				B8293CCA2B0392FC002472AE /* DayButtonCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
