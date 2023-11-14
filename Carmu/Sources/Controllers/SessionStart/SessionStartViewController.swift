@@ -49,6 +49,8 @@ final class SessionStartViewController: UIViewController {
                     sessionStartDriverView.driverFrontView.settingDriverFrontData(crewData: crewData)
                     sessionStartDriverView.driverFrontView.crewData = crewData
                     sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
+                    // PassengerView
+                    sessionStartPassengerView.passengerFrontView.settingPassengerFrontData(crewData: crewData)
                 }
             } catch {
                 // 어떤 에러가 발생했을 경우

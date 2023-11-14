@@ -158,7 +158,6 @@ final class PassengerFrontView: UIView {
         super.init(frame: .zero)
         setupFrontView()
         setupConstraints()
-        settingData()
 
         // TODO: - 데이터 수정 후 변경 -> session 여부에 따라 true, false로 변경하기
         noDriveViewForPassenger.isHidden = true
@@ -238,8 +237,9 @@ final class PassengerFrontView: UIView {
         }
     }
 
-    // TODO: - 실제 데이터로 변경
-    private func settingData() {
+    func settingPassengerFrontData(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        // TODO: - 데이터 구조 고민해보기
         locationLabel.text = "해당 위치에"
         let locationText = NSMutableAttributedString(string: locationLabel.text ?? "")
         if let range1 = locationLabel.text?.range(of: "해당 위치") {
