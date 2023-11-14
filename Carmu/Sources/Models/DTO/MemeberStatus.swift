@@ -7,8 +7,11 @@
 
 import Foundation
 
-struct CrewStatus: Codable {
-    var name: String?
+struct MemeberStatus: Codable {
+
+    var id: UserIdentifier?
+    var deviceToken: String?
+    var nickname: String?
     var profileColor: String?
     var status: Status?
 }
