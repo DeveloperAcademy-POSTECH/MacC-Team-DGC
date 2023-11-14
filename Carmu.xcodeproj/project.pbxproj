@@ -67,6 +67,7 @@
 		BF9BCFE82ACDCBFF009DAECD /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */; };
 		BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */; };
 		BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */; };
+		BFB18D862B02FB23006858C3 /* SessionFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB18D852B02FB23006858C3 /* SessionFinishViewController.swift */; };
 		BFD765862AF7E16F0074277B /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD765852AF7E16F0074277B /* MapView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
 		BFFA10AF2AE609B8003CE661 /* PickupLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */; };
@@ -186,6 +187,7 @@
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		BF9BCFFC2ACE458D009DAECD /* MyPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageView.swift; sourceTree = "<group>"; };
 		BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartView.swift; sourceTree = "<group>"; };
+		BFB18D852B02FB23006858C3 /* SessionFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionFinishViewController.swift; sourceTree = "<group>"; };
 		BFD765852AF7E16F0074277B /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupLocation.swift; sourceTree = "<group>"; };
 		BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateViewController.swift; sourceTree = "<group>"; };
@@ -278,6 +280,7 @@
 			children = (
 				BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */,
 				163422352AFE636000196EB2 /* RuleDescriptionViewController.swift */,
+				BFB18D852B02FB23006858C3 /* SessionFinishViewController.swift */,
 			);
 			path = SessionStart;
 			sourceTree = "<group>";
@@ -873,6 +876,7 @@
 				C931167C2AF3B7070014E702 /* AddressDTO.swift in Sources */,
 				B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
+				BFB18D862B02FB23006858C3 /* SessionFinishViewController.swift in Sources */,
 				C9F43BD92AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift in Sources */,
 				BFD765862AF7E16F0074277B /* MapView.swift in Sources */,
 				C93116702AF3ABB20014E702 /* StartEndPointSelectView.swift in Sources */,

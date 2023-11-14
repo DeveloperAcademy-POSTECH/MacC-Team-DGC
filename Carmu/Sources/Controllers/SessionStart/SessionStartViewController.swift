@@ -493,3 +493,9 @@ extension SessionStartViewController {
         databasePath.child("deviceToken").setValue(fcmToken as NSString)
     }
 }
+
+extension SessionStartViewController {
+    func showCarpoolFinishedModal() {
+        present(SessionFinishViewController(), animated: true)
+    }
+}
