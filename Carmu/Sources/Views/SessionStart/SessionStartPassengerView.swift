@@ -239,8 +239,8 @@ final class PassengerFrontView: UIView {
 
     func settingPassengerFrontData(crewData: Crew?) {
         guard let crewData = crewData else { return }
-        // TODO: - 데이터 구조 고민해보기
-        locationLabel.text = "해당 위치에"
+
+        locationLabel.text = getPassengerLocation(crewData: crewData)
         let locationText = NSMutableAttributedString(string: locationLabel.text ?? "")
         if let range1 = locationLabel.text?.range(of: "해당 위치") {
             let nsRange1 = NSRange(range1, in: locationLabel.text ?? "")
@@ -250,7 +250,7 @@ final class PassengerFrontView: UIView {
         }
         locationLabel.attributedText = locationText
 
-        timeLabel.text = "몇 시까지 나가야 해요"
+        timeLabel.text = "\(getPassengerTime(crewData: crewData))까지 나가야 해요"
         let timeText = NSMutableAttributedString(string: timeLabel.text ?? "")
         if let range2 = timeLabel.text?.range(of: "몇 시") {
             let nsRange2 = NSRange(range2, in: timeLabel.text ?? "")
@@ -261,5 +261,43 @@ final class PassengerFrontView: UIView {
         timeLabel.attributedText = timeText
 
         statusLabel.text = "운전자의 확인을 기다리고 있어요"
+    }
+
+    // crewData를 기반으로 위치 불러오기
+    private func getPassengerLocation(crewData: Crew?) -> String {
+        guard let crewData = crewData else { return "" }
+        guard let currentUserIdentifier = KeychainItem.currentUserIdentifier else { return "" }
+        let locations = [crewData.startingPoint,
+                         crewData.stopover1,
+                         crewData.stopover2,
+                         crewData.stopover3]
+
+        for location in locations {
+            if let location = location, location.crews?.description == currentUserIdentifier {
+                // 현재 사용자가 타는 지점을 찾은 경우 해당 지점의 이름 반환
+                return location.name ?? "목적지"
+            }
+        }
+        // 만약 없다면
+        return ""
+    }
+
+    // crewData를 기반으로 시간 불러오기
+    private func getPassengerTime(crewData: Crew?) -> String {
+        guard let crewData = crewData else { return "00:00" }
+        guard let currentUserIdentifier = KeychainItem.currentUserIdentifier else { return "00:00" }
+        let locations = [crewData.startingPoint,
+                         crewData.stopover1,
+                         crewData.stopover2,
+                         crewData.stopover3]
+        for location in locations {
+            if let location = location, location.crews?.description == currentUserIdentifier {
+                let arrivalTime = location.arrivalTime
+                print("arrivalTime ", arrivalTime as Any)
+
+                return arrivalTime?.description ?? "00:00"
+            }
+        }
+        return "없음 00:00"
     }
 }
