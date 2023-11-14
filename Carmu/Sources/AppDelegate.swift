@@ -21,6 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     ) -> Bool {
+        // 앱 자체 언어 한국어로 설정
+        UserDefaults.standard.set(["ko"], forKey: "AppleLanguages")
+        UserDefaults.standard.synchronize()
+
         FirebaseApp.configure() // Firebase 초기화 (연결)
         // 원격 알림 등록
         UNUserNotificationCenter.current().delegate = self
