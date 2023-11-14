@@ -161,11 +161,13 @@ final class DriverFrontView: UIView {
         return label
     }()
 
+    private let sessionStartVC = SessionStartViewController()
+
     init() {
         super.init(frame: .zero)
         setupFrontView()
         setupConstraints()
-        settingData()
+        settingDriverFrontData(crewData: sessionStartVC.crewData)
 
         // TODO: - 데이터 수정 후 변경 -> session 여부에 따라 true, false로 변경하기
         noDriveViewForDriver.isHidden = true
@@ -232,21 +234,25 @@ final class DriverFrontView: UIView {
         }
     }
 
-    // TODO: - 실제 데이터로 변경
-    private func settingData() {
-        totalCrewMemeberLabel.text = "/ \(dummyCrewData?.crews.count ?? 0)"
-        todayCrewMemeberLabel.text = "1"
+    func settingDriverFrontData(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        totalCrewMemeberLabel.text = "/ \(crewData.crews.count)"
+        // TODO: - 데이터 변경
+        todayCrewMemeberLabel.text = "00"
     }
+
+    var crewData: Crew?
 }
 
 // TODO: - 실제 데이터로 변경
 extension DriverFrontView: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("count ", dummyCrewData?.crewStatus.count ?? 0)
-        return dummyCrewData?.crewStatus.count ?? 0
+        print("count ", crewData?.crewStatus.count ?? 0)
+        return crewData?.crewStatus.count ?? 0
     }
 
+    // TODO: - 여기부터 하기
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(

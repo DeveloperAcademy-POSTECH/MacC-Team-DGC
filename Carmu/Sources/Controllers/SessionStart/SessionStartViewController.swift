@@ -47,6 +47,12 @@ final class SessionStartViewController: UIViewController {
                     checkCrew(crewData: crewData)
                     settingData(crewData: crewData)
 
+                    // DriverView
+                    sessionStartDriverView.driverFrontView.settingDriverFrontData(crewData: crewData)
+
+                    sessionStartDriverView.driverFrontView.crewData = crewData
+                    sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
+
                 } else {
                     // crew 데이터를 받아오지 못했을 경우
                     crewData = nil
