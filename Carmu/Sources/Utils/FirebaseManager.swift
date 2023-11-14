@@ -512,7 +512,8 @@ extension FirebaseManager {
                 inviteCode: crewData["inviteCode"] as? String ?? "",
                 repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                 sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
-                crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
+//                crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
+                crewStatus: crewData["crewStatus"] as? [CrewStatus]
             )
 
             if crewData["stopover1"] != nil {
@@ -616,7 +617,8 @@ extension FirebaseManager {
                     destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: crewData["inviteCode"] as? String ?? "",
                     repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                    crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
+//                    crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
+                    crewStatus: crewData["crewStatus"] as? [CrewStatus]
                 )
                 if crewData["stopover1"] != nil {
                     crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])

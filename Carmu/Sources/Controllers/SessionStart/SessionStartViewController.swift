@@ -586,20 +586,20 @@ extension SessionStartViewController {
     // TODO: - 실제 데이터로 변경 및 데이터 값 변경될 때 Observer로 확인
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
     private func checkingCrewStatus() {
-        guard let crewData = dummyCrewData else { return }
-
-        // crewStatus를 순회하면서 .accept 상태의 크루원 확인
-        let isAnyMemberAccepted = crewData.crewStatus.values.contains { status in
-            return status == .accept
-        }
-
-        if isAnyMemberAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
-            sessionStartView.carpoolStartButton.isEnabled = true
-            sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
-        } else {    // 수락한 크루원이 없을 때
-            sessionStartView.carpoolStartButton.isEnabled = false
-            sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
-        }
+//        guard let crewData = dummyCrewData else { return }
+//
+//        // crewStatus를 순회하면서 .accept 상태의 크루원 확인
+//        let isAnyMemberAccepted = crewData.crewStatus.values.contains { status in
+//            return status == .accept
+//        }
+//
+//        if isAnyMemberAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
+//            sessionStartView.carpoolStartButton.isEnabled = true
+//            sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
+//        } else {    // 수락한 크루원이 없을 때
+//            sessionStartView.carpoolStartButton.isEnabled = false
+//            sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
+//        }
     }
 }
 
