@@ -119,18 +119,17 @@ final class PositionSelectView: UIView {
         }
 
         selectDriverButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(20)
-            make.top.equalTo(titleLabel4.snp.bottom).offset(120)
-            make.width.equalTo(165)
+            make.trailing.equalTo((superview?.snp.centerX) ?? 0).offset(-10)
             make.height.equalTo(240)
         }
 
         selectCrewButton.snp.makeConstraints { make in
+            make.top.equalTo(selectDriverButton)
             make.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(titleLabel4.snp.bottom).offset(120)
-            make.leading.greaterThanOrEqualTo(selectDriverButton.snp.trailing).offset(2)
-            make.width.equalTo(165)
-            make.height.equalTo(240)
+            make.leading.equalTo((superview?.snp.centerX) ?? 0).offset(10)
+            make.height.equalTo(selectDriverButton)
         }
 
         explainLabel1.snp.makeConstraints { make in
