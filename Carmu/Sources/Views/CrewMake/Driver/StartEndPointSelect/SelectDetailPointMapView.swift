@@ -155,7 +155,7 @@ extension SelectDetailPointMapView {
 
     func showExplain() {
         self.explainLabel.isHidden = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             // Set isHidden back to true after 1 second
             self.explainLabel.isHidden = true
         }

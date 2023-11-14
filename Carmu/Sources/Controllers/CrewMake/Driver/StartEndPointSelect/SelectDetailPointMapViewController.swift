@@ -12,6 +12,7 @@ import NMapsMap
 final class SelectDetailPointMapViewController: UIViewController {
 
     let selectDetailPointMapView = SelectDetailPointMapView()
+    private let loadingView = LoadingView()
     var selectAddressModel = SelectAddressDTO()
     var addressSelectionHandler: ((AddressDTO) -> Void)?
     private var addressDTO = AddressDTO()
@@ -19,8 +20,8 @@ final class SelectDetailPointMapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        view.addSubview(selectDetailPointMapView)
 
+        view.addSubview(selectDetailPointMapView)
         selectDetailPointMapView.mapView.addCameraDelegate(delegate: self)
         selectDetailPointMapView.mapView.zoomLevel = 17
         selectDetailPointMapView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
@@ -29,6 +30,12 @@ final class SelectDetailPointMapViewController: UIViewController {
         selectDetailPointMapView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        loadingView.showLoadingView(showInterval: 1.5)
     }
 
     override func viewDidAppear(_ animated: Bool) {

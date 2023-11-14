@@ -95,6 +95,15 @@ extension LoadingView {
     }
 }
 
+// MARK: - custom Method
+extension LoadingView {
+    func showLoadingView(showInterval second: CGFloat) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + second) {
+            self.removeFromSuperview()
+        }
+    }
+}
+
 // Preview
 import SwiftUI
 
