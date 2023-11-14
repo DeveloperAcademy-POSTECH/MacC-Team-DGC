@@ -21,21 +21,7 @@ final class StartEndPointSelectView: UIView {
     let startPointView = AddressSelectButtonView(textFieldTitle: "출발지")
     let endPointView = AddressSelectButtonView(textFieldTitle: "도착지")
 
-    lazy var nextButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("다음", for: .normal)
-        button.backgroundColor = UIColor.semantic.backgroundThird
-        button.titleLabel?.font = UIFont.carmuFont.headline2
-        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        button.setBackgroundImage(
-            UIImage(color: UIColor.semantic.textSecondary ?? .white),
-            for: .highlighted
-        )
-        button.layer.cornerRadius = 30
-        button.isEnabled = false
-
-        return button
-    }()
+    let nextButton = NextButton(buttonTitle: "다음")
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,6 +38,9 @@ final class StartEndPointSelectView: UIView {
 
     private func setupViews() {
         firstLineTitleStack.axis = .horizontal
+
+        nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        nextButton.isEnabled = false
 
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
