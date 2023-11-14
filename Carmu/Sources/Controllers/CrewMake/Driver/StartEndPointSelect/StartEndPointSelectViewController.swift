@@ -85,9 +85,17 @@ extension StartEndPointSelectViewController {
 
             if sender == self?.startEndPointSelectView.startPointView.button {
                 self?.startPointAddress = addressDTO.pointName
+                self?.startEndPointSelectView.startPointView.button.setTitleColor(
+                    UIColor.semantic.textTertiary,
+                    for: .normal
+                )
                 self?.crewData.startingPoint = point
             } else {
                 self?.endPointAddress = addressDTO.pointName
+                self?.startEndPointSelectView.endPointView.button.setTitleColor(
+                    UIColor.semantic.textTertiary,
+                    for: .normal
+                 )
                 self?.crewData.destination = point
             }
         }
