@@ -286,9 +286,6 @@ extension SelectAddressViewController: UITableViewDelegate {
                         coordinate: coordinate
                     )
 
-//                    let detailViewController = SelectDetailPointMapViewController(
-//                        selectAddressModel: selectAddressModel
-//                    )
                     let detailViewController = SelectDetailPointMapViewController()
                     detailViewController.selectAddressModel = selectAddressModel
 
