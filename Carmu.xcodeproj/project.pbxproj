@@ -22,6 +22,8 @@
 		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
 		16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */; };
 		16E42C482AC411A20031486E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* MapViewController.swift */; };
+		B8293CC62B028404002472AE /* RepeatDaySelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */; };
+		B8293CC82B028863002472AE /* RepeatDaySelectModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CC72B028863002472AE /* RepeatDaySelectModalViewController.swift */; };
 		B8376E3C2AF936DB007F1E0A /* CrewInfoNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */; };
 		B8376E3E2AF936EB007F1E0A /* CrewInfoDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */; };
 		B8376E402AF936F4007F1E0A /* CrewInfoPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */; };
@@ -145,6 +147,8 @@
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
 		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
 		16E42C472AC411A20031486E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectModalView.swift; sourceTree = "<group>"; };
+		B8293CC72B028863002472AE /* RepeatDaySelectModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectModalViewController.swift; sourceTree = "<group>"; };
 		B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoNoCrewView.swift; sourceTree = "<group>"; };
 		B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoDriverView.swift; sourceTree = "<group>"; };
 		B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoPassengerView.swift; sourceTree = "<group>"; };
@@ -341,6 +345,7 @@
 				B8726B1D2AFDB9990084B49C /* CrewInfoCheckView.swift */,
 				B84006AF2B00B2690009DCD2 /* CrewEditView.swift */,
 				B8AF803A2B01B33A00CB2DEC /* PointEditView.swift */,
+				B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */,
 			);
 			path = CrewEdit;
 			sourceTree = "<group>";
@@ -350,6 +355,7 @@
 			children = (
 				B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */,
 				B84006AD2B00B2570009DCD2 /* CrewEditViewController.swift */,
+				B8293CC72B028863002472AE /* RepeatDaySelectModalViewController.swift */,
 			);
 			path = CrewEdit;
 			sourceTree = "<group>";
@@ -842,6 +848,7 @@
 				B84B41872B000F0D007AC36F /* QuestionDetailView.swift in Sources */,
 				C9D04C6E2AFB81B2007E615B /* StopoverPointSelectView.swift in Sources */,
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
+				B8293CC82B028863002472AE /* RepeatDaySelectModalViewController.swift in Sources */,
 				C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */,
 				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
 				161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */,
@@ -881,6 +888,7 @@
 				C9D8E4DC2AF4814E007570EE /* TimeSelectViewController.swift in Sources */,
 				C931167E2AF3B7760014E702 /* SelectDetailPointMapViewController.swift in Sources */,
 				C931167C2AF3B7070014E702 /* AddressDTO.swift in Sources */,
+				B8293CC62B028404002472AE /* RepeatDaySelectModalView.swift in Sources */,
 				B83E23E82AF34E460048ED9A /* ProfileChangeView.swift in Sources */,
 				BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */,
 				C9F43BD92AF26FEE00BAA0E3 /* InviteCodeInputViewController.swift in Sources */,

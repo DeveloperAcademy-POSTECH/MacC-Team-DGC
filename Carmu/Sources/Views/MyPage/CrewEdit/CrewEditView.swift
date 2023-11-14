@@ -13,7 +13,7 @@ import SnapKit
 final class CrewEditView: UIView {
 
     // 반복 요일 설정 버튼
-    private let repeatDayEditButton: UIButton = {
+    let repeatDayEditButton: UIButton = {
         let repeatDayEditButton = UIButton()
         // 폰트 및 텍스트 설정
         let textFont = UIFont.carmuFont.subhead2

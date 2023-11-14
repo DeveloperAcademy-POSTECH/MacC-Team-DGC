@@ -46,6 +46,12 @@ final class CrewEditViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.bottom.equalToSuperview()
         }
+
+        crewEditView.repeatDayEditButton.addTarget(
+            self,
+            action: #selector(showRepeatDaySelectModal),
+            for: .touchUpInside
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -56,10 +62,6 @@ final class CrewEditViewController: UIViewController {
     // MARK: - 기존 크루 데이터에 맞게 화면 정보 갱신
     private func setOriginalCrewData() {
         guard let crewData = userCrewData else {
-            return
-        }
-        // TODO: - 반복 요일 세팅하기
-        guard let repeatDay = crewData.repeatDay else {
             return
         }
 
@@ -148,19 +150,45 @@ extension CrewEditViewController {
 
     // [완료] 버튼 클릭 시 호출
     @objc private func completeCrewEdit() {
-        // TODO: - 구현하기
+        // TODO: - 최종적으로 수정된 크루 데이터를 파이어베이스 DB에 전달
         print("크루 편집 완료")
     }
 
-    // 반복 요일 버튼 클릭 시 호출
+    // 반복 요일 설정 버튼 클릭 시 호출
     @objc private func showRepeatDaySelectModal() {
-        guard let userCrewData = userCrewData else {
+        // 크루에 설정돼있는 반복 요일 데이터를 전달
+        guard let originalRepeatDay = userCrewData?.repeatDay else {
             return
         }
-        let repeatDaySelectVC = RepeatDaySelectViewController(crewData: userCrewData)
+        let repeatDaySelectModalVC = RepeatDaySelectModalViewController()
+        repeatDaySelectModalVC.selectedRepeatDay = Set(originalRepeatDay)
+        print("기존 선택 요일: \(Set(originalRepeatDay))")
+        repeatDaySelectModalVC.delegate = self
+
+        // 모달 설정
+        if let sheet = repeatDaySelectModalVC.sheetPresentationController {
+            sheet.prefersGrabberVisible = true
+            sheet.detents = [
+                .custom { _ in
+                    return 344
+                }
+            ]
+        }
+        present(repeatDaySelectModalVC, animated: true)
     }
 }
 
+// MARK: - RDSModalViewControllerDelegate 델리게이트 구현
+extension CrewEditViewController: RDSModalViewControllerDelegate {
+
+    /**
+     RepeatDaySelectModalViewController에서 반복 요일 데이터가 수정되었을 때 호출
+     */
+    func sendNewRepeatDayValue(newRepeatDay: [Int]) {
+        print("반복 요일 갱신")
+        // TODO: - 앱 상에서 갖고 있는 데이터에 반영해주기 (파이어베이스 DB에는 X)
+    }
+}
 // MARK: - 프리뷰 canvas 세팅
 import SwiftUI
 
