@@ -69,7 +69,7 @@ extension StartEndPointSelectViewController {
     @objc private func findAddressButtonTapped(_ sender: UIButton) {
         let detailViewController = SelectAddressViewController()
         let navigation = UINavigationController(rootViewController: detailViewController)
-        if sender.titleLabel?.text == "     출발지 검색" {
+        if sender == startEndPointSelectView.startPointView.button {
             detailViewController.selectAddressView.headerTitleLabel.text = "출발지 주소 설정"
         } else {
             detailViewController.selectAddressView.headerTitleLabel.text = "도착지 주소 설정"

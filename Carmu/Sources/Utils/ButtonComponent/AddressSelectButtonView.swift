@@ -12,7 +12,7 @@ import Foundation
  */
 final class AddressSelectButtonView: UIView, SelectAddressButtonProtocol {
 
-    internal var label: UILabel = {
+    var label: UILabel = {
         let label = UILabel()
         label.font = UIFont.carmuFont.headline1
         label.textColor = UIColor.semantic.textPrimary

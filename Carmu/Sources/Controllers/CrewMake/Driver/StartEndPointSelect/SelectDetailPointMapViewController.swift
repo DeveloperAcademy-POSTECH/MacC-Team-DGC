@@ -42,15 +42,14 @@ final class SelectDetailPointMapViewController: UIViewController {
                 )
             )
         )
-
-        selectDetailPointMapView.pointNameLabel.text = selectAddressModel.pointName
-        selectDetailPointMapView.buildingNameLabel.text = selectAddressModel.buildingName
-        selectDetailPointMapView.detailAddressLabel.text = selectAddressModel.detailAddress
-        selectDetailPointMapView.centerMarkerLabel.text = selectAddressModel.pointName
-
         selectDetailPointMapView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        selectDetailPointMapView.buildingNameLabel.text = selectAddressModel.buildingName
+        selectDetailPointMapView.detailAddressLabel.text = selectAddressModel.detailAddress
     }
 }
 
@@ -120,7 +119,7 @@ extension SelectDetailPointMapViewController: NMFMapViewCameraDelegate {
                 y: mapView.frame.size.height / 2
             )
         )
-        print("mapViewCameraIdle 내부")
+
         // 주소와 건물명 가져오기
         getAddressAndBuildingName(for: center) { buildingName, detailAddress in
             // 주소와 건물명을 업데이트
