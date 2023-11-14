@@ -43,6 +43,11 @@ final class MapViewController: UIViewController {
         let pathOverlay = NMFPath()
         pathOverlay.color = UIColor.theme.blue6 ?? .blue
         pathOverlay.outlineColor = UIColor.theme.blue3 ?? .blue
+        pathOverlay.width = 8
+        if let uiImage = UIImage(systemName: "triangle.fill") {
+            pathOverlay.patternIcon = NMFOverlayImage(image: uiImage)
+            pathOverlay.patternInterval = 17
+        }
         return pathOverlay
     }()
 
