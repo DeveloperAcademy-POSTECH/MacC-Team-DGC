@@ -33,6 +33,7 @@ final class SelectDetailPointMapViewController: UIViewController {
         selectDetailPointMapView.mapView.addCameraDelegate(delegate: self)
         selectDetailPointMapView.mapView.zoomLevel = 17
         selectDetailPointMapView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
+        selectDetailPointMapView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
 
         selectDetailPointMapView.mapView.moveCamera(
             NMFCameraUpdate(
@@ -50,11 +51,17 @@ final class SelectDetailPointMapViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         selectDetailPointMapView.buildingNameLabel.text = selectAddressModel.buildingName
         selectDetailPointMapView.detailAddressLabel.text = selectAddressModel.detailAddress
+        selectDetailPointMapView.showExplain()
     }
 }
 
 // MARK: - @objc Method
 extension SelectDetailPointMapViewController {
+
+    @objc private func backButtonTapped() {
+        dismiss(animated: true)
+    }
+
     @objc private func saveButtonAction() {
         self.addressDTO.pointName = selectAddressModel.buildingName
         self.addressDTO.pointDetailAddress = selectAddressModel.detailAddress

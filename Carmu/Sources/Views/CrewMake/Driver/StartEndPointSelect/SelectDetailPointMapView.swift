@@ -21,6 +21,25 @@ final class SelectDetailPointMapView: UIView {
         return view
     }()
 
+    let backButton = {
+        let backButton = UIButton()
+        backButton.setImage(UIImage(named: "modalXButton"), for: .normal)
+        return backButton
+    }()
+
+    private let explainLabel: UILabel = {
+        let label = UILabel()
+        label.text = "정확한 경유 위치를 설정해주세요."
+        label.textAlignment = .center
+        label.font = UIFont.carmuFont.subhead2
+        label.textColor = UIColor.semantic.textSecondary
+        label.backgroundColor = UIColor.theme.trans60
+        label.layer.cornerRadius = 15
+        label.clipsToBounds = true
+        label.isHidden = true
+        return label
+    }()
+
     private let centerMarkerImage: UIImageView = {
         let image = UIImage(named: "centerMarker")
         let imageView = UIImageView()
@@ -61,12 +80,18 @@ final class SelectDetailPointMapView: UIView {
         setupUI()
         setupConstraints()
     }
+}
+
+// MARK: - Setup UI
+extension SelectDetailPointMapView {
 
     private func setupUI() {
         backgroundView.addSubview(buildingNameLabel)
         backgroundView.addSubview(detailAddressLabel)
 
         addSubview(mapView)
+        addSubview(backButton)
+        addSubview(explainLabel)
         addSubview(centerMarkerImage)
         addSubview(backgroundView)
         addSubview(saveButton)
@@ -77,6 +102,19 @@ final class SelectDetailPointMapView: UIView {
             make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
             make.bottom.equalTo(backgroundView.snp.top).offset(10)
+        }
+
+        explainLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(centerMarkerImage.snp.top).offset(-20)
+            make.centerX.equalToSuperview()
+            make.width.equalTo(223)
+            make.height.equalTo(30)
+        }
+
+        backButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(safeAreaLayoutGuide).inset(16)
+            make.width.height.equalTo(36)
         }
 
         centerMarkerImage.snp.makeConstraints { make in
@@ -108,6 +146,18 @@ final class SelectDetailPointMapView: UIView {
             make.horizontalEdges.equalToSuperview().inset(20)
             make.width.greaterThanOrEqualTo(200)
             make.height.equalTo(60)
+        }
+    }
+}
+
+// custom Method
+extension SelectDetailPointMapView {
+
+    func showExplain() {
+        self.explainLabel.isHidden = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            // Set isHidden back to true after 1 second
+            self.explainLabel.isHidden = true
         }
     }
 }

@@ -83,7 +83,7 @@ extension StartEndPointSelectViewController {
             point.latitude = addressDTO.pointLat
             point.longitude = addressDTO.pointLng
 
-            if sender.titleLabel?.text == "     출발지 검색" {
+            if sender == self?.startEndPointSelectView.startPointView.button {
                 self?.startPointAddress = addressDTO.pointName
                 self?.crewData.startingPoint = point
             } else {
