@@ -220,7 +220,7 @@ struct RDSViewControllerRepresentable: UIViewControllerRepresentable {
         return RepeatDaySelectViewController(
             crewData: Crew(
                 crews: [UserIdentifier](),
-                crewStatus: [CrewStatus]()
+                memberStatus: [MemeberStatus]()
             )
         )
     }

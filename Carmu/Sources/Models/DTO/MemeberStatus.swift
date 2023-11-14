@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CrewStatus: Codable {
+struct MemeberStatus: Codable {
     var deviceToken: String?
     var nickname: String?
     var profileColor: String?

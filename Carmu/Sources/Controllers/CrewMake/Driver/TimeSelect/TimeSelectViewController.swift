@@ -184,7 +184,7 @@ struct TSViewControllerRepresentable: UIViewControllerRepresentable {
         return TimeSelectViewController(
             crewData: Crew(
                 crews: [UserIdentifier](),
-                crewStatus: [CrewStatus]()
+                memberStatus: [MemeberStatus]()
             )
         )
     }

@@ -171,7 +171,7 @@ struct FCViewControllerRepresentable: UIViewControllerRepresentable {
         return FinalConfirmViewController(
             crewData: Crew(
                 crews: [UserIdentifier](),
-                crewStatus: [CrewStatus]()
+                memberStatus: [MemeberStatus]()
             )
         )
     }

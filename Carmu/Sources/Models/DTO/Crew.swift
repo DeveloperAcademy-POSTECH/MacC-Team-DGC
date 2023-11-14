@@ -30,7 +30,7 @@ struct Crew: Codable {
     var inviteCode: String?
     var repeatDay: [Int]?
     var sessionStatus: Status?
-    var crewStatus: [CrewStatus]?
+    var memberStatus: [MemeberStatus]?
 //    var crewStatus: [UserIdentifier: Status]
 }
 
@@ -107,9 +107,9 @@ var dummyCrewData: Crew? = Crew(
     inviteCode: "0101010",
     repeatDay: [1, 2, 3, 4, 5],
     sessionStatus: .waiting,
-    crewStatus: [CrewStatus(nickname: "uni", profileColor: "blue", status: .waiting),
-                 CrewStatus(nickname: "rei", profileColor: "red", status: .waiting),
-                 CrewStatus(nickname: "bazzi", profileColor: "red", status: .waiting)]
+    memberStatus: [MemeberStatus(nickname: "uni", profileColor: "blue", status: .waiting),
+                 MemeberStatus(nickname: "rei", profileColor: "red", status: .waiting),
+                 MemeberStatus(nickname: "bazzi", profileColor: "red", status: .waiting)]
 //    crewStatus: ["uni": .waiting, "rei": .waiting]
 )
 

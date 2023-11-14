@@ -11,7 +11,7 @@ final class InviteCodeInputViewController: UIViewController {
 
     private let inviteCodeInputView = InviteCodeInputView()
     private let firebaseManager = FirebaseManager()
-    private var crewData = Crew(crews: [UserIdentifier](), crewStatus: [CrewStatus]())
+    private var crewData = Crew(crews: [UserIdentifier](), memberStatus: [MemeberStatus]())
 
     override func viewDidLoad() {
         super.viewDidLoad()
