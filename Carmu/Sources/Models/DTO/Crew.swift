@@ -30,6 +30,7 @@ struct Crew: Codable {
     var inviteCode: String?
     var repeatDay: [Int]?
     var sessionStatus: Status?
+//    var crewStatus: [CrewStatus]?
     var crewStatus: [UserIdentifier: Status]
 }
 
@@ -58,7 +59,7 @@ enum Status: String, Codable {
 //    let crewData: Crew? = nil
 
 // 데이터가 있을 때
-var crewData: Crew? = Crew(
+var dummyCrewData: Crew? = Crew(
     id: "1",
     name: "그룹 이름111",
     captainID: "ted",
@@ -106,10 +107,13 @@ var crewData: Crew? = Crew(
     inviteCode: "0101010",
     repeatDay: [1, 2, 3, 4, 5],
     sessionStatus: .waiting,
-    crewStatus: ["uni": .accept, "rei": .waiting, "bazzi": .waiting, "jen": .waiting, "JellyBeen": .waiting]
+//    crewStatus: [CrewStatus(name: "uni", profileColor: "blue", status: .waiting),
+//                 CrewStatus(name: "rei", profileColor: "red", status: .waiting),
+//                 CrewStatus(name: "bazzi", profileColor: "red", status: .waiting)]
+    crewStatus: ["uni": .waiting, "rei": .waiting]
 )
 
-var userData: [User] = [
+var dummyUserData: [User] = [
     User(
        id: "uni",
        deviceToken: "uniDT",

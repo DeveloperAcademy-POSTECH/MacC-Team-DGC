@@ -13,7 +13,11 @@ final class RepeatDaySelectViewController: UIViewController {
 
     private let repeatDaySelectView = RepeatDaySelectView()
     private var selectedButton: DaySelectButton?
-    private var selectedRows = Set<DayOfWeek>()
+    private var selectedRows: Set<DayOfWeek> = [] {
+        didSet {
+            updatedSelectedRows()
+        }
+    }
     var crewData: Crew
 
     init(crewData: Crew) {
@@ -148,6 +152,19 @@ extension RepeatDaySelectViewController {
         default:
             selectedButton?.resetButtonAppearance()
             selectedButton = nil
+        }
+    }
+
+    /**
+     selectedRows가 변화되었을 때 호출되는 메서드
+     */
+    private func updatedSelectedRows() {
+        if selectedRows.isEmpty {
+            repeatDaySelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+            repeatDaySelectView.nextButton.isEnabled = false
+        } else {
+            repeatDaySelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
+            repeatDaySelectView.nextButton.isEnabled = true
         }
     }
 }

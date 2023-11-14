@@ -62,16 +62,6 @@ final class SettingsViewController: UIViewController {
                 // 키체인에 저장된 User Identifier와 fcmToken을 삭제해준다.
                 KeychainItem.deleteUserDataFromKeychain(account: "userIdentifier")
                 KeychainItem.deleteUserDataFromKeychain(account: "FCMToken")
-
-                // 최초 화면으로 돌아가기
-                if let windowScene = UIApplication.shared.connectedScenes
-                    .compactMap({ $0 as? UIWindowScene })
-                    .first(where: { $0.activationState == .foregroundActive }),
-                   let window = windowScene.windows.first {
-                    window.rootViewController = LoginViewController()
-                    window.makeKeyAndVisible()
-                    print("로그아웃 성공!!")
-                }
             } catch let signOutError as NSError {
                 print("로그아웃 에러: \(signOutError)")
             }

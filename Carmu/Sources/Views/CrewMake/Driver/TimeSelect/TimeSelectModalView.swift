@@ -44,16 +44,7 @@ final class TimeSelectModalView: UIView {
         return picker
     }()
 
-    let saveButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("저장하기", for: .normal)
-        button.titleLabel?.font = UIFont.carmuFont.subhead3
-        button.setBackgroundImage(.pixel(ofColor: UIColor.semantic.accPrimary!), for: .normal)
-        button.layer.cornerRadius = 30
-        button.layer.masksToBounds = true
-        button.setTitleColor(UIColor.theme.white, for: .normal)
-        return button
-    }()
+    let saveButton = NextButton(buttonTitle: "시간 설정하기")
 
     override init(frame: CGRect) {
         super.init(frame: frame)

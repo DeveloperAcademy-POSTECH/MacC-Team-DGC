@@ -21,35 +21,9 @@ final class BoardingPointSelectView: UIView {
     lazy var selectTableStack = UIStackView()
     lazy var colorLineView = CrewMakeUtil.createColorLineView()
     var customTableView = UIStackView()
-    lazy var customTableVieWCell: [StopoverSelectButton] = {
-        var buttons: [StopoverSelectButton] = []
+    lazy var customTableVieWCell = [StopoverSelectButton]()
 
-        for (index, address) in ["출발지 주소", "경유지 주소", "경유지 2주소 입니다dddfdfd", "도착지 주소"].enumerated() {
-            let isStart = index == 3 ? false : true
-            let button = StopoverSelectButton(address: address, isStart, time: Date())
-
-            button.tag = index
-            button.isEnabled = index == 3 ? false : true
-            buttons.append(button)
-        }
-        return buttons
-    }()
-
-    lazy var nextButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("카풀 시작하기", for: .normal)
-        button.backgroundColor = UIColor.semantic.backgroundThird
-        button.titleLabel?.font = UIFont.carmuFont.headline2
-        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        button.setBackgroundImage(
-            UIImage(color: UIColor.semantic.textSecondary ?? .white),
-            for: .highlighted
-        )
-        button.layer.cornerRadius = 30
-        button.isEnabled = false
-
-        return button
-    }()
+    let nextButton = NextButton(buttonTitle: "카풀 합류하기")
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -73,6 +47,9 @@ final class BoardingPointSelectView: UIView {
         selectTableStack.spacing = 12
         customTableView.axis = .vertical
         customTableView.distribution = .equalSpacing
+
+        nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        nextButton.isEnabled = false
 
         addSubview(firstLineTitleStack)
         addSubview(secondLineTitleStack)

@@ -12,7 +12,8 @@ import FirebaseAuth
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    // TODO: 추후 AppStorage 처리 추가 필요. 개발 편의를 위해 static 변수로 둠.
+    var authStateDidChangeHandle: AuthStateDidChangeListenerHandle?
+
     static var isFirst: Bool {
         get {
             return UserDefaults.standard.object(forKey: "isFirst") as? Bool ?? true
@@ -45,9 +46,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             name: Notification.Name("IsFirstChanged"),
             object: nil
         )
+        // Auth state 변화 감지
+        authStateDidChangeHandle = Auth.auth().addStateDidChangeListener { [weak self] (_, _) in
+            self?.updateRootViewController()
+        }
     }
 
-    func updateRootViewController() {
+    private func updateRootViewController() {
         var rootViewController: UIViewController
         if Auth.auth().currentUser != nil {
             if SceneDelegate.isFirst {
@@ -65,7 +70,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
     }
 
-    func sceneDidDisconnect(_ scene: UIScene) {}
+    func sceneDidDisconnect(_ scene: UIScene) {
+        if let handle = authStateDidChangeHandle {
+            Auth.auth().removeStateDidChangeListener(handle)
+        }
+    }
+
     func sceneDidBecomeActive(_ scene: UIScene) {}
     func sceneWillResignActive(_ scene: UIScene) {}
     func sceneWillEnterForeground(_ scene: UIScene) {}

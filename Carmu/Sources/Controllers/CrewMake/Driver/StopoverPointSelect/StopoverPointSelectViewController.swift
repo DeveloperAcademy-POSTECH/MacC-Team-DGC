@@ -78,6 +78,20 @@ extension StopoverPointSelectViewController {
             for: .touchUpInside
         )
     }
+
+    /**
+     crewData가 변화되었을 때 호출되는 메서드
+     */
+    private func updatedCrewData() {
+        print("updatedCrewData 호출")
+        if crewData.stopover1 != nil {
+            stopoverPointSelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
+            stopoverPointSelectView.nextButton.isEnabled = true
+        } else {
+            stopoverPointSelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+            stopoverPointSelectView.nextButton.isEnabled = false
+        }
+    }
 }
 
 // MARK: - @objc Method
@@ -153,7 +167,7 @@ extension StopoverPointSelectViewController {
                 self.crewData.stopover3 = point
                 self.pointList.insert(point, at: 2)
             }
-
+            self.updatedCrewData()
             sender.setTitle("     \(addressDTO.pointName ?? "")", for: .normal)
         }
         present(detailViewController, animated: true)
