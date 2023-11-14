@@ -76,7 +76,7 @@ final class SelectDetailPointMapView: UIView {
         mapView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(backgroundView.snp.top)
+            make.bottom.equalTo(backgroundView.snp.top).offset(10)
         }
 
         centerMarkerImage.snp.makeConstraints { make in
