@@ -64,14 +64,6 @@ final class SessionStartViewController: UIViewController {
             SceneDelegate.isCrewCreated = false // 변경을 처리한 후 다시 초기화
         }
     }
-
-    // 가이드 화면 보여주는 메서드
-    private func showGuide() {
-        let ruleDescriptionViewController = RuleDescriptionViewController()
-        ruleDescriptionViewController.modalPresentationStyle = .overCurrentContext
-        present(ruleDescriptionViewController, animated: true)
-    }
-
 }
 
 // MARK: Layout
@@ -147,7 +139,7 @@ extension SessionStartViewController {
             settingDriverView(crewData: crewData)
         } else {
             print("동승자임")
-            settingPassengerView()
+            settingPassengerView(crewData: crewData)
         }
     }
 
@@ -156,7 +148,7 @@ extension SessionStartViewController {
         if isCaptain {
             settingDriverData(crewData: crewData)
         } else {
-            settingPassengerData()
+            settingPassengerData(crewData: crewData)
         }
     }
 
@@ -180,9 +172,8 @@ extension SessionStartViewController {
     }
 
     // 동승자일 때
-    private func settingPassengerData() {
-        guard let crewData = dummyCrewData else { return }
-
+    private func settingPassengerData(crewData: Crew?) {
+        guard let crewData = crewData else { return }
         switch crewData.sessionStatus {
         case .waiting:
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
@@ -348,11 +339,12 @@ extension SessionStartViewController {
 // MARK: - 크루가 있을 때 - 크루원일 때
 extension SessionStartViewController {
 
-    private func settingPassengerView() {
-        sessionStartView.topComment.text = "\(dummyCrewData?.name ?? "그룹명")과\n함께 가시나요?"
+    private func settingPassengerView(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        sessionStartView.topComment.text = "\(crewData.name ?? "그룹명")과\n함께 가시나요?"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "\(dummyCrewData?.name ?? "그룹명")") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
@@ -549,7 +541,6 @@ extension SessionStartViewController {
             settingCrewView(crewData: crewData)
         } else {
             // 데이터가 아직 로드되지 않았거나 로드 실패한 경우
-            // TODO: - 확인해보기 !
             settingNoCrewView()
         }
     }
@@ -591,6 +582,13 @@ extension SessionStartViewController {
 //            sessionStartView.carpoolStartButton.isEnabled = false
 //            sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
 //        }
+    }
+
+    // 가이드 화면 보여주는 메서드
+    private func showGuide() {
+        let ruleDescriptionViewController = RuleDescriptionViewController()
+        ruleDescriptionViewController.modalPresentationStyle = .overCurrentContext
+        present(ruleDescriptionViewController, animated: true)
     }
 }
 
