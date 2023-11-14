@@ -5,4 +5,7 @@
 //  Created by 김영빈 on 2023/11/14.
 //
 
-import Foundation
+enum TimeType: String {
+    case departure = "출발"
+    case arrival = "도착"
+}

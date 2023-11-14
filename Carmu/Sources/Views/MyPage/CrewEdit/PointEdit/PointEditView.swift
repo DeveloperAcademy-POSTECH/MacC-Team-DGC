@@ -7,19 +7,6 @@
 
 import UIKit
 
-enum TimeType: String {
-    case departure = "출발"
-    case arrival = "도착"
-}
-
-enum PointType {
-    case start
-    case stopover1
-    case stopover2
-    case stopover3
-    case end
-}
-
 /**
  크루 편집 화면에서 각 경유지의 주소와 시간을 편집할 수 있는 셀 형태의 뷰
  */
@@ -105,80 +92,5 @@ final class PointEditView: UIView {
             make.leading.equalToSuperview()
             make.top.equalTo(addressEditButton.snp.bottom).offset(20)
         }
-    }
-}
-
-// MARK: - 주소 편집 버튼
-final class AddressEditButton: UIButton {
-
-    // #selector 메서드에서 어떤 지점의 버튼인지를 식별하기 위한 값 (출발지,경유지,도착지)
-    var pointType: PointType?
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    init(originalAddress: String, pointType: PointType) {
-        super.init(frame: .zero)
-        self.pointType = pointType
-        setTitle(originalAddress, for: .normal)
-        titleLabel?.font = UIFont.carmuFont.subhead2
-        setTitleColor(UIColor.semantic.textTertiary, for: .normal)
-        backgroundColor = UIColor.semantic.backgroundDefault
-        layer.cornerRadius = 16
-        layer.borderWidth = 1
-        layer.borderColor = UIColor.semantic.stoke?.cgColor
-        contentHorizontalAlignment = .leading
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
-        configuration = config
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - 시간 타입 라벨
-final class TimeTypeLabel: UILabel {
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    init(timeType: TimeType) {
-        super.init(frame: .zero)
-        text = timeType.rawValue
-        font = UIFont.carmuFont.body1
-        textColor = UIColor.semantic.textTertiary
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-// MARK: - 시간 설정 버튼
-final class TimeEditButton: UIButton {
-
-    // #selector 메서드에서 어떤 지점의 버튼인지를 식별하기 위한 값 (출발지,경유지,도착지)
-    var pointType: PointType?
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-
-    init(originalTime: String, pointType: PointType) {
-        super.init(frame: .zero)
-        self.pointType = pointType
-        setTitle(originalTime, for: .normal)
-        titleLabel?.font = UIFont.carmuFont.subhead3
-        setTitleColor(UIColor.semantic.accPrimary, for: .normal)
-        backgroundColor = UIColor.semantic.backgroundThird
-        layer.cornerRadius = 4
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 }
