@@ -664,14 +664,16 @@ extension FirebaseManager {
 
         for statusData in data {
             if let nickname = statusData["nickname"] as? String,
+               let id = statusData["id"] as? String,
                let deviceToken = statusData["deviceToken"] as? String,
                let profileColor = statusData["profileColor"] as? String,
                let statusString = statusData["status"] as? String,
                let statusEnum = Status(rawValue: statusString) {
-                let status = MemeberStatus(deviceToken: deviceToken,
-                                        nickname: nickname,
-                                        profileColor: profileColor,
-                                        status: statusEnum)
+                let status = MemeberStatus(id: id,
+                                           deviceToken: deviceToken,
+                                           nickname: nickname,
+                                           profileColor: profileColor,
+                                           status: statusEnum)
                 crewStatusArray.append(status)
             }
         }

@@ -8,6 +8,8 @@
 import Foundation
 
 struct MemeberStatus: Codable {
+
+    var id: UserIdentifier?
     var deviceToken: String?
     var nickname: String?
     var profileColor: String?
