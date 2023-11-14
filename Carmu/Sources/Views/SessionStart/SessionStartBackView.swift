@@ -101,34 +101,34 @@ final class SessionStartBackView: UIView {
 
     // TODO: - 실제 데이터 추가하기
     // 경유지 관련
-    private lazy var stopOver1LeftView: StopOverInfoLeftView = {
-        let view = StopOverInfoLeftView()
+    private lazy var stopover1LeftView: StopoverInfoLeftView = {
+        let view = StopoverInfoLeftView()
         view.crewMember.text = "테드"
         return view
     }()
 
-    private lazy var stopOver1RightView: StopOverInfoRightView = {
-        let view = StopOverInfoRightView()
+    private lazy var stopover1RightView: StopoverInfoRightView = {
+        let view = StopoverInfoRightView()
         return view
     }()
 
-    private lazy var stopOver2LeftView: StopOverInfoLeftView = {
-        let view = StopOverInfoLeftView()
+    private lazy var stopover2LeftView: StopoverInfoLeftView = {
+        let view = StopoverInfoLeftView()
         view.crewMember.text = "젤리빈 젠"
         return view
     }()
-    private lazy var stopOver2RightView: StopOverInfoRightView = {
-        let view = StopOverInfoRightView()
+    private lazy var stopover2RightView: StopoverInfoRightView = {
+        let view = StopoverInfoRightView()
         return view
     }()
 
-    private lazy var stopOver3LeftView: StopOverInfoLeftView = {
-        let view = StopOverInfoLeftView()
+    private lazy var stopover3LeftView: StopoverInfoLeftView = {
+        let view = StopoverInfoLeftView()
         view.crewMember.text = "우니"
         return view
     }()
-    private lazy var stopOver3RightView: StopOverInfoRightView = {
-        let view = StopOverInfoRightView()
+    private lazy var stopover3RightView: StopoverInfoRightView = {
+        let view = StopoverInfoRightView()
         return view
     }()
 
@@ -158,7 +158,7 @@ final class SessionStartBackView: UIView {
         super.init(frame: .zero)
         setupBackView()
         setupConstraints()
-        checkStopOverPoint()
+        checkStopoverPoint()
         settingData()
     }
 
@@ -168,28 +168,28 @@ final class SessionStartBackView: UIView {
 
     // TODO: - 실제 데이터로 변경
     private func settingData() {
-        totalCrewMemeberLabel.text = "\(crewData?.crews.count ?? 0)명"
+        totalCrewMemeberLabel.text = "\(dummyCrewData?.crews.count ?? 0)명"
     }
 
     // TODO: - 실제 데이터로 변경
-    private func checkStopOverPoint() {
-        if crewData?.stopover1 == nil {
+    private func checkStopoverPoint() {
+        if dummyCrewData?.stopover1 == nil {
             return
         } else {
-            settingStopOverPoints()
+            settingStopoverPoints()
         }
     }
 
     // 경유지 관련 설정
-    private func settingStopOverPoints() {
+    private func settingStopoverPoints() {
 
         // TODO: - 실제 데이터로 변경
-        if crewData?.stopover1 != nil, crewData?.stopover2 == nil, crewData?.stopover3 == nil {
-            oneStopOverPoint()
-        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 == nil {
-            twoStopOverPoints()
-        } else if crewData?.stopover1 != nil, crewData?.stopover2 != nil, crewData?.stopover3 != nil {
-            threeStopOverPoints()
+        if dummyCrewData?.stopover1 != nil, dummyCrewData?.stopover2 == nil, dummyCrewData?.stopover3 == nil {
+            oneStopoverPoint()
+        } else if dummyCrewData?.stopover1 != nil, dummyCrewData?.stopover2 != nil, dummyCrewData?.stopover3 == nil {
+            twoStopoverPoints()
+        } else if dummyCrewData?.stopover1 != nil, dummyCrewData?.stopover2 != nil, dummyCrewData?.stopover3 != nil {
+            threeStopoverPoints()
         }
     }
 }
@@ -270,21 +270,21 @@ extension SessionStartBackView {
     }
 
     // 경유지1만 있을 때
-    private func oneStopOverPoint() {
+    private func oneStopoverPoint() {
 
-        setupOneStopOverUI()
+        setupOneStopoverUI()
 
         dotImage1.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.width.height.equalTo(8)
         }
 
-        setupOneStopOverConstraints()
+        setupOneStopoverConstraints()
     }
     // 경유지2까지 있을 때
-    private func twoStopOverPoints() {
+    private func twoStopoverPoints() {
 
-        setupTwoStopOverUI()
+        setupTwoStopoverUI()
 
         dotImage1.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -297,12 +297,12 @@ extension SessionStartBackView {
             make.width.height.equalTo(8)
         }
 
-        setupTwoStopOverConstraints()
+        setupTwoStopoverConstraints()
     }
     // 경유지3까지 있을 때
-    private func threeStopOverPoints() {
+    private func threeStopoverPoints() {
 
-        setupThreeStopOverUI()
+        setupThreeStopoverUI()
 
         dotImage2.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -319,56 +319,56 @@ extension SessionStartBackView {
             make.width.height.equalTo(8)
         }
 
-        setupThressStopOverConstraints()
+        setupThressStopoverConstraints()
     }
 
     // 경유지들 addSubview
-    private func setupOneStopOverUI() {
+    private func setupOneStopoverUI() {
         addSubview(dotImage1)
-        addSubview(stopOver1LeftView)
-        addSubview(stopOver1RightView)
+        addSubview(stopover1LeftView)
+        addSubview(stopover1RightView)
     }
-    private func setupTwoStopOverUI() {
-        setupOneStopOverUI()
+    private func setupTwoStopoverUI() {
+        setupOneStopoverUI()
         addSubview(dotImage2)
-        addSubview(stopOver2LeftView)
-        addSubview(stopOver2RightView)
+        addSubview(stopover2LeftView)
+        addSubview(stopover2RightView)
     }
-    private func setupThreeStopOverUI() {
-        setupTwoStopOverUI()
+    private func setupThreeStopoverUI() {
+        setupTwoStopoverUI()
         addSubview(dotImage3)
-        addSubview(stopOver3LeftView)
-        addSubview(stopOver3RightView)
+        addSubview(stopover3LeftView)
+        addSubview(stopover3RightView)
     }
 
-    private func setupOneStopOverConstraints() {
-        stopOver1LeftView.snp.makeConstraints { make in
+    private func setupOneStopoverConstraints() {
+        stopover1LeftView.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
             make.top.equalTo(dotImage1)
         }
-        stopOver1RightView.snp.makeConstraints { make in
+        stopover1RightView.snp.makeConstraints { make in
             make.leading.equalTo(startTimeLabel).offset(6)
             make.top.equalTo(dotImage1)
         }
     }
-    private func setupTwoStopOverConstraints() {
-        setupOneStopOverConstraints()
-        stopOver2LeftView.snp.makeConstraints { make in
+    private func setupTwoStopoverConstraints() {
+        setupOneStopoverConstraints()
+        stopover2LeftView.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
             make.top.equalTo(dotImage2)
         }
-        stopOver2RightView.snp.makeConstraints { make in
+        stopover2RightView.snp.makeConstraints { make in
             make.leading.equalTo(startTimeLabel).offset(6)
             make.top.equalTo(dotImage2)
         }
     }
-    private func setupThressStopOverConstraints() {
-        setupTwoStopOverConstraints()
-        stopOver3LeftView.snp.makeConstraints { make in
+    private func setupThressStopoverConstraints() {
+        setupTwoStopoverConstraints()
+        stopover3LeftView.snp.makeConstraints { make in
             make.leading.equalTo(startLocationLabel)
             make.top.equalTo(dotImage3)
         }
-        stopOver3RightView.snp.makeConstraints { make in
+        stopover3RightView.snp.makeConstraints { make in
             make.leading.equalTo(startTimeLabel).offset(6)
             make.top.equalTo(dotImage3)
         }

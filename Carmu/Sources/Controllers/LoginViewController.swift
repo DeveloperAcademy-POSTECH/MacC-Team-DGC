@@ -72,16 +72,20 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             if let currentUser = Auth.auth().currentUser {
                 self.saveToDB(user: currentUser)
             }
-            // 로그인 성공 시 여정화면으로 이동
-            let sessionStartVC = SessionStartViewController()
+
+            // 로그인 성공 후 PositionSelectViewController()로 이동
+            let positionSelectVC = PositionSelectViewController()
+            let navigationController = UINavigationController(rootViewController: positionSelectVC)
+            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+
             // present() 애니메이션 커스텀 (오른쪽->왼쪽)
             let transition = CATransition()
             transition.duration = 0.3
             transition.type = CATransitionType.push
             transition.subtype = CATransitionSubtype.fromRight
             self.view.window?.layer.add(transition, forKey: kCATransition)
-            sessionStartVC.modalPresentationStyle = .fullScreen
-            self.present(sessionStartVC, animated: true)
+            navigationController.modalPresentationStyle = .fullScreen
+            self.present(navigationController, animated: true)
         }
     }
 

@@ -21,19 +21,48 @@ final class SessionStartViewController: UIViewController {
     private lazy var sessionStartNoCrewView = SessionStartNoCrewView()
     private lazy var firebaseManager = FirebaseManager()
 
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
+
+    var crewData: Crew?
+    var isCaptain: Bool = false
+    var firebaseStart: Point?
+    var firebaseDestination: Point?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
-        setupUI()
-        setupConstraints()
-        setTargetButton()
-    }
 
-    override func viewWillAppear(_ animated: Bool) {
-        checkCrew()
+        Task {
+            do {
+                showActivityIndicator()
+                if let crewData = try await firebaseManager.getCrewData() {
+                    setupUI()
+                    setupConstraints()
+                    setTargetButton()
+                    hideActivityIndicator()
+                    // 성공적으로 crew 데이터를 받아왔을 경우
+                    print("Received crew data: \(crewData)")
+                    isCaptain = try await firebaseManager.checkCaptain()
 
-        // TODO: - 비동기 처리로 변경해주기
-        settingData()
+                    checkCrew(crewData: crewData)
+                    settingData(crewData: crewData)
+
+                    // DriverView
+                    sessionStartDriverView.driverFrontView.settingDriverFrontData(crewData: crewData)
+
+                    sessionStartDriverView.driverFrontView.crewData = crewData
+                    sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
+
+                } else {
+                    // crew 데이터를 받아오지 못했을 경우
+                    crewData = nil
+                    print("Failed to get crew data")
+                }
+            } catch {
+                // 어떤 에러가 발생했을 경우
+                print("Error: \(error)")
+            }
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -119,29 +148,29 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     // 크루가 있을 때의 세팅
-    private func settingCrewView() {
+    private func settingCrewView(crewData: Crew?) {
         sessionStartNoCrewView.isHidden = true
-        if isCaptain() {
-            settingDriverView()
+        if isCaptain {
+            print("캡틴임")
+            settingDriverView(crewData: crewData)
         } else {
+            print("동승자임")
             settingPassengerView()
         }
     }
 
-    private func settingData() {
+    private func settingData(crewData: Crew?) {
 
-        // 운전자일 때
-        if isCaptain() {
-            settingDriverData()
-        } else {    // 동승자일 때
+        if isCaptain {
+            settingDriverData(crewData: crewData)
+        } else {
             settingPassengerData()
         }
     }
 
     // 운전자일 때
-    private func settingDriverData() {
+    private func settingDriverData(crewData: Crew?) {
         guard let crewData = crewData else { return }
-
         switch crewData.sessionStatus {
         case .waiting:
             sessionStartDriverView.driverFrontView.noDriveViewForDriver.isHidden = true
@@ -153,14 +182,14 @@ extension SessionStartViewController {
 
             settingDataDecline()
         case .sessionStart:
-            settingDataSessionStart()
+            settingDataSessionStart(crewData: crewData)
         case .none: break
         }
     }
 
     // 동승자일 때
     private func settingPassengerData() {
-        guard let crewData = crewData else { return }
+        guard let crewData = dummyCrewData else { return }
 
         switch crewData.sessionStatus {
         case .waiting:
@@ -183,7 +212,7 @@ extension SessionStartViewController {
             sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
             sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
 
-            settingDataSessionStart()
+            settingDataSessionStart(crewData: crewData)
         case .none: break
         }
     }
@@ -200,7 +229,8 @@ extension SessionStartViewController {
     }
 
     // settingData - .sessionStart
-    private func settingDataSessionStart() {
+    private func settingDataSessionStart(crewData: Crew?) {
+        guard let crewData = crewData else { return }
         sessionStartView.individualButton.isHidden = true
         sessionStartView.togetherButton.isHidden = true
         sessionStartView.carpoolStartButton.isHidden = false
@@ -208,10 +238,10 @@ extension SessionStartViewController {
         sessionStartView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
 
         // topComment 변경
-        sessionStartView.topComment.text = "\(crewData?.name ?? "그룹명")이\n시작되었습니다"
+        sessionStartView.topComment.text = "\(crewData.name ?? "그룹명")이\n시작되었습니다"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData?.name ?? "그룹명")") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
@@ -241,15 +271,15 @@ extension SessionStartViewController {
 // MARK: - 크루가 있을 때 - 운전자일 때
 extension SessionStartViewController {
 
-    private func settingDriverView() {
-
+    private func settingDriverView(crewData: Crew?) {
+        guard let crewData = crewData else { return }
         // 비활성화
         sessionStartDriverView.layer.opacity = 0.5
         // comment
-        sessionStartView.topComment.text = "\(crewData?.name ?? "그룹명"),\n오늘 운행하시나요?"
+        sessionStartView.topComment.text = "\(crewData.name ?? "그룹명"),\n오늘 운행하시나요?"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData?.name ?? "그룹명")") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
@@ -327,10 +357,10 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     private func settingPassengerView() {
-        sessionStartView.topComment.text = "\(crewData?.name ?? "그룹명")과\n함께 가시나요?"
+        sessionStartView.topComment.text = "\(dummyCrewData?.name ?? "그룹명")과\n함께 가시나요?"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData?.name ?? "그룹명")") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(dummyCrewData?.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
@@ -395,6 +425,7 @@ extension SessionStartViewController {
     }
 }
 
+// TODO: - @objc 메서드부터 하기
 // MARK: @objc Method
 extension SessionStartViewController {
 
@@ -406,7 +437,7 @@ extension SessionStartViewController {
     @objc private func togetherButtonDidTapped() {
 
         // 운전자일 때
-        if isCaptain() {
+        if isCaptainDummy() {
             sessionStartView.individualButton.isHidden = true
             sessionStartView.togetherButton.isHidden = true
             sessionStartView.carpoolStartButton.isHidden = false
@@ -420,10 +451,10 @@ extension SessionStartViewController {
             checkingCrewStatus()
 
             // TODO: - 실제 데이터로 변경
-            crewData?.sessionStatus = .accept
+            dummyCrewData?.sessionStatus = .accept
             sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
         } else {    // 동승자일 때
-            if crewData?.sessionStatus == .accept {  // 운전자가 운행할 때
+            if dummyCrewData?.sessionStatus == .accept {  // 운전자가 운행할 때
                 sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
                 sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
             }
@@ -435,7 +466,7 @@ extension SessionStartViewController {
 
     @objc private func carpoolStartButtonDidTapped() {
         // 세션 시작으로 상태 변경
-        crewData?.sessionStatus = .sessionStart
+        dummyCrewData?.sessionStatus = .sessionStart
 
         let mapView = MapViewController()
         mapView.modalPresentationStyle = .fullScreen
@@ -446,7 +477,7 @@ extension SessionStartViewController {
     @objc private func individualButtonDidTapped() {
 
         // 운전자가 클릭했을 때
-        if isCaptain() {
+        if isCaptainDummy() {
             settingIndividualButtonForDriver()
         } else {    // 동승자가 클릭했을 때
             settingIndividualButtonForPassenger()
@@ -459,7 +490,7 @@ extension SessionStartViewController {
 
     // 운전자일 때
     private func settingIndividualButtonForDriver() {
-        guard let crewData = crewData else { return }
+        guard let crewData = dummyCrewData else { return }
 
         // 모든 경우에 같은 화면임
         sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
@@ -474,7 +505,7 @@ extension SessionStartViewController {
 
     // 동승자일 때
     private func settingIndividualButtonForPassenger() {
-        guard let crewData = crewData else { return }
+        guard let crewData = dummyCrewData else { return }
 
         switch crewData.sessionStatus {
         case .waiting:
@@ -507,12 +538,28 @@ extension SessionStartViewController {
 // MARK: - Action
 extension SessionStartViewController {
 
+    // 대기 화면을 보여주는 메서드
+    private func showActivityIndicator() {
+        activityIndicator.center = view.center
+        view.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+    }
+
+    // 대기 화면을 숨기는 메서드
+    private func hideActivityIndicator() {
+        activityIndicator.stopAnimating()
+        activityIndicator.removeFromSuperview()
+    }
+
     /// 크루의 유무 확인
-    private func checkCrew() {
-        if crewData == nil {
-            settingNoCrewView()
+    private func checkCrew(crewData: Crew?) {
+        if let crewData = crewData {
+            // 데이터가 로드되었다면, 데이터가 있는 것으로 간주
+            settingCrewView(crewData: crewData)
         } else {
-            settingCrewView()
+            // 데이터가 아직 로드되지 않았거나 로드 실패한 경우
+            // TODO: - 확인해보기 !
+            settingNoCrewView()
         }
     }
 
@@ -532,21 +579,21 @@ extension SessionStartViewController {
 
     // TODO: - Firebase 형식에 맞게 변경
     /// 운전자인지 여부 확인
-    private func isCaptain() -> Bool {
-        crewData?.captainID == "ted"
+    private func isCaptainDummy() -> Bool {
+        dummyCrewData?.captainID == "ted"
     }
 
     // TODO: - 실제 데이터로 변경 및 데이터 값 변경될 때 Observer로 확인
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
     private func checkingCrewStatus() {
-        guard let crewData = crewData else { return }
+        guard let crewData = dummyCrewData else { return }
 
         // crewStatus를 순회하면서 .accept 상태의 크루원 확인
-        let isAnyCrewAccepted = crewData.crewStatus.values.contains { status in
+        let isAnyMemberAccepted = crewData.crewStatus.values.contains { status in
             return status == .accept
         }
 
-        if isAnyCrewAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
+        if isAnyMemberAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
             sessionStartView.carpoolStartButton.isEnabled = true
             sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
         } else {    // 수락한 크루원이 없을 때

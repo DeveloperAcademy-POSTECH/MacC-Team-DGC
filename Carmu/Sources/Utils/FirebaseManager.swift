@@ -478,15 +478,12 @@ extension FirebaseManager {
      - 호출되는 곳
         - SessionStartViewController
      */
-    func readCrewID(databasePath: DatabaseReference, completion: @escaping ([String]?) -> Void) {
-        databasePath.child("crewList").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            let crews = snapshot?.value as? [String]
-            completion(crews)
+    func readCrewID(databasePath: DatabaseReference) async throws -> [String]? {
+        do {
+            let snapshot = try await databasePath.child("crewList").getData()
+            return snapshot.value as? [String]
+        } catch {
+            throw error
         }
     }
 
@@ -495,47 +492,106 @@ extension FirebaseManager {
      - 호출되는 곳
         - SessionStartViewController
      */
-    func getUserCrew(crewID: String, completion: @escaping (Crew?) -> Void) {
-        Database.database().reference().child("crew/\(crewID)").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let snapshotValue = snapshot?.value as? [String: Any] else {
-                return
+    func getUserCrew(crewID: String) async throws -> Crew? {
+        let crewRef = Database.database().reference().child("crew/\(crewID)")
+
+        do {
+            let snapshot = try await crewRef.getData()
+
+            guard let crewData = snapshot.value as? [String: Any] else {
+                return nil
             }
 
-            let defaultPoint = Point(
-                name: "C5",
-                detailAddress: "C5",
-                latitude: 0.0,
-                longitude: 0.0,
-                arrivalTime: Date(),
-                crews: []
+            var crew = Crew(
+                id: crewData["id"] as? String ?? "",
+                name: crewData["name"] as? String ?? "",
+                captainID: crewData["captainID"] as? UserIdentifier ?? "",
+                crews: crewData["crews"] as? [UserIdentifier] ?? [""],
+                startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
+                destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
+                inviteCode: crewData["inviteCode"] as? String ?? "",
+                repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+                sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
+                crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
             )
 
-            let crew = Crew(
-                id: snapshotValue["id"] as? String ?? "",
-                name: snapshotValue["name"] as? String ?? "",
-                captainID: snapshotValue["captainID"] as? UserIdentifier ?? "",
-                crews: snapshotValue["crews"] as? [UserIdentifier] ?? [""],
-                startingPoint: snapshotValue["startingPoint"] as? Point ?? defaultPoint,
-                destination: snapshotValue["destination"] as? Point ?? defaultPoint,
-                inviteCode: snapshotValue["inviteCode"] as? String ?? "",
-                repeatDay: snapshotValue["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                sessionStatus: snapshotValue["sessionStatus"] as? Status ?? .waiting,
-                crewStatus: snapshotValue["crewStatus"] as? [UserIdentifier: Status] ?? [:]
-            )
-            completion(crew)
+            if crewData["stopover1"] != nil {
+                crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
+            }
+            if crewData["stopover2"] != nil {
+                crew.stopover2 = self.convertDataToPoint(crewData["stopover2"] as? [String: Any] ?? [:])
+            }
+            if crewData["stopover3"] != nil {
+                crew.stopover3 = self.convertDataToPoint(crewData["stopover3"] as? [String: Any] ?? [:])
+            }
+
+            return crew
+        } catch {
+            throw error
         }
     }
 
     /**
-     inviteCode를 기준으로 크루의 데이터를 불러오는 코드
-        사용되는 곳
-            InviteCodeInputVC
+     crew 데이터 불러오기
+
+     사용 예시
+     firebaseManager.getCrewData { crew in
+         if let crew = crew {
+             self.firebaseCrewData = crew
+             print("크루 있음 ", crew)
+         } else {
+             print("크루없음")
+         }
+     }
      */
+    func getCrewData() async throws -> Crew? {
+        guard let databasePath = User.databasePathWithUID else {
+            return nil
+        }
+
+        guard let crewList = try await readCrewID(databasePath: databasePath) else {
+            return nil
+        }
+
+        guard let crewID = crewList.first else {
+            return nil
+        }
+
+        return try await getUserCrew(crewID: crewID)
+    }
+
+    /**
+     유저가 운전자인지 여부를 확인
+
+     사용 예시
+     firebaseManager.isCaptain { isCaptain in
+         if isCaptain {
+             print("캡틴임")
+         } else {
+             print("캡틴 아님")
+         }
+     }
+     */
+    func checkCaptain() async throws -> Bool {
+        guard let databasePath = User.databasePathWithUID else {
+            return false
+        }
+
+        guard let crewList = try await readCrewID(databasePath: databasePath) else {
+            return false
+        }
+
+        guard let crewID = crewList.first else {
+            return false
+        }
+
+        if let crew = try await getUserCrew(crewID: crewID), crew.captainID == KeychainItem.currentUserIdentifier {
+            return true
+        } else {
+            return false
+        }
+    }
+
     func getCrewByInviteCode(inviteCode: String, completion: @escaping (Crew?) -> Void) {
         let crewsRef = Database.database().reference().child("crew")
 
@@ -560,10 +616,8 @@ extension FirebaseManager {
                     destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: crewData["inviteCode"] as? String ?? "",
                     repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                    sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
                     crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
                 )
-
                 if crewData["stopover1"] != nil {
                     crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
                 }
@@ -601,6 +655,16 @@ extension FirebaseManager {
         }
 
         return point
+    }
+
+    func convertDataToCrewStatus(_ data: [String: Any]) -> CrewStatus {
+        var crewStatus = CrewStatus()
+
+        crewStatus.name = data["name"] as? String
+        crewStatus.profileColor = data["profileColor"] as? String
+        crewStatus.status = data["status"] as? Status
+
+        return crewStatus
     }
 }
 

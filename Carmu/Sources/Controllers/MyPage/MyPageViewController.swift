@@ -167,7 +167,7 @@ extension MyPageViewController {
     // 크루 유무 확인
     // TODO: - 데이터 연결 로직 추가 필요
     private func checkCrew() -> Bool {
-        if crewData == nil {
+        if dummyCrewData == nil {
             return false
         } else {
             return true

@@ -23,7 +23,7 @@ final class CrewInfoCheckViewController: UIViewController {
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
         // TODO: - 크루 데이터 DB에서 불러오기
-        if let crewData = crewData {
+        if let crewData = dummyCrewData {
             userCrewData = crewData
             updateCrewContents(crewData: userCrewData)
         }

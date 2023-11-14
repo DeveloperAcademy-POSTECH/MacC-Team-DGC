@@ -1,5 +1,5 @@
 //
-//  StopOverInfoBackView.swift
+//  StopoverInfoBackView.swift
 //  Carmu
 //
 //  Created by 김태형 on 2023/11/11.
@@ -9,7 +9,7 @@ import UIKit
 
 import SnapKit
 
-final class StopOverInfoLeftView: UIView {
+final class StopoverInfoLeftView: UIView {
 
     private lazy var dotImage: UIImageView = {
         let image = UIImage(systemName: "circle.fill")
@@ -48,7 +48,7 @@ final class StopOverInfoLeftView: UIView {
 
 }
 
-extension StopOverInfoLeftView {
+extension StopoverInfoLeftView {
 
     private func setupUI() {
         addSubview(dotImage)
