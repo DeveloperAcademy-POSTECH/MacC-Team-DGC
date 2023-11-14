@@ -161,7 +161,7 @@ final class DriverFrontView: UIView {
         return label
     }()
 
-    private let sessionStartVC = SessionStartViewController()
+    var crewData: Crew?
 
     init() {
         super.init(frame: .zero)
@@ -243,14 +243,11 @@ final class DriverFrontView: UIView {
     // TODO: - 실시간으로 어떻게 받아올 지 고민하기
     private func todayMemberJoined(crewData: Crew?) -> Int {
         guard let crewData = crewData, let memberStatus = crewData.memberStatus else { return 0 }
-
         // `memberStatus` 배열에서 `.accept` 상태인 요소들만 필터링하여 개수를 반환
         let todayJoiningMember = memberStatus.filter { $0.status == .accept }.count
 
         return todayJoiningMember
     }
-
-    var crewData: Crew?
 }
 
 // TODO: - 실제 데이터로 변경

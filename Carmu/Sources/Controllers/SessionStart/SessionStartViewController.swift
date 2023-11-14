@@ -490,7 +490,6 @@ extension SessionStartViewController {
 
     // 운전자일 때
     private func settingIndividualButtonForDriver() {
-        guard let crewData = dummyCrewData else { return }
 
         // 모든 경우에 같은 화면임
         sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
