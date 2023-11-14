@@ -12,18 +12,9 @@ import NMapsMap
 final class SelectDetailPointMapViewController: UIViewController {
 
     let selectDetailPointMapView = SelectDetailPointMapView()
-    private var selectAddressModel: SelectAddressDTO
+    var selectAddressModel = SelectAddressDTO()
     var addressSelectionHandler: ((AddressDTO) -> Void)?
     private var addressDTO = AddressDTO()
-
-    init(selectAddressModel: SelectAddressDTO) {
-        self.selectAddressModel = selectAddressModel
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,6 +26,16 @@ final class SelectDetailPointMapViewController: UIViewController {
         selectDetailPointMapView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
         selectDetailPointMapView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
 
+        print("viewdidLoad moveCamera")
+        print("lat: ", selectAddressModel.coordinate?.latitude)
+        print("lng: ", selectAddressModel.coordinate?.longitude)
+
+        selectDetailPointMapView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
         selectDetailPointMapView.mapView.moveCamera(
             NMFCameraUpdate(
                 scrollTo: NMGLatLng(
@@ -43,12 +44,11 @@ final class SelectDetailPointMapViewController: UIViewController {
                 )
             )
         )
-        selectDetailPointMapView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
+        print("viewdidappear")
+        print("lat: ", selectAddressModel.coordinate?.latitude)
+        print("lng: ", selectAddressModel.coordinate?.longitude)
+        print("selectDetailPointMapView.buildingNameLabel.text: ", selectAddressModel.buildingName)
+        print("selectDetailPointMapView.detailAddressLabel.text: ", selectAddressModel.detailAddress)
         selectDetailPointMapView.buildingNameLabel.text = selectAddressModel.buildingName
         selectDetailPointMapView.detailAddressLabel.text = selectAddressModel.detailAddress
         selectDetailPointMapView.showExplain()
@@ -130,6 +130,11 @@ extension SelectDetailPointMapViewController: NMFMapViewCameraDelegate {
         // 주소와 건물명 가져오기
         getAddressAndBuildingName(for: center) { buildingName, detailAddress in
             // 주소와 건물명을 업데이트
+            print("NMFDelegate inside")
+            print("selectDetailPointMapView.buildingNameLabel.text: ", buildingName)
+            print("selectDetailPointMapView.detailAddressLabel.text: ", detailAddress)
+            print("lat: ", self.selectAddressModel.coordinate?.latitude)
+            print("lng: ", self.selectAddressModel.coordinate?.longitude)
             self.selectDetailPointMapView.buildingNameLabel.text = buildingName
             self.selectDetailPointMapView.detailAddressLabel.text = detailAddress
             self.selectAddressModel.buildingName = buildingName
@@ -146,7 +151,7 @@ struct SelectDetailControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = SelectDetailPointMapViewController
 
     func makeUIViewController(context: Context) -> SelectDetailPointMapViewController {
-        return SelectDetailPointMapViewController(selectAddressModel: SelectAddressDTO(detailAddress: "우리집"))
+        return SelectDetailPointMapViewController()
     }
 
     func updateUIViewController(_ uiViewController: SelectDetailPointMapViewController, context: Context) {}

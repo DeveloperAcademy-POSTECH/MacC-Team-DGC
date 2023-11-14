@@ -286,13 +286,13 @@ extension SelectAddressViewController: UITableViewDelegate {
                         coordinate: coordinate
                     )
 
-                    let detailViewController = SelectDetailPointMapViewController(
-                        selectAddressModel: selectAddressModel
-                    )
+//                    let detailViewController = SelectDetailPointMapViewController(
+//                        selectAddressModel: selectAddressModel
+//                    )
+                    let detailViewController = SelectDetailPointMapViewController()
+                    detailViewController.selectAddressModel = selectAddressModel
 
                     detailViewController.addressSelectionHandler = { [weak self] addressDTO in
-                        print("selectAddress Handler 내부")
-                        print(addressDTO)
                         self?.addressDTO = addressDTO
                     }
 
@@ -307,12 +307,6 @@ extension SelectAddressViewController: UITableViewDelegate {
                             .saveButton
                             .setTitle("도착지로 설정", for: .normal)
                     }
-                    self.navigationItem.backBarButtonItem = UIBarButtonItem(
-                        title: "",
-                        style: .plain,
-                        target: nil,
-                        action: nil
-                    )
                     self.navigationController?.pushViewController(detailViewController, animated: true)
                 }
             }
