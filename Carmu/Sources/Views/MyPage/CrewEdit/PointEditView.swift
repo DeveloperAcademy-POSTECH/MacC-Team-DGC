@@ -44,9 +44,11 @@ final class PointEditView: UIView {
     let timeEditButton = TimeEditButton(originalTime: "00:00 AM", pointType: .start)
 
     /**
+     pointType: 주소, 시간 설정 버튼에서 어떤 장소에 대한 뷰인지를 식별하기 위한 값
      originalAddress: 기존에 설정돼있던 주소의 대표명
      originalArrivalTime: 기존에 설정돼있던 출발 또는 도착 시간
      hasXButton: X버튼 여부 (경유지의 경우 필요함)
+     isDeparture: 출발시간인지 도착시간인지
      */
     init(pointType: PointType, originalAddress: String, originalArrivalTime: Date, hasXButton: Bool = false, isDeparture: Bool = true) {
         super.init(frame: .zero)

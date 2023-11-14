@@ -15,13 +15,14 @@ final class CrewEditView: UIView {
     // 반복 요일 설정 버튼
     let repeatDayEditButton: UIButton = {
         let repeatDayEditButton = UIButton()
+
         // 폰트 및 텍스트 설정
         let textFont = UIFont.carmuFont.subhead2
         var titleAttr = AttributedString("  반복")
         titleAttr.font = textFont
         titleAttr.foregroundColor = UIColor.semantic.textBody
         // SF Symbol 설정
-        let symbolFont = UIFont.boldSystemFont(ofSize: 20) // TODO: - 정확한 폰트 확인 필요
+        let symbolFont = UIFont.boldSystemFont(ofSize: 20) // TODO: - 피그마랑 모양이 좀 달라서 정확한 폰트 확인 필요
         let symbolConfiguration = UIImage.SymbolConfiguration(font: symbolFont)
         let symbolImage = UIImage(systemName: "calendar", withConfiguration: symbolConfiguration)
 
@@ -45,6 +46,7 @@ final class CrewEditView: UIView {
 
     // 좌측 경로 표시 선
     let colorLine = CrewMakeUtil.createColorLineView()
+
     // 경유지들에 대한 설정 뷰를 쌓을 스택 뷰
     let stopoverStackView: UIStackView = {
         let stopoverStackView = UIStackView()
@@ -82,6 +84,7 @@ final class CrewEditView: UIView {
         originalArrivalTime: Date(),
         hasXButton: true
     )
+    // 경유지 추가 버튼
     let stopoverAddButton = StopoverPointAddButtonView()
 
     override init(frame: CGRect) {
@@ -128,6 +131,7 @@ final class CrewEditView: UIView {
             make.height.equalTo(54)
         }
 
+        // 경유지
         addSubview(stopoverStackView)
         stopoverStackView.snp.makeConstraints { make in
             make.leading.equalTo(colorLine.snp.trailing).offset(12)

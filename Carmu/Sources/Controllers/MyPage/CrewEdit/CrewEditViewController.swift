@@ -41,27 +41,52 @@ final class CrewEditViewController: UIViewController {
         )
 
         setOriginalCrewData()
+        addButtonTargets()
+
         view.addSubview(crewEditView)
         crewEditView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.horizontalEdges.bottom.equalToSuperview()
         }
-
-        crewEditView.repeatDayEditButton.addTarget(
-            self,
-            action: #selector(showRepeatDaySelectModal),
-            for: .touchUpInside
-        )
-        crewEditView.startPoint.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
-        crewEditView.stopover1.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
-        crewEditView.stopover2.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
-        crewEditView.stopover3.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
-        crewEditView.endPoint.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = userCrewData?.name // 내비게이션 제목 크루 이름으로 설정
+    }
+
+    // 버튼 타겟 추가
+    private func addButtonTargets() {
+        crewEditView.repeatDayEditButton.addTarget(
+            self,
+            action: #selector(showRepeatDaySelectModal),
+            for: .touchUpInside
+        )
+        crewEditView.startPoint.timeEditButton.addTarget(
+            self,
+            action: #selector(showTimeSelectModal),
+            for: .touchUpInside
+        )
+        crewEditView.stopover1.timeEditButton.addTarget(
+            self,
+            action: #selector(showTimeSelectModal),
+            for: .touchUpInside
+        )
+        crewEditView.stopover2.timeEditButton.addTarget(
+            self,
+            action: #selector(showTimeSelectModal),
+            for: .touchUpInside
+        )
+        crewEditView.stopover3.timeEditButton.addTarget(
+            self,
+            action: #selector(showTimeSelectModal),
+            for: .touchUpInside
+        )
+        crewEditView.endPoint.timeEditButton.addTarget(
+            self,
+            action: #selector(showTimeSelectModal),
+            for: .touchUpInside
+        )
     }
 
     // MARK: - 기존 크루 데이터에 맞게 화면 정보 갱신
@@ -71,8 +96,8 @@ final class CrewEditViewController: UIViewController {
         }
 
         // 출발지 정보 세팅
-        crewEditView.startPoint.addressEditButton.setTitle(crewData.startingPoint?.name, for: .normal)
-        crewEditView.startPoint.timeEditButton.setTitle(
+        crewEditView.startPoint.addressEditButton.setTitle(crewData.startingPoint?.name, for: .normal) // 기존 정보로 주소 설정 버튼 세팅
+        crewEditView.startPoint.timeEditButton.setTitle( // 기존 정보로 시간 설정 버튼 세팅
             Date.formattedDate(
                 from: crewData.startingPoint?.arrivalTime ?? Date(),
                 dateFormat: "aa hh:mm"

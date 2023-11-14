@@ -17,6 +17,7 @@ final class RepeatDaySelectModalView: UIView {
         headerStack.axis = .horizontal
         return headerStack
     }()
+
     // 상단 헤더 라벨
     private let headerLabel: UILabel = {
         let headerLabel = UILabel()
@@ -50,7 +51,6 @@ final class RepeatDaySelectModalView: UIView {
         super.init(frame: frame)
         backgroundColor = UIColor.semantic.backgroundDefault
         setupUI()
-        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -80,44 +80,6 @@ final class RepeatDaySelectModalView: UIView {
             make.top.equalTo(headerStack.snp.bottom).offset(63)
             make.bottom.equalTo(saveButton.snp.top).offset(-63)
             make.horizontalEdges.equalToSuperview().inset(20)
-        }
-    }
-
-    private func setupConstraints() {
-    }
-}
-
-// MARK: - 요일 버튼 셀
-final class DayButtonCollectionViewCell: UICollectionViewCell {
-
-    static let cellIdentifier = "dayButtonCollectionViewCell"
-
-    let dayLabel: UILabel = {
-        let dayLabel = UILabel()
-        dayLabel.textColor = UIColor.semantic.textBody
-        dayLabel.font = UIFont.carmuFont.headline2
-        dayLabel.textAlignment = .center
-        return dayLabel
-    }()
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        layer.cornerRadius = frame.height/2
-        clipsToBounds = true
-        backgroundColor = UIColor.semantic.backgroundSecond
-        setupUI()
-
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    private func setupUI() {
-        addSubview(dayLabel)
-        dayLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.center.equalToSuperview()
         }
     }
 }

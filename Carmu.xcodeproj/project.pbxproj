@@ -25,6 +25,7 @@
 		16E42C482AC411A20031486E /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E42C472AC411A20031486E /* MapViewController.swift */; };
 		B8293CC62B028404002472AE /* RepeatDaySelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */; };
 		B8293CC82B028863002472AE /* RepeatDaySelectModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CC72B028863002472AE /* RepeatDaySelectModalViewController.swift */; };
+		B8293CCB2B0392FC002472AE /* DayButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CCA2B0392FC002472AE /* DayButtonCollectionViewCell.swift */; };
 		B8376E3C2AF936DB007F1E0A /* CrewInfoNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */; };
 		B8376E3E2AF936EB007F1E0A /* CrewInfoDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */; };
 		B8376E402AF936F4007F1E0A /* CrewInfoPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */; };
@@ -151,6 +152,7 @@
 		16E42C472AC411A20031486E /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectModalView.swift; sourceTree = "<group>"; };
 		B8293CC72B028863002472AE /* RepeatDaySelectModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectModalViewController.swift; sourceTree = "<group>"; };
+		B8293CCA2B0392FC002472AE /* DayButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoNoCrewView.swift; sourceTree = "<group>"; };
 		B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoDriverView.swift; sourceTree = "<group>"; };
 		B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoPassengerView.swift; sourceTree = "<group>"; };
@@ -607,6 +609,7 @@
 			children = (
 				C93116752AF3B5F00014E702 /* SelectAddressTableViewCell.swift */,
 				C93116772AF3B6310014E702 /* DefaultAddressTableViewCell.swift */,
+				B8293CCA2B0392FC002472AE /* DayButtonCollectionViewCell.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -898,6 +901,7 @@
 				BFD765862AF7E16F0074277B /* MapView.swift in Sources */,
 				C93116702AF3ABB20014E702 /* StartEndPointSelectView.swift in Sources */,
 				C954621E2AF77D9D004C4F6D /* NextButton.swift in Sources */,
+				B8293CCB2B0392FC002472AE /* DayButtonCollectionViewCell.swift in Sources */,
 				C9D04C7C2AFE5AAF007E615B /* SelectDetailStopoverPointView.swift in Sources */,
 				B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */,
 				C9F43BDF2AF2C09500BAA0E3 /* BoardingPointSelectView.swift in Sources */,

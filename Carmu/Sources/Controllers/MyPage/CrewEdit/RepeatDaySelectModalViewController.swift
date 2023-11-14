@@ -59,7 +59,7 @@ extension RepeatDaySelectModalViewController: UICollectionViewDataSource {
 
     // 컬렉션 뷰 아이템 개수 설정
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 7
+        return 7 // 월화수목금토일
     }
 
     // 컬렉션 뷰 구성
@@ -73,6 +73,7 @@ extension RepeatDaySelectModalViewController: UICollectionViewDataSource {
         ) as? DayButtonCollectionViewCell else {
             return UICollectionViewCell()
         }
+
         // 월~일 텍스트 지정
         cell.dayLabel.text = DayOfWeek(rawValue: indexPath.row)?.dayString
         // selectedRepeatDay에 값이 있는지에 따라 대응하는 셀의 색상 다르게 표시
@@ -88,7 +89,8 @@ extension RepeatDaySelectModalViewController: UICollectionViewDataSource {
 
     // 셀 선택 시 동작
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("요일 버튼 클릭됨")
+        print("요일 버튼 클릭됨!!")
+        print("현재 선택된 요일: \(selectedRepeatDay)")
         if selectedRepeatDay.contains(indexPath.row) {
             // 선택되어 있는 값이면 userTypeAnswer에서 제거
             selectedRepeatDay.remove(indexPath.row)
@@ -96,7 +98,7 @@ extension RepeatDaySelectModalViewController: UICollectionViewDataSource {
             // 선택되어 있지 않다면 userTypeAnswer에 추가
             selectedRepeatDay.insert(indexPath.row)
         }
-        print("현재 선택된 요일: \(selectedRepeatDay)")
+        // 컬렉션 뷰 새로고침
         collectionView.reloadData()
     }
 }
