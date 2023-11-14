@@ -35,6 +35,17 @@ final class PositionSelectViewController: UIViewController {
             make.edges.equalToSuperview()
         }
     }
+
+    // 현재 화면에서만 네비게이션 바 숨김을 위한 처리
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
 }
 
 // MARK: - @objc Method
@@ -51,8 +62,21 @@ extension PositionSelectViewController {
     }
 
     @objc private func skipButtonTapped() {
-        SceneDelegate.updateIsFirstValue(false)
-        UserDefaults.standard.set(false, forKey: "isFirst")
+        let alertController = UIAlertController(
+            title: "아직 여정이 만들어지지 않았어요!",
+            message: "여정을 만들거나 여정에 참여해야\n카뮤를 이용할 수 있습니다.",
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
+        let skipAction = UIAlertAction(title: "건너뛰기", style: .default) { _ in
+            SceneDelegate.updateIsFirstValue(false)
+            UserDefaults.standard.set(false, forKey: "isFirst")
+        }
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(skipAction)
+
+        present(alertController, animated: true, completion: nil)
     }
 }
 

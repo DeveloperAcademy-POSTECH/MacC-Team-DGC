@@ -86,12 +86,12 @@ final class PositionSelectView: UIView {
 
     private func setAutoLayout() {
         skipButton.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(-20)
+            make.top.equalTo(safeAreaLayoutGuide).inset(10)
             make.trailing.equalToSuperview().inset(20)
         }
 
         titleLabel1.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(36)
+            make.top.equalTo(safeAreaLayoutGuide).inset(78)
             make.leading.equalToSuperview().inset(20)
             make.bottom.equalTo(titleLabel5.snp.top)
         }
