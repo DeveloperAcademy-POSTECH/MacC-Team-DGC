@@ -42,6 +42,10 @@ final class InviteCodeInputViewController: UIViewController {
             for: .editingChanged
         )
 
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        inviteCodeInputView.codeSearchTextField.becomeFirstResponder()
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
