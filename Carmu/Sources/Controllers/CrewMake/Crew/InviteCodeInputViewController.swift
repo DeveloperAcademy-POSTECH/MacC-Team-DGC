@@ -61,7 +61,7 @@ final class InviteCodeInputViewController: UIViewController {
         )
     }
 
-    deinit {
+    override func viewWillDisappear(_ animated: Bool) {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
@@ -72,6 +72,7 @@ extension InviteCodeInputViewController {
 
     @objc private func clearButtonPressed() {
         inviteCodeInputView.codeSearchTextField.text = ""
+        textFieldDidChange(inviteCodeInputView.codeSearchTextField)
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
@@ -115,11 +116,14 @@ extension InviteCodeInputViewController {
         guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
-        // 애니메이션을 사용하여 레이아웃 업데이트 → 친구 추가하기 버튼을 위로 올려준다.
+
+        let bottomInset = view.safeAreaInsets.bottom
+
+        // 홈 인디케이터를 고려하여 키보드 위로 레이아웃을 조정
         UIView.animate(withDuration: 0.3) {
             self.inviteCodeInputView.nextButton.transform = CGAffineTransform(
                 translationX: 0,
-                y: -keyboardFrame.height + 80
+                y: -keyboardFrame.height + bottomInset + 40
             )
         }
     }
