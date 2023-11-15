@@ -53,9 +53,8 @@ final class MapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if isDriver {
-            startUpdatingLocation()
-        } else {
+        startUpdatingLocation()
+        if !isDriver {
             firebaseManager.startObservingDriveLocation { latitude, longitude in
                 self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
             }
@@ -218,13 +217,17 @@ extension MapViewController: CLLocationManagerDelegate {
     // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
-        // 운전자화면에서 자동차 마커 위치 변경
-        mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        // 운전자인 경우 DB에 위도, 경도 업데이트
-        firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
-        // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
-        if distanceFromDestination(current: location) <= 200.0 {
-            detailView.showFinishCarpoolButton()
+        if isDriver {
+            // 운전자화면에서 자동차 마커 위치 변경
+            mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            // 운전자인 경우 DB에 위도, 경도 업데이트
+            firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
+            // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
+            if distanceFromDestination(current: location) <= 200.0 {
+                detailView.showFinishCarpoolButton()
+            }
+        } else {
+            mapView.updateMyPositionMarker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
         }
     }
 

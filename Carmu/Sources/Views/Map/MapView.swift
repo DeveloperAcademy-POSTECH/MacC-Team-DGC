@@ -21,6 +21,14 @@ final class MapView: UIView {
         return marker
     }()
 
+    let myPositionMarker = {
+        let marker = NMFMarker()
+        marker.iconImage = NMFOverlayImage(name: "myPosition")
+        marker.width = 24
+        marker.height = 24
+        return marker
+    }()
+
     private let points: Points
 
     let startingPoint = {
@@ -145,5 +153,10 @@ final class MapView: UIView {
     func updateCarMarker(latitide: Double, longitude: Double) {
         carMarker.position = NMGLatLng(lat: latitide, lng: longitude)
         carMarker.mapView = naverMap
+    }
+
+    func updateMyPositionMarker(latitude: Double, longitude: Double) {
+        myPositionMarker.position = NMGLatLng(lat: latitude, lng: longitude)
+        myPositionMarker.mapView = naverMap
     }
 }
