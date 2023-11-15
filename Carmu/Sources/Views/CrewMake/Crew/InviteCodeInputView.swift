@@ -57,7 +57,7 @@ final class InviteCodeInputView: UIView {
 
     lazy var conformCodeLabel: UILabel = {
         let label = UILabel()
-        label.text = "확인되었습니다. 즐거운 카풀 여정되세요!"
+        label.text = "확인되었습니다. 즐거운 카풀되세요!"
         label.font = UIFont.carmuFont.body1
         label.textColor = UIColor.semantic.textTertiary
         label.isHidden = true

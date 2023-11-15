@@ -57,9 +57,9 @@ final class CrewMakeUtil {
         greenLineView.backgroundColor = UIColor.semantic.accSecondary
         purpleLineView.backgroundColor = UIColor.semantic.accPrimary
 
-        colorLineView.layer.cornerRadius = 8
-        greenLineView.layer.cornerRadius = 8
-        purpleLineView.layer.cornerRadius = 8
+        colorLineView.layer.cornerRadius = 6
+        greenLineView.layer.cornerRadius = 6
+        purpleLineView.layer.cornerRadius = 6
 
         colorLineView.addSubview(greenLineView)
         colorLineView.addSubview(purpleLineView)

@@ -15,7 +15,7 @@ final class StopoverPointSelectView: UIView {
     private let titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "크루원들의 ")
     private let titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "경유지")
     private let titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "를")
-    let titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "설정해주세요")
+    let titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "추가해주세요")
 
     let colorLine = CrewMakeUtil.createColorLineView()
     let startPointView: UILabel = {

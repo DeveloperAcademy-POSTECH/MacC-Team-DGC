@@ -71,8 +71,17 @@ extension StartEndPointSelectViewController {
         let navigation = UINavigationController(rootViewController: detailViewController)
         if sender == startEndPointSelectView.startPointView.button {
             detailViewController.selectAddressView.headerTitleLabel.text = "출발지 주소 설정"
+
         } else {
             detailViewController.selectAddressView.headerTitleLabel.text = "도착지 주소 설정"
+            let placeholderAttributes: [NSAttributedString.Key: Any] = [
+                .foregroundColor: UIColor.semantic.textPrimary as Any,
+                .font: UIFont.carmuFont.body2Long
+            ]
+            detailViewController.selectAddressView.addressSearchTextField.attributedPlaceholder = NSAttributedString(
+                string: "도착지 검색",
+                attributes: placeholderAttributes
+            )
         }
         navigation.navigationBar.isHidden = true
 

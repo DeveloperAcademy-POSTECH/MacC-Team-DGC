@@ -13,7 +13,7 @@ final class CodeShareView: UIView {
 
     private lazy var secondLineTitleStack = UIStackView()
 
-    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀을 같이 하는 사람들에게")
+    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀을 같이할 크루들에게")
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "초대코드를 공유")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "해주세요")
 

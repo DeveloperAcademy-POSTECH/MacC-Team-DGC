@@ -156,11 +156,11 @@ extension StopoverPointSelectViewController {
             point.latitude = addressDTO.pointLat
             point.longitude = addressDTO.pointLng
 
-            switch sender.titleLabel?.text {
-            case "     경유지 1 검색":
+            switch sender {
+            case self.stopoverPointSelectView.stopover1.button:
                 self.crewData.stopover1 = point
                 self.pointList.insert(point, at: 0)
-            case "     경유지 2 검색":
+            case self.stopoverPointSelectView.stopover2.button:
                 self.crewData.stopover2 = point
                 self.pointList.insert(point, at: 1)
             default:
