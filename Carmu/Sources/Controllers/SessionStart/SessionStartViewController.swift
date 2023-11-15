@@ -261,10 +261,12 @@ extension SessionStartViewController {
         // 비활성화
         sessionStartDriverView.layer.opacity = 0.5
         // comment
-        sessionStartView.topComment.text = "\(crewData.name ?? "그룹명"),\n오늘 운행하시나요?"
+        let crewName = crewData.name
+
+        sessionStartView.topComment.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(String(describing: crewName))") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
@@ -343,10 +345,12 @@ extension SessionStartViewController {
 
     private func settingPassengerView(crewData: Crew?) {
         guard let crewData = crewData else { return }
-        sessionStartView.topComment.text = "\(crewData.name ?? "그룹명")과\n함께 가시나요?"
+
+        let crewName = crewData.name
+        sessionStartView.topComment.text = "\(String(describing: crewName))과\n함께 가시나요?"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(String(describing: crewName))") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
