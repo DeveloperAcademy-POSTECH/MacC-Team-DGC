@@ -38,6 +38,8 @@ final class MapViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
 
     private let isDriver = true
+    // [동승자] 내 현재 위치
+    private var myCurrentCoordinate: CLLocationCoordinate2D?
 
     private let pathOverlay = {
         let pathOverlay = NMFPath()
@@ -62,6 +64,7 @@ final class MapViewController: UIViewController {
         showNaverMap()
         fetchDirections()
         mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        mapView.currentLocationButton.addTarget(self, action: #selector(currentLocationButtonDidTap), for: .touchUpInside)
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
         detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
@@ -69,10 +72,18 @@ final class MapViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         initCameraUpdate()
+        if !isDriver {
+            mapView.showCurrentLocationButton()
+        }
     }
 
     @objc private func backButtonDidTap() {
         dismiss(animated: true)
+    }
+
+    @objc private func currentLocationButtonDidTap() {
+        guard let myCurrentCoordinate = myCurrentCoordinate else { return }
+        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: myCurrentCoordinate)))
     }
 
     @objc private func showNoticeLateModal() {
@@ -228,6 +239,7 @@ extension MapViewController: CLLocationManagerDelegate {
             }
         } else {
             mapView.updateMyPositionMarker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            myCurrentCoordinate = location.coordinate
         }
     }
 

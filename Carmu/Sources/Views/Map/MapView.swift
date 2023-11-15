@@ -92,6 +92,12 @@ final class MapView: UIView {
         return toastLabel
     }()
 
+    let currentLocationButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "currentLocation"), for: .normal)
+        return button
+    }()
+
     init(points: Points) {
         self.points = points
         super.init(frame: .zero)
@@ -106,6 +112,7 @@ final class MapView: UIView {
         naverMap.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        naverMap.logoAlign = .rightBottom
 
         addSubview(backButton)
         backButton.snp.makeConstraints { make in
@@ -147,6 +154,15 @@ final class MapView: UIView {
         destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
         destination.anchor = CGPoint(x: 0.5, y: 0.5)
         destination.mapView = naverMap
+    }
+
+    func showCurrentLocationButton() {
+        addSubview(currentLocationButton)
+        currentLocationButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(23)
+            make.width.height.equalTo(36)
+        }
     }
 
     /// 위도, 경도를 입력받아 자동차의 현재 위치를 맵뷰에서 업데이트
