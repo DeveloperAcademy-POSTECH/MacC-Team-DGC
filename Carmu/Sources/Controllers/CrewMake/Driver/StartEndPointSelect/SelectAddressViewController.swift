@@ -31,10 +31,7 @@ final class SelectAddressViewController: UIViewController {
         }
     }
     private let koreaBounds = MKCoordinateRegion(
-        center: CLLocationCoordinate2D(
-            latitude: 36.34,
-            longitude: 127.77
-        ),
+        center: CLLocationCoordinate2D(latitude: 36.34, longitude: 127.77),
         latitudinalMeters: 200000,
         longitudinalMeters: 200000
     )
@@ -48,21 +45,9 @@ final class SelectAddressViewController: UIViewController {
             make.edges.equalToSuperview()
         }
 
-        selectAddressView.closeButton.addTarget(
-            self,
-            action: #selector(closeAddressView),
-            for: .touchUpInside
-        )
-        selectAddressView.clearButton.addTarget(
-            self,
-            action: #selector(clearButtonPressed),
-            for: .touchUpInside
-        )
-        selectAddressView.addressSearchTextField.addTarget(
-            self,
-            action: #selector(textFieldDidChange),
-            for: .editingChanged
-        )
+        selectAddressView.closeButton.addTarget(self, action: #selector(closeAddressView), for: .touchUpInside)
+        selectAddressView.clearButton.addTarget(self, action: #selector(clearButtonPressed), for: .touchUpInside)
+        selectAddressView.addressSearchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
         self.searchCompleter = MKLocalSearchCompleter()
         self.searchCompleter?.delegate = self
@@ -140,10 +125,7 @@ extension SelectAddressViewController {
 // MARK: - Custom Method
 extension SelectAddressViewController {
 
-    private func search(
-        for suggestedCompletion: MKLocalSearchCompletion,
-        completion: @escaping (CLLocationCoordinate2D?) -> Void
-    ) {
+    private func search(for suggestedCompletion: MKLocalSearchCompletion, completion: @escaping (CLLocationCoordinate2D?) -> Void) {
         let searchRequest = MKLocalSearch.Request(completion: suggestedCompletion)
         searchRequest.region = koreaBounds
         searchRequest.resultTypes = .pointOfInterest

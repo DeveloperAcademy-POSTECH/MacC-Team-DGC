@@ -22,7 +22,7 @@ final class PointEditView: UIView {
     }()
 
     // MARK: - 상세주소 설정 버튼
-    let addressEditButton = AddressEditButton(originalAddress: "주소1", pointType: .start)
+    let addressEditButton = AddressEditButton(originalAddress: "주소1", pointType: .start, pointData: nil)
 
     // MARK: - 시간 타입 라벨 (출발 시간인지 도착 시간인지)
     let timeTypeLabel = TimeTypeLabel(timeType: .departure)
@@ -37,11 +37,19 @@ final class PointEditView: UIView {
      hasXButton: X버튼 여부 (경유지의 경우 필요함)
      isDeparture: 출발시간인지 도착시간인지
      */
-    init(pointType: PointType, originalAddress: String, originalArrivalTime: Date, hasXButton: Bool = false, isDeparture: Bool = true) {
+    init(pointType: PointType, pointData: Point, hasXButton: Bool = false, isDeparture: Bool = true) {
         super.init(frame: .zero)
 
+        // 주소 버튼
+        addressEditButton.pointType = pointType
+        addressEditButton.pointData = pointData
+        addressEditButton.setTitle(pointData.name, for: .normal)
         // 출발 - 도착 텍스트 구분
         timeTypeLabel.text = isDeparture ? TimeType.departure.rawValue : TimeType.arrival.rawValue
+        // 시간 설정 버튼의 시간 텍스트
+        addressEditButton.pointType = pointType
+        addressEditButton.pointData = pointData
+        timeEditButton.setTitle(Date.formattedDate(from: pointData.arrivalTime ?? Date(), dateFormat: "aa hh:mm"), for: .normal)
 
         // TODO: - 시간 텍스트 변환 로직 필요
         addSubview(timeEditButton)
@@ -60,8 +68,6 @@ final class PointEditView: UIView {
             make.width.equalTo(22)
         }
 
-        addressEditButton.pointType = pointType
-        addressEditButton.setTitle(originalAddress, for: .normal)
         addSubview(addressEditButton)
         addressEditButton.snp.makeConstraints { make in
             make.leading.equalToSuperview()

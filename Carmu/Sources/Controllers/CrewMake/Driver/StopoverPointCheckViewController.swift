@@ -25,16 +25,8 @@ final class StopoverPointCheckViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
-        stopoverPointCheckView.yesStopoverButton.addTarget(
-            self,
-            action: #selector(yesButtonTapped),
-            for: .touchUpInside
-        )
-        stopoverPointCheckView.noStopoverButton.addTarget(
-            self,
-            action: #selector(noButtonTapped),
-            for: .touchUpInside
-        )
+        stopoverPointCheckView.yesStopoverButton.addTarget(self, action: #selector(yesButtonTapped), for: .touchUpInside)
+        stopoverPointCheckView.noStopoverButton.addTarget(self, action: #selector(noButtonTapped), for: .touchUpInside)
 
         view.addSubview(stopoverPointCheckView)
         stopoverPointCheckView.snp.makeConstraints { make in

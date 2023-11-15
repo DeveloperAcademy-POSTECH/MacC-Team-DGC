@@ -44,9 +44,9 @@ final class MapViewController: UIViewController {
         pathOverlay.color = UIColor.theme.blue6 ?? .blue
         pathOverlay.outlineColor = UIColor.theme.blue3 ?? .blue
         pathOverlay.width = 8
-        if let uiImage = UIImage(systemName: "triangle.fill") {
+        if let uiImage = UIImage(named: "triangle") {
             pathOverlay.patternIcon = NMFOverlayImage(image: uiImage)
-            pathOverlay.patternInterval = 17
+            pathOverlay.patternInterval = 10
         }
         return pathOverlay
     }()
@@ -65,11 +65,7 @@ final class MapViewController: UIViewController {
         mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
-        detailView.finishCarpoolButton.addTarget(
-            self,
-            action: #selector(finishCarpoolButtonDidTap),
-            for: .touchUpInside
-        )
+        detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
     }
 
     override func viewDidAppear(_ animated: Bool) {

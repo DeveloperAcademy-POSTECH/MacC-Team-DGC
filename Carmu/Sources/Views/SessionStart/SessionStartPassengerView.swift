@@ -247,9 +247,7 @@ final class PassengerFrontView: UIView {
         let locationText = NSMutableAttributedString(string: locationLabel.text ?? "")
         if let range1 = locationLabel.text?.range(of: passengerLocation) {
             let nsRange1 = NSRange(range1, in: locationLabel.text ?? "")
-            locationText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                      value: UIColor.semantic.accPrimary as Any,
-                                      range: nsRange1)
+            locationText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         locationLabel.attributedText = locationText
 
@@ -257,9 +255,7 @@ final class PassengerFrontView: UIView {
         let timeText = NSMutableAttributedString(string: timeLabel.text ?? "")
         if let range2 = timeLabel.text?.range(of: passengerTime) {
             let nsRange2 = NSRange(range2, in: timeLabel.text ?? "")
-            timeText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                  value: UIColor.semantic.accPrimary as Any,
-                                  range: nsRange2)
+            timeText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange2)
         }
         timeLabel.attributedText = timeText
 

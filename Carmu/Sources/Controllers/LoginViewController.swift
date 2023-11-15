@@ -33,10 +33,7 @@ final class LoginViewController: UIViewController {
 extension LoginViewController: ASAuthorizationControllerDelegate {
 
     // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
-    func authorizationController(
-        controller: ASAuthorizationController,
-        didCompleteWithAuthorization authorization: ASAuthorization
-    ) {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
             fatalError("Credential을 찾을 수 없습니다.")
         }
