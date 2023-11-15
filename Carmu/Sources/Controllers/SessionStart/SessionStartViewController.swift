@@ -36,7 +36,7 @@ final class SessionStartViewController: UIViewController {
         Task {
             do {
                 showActivityIndicator()
-                let crewData = try await firebaseManager.getCrewData()
+                crewData = try await firebaseManager.getCrewData()
                 hideActivityIndicator()
                 setupUI()
                 setupConstraints()
@@ -415,7 +415,7 @@ extension SessionStartViewController {
     @objc private func togetherButtonDidTapped() {
 
         // 운전자일 때
-        if isCaptainDummy() {
+        if isCaptain {
             sessionStartView.individualButton.isHidden = true
             sessionStartView.togetherButton.isHidden = true
             sessionStartView.carpoolStartButton.isHidden = false
@@ -428,11 +428,13 @@ extension SessionStartViewController {
 
             checkingCrewStatus()
 
-            // TODO: - 실제 데이터로 변경
-            dummyCrewData?.sessionStatus = .accept
+            crewData?.sessionStatus = .accept
             sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
         } else {    // 동승자일 때
-            if dummyCrewData?.sessionStatus == .accept {  // 운전자가 운행할 때
+            // FirebaseManager methods
+            firebaseManager.passengerTogetherButton()
+
+            if crewData?.sessionStatus == .accept {  // 운전자가 운행할 때
                 sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
                 sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
             }
@@ -444,19 +446,19 @@ extension SessionStartViewController {
 
     @objc private func carpoolStartButtonDidTapped() {
         // 세션 시작으로 상태 변경
-        dummyCrewData?.sessionStatus = .sessionStart
+        crewData?.sessionStatus = .sessionStart
 
         let mapView = MapViewController()
         mapView.modalPresentationStyle = .fullScreen
         present(mapView, animated: true, completion: nil)
     }
 
-    // TODO: - 실제 데이터로 변경
     @objc private func individualButtonDidTapped() {
 
         // 운전자가 클릭했을 때
-        if isCaptainDummy() {
+        if isCaptain {
             settingIndividualButtonForDriver()
+            print("운전자 !")
         } else {    // 동승자가 클릭했을 때
             settingIndividualButtonForPassenger()
         }
@@ -482,7 +484,10 @@ extension SessionStartViewController {
 
     // 동승자일 때
     private func settingIndividualButtonForPassenger() {
-        guard let crewData = dummyCrewData else { return }
+        guard let crewData = crewData else { return }
+
+        // FirebaseManager methods
+        firebaseManager.passengerIndividualButton()
 
         switch crewData.sessionStatus {
         case .waiting:

@@ -616,7 +616,6 @@ extension FirebaseManager {
                     destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: crewData["inviteCode"] as? String ?? "",
                     repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-//                    crewStatus: crewData["crewStatus"] as? [UserIdentifier: Status] ?? [:]
                     memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
                 )
                 if crewData["stopover1"] != nil {
@@ -658,9 +657,9 @@ extension FirebaseManager {
         return point
     }
 
-    // Data를 CrewStatus로 불러옴
-    func convertDataToMemberStatus(_ data: [[String: Any]]) -> [MemeberStatus] {
-        var crewStatusArray = [MemeberStatus]()
+    // Data를 MemberStatus로 불러옴
+    func convertDataToMemberStatus(_ data: [[String: Any]]) -> [MemberStatus] {
+        var memberStatusArray = [MemberStatus]()
 
         for statusData in data {
             if let nickname = statusData["nickname"] as? String,
@@ -669,15 +668,15 @@ extension FirebaseManager {
                let profileColor = statusData["profileColor"] as? String,
                let statusString = statusData["status"] as? String,
                let statusEnum = Status(rawValue: statusString) {
-                let status = MemeberStatus(id: id,
+                let status = MemberStatus(id: id,
                                            deviceToken: deviceToken,
                                            nickname: nickname,
                                            profileColor: profileColor,
                                            status: statusEnum)
-                crewStatusArray.append(status)
+                memberStatusArray.append(status)
             }
         }
-        return crewStatusArray
+        return memberStatusArray
     }
 
 }
@@ -700,5 +699,49 @@ extension FirebaseManager {
                 completion(latitude, longitude)
             }
         })
+    }
+}
+
+// MARK: - SessionStartView Actions
+extension FirebaseManager {
+
+    // 따로가요 클릭 시 해당 동승자의 status decline으로 변경
+    func passengerIndividualButton() {
+        Task {
+            do {
+                var crewData = try await getCrewData()
+                guard let crewData = crewData else { return }
+                guard let memberStatus = crewData.memberStatus else { return }
+
+                for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+                    if let crewID = crewData.id {
+                        let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
+                        try await statusRef.setValue("decline" as NSString)
+                    }
+                }
+            } catch {
+                print("Error ", error)
+            }
+        }
+    }
+
+    // 함께가요 클릭 시 해당 동승자의 status accept로 변경
+    func passengerTogetherButton() {
+        Task {
+            do {
+                var crewData = try await getCrewData()
+                guard let crewData = crewData else { return }
+                guard let memberStatus = crewData.memberStatus else { return }
+
+                for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+                    if let crewID = crewData.id {
+                        let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
+                        try await statusRef.setValue("accept" as NSString)
+                    }
+                }
+            } catch {
+                print("Error ", error)
+            }
+        }
     }
 }

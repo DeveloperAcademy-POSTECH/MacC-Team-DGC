@@ -161,7 +161,7 @@ struct SOPViewControllerRepresentable: UIViewControllerRepresentable {
         return StopoverPointSelectViewController(
             crewData: Crew(
                 crews: [UserIdentifier](),
-                memberStatus: [MemeberStatus]()
+                memberStatus: [MemberStatus]()
             )
         )
     }
