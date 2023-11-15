@@ -240,9 +240,9 @@ final class PassengerFrontView: UIView {
     func settingPassengerFrontData(crewData: Crew?) {
         guard let crewData = crewData else { return }
 
-        locationLabel.text = getPassengerLocation(crewData: crewData)
+        locationLabel.text = "\(getPassengerLocation(crewData: crewData))에"
         let locationText = NSMutableAttributedString(string: locationLabel.text ?? "")
-        if let range1 = locationLabel.text?.range(of: "해당 위치") {
+        if let range1 = locationLabel.text?.range(of: "\(getPassengerLocation(crewData: crewData))") {
             let nsRange1 = NSRange(range1, in: locationLabel.text ?? "")
             locationText.addAttribute(NSAttributedString.Key.foregroundColor,
                                         value: UIColor.semantic.accPrimary as Any,
@@ -252,7 +252,7 @@ final class PassengerFrontView: UIView {
 
         timeLabel.text = "\(getPassengerTime(crewData: crewData))까지 나가야 해요"
         let timeText = NSMutableAttributedString(string: timeLabel.text ?? "")
-        if let range2 = timeLabel.text?.range(of: "몇 시") {
+        if let range2 = timeLabel.text?.range(of: "\(getPassengerTime(crewData: crewData))") {
             let nsRange2 = NSRange(range2, in: timeLabel.text ?? "")
             timeText.addAttribute(NSAttributedString.Key.foregroundColor,
                                   value: UIColor.semantic.accPrimary as Any,
@@ -273,31 +273,34 @@ final class PassengerFrontView: UIView {
                          crewData.stopover3]
 
         for location in locations {
-            if let location = location, location.crews?.description == currentUserIdentifier {
-                // 현재 사용자가 타는 지점을 찾은 경우 해당 지점의 이름 반환
-                return location.name ?? "목적지"
+            if let location = location, let crews = location.crews {
+                if crews.contains(currentUserIdentifier) {
+                    // 현재 사용자가 타는 지점을 찾은 경우 해당 지점의 이름 반환
+                    return location.name ?? "목적지"
+                }
             }
         }
         // 만약 없다면
-        return ""
+        return "목적지"
     }
 
     // crewData를 기반으로 시간 불러오기
     private func getPassengerTime(crewData: Crew?) -> String {
         guard let crewData = crewData else { return "00:00" }
+        print("getPassengerTime()")
         guard let currentUserIdentifier = KeychainItem.currentUserIdentifier else { return "00:00" }
         let locations = [crewData.startingPoint,
                          crewData.stopover1,
                          crewData.stopover2,
                          crewData.stopover3]
         for location in locations {
-            if let location = location, location.crews?.description == currentUserIdentifier {
-                let arrivalTime = location.arrivalTime
-                print("arrivalTime ", arrivalTime as Any)
+            if let location = location, let crews = location.crews {
+                if crews.contains(currentUserIdentifier) {
 
-                return arrivalTime?.description ?? "00:00"
+                    return Date.formattedDate(from: location.arrivalTime ?? Date(), dateFormat: "hh:mm")
+                }
             }
         }
-        return "없음 00:00"
+        return "00:00"
     }
 }
