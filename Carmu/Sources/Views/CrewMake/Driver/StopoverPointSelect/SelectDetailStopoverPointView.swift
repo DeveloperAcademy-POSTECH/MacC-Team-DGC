@@ -24,6 +24,11 @@ final class SelectDetailStopoverPointView: UIView {
     let backButton = {
         let backButton = UIButton()
         backButton.setImage(UIImage(named: "modalXButton"), for: .normal)
+        backButton.layer.shadowColor = UIColor.theme.black?.cgColor
+        backButton.layer.shadowOffset = CGSize(width: 4, height: 4)
+        backButton.layer.shadowRadius = 8
+        backButton.layer.shadowOpacity = 0.2
+        backButton.layer.masksToBounds = false
         return backButton
     }()
 

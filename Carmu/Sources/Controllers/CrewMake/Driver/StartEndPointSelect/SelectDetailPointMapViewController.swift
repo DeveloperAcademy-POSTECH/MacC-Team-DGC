@@ -57,7 +57,7 @@ final class SelectDetailPointMapViewController: UIViewController {
 extension SelectDetailPointMapViewController {
 
     @objc private func backButtonTapped() {
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 
     @objc private func saveButtonAction() {
