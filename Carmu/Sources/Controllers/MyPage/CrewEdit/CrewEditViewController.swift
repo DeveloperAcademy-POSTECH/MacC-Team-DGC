@@ -274,6 +274,18 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         }
         present(detailPointMapVC, animated: true)
     }
+
+    // MARK: - X 경유지 제거 버튼에 대한 액션 연결
+    func xButtonTapped(sender: UIButton) {
+        // TODO: - 구현 필요
+        print("경유지 제거 버튼 클릭")
+    }
+
+    // MARK: - 경유지 추가 버튼에 대한 액션 연결
+    func addButtonTapped(sender: UIButton) {
+        // TODO: - 구현 필요
+        print("경유지 추가 버튼 클릭")
+    }
 }
 
 // MARK: - 프리뷰 canvas 세팅

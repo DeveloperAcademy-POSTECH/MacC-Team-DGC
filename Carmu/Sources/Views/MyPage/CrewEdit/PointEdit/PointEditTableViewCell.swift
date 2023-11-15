@@ -12,6 +12,8 @@ protocol PointEditTableViewCellDelegate: AnyObject {
 
     func timeEditButtonTapped(sender: UIButton)
     func addressEditButtonTapped(sender: UIButton, pointType: PointType, pointData: Point)
+    func xButtonTapped(sender: UIButton)
+    func addButtonTapped(sender: UIButton)
 }
 
 // MARK: - 크루 편집 화면에서의 포인트 별 편집 테이블 뷰 셀
@@ -102,6 +104,8 @@ final class PointEditTableViewCell: UITableViewCell {
         setupUI()
         timeEditButton.addTarget(self, action: #selector(timeEditButtonTapped), for: .touchUpInside)
         addressEditButton.addTarget(self, action: #selector(addressEditButtonTapped), for: .touchUpInside)
+        xButton.addTarget(self, action: #selector(xButtonTapped), for: .touchUpInside)
+        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) {
@@ -233,6 +237,7 @@ extension PointEditTableViewCell {
     }
 }
 
+// MARK: - @objc 메서드
 extension PointEditTableViewCell {
 
     // 시간 설정 버튼에 액션 연결
@@ -243,5 +248,15 @@ extension PointEditTableViewCell {
     // 주소 설정 버튼에 액션 연결
     @objc func addressEditButtonTapped(sender: UIButton) {
         pointEditTableViewCellDelegate?.addressEditButtonTapped(sender: sender, pointType: pointType, pointData: pointData ?? Point())
+    }
+
+    // X 경유지 제거 버튼에 대한 액션 연결
+    @objc func xButtonTapped(sender: UIButton) {
+        pointEditTableViewCellDelegate?.xButtonTapped(sender: sender)
+    }
+
+    // 경유지 추가 버튼에 대한 액션 연결
+    @objc func addButtonTapped(sender: UIButton) {
+        pointEditTableViewCellDelegate?.addButtonTapped(sender: sender)
     }
 }
