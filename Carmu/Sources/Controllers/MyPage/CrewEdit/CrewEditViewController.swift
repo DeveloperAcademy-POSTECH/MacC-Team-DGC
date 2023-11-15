@@ -14,11 +14,11 @@ final class CrewEditViewController: UIViewController {
 
     private let crewEditView = CrewEditView()
     private let firebaseManager = FirebaseManager()
-    var userCrewData: Crew? // 불러온 유저의 크루 데이터
+    var originalUserCrewData: Crew? // 불러온 유저의 크루 데이터
 
     init(userCrewData: Crew) {
         // TODO: - 실제 DB 데이터 받아오도록 수정
-        self.userCrewData = userCrewData
+        self.originalUserCrewData = userCrewData
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -52,7 +52,7 @@ final class CrewEditViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = userCrewData?.name // 내비게이션 제목 크루 이름으로 설정
+        navigationItem.title = originalUserCrewData?.name // 내비게이션 제목 크루 이름으로 설정
     }
 
     // 버튼 타겟 추가
@@ -91,7 +91,7 @@ final class CrewEditViewController: UIViewController {
 
     // MARK: - 기존 크루 데이터에 맞게 화면 정보 갱신
     private func setOriginalCrewData() {
-        guard let crewData = userCrewData else {
+        guard let crewData = originalUserCrewData else {
             return
         }
 
@@ -191,7 +191,7 @@ extension CrewEditViewController {
      */
     @objc private func showRepeatDaySelectModal() {
         // 크루에 설정돼있는 반복 요일 데이터를 전달
-        guard let originalRepeatDay = userCrewData?.repeatDay else {
+        guard let originalRepeatDay = originalUserCrewData?.repeatDay else {
             return
         }
         let repeatDaySelectModalVC = RepeatDaySelectModalViewController()
@@ -216,12 +216,13 @@ extension CrewEditViewController {
      */
     @objc private func showTimeSelectModal(sender: TimeEditButton) {
         let timeSelectModalVC = TimeSelectModalViewController()
-        // TODO: - Crew에 정보 입력하는 방식 이후, 타임 피커에 이전 경유지보다 늦은 시간부터 설정하는 로직 구현예정
-        // 시간 설정 모달에 기존의 값을 반영
-        timeSelectModalVC.timeSelectModalView.timePicker.date = Date.formattedDate(
+        let originalTimeValue = Date.formattedDate(
             string: sender.titleLabel?.text ?? "오전 08:00",
             dateFormat: "aa hh:mm"
         ) ?? Date()
+        // TODO: - Crew에 정보 입력하는 방식 이후, 타임 피커에 이전 경유지보다 늦은 시간부터 설정하는 로직 구현예정
+        // 시간 설정 모달에 기존의 값을 반영
+        timeSelectModalVC.timeSelectModalView.timePicker.date = originalTimeValue
 
         // 시간 설정 모달에서 선택된 값이 반영된다.
         timeSelectModalVC.timeSelectionHandler = { [weak self] selectedTime in
