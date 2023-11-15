@@ -18,6 +18,7 @@ final class SessionStartViewController: UIViewController {
     private let sessionStartView = SessionStartView()
     private lazy var sessionStartDriverView = SessionStartDriverView()
     private lazy var sessionStartPassengerView = SessionStartPassengerView()
+    private lazy var sessionStartBackView = SessionStartBackView()
     private lazy var sessionStartNoCrewView = SessionStartNoCrewView()
     private lazy var firebaseManager = FirebaseManager()
 
@@ -51,6 +52,8 @@ final class SessionStartViewController: UIViewController {
                     sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
                     // PassengerView
                     sessionStartPassengerView.passengerFrontView.settingPassengerFrontData(crewData: crewData)
+                    // BackView
+                    sessionStartBackView.crewData = crewData
                 }
             } catch {
                 // 어떤 에러가 발생했을 경우

@@ -236,7 +236,6 @@ final class DriverFrontView: UIView {
     func settingDriverFrontData(crewData: Crew?) {
         guard let crewData = crewData else { return }
         totalCrewMemeberLabel.text = "/ \(crewData.memberStatus?.count ?? 0)"
-        // TODO: - 데이터 변경
         todayCrewMemeberLabel.text = "\(todayMemberJoined(crewData: crewData))"
     }
 
@@ -250,7 +249,6 @@ final class DriverFrontView: UIView {
     }
 }
 
-// TODO: - 실제 데이터로 변경
 extension DriverFrontView: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
