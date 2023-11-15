@@ -161,7 +161,7 @@ import SwiftUI
 struct FCViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = FinalConfirmViewController
     func makeUIViewController(context: Context) -> FinalConfirmViewController {
-        return FinalConfirmViewController(crewData: Crew(crews: [UserIdentifier](), memberStatus: [MemeberStatus]()))
+        return FinalConfirmViewController(crewData: Crew(crews: [UserIdentifier](), memberStatus: [MemberStatus]()))
     }
     func updateUIViewController(_ uiViewController: FinalConfirmViewController, context: Context) {}
 }

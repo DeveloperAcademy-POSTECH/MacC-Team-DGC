@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct MemeberStatus: Codable {
+struct MemberStatus: Codable {
 
     var id: UserIdentifier?
     var deviceToken: String?

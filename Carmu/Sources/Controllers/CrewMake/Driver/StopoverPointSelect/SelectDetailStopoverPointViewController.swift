@@ -263,7 +263,7 @@ struct SDSPControllerRepresentable: UIViewControllerRepresentable {
         return SelectDetailStopoverPointViewController(
             crewData: Crew(
                 crews: [UserIdentifier](),
-                memberStatus: [MemeberStatus]()
+                memberStatus: [MemberStatus]()
             )
         )
     }

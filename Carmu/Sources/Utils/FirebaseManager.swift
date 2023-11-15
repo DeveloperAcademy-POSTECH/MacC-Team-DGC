@@ -659,8 +659,8 @@ extension FirebaseManager {
     }
 
     // Data를 CrewStatus로 불러옴
-    func convertDataToMemberStatus(_ data: [[String: Any]]) -> [MemeberStatus] {
-        var crewStatusArray = [MemeberStatus]()
+    func convertDataToMemberStatus(_ data: [[String: Any]]) -> [MemberStatus] {
+        var crewStatusArray = [MemberStatus]()
 
         for statusData in data {
             if let nickname = statusData["nickname"] as? String,
@@ -669,7 +669,7 @@ extension FirebaseManager {
                let profileColor = statusData["profileColor"] as? String,
                let statusString = statusData["status"] as? String,
                let statusEnum = Status(rawValue: statusString) {
-                let status = MemeberStatus(id: id,
+                let status = MemberStatus(id: id,
                                            deviceToken: deviceToken,
                                            nickname: nickname,
                                            profileColor: profileColor,
