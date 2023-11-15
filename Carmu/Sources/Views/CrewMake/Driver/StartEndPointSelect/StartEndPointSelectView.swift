@@ -16,7 +16,7 @@ final class StartEndPointSelectView: UIView {
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "를")
     private lazy var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "설정해주세요")
 
-    private lazy var colorLine = CrewMakeUtil.createColorLineView()
+    private lazy var colorLine = CrewMakeUtil.createColorLineView(80)
 
     let startPointView = AddressSelectButtonView(textFieldTitle: "출발지")
     let endPointView = AddressSelectButtonView(textFieldTitle: "도착지")
