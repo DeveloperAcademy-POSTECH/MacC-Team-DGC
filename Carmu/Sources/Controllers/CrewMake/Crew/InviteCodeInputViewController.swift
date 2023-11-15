@@ -80,7 +80,6 @@ extension InviteCodeInputViewController {
 
         // 입력 길이가 8 이상인 경우
         if text.count >= 8 {
-            // TODO: 8자 이상일 때 수행할 액션 추가
             firebaseManager.getCrewByInviteCode(inviteCode: text) { crewData in
                 if let crewData = crewData {
                     self.inviteCodeInputView.conformCodeLabel.isHidden = false
@@ -102,13 +101,12 @@ extension InviteCodeInputViewController {
     }
 
     @objc private func nextButtonTapped() {
-        // TODO: 코드 유효성 텍스트 라벨 표시 로직 추가 필요
         let viewController = BoardingPointSelectViewController(crewData: crewData)
         navigationController?.pushViewController(viewController, animated: true)
     }
 
     @objc private func dismissTextField() {
-        inviteCodeInputView.codeSearchTextField.resignFirstResponder() // 최초 응답자 해제
+        inviteCodeInputView.codeSearchTextField.resignFirstResponder()
     }
 
     @objc private func keyboardWillShow(notification: Notification) {
@@ -116,10 +114,8 @@ extension InviteCodeInputViewController {
         guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
-
         let bottomInset = view.safeAreaInsets.bottom
 
-        // 홈 인디케이터를 고려하여 키보드 위로 레이아웃을 조정
         UIView.animate(withDuration: 0.3) {
             self.inviteCodeInputView.nextButton.transform = CGAffineTransform(
                 translationX: 0,
@@ -137,7 +133,6 @@ extension InviteCodeInputViewController {
 extension InviteCodeInputViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // 리턴 키를 누를 때 호출될 메서드
         nextButtonTapped()
         return true
     }
