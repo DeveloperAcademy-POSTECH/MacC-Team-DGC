@@ -44,9 +44,9 @@ final class MapViewController: UIViewController {
         pathOverlay.color = UIColor.theme.blue6 ?? .blue
         pathOverlay.outlineColor = UIColor.theme.blue3 ?? .blue
         pathOverlay.width = 8
-        if let uiImage = UIImage(systemName: "triangle.fill") {
+        if let uiImage = UIImage(named: "triangle") {
             pathOverlay.patternIcon = NMFOverlayImage(image: uiImage)
-            pathOverlay.patternInterval = 17
+            pathOverlay.patternInterval = 10
         }
         return pathOverlay
     }()
