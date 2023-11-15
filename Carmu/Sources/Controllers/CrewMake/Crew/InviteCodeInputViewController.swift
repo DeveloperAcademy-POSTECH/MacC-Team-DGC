@@ -41,7 +41,8 @@ final class InviteCodeInputViewController: UIViewController {
             action: #selector(textFieldDidChange(_:)),
             for: .editingChanged
         )
-
+        inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        inviteCodeInputView.nextButton.isEnabled = false
     }
 
     override func viewDidAppear(_ animated: Bool) {

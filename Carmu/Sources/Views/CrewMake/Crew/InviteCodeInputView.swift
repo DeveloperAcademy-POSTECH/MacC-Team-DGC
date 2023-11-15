@@ -89,9 +89,6 @@ final class InviteCodeInputView: UIView {
     }
 
     private func setupViews() {
-        nextButton.backgroundColor = UIColor.semantic.backgroundThird
-        nextButton.isEnabled = false
-
         firstLineTitleStack.axis = .horizontal
         firstLineTitleStack.alignment = .center
         secondLineTitleStack.axis = .horizontal

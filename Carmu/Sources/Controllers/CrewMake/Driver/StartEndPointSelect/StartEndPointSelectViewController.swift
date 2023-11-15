@@ -56,6 +56,10 @@ final class StartEndPointSelectViewController: UIViewController {
             action: #selector(nextButtonTapped),
             for: .touchUpInside
         )
+
+        startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        startEndPointSelectView.nextButton.isEnabled = false
+
         view.addSubview(startEndPointSelectView)
         startEndPointSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()

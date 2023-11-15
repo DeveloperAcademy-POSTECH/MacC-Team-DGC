@@ -39,9 +39,6 @@ final class StartEndPointSelectView: UIView {
     private func setupViews() {
         firstLineTitleStack.axis = .horizontal
 
-        nextButton.backgroundColor = UIColor.semantic.backgroundThird
-        nextButton.isEnabled = false
-
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
         firstLineTitleStack.addArrangedSubview(titleLabel3)

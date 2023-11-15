@@ -41,6 +41,9 @@ final class RepeatDaySelectViewController: UIViewController {
             forCellReuseIdentifier: "repeatDayCell"
         )
 
+        repeatDaySelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        repeatDaySelectView.nextButton.isEnabled = false
+
         setupAddTarget()
         view.addSubview(repeatDaySelectView)
         repeatDaySelectView.snp.makeConstraints { make in

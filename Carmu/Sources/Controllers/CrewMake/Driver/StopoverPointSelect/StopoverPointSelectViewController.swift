@@ -30,6 +30,9 @@ final class StopoverPointSelectViewController: UIViewController {
         stopoverPointSelectView.startPointView.text = crewData.startingPoint?.name
         stopoverPointSelectView.endPointView.text = crewData.destination?.name
 
+        stopoverPointSelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        stopoverPointSelectView.nextButton.isEnabled = false
+
         addButtonTarget()
         view.addSubview(stopoverPointSelectView)
         stopoverPointSelectView.snp.makeConstraints { make in
@@ -97,6 +100,8 @@ extension StopoverPointSelectViewController {
 // MARK: - @objc Method
 extension StopoverPointSelectViewController {
 
+    // TODO: - crewData stopover point 배열로 관리하다가 model에 적재 필요.
+    // 뒤로 돌아왔을 때 처리 필요?
     @objc private func addPointButtonTapped() {
         if stopoverCount == 1 {
             stopoverPointSelectView.colorLine.snp.remakeConstraints { make in

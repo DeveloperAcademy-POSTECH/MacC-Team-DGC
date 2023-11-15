@@ -64,7 +64,12 @@ import SwiftUI
 struct SPCViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = StopoverPointCheckViewController
     func makeUIViewController(context: Context) -> StopoverPointCheckViewController {
-        return StopoverPointCheckViewController(crewData: Crew(crews: [UserIdentifier](), memberStatus: [MemeberStatus]()))
+        return StopoverPointCheckViewController(
+            crewData: Crew(
+                crews: [UserIdentifier](),
+                memberStatus: [MemeberStatus]()
+            )
+        )
     }
     func updateUIViewController(_ uiViewController: StopoverPointCheckViewController, context: Context) {}
 }
