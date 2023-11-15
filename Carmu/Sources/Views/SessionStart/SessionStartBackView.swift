@@ -164,7 +164,6 @@ final class SessionStartBackView: UIView {
     func settingBackData() {
 //        guard let crewData = crewData else { return }
 
-        print("settingBackData()")
 //        startLocationLabel.text = crewData.startingPoint?.name ?? "없음"
         startLocationLabel.text = "출발지"
         startCrewMember.text = "배찌 레이"
@@ -203,13 +202,10 @@ final class SessionStartBackView: UIView {
         guard let crewData = dummyCrewData else { return }
         // TODO: - 실제 데이터로 변경
         if crewData.stopover1 != nil, crewData.stopover2 == nil, crewData.stopover3 == nil {
-            print("한 개")
             oneStopoverPoint(crewData: crewData)
         } else if crewData.stopover1 != nil, crewData.stopover2 != nil, crewData.stopover3 == nil {
-            print("두 개")
             twoStopoverPoints()
         } else if crewData.stopover1 != nil, crewData.stopover2 != nil, crewData.stopover3 != nil {
-            print("세 개")
             threeStopoverPoints()
         }
     }
@@ -293,7 +289,6 @@ extension SessionStartBackView {
     // 경유지1만 있을 때
     private func oneStopoverPoint(crewData: Crew?) {
         guard let crewData = crewData else { return }
-        print("Oe STop")
 
         setupOneStopoverUI(crewData: crewData)
 
@@ -347,7 +342,6 @@ extension SessionStartBackView {
 
     // 경유지들 addSubview
     private func setupOneStopoverUI(crewData: Crew?) {
-        print("setupOne UI")
         addSubview(dotImage1)
         addSubview(stopover1LeftView)
         addSubview(stopover1RightView)

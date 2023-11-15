@@ -36,7 +36,7 @@ final class SessionStartViewController: UIViewController {
         Task {
             do {
                 showActivityIndicator()
-                let crewData = try await firebaseManager.getCrewData()
+                crewData = try await firebaseManager.getCrewData()
                 hideActivityIndicator()
                 setupUI()
                 setupConstraints()
@@ -454,9 +454,11 @@ extension SessionStartViewController {
     // TODO: - 실제 데이터로 변경
     @objc private func individualButtonDidTapped() {
 
+        print("tapped()")
         // 운전자가 클릭했을 때
-        if isCaptainDummy() {
+        if isCaptain {
             settingIndividualButtonForDriver()
+            print("운전자 !")
         } else {    // 동승자가 클릭했을 때
             settingIndividualButtonForPassenger()
         }
@@ -482,7 +484,7 @@ extension SessionStartViewController {
 
     // 동승자일 때
     private func settingIndividualButtonForPassenger() {
-        guard let crewData = dummyCrewData else { return }
+        guard let crewData = crewData else { return }
 
         switch crewData.sessionStatus {
         case .waiting:
@@ -509,6 +511,9 @@ extension SessionStartViewController {
             // sessionStart일 때는 해당 버튼이 나타나지 않음
         case .none: break
         }
+
+        // FirebaseManager methods
+        firebaseManager.passengerIndividualButton()
     }
 }
 
