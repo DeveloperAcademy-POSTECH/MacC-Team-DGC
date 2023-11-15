@@ -12,14 +12,16 @@ final class AddressEditButton: UIButton {
 
     // #selector 메서드에서 어떤 지점의 버튼인지를 식별하기 위한 값 (출발지,경유지,도착지)
     var pointType: PointType?
+    var pointData: Point?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
 
-    init(originalAddress: String, pointType: PointType) {
+    init(originalAddress: String, pointType: PointType, pointData: Point?) {
         super.init(frame: .zero)
         self.pointType = pointType
+        self.pointData = pointData
         setTitle(originalAddress, for: .normal)
         titleLabel?.font = UIFont.carmuFont.subhead2
         setTitleColor(UIColor.semantic.textTertiary, for: .normal)
