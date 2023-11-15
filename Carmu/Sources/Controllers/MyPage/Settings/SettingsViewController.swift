@@ -73,11 +73,7 @@ final class SettingsViewController: UIViewController {
 
     // MARK: - 회원 탈퇴 알럿
     private func showDeleteAccountAlert() {
-        let deleteAccountAlert = UIAlertController(
-            title: "카뮤에서 탈퇴하시겠습니까?",
-            message: "탈퇴 시 카뮤 앱 내의\n모든 정보가 사라집니다.",
-            preferredStyle: .alert
-        )
+        let deleteAccountAlert = UIAlertController(title: "카뮤에서 탈퇴하시겠습니까?", message: "탈퇴 시 카뮤 앱 내의\n모든 정보가 사라집니다.", preferredStyle: .alert)
         let deleteAccountCancel = UIAlertAction(title: "돌아가기", style: .cancel)
         let deleteAccountOK = UIAlertAction(title: "회원탈퇴", style: .destructive) { _ in
             self.deleteAccount()
@@ -228,10 +224,7 @@ extension SettingsViewController: UITableViewDelegate {
 extension SettingsViewController: ASAuthorizationControllerDelegate {
 
     // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
-    func authorizationController(
-        controller: ASAuthorizationController,
-        didCompleteWithAuthorization authorization: ASAuthorization
-    ) {
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
             fatalError("Credential을 찾을 수 없습니다.")
         }

@@ -64,16 +64,8 @@ final class NameEditViewController: UIViewController {
         view.sendSubviewToBack(blurEffectView)
 
         // 버튼에 타겟 추가
-        nameEditView.textFieldEditCancelButton.addTarget(
-            self,
-            action: #selector(dismissNameEditView),
-            for: .touchUpInside
-        )
-        nameEditView.textFieldEditDoneButton.addTarget(
-            self,
-            action: #selector(performNameChange),
-            for: .touchUpInside
-        )
+        nameEditView.textFieldEditCancelButton.addTarget(self, action: #selector(dismissNameEditView), for: .touchUpInside)
+        nameEditView.textFieldEditDoneButton.addTarget(self, action: #selector(performNameChange), for: .touchUpInside)
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissNameEditView))
         nameEditView.addGestureRecognizer(tapGesture)

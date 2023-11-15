@@ -36,10 +36,7 @@ final class RepeatDaySelectViewController: UIViewController {
         repeatDaySelectView.dayTableView.delegate = self
         repeatDaySelectView.dayTableView.dataSource = self
         repeatDaySelectView.dayTableView.allowsMultipleSelection = true
-        repeatDaySelectView.dayTableView.register(
-            UITableViewCell.self,
-            forCellReuseIdentifier: "repeatDayCell"
-        )
+        repeatDaySelectView.dayTableView.register(UITableViewCell.self, forCellReuseIdentifier: "repeatDayCell")
 
         setupAddTarget()
         view.addSubview(repeatDaySelectView)
@@ -94,43 +91,15 @@ extension RepeatDaySelectViewController {
 extension RepeatDaySelectViewController {
 
     private func setupAddTarget() {
-        repeatDaySelectView.weekdayButton.addTarget(
-            self,
-            action: #selector(daySettingButtonTapped),
-            for: .touchUpInside
-        )
-        repeatDaySelectView.weekendButton.addTarget(
-            self,
-            action: #selector(daySettingButtonTapped),
-            for: .touchUpInside
-        )
-        repeatDaySelectView.everydayButton.addTarget(
-            self,
-            action: #selector(daySettingButtonTapped),
-            for: .touchUpInside
-        )
+        repeatDaySelectView.weekdayButton.addTarget(self, action: #selector(daySettingButtonTapped), for: .touchUpInside)
+        repeatDaySelectView.weekendButton.addTarget(self, action: #selector(daySettingButtonTapped), for: .touchUpInside)
+        repeatDaySelectView.everydayButton.addTarget(self, action: #selector(daySettingButtonTapped), for: .touchUpInside)
 
-        repeatDaySelectView.weekdayButton.addTarget(
-            self,
-            action: #selector(weekdayButtonTapped),
-            for: .touchUpInside
-        )
-        repeatDaySelectView.weekendButton.addTarget(
-            self,
-            action: #selector(weekendButtonTapped),
-            for: .touchUpInside
-        )
-        repeatDaySelectView.everydayButton.addTarget(
-            self,
-            action: #selector(everydayButtonTapped),
-            for: .touchUpInside
-        )
+        repeatDaySelectView.weekdayButton.addTarget(self, action: #selector(weekdayButtonTapped), for: .touchUpInside)
+        repeatDaySelectView.weekendButton.addTarget(self, action: #selector(weekendButtonTapped), for: .touchUpInside)
+        repeatDaySelectView.everydayButton.addTarget(self, action: #selector(everydayButtonTapped), for: .touchUpInside)
 
-        repeatDaySelectView.nextButton.addTarget(
-            self,
-            action: #selector(nextButtonTapped),
-            for: .touchUpInside
-        )
+        repeatDaySelectView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
     }
 
     /**
@@ -217,12 +186,7 @@ import SwiftUI
 struct RDSViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = RepeatDaySelectViewController
     func makeUIViewController(context: Context) -> RepeatDaySelectViewController {
-        return RepeatDaySelectViewController(
-            crewData: Crew(
-                crews: [UserIdentifier](),
-                memberStatus: [MemeberStatus]()
-            )
-        )
+        return RepeatDaySelectViewController(crewData: Crew(crews: [UserIdentifier](), memberStatus: [MemeberStatus]()))
     }
     func updateUIViewController(_ uiViewController: RepeatDaySelectViewController, context: Context) {}
 }

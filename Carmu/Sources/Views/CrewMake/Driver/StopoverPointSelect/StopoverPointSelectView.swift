@@ -27,14 +27,8 @@ final class StopoverPointSelectView: UIView {
     }()
     let stopoverStackView = UIStackView()
     let stopover1 = AddressSelectButtonView(textFieldTitle: "경유지 1")
-    lazy var stopover2 = AddressSelectButtonView(
-        textFieldTitle: "경유지 2",
-        hasXButton: true
-    )
-    lazy var stopover3 = AddressSelectButtonView(
-        textFieldTitle: "경유지 3",
-        hasXButton: true
-    )
+    lazy var stopover2 = AddressSelectButtonView(textFieldTitle: "경유지 2", hasXButton: true)
+    lazy var stopover3 = AddressSelectButtonView(textFieldTitle: "경유지 3", hasXButton: true)
     let stopoverAddButton = StopoverPointAddButtonView()
     let endPointView: UILabel = {
         let label = UILabel()

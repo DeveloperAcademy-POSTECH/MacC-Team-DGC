@@ -52,11 +52,7 @@ final class ProfileChangeViewController: UIViewController {
         super.viewDidLayoutSubviews()
         // 현재 설정되어 있는 프로필 값이 선택돼있도록 체크
         let indexPath = IndexPath(item: selectedProfileImageColorIdx, section: 0)
-        profileChangeView.profileCollectionView.selectItem(
-            at: indexPath,
-            animated: true,
-            scrollPosition: .centeredHorizontally
-        )
+        profileChangeView.profileCollectionView.selectItem(at: indexPath, animated: true, scrollPosition: .centeredHorizontally)
     }
 }
 
@@ -73,9 +69,7 @@ extension ProfileChangeViewController {
         // 델리게이트를 통해 MyPageViewController로 수정된 프로필 이미지 값을 전달
         delegate?.sendProfileImageColor(profileImageColor: selectedProfileImageColor)
         // 파이어베이스 DB에 수정된 프로필 이미지 값 저장
-        firebaseManager.updateUserProfileImageColor(
-            imageColor: ProfileImageColor.allCases[selectedProfileImageColorIdx]
-        )
+        firebaseManager.updateUserProfileImageColor(imageColor: ProfileImageColor.allCases[selectedProfileImageColorIdx])
         dismiss(animated: true)
     }
 }
@@ -89,10 +83,7 @@ extension ProfileChangeViewController: UICollectionViewDataSource {
     }
 
     // 컬렉션 뷰 셀 구성
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: ProfileImageColorCollectionViewCell.cellIdentifier,
             for: indexPath
@@ -129,11 +120,7 @@ extension ProfileChangeViewController: UICollectionViewDelegateFlowLayout {
     }
 
     // 컬렉션 뷰의 사이즈
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         // 컬렉션 뷰의 프레임을 기준으로 셀의 크기를 잡아준다.
         let cellSize: CGFloat = profileChangeView.profileCollectionView.frame.width / 4.86
         return CGSize(width: cellSize, height: cellSize)
