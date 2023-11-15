@@ -705,7 +705,7 @@ extension FirebaseManager {
 // MARK: - SessionStartView Actions
 extension FirebaseManager {
 
-    // 따로 가요 클릭 시 해당 동승자의 status decline으로 변경
+    // 따로가요 클릭 시 해당 동승자의 status decline으로 변경
     func passengerIndividualButton() {
         Task {
             do {
@@ -717,6 +717,26 @@ extension FirebaseManager {
                     if let crewID = crewData.id {
                         let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
                         try await statusRef.setValue("decline" as NSString)
+                    }
+                }
+            } catch {
+                print("Error ", error)
+            }
+        }
+    }
+
+    // 함께가요 클릭 시 해당 동승자의 status accept로 변경
+    func passengerTogetherButton() {
+        Task {
+            do {
+                var crewData = try await getCrewData()
+                guard let crewData = crewData else { return }
+                guard let memberStatus = crewData.memberStatus else { return }
+
+                for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+                    if let crewID = crewData.id {
+                        let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
+                        try await statusRef.setValue("accept" as NSString)
                     }
                 }
             } catch {
