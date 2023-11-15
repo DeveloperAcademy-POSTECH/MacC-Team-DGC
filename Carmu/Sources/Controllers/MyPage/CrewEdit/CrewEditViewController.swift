@@ -116,33 +116,10 @@ extension CrewEditViewController {
         present(repeatDaySelectModalVC, animated: true)
     }
 
-//    /**
-//     장소의 시간 설정 버튼 클릭 시 호출
-//     */
-//    @objc private func showTimeSelectModal(sender: TimeEditButton) {
-//        let timeSelectModalVC = TimeSelectModalViewController()
-//        // 시간 설정 모달에 넘겨줄 기존 시간값
-//        let originalTimeValue = Date.formattedDate(
-//            string: sender.titleLabel?.text ?? "오전 08:00",
-//            dateFormat: "aa hh:mm"
-//        ) ?? Date()
-//        // TODO: - Crew에 정보 입력하는 방식 이후, 타임 피커에 이전 경유지보다 늦은 시간부터 설정하는 로직 구현예정
-//        // 시간 설정 모달에 기존의 값을 반영
-//        timeSelectModalVC.timeSelectModalView.timePicker.date = originalTimeValue
-//
-//        // 시간 설정 모달에서 선택된 값이 반영된다.
-//        timeSelectModalVC.timeSelectionHandler = { [weak self] selectedTime in
-//            // TODO: - 새로운 시간값 처리
-//            sender.setTitle(Date.formattedDate(from: selectedTime, dateFormat: "aa hh:mm"), for: .normal)
-//        }
-//
-//        present(timeSelectModalVC, animated: true)
-//    }
-
-//    /**
-//     주소 설정 버튼 클릭 시 호출
-//     */
-//    @objc private func showDetailPointMapVC(sender: AddressEditButton) {
+    /**
+     주소 설정 버튼 클릭 시 호출
+     */
+//    @objc private func showDetailPointMapVC(sender: UIButton) {
 //        let detailPointMapVC = SelectDetailPointMapViewController()
 //        // 상세주소 설정 뷰컨트롤러에 넘겨줄 기존 주소값
 //        let originalPointData = SelectAddressDTO(

@@ -7,8 +7,16 @@
 
 import UIKit
 
+// MARK: - 시간 설정 버튼 이벤트를 처리하기 위한 델리게이트 프로토콜
+protocol TimeEditButtonDelegate: AnyObject {
+
+    func timeEditButtonTapped(sender: UIButton)
+}
+
 // MARK: - 크루 편집 화면에서의 포인트 별 편집 테이블 뷰 셀
 final class PointEditTableViewCell: UITableViewCell {
+
+    weak var timeEditButtonDelegate: TimeEditButtonDelegate?
 
     static let cellIdentifier = "pointEditTableViewCell"
 
@@ -89,6 +97,7 @@ final class PointEditTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
+        timeEditButton.addTarget(self, action: #selector(timeEditButtonTapped), for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) {
@@ -103,7 +112,7 @@ final class PointEditTableViewCell: UITableViewCell {
         contentView.backgroundColor = .yellow
         contentView.layer.cornerRadius = 10
 
-        addSubview(timeEditButton)
+        contentView.addSubview(timeEditButton)
         timeEditButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -111,14 +120,14 @@ final class PointEditTableViewCell: UITableViewCell {
             make.height.equalTo(30)
         }
 
-        addSubview(timeTypeLabel)
+        contentView.addSubview(timeTypeLabel)
         timeTypeLabel.snp.makeConstraints { make in
             make.trailing.equalTo(timeEditButton.snp.leading).offset(-4)
             make.centerY.equalTo(timeEditButton)
             make.width.equalTo(22)
         }
 
-        addSubview(addressEditButton)
+        contentView.addSubview(addressEditButton)
         addressEditButton.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.trailing.equalTo(timeTypeLabel.snp.leading).offset(-20)
@@ -126,7 +135,7 @@ final class PointEditTableViewCell: UITableViewCell {
             make.height.equalTo(34)
         }
 
-        addSubview(xButton)
+        contentView.addSubview(xButton)
         xButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.bottom.equalTo(timeEditButton.snp.top).offset(-7)
@@ -134,7 +143,7 @@ final class PointEditTableViewCell: UITableViewCell {
         }
 
         // 경유지 추가 버튼 세팅
-        addSubview(addButtonContainer)
+        contentView.addSubview(addButtonContainer)
         addButtonContainer.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview()
             make.centerY.equalToSuperview()
@@ -217,5 +226,12 @@ extension PointEditTableViewCell {
     // [도착 시간]으로 변경
     func setupArrivalLabel() {
         timeTypeLabel.text = "도착"
+    }
+}
+
+extension PointEditTableViewCell {
+
+    @objc func timeEditButtonTapped(sender: UIButton) {
+        timeEditButtonDelegate?.timeEditButtonTapped(sender: sender)
     }
 }

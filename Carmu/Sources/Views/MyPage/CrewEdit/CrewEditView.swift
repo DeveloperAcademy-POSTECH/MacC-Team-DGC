@@ -47,6 +47,7 @@ final class CrewEditView: UIView {
     // 좌측 경로 표시 선
     let colorLine = CrewMakeUtil.createColorLineView()
 
+    // 경로 편집 테이블 뷰
     let pointEditTableView: UITableView = {
         let pointEditTableView = UITableView()
         pointEditTableView.backgroundColor = .gray
