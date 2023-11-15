@@ -21,6 +21,14 @@ final class MapView: UIView {
         return marker
     }()
 
+    let myPositionMarker = {
+        let marker = NMFMarker()
+        marker.iconImage = NMFOverlayImage(name: "myPosition")
+        marker.width = 24
+        marker.height = 24
+        return marker
+    }()
+
     private let points: Points
 
     let startingPoint = {
@@ -84,6 +92,12 @@ final class MapView: UIView {
         return toastLabel
     }()
 
+    let currentLocationButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "currentLocation"), for: .normal)
+        return button
+    }()
+
     init(points: Points) {
         self.points = points
         super.init(frame: .zero)
@@ -98,6 +112,7 @@ final class MapView: UIView {
         naverMap.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        naverMap.logoAlign = .rightBottom
 
         addSubview(backButton)
         backButton.snp.makeConstraints { make in
@@ -141,9 +156,23 @@ final class MapView: UIView {
         destination.mapView = naverMap
     }
 
+    func showCurrentLocationButton() {
+        addSubview(currentLocationButton)
+        currentLocationButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.bottom.equalToSuperview().inset(23)
+            make.width.height.equalTo(36)
+        }
+    }
+
     /// 위도, 경도를 입력받아 자동차의 현재 위치를 맵뷰에서 업데이트
     func updateCarMarker(latitide: Double, longitude: Double) {
         carMarker.position = NMGLatLng(lat: latitide, lng: longitude)
         carMarker.mapView = naverMap
+    }
+
+    func updateMyPositionMarker(latitude: Double, longitude: Double) {
+        myPositionMarker.position = NMGLatLng(lat: latitude, lng: longitude)
+        myPositionMarker.mapView = naverMap
     }
 }
