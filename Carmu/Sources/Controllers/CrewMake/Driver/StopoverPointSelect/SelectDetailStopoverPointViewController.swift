@@ -124,9 +124,7 @@ extension SelectDetailStopoverPointViewController {
         stopoverPointMapView.mapView.moveCamera(cameraUpdate)
         currentLatLng = bounds.center
 
-        getAddressAndBuildingName(
-            for: bounds.center
-        ) { buildingName, detailAddress in
+        getAddressAndBuildingName(for: bounds.center) { buildingName, detailAddress in
             // 주소와 건물명을 업데이트
             self.stopoverPointMapView.buildingNameLabel.text = buildingName
             self.stopoverPointMapView.detailAddressLabel.text = detailAddress
@@ -199,15 +197,9 @@ extension SelectDetailStopoverPointViewController {
         task.resume()
     }
 
-    private func getAddressAndBuildingName(
-        for coordinate: NMGLatLng,
-        completion: @escaping (String?, String?) -> Void
-    ) {
+    private func getAddressAndBuildingName(for coordinate: NMGLatLng, completion: @escaping (String?, String?) -> Void) {
         let geocoder = CLGeocoder()
-        let location = CLLocation(
-            latitude: coordinate.lat,
-            longitude: coordinate.lng
-        )
+        let location = CLLocation(latitude: coordinate.lat, longitude: coordinate.lng)
 
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
             guard error == nil else {

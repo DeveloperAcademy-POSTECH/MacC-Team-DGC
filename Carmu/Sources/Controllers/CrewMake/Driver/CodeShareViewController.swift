@@ -29,16 +29,8 @@ final class CodeShareViewController: UIViewController {
         addRightBarButton()
 
         codeShareView.codeLabel.text = inviteCode
-        codeShareView.copyButton.addTarget(
-            self,
-            action: #selector(copyButtonTapped),
-            for: .touchUpInside
-        )
-        codeShareView.nextButton.addTarget(
-            self,
-            action: #selector(nextButtonTapped),
-            for: .touchUpInside
-        )
+        codeShareView.copyButton.addTarget(self, action: #selector(copyButtonTapped), for: .touchUpInside)
+        codeShareView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
 
         view.addSubview(codeShareView)
         codeShareView.snp.makeConstraints { make in
@@ -78,10 +70,7 @@ extension CodeShareViewController {
                         카뮤
                         """
 
-        let activityViewController = UIActivityViewController(
-            activityItems: [message],
-            applicationActivities: nil
-        )
+        let activityViewController = UIActivityViewController(activityItems: [message], applicationActivities: nil)
         activityViewController.excludedActivityTypes = [.message]
         present(activityViewController, animated: true, completion: nil)
     }

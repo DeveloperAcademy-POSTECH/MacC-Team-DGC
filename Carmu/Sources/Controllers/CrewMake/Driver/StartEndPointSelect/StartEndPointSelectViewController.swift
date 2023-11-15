@@ -14,10 +14,7 @@ final class StartEndPointSelectViewController: UIViewController {
 
     private var startPointAddress: String? {
         didSet {
-            startEndPointSelectView.startPointView.button.setTitle(
-                "     " + (startPointAddress ?? ""),
-                for: .normal
-            )
+            startEndPointSelectView.startPointView.button.setTitle("     " + (startPointAddress ?? ""), for: .normal)
             if endPointAddress != nil {
                 startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
                 startEndPointSelectView.nextButton.isEnabled = true
@@ -26,10 +23,7 @@ final class StartEndPointSelectViewController: UIViewController {
     }
     private var endPointAddress: String? {
         didSet {
-            startEndPointSelectView.endPointView.button.setTitle(
-                "     " + (endPointAddress ?? ""),
-                for: .normal
-            )
+            startEndPointSelectView.endPointView.button.setTitle("     " + (endPointAddress ?? ""), for: .normal)
             if startPointAddress != nil {
                 startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
                 startEndPointSelectView.nextButton.isEnabled = true
@@ -41,21 +35,9 @@ final class StartEndPointSelectViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
-        startEndPointSelectView.startPointView.button.addTarget(
-            self,
-            action: #selector(findAddressButtonTapped),
-            for: .touchUpInside
-        )
-        startEndPointSelectView.endPointView.button.addTarget(
-            self,
-            action: #selector(findAddressButtonTapped),
-            for: .touchUpInside
-        )
-        startEndPointSelectView.nextButton.addTarget(
-            self,
-            action: #selector(nextButtonTapped),
-            for: .touchUpInside
-        )
+        startEndPointSelectView.startPointView.button.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
+        startEndPointSelectView.endPointView.button.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
+        startEndPointSelectView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         view.addSubview(startEndPointSelectView)
         startEndPointSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -85,18 +67,12 @@ extension StartEndPointSelectViewController {
 
             if sender == self?.startEndPointSelectView.startPointView.button {
                 self?.startPointAddress = addressDTO.pointName
-                self?.startEndPointSelectView.startPointView.button.setTitleColor(
-                    UIColor.semantic.textTertiary,
-                    for: .normal
-                )
+                self?.startEndPointSelectView.startPointView.button.setTitleColor(UIColor.semantic.textTertiary, for: .normal)
                 self?.startEndPointSelectView.startPointView.button.titleLabel?.font = UIFont.carmuFont.subhead2
                 self?.crewData.startingPoint = point
             } else {
                 self?.endPointAddress = addressDTO.pointName
-                self?.startEndPointSelectView.endPointView.button.setTitleColor(
-                    UIColor.semantic.textTertiary,
-                    for: .normal
-                 )
+                self?.startEndPointSelectView.endPointView.button.setTitleColor(UIColor.semantic.textTertiary, for: .normal)
                 self?.startEndPointSelectView.endPointView.button.titleLabel?.font = UIFont.carmuFont.subhead2
                 self?.crewData.destination = point
             }
