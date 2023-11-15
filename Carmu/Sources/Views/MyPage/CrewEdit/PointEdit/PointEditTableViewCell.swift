@@ -7,18 +7,21 @@
 
 import UIKit
 
-// MARK: - 시간 설정 버튼 이벤트를 처리하기 위한 델리게이트 프로토콜
-protocol TimeEditButtonDelegate: AnyObject {
+// MARK: - 셀의 설정 버튼 탭 시 이벤트를 처리하기 위한 델리게이트 프로토콜
+protocol PointEditTableViewCellDelegate: AnyObject {
 
     func timeEditButtonTapped(sender: UIButton)
+    func addressEditButtonTapped(sender: UIButton, pointType: PointType, pointData: Point)
 }
 
 // MARK: - 크루 편집 화면에서의 포인트 별 편집 테이블 뷰 셀
 final class PointEditTableViewCell: UITableViewCell {
 
-    weak var timeEditButtonDelegate: TimeEditButtonDelegate?
+    weak var pointEditTableViewCellDelegate: PointEditTableViewCellDelegate?
 
     static let cellIdentifier = "pointEditTableViewCell"
+    var pointType: PointType = .start
+    var pointData: Point?
 
     // 주소 설정 버튼
     lazy var addressEditButton: UIButton = {
@@ -98,6 +101,7 @@ final class PointEditTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupUI()
         timeEditButton.addTarget(self, action: #selector(timeEditButtonTapped), for: .touchUpInside)
+        addressEditButton.addTarget(self, action: #selector(addressEditButtonTapped), for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) {
@@ -107,10 +111,10 @@ final class PointEditTableViewCell: UITableViewCell {
     private func setupUI() {
         selectionStyle = .none // 셀 선택 막음
 
-        backgroundColor = .red
-        layer.cornerRadius = 10
-        contentView.backgroundColor = .yellow
-        contentView.layer.cornerRadius = 10
+//        backgroundColor = .red
+//        layer.cornerRadius = 10
+//        contentView.backgroundColor = .yellow
+//        contentView.layer.cornerRadius = 10
 
         contentView.addSubview(timeEditButton)
         timeEditButton.snp.makeConstraints { make in
@@ -231,7 +235,13 @@ extension PointEditTableViewCell {
 
 extension PointEditTableViewCell {
 
+    // 시간 설정 버튼에 액션 연결
     @objc func timeEditButtonTapped(sender: UIButton) {
-        timeEditButtonDelegate?.timeEditButtonTapped(sender: sender)
+        pointEditTableViewCellDelegate?.timeEditButtonTapped(sender: sender)
+    }
+
+    // 주소 설정 버튼에 액션 연결
+    @objc func addressEditButtonTapped(sender: UIButton) {
+        pointEditTableViewCellDelegate?.addressEditButtonTapped(sender: sender, pointType: pointType, pointData: pointData ?? Point())
     }
 }

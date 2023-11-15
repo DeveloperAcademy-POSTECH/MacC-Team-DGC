@@ -115,37 +115,6 @@ extension CrewEditViewController {
         }
         present(repeatDaySelectModalVC, animated: true)
     }
-
-    /**
-     주소 설정 버튼 클릭 시 호출
-     */
-//    @objc private func showDetailPointMapVC(sender: UIButton) {
-//        let detailPointMapVC = SelectDetailPointMapViewController()
-//        // 상세주소 설정 뷰컨트롤러에 넘겨줄 기존 주소값
-//        let originalPointData = SelectAddressDTO(
-//            pointName: sender.pointType?.rawValue,
-//            buildingName: sender.pointData?.name,
-//            detailAddress: sender.pointData?.detailAddress,
-//            coordinate: CLLocationCoordinate2D(
-//                latitude: sender.pointData?.latitude ?? 35.634,
-//                longitude: sender.pointData?.longitude ?? 128.523
-//            )
-//        )
-//        print("originalPointData: \(originalPointData)")
-//        print("sender.pointData: \(sender.pointData)")
-//        detailPointMapVC.selectAddressModel = originalPointData
-//        detailPointMapVC.addressSelectionHandler = { [weak self] newPointData in
-//            // TODO: - 새로운 주소값 처리
-//            sender.setTitle(newPointData.pointName, for: .normal)
-//        }
-//        if sender.pointType == .end {
-//            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("도착지로 설정", for: .normal)
-//        } else {
-//            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("출발지로 설정", for: .normal)
-//        }
-////        self.navigationController?.pushViewController(detailPointMapVC, animated: true)
-//        present(detailPointMapVC, animated: true)
-//    }
 }
 
 // MARK: - RDSModalViewControllerDelegate 델리게이트 구현
@@ -192,6 +161,8 @@ extension CrewEditViewController: UITableViewDataSource {
             )
             cell.setupXButton(false) // X버튼 비활성화
             cell.remakeStartPointLayout() // 출발지 레이아웃 재구성
+            cell.pointType = .start
+            cell.pointData = crewPoints[indexPath.row]
         } else {
             if indexPath.row == addButtonIndex {
                 if addButtonIndex < 4 {
@@ -207,6 +178,8 @@ extension CrewEditViewController: UITableViewDataSource {
                     )
                     cell.setupXButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
+                    cell.pointType = .end
+                    cell.pointData = crewPoints[indexPath.row]
                 }
             } else {
                 if indexPath.row == nonNilPointsCount {
@@ -219,6 +192,8 @@ extension CrewEditViewController: UITableViewDataSource {
                     )
                     cell.setupXButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
+                    cell.pointType = .end
+                    cell.pointData = crewPoints[indexPath.row]
                 } else {
                     /* 일반 경유지 셀 구성 */
                     cell.addressEditButton.setTitle(crewPoints[indexPath.row]?.name, for: .normal)
@@ -227,9 +202,12 @@ extension CrewEditViewController: UITableViewDataSource {
                         for: .normal
                     )
                     cell.setupXButton(true) // x버튼 활성화
+                    cell.pointType = .stopover
+                    cell.pointData = crewPoints[indexPath.row]
                 }
             }
         }
+        cell.pointEditTableViewCellDelegate = self
         return cell
     }
 }
@@ -245,6 +223,56 @@ extension CrewEditViewController: UITableViewDelegate {
         } else {
             return crewEditView.colorLine.frame.height / CGFloat(nonNilPointsCount + 1)
         }
+    }
+}
+
+// MARK: - 테이블 뷰 셀의 설정 버튼 이벤트를 처리하기 위한 델리게이트 구현
+extension CrewEditViewController: PointEditTableViewCellDelegate {
+
+    // MARK: - 시간 설정 버튼 클릭 시 호출되는 델리게이트 메서드
+    func timeEditButtonTapped(sender: UIButton) {
+        print("시간설정모달")
+        let timeSelectModalVC = TimeSelectModalViewController()
+        // 시간 설정 모달에 넘겨줄 기존 시간값
+        let originalTimeValue = Date.formattedDate(string: sender.titleLabel?.text ?? "오전 08:00", dateFormat: "aa hh:mm") ?? Date()
+        // TODO: - Crew에 정보 입력하는 방식 이후, 타임 피커에 이전 경유지보다 늦은 시간부터 설정하는 로직 구현예정
+        // 시간 설정 모달에 기존의 값을 반영
+        timeSelectModalVC.timeSelectModalView.timePicker.date = originalTimeValue
+
+        // 시간 설정 모달에서 선택된 값이 반영된다.
+        timeSelectModalVC.timeSelectionHandler = { [weak self] selectedTime in
+            // TODO: - 새로운 시간값 처리
+            sender.setTitle(Date.formattedDate(from: selectedTime, dateFormat: "aa hh:mm"), for: .normal)
+        }
+
+        present(timeSelectModalVC, animated: true)
+    }
+
+    // MARK: - 주소 설정 버튼 클릭 시 호출되는 델리게이트 메서드
+    func addressEditButtonTapped(sender: UIButton, pointType: PointType, pointData: Point) {
+        let detailPointMapVC = SelectDetailPointMapViewController()
+        // 상세주소 설정 뷰컨트롤러에 넘겨줄 기존 주소값
+        let originalPointData = SelectAddressDTO(
+//            pointName: pointData.name,
+            buildingName: pointData.name,
+            detailAddress: pointData.detailAddress,
+            coordinate: CLLocationCoordinate2D(
+                latitude: pointData.latitude ?? 35.634,
+                longitude: pointData.longitude ?? 128.523
+            )
+        )
+        detailPointMapVC.selectAddressModel = originalPointData
+        detailPointMapVC.addressSelectionHandler = { [weak self] newPointData in
+            // TODO: - 새로운 주소값 처리
+            sender.setTitle(newPointData.pointName, for: .normal)
+        }
+        if pointType == .end {
+            // TODO: - "경유지로 설정"도 있으면 rawValue로 넣어주기
+            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("도착지로 설정", for: .normal)
+        } else {
+            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("출발지로 설정", for: .normal)
+        }
+        present(detailPointMapVC, animated: true)
     }
 }
 
