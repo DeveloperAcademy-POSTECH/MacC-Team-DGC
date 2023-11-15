@@ -101,7 +101,7 @@ extension SelectDetailPointMapView {
         mapView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(backgroundView.snp.top).offset(10)
+            make.bottom.equalTo(backgroundView.snp.top).offset(20)
         }
 
         explainLabel.snp.makeConstraints { make in
@@ -130,9 +130,8 @@ extension SelectDetailPointMapView {
         }
 
         buildingNameLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(12)
+            make.top.equalToSuperview().inset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.width.greaterThanOrEqualTo(200)
         }
 
         detailAddressLabel.snp.makeConstraints { make in
