@@ -38,6 +38,8 @@ final class MapViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
 
     private let isDriver = true
+    // [동승자] 내 현재 위치
+    private var myCurrentCoordinate: CLLocationCoordinate2D?
 
     private let pathOverlay = {
         let pathOverlay = NMFPath()
@@ -53,9 +55,8 @@ final class MapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if isDriver {
-            startUpdatingLocation()
-        } else {
+        startUpdatingLocation()
+        if !isDriver {
             firebaseManager.startObservingDriveLocation { latitude, longitude in
                 self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
             }
@@ -63,6 +64,7 @@ final class MapViewController: UIViewController {
         showNaverMap()
         fetchDirections()
         mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        mapView.currentLocationButton.addTarget(self, action: #selector(currentLocationButtonDidTap), for: .touchUpInside)
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
         detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
@@ -70,10 +72,18 @@ final class MapViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         initCameraUpdate()
+        if !isDriver {
+            mapView.showCurrentLocationButton()
+        }
     }
 
     @objc private func backButtonDidTap() {
         dismiss(animated: true)
+    }
+
+    @objc private func currentLocationButtonDidTap() {
+        guard let myCurrentCoordinate = myCurrentCoordinate else { return }
+        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: myCurrentCoordinate)))
     }
 
     @objc private func showNoticeLateModal() {
@@ -218,13 +228,18 @@ extension MapViewController: CLLocationManagerDelegate {
     // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
-        // 운전자화면에서 자동차 마커 위치 변경
-        mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        // 운전자인 경우 DB에 위도, 경도 업데이트
-        firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
-        // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
-        if distanceFromDestination(current: location) <= 200.0 {
-            detailView.showFinishCarpoolButton()
+        if isDriver {
+            // 운전자화면에서 자동차 마커 위치 변경
+            mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            // 운전자인 경우 DB에 위도, 경도 업데이트
+            firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
+            // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
+            if distanceFromDestination(current: location) <= 200.0 {
+                detailView.showFinishCarpoolButton()
+            }
+        } else {
+            mapView.updateMyPositionMarker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            myCurrentCoordinate = location.coordinate
         }
     }
 
