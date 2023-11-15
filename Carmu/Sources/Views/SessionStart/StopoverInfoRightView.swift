@@ -13,7 +13,6 @@ final class StopoverInfoRightView: UIView {
 
     lazy var arrivalTime: UILabel = {
         let label = UILabel()
-        label.text = "00:00"
         label.textColor = UIColor.semantic.textTertiary
         label.font = UIFont.carmuFont.subhead1
         label.textAlignment = .center
