@@ -52,28 +52,47 @@ final class CrewMakeUtil {
         let colorLineView = UIView()
         let greenLineView = UIView()
         let purpleLineView = UIView()
+        let whiteCircle1 = UIView()
+        let whiteCircle2 = UIView()
 
         colorLineView.backgroundColor = UIColor.semantic.backgroundThird
         greenLineView.backgroundColor = UIColor.semantic.accSecondary
         purpleLineView.backgroundColor = UIColor.semantic.accPrimary
+        whiteCircle1.backgroundColor = UIColor.semantic.backgroundDefault
+        whiteCircle2.backgroundColor = UIColor.semantic.backgroundDefault
 
         colorLineView.layer.cornerRadius = 6
         greenLineView.layer.cornerRadius = 6
         purpleLineView.layer.cornerRadius = 6
+        whiteCircle1.layer.cornerRadius = 3
+        whiteCircle2.layer.cornerRadius = 3
 
         colorLineView.addSubview(greenLineView)
         colorLineView.addSubview(purpleLineView)
+        colorLineView.addSubview(whiteCircle1)
+        colorLineView.addSubview(whiteCircle2)
 
         greenLineView.snp.makeConstraints { make in
             make.top.horizontalEdges.equalToSuperview()
             make.width.equalTo(12)
-            make.height.equalTo(54)
+            make.height.equalTo(80)
         }
 
         purpleLineView.snp.makeConstraints { make in
             make.bottom.horizontalEdges.equalToSuperview()
             make.width.height.equalTo(greenLineView)
         }
+
+        whiteCircle1.snp.makeConstraints { make in
+            make.top.horizontalEdges.equalToSuperview().inset(3)
+            make.width.height.equalTo(6)
+        }
+
+        whiteCircle2.snp.makeConstraints { make in
+            make.bottom.horizontalEdges.equalToSuperview().inset(3)
+            make.width.height.equalTo(whiteCircle1)
+        }
+
         return colorLineView
     }
 }

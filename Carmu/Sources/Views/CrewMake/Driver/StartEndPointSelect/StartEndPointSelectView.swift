@@ -69,14 +69,14 @@ final class StartEndPointSelectView: UIView {
         }
 
         startPointView.snp.makeConstraints { make in
-            make.top.equalTo(colorLine).offset(8)
+            make.top.equalTo(colorLine).offset(6)
             make.leading.equalTo(colorLine.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(32)
             make.height.equalTo(74)
         }
 
         endPointView.snp.makeConstraints { make in
-            make.bottom.equalTo(colorLine).offset(-8)
+            make.bottom.equalTo(colorLine)
             make.leading.equalTo(colorLine.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(32)
             make.height.equalTo(startPointView)
