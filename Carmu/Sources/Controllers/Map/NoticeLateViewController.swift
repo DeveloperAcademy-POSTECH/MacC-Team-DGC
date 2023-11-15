@@ -37,16 +37,8 @@ final class NoticeLateViewController: UIViewController {
         }
 
         noticeLateView.closeButton.addTarget(self, action: #selector(closeButtonDidTap), for: .touchUpInside)
-        noticeLateView.lateThreeMinutesButton.addTarget(
-            self,
-            action: #selector(lateThreeMinutesButtonDidTap),
-            for: .touchUpInside
-        )
-        noticeLateView.lateFiveMinutesButton.addTarget(
-            self,
-            action: #selector(lateFiveMinutesButtonDidTap),
-            for: .touchUpInside
-        )
+        noticeLateView.lateThreeMinutesButton.addTarget(self, action: #selector(lateThreeMinutesButtonDidTap), for: .touchUpInside)
+        noticeLateView.lateFiveMinutesButton.addTarget(self, action: #selector(lateFiveMinutesButtonDidTap), for: .touchUpInside)
     }
 
     @objc private func closeButtonDidTap() {

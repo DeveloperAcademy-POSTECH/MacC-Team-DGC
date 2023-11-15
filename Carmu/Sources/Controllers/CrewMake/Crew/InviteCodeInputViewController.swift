@@ -26,34 +26,12 @@ final class InviteCodeInputViewController: UIViewController {
         }
         view.addGestureRecognizer(tapGesture)
 
-        inviteCodeInputView.clearButton.addTarget(
-            self,
-            action: #selector(clearButtonPressed),
-            for: .touchUpInside
-        )
-        inviteCodeInputView.nextButton.addTarget(
-            self,
-            action: #selector(nextButtonTapped),
-            for: .touchUpInside
-        )
-        inviteCodeInputView.codeSearchTextField.addTarget(
-            self,
-            action: #selector(textFieldDidChange(_:)),
-            for: .editingChanged
-        )
+        inviteCodeInputView.clearButton.addTarget(self, action: #selector(clearButtonPressed), for: .touchUpInside)
+        inviteCodeInputView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        inviteCodeInputView.codeSearchTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
 
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     deinit {

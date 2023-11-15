@@ -65,11 +65,7 @@ final class InquiryViewController: UIViewController {
 
     // 이메일 사용 불가 시 알럿
     private func showSendMailErrorAlert() {
-        let sendMailErrorAlert = UIAlertController(
-            title: "이메일 작성 실패",
-            message: "디바이스에 Mail 계정이 연결되어 있는지 확인하고 다시 시도해주세요.",
-            preferredStyle: .alert
-        )
+        let sendMailErrorAlert = UIAlertController(title: "이메일 작성 실패", message: "디바이스에 Mail 계정이 연결되어 있는지 확인하고 다시 시도해주세요.", preferredStyle: .alert)
         let errorConfirm = UIAlertAction(title: "확인", style: .cancel)
         sendMailErrorAlert.addAction(errorConfirm)
         self.present(sendMailErrorAlert, animated: true)
@@ -80,11 +76,7 @@ final class InquiryViewController: UIViewController {
 extension InquiryViewController: MFMailComposeViewControllerDelegate {
 
     // 메일 보내기 버튼을 눌렀을 때 호출되는 델리게이트 메서드
-    func mailComposeController(
-        _ controller: MFMailComposeViewController,
-        didFinishWith result: MFMailComposeResult,
-        error: Error?
-    ) {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         controller.dismiss(animated: true)
     }
 }

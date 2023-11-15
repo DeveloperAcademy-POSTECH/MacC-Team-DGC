@@ -92,15 +92,11 @@ extension SessionStartViewController {
         let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "카뮤") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         if let range2 = sessionStartView.topComment.text?.range(of: "카풀 생활") {
             let nsRange2 = NSRange(range2, in: sessionStartView.topComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange2)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange2)
         }
         sessionStartView.topComment.attributedText = attributedText
 
@@ -228,9 +224,7 @@ extension SessionStartViewController {
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         sessionStartView.topComment.attributedText = topCommentText
 
@@ -239,15 +233,11 @@ extension SessionStartViewController {
         let attributedText = NSMutableAttributedString(string: sessionStartView.notifyComment.text ?? "")
         if let range1 = sessionStartView.notifyComment.text?.range(of: "현재 운행중인 카풀") {
             let nsRange1 = NSRange(range1, in: sessionStartView.notifyComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.textTertiary as Any,
-                                        range: nsRange1)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange1)
         }
         if let range2 = sessionStartView.notifyComment.text?.range(of: "카풀 지도보기") {
             let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.textTertiary as Any,
-                                        range: nsRange2)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange2)
         }
         sessionStartView.notifyComment.attributedText = attributedText
     }
@@ -266,9 +256,7 @@ extension SessionStartViewController {
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         sessionStartView.topComment.attributedText = topCommentText
 
@@ -276,9 +264,7 @@ extension SessionStartViewController {
         let notifyCommentText = NSMutableAttributedString(string: sessionStartView.notifyComment.text ?? "")
         if let range2 = sessionStartView.notifyComment.text?.range(of: "30분 전") {
             let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text ?? "")
-            notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                           value: UIColor.semantic.textPrimary as Any,
-                                           range: nsRange2)
+            notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textPrimary as Any, range: nsRange2)
         }
         sessionStartView.notifyComment.attributedText = notifyCommentText
 
@@ -348,9 +334,7 @@ extension SessionStartViewController {
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         sessionStartView.topComment.attributedText = topCommentText
 
@@ -550,15 +534,9 @@ extension SessionStartViewController {
     /// 버튼들 addTarget
     private func setTargetButton() {
         sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
-        sessionStartView.individualButton.addTarget(self,
-                                                    action: #selector(individualButtonDidTapped),
-                                                    for: .touchUpInside)
-        sessionStartView.togetherButton.addTarget(self,
-                                                  action: #selector(togetherButtonDidTapped),
-                                                  for: .touchUpInside)
-        sessionStartView.carpoolStartButton.addTarget(self,
-                                                      action: #selector(carpoolStartButtonDidTapped),
-                                                      for: .touchUpInside)
+        sessionStartView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
+        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
+        sessionStartView.carpoolStartButton.addTarget(self, action: #selector(carpoolStartButtonDidTapped), for: .touchUpInside)
     }
 
     // TODO: - Firebase 형식에 맞게 변경

@@ -65,11 +65,7 @@ final class MapViewController: UIViewController {
         mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
-        detailView.finishCarpoolButton.addTarget(
-            self,
-            action: #selector(finishCarpoolButtonDidTap),
-            for: .touchUpInside
-        )
+        detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
     }
 
     override func viewDidAppear(_ animated: Bool) {

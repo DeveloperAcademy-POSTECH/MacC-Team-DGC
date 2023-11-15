@@ -33,12 +33,7 @@ final class CrewEditViewController: UIViewController {
         // 백버튼 텍스트 제거
         navigationController?.navigationBar.topItem?.title = ""
         // 설정 버튼 추가
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "완료",
-            style: .plain,
-            target: self,
-            action: #selector(completeCrewEdit)
-        )
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "완료", style: .plain, target: self, action: #selector(completeCrewEdit))
 
         setOriginalCrewData()
         addButtonTargets()
@@ -57,36 +52,12 @@ final class CrewEditViewController: UIViewController {
 
     // 버튼 타겟 추가
     private func addButtonTargets() {
-        crewEditView.repeatDayEditButton.addTarget(
-            self,
-            action: #selector(showRepeatDaySelectModal),
-            for: .touchUpInside
-        )
-        crewEditView.startPoint.timeEditButton.addTarget(
-            self,
-            action: #selector(showTimeSelectModal),
-            for: .touchUpInside
-        )
-        crewEditView.stopover1.timeEditButton.addTarget(
-            self,
-            action: #selector(showTimeSelectModal),
-            for: .touchUpInside
-        )
-        crewEditView.stopover2.timeEditButton.addTarget(
-            self,
-            action: #selector(showTimeSelectModal),
-            for: .touchUpInside
-        )
-        crewEditView.stopover3.timeEditButton.addTarget(
-            self,
-            action: #selector(showTimeSelectModal),
-            for: .touchUpInside
-        )
-        crewEditView.endPoint.timeEditButton.addTarget(
-            self,
-            action: #selector(showTimeSelectModal),
-            for: .touchUpInside
-        )
+        crewEditView.repeatDayEditButton.addTarget(self, action: #selector(showRepeatDaySelectModal), for: .touchUpInside)
+        crewEditView.startPoint.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
+        crewEditView.stopover1.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
+        crewEditView.stopover2.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
+        crewEditView.stopover3.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
+        crewEditView.endPoint.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
     }
 
     // MARK: - 기존 크루 데이터에 맞게 화면 정보 갱신
@@ -97,20 +68,15 @@ final class CrewEditViewController: UIViewController {
 
         // 출발지 정보 세팅
         crewEditView.startPoint.addressEditButton.setTitle(crewData.startingPoint?.name, for: .normal) // 기존 정보로 주소 설정 버튼 세팅
-        crewEditView.startPoint.timeEditButton.setTitle( // 기존 정보로 시간 설정 버튼 세팅
-            Date.formattedDate(
-                from: crewData.startingPoint?.arrivalTime ?? Date(),
-                dateFormat: "aa hh:mm"
-            ),
+        // 기존 정보로 시간 설정 버튼 세팅
+        crewEditView.startPoint.timeEditButton.setTitle(
+            Date.formattedDate(from: crewData.startingPoint?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
             for: .normal
         )
         // 도착지 정보 세팅
         crewEditView.endPoint.addressEditButton.setTitle(crewData.destination?.name, for: .normal)
         crewEditView.endPoint.timeEditButton.setTitle(
-            Date.formattedDate(
-                from: crewData.destination?.arrivalTime ?? Date(),
-                dateFormat: "aa hh:mm"
-            ),
+            Date.formattedDate(from: crewData.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
             for: .normal
         )
         // 경유지 정보 세팅
@@ -126,28 +92,13 @@ final class CrewEditViewController: UIViewController {
         }
         switch crewStopoverArray.count {
         case 1:
-            setStopoverLayout(
-                crewStopoverArray: crewStopoverArray,
-                stopoverEditViewArray: [
-                    crewEditView.stopover1
-                ]
-            )
+            setStopoverLayout(crewStopoverArray: crewStopoverArray, stopoverEditViewArray: [crewEditView.stopover1])
         case 2:
-            setStopoverLayout(
-                crewStopoverArray: crewStopoverArray,
-                stopoverEditViewArray: [
-                    crewEditView.stopover1,
-                    crewEditView.stopover2
-                ]
-            )
+            setStopoverLayout(crewStopoverArray: crewStopoverArray, stopoverEditViewArray: [crewEditView.stopover1, crewEditView.stopover2])
         case 3:
             setStopoverLayout(
                 crewStopoverArray: crewStopoverArray,
-                stopoverEditViewArray: [
-                    crewEditView.stopover1,
-                    crewEditView.stopover2,
-                    crewEditView.stopover3
-                ]
+                stopoverEditViewArray: [crewEditView.stopover1, crewEditView.stopover2, crewEditView.stopover3]
             )
         default:
             print("경유지 없음")
@@ -162,9 +113,7 @@ final class CrewEditViewController: UIViewController {
         for idx in 0..<stopoverEditViewArray.count {
             stopoverEditViewArray[idx].addressEditButton.setTitle(crewStopoverArray[idx].name, for: .normal)
             stopoverEditViewArray[idx].timeEditButton.setTitle(
-                Date.formattedDate(
-                    from: crewStopoverArray[idx].arrivalTime ?? Date(),
-                    dateFormat: "aa hh:mm"),
+                Date.formattedDate(from: crewStopoverArray[idx].arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                 for: .normal
             )
             crewEditView.stopoverStackView.addArrangedSubview(stopoverEditViewArray[idx])
@@ -252,8 +201,7 @@ struct CrewEditViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> CrewEditViewController {
         return CrewEditViewController(userCrewData: dummyCrewData!) // 프리뷰라서 강제 바인딩 했습니다.
     }
-    func updateUIViewController(_ uiViewController: CrewEditViewController, context: Context) {
-    }
+    func updateUIViewController(_ uiViewController: CrewEditViewController, context: Context) {}
 }
 @available(iOS 13.0.0, *)
 struct CrewEditViewPreview: PreviewProvider {

@@ -66,10 +66,7 @@ extension SelectDetailPointMapViewController {
 // MARK: - Custom Method
 extension SelectDetailPointMapViewController {
 
-    private func getAddressAndBuildingName(
-        for coordinate: NMGLatLng,
-        completion: @escaping (String?, String?) -> Void
-    ) {
+    private func getAddressAndBuildingName(for coordinate: NMGLatLng, completion: @escaping (String?, String?) -> Void) {
         let geocoder = CLGeocoder()
         let location = CLLocation(
             latitude: coordinate.lat,

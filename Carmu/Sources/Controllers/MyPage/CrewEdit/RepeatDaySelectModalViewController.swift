@@ -63,10 +63,7 @@ extension RepeatDaySelectModalViewController: UICollectionViewDataSource {
     }
 
     // 컬렉션 뷰 구성
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: DayButtonCollectionViewCell.cellIdentifier,
             for: indexPath
@@ -116,11 +113,7 @@ extension RepeatDaySelectModalViewController: UICollectionViewDelegateFlowLayout
     }
 
     // 컬렉션 뷰 셀의 사이즈
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = (collectionView.frame.width - 100) / 7
         return CGSize(width: size, height: size)
     }
