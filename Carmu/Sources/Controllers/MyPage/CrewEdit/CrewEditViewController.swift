@@ -5,6 +5,7 @@
 //  Created by 김영빈 on 2023/11/12.
 //
 
+import MapKit
 import UIKit
 
 import SnapKit
@@ -15,10 +16,12 @@ final class CrewEditViewController: UIViewController {
     private let crewEditView = CrewEditView()
     private let firebaseManager = FirebaseManager()
     var originalUserCrewData: Crew? // 불러온 유저의 크루 데이터
+    var newUserCrewData: Crew? // 기존 크루 데이터 값을 편집하고 저장하기 위한 객체
 
     init(userCrewData: Crew) {
         // TODO: - 실제 DB 데이터 받아오도록 수정
         self.originalUserCrewData = userCrewData
+        self.newUserCrewData = userCrewData
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -57,11 +60,13 @@ final class CrewEditViewController: UIViewController {
 
     // 버튼 타겟 추가
     private func addButtonTargets() {
+        // 반복 요일 버튼
         crewEditView.repeatDayEditButton.addTarget(
             self,
             action: #selector(showRepeatDaySelectModal),
             for: .touchUpInside
         )
+        // 출발,경유,도착지 버튼
         crewEditView.startPoint.timeEditButton.addTarget(
             self,
             action: #selector(showTimeSelectModal),
@@ -87,6 +92,12 @@ final class CrewEditViewController: UIViewController {
             action: #selector(showTimeSelectModal),
             for: .touchUpInside
         )
+        // 상세주소 버튼
+        crewEditView.startPoint.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
+        crewEditView.stopover1.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
+        crewEditView.stopover2.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
+        crewEditView.stopover3.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
+        crewEditView.endPoint.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
     }
 
     // MARK: - 기존 크루 데이터에 맞게 화면 정보 갱신
@@ -191,7 +202,7 @@ extension CrewEditViewController {
      */
     @objc private func showRepeatDaySelectModal() {
         // 크루에 설정돼있는 반복 요일 데이터를 전달
-        guard let originalRepeatDay = originalUserCrewData?.repeatDay else {
+        guard let originalRepeatDay = newUserCrewData?.repeatDay else {
             return
         }
         let repeatDaySelectModalVC = RepeatDaySelectModalViewController()
@@ -216,6 +227,7 @@ extension CrewEditViewController {
      */
     @objc private func showTimeSelectModal(sender: TimeEditButton) {
         let timeSelectModalVC = TimeSelectModalViewController()
+        // 시간 설정 모달에 넘겨줄 기존 시간값
         let originalTimeValue = Date.formattedDate(
             string: sender.titleLabel?.text ?? "오전 08:00",
             dateFormat: "aa hh:mm"
@@ -226,10 +238,42 @@ extension CrewEditViewController {
 
         // 시간 설정 모달에서 선택된 값이 반영된다.
         timeSelectModalVC.timeSelectionHandler = { [weak self] selectedTime in
+            // TODO: - 새로운 시간값 처리
             sender.setTitle(Date.formattedDate(from: selectedTime, dateFormat: "aa hh:mm"), for: .normal)
         }
 
         present(timeSelectModalVC, animated: true)
+    }
+
+    /**
+     주소 설정 버튼 클릭 시 호출
+     */
+    @objc private func showDetailPointMapVC(sender: AddressEditButton) {
+        let detailPointMapVC = SelectDetailPointMapViewController()
+        // 상세주소 설정 뷰컨트롤러에 넘겨줄 기존 주소값
+        let originalPointData = SelectAddressDTO(
+            pointName: sender.pointType?.rawValue,
+            buildingName: sender.pointData?.name,
+            detailAddress: sender.pointData?.detailAddress,
+            coordinate: CLLocationCoordinate2D(
+                latitude: sender.pointData?.latitude ?? 35.634,
+                longitude: sender.pointData?.longitude ?? 128.523
+            )
+        )
+        print("originalPointData: \(originalPointData)")
+        print("sender.pointData: \(sender.pointData)")
+        detailPointMapVC.selectAddressModel = originalPointData
+        detailPointMapVC.addressSelectionHandler = { [weak self] newPointData in
+            // TODO: - 새로운 주소값 처리
+            sender.setTitle(newPointData.pointName, for: .normal)
+        }
+        if sender.pointType == .end {
+            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("도착지로 설정", for: .normal)
+        } else {
+            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("출발지로 설정", for: .normal)
+        }
+//        self.navigationController?.pushViewController(detailPointMapVC, animated: true)
+        present(detailPointMapVC, animated: true)
     }
 }
 
