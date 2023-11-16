@@ -113,8 +113,9 @@ extension CrewEditViewController: RDSModalViewControllerDelegate {
      RepeatDaySelectModalViewController에서 반복 요일 데이터가 수정되었을 때 호출
      */
     func sendNewRepeatDayValue(newRepeatDay: [Int]) {
-        print("반복 요일 갱신")
-        // TODO: - 앱 상에서 갖고 있는 데이터에 반영해주기 (파이어베이스 DB에는 X)
+        print("기존 반복 요일 👉 \(String(describing: newUserCrewData?.repeatDay))")
+        newUserCrewData?.repeatDay = newRepeatDay
+        print("갱신된 반복 요일 👉 \(String(describing: newUserCrewData?.repeatDay))")
     }
 }
 
