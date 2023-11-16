@@ -53,6 +53,17 @@ final class MapViewController: UIViewController {
         return pathOverlay
     }()
 
+    var crew: Crew
+
+    init(crew: Crew) {
+        self.crew = crew
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         startUpdatingLocation()
@@ -105,7 +116,7 @@ final class MapViewController: UIViewController {
             make.height.equalTo(isDriver ? 312 : 273)
         }
 
-        detailView.titleLabel.text = "운좋은 카풀팟"
+        detailView.titleLabel.text = crew.name
 
         view.addSubview(mapView)
         mapView.snp.makeConstraints { make in

@@ -445,10 +445,11 @@ extension SessionStartViewController {
     }
 
     @objc private func carpoolStartButtonDidTapped() {
+        guard let crew = crewData else { return }
         // 세션 시작으로 상태 변경
         crewData?.sessionStatus = .sessionStart
 
-        let mapView = MapViewController()
+        let mapView = MapViewController(crew: crew)
         mapView.modalPresentationStyle = .fullScreen
         present(mapView, animated: true, completion: nil)
     }
