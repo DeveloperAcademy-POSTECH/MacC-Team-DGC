@@ -706,7 +706,7 @@ extension FirebaseManager {
 extension FirebaseManager {
 
     // 따로가요 클릭 시 해당 동승자의 status decline으로 변경
-    func passengerIndividualButton(crewData: Crew?) {
+    func passengerIndividualButtonTapped(crewData: Crew?) {
 
         guard let crewData = crewData else { return }
         guard let memberStatus = crewData.memberStatus else { return }
@@ -714,53 +714,73 @@ extension FirebaseManager {
         for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
             if let crewID = crewData.id {
                 let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
-                statusRef.setValue("decline" as NSString)
-            }
-        }
-    }
-
-    // 함께가요 클릭 시 해당 동승자의 status accept로 변경
-    func passengerTogetherButton(crewData: Crew?) {
-        guard let crewData = crewData else { return }
-        guard let memberStatus = crewData.memberStatus else { return }
-
-        for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
-            if let crewID = crewData.id {
-                let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
-                statusRef.setValue("accpet" as NSString)
-            }
-        }
-    }
-
-    // 따로가요 클릭 시 sessionStatus를 decline으로 변경
-    func driverIndividualButton(crewData: Crew?) {
-        guard let crewData = crewData else { return }
-        print("DRIVER ", crewData)
-        if let crewID = crewData.id {
-            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
-
-            statusRef.setValue("decline") { error, _ in
-                if let error = error {
-                    print("Error occured: ", error)
-                } else {
-                    print("driverIndividualButton succeed!")
+                statusRef.setValue(Status.decline.rawValue) { error, _ in
+                    if let error = error {
+                        print("Error occured: ", error)
+                    }
                 }
             }
         }
     }
 
-    // 함께가요 클릭 시 sessionStatus를 accpet으로 변경
-    func driverTogetherButton(crewData: Crew?) {
+    // 함께가요 클릭 시 해당 동승자의 status accept로 변경
+    func passengerTogetherButtonTapped(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        guard let memberStatus = crewData.memberStatus else { return }
+
+        for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+            if let crewID = crewData.id {
+                let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
+
+                statusRef.setValue(Status.accept.rawValue) { error, _ in
+                    if let error = error {
+                        print("Error occured: ", error)
+                    }
+                }
+            }
+        }
+    }
+
+    // 따로가요 클릭 시 sessionStatus를 decline으로 변경
+    func driverIndividualButtonTapped(crewData: Crew?) {
         guard let crewData = crewData else { return }
         print("DRIVER ", crewData)
         if let crewID = crewData.id {
             let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
 
-            statusRef.setValue("accept") { error, _ in
+            statusRef.setValue(Status.decline.rawValue) { error, _ in
                 if let error = error {
                     print("Error occured: ", error)
-                } else {
-                    print("driverTogetherButton succeed!")
+                }
+            }
+        }
+    }
+
+    // 운행해요 클릭 시 sessionStatus를 accpet으로 변경
+    func driverTogetherButtonTapped(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        print("DRIVER ", crewData)
+        if let crewID = crewData.id {
+            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
+
+            statusRef.setValue(Status.accept.rawValue) { error, _ in
+                if let error = error {
+                    print("Error occured: ", error)
+                }
+            }
+        }
+    }
+
+    // 카풀 운행해요 클릭 시 sessionStatus를 sessionStart로 변경
+    func carpoolStartButtonTapped(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        print("DRIVER ", crewData)
+        if let crewID = crewData.id {
+            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
+
+            statusRef.setValue(Status.sessionStart.rawValue) { error, _ in
+                if let error = error {
+                    print("Error occured: ", error)
                 }
             }
         }

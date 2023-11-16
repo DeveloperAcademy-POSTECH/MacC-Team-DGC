@@ -418,7 +418,7 @@ extension SessionStartViewController {
         if isCaptain {
 
             // FirebaseManager methods
-            firebaseManager.driverTogetherButton(crewData: crewData)
+            firebaseManager.driverTogetherButtonTapped(crewData: crewData)
 
             sessionStartView.individualButton.isHidden = true
             sessionStartView.togetherButton.isHidden = true
@@ -436,7 +436,7 @@ extension SessionStartViewController {
             sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
         } else {    // 동승자일 때
             // FirebaseManager methods
-            firebaseManager.passengerTogetherButton(crewData: crewData)
+            firebaseManager.passengerTogetherButtonTapped(crewData: crewData)
 
             if crewData?.sessionStatus == .accept {  // 운전자가 운행할 때
                 sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
@@ -449,8 +449,8 @@ extension SessionStartViewController {
     }
 
     @objc private func carpoolStartButtonDidTapped() {
-        // 세션 시작으로 상태 변경
-        crewData?.sessionStatus = .sessionStart
+        // FirebaseManager methods
+        firebaseManager.carpoolStartButtonTapped(crewData: crewData)
 
         let mapView = MapViewController()
         mapView.modalPresentationStyle = .fullScreen
@@ -476,7 +476,7 @@ extension SessionStartViewController {
     private func settingIndividualButtonForDriver(crewData: Crew?) {
 
         // FirebaseManager methods
-        firebaseManager.driverIndividualButton(crewData: crewData)
+        firebaseManager.driverIndividualButtonTapped(crewData: crewData)
 
         // 모든 경우에 같은 화면임
         sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
@@ -494,7 +494,7 @@ extension SessionStartViewController {
         guard let crewData = crewData else { return }
 
         // FirebaseManager methods
-        firebaseManager.passengerIndividualButton(crewData: crewData)
+        firebaseManager.passengerIndividualButtonTapped(crewData: crewData)
 
         switch crewData.sessionStatus {
         case .waiting:
