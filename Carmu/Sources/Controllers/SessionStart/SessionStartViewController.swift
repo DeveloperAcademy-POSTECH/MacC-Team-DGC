@@ -416,6 +416,10 @@ extension SessionStartViewController {
 
         // 운전자일 때
         if isCaptain {
+
+            // FirebaseManager methods
+            firebaseManager.driverTogetherButton(crewData: crewData)
+
             sessionStartView.individualButton.isHidden = true
             sessionStartView.togetherButton.isHidden = true
             sessionStartView.carpoolStartButton.isHidden = false
@@ -457,7 +461,7 @@ extension SessionStartViewController {
 
         // 운전자가 클릭했을 때
         if isCaptain {
-            settingIndividualButtonForDriver()
+            settingIndividualButtonForDriver(crewData: crewData)
             print("운전자 !")
         } else {    // 동승자가 클릭했을 때
             settingIndividualButtonForPassenger()
@@ -469,7 +473,10 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     // 운전자일 때
-    private func settingIndividualButtonForDriver() {
+    private func settingIndividualButtonForDriver(crewData: Crew?) {
+
+        // FirebaseManager methods
+        firebaseManager.driverIndividualButton(crewData: crewData)
 
         // 모든 경우에 같은 화면임
         sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"

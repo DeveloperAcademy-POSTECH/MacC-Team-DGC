@@ -744,4 +744,38 @@ extension FirebaseManager {
             }
         }
     }
+
+    // 따로가요 클릭 시 sessionStatus를 decline으로 변경
+    func driverIndividualButton(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        print("DRIVER ", crewData)
+        if let crewID = crewData.id {
+            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
+
+            statusRef.setValue("decline") { error, _ in
+                if let error = error {
+                    print("Error occured: ", error)
+                } else {
+                    print("driverIndividualButton succeed!")
+                }
+            }
+        }
+    }
+
+    // 함께가요 클릭 시 sessionStatus를 accpet으로 변경
+    func driverTogetherButton(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        print("DRIVER ", crewData)
+        if let crewID = crewData.id {
+            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
+
+            statusRef.setValue("accept") { error, _ in
+                if let error = error {
+                    print("Error occured: ", error)
+                } else {
+                    print("driverTogetherButton succeed!")
+                }
+            }
+        }
+    }
 }
