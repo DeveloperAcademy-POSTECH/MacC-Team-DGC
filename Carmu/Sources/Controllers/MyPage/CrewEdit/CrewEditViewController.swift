@@ -67,16 +67,6 @@ final class CrewEditViewController: UIViewController {
     // 버튼 타겟 추가
     private func addButtonTargets() {
         crewEditView.repeatDayEditButton.addTarget(self, action: #selector(showRepeatDaySelectModal), for: .touchUpInside)
-//        crewEditView.startPoint.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
-//        crewEditView.stopover1.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
-//        crewEditView.stopover2.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
-//        crewEditView.stopover3.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
-//        crewEditView.endPoint.timeEditButton.addTarget(self, action: #selector(showTimeSelectModal), for: .touchUpInside)
-//        crewEditView.startPoint.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
-//        crewEditView.stopover1.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
-//        crewEditView.stopover2.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
-//        crewEditView.stopover3.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
-//        crewEditView.endPoint.addressEditButton.addTarget(self, action: #selector(showDetailPointMapVC), for: .touchUpInside)
     }
 }
 
