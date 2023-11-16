@@ -13,8 +13,8 @@ final class FinalConfirmView: UIView {
 
     private lazy var firstLineTitleStack = UIStackView()
 
-    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "전체 여정을 ")
-    private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "확인")
+    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "전체 ")
+    private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "카풀 계획을 확인")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "해주세요")
 
     let daySelectButton: DaySelectButton = {
@@ -30,7 +30,7 @@ final class FinalConfirmView: UIView {
     private var customTableStack = UIStackView()
     lazy var customStackCell = [StopoverSelectButton]()
 
-    let nextButton = NextButton(buttonTitle: "카풀 초대하기")
+    let nextButton = NextButton(buttonTitle: "크루원 초대하기")
 
     override init(frame: CGRect) {
         super.init(frame: frame)

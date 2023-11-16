@@ -39,7 +39,7 @@ final class FinalConfirmViewController: UIViewController {
                 // TODO: 들어오는 데이터에 맞춰 변형될 수 있도록 변경해야 함.
                 let isStart = index == 3 ? false : true
                 let button = StopoverSelectButton(address: tuple.0 ?? "", isStart, time: tuple.1)
-
+                button.layer.shadowOpacity = 0
                 button.tag = index
                 button.isEnabled = false
                 buttons.append(button)
@@ -54,7 +54,7 @@ final class FinalConfirmViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
         navigationItem.rightBarButtonItem = RightNavigationBarButton(buttonTitle: "수정하기")
 
         additionalSetting()

@@ -48,9 +48,6 @@ final class BoardingPointSelectView: UIView {
         customTableView.axis = .vertical
         customTableView.distribution = .equalSpacing
 
-        nextButton.backgroundColor = UIColor.semantic.backgroundThird
-        nextButton.isEnabled = false
-
         addSubview(firstLineTitleStack)
         addSubview(secondLineTitleStack)
         addSubview(nextButton)

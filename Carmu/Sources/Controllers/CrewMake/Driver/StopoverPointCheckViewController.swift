@@ -23,7 +23,7 @@ final class StopoverPointCheckViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         stopoverPointCheckView.yesStopoverButton.addTarget(self, action: #selector(yesButtonTapped), for: .touchUpInside)
         stopoverPointCheckView.noStopoverButton.addTarget(self, action: #selector(noButtonTapped), for: .touchUpInside)
@@ -56,7 +56,12 @@ import SwiftUI
 struct SPCViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = StopoverPointCheckViewController
     func makeUIViewController(context: Context) -> StopoverPointCheckViewController {
-        return StopoverPointCheckViewController(crewData: Crew(crews: [UserIdentifier](), memberStatus: [MemberStatus]()))
+        return StopoverPointCheckViewController(
+            crewData: Crew(
+                crews: [UserIdentifier](),
+                memberStatus: [MemberStatus]()
+            )
+        )
     }
     func updateUIViewController(_ uiViewController: StopoverPointCheckViewController, context: Context) {}
 }

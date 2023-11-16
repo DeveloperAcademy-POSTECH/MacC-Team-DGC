@@ -33,11 +33,27 @@ final class StartEndPointSelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
-        startEndPointSelectView.startPointView.button.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
-        startEndPointSelectView.endPointView.button.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
-        startEndPointSelectView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        startEndPointSelectView.startPointView.button.addTarget(
+            self,
+            action: #selector(findAddressButtonTapped),
+            for: .touchUpInside
+        )
+        startEndPointSelectView.endPointView.button.addTarget(
+            self,
+            action: #selector(findAddressButtonTapped),
+            for: .touchUpInside
+        )
+        startEndPointSelectView.nextButton.addTarget(
+            self,
+            action: #selector(nextButtonTapped),
+            for: .touchUpInside
+        )
+
+        startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        startEndPointSelectView.nextButton.isEnabled = false
+
         view.addSubview(startEndPointSelectView)
         startEndPointSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -53,8 +69,17 @@ extension StartEndPointSelectViewController {
         let navigation = UINavigationController(rootViewController: detailViewController)
         if sender == startEndPointSelectView.startPointView.button {
             detailViewController.selectAddressView.headerTitleLabel.text = "출발지 주소 설정"
+
         } else {
             detailViewController.selectAddressView.headerTitleLabel.text = "도착지 주소 설정"
+            let placeholderAttributes: [NSAttributedString.Key: Any] = [
+                .foregroundColor: UIColor.semantic.textPrimary as Any,
+                .font: UIFont.carmuFont.body2Long
+            ]
+            detailViewController.selectAddressView.addressSearchTextField.attributedPlaceholder = NSAttributedString(
+                string: "도착지 검색",
+                attributes: placeholderAttributes
+            )
         }
         navigation.navigationBar.isHidden = true
 

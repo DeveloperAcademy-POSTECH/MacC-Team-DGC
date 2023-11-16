@@ -26,7 +26,7 @@ final class BoardingPointSelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         boardingPointSelectView.customTableVieWCell = {
             var buttons: [StopoverSelectButton] = []
@@ -59,6 +59,8 @@ final class BoardingPointSelectViewController: UIViewController {
             element.addTarget(self, action: #selector(stopoverPointTapped), for: .touchUpInside)
         }
         boardingPointSelectView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        boardingPointSelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        boardingPointSelectView.nextButton.isEnabled = false
 
         view.addSubview(boardingPointSelectView)
         boardingPointSelectView.snp.makeConstraints { make in
