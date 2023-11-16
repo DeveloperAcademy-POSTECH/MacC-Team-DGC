@@ -29,8 +29,6 @@ final class MapView: UIView {
         return marker
     }()
 
-    private let points: Points
-
     let startingPoint = {
         let marker = NMFMarker()
         marker.iconImage = NMFOverlayImage(name: "startingPoint")
@@ -98,8 +96,10 @@ final class MapView: UIView {
         return button
     }()
 
-    init(points: Points) {
-        self.points = points
+    private var crew: Crew
+
+    init(crew: Crew) {
+        self.crew = crew
         super.init(frame: .zero)
     }
 
@@ -126,34 +126,38 @@ final class MapView: UIView {
 
     // TODO: - 크루의 실제 위경도 입력 받아서 넣어주기
     func showPoints() {
-        startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
-        startingPoint.anchor = CGPoint(x: 0.5, y: 0.5)
-        startingPoint.mapView = naverMap
+        if let coordinate = crew.startingPoint, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            startingPoint.position = NMGLatLng(lat: latitude, lng: longitude)
+            startingPoint.anchor = CGPoint(x: 0.5, y: 0.5)
+            startingPoint.mapView = naverMap
+        }
 
-        if let coordinate = points.pickupLocation1 {
+        if let coordinate = crew.stopover1, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
             pickupLocation1.hidden = false
-            pickupLocation1.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            pickupLocation1.position = NMGLatLng(lat: latitude, lng: longitude)
             pickupLocation1.anchor = CGPoint(x: 0.5, y: 0.5)
             pickupLocation1.mapView = naverMap
         }
 
-        if let coordinate = points.pickupLocation2 {
+        if let coordinate = crew.stopover2, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
             pickupLocation2.hidden = false
-            pickupLocation2.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            pickupLocation2.position = NMGLatLng(lat: latitude, lng: longitude)
             pickupLocation2.anchor = CGPoint(x: 0.5, y: 0.5)
             pickupLocation2.mapView = naverMap
         }
 
-        if let coordinate = points.pickupLocation3 {
+        if let coordinate = crew.stopover3, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
             pickupLocation3.hidden = false
-            pickupLocation3.position = NMGLatLng(lat: coordinate.lat, lng: coordinate.lng)
+            pickupLocation3.position = NMGLatLng(lat: latitude, lng: longitude)
             pickupLocation3.anchor = CGPoint(x: 0.5, y: 0.5)
             pickupLocation3.mapView = naverMap
         }
 
-        destination.position = NMGLatLng(lat: points.destination.lat, lng: points.destination.lng)
-        destination.anchor = CGPoint(x: 0.5, y: 0.5)
-        destination.mapView = naverMap
+        if let coordinate = crew.destination, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            destination.position = NMGLatLng(lat: latitude, lng: longitude)
+            destination.anchor = CGPoint(x: 0.5, y: 0.5)
+            destination.mapView = naverMap
+        }
     }
 
     func showCurrentLocationButton() {

@@ -12,28 +12,12 @@ import FirebaseDatabase
 import NMapsMap
 import SnapKit
 
-// Firebase 데이터 받아오기 전까지만 사용하는 더미데이터
-struct Coordinate {
-    let lat: Double
-    let lng: Double
-}
-
-struct Points {
-    let startingPoint = Coordinate(lat: 36.01759520, lng: 129.32206275)
-    let pickupLocation1: Coordinate? = Coordinate(lat: 36.00609523, lng: 129.32232291)
-    let pickupLocation2: Coordinate? = Coordinate(lat: 36.00739176, lng: 129.32907574)
-    let pickupLocation3: Coordinate? = nil
-    let destination = Coordinate(lat: 36.01449161092546, lng: 129.32561818469742)
-}
-// Firebase 데이터 받아오기 전까지만 사용하는 더미데이터
-
 final class MapViewController: UIViewController {
 
-    private lazy var mapView = MapView(points: points)
+    private lazy var mapView = MapView(crew: crew)
     private let detailView = MapDetailView()
 
     private let locationManager = CLLocationManager()
-    private let points = Points()
 
     private let firebaseManager = FirebaseManager()
 
@@ -53,7 +37,7 @@ final class MapViewController: UIViewController {
         return pathOverlay
     }()
 
-    var crew: Crew
+    private var crew: Crew
 
     init(crew: Crew) {
         self.crew = crew
@@ -127,16 +111,20 @@ final class MapViewController: UIViewController {
 
     private func initCameraUpdate() {
         var latLngs: [NMGLatLng] = []
-        latLngs.append(NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng))
-        latLngs.append(NMGLatLng(lat: points.destination.lat, lng: points.destination.lng))
-        if let coordinate = points.pickupLocation1 {
-            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
+        if let coordinate = crew.startingPoint, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
         }
-        if let coordinate = points.pickupLocation2 {
-            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
+        if let coordinate = crew.stopover1, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
         }
-        if let coordinate = points.pickupLocation3 {
-            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
+        if let coordinate = crew.stopover2, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
+        }
+        if let coordinate = crew.stopover3, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
+        }
+        if let coordinate = crew.destination, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
         }
         let paddingInsets = UIEdgeInsets(top: 170, left: 50, bottom: 50, right: 50)
         let cameraUpdate = NMFCameraUpdate(fit: NMGLatLngBounds(latLngs: latLngs), paddingInsets: paddingInsets)
@@ -158,16 +146,20 @@ final class MapViewController: UIViewController {
 
     private func fetchDirections() {
         var urlString = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving"
-        + "?start=\(points.startingPoint.lng),\(points.startingPoint.lat)"
-        + "&goal=\(points.destination.lng),\(points.destination.lat)"
-        if let stopover1 = points.pickupLocation1 {
-            urlString += "&waypoints=\(stopover1.lng),\(stopover1.lat)"
+        if let coordinate = crew.startingPoint, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "?start=\(longitude),\(latitude)"
         }
-        if let stopover2 = points.pickupLocation2 {
-            urlString += "|\(stopover2.lng),\(stopover2.lat)"
+        if let coordinate = crew.destination, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "&goal=\(longitude),\(latitude)"
         }
-        if let stopover3 = points.pickupLocation3 {
-            urlString += "|\(stopover3.lng),\(stopover3.lat)"
+        if let coordinate = crew.stopover1, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "&waypoints=\(longitude),\(latitude)"
+        }
+        if let coordinate = crew.stopover2, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "|\(longitude),\(latitude)"
+        }
+        if let coordinate = crew.stopover3, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "|\(longitude),\(latitude)"
         }
         guard let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let url = URL(string: encodedURLString) else {
@@ -228,7 +220,11 @@ final class MapViewController: UIViewController {
     }
 
     private func distanceFromDestination(current: CLLocation) -> Double {
-        let destinationCoordinate = CLLocation(latitude: points.destination.lat, longitude: points.destination.lng)
+        // TODO: - 불필요한 옵셔널로 인한 guard문 삭제, 무효한 데이터이므로 도착지에 도착하지 못하도록 200보다 큰 수로 설정해둠
+        guard let coordinate = crew.destination, let latitude = coordinate.latitude, let longitude = coordinate.longitude else {
+            return 300.0
+        }
+        let destinationCoordinate = CLLocation(latitude: latitude, longitude: longitude)
         let distance = destinationCoordinate.distance(from: current)
         return Double(distance)
     }
