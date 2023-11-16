@@ -270,9 +270,18 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         timeSelectModalVC.timeSelectModalView.timePicker.date = originalTimeValue
 
         // 시간 설정 모달에서 선택된 값이 반영된다.
-        timeSelectModalVC.timeSelectionHandler = { selectedTime in
+        timeSelectModalVC.timeSelectionHandler = { newTimeValue in
             // TODO: - 새로운 시간값 처리
-            sender.setTitle(Date.formattedDate(from: selectedTime, dateFormat: "aa hh:mm"), for: .normal)
+            sender.setTitle(Date.formattedDate(from: newTimeValue, dateFormat: "aa hh:mm"), for: .normal)
+            switch sender.pointType {
+            case .start:
+                self.newUserCrewData?.startingPoint?.arrivalTime = newTimeValue
+            case .destination:
+                self.newUserCrewData?.destination?.arrivalTime = newTimeValue
+            default:
+                self.stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.arrivalTime = newTimeValue
+                self.updatePointChangeToNewCrewData(stopoverPoints: self.stopoverPoints)
+            }
         }
 
         present(timeSelectModalVC, animated: true)
