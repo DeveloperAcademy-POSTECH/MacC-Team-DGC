@@ -148,11 +148,12 @@ extension CrewEditViewController: UITableViewDataSource {
                 Date.formattedDate(from: newUserCrewData?.startingPoint?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                 for: .normal
             )
-            cell.setupXButton(false) // X버튼 비활성화
+            cell.setupRemoveButton(false) // X버튼 비활성화
             cell.remakeStartPointLayout() // 출발지 레이아웃 재구성
             cell.pointType = .start
             cell.addressEditButton.pointType = .start
             cell.timeEditButton.pointType = .start
+            cell.stopoverRemoveButton.pointType = .start
             cell.pointData = newUserCrewData?.startingPoint
         } else {
             if indexPath.row == addButtonIndex {
@@ -167,11 +168,12 @@ extension CrewEditViewController: UITableViewDataSource {
                         Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
-                    cell.setupXButton(false) // x버튼 비활성화
+                    cell.setupRemoveButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
                     cell.pointType = .destination
                     cell.addressEditButton.pointType = .destination
                     cell.timeEditButton.pointType = .destination
+                    cell.stopoverRemoveButton.pointType = .destination
                     cell.pointData = newUserCrewData?.destination
                 }
             } else {
@@ -183,11 +185,12 @@ extension CrewEditViewController: UITableViewDataSource {
                         Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
-                    cell.setupXButton(false) // x버튼 비활성화
+                    cell.setupRemoveButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
                     cell.pointType = .destination
                     cell.addressEditButton.pointType = .destination
                     cell.timeEditButton.pointType = .destination
+                    cell.stopoverRemoveButton.pointType = .destination
                     cell.pointData = newUserCrewData?.destination
                 } else {
                     /* 일반 경유지 셀 구성 */
@@ -196,20 +199,23 @@ extension CrewEditViewController: UITableViewDataSource {
                         Date.formattedDate(from: stopoverPoints[indexPath.row-1]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
-                    cell.setupXButton(true) // x버튼 활성화
+                    cell.setupRemoveButton(true) // x버튼 활성화
                     switch indexPath.row-1 {
                     case 0:
                         cell.pointType = .stopover1
                         cell.addressEditButton.pointType = .stopover1
                         cell.timeEditButton.pointType = .stopover1
+                        cell.stopoverRemoveButton.pointType = .stopover1
                     case 1:
                         cell.pointType = .stopover2
                         cell.addressEditButton.pointType = .stopover2
                         cell.timeEditButton.pointType = .stopover2
+                        cell.stopoverRemoveButton.pointType = .stopover2
                     case 2:
                         cell.pointType = .stopover3
                         cell.addressEditButton.pointType = .stopover3
                         cell.timeEditButton.pointType = .stopover3
+                        cell.stopoverRemoveButton.pointType = .stopover3
                     default:
                         break
                     }
@@ -285,7 +291,8 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
     }
 
     // MARK: - X 경유지 제거 버튼에 대한 액션 연결
-    func xButtonTapped(sender: UIButton) {
+    func stopoverRemoveButtonTapped(sender: StopoverRemoveXButton) {
+        print("sender: \(sender.pointType)")
         // TODO: - 구현 필요
         print("경유지 제거 버튼 클릭")
     }

@@ -12,7 +12,7 @@ protocol PointEditTableViewCellDelegate: AnyObject {
 
     func timeEditButtonTapped(sender: TimeEditButton)
     func addressEditButtonTapped(sender: AddressEditButton, pointType: PointType, pointData: Point)
-    func xButtonTapped(sender: UIButton)
+    func stopoverRemoveButtonTapped(sender: StopoverRemoveXButton)
     func addButtonTapped(sender: UIButton)
 }
 
@@ -41,13 +41,7 @@ final class PointEditTableViewCell: UITableViewCell {
     lazy var timeEditButton = TimeEditButton()
 
     // 경유지 삭제 버튼
-    lazy var xButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = UIColor.semantic.stoke
-        button.isHidden = true
-        return button
-    }()
+    lazy var stopoverRemoveButton = StopoverRemoveXButton()
 
     // 경유지 추가 버튼 뷰
     lazy var addButtonContainer: UIView = {
@@ -80,7 +74,7 @@ final class PointEditTableViewCell: UITableViewCell {
         setupUI()
         timeEditButton.addTarget(self, action: #selector(timeEditButtonTapped), for: .touchUpInside)
         addressEditButton.addTarget(self, action: #selector(addressEditButtonTapped), for: .touchUpInside)
-        xButton.addTarget(self, action: #selector(xButtonTapped), for: .touchUpInside)
+        stopoverRemoveButton.addTarget(self, action: #selector(stopoverRemoveButtonTapped), for: .touchUpInside)
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
     }
 
@@ -114,8 +108,8 @@ final class PointEditTableViewCell: UITableViewCell {
             make.height.equalTo(34)
         }
 
-        contentView.addSubview(xButton)
-        xButton.snp.makeConstraints { make in
+        contentView.addSubview(stopoverRemoveButton)
+        stopoverRemoveButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.bottom.equalTo(timeEditButton.snp.top).offset(-7)
             make.width.equalTo(21)
@@ -151,22 +145,21 @@ extension PointEditTableViewCell {
             addressEditButton.isHidden = true
             timeTypeLabel.isHidden = true
             timeEditButton.isHidden = true
-            xButton.isHidden = true
         } else {
             addButtonContainer.isHidden = true
             addressEditButton.isHidden = false
             timeTypeLabel.isHidden = false
             timeEditButton.isHidden = false
-            xButton.isHidden = false
         }
+        setupRemoveButton(isEnable)
     }
 
     // X 버튼 활성화 여부 메서드
-    func setupXButton(_ isEnable: Bool) {
+    func setupRemoveButton(_ isEnable: Bool) {
         if isEnable {
-            xButton.isHidden = false
+            stopoverRemoveButton.isHidden = false
         } else {
-            xButton.isHidden = true
+            stopoverRemoveButton.isHidden = true
         }
     }
 
@@ -222,8 +215,8 @@ extension PointEditTableViewCell {
     }
 
     // X 경유지 제거 버튼에 대한 액션 연결
-    @objc func xButtonTapped(sender: UIButton) {
-        pointEditTableViewCellDelegate?.xButtonTapped(sender: sender)
+    @objc func stopoverRemoveButtonTapped(sender: StopoverRemoveXButton) {
+        pointEditTableViewCellDelegate?.stopoverRemoveButtonTapped(sender: sender)
     }
 
     // 경유지 추가 버튼에 대한 액션 연결
