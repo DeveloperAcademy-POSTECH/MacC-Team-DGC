@@ -74,7 +74,6 @@ final class PointEditTableViewCell: UITableViewCell {
     // 경유지 추가 버튼 뷰
     lazy var addButtonContainer: UIView = {
         let addButtonContainer = UIView()
-        addButtonContainer.backgroundColor = .red
         addButtonContainer.isHidden = true
         return addButtonContainer
     }()
@@ -95,7 +94,6 @@ final class PointEditTableViewCell: UITableViewCell {
         guideLabel.text = "경유지는 최대 3개까지 생성할 수 있습니다."
         guideLabel.font = UIFont.carmuFont.body1Long
         guideLabel.textColor = UIColor.semantic.textBody
-        guideLabel.backgroundColor = .purple
         return guideLabel
     }()
 
@@ -114,11 +112,6 @@ final class PointEditTableViewCell: UITableViewCell {
 
     private func setupUI() {
         selectionStyle = .none // 셀 선택 막음
-
-//        backgroundColor = .red
-//        layer.cornerRadius = 10
-//        contentView.backgroundColor = .yellow
-//        contentView.layer.cornerRadius = 10
 
         contentView.addSubview(timeEditButton)
         timeEditButton.snp.makeConstraints { make in
