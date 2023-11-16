@@ -26,10 +26,6 @@
 		B8293CC62B028404002472AE /* RepeatDaySelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */; };
 		B8293CC82B028863002472AE /* RepeatDaySelectModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CC72B028863002472AE /* RepeatDaySelectModalViewController.swift */; };
 		B8293CCB2B0392FC002472AE /* DayButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CCA2B0392FC002472AE /* DayButtonCollectionViewCell.swift */; };
-		B8293CDA2B03AE81002472AE /* AddressEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CD92B03AE81002472AE /* AddressEditButton.swift */; };
-		B8293CDC2B03AE96002472AE /* TimeTypeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CDB2B03AE96002472AE /* TimeTypeLabel.swift */; };
-		B8293CDE2B03AEAA002472AE /* TimeEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CDD2B03AEAA002472AE /* TimeEditButton.swift */; };
-		B8293CE02B03AEC6002472AE /* PointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CDF2B03AEC6002472AE /* PointType.swift */; };
 		B8293CE22B03AED7002472AE /* TimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CE12B03AED7002472AE /* TimeType.swift */; };
 		B8376E3C2AF936DB007F1E0A /* CrewInfoNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */; };
 		B8376E3E2AF936EB007F1E0A /* CrewInfoDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */; };
@@ -46,12 +42,13 @@
 		B84B41872B000F0D007AC36F /* QuestionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B84B41862B000F0D007AC36F /* QuestionDetailView.swift */; };
 		B8726B1E2AFDB9990084B49C /* CrewInfoCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8726B1D2AFDB9990084B49C /* CrewInfoCheckView.swift */; };
 		B8726B222AFDBA240084B49C /* CrewInfoCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */; };
+		B87A22D62B0465BB00D8DC49 /* PointEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A22D52B0465BB00D8DC49 /* PointEditTableViewCell.swift */; };
+		B87A22DA2B051E8000D8DC49 /* PointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A22D92B051E8000D8DC49 /* PointType.swift */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
 		B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */; };
 		B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */; };
 		B8A3EFD92AC5F28100433F5C /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */; };
 		B8A3EFDB2AC5F5B400433F5C /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */; };
-		B8AF803B2B01B33A00CB2DEC /* PointEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8AF803A2B01B33A00CB2DEC /* PointEditView.swift */; };
 		B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73ABE2AD2914200D211DE /* SettingsView.swift */; };
 		B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */; };
 		B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC22AD2FBE600D211DE /* InquiryView.swift */; };
@@ -159,10 +156,6 @@
 		B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectModalView.swift; sourceTree = "<group>"; };
 		B8293CC72B028863002472AE /* RepeatDaySelectModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectModalViewController.swift; sourceTree = "<group>"; };
 		B8293CCA2B0392FC002472AE /* DayButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayButtonCollectionViewCell.swift; sourceTree = "<group>"; };
-		B8293CD92B03AE81002472AE /* AddressEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEditButton.swift; sourceTree = "<group>"; };
-		B8293CDB2B03AE96002472AE /* TimeTypeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeTypeLabel.swift; sourceTree = "<group>"; };
-		B8293CDD2B03AEAA002472AE /* TimeEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEditButton.swift; sourceTree = "<group>"; };
-		B8293CDF2B03AEC6002472AE /* PointType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointType.swift; sourceTree = "<group>"; };
 		B8293CE12B03AED7002472AE /* TimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeType.swift; sourceTree = "<group>"; };
 		B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoNoCrewView.swift; sourceTree = "<group>"; };
 		B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoDriverView.swift; sourceTree = "<group>"; };
@@ -179,11 +172,12 @@
 		B84B41862B000F0D007AC36F /* QuestionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionDetailView.swift; sourceTree = "<group>"; };
 		B8726B1D2AFDB9990084B49C /* CrewInfoCheckView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoCheckView.swift; sourceTree = "<group>"; };
 		B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoCheckViewController.swift; sourceTree = "<group>"; };
+		B87A22D52B0465BB00D8DC49 /* PointEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointEditTableViewCell.swift; sourceTree = "<group>"; };
+		B87A22D92B051E8000D8DC49 /* PointType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointType.swift; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmu.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
 		B8A3EFDA2AC5F5B400433F5C /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		B8AF803A2B01B33A00CB2DEC /* PointEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointEditView.swift; sourceTree = "<group>"; };
 		B8D73ABE2AD2914200D211DE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		B8D73AC22AD2FBE600D211DE /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
@@ -326,12 +320,9 @@
 		B8293CD72B03AE42002472AE /* PointEdit */ = {
 			isa = PBXGroup;
 			children = (
-				B8AF803A2B01B33A00CB2DEC /* PointEditView.swift */,
-				B8293CD92B03AE81002472AE /* AddressEditButton.swift */,
-				B8293CDB2B03AE96002472AE /* TimeTypeLabel.swift */,
-				B8293CDD2B03AEAA002472AE /* TimeEditButton.swift */,
-				B8293CDF2B03AEC6002472AE /* PointType.swift */,
 				B8293CE12B03AED7002472AE /* TimeType.swift */,
+				B87A22D52B0465BB00D8DC49 /* PointEditTableViewCell.swift */,
+				B87A22D92B051E8000D8DC49 /* PointType.swift */,
 			);
 			path = PointEdit;
 			sourceTree = "<group>";
@@ -882,7 +873,6 @@
 				B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */,
 				B8293CC82B028863002472AE /* RepeatDaySelectModalViewController.swift in Sources */,
 				C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */,
-				B8293CE02B03AEC6002472AE /* PointType.swift in Sources */,
 				C9F43BCE2AF2155400BAA0E3 /* PositionSelectView.swift in Sources */,
 				161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */,
 				B84006B02B00B2690009DCD2 /* CrewEditView.swift in Sources */,
@@ -903,6 +893,7 @@
 				B8376E3C2AF936DB007F1E0A /* CrewInfoNoCrewView.swift in Sources */,
 				B8726B1E2AFDB9990084B49C /* CrewInfoCheckView.swift in Sources */,
 				B8293CE22B03AED7002472AE /* TimeType.swift in Sources */,
+				B87A22D62B0465BB00D8DC49 /* PointEditTableViewCell.swift in Sources */,
 				C9D04C6B2AFB7864007E615B /* AddressSelectButtonView.swift in Sources */,
 				C9D04C732AFC65BE007E615B /* StopoverPointAddButtonView.swift in Sources */,
 				B83E23F02AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift in Sources */,
@@ -941,16 +932,14 @@
 				B84006AE2B00B2570009DCD2 /* CrewEditViewController.swift in Sources */,
 				C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
-				B8293CDE2B03AEAA002472AE /* TimeEditButton.swift in Sources */,
 				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
 				163422362AFE636000196EB2 /* RuleDescriptionViewController.swift in Sources */,
 				C93116742AF3B5320014E702 /* SelectAddressView.swift in Sources */,
 				C93116802AF3B7E30014E702 /* SelectDetailPointMapView.swift in Sources */,
 				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,
-				B8AF803B2B01B33A00CB2DEC /* PointEditView.swift in Sources */,
 				1667F61D2AFC622400393111 /* CrewCollectionViewCell.swift in Sources */,
-				B8293CDA2B03AE81002472AE /* AddressEditButton.swift in Sources */,
+				B87A22DA2B051E8000D8DC49 /* PointType.swift in Sources */,
 				B8376E3E2AF936EB007F1E0A /* CrewInfoDriverView.swift in Sources */,
 				C95462152AF74D46004C4F6D /* TimeSelectCellView.swift in Sources */,
 				16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */,
@@ -989,7 +978,6 @@
 				B84B41852B000EFC007AC36F /* QuestionDetailViewController.swift in Sources */,
 				C904D1582AD57942008BF5CE /* Friendship.swift in Sources */,
 				B8376E482AF9BBB1007F1E0A /* NameEditViewController.swift in Sources */,
-				B8293CDC2B03AE96002472AE /* TimeTypeLabel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
