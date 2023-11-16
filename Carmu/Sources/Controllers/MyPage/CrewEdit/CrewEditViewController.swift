@@ -151,6 +151,8 @@ extension CrewEditViewController: UITableViewDataSource {
             cell.setupXButton(false) // X버튼 비활성화
             cell.remakeStartPointLayout() // 출발지 레이아웃 재구성
             cell.pointType = .start
+            cell.addressEditButton.pointType = .start
+            cell.timeEditButton.pointType = .start
             cell.pointData = newUserCrewData?.startingPoint
         } else {
             if indexPath.row == addButtonIndex {
@@ -168,6 +170,8 @@ extension CrewEditViewController: UITableViewDataSource {
                     cell.setupXButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
                     cell.pointType = .destination
+                    cell.addressEditButton.pointType = .destination
+                    cell.timeEditButton.pointType = .destination
                     cell.pointData = newUserCrewData?.destination
                 }
             } else {
@@ -182,6 +186,8 @@ extension CrewEditViewController: UITableViewDataSource {
                     cell.setupXButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
                     cell.pointType = .destination
+                    cell.addressEditButton.pointType = .destination
+                    cell.timeEditButton.pointType = .destination
                     cell.pointData = newUserCrewData?.destination
                 } else {
                     /* 일반 경유지 셀 구성 */
@@ -191,7 +197,22 @@ extension CrewEditViewController: UITableViewDataSource {
                         for: .normal
                     )
                     cell.setupXButton(true) // x버튼 활성화
-                    cell.pointType = .stopover
+                    switch indexPath.row-1 {
+                    case 0:
+                        cell.pointType = .stopover1
+                        cell.addressEditButton.pointType = .stopover1
+                        cell.timeEditButton.pointType = .stopover1
+                    case 1:
+                        cell.pointType = .stopover2
+                        cell.addressEditButton.pointType = .stopover2
+                        cell.timeEditButton.pointType = .stopover2
+                    case 2:
+                        cell.pointType = .stopover3
+                        cell.addressEditButton.pointType = .stopover3
+                        cell.timeEditButton.pointType = .stopover3
+                    default:
+                        break
+                    }
                     cell.pointData = stopoverPoints[indexPath.row-1]
                 }
             }
@@ -219,8 +240,7 @@ extension CrewEditViewController: UITableViewDelegate {
 extension CrewEditViewController: PointEditTableViewCellDelegate {
 
     // MARK: - 시간 설정 버튼 클릭 시 호출되는 델리게이트 메서드
-    func timeEditButtonTapped(sender: UIButton) {
-        print("시간설정모달")
+    func timeEditButtonTapped(sender: TimeEditButton) {
         let timeSelectModalVC = TimeSelectModalViewController()
         // 시간 설정 모달에 넘겨줄 기존 시간값
         let originalTimeValue = Date.formattedDate(string: sender.titleLabel?.text ?? "오전 08:00", dateFormat: "aa hh:mm") ?? Date()
@@ -238,7 +258,7 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
     }
 
     // MARK: - 주소 설정 버튼 클릭 시 호출되는 델리게이트 메서드
-    func addressEditButtonTapped(sender: UIButton, pointType: PointType, pointData: Point) {
+    func addressEditButtonTapped(sender: AddressEditButton, pointType: PointType, pointData: Point) {
         let detailPointMapVC = SelectDetailPointMapViewController()
         // 상세주소 설정 뷰컨트롤러에 넘겨줄 기존 주소값
         let originalPointData = SelectAddressDTO(
