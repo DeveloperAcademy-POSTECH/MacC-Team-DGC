@@ -17,8 +17,8 @@ final class CrewEditViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
     var originalUserCrewData: Crew? // 불러온 유저의 크루 데이터
     var newUserCrewData: Crew? // 기존 크루 데이터 값을 편집하고 저장하기 위한 객체
-//    var crewPoints = [Point?]() // 출발지,경유지1,경유지2,경유지3,도착지 객체를 담는 배열 (없으면 nil)
-    var stopoverPoints = [Point?]() // 경유지를 담는 배열 (없으면 nil)
+    // 경유지를 담는 배열 (없으면 nil)
+    var stopoverPoints = [Point?]()
 
     init(userCrewData: Crew) {
         // TODO: - 실제 DB 데이터 받아오도록 수정
@@ -160,6 +160,7 @@ extension CrewEditViewController: UITableViewDataSource {
                 if addButtonIndex < 4 {
                     /* 추가버튼 셀 구성 */
                     cell.setupStopoverAddButton(true)
+                    cell.setupStopoverRemoveButton(false) // X버튼 비활성화
                     switch addButtonIndex {
                     case 1:
                         cell.stopoverAddButton.pointType = .stopover1
@@ -204,6 +205,7 @@ extension CrewEditViewController: UITableViewDataSource {
                     cell.pointData = newUserCrewData?.destination
                 } else {
                     /* 일반 경유지 셀 구성 */
+                    cell.setupStopoverAddButton(false)
                     cell.addressEditButton.setTitle(stopoverPoints[indexPath.row-1]?.name, for: .normal)
                     cell.timeEditButton.setTitle(
                         Date.formattedDate(from: stopoverPoints[indexPath.row-1]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
@@ -278,7 +280,7 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         let detailPointMapVC = SelectDetailPointMapViewController()
         // 상세주소 설정 뷰컨트롤러에 넘겨줄 기존 주소값
         let originalPointData = SelectAddressDTO(
-//            pointName: pointData.name,
+            pointName: pointType.rawValue,
             buildingName: pointData.name,
             detailAddress: pointData.detailAddress,
             coordinate: CLLocationCoordinate2D(
@@ -303,8 +305,28 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
     // MARK: - X 경유지 제거 버튼에 대한 액션 연결
     func stopoverRemoveButtonTapped(sender: StopoverRemoveButton) {
         print("sender: \(sender.pointType)")
+        print("업데이트 전")
+        for (idx, point) in stopoverPoints.enumerated() {
+            print("👉 stopoverPoint\(idx+1): \(point)")
+        }
         // TODO: - 구현 필요
         print("경유지 제거 버튼 클릭")
+        if sender.pointType == .stopover3 {
+            stopoverPoints[2] = nil
+        } else if sender.pointType == .stopover2 {
+            stopoverPoints[1] = stopoverPoints[2] // stopover3의 데이터를 stopover2로
+            stopoverPoints[2] = nil // stopover3의 데이터는 nil
+        } else if sender.pointType == .stopover1 {
+            stopoverPoints[0] = stopoverPoints[1] // stopover2의 데이터를 stopover1로
+            stopoverPoints[1] = stopoverPoints[2] // stopover3의 데이터를 stopover2로
+            stopoverPoints[2] = nil // stopover3의 데이터는 nil
+        }
+        updatePointChangeToNewCrewData(stopoverPoints: stopoverPoints) // 변경된 경유지 정보를 newUserCrewData에 업데이트
+        crewEditView.pointEditTableView.reloadData()
+        print("업데이트 후")
+        for (idx, point) in stopoverPoints.enumerated() {
+            print("✅ stopoverPoint\(idx+1): \(point)")
+        }
     }
 
     // MARK: - 경유지 추가 버튼에 대한 액션 연결
@@ -312,6 +334,13 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         print("sender: \(sender.pointType)")
         // TODO: - 구현 필요
         print("경유지 추가 버튼 클릭")
+    }
+
+    // stopoverPoints 배열의 내용에 맞게 stopover1, stopover2, stopover3의 데이터를 변경해주는 메서드
+    private func updatePointChangeToNewCrewData(stopoverPoints: [Point?]) {
+        newUserCrewData?.stopover1 = stopoverPoints[0]
+        newUserCrewData?.stopover2 = stopoverPoints[1]
+        newUserCrewData?.stopover3 = stopoverPoints[2]
     }
 }
 
