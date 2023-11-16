@@ -10,8 +10,8 @@ import UIKit
 // MARK: - 셀의 설정 버튼 탭 시 이벤트를 처리하기 위한 델리게이트 프로토콜
 protocol PointEditTableViewCellDelegate: AnyObject {
 
-    func timeEditButtonTapped(sender: UIButton)
-    func addressEditButtonTapped(sender: UIButton, pointType: PointType, pointData: Point)
+    func timeEditButtonTapped(sender: TimeEditButton)
+    func addressEditButtonTapped(sender: AddressEditButton, pointType: PointType, pointData: Point)
     func xButtonTapped(sender: UIButton)
     func addButtonTapped(sender: UIButton)
 }
@@ -26,21 +26,7 @@ final class PointEditTableViewCell: UITableViewCell {
     var pointData: Point?
 
     // 주소 설정 버튼
-    lazy var addressEditButton: UIButton = {
-        let addressEditButton = UIButton()
-        addressEditButton.setTitle("주소를 검색해주세요.", for: .normal)
-        addressEditButton.titleLabel?.font = UIFont.carmuFont.subhead2
-        addressEditButton.setTitleColor(UIColor.semantic.textTertiary, for: .normal)
-        addressEditButton.backgroundColor = UIColor.semantic.backgroundDefault
-        addressEditButton.layer.cornerRadius = 16
-        addressEditButton.layer.borderWidth = 1
-        addressEditButton.layer.borderColor = UIColor.semantic.stoke?.cgColor
-        addressEditButton.contentHorizontalAlignment = .leading
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
-        addressEditButton.configuration = config
-        return addressEditButton
-    }()
+    lazy var addressEditButton = AddressEditButton()
 
     // 시간 타입 라벨
     lazy var timeTypeLabel: UILabel = {
@@ -52,15 +38,7 @@ final class PointEditTableViewCell: UITableViewCell {
     }()
 
     // 시간 설정 버튼
-    lazy var timeEditButton: UIButton = {
-        let timeEditButton = UIButton()
-        timeEditButton.setTitle("오전 08:00", for: .normal)
-        timeEditButton.titleLabel?.font = UIFont.carmuFont.subhead3
-        timeEditButton.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
-        timeEditButton.backgroundColor = UIColor.semantic.backgroundThird
-        timeEditButton.layer.cornerRadius = 4
-        return timeEditButton
-    }()
+    lazy var timeEditButton = TimeEditButton()
 
     // 경유지 삭제 버튼
     lazy var xButton: UIButton = {
@@ -234,12 +212,12 @@ extension PointEditTableViewCell {
 extension PointEditTableViewCell {
 
     // 시간 설정 버튼에 액션 연결
-    @objc func timeEditButtonTapped(sender: UIButton) {
+    @objc func timeEditButtonTapped(sender: TimeEditButton) {
         pointEditTableViewCellDelegate?.timeEditButtonTapped(sender: sender)
     }
 
     // 주소 설정 버튼에 액션 연결
-    @objc func addressEditButtonTapped(sender: UIButton) {
+    @objc func addressEditButtonTapped(sender: AddressEditButton) {
         pointEditTableViewCellDelegate?.addressEditButtonTapped(sender: sender, pointType: pointType, pointData: pointData ?? Point())
     }
 

@@ -7,6 +7,8 @@
 
 enum PointType: String {
     case start = "출발지"
-    case stopover = "경유지"
+    case stopover1 = "경유지1"
+    case stopover2 = "경유지2"
+    case stopover3 = "경유지3"
     case destination = "도착지"
 }
