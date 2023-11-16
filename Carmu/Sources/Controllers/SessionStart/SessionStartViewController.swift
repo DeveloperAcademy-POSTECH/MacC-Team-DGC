@@ -54,6 +54,8 @@ final class SessionStartViewController: UIViewController {
                     sessionStartPassengerView.passengerFrontView.settingPassengerFrontData(crewData: crewData)
                     // BackView
                     sessionStartBackView.crewData = crewData
+                    sessionStartBackView.checkStopoverPoint(crewData: crewData)
+                    sessionStartBackView.settingBackData(crewData: crewData)
                 }
             } catch {
                 // 어떤 에러가 발생했을 경우

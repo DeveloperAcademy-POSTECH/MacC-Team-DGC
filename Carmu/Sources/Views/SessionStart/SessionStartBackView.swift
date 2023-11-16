@@ -152,8 +152,8 @@ final class SessionStartBackView: UIView {
         super.init(frame: .zero)
         setupBackView()
         setupConstraints()
-        checkStopoverPoint()
-        settingBackData()
+//        checkStopoverPoint()
+//        settingBackData()
     }
 
     required init?(coder: NSCoder) {
@@ -161,45 +161,49 @@ final class SessionStartBackView: UIView {
     }
 
     // TODO: - 실제 데이터로 변경
-    func settingBackData() {
-//        guard let crewData = crewData else { return }
+    func settingBackData(crewData: Crew?) {
+        guard let crewData = crewData else { return }
 
 //        startLocationLabel.text = crewData.startingPoint?.name ?? "없음"
-        startLocationLabel.text = "출발지"
-        startCrewMember.text = "배찌 레이"
-        startTimeLabel.text = "00:00"
+        DispatchQueue.main.async {
+            self.startLocationLabel.text = "출발지"
+            self.startCrewMember.text = "배찌 레이"
+            self.startTimeLabel.text = "00:00"
 
-        stopover1LeftView.locationName.text = "경유지11"
-        stopover1LeftView.crewMember.text = "테드"
-        stopover1RightView.arrivalTime.text = "11:11"
+            self.stopover1LeftView.locationName.text = "경유지11"
+            self.stopover1LeftView.crewMember.text = "테드"
+            self.stopover1RightView.arrivalTime.text = "11:11"
 
-        stopover2LeftView.locationName.text = "경유지22"
-        stopover2LeftView.crewMember.text = "젤리빈 젠"
-        stopover2RightView.arrivalTime.text = "22:22"
+            //        stopover2LeftView.locationName.text = "경유지22"
+            //        stopover2LeftView.crewMember.text = "젤리빈 젠"
+            //        stopover2RightView.arrivalTime.text = "22:22"
+            //
+            //        stopover3LeftView.locationName.text = "경유지33"
+            //        stopover3LeftView.crewMember.text = "우니"
+            //        stopover3RightView.arrivalTime.text = "33:33"
 
-        stopover3LeftView.locationName.text = "경유지33"
-        stopover3LeftView.crewMember.text = "우니"
-        stopover3RightView.arrivalTime.text = "33:33"
+            self.endLocationLabel.text = "도착지"
+            self.endTimeLabel.text = "00:00"
 
-        endLocationLabel.text = "도착지"
-        endTimeLabel.text = "00:00"
+            self.totalCrewMemeberLabel.text = "\(dummyCrewData?.crews.count ?? 0)명"
 
-        totalCrewMemeberLabel.text = "\(dummyCrewData?.crews.count ?? 0)명"
+            print("프린트---------> ", self.startLocationLabel.text ?? "")
+        }
     }
 
     // TODO: - 실제 데이터로 변경
-    func checkStopoverPoint() {
-        guard let crewData = dummyCrewData else { return }
+    func checkStopoverPoint(crewData: Crew?) {
+        guard let crewData = crewData else { return }
         if crewData.stopover1 == nil {
             return
         } else {
-            settingStopoverPoints()
+            settingStopoverPoints(crewData: crewData)
         }
     }
 
     // 경유지 관련 설정
-    private func settingStopoverPoints() {
-        guard let crewData = dummyCrewData else { return }
+    private func settingStopoverPoints(crewData: Crew?) {
+        guard let crewData = crewData else { return }
         // TODO: - 실제 데이터로 변경
         if crewData.stopover1 != nil, crewData.stopover2 == nil, crewData.stopover3 == nil {
             oneStopoverPoint(crewData: crewData)
@@ -289,20 +293,35 @@ extension SessionStartBackView {
     // 경유지1만 있을 때
     private func oneStopoverPoint(crewData: Crew?) {
         guard let crewData = crewData else { return }
+        print("oneStopoverPoint()")
 
-        setupOneStopoverUI(crewData: crewData)
+//        setupOneStopoverUI(crewData: crewData)
 
-        dotImage1.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.height.equalTo(8)
+        DispatchQueue.main.async {
+            self.addSubview(self.dotImage1)
+            self.addSubview(self.stopover1LeftView)
+            self.addSubview(self.stopover1RightView)
+            self.dotImage1.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+                make.width.height.equalTo(8)
+            }
+            self.stopover1LeftView.snp.makeConstraints { make in
+                make.leading.equalTo(self.startLocationLabel)
+                make.top.equalTo(self.dotImage1)
+            }
+            self.stopover1RightView.snp.makeConstraints { make in
+                make.leading.equalTo(self.startTimeLabel).offset(6)
+                make.top.equalTo(self.dotImage1)
+            }
+
+            self.updateConstraints()
         }
-
-        setupOneStopoverConstraints()
+//        setupOneStopoverConstraints()
     }
     // 경유지2까지 있을 때
     private func twoStopoverPoints() {
 
-        setupTwoStopoverUI()
+//        setupTwoStopoverUI()
 
         dotImage1.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -315,12 +334,12 @@ extension SessionStartBackView {
             make.width.height.equalTo(8)
         }
 
-        setupTwoStopoverConstraints()
+//        setupTwoStopoverConstraints()
     }
     // 경유지3까지 있을 때
     private func threeStopoverPoints() {
 
-        setupThreeStopoverUI()
+//        setupThreeStopoverUI()
 
         dotImage2.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -337,7 +356,7 @@ extension SessionStartBackView {
             make.width.height.equalTo(8)
         }
 
-        setupThressStopoverConstraints()
+//        setupThressStopoverConstraints()
     }
 
     // 경유지들 addSubview
@@ -347,18 +366,18 @@ extension SessionStartBackView {
         addSubview(stopover1RightView)
 
     }
-    private func setupTwoStopoverUI() {
-        setupOneStopoverUI(crewData: crewData)
-        addSubview(dotImage2)
-        addSubview(stopover2LeftView)
-        addSubview(stopover2RightView)
-    }
-    private func setupThreeStopoverUI() {
-        setupTwoStopoverUI()
-        addSubview(dotImage3)
-        addSubview(stopover3LeftView)
-        addSubview(stopover3RightView)
-    }
+//    private func setupTwoStopoverUI() {
+//        setupOneStopoverUI(crewData: crewData)
+//        addSubview(dotImage2)
+//        addSubview(stopover2LeftView)
+//        addSubview(stopover2RightView)
+//    }
+//    private func setupThreeStopoverUI() {
+//        setupTwoStopoverUI()
+//        addSubview(dotImage3)
+//        addSubview(stopover3LeftView)
+//        addSubview(stopover3RightView)
+//    }
 
     private func setupOneStopoverConstraints() {
         stopover1LeftView.snp.makeConstraints { make in
@@ -370,26 +389,26 @@ extension SessionStartBackView {
             make.top.equalTo(dotImage1)
         }
     }
-    private func setupTwoStopoverConstraints() {
-        setupOneStopoverConstraints()
-        stopover2LeftView.snp.makeConstraints { make in
-            make.leading.equalTo(startLocationLabel)
-            make.top.equalTo(dotImage2)
-        }
-        stopover2RightView.snp.makeConstraints { make in
-            make.leading.equalTo(startTimeLabel).offset(6)
-            make.top.equalTo(dotImage2)
-        }
-    }
-    private func setupThressStopoverConstraints() {
-        setupTwoStopoverConstraints()
-        stopover3LeftView.snp.makeConstraints { make in
-            make.leading.equalTo(startLocationLabel)
-            make.top.equalTo(dotImage3)
-        }
-        stopover3RightView.snp.makeConstraints { make in
-            make.leading.equalTo(startTimeLabel).offset(6)
-            make.top.equalTo(dotImage3)
-        }
-    }
+//    private func setupTwoStopoverConstraints() {
+//        setupOneStopoverConstraints()
+//        stopover2LeftView.snp.makeConstraints { make in
+//            make.leading.equalTo(startLocationLabel)
+//            make.top.equalTo(dotImage2)
+//        }
+//        stopover2RightView.snp.makeConstraints { make in
+//            make.leading.equalTo(startTimeLabel).offset(6)
+//            make.top.equalTo(dotImage2)
+//        }
+//    }
+//    private func setupThressStopoverConstraints() {
+//        setupTwoStopoverConstraints()
+//        stopover3LeftView.snp.makeConstraints { make in
+//            make.leading.equalTo(startLocationLabel)
+//            make.top.equalTo(dotImage3)
+//        }
+//        stopover3RightView.snp.makeConstraints { make in
+//            make.leading.equalTo(startTimeLabel).offset(6)
+//            make.top.equalTo(dotImage3)
+//        }
+//    }
 }
