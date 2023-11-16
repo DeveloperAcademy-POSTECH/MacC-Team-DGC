@@ -148,7 +148,7 @@ extension CrewEditViewController: UITableViewDataSource {
                 Date.formattedDate(from: newUserCrewData?.startingPoint?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                 for: .normal
             )
-            cell.setupRemoveButton(false) // X버튼 비활성화
+            cell.setupStopoverRemoveButton(false) // X버튼 비활성화
             cell.remakeStartPointLayout() // 출발지 레이아웃 재구성
             cell.pointType = .start
             cell.addressEditButton.pointType = .start
@@ -160,6 +160,16 @@ extension CrewEditViewController: UITableViewDataSource {
                 if addButtonIndex < 4 {
                     /* 추가버튼 셀 구성 */
                     cell.setupStopoverAddButton(true)
+                    switch addButtonIndex {
+                    case 1:
+                        cell.stopoverAddButton.pointType = .stopover1
+                    case 2:
+                        cell.stopoverAddButton.pointType = .stopover2
+                    case 3:
+                        cell.stopoverAddButton.pointType = .stopover3
+                    default:
+                        break
+                    }
                 } else {
                     /* 도착지 셀 구성 */
                     cell.addressEditButton.setTitle(newUserCrewData?.destination?.name, for: .normal)
@@ -168,7 +178,7 @@ extension CrewEditViewController: UITableViewDataSource {
                         Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
-                    cell.setupRemoveButton(false) // x버튼 비활성화
+                    cell.setupStopoverRemoveButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
                     cell.pointType = .destination
                     cell.addressEditButton.pointType = .destination
@@ -185,7 +195,7 @@ extension CrewEditViewController: UITableViewDataSource {
                         Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
-                    cell.setupRemoveButton(false) // x버튼 비활성화
+                    cell.setupStopoverRemoveButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
                     cell.pointType = .destination
                     cell.addressEditButton.pointType = .destination
@@ -199,7 +209,7 @@ extension CrewEditViewController: UITableViewDataSource {
                         Date.formattedDate(from: stopoverPoints[indexPath.row-1]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
-                    cell.setupRemoveButton(true) // x버튼 활성화
+                    cell.setupStopoverRemoveButton(true) // x버튼 활성화
                     switch indexPath.row-1 {
                     case 0:
                         cell.pointType = .stopover1
@@ -291,14 +301,15 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
     }
 
     // MARK: - X 경유지 제거 버튼에 대한 액션 연결
-    func stopoverRemoveButtonTapped(sender: StopoverRemoveXButton) {
+    func stopoverRemoveButtonTapped(sender: StopoverRemoveButton) {
         print("sender: \(sender.pointType)")
         // TODO: - 구현 필요
         print("경유지 제거 버튼 클릭")
     }
 
     // MARK: - 경유지 추가 버튼에 대한 액션 연결
-    func addButtonTapped(sender: UIButton) {
+    func stopoverAddButtonTapped(sender: StopoverAddButton) {
+        print("sender: \(sender.pointType)")
         // TODO: - 구현 필요
         print("경유지 추가 버튼 클릭")
     }

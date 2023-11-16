@@ -1,5 +1,5 @@
 //
-//  StopoverRemoveXButton.swift
+//  StopoverRemoveButton.swift
 //  Carmu
 //
 //  Created by 김영빈 on 2023/11/16.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-// MARK: - 경유지 삭제 X 버튼
-final class StopoverRemoveXButton: UIButton {
+// MARK: - 경유지 삭제 버튼
+final class StopoverRemoveButton: UIButton {
 
     // 어떤 장소의 버튼인지를 식별하기 위한 값 (출발지,경유지,도착지)
     var pointType: PointType?

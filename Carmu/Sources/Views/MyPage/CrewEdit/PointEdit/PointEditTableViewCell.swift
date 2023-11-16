@@ -12,8 +12,8 @@ protocol PointEditTableViewCellDelegate: AnyObject {
 
     func timeEditButtonTapped(sender: TimeEditButton)
     func addressEditButtonTapped(sender: AddressEditButton, pointType: PointType, pointData: Point)
-    func stopoverRemoveButtonTapped(sender: StopoverRemoveXButton)
-    func addButtonTapped(sender: UIButton)
+    func stopoverRemoveButtonTapped(sender: StopoverRemoveButton)
+    func stopoverAddButtonTapped(sender: StopoverAddButton)
 }
 
 // MARK: - 크루 편집 화면에서의 포인트 별 편집 테이블 뷰 셀
@@ -41,7 +41,7 @@ final class PointEditTableViewCell: UITableViewCell {
     lazy var timeEditButton = TimeEditButton()
 
     // 경유지 삭제 버튼
-    lazy var stopoverRemoveButton = StopoverRemoveXButton()
+    lazy var stopoverRemoveButton = StopoverRemoveButton()
 
     // 경유지 추가 버튼 뷰
     lazy var addButtonContainer: UIView = {
@@ -50,16 +50,8 @@ final class PointEditTableViewCell: UITableViewCell {
         return addButtonContainer
     }()
     // 경유지 추가 버튼
-    lazy var addButton: UIButton = {
-        let addButton = UIButton(type: .system)
-        addButton.setTitle("􀅼 경유지 추가", for: .normal)
-        addButton.titleLabel?.font = UIFont.carmuFont.subhead2
-        addButton.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        addButton.setBackgroundImage(UIImage(color: UIColor.semantic.accPrimary ?? .white), for: .normal)
-        addButton.layer.cornerRadius = 15
-        addButton.layer.masksToBounds = true
-        return addButton
-    }()
+    lazy var stopoverAddButton = StopoverAddButton()
+
     // 제한 안내 문구
     lazy var guideLabel: UILabel = {
         let guideLabel = UILabel()
@@ -75,7 +67,7 @@ final class PointEditTableViewCell: UITableViewCell {
         timeEditButton.addTarget(self, action: #selector(timeEditButtonTapped), for: .touchUpInside)
         addressEditButton.addTarget(self, action: #selector(addressEditButtonTapped), for: .touchUpInside)
         stopoverRemoveButton.addTarget(self, action: #selector(stopoverRemoveButtonTapped), for: .touchUpInside)
-        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        stopoverAddButton.addTarget(self, action: #selector(stopoverAddButtonTapped), for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) {
@@ -122,8 +114,8 @@ final class PointEditTableViewCell: UITableViewCell {
             make.centerY.equalToSuperview()
             make.height.equalTo(60)
         }
-        addButtonContainer.addSubview(addButton)
-        addButton.snp.makeConstraints { make in
+        addButtonContainer.addSubview(stopoverAddButton)
+        stopoverAddButton.snp.makeConstraints { make in
             make.leading.top.equalToSuperview()
             make.width.equalTo(107)
             make.height.equalTo(30)
@@ -151,11 +143,11 @@ extension PointEditTableViewCell {
             timeTypeLabel.isHidden = false
             timeEditButton.isHidden = false
         }
-        setupRemoveButton(isEnable)
+        setupStopoverRemoveButton(isEnable)
     }
 
-    // X 버튼 활성화 여부 메서드
-    func setupRemoveButton(_ isEnable: Bool) {
+    // 경유지 제거 버튼 활성화 여부 메서드
+    func setupStopoverRemoveButton(_ isEnable: Bool) {
         if isEnable {
             stopoverRemoveButton.isHidden = false
         } else {
@@ -215,12 +207,12 @@ extension PointEditTableViewCell {
     }
 
     // X 경유지 제거 버튼에 대한 액션 연결
-    @objc func stopoverRemoveButtonTapped(sender: StopoverRemoveXButton) {
+    @objc func stopoverRemoveButtonTapped(sender: StopoverRemoveButton) {
         pointEditTableViewCellDelegate?.stopoverRemoveButtonTapped(sender: sender)
     }
 
     // 경유지 추가 버튼에 대한 액션 연결
-    @objc func addButtonTapped(sender: UIButton) {
-        pointEditTableViewCellDelegate?.addButtonTapped(sender: sender)
+    @objc func stopoverAddButtonTapped(sender: StopoverAddButton) {
+        pointEditTableViewCellDelegate?.stopoverAddButtonTapped(sender: sender)
     }
 }

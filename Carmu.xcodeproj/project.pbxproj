@@ -61,7 +61,8 @@
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
 		B8F1F2472B0615790056B733 /* TimeEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1F2462B0615790056B733 /* TimeEditButton.swift */; };
 		B8F1F2492B06158F0056B733 /* AddressEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1F2482B06158F0056B733 /* AddressEditButton.swift */; };
-		B8F1F24B2B0616E10056B733 /* StopoverRemoveXButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1F24A2B0616E10056B733 /* StopoverRemoveXButton.swift */; };
+		B8F1F24B2B0616E10056B733 /* StopoverRemoveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1F24A2B0616E10056B733 /* StopoverRemoveButton.swift */; };
+		B8F1F24D2B0619140056B733 /* StopoverAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1F24C2B0619140056B733 /* StopoverAddButton.swift */; };
 		BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */; };
 		BF0C33022AE50AFB00A6D8FE /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */; };
 		BF0C33042AE51E7C00A6D8FE /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */; };
@@ -192,7 +193,8 @@
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
 		B8F1F2462B0615790056B733 /* TimeEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEditButton.swift; sourceTree = "<group>"; };
 		B8F1F2482B06158F0056B733 /* AddressEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEditButton.swift; sourceTree = "<group>"; };
-		B8F1F24A2B0616E10056B733 /* StopoverRemoveXButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverRemoveXButton.swift; sourceTree = "<group>"; };
+		B8F1F24A2B0616E10056B733 /* StopoverRemoveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverRemoveButton.swift; sourceTree = "<group>"; };
+		B8F1F24C2B0619140056B733 /* StopoverAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverAddButton.swift; sourceTree = "<group>"; };
 		BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -328,7 +330,8 @@
 				B87A22D92B051E8000D8DC49 /* PointType.swift */,
 				B8F1F2462B0615790056B733 /* TimeEditButton.swift */,
 				B8F1F2482B06158F0056B733 /* AddressEditButton.swift */,
-				B8F1F24A2B0616E10056B733 /* StopoverRemoveXButton.swift */,
+				B8F1F24A2B0616E10056B733 /* StopoverRemoveButton.swift */,
+				B8F1F24C2B0619140056B733 /* StopoverAddButton.swift */,
 			);
 			path = PointEdit;
 			sourceTree = "<group>";
@@ -908,7 +911,7 @@
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
 				BF0C33022AE50AFB00A6D8FE /* MapDetailView.swift in Sources */,
-				B8F1F24B2B0616E10056B733 /* StopoverRemoveXButton.swift in Sources */,
+				B8F1F24B2B0616E10056B733 /* StopoverRemoveButton.swift in Sources */,
 				C9D8E4DE2AF48172007570EE /* TimeSelectView.swift in Sources */,
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
 				C9D8E4EA2AF486B6007570EE /* CodeShareView.swift in Sources */,
@@ -944,6 +947,7 @@
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
 				163422362AFE636000196EB2 /* RuleDescriptionViewController.swift in Sources */,
 				C93116742AF3B5320014E702 /* SelectAddressView.swift in Sources */,
+				B8F1F24D2B0619140056B733 /* StopoverAddButton.swift in Sources */,
 				C93116802AF3B7E30014E702 /* SelectDetailPointMapView.swift in Sources */,
 				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,
 				1667F61D2AFC622400393111 /* CrewCollectionViewCell.swift in Sources */,
