@@ -144,6 +144,7 @@ extension CrewEditViewController: UITableViewDataSource {
         if indexPath.row == 0 {
             /* 출발지 셀 구성 */
             cell.addressEditButton.setTitle(newUserCrewData?.startingPoint?.name, for: .normal)
+            cell.setupDepartureLabel() // [출발] 시간 라벨
             cell.timeEditButton.setTitle(
                 Date.formattedDate(from: newUserCrewData?.startingPoint?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                 for: .normal
@@ -207,11 +208,13 @@ extension CrewEditViewController: UITableViewDataSource {
                     /* 일반 경유지 셀 구성 */
                     cell.setupStopoverAddButton(false)
                     cell.addressEditButton.setTitle(stopoverPoints[indexPath.row-1]?.name, for: .normal)
+                    cell.setupDepartureLabel() // [출발] 시간 라벨
                     cell.timeEditButton.setTitle(
                         Date.formattedDate(from: stopoverPoints[indexPath.row-1]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
                     cell.setupStopoverRemoveButton(true) // x버튼 활성화
+                    cell.remakeStopoverLayout() // 기존 경유지 레이아웃으로 재구성
                     switch indexPath.row-1 {
                     case 0:
                         cell.pointType = .stopover1
@@ -267,7 +270,7 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         timeSelectModalVC.timeSelectModalView.timePicker.date = originalTimeValue
 
         // 시간 설정 모달에서 선택된 값이 반영된다.
-        timeSelectModalVC.timeSelectionHandler = { [weak self] selectedTime in
+        timeSelectModalVC.timeSelectionHandler = { selectedTime in
             // TODO: - 새로운 시간값 처리
             sender.setTitle(Date.formattedDate(from: selectedTime, dateFormat: "aa hh:mm"), for: .normal)
         }
@@ -289,27 +292,44 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
             )
         )
         detailPointMapVC.selectAddressModel = originalPointData
-        detailPointMapVC.addressSelectionHandler = { [weak self] newPointData in
-            // TODO: - 새로운 주소값 처리
+        // 주소 설정 시 테이블뷰 UI 및 newUserCrewData에 반영
+        detailPointMapVC.addressSelectionHandler = { newPointData in
             sender.setTitle(newPointData.pointName, for: .normal)
+            switch sender.pointType {
+            case .start:
+                self.newUserCrewData?.startingPoint?.name = newPointData.pointName
+                self.newUserCrewData?.startingPoint?.detailAddress = newPointData.pointDetailAddress
+                self.newUserCrewData?.startingPoint?.latitude = newPointData.pointLat
+                self.newUserCrewData?.startingPoint?.longitude = newPointData.pointLng
+            case .destination:
+                self.newUserCrewData?.destination?.name = newPointData.pointName
+                self.newUserCrewData?.destination?.detailAddress = newPointData.pointDetailAddress
+                self.newUserCrewData?.destination?.latitude = newPointData.pointLat
+                self.newUserCrewData?.destination?.longitude = newPointData.pointLng
+            default:
+                self.stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.name = newPointData.pointName
+                self.stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.detailAddress = newPointData.pointDetailAddress
+                self.stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.latitude = newPointData.pointLat
+                self.stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.longitude = newPointData.pointLng
+                self.updatePointChangeToNewCrewData(stopoverPoints: self.stopoverPoints)
+            }
         }
         if pointType == .destination {
-            // TODO: - "경유지로 설정"도 있으면 rawValue로 넣어주기
             detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("도착지로 설정", for: .normal)
-        } else {
+        } else if pointType == .start {
             detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("출발지로 설정", for: .normal)
+        } else {
+            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("경유지로 설정", for: .normal)
         }
         present(detailPointMapVC, animated: true)
     }
 
     // MARK: - X 경유지 제거 버튼에 대한 액션 연결
     func stopoverRemoveButtonTapped(sender: StopoverRemoveButton) {
-        print("sender: \(sender.pointType)")
         print("업데이트 전")
         for (idx, point) in stopoverPoints.enumerated() {
-            print("👉 stopoverPoint\(idx+1): \(point)")
+            print("👉 stopoverPoint\(idx+1): \(String(describing: point))")
         }
-        // TODO: - 구현 필요
         print("경유지 제거 버튼 클릭")
         if sender.pointType == .stopover3 {
             stopoverPoints[2] = nil
@@ -325,15 +345,33 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         crewEditView.pointEditTableView.reloadData()
         print("업데이트 후")
         for (idx, point) in stopoverPoints.enumerated() {
-            print("✅ stopoverPoint\(idx+1): \(point)")
+            print("✅ stopoverPoint\(idx+1): \(String(describing: point))")
         }
     }
 
     // MARK: - 경유지 추가 버튼에 대한 액션 연결
     func stopoverAddButtonTapped(sender: StopoverAddButton) {
-        print("sender: \(sender.pointType)")
-        // TODO: - 구현 필요
+        print("업데이트 전")
+        for (idx, point) in stopoverPoints.enumerated() {
+            print("👉 stopoverPoint\(idx+1): \(String(describing: point))")
+        }
         print("경유지 추가 버튼 클릭")
+        switch sender.pointType {
+        case .stopover1:
+            stopoverPoints[0] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: 35.634, longitude: 128.523, arrivalTime: Date())
+        case .stopover2:
+            stopoverPoints[1] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: 35.634, longitude: 128.523, arrivalTime: Date())
+        case .stopover3:
+            stopoverPoints[2] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: 35.634, longitude: 128.523, arrivalTime: Date())
+        default:
+            break
+        }
+        updatePointChangeToNewCrewData(stopoverPoints: stopoverPoints) // 변경된 경유지 정보를 newUserCrewData에 업데이트
+        crewEditView.pointEditTableView.reloadData()
+        print("업데이트 후")
+        for (idx, point) in stopoverPoints.enumerated() {
+            print("✅ stopoverPoint\(idx+1): \(String(describing: point))")
+        }
     }
 
     // stopoverPoints 배열의 내용에 맞게 stopover1, stopover2, stopover3의 데이터를 변경해주는 메서드

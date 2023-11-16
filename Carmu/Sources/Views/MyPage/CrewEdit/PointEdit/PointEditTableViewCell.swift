@@ -187,9 +187,30 @@ extension PointEditTableViewCell {
         }
     }
 
+    // 경유지의 기본 레이아웃으로 재구성하는 메서드 (재사용 셀이기 때문에 레이아웃이 바뀔 수 있어서 필요함)
+    func remakeStopoverLayout() {
+        addressEditButton.snp.remakeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalTo(timeTypeLabel.snp.leading).offset(-20)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(34)
+        }
+        timeEditButton.snp.remakeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(84)
+            make.height.equalTo(30)
+        }
+    }
+
     // [도착 시간]으로 변경
     func setupArrivalLabel() {
         timeTypeLabel.text = "도착"
+    }
+
+    // [출발 시간]으로 변경
+    func setupDepartureLabel() {
+        timeTypeLabel.text = "출발"
     }
 }
 
