@@ -416,6 +416,10 @@ extension SessionStartViewController {
 
         // 운전자일 때
         if isCaptain {
+
+            // FirebaseManager methods
+            firebaseManager.driverTogetherButtonTapped(crewData: crewData)
+
             sessionStartView.individualButton.isHidden = true
             sessionStartView.togetherButton.isHidden = true
             sessionStartView.carpoolStartButton.isHidden = false
@@ -426,13 +430,11 @@ extension SessionStartViewController {
             // notifyComment 변경
             sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
 
-            checkingCrewStatus()
-
-            crewData?.sessionStatus = .accept
+            checkingCrewStatus(crewData: crewData)
             sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
         } else {    // 동승자일 때
             // FirebaseManager methods
-            firebaseManager.passengerTogetherButton()
+            firebaseManager.passengerTogetherButtonTapped(crewData: crewData)
 
             if crewData?.sessionStatus == .accept {  // 운전자가 운행할 때
                 sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
@@ -445,8 +447,8 @@ extension SessionStartViewController {
     }
 
     @objc private func carpoolStartButtonDidTapped() {
-        // 세션 시작으로 상태 변경
-        crewData?.sessionStatus = .sessionStart
+        // FirebaseManager methods
+        firebaseManager.carpoolStartButtonTapped(crewData: crewData)
 
         let mapView = MapViewController()
         mapView.modalPresentationStyle = .fullScreen
@@ -457,10 +459,10 @@ extension SessionStartViewController {
 
         // 운전자가 클릭했을 때
         if isCaptain {
-            settingIndividualButtonForDriver()
+            settingIndividualButtonForDriver(crewData: crewData)
             print("운전자 !")
         } else {    // 동승자가 클릭했을 때
-            settingIndividualButtonForPassenger()
+            settingIndividualButtonForPassenger(crewData: crewData)
         }
     }
 }
@@ -469,7 +471,10 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     // 운전자일 때
-    private func settingIndividualButtonForDriver() {
+    private func settingIndividualButtonForDriver(crewData: Crew?) {
+
+        // FirebaseManager methods
+        firebaseManager.driverIndividualButtonTapped(crewData: crewData)
 
         // 모든 경우에 같은 화면임
         sessionStartView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
@@ -483,11 +488,11 @@ extension SessionStartViewController {
     }
 
     // 동승자일 때
-    private func settingIndividualButtonForPassenger() {
+    private func settingIndividualButtonForPassenger(crewData: Crew?) {
         guard let crewData = crewData else { return }
 
         // FirebaseManager methods
-        firebaseManager.passengerIndividualButton()
+        firebaseManager.passengerIndividualButtonTapped(crewData: crewData)
 
         switch crewData.sessionStatus {
         case .waiting:
@@ -560,21 +565,22 @@ extension SessionStartViewController {
 
     // TODO: - 실제 데이터로 변경 및 데이터 값 변경될 때 Observer로 확인
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
-    private func checkingCrewStatus() {
-//        guard let crewData = dummyCrewData else { return }
-//
-//        // crewStatus를 순회하면서 .accept 상태의 크루원 확인
-//        let isAnyMemberAccepted = crewData.crewStatus.values.contains { status in
-//            return status == .accept
-//        }
-//
-//        if isAnyMemberAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
-//            sessionStartView.carpoolStartButton.isEnabled = true
-//            sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
-//        } else {    // 수락한 크루원이 없을 때
-//            sessionStartView.carpoolStartButton.isEnabled = false
-//            sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
-//        }
+    private func checkingCrewStatus(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        guard let memberStatus = crewData.memberStatus else { return }
+
+        // .accept 상태를 가진 크루원이 있는지 확인
+        let isAnyMemberAccepted = memberStatus.contains { member in
+            return member.status == .accept
+        }
+
+        if isAnyMemberAccepted {  // 수락한 크루원이 한 명이라도 있을 경우
+            sessionStartView.carpoolStartButton.isEnabled = true
+            sessionStartView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
+        } else {    // 수락한 크루원이 없을 때
+            sessionStartView.carpoolStartButton.isEnabled = false
+            sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
+        }
     }
 
     // 가이드 화면 보여주는 메서드
