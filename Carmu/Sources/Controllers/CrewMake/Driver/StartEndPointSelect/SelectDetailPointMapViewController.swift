@@ -19,7 +19,7 @@ final class SelectDetailPointMapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         view.addSubview(selectDetailPointMapView)
         selectDetailPointMapView.mapView.addCameraDelegate(delegate: self)

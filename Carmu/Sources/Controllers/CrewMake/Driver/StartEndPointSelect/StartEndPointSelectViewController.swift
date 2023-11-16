@@ -57,7 +57,7 @@ final class StartEndPointSelectViewController: UIViewController {
             for: .touchUpInside
         )
 
-        startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
         startEndPointSelectView.nextButton.isEnabled = false
 
         view.addSubview(startEndPointSelectView)

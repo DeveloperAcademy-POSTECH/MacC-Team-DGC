@@ -31,7 +31,7 @@ final class RepeatDaySelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         repeatDaySelectView.dayTableView.delegate = self
         repeatDaySelectView.dayTableView.dataSource = self

@@ -11,6 +11,21 @@ import UIKit
  주요 화면 상단에 표시되는 타이틀 텍스트의 Util
  */
 final class CrewMakeUtil {
+
+    /**
+     공통 그래디언트 배경색
+     */
+    static func backGroundLayer(_ view: UIView) -> CAGradientLayer {
+        let gradientLayer = CAGradientLayer()
+        gradientLayer.frame = view.bounds
+        gradientLayer.colors = [
+            UIColor.semantic.backgroundDefault?.cgColor as Any,
+            UIColor.semantic.backgroundSecond?.cgColor as Any
+        ]
+        gradientLayer.startPoint = CGPoint(x: 0.5, y: 0.0)
+        gradientLayer.endPoint = CGPoint(x: 0.5, y: 1.0)
+        return gradientLayer
+    }
     /**
      textPrimary색 제목
      */

@@ -25,7 +25,7 @@ final class StopoverPointSelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         stopoverPointSelectView.startPointView.text = crewData.startingPoint?.name
         stopoverPointSelectView.endPointView.text = crewData.destination?.name

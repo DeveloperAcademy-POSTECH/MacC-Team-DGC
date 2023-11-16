@@ -26,7 +26,7 @@ final class BoardingPointSelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         boardingPointSelectView.customTableVieWCell = {
             var buttons: [StopoverSelectButton] = []

@@ -17,7 +17,7 @@ final class InviteCodeInputViewController: UIViewController {
         super.viewDidLoad()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
 
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
         view.addSubview(inviteCodeInputView)
         inviteCodeInputView.codeSearchTextField.returnKeyType = .search
         inviteCodeInputView.codeSearchTextField.delegate = self
