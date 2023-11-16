@@ -11,7 +11,7 @@ import UIKit
 protocol PointEditTableViewCellDelegate: AnyObject {
 
     func timeEditButtonTapped(sender: TimeEditButton)
-    func addressEditButtonTapped(sender: AddressEditButton, pointType: PointType, pointData: Point)
+    func addressEditButtonTapped(sender: AddressEditButton)
     func stopoverRemoveButtonTapped(sender: StopoverRemoveButton)
     func stopoverAddButtonTapped(sender: StopoverAddButton)
 }
@@ -23,7 +23,6 @@ final class PointEditTableViewCell: UITableViewCell {
 
     static let cellIdentifier = "pointEditTableViewCell"
     var pointType: PointType = .start
-    var pointData: Point?
 
     // 주소 설정 버튼
     lazy var addressEditButton = AddressEditButton()
@@ -224,7 +223,7 @@ extension PointEditTableViewCell {
 
     // 주소 설정 버튼에 액션 연결
     @objc func addressEditButtonTapped(sender: AddressEditButton) {
-        pointEditTableViewCellDelegate?.addressEditButtonTapped(sender: sender, pointType: pointType, pointData: pointData ?? Point())
+        pointEditTableViewCellDelegate?.addressEditButtonTapped(sender: sender)
     }
 
     // X 경유지 제거 버튼에 대한 액션 연결
