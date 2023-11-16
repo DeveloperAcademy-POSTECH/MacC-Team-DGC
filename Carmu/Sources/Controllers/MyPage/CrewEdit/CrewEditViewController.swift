@@ -17,18 +17,17 @@ final class CrewEditViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
     var originalUserCrewData: Crew? // 불러온 유저의 크루 데이터
     var newUserCrewData: Crew? // 기존 크루 데이터 값을 편집하고 저장하기 위한 객체
-    var crewPoints = [Point?]() // 출발지,경유지1,경유지2,경유지3,도착지 객체를 담는 배열 (없으면 nil)
+//    var crewPoints = [Point?]() // 출발지,경유지1,경유지2,경유지3,도착지 객체를 담는 배열 (없으면 nil)
+    var stopoverPoints = [Point?]() // 경유지를 담는 배열 (없으면 nil)
 
     init(userCrewData: Crew) {
         // TODO: - 실제 DB 데이터 받아오도록 수정
         originalUserCrewData = dummyCrewData
         newUserCrewData = dummyCrewData
-        crewPoints = [
-            dummyCrewData?.startingPoint,
+        stopoverPoints = [
             dummyCrewData?.stopover1,
             dummyCrewData?.stopover2,
-            dummyCrewData?.stopover3,
-            dummyCrewData?.destination
+            dummyCrewData?.stopover3
         ]
         super.init(nibName: nil, bundle: nil)
     }
@@ -124,11 +123,11 @@ extension CrewEditViewController: UITableViewDataSource {
 
     // 섹션 별 row 수 반환
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let nonNilPointsCount = crewPoints.compactMap { $0 }.count // nil 아닌 포인트의 개수 (유효한 포인트의 개수)
-        if nonNilPointsCount == 5 {
+        let nonNilStopoverCount = stopoverPoints.compactMap { $0 }.count // nil 아닌 경유지 개수 (유효한 경유지의 개수)
+        if (nonNilStopoverCount+3) > 5 {
             return 5
         } else {
-            return nonNilPointsCount + 1
+            return nonNilStopoverCount + 3
         }
     }
 
@@ -138,21 +137,21 @@ extension CrewEditViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: PointEditTableViewCell.cellIdentifier, for: indexPath) as? PointEditTableViewCell else {
             return UITableViewCell()
         }
-        let nonNilPointsCount = crewPoints.compactMap { $0 }.count // nil 아닌 포인트의 개수 (유효한 포인트의 개수)
+        let nonNilStopoverCount = stopoverPoints.compactMap { $0 }.count // nil 아닌 경유지 개수 (유효한 경유지의 개수)
         // 경유지 추가 버튼이 들어갈 인덱스
-        let addButtonIndex = nonNilPointsCount - 1
+        let addButtonIndex = nonNilStopoverCount + 1
 
         if indexPath.row == 0 {
             /* 출발지 셀 구성 */
-            cell.addressEditButton.setTitle(crewPoints[indexPath.row]?.name, for: .normal)
+            cell.addressEditButton.setTitle(newUserCrewData?.startingPoint?.name, for: .normal)
             cell.timeEditButton.setTitle(
-                Date.formattedDate(from: crewPoints[indexPath.row]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
+                Date.formattedDate(from: newUserCrewData?.startingPoint?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                 for: .normal
             )
             cell.setupXButton(false) // X버튼 비활성화
             cell.remakeStartPointLayout() // 출발지 레이아웃 재구성
             cell.pointType = .start
-            cell.pointData = crewPoints[indexPath.row]
+            cell.pointData = newUserCrewData?.startingPoint
         } else {
             if indexPath.row == addButtonIndex {
                 if addButtonIndex < 4 {
@@ -160,40 +159,40 @@ extension CrewEditViewController: UITableViewDataSource {
                     cell.setupStopoverAddButton(true)
                 } else {
                     /* 도착지 셀 구성 */
-                    cell.addressEditButton.setTitle(crewPoints[indexPath.row]?.name, for: .normal)
+                    cell.addressEditButton.setTitle(newUserCrewData?.destination?.name, for: .normal)
                     cell.setupArrivalLabel() // [도착] 시간 라벨
                     cell.timeEditButton.setTitle(
-                        Date.formattedDate(from: crewPoints[indexPath.row]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
+                        Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
                     cell.setupXButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
-                    cell.pointType = .end
-                    cell.pointData = crewPoints[indexPath.row]
+                    cell.pointType = .destination
+                    cell.pointData = newUserCrewData?.destination
                 }
             } else {
-                if indexPath.row == nonNilPointsCount {
+                if indexPath.row == nonNilStopoverCount + 2 {
                     /* 도착지 셀 구성 */
-                    cell.addressEditButton.setTitle(crewPoints[4]?.name, for: .normal)
+                    cell.addressEditButton.setTitle(newUserCrewData?.destination?.name, for: .normal)
                     cell.setupArrivalLabel() // [도착] 시간 라벨
                     cell.timeEditButton.setTitle(
-                        Date.formattedDate(from: crewPoints[4]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
+                        Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
                     cell.setupXButton(false) // x버튼 비활성화
                     cell.remakeEndPointLayout() // 도착지 레이아웃 구성
-                    cell.pointType = .end
-                    cell.pointData = crewPoints[indexPath.row]
+                    cell.pointType = .destination
+                    cell.pointData = newUserCrewData?.destination
                 } else {
                     /* 일반 경유지 셀 구성 */
-                    cell.addressEditButton.setTitle(crewPoints[indexPath.row]?.name, for: .normal)
+                    cell.addressEditButton.setTitle(stopoverPoints[indexPath.row-1]?.name, for: .normal)
                     cell.timeEditButton.setTitle(
-                        Date.formattedDate(from: crewPoints[indexPath.row]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
+                        Date.formattedDate(from: stopoverPoints[indexPath.row-1]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
                     cell.setupXButton(true) // x버튼 활성화
                     cell.pointType = .stopover
-                    cell.pointData = crewPoints[indexPath.row]
+                    cell.pointData = stopoverPoints[indexPath.row-1]
                 }
             }
         }
@@ -207,11 +206,11 @@ extension CrewEditViewController: UITableViewDelegate {
 
     // 행 높이
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let nonNilPointsCount = crewPoints.compactMap { $0 }.count // nil 아닌 포인트의 개수 (유효한 포인트의 개수)
-        if nonNilPointsCount == 5 {
+        let nonNilStopoverCount = stopoverPoints.compactMap { $0 }.count // nil 아닌 경유지의 개수 (유효한 경유지의 개수)
+        if (nonNilStopoverCount+3) > 5 {
             return crewEditView.colorLine.frame.height / CGFloat(5)
         } else {
-            return crewEditView.colorLine.frame.height / CGFloat(nonNilPointsCount + 1)
+            return crewEditView.colorLine.frame.height / CGFloat(nonNilStopoverCount + 3)
         }
     }
 }
@@ -256,7 +255,7 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
             // TODO: - 새로운 주소값 처리
             sender.setTitle(newPointData.pointName, for: .normal)
         }
-        if pointType == .end {
+        if pointType == .destination {
             // TODO: - "경유지로 설정"도 있으면 rawValue로 넣어주기
             detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("도착지로 설정", for: .normal)
         } else {
