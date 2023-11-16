@@ -96,6 +96,9 @@ var dummyCrewData: Crew? = Crew(
         arrivalTime: Date(),
         crews: ["bazzi"]
     ),
+//    stopover1: nil,
+//    stopover2: nil,
+//    stopover3: nil,
     destination: Point(
         name: "C5",
         detailAddress: "경상북도 포항시 남구 지곡로 80",

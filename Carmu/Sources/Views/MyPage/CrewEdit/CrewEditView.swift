@@ -47,20 +47,14 @@ final class CrewEditView: UIView {
     // 좌측 경로 표시 선
     let colorLine = CrewMakeUtil.createColorLineView()
 
-    // 경유지들에 대한 설정 뷰를 쌓을 스택 뷰
-    let stopoverStackView: UIStackView = {
-        let stopoverStackView = UIStackView()
-        stopoverStackView.axis = .vertical
-        stopoverStackView.distribution = .equalSpacing
-        stopoverStackView.spacing = 52
-        return stopoverStackView
+    // 경로 편집 테이블 뷰
+    let pointEditTableView: UITableView = {
+        let pointEditTableView = UITableView()
+        pointEditTableView.backgroundColor = .gray
+        pointEditTableView.separatorStyle = .none
+        pointEditTableView.isScrollEnabled = false
+        return pointEditTableView
     }()
-
-    let startPoint = PointEditView(pointType: .start, pointData: Point(), isDeparture: false)
-    let endPoint = PointEditView(pointType: .end, pointData: Point(), isDeparture: false)
-    lazy var stopover1 = PointEditView(pointType: .stopover1, pointData: Point(), isDeparture: false)
-    lazy var stopover2 = PointEditView(pointType: .stopover2, pointData: Point(), isDeparture: false)
-    lazy var stopover3 = PointEditView(pointType: .stopover3, pointData: Point(), isDeparture: false)
 
     // 경유지 추가 버튼
     let stopoverAddButton = StopoverPointAddButtonView()
@@ -92,38 +86,12 @@ final class CrewEditView: UIView {
             make.bottom.equalToSuperview().inset(179)
         }
 
-        // 출발지
-        addSubview(startPoint)
-        startPoint.snp.makeConstraints { make in
-            make.top.equalTo(colorLine)
+        addSubview(pointEditTableView)
+        pointEditTableView.snp.makeConstraints { make in
+            make.top.bottom.equalTo(colorLine)
             make.leading.equalTo(colorLine.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(54)
         }
-        // 도착지
-        addSubview(endPoint)
-        endPoint.snp.makeConstraints { make in
-            make.bottom.equalTo(colorLine)
-            make.leading.equalTo(startPoint)
-            make.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(54)
-        }
-
-        // 경유지
-        addSubview(stopoverStackView)
-        stopoverStackView.snp.makeConstraints { make in
-            make.leading.equalTo(colorLine.snp.trailing).offset(12)
-            make.trailing.equalToSuperview().inset(20)
-            make.centerY.equalTo(colorLine)
-        }
-        stopover1.snp.makeConstraints { make in
-            make.height.equalTo(62)
-        }
-        stopover2.snp.makeConstraints { make in
-            make.height.equalTo(62)
-        }
-        stopover3.snp.makeConstraints { make in
-            make.height.equalTo(62)
-        }
+        
     }
 }
