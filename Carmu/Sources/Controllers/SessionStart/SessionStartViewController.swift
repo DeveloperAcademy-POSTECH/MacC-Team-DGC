@@ -436,7 +436,7 @@ extension SessionStartViewController {
             sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
         } else {    // 동승자일 때
             // FirebaseManager methods
-            firebaseManager.passengerTogetherButton()
+            firebaseManager.passengerTogetherButton(crewData: crewData)
 
             if crewData?.sessionStatus == .accept {  // 운전자가 운행할 때
                 sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
@@ -464,7 +464,7 @@ extension SessionStartViewController {
             settingIndividualButtonForDriver(crewData: crewData)
             print("운전자 !")
         } else {    // 동승자가 클릭했을 때
-            settingIndividualButtonForPassenger()
+            settingIndividualButtonForPassenger(crewData: crewData)
         }
     }
 }
@@ -490,11 +490,11 @@ extension SessionStartViewController {
     }
 
     // 동승자일 때
-    private func settingIndividualButtonForPassenger() {
+    private func settingIndividualButtonForPassenger(crewData: Crew?) {
         guard let crewData = crewData else { return }
 
         // FirebaseManager methods
-        firebaseManager.passengerIndividualButton()
+        firebaseManager.passengerIndividualButton(crewData: crewData)
 
         switch crewData.sessionStatus {
         case .waiting:
