@@ -13,7 +13,7 @@ final class StopoverPointCheckView: UIView {
 
     private lazy var titleStackView = UIStackView()
 
-    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "여정의 ")
+    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀의 ")
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "경유지")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "가 있으신가요?")
 
@@ -54,17 +54,17 @@ final class StopoverPointCheckView: UIView {
         }
 
         noStopoverButton.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
             make.leading.equalToSuperview().inset(20)
-            make.top.equalTo(titleStackView.snp.bottom).offset(176)
-            make.width.equalTo(165)
+            make.trailing.equalTo((superview?.snp.centerX) ?? 0).offset(-10)
             make.height.equalTo(240)
         }
 
         yesStopoverButton.snp.makeConstraints { make in
+            make.top.equalTo(noStopoverButton)
+            make.leading.equalTo((superview?.snp.centerX) ?? 0).offset(10)
             make.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(noStopoverButton.snp.top)
-            make.leading.greaterThanOrEqualTo(noStopoverButton.snp.trailing).offset(2)
-            make.width.height.equalTo(noStopoverButton)
+            make.height.equalTo(noStopoverButton)
         }
     }
 }

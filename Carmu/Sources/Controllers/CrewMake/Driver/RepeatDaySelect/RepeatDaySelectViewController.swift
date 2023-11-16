@@ -31,12 +31,15 @@ final class RepeatDaySelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         repeatDaySelectView.dayTableView.delegate = self
         repeatDaySelectView.dayTableView.dataSource = self
         repeatDaySelectView.dayTableView.allowsMultipleSelection = true
         repeatDaySelectView.dayTableView.register(UITableViewCell.self, forCellReuseIdentifier: "repeatDayCell")
+
+        repeatDaySelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        repeatDaySelectView.nextButton.isEnabled = false
 
         setupAddTarget()
         view.addSubview(repeatDaySelectView)

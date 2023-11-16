@@ -334,12 +334,12 @@ extension DriverFrontView: UICollectionViewDelegateFlowLayout {
         let cellSpacing: CGFloat = 10 // 셀 간격
         let numberOfCellsPerRow: Int = 4 // 한 줄에 표시할 셀 개수
 
-        let totalCellWidth: CGFloat = CGFloat(dummyCrewData?.memberStatus?.count ?? 0) * cellWidth
-        let totalSpacing: CGFloat = CGFloat(dummyCrewData?.memberStatus?.count ?? 0 - 1) * cellSpacing
+        let totalCellWidth: CGFloat = CGFloat(crewData?.memberStatus?.count ?? 0) * cellWidth
+        let totalSpacing: CGFloat = CGFloat(crewData?.memberStatus?.count ?? 0 - 1) * cellSpacing
         let totalWidth: CGFloat = totalCellWidth + totalSpacing
         let horizontalInset: CGFloat
 
-        if dummyCrewData?.memberStatus?.count ?? 0 <= numberOfCellsPerRow {
+        if crewData?.memberStatus?.count ?? 0 <= numberOfCellsPerRow {
             // 4개 이하인 경우, 한 줄로 표시
             horizontalInset = (collectionView.frame.width - totalWidth) / 2
             return UIEdgeInsets(top: 50, left: horizontalInset, bottom: 0, right: horizontalInset)
