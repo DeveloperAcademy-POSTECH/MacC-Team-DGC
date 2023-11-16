@@ -7,6 +7,8 @@
 
 import UIKit
 
+import SnapKit
+
 // MARK: - 마이페이지(운전자) 크루 정보 확인 뷰
 final class CrewInfoCheckView: UIView {
 

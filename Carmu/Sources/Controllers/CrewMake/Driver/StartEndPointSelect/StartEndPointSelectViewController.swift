@@ -10,14 +10,11 @@ import UIKit
 final class StartEndPointSelectViewController: UIViewController {
 
     private let startEndPointSelectView = StartEndPointSelectView()
-    var crewData = Crew(crews: [UserIdentifier](), memberStatus: [MemeberStatus]())
+    var crewData = Crew(crews: [UserIdentifier](), memberStatus: [MemberStatus]())
 
     private var startPointAddress: String? {
         didSet {
-            startEndPointSelectView.startPointView.button.setTitle(
-                "     " + (startPointAddress ?? ""),
-                for: .normal
-            )
+            startEndPointSelectView.startPointView.button.setTitle("     " + (startPointAddress ?? ""), for: .normal)
             if endPointAddress != nil {
                 startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
                 startEndPointSelectView.nextButton.isEnabled = true
@@ -26,10 +23,7 @@ final class StartEndPointSelectViewController: UIViewController {
     }
     private var endPointAddress: String? {
         didSet {
-            startEndPointSelectView.endPointView.button.setTitle(
-                "     " + (endPointAddress ?? ""),
-                for: .normal
-            )
+            startEndPointSelectView.endPointView.button.setTitle("     " + (endPointAddress ?? ""), for: .normal)
             if startPointAddress != nil {
                 startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.accPrimary
                 startEndPointSelectView.nextButton.isEnabled = true
@@ -39,7 +33,7 @@ final class StartEndPointSelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         startEndPointSelectView.startPointView.button.addTarget(
             self,
@@ -57,7 +51,7 @@ final class StartEndPointSelectViewController: UIViewController {
             for: .touchUpInside
         )
 
-        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
+        startEndPointSelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
         startEndPointSelectView.nextButton.isEnabled = false
 
         view.addSubview(startEndPointSelectView)
@@ -98,18 +92,12 @@ extension StartEndPointSelectViewController {
 
             if sender == self?.startEndPointSelectView.startPointView.button {
                 self?.startPointAddress = addressDTO.pointName
-                self?.startEndPointSelectView.startPointView.button.setTitleColor(
-                    UIColor.semantic.textTertiary,
-                    for: .normal
-                )
+                self?.startEndPointSelectView.startPointView.button.setTitleColor(UIColor.semantic.textTertiary, for: .normal)
                 self?.startEndPointSelectView.startPointView.button.titleLabel?.font = UIFont.carmuFont.subhead2
                 self?.crewData.startingPoint = point
             } else {
                 self?.endPointAddress = addressDTO.pointName
-                self?.startEndPointSelectView.endPointView.button.setTitleColor(
-                    UIColor.semantic.textTertiary,
-                    for: .normal
-                 )
+                self?.startEndPointSelectView.endPointView.button.setTitleColor(UIColor.semantic.textTertiary, for: .normal)
                 self?.startEndPointSelectView.endPointView.button.titleLabel?.font = UIFont.carmuFont.subhead2
                 self?.crewData.destination = point
             }

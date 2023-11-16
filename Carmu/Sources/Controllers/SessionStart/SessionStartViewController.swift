@@ -18,6 +18,7 @@ final class SessionStartViewController: UIViewController {
     private let sessionStartView = SessionStartView()
     private lazy var sessionStartDriverView = SessionStartDriverView()
     private lazy var sessionStartPassengerView = SessionStartPassengerView()
+    private lazy var sessionStartBackView = SessionStartBackView()
     private lazy var sessionStartNoCrewView = SessionStartNoCrewView()
     private lazy var firebaseManager = FirebaseManager()
 
@@ -35,7 +36,7 @@ final class SessionStartViewController: UIViewController {
         Task {
             do {
                 showActivityIndicator()
-                let crewData = try await firebaseManager.getCrewData()
+                crewData = try await firebaseManager.getCrewData()
                 hideActivityIndicator()
                 setupUI()
                 setupConstraints()
@@ -49,6 +50,10 @@ final class SessionStartViewController: UIViewController {
                     sessionStartDriverView.driverFrontView.settingDriverFrontData(crewData: crewData)
                     sessionStartDriverView.driverFrontView.crewData = crewData
                     sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
+                    // PassengerView
+                    sessionStartPassengerView.passengerFrontView.settingPassengerFrontData(crewData: crewData)
+                    // BackView
+                    sessionStartBackView.crewData = crewData
                 }
             } catch {
                 // 어떤 에러가 발생했을 경우
@@ -64,14 +69,6 @@ final class SessionStartViewController: UIViewController {
             SceneDelegate.isCrewCreated = false // 변경을 처리한 후 다시 초기화
         }
     }
-
-    // 가이드 화면 보여주는 메서드
-    private func showGuide() {
-        let ruleDescriptionViewController = RuleDescriptionViewController()
-        ruleDescriptionViewController.modalPresentationStyle = .overCurrentContext
-        present(ruleDescriptionViewController, animated: true)
-    }
-
 }
 
 // MARK: Layout
@@ -98,15 +95,11 @@ extension SessionStartViewController {
         let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "카뮤") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         if let range2 = sessionStartView.topComment.text?.range(of: "카풀 생활") {
             let nsRange2 = NSRange(range2, in: sessionStartView.topComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange2)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange2)
         }
         sessionStartView.topComment.attributedText = attributedText
 
@@ -147,7 +140,7 @@ extension SessionStartViewController {
             settingDriverView(crewData: crewData)
         } else {
             print("동승자임")
-            settingPassengerView()
+            settingPassengerView(crewData: crewData)
         }
     }
 
@@ -156,7 +149,7 @@ extension SessionStartViewController {
         if isCaptain {
             settingDriverData(crewData: crewData)
         } else {
-            settingPassengerData()
+            settingPassengerData(crewData: crewData)
         }
     }
 
@@ -180,9 +173,8 @@ extension SessionStartViewController {
     }
 
     // 동승자일 때
-    private func settingPassengerData() {
-        guard let crewData = dummyCrewData else { return }
-
+    private func settingPassengerData(crewData: Crew?) {
+        guard let crewData = crewData else { return }
         switch crewData.sessionStatus {
         case .waiting:
             sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = true
@@ -235,9 +227,7 @@ extension SessionStartViewController {
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         sessionStartView.topComment.attributedText = topCommentText
 
@@ -246,15 +236,11 @@ extension SessionStartViewController {
         let attributedText = NSMutableAttributedString(string: sessionStartView.notifyComment.text ?? "")
         if let range1 = sessionStartView.notifyComment.text?.range(of: "현재 운행중인 카풀") {
             let nsRange1 = NSRange(range1, in: sessionStartView.notifyComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.textTertiary as Any,
-                                        range: nsRange1)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange1)
         }
         if let range2 = sessionStartView.notifyComment.text?.range(of: "카풀 지도보기") {
             let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.textTertiary as Any,
-                                        range: nsRange2)
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange2)
         }
         sessionStartView.notifyComment.attributedText = attributedText
     }
@@ -268,14 +254,14 @@ extension SessionStartViewController {
         // 비활성화
         sessionStartDriverView.layer.opacity = 0.5
         // comment
-        sessionStartView.topComment.text = "\(crewData.name ?? "그룹명"),\n오늘 운행하시나요?"
+        let crewName = crewData.name ?? ""
+
+        sessionStartView.topComment.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(String(describing: crewName))") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         sessionStartView.topComment.attributedText = topCommentText
 
@@ -283,9 +269,7 @@ extension SessionStartViewController {
         let notifyCommentText = NSMutableAttributedString(string: sessionStartView.notifyComment.text ?? "")
         if let range2 = sessionStartView.notifyComment.text?.range(of: "30분 전") {
             let nsRange2 = NSRange(range2, in: sessionStartView.notifyComment.text ?? "")
-            notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                           value: UIColor.semantic.textPrimary as Any,
-                                           range: nsRange2)
+            notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textPrimary as Any, range: nsRange2)
         }
         sessionStartView.notifyComment.attributedText = notifyCommentText
 
@@ -348,15 +332,17 @@ extension SessionStartViewController {
 // MARK: - 크루가 있을 때 - 크루원일 때
 extension SessionStartViewController {
 
-    private func settingPassengerView() {
-        sessionStartView.topComment.text = "\(dummyCrewData?.name ?? "그룹명")과\n함께 가시나요?"
+    private func settingPassengerView(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+
+        let crewName = crewData.name ?? ""
+
+        sessionStartView.topComment.text = "\(String(describing: crewName))과\n함께 가시나요?"
         // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
-        if let range1 = sessionStartView.topComment.text?.range(of: "\(dummyCrewData?.name ?? "그룹명")") {
+        if let range1 = sessionStartView.topComment.text?.range(of: "\(String(describing: crewName))") {
             let nsRange1 = NSRange(range1, in: sessionStartView.topComment.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         sessionStartView.topComment.attributedText = topCommentText
 
@@ -429,7 +415,7 @@ extension SessionStartViewController {
     @objc private func togetherButtonDidTapped() {
 
         // 운전자일 때
-        if isCaptainDummy() {
+        if isCaptain {
             sessionStartView.individualButton.isHidden = true
             sessionStartView.togetherButton.isHidden = true
             sessionStartView.carpoolStartButton.isHidden = false
@@ -442,11 +428,13 @@ extension SessionStartViewController {
 
             checkingCrewStatus()
 
-            // TODO: - 실제 데이터로 변경
-            dummyCrewData?.sessionStatus = .accept
+            crewData?.sessionStatus = .accept
             sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
         } else {    // 동승자일 때
-            if dummyCrewData?.sessionStatus == .accept {  // 운전자가 운행할 때
+            // FirebaseManager methods
+            firebaseManager.passengerTogetherButton()
+
+            if crewData?.sessionStatus == .accept {  // 운전자가 운행할 때
                 sessionStartPassengerView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
                 sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
             }
@@ -458,19 +446,19 @@ extension SessionStartViewController {
 
     @objc private func carpoolStartButtonDidTapped() {
         // 세션 시작으로 상태 변경
-        dummyCrewData?.sessionStatus = .sessionStart
+        crewData?.sessionStatus = .sessionStart
 
         let mapView = MapViewController()
         mapView.modalPresentationStyle = .fullScreen
         present(mapView, animated: true, completion: nil)
     }
 
-    // TODO: - 실제 데이터로 변경
     @objc private func individualButtonDidTapped() {
 
         // 운전자가 클릭했을 때
-        if isCaptainDummy() {
+        if isCaptain {
             settingIndividualButtonForDriver()
+            print("운전자 !")
         } else {    // 동승자가 클릭했을 때
             settingIndividualButtonForPassenger()
         }
@@ -496,7 +484,10 @@ extension SessionStartViewController {
 
     // 동승자일 때
     private func settingIndividualButtonForPassenger() {
-        guard let crewData = dummyCrewData else { return }
+        guard let crewData = crewData else { return }
+
+        // FirebaseManager methods
+        firebaseManager.passengerIndividualButton()
 
         switch crewData.sessionStatus {
         case .waiting:
@@ -549,7 +540,6 @@ extension SessionStartViewController {
             settingCrewView(crewData: crewData)
         } else {
             // 데이터가 아직 로드되지 않았거나 로드 실패한 경우
-            // TODO: - 확인해보기 !
             settingNoCrewView()
         }
     }
@@ -557,15 +547,9 @@ extension SessionStartViewController {
     /// 버튼들 addTarget
     private func setTargetButton() {
         sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
-        sessionStartView.individualButton.addTarget(self,
-                                                    action: #selector(individualButtonDidTapped),
-                                                    for: .touchUpInside)
-        sessionStartView.togetherButton.addTarget(self,
-                                                  action: #selector(togetherButtonDidTapped),
-                                                  for: .touchUpInside)
-        sessionStartView.carpoolStartButton.addTarget(self,
-                                                      action: #selector(carpoolStartButtonDidTapped),
-                                                      for: .touchUpInside)
+        sessionStartView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
+        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
+        sessionStartView.carpoolStartButton.addTarget(self, action: #selector(carpoolStartButtonDidTapped), for: .touchUpInside)
     }
 
     // TODO: - Firebase 형식에 맞게 변경
@@ -592,6 +576,13 @@ extension SessionStartViewController {
 //            sessionStartView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
 //        }
     }
+
+    // 가이드 화면 보여주는 메서드
+    private func showGuide() {
+        let ruleDescriptionViewController = RuleDescriptionViewController()
+        ruleDescriptionViewController.modalPresentationStyle = .overCurrentContext
+        present(ruleDescriptionViewController, animated: true)
+    }
 }
 
 extension SessionStartViewController {
@@ -607,5 +598,11 @@ extension SessionStartViewController {
         }
         print("FCMToken -> ", fcmToken)
         databasePath.child("deviceToken").setValue(fcmToken as NSString)
+    }
+}
+
+extension SessionStartViewController {
+    func showCarpoolFinishedModal() {
+        present(SessionFinishViewController(), animated: true)
     }
 }

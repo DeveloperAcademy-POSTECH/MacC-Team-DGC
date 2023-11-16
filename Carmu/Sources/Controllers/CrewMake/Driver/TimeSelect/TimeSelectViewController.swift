@@ -74,11 +74,7 @@ final class TimeSelectViewController: UIViewController {
         super.viewDidLoad()
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
-        timeSelectView.nextButton.addTarget(
-            self,
-            action: #selector(nextButtonTapped),
-            for: .touchUpInside
-        )
+        timeSelectView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         for element in timeSelectView.customTableVieWCell {
             element.detailTimeButton.addTarget(self, action: #selector(setTimeButtonTapped), for: .touchUpInside)
         }
@@ -184,7 +180,7 @@ struct TSViewControllerRepresentable: UIViewControllerRepresentable {
         return TimeSelectViewController(
             crewData: Crew(
                 crews: [UserIdentifier](),
-                memberStatus: [MemeberStatus]()
+                memberStatus: [MemberStatus]()
             )
         )
     }

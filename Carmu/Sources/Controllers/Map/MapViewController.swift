@@ -23,7 +23,7 @@ struct Points {
     let pickupLocation1: Coordinate? = Coordinate(lat: 36.00609523, lng: 129.32232291)
     let pickupLocation2: Coordinate? = Coordinate(lat: 36.00739176, lng: 129.32907574)
     let pickupLocation3: Coordinate? = nil
-    let destination = Coordinate(lat: 36.0108783, lng: 129.327818)
+    let destination = Coordinate(lat: 36.01449161092546, lng: 129.32561818469742)
 }
 // Firebase 데이터 받아오기 전까지만 사용하는 더미데이터
 
@@ -38,19 +38,25 @@ final class MapViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
 
     private let isDriver = true
+    // [동승자] 내 현재 위치
+    private var myCurrentCoordinate: CLLocationCoordinate2D?
 
     private let pathOverlay = {
         let pathOverlay = NMFPath()
         pathOverlay.color = UIColor.theme.blue6 ?? .blue
         pathOverlay.outlineColor = UIColor.theme.blue3 ?? .blue
+        pathOverlay.width = 8
+        if let uiImage = UIImage(named: "triangle") {
+            pathOverlay.patternIcon = NMFOverlayImage(image: uiImage)
+            pathOverlay.patternInterval = 10
+        }
         return pathOverlay
     }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        if isDriver {
-            startUpdatingLocation()
-        } else {
+        startUpdatingLocation()
+        if !isDriver {
             firebaseManager.startObservingDriveLocation { latitude, longitude in
                 self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
             }
@@ -58,16 +64,38 @@ final class MapViewController: UIViewController {
         showNaverMap()
         fetchDirections()
         mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        mapView.currentLocationButton.addTarget(self, action: #selector(currentLocationButtonDidTap), for: .touchUpInside)
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
+        detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        initCameraUpdate()
+        if !isDriver {
+            mapView.showCurrentLocationButton()
+        }
     }
 
     @objc private func backButtonDidTap() {
         dismiss(animated: true)
     }
 
+    @objc private func currentLocationButtonDidTap() {
+        guard let myCurrentCoordinate = myCurrentCoordinate else { return }
+        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: myCurrentCoordinate)))
+    }
+
     @objc private func showNoticeLateModal() {
         present(NoticeLateViewController(), animated: true)
+    }
+
+    @objc private func finishCarpoolButtonDidTap() {
+        guard let pnc = presentingViewController as? UINavigationController else { return }
+        guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
+        dismiss(animated: true) {
+            pvc.showCarpoolFinishedModal()
+        }
     }
 
     private func showNaverMap() {
@@ -84,6 +112,24 @@ final class MapViewController: UIViewController {
             make.leading.top.trailing.equalToSuperview()
             make.bottom.equalTo(detailView.snp.top)
         }
+    }
+
+    private func initCameraUpdate() {
+        var latLngs: [NMGLatLng] = []
+        latLngs.append(NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng))
+        latLngs.append(NMGLatLng(lat: points.destination.lat, lng: points.destination.lng))
+        if let coordinate = points.pickupLocation1 {
+            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
+        }
+        if let coordinate = points.pickupLocation2 {
+            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
+        }
+        if let coordinate = points.pickupLocation3 {
+            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
+        }
+        let paddingInsets = UIEdgeInsets(top: 170, left: 50, bottom: 50, right: 50)
+        let cameraUpdate = NMFCameraUpdate(fit: NMGLatLngBounds(latLngs: latLngs), paddingInsets: paddingInsets)
+        mapView.naverMap.moveCamera(cameraUpdate)
     }
 
     private func startUpdatingLocation() {
@@ -169,6 +215,12 @@ final class MapViewController: UIViewController {
         alert.addAction(giveUpAction)
         present(alert, animated: true)
     }
+
+    private func distanceFromDestination(current: CLLocation) -> Double {
+        let destinationCoordinate = CLLocation(latitude: points.destination.lat, longitude: points.destination.lng)
+        let distance = destinationCoordinate.distance(from: current)
+        return Double(distance)
+    }
 }
 
 extension MapViewController: CLLocationManagerDelegate {
@@ -176,10 +228,19 @@ extension MapViewController: CLLocationManagerDelegate {
     // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
-        // 운전자화면에서 자동차 마커 위치 변경
-        mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        // 운전자인 경우 DB에 위도, 경도 업데이트
-        firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
+        if isDriver {
+            // 운전자화면에서 자동차 마커 위치 변경
+            mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            // 운전자인 경우 DB에 위도, 경도 업데이트
+            firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
+            // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
+            if distanceFromDestination(current: location) <= 200.0 {
+                detailView.showFinishCarpoolButton()
+            }
+        } else {
+            mapView.updateMyPositionMarker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            myCurrentCoordinate = location.coordinate
+        }
     }
 
     // 에러시 호출되는 함수

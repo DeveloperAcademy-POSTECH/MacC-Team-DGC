@@ -71,15 +71,8 @@ final class FinalConfirmViewController: UIViewController {
 extension FinalConfirmViewController {
 
     private func additionalSetting() {
-        finalConfirmView.daySelectButton.setTitle(
-            setDayButtonTitle(selectedDay),
-            for: .normal
-        )
-        finalConfirmView.nextButton.addTarget(
-            self,
-            action: #selector(nextButtonTapped),
-            for: .touchUpInside
-        )
+        finalConfirmView.daySelectButton.setTitle(setDayButtonTitle(selectedDay), for: .normal)
+        finalConfirmView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
     }
 
     /**
@@ -168,12 +161,7 @@ import SwiftUI
 struct FCViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = FinalConfirmViewController
     func makeUIViewController(context: Context) -> FinalConfirmViewController {
-        return FinalConfirmViewController(
-            crewData: Crew(
-                crews: [UserIdentifier](),
-                memberStatus: [MemeberStatus]()
-            )
-        )
+        return FinalConfirmViewController(crewData: Crew(crews: [UserIdentifier](), memberStatus: [MemberStatus]()))
     }
     func updateUIViewController(_ uiViewController: FinalConfirmViewController, context: Context) {}
 }

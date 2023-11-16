@@ -20,7 +20,6 @@ final class StopoverInfoLeftView: UIView {
 
     lazy var locationName: UILabel = {
         let label = UILabel()
-        label.text = "경유지 이름"
         label.font = UIFont.carmuFont.subhead1
         label.textColor = UIColor.semantic.textPrimary
         label.textAlignment = .left
@@ -29,7 +28,6 @@ final class StopoverInfoLeftView: UIView {
 
     lazy var crewMember: UILabel = {
         let label = UILabel()
-        label.text = "배찌 레이"
         label.numberOfLines = 0
         label.font = UIFont.carmuFont.body2
         label.textColor = UIColor.semantic.textBody

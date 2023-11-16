@@ -31,12 +31,7 @@ final class CrewInfoCheckViewController: UIViewController {
         // 백버튼 텍스트 제거
         navigationController?.navigationBar.topItem?.title = ""
         // 설정 버튼 추가
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "편집",
-            style: .plain,
-            target: self,
-            action: #selector(startCrewEdit)
-        )
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "편집", style: .plain, target: self, action: #selector(startCrewEdit))
 
         performButtonSettings()
         view.addSubview(crewInfoCheckView)
@@ -52,16 +47,8 @@ final class CrewInfoCheckViewController: UIViewController {
 
     // 뷰 컨트롤러의 버튼들 관련 세팅
     private func performButtonSettings() {
-        crewInfoCheckView.exitCrewButton.addTarget(
-            self,
-            action: #selector(exitCrewButtonTapped),
-            for: .touchUpInside
-        )
-        crewInfoCheckView.crewNameEditButton.addTarget(
-            self,
-            action: #selector(showCrewNameEditView),
-            for: .touchUpInside
-        )
+        crewInfoCheckView.exitCrewButton.addTarget(self, action: #selector(showCrewExitAlert), for: .touchUpInside)
+        crewInfoCheckView.crewNameEditButton.addTarget(self, action: #selector(showCrewNameEditView), for: .touchUpInside)
     }
 
     /**
@@ -151,11 +138,7 @@ final class CrewInfoCheckViewController: UIViewController {
                 if let point = point {
                     // 종료 지점 여부 체크
                     let isStart = (index==lastPointIdx) ? false : true
-                    let stopoverButton = StopoverSelectButton(
-                        address: point.name ?? "",
-                        isStart,
-                        time: point.arrivalTime ?? Date()
-                    )
+                    let stopoverButton = StopoverSelectButton(address: point.name ?? "", isStart, time: point.arrivalTime ?? Date())
                     stopoverButton.layer.shadowColor = UIColor.clear.cgColor
                     stopoverButton.tag = isStart ? index : lastPointIdx // 종료 지점은 lastPoingIdx로 태그 부여
                     stopoverButton.isEnabled = false
@@ -168,23 +151,6 @@ final class CrewInfoCheckViewController: UIViewController {
             crewInfoCheckView.locationCellStack.addArrangedSubview(locationCell)
         }
     }
-
-    // 크루 나가기 알럿 띄우기
-    private func showCrewExitAlert() {
-        let alert = UIAlertController(
-            title: "크루에서 나가시겠습니까?",
-            message: "크루에 대한 모든 정보가 삭제됩니다.",
-            preferredStyle: .alert
-        )
-        let back = UIAlertAction(title: "돌아가기", style: .default)
-        let crewExit = UIAlertAction(title: "크루 나가기", style: .destructive) { _ in
-            // TODO: - 크루 나가기 구현 필요
-            print("크루 나가기!")
-        }
-        alert.addAction(back)
-        alert.addAction(crewExit)
-        present(alert, animated: true)
-    }
 }
 
 // MARK: - @objc 메서드
@@ -192,10 +158,7 @@ extension CrewInfoCheckViewController {
 
     // 크루명 편집 버튼 클릭 시 호출
     @objc private func showCrewNameEditView() {
-        let crewNameEditVC = NameEditViewController(
-            nowName: crewInfoCheckView.crewNameLabel.text ?? "",
-            isCrewNameEditView: true
-        )
+        let crewNameEditVC = NameEditViewController(nowName: crewInfoCheckView.crewNameLabel.text ?? "", isCrewNameEditView: true)
         crewNameEditVC.delegate = self
         crewNameEditVC.modalPresentationStyle = .overCurrentContext
         // nameEditView의 화면 요소를 크루명에 맞게 수정
@@ -208,16 +171,28 @@ extension CrewInfoCheckViewController {
     @objc private func startCrewEdit() {
         print("크루 정보 편집 시작")
         // 내비게이션 타이틀 크루명으로 설정
+        guard let userCrewData = userCrewData else {
+            return
+        }
         let crewEditVC = CrewEditViewController(
-            crewName: crewInfoCheckView.crewNameLabel.text ?? ""
+            // TODO: - 실제 크루 데이터로 전달하도록 수정
+            userCrewData: userCrewData
         )
         navigationController?.pushViewController(crewEditVC, animated: true)
     }
 
-    // [크루 나가기] 버튼 클릭 시 호출
-    @objc private func exitCrewButtonTapped() {
-        showCrewExitAlert()
+    // [크루 나가기] 버튼 클릭 시 알럿
+    @objc private func showCrewExitAlert() {
         print("크루 나가기 버튼 클릭됨!!")
+        let alert = UIAlertController(title: "크루에서 나가시겠습니까?", message: "크루에 대한 모든 정보가 삭제됩니다.", preferredStyle: .alert)
+        let back = UIAlertAction(title: "돌아가기", style: .default)
+        let crewExit = UIAlertAction(title: "크루 나가기", style: .destructive) { _ in
+            // TODO: - 크루 나가기 구현 필요
+            print("크루 나가기!")
+        }
+        alert.addAction(back)
+        alert.addAction(crewExit)
+        present(alert, animated: true)
     }
 }
 

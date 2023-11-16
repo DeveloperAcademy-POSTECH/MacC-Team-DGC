@@ -58,10 +58,7 @@ final class CodeShareView: UIView {
 
         button.setAttributedTitle(combinedAttributedString, for: .normal)
         button.backgroundColor = UIColor.semantic.accPrimary
-        button.setBackgroundImage(
-            UIImage(color: UIColor.semantic.textSecondary ?? .white),
-            for: .highlighted
-        )
+        button.setBackgroundImage(UIImage(color: UIColor.semantic.textSecondary ?? .white), for: .highlighted)
         button.layer.cornerRadius = 20
         button.clipsToBounds = true
         return button

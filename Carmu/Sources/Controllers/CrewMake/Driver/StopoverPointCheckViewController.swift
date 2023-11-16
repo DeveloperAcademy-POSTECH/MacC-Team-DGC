@@ -25,16 +25,8 @@ final class StopoverPointCheckViewController: UIViewController {
         super.viewDidLoad()
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
-        stopoverPointCheckView.yesStopoverButton.addTarget(
-            self,
-            action: #selector(yesButtonTapped),
-            for: .touchUpInside
-        )
-        stopoverPointCheckView.noStopoverButton.addTarget(
-            self,
-            action: #selector(noButtonTapped),
-            for: .touchUpInside
-        )
+        stopoverPointCheckView.yesStopoverButton.addTarget(self, action: #selector(yesButtonTapped), for: .touchUpInside)
+        stopoverPointCheckView.noStopoverButton.addTarget(self, action: #selector(noButtonTapped), for: .touchUpInside)
 
         view.addSubview(stopoverPointCheckView)
         stopoverPointCheckView.snp.makeConstraints { make in
@@ -67,7 +59,7 @@ struct SPCViewControllerRepresentable: UIViewControllerRepresentable {
         return StopoverPointCheckViewController(
             crewData: Crew(
                 crews: [UserIdentifier](),
-                memberStatus: [MemeberStatus]()
+                memberStatus: [MemberStatus]()
             )
         )
     }

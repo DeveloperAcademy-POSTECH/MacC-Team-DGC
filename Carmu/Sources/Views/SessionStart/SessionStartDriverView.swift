@@ -190,11 +190,12 @@ final class DriverFrontView: UIView {
         addSubview(crewCollectionView)
         crewCollectionView.dataSource = self
         crewCollectionView.delegate = self
-        crewCollectionView.register(CrewCollectionViewCell.self,
-                                    forCellWithReuseIdentifier: CrewCollectionViewCell.cellIdentifier)
-        crewCollectionView.register(UICollectionReusableView.self,
-                                    forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
-                                    withReuseIdentifier: "FooterView")
+        crewCollectionView.register(CrewCollectionViewCell.self, forCellWithReuseIdentifier: CrewCollectionViewCell.cellIdentifier)
+        crewCollectionView.register(
+            UICollectionReusableView.self,
+            forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+            withReuseIdentifier: "FooterView"
+        )
     }
 
     private func setupConstraints() {
@@ -236,7 +237,6 @@ final class DriverFrontView: UIView {
     func settingDriverFrontData(crewData: Crew?) {
         guard let crewData = crewData else { return }
         totalCrewMemeberLabel.text = "/ \(crewData.memberStatus?.count ?? 0)"
-        // TODO: - 데이터 변경
         todayCrewMemeberLabel.text = "\(todayMemberJoined(crewData: crewData))"
     }
 
@@ -250,7 +250,6 @@ final class DriverFrontView: UIView {
     }
 }
 
-// TODO: - 실제 데이터로 변경
 extension DriverFrontView: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -258,8 +257,7 @@ extension DriverFrontView: UICollectionViewDataSource {
         return crewData?.memberStatus?.count ?? 0
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: CrewCollectionViewCell.cellIdentifier,
             for: indexPath
@@ -302,13 +300,13 @@ extension DriverFrontView: UICollectionViewDataSource {
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        viewForSupplementaryElementOfKind kind: String,
-                        at indexPath: IndexPath) -> UICollectionReusableView {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        viewForSupplementaryElementOfKind kind: String,
+        at indexPath: IndexPath
+    ) -> UICollectionReusableView {
         if kind == UICollectionView.elementKindSectionFooter {
-            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind,
-                                                                             withReuseIdentifier: "FooterView",
-                                                                             for: indexPath)
+            let footerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "FooterView", for: indexPath)
             footerView.addSubview(collectionViewFooterLabel)
             collectionViewFooterLabel.snp.makeConstraints { make in
                 make.center.equalToSuperview()
@@ -322,16 +320,16 @@ extension DriverFrontView: UICollectionViewDataSource {
 // TODO: - 실제 데이터 적용하기
 extension DriverFrontView: UICollectionViewDelegateFlowLayout {
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         return CGSize(width: 48, height: 100)
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        insetForSectionAt section: Int) -> UIEdgeInsets {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        insetForSectionAt section: Int
+    ) -> UIEdgeInsets {
         let cellWidth: CGFloat = 48 // 셀의 너비
         let cellSpacing: CGFloat = 10 // 셀 간격
         let numberOfCellsPerRow: Int = 4 // 한 줄에 표시할 셀 개수
@@ -355,9 +353,11 @@ extension DriverFrontView: UICollectionViewDelegateFlowLayout {
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView,
-                        layout collectionViewLayout: UICollectionViewLayout,
-                        referenceSizeForFooterInSection section: Int) -> CGSize {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        referenceSizeForFooterInSection section: Int
+    ) -> CGSize {
         return CGSize(width: collectionView.bounds.width, height: 18)
     }
 }

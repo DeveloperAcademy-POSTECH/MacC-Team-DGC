@@ -138,7 +138,7 @@ struct BPSViewControllerRepresentable: UIViewControllerRepresentable {
         return BoardingPointSelectViewController(
             crewData: Crew(
                 crews: [UserIdentifier](),
-                memberStatus: [MemeberStatus]()
+                memberStatus: [MemberStatus]()
             )
         )
     }

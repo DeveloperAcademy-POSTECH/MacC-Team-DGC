@@ -158,7 +158,6 @@ final class PassengerFrontView: UIView {
         super.init(frame: .zero)
         setupFrontView()
         setupConstraints()
-        settingData()
 
         // TODO: - 데이터 수정 후 변경 -> session 여부에 따라 true, false로 변경하기
         noDriveViewForPassenger.isHidden = true
@@ -238,28 +237,84 @@ final class PassengerFrontView: UIView {
         }
     }
 
-    // TODO: - 실제 데이터로 변경
-    private func settingData() {
-        locationLabel.text = "해당 위치에"
+    func settingPassengerFrontData(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+
+        let passengerLocation = getPassengerLocation(crewData: crewData)
+        let passengerTime = getPassengerTime(crewData: crewData)
+
+        locationLabel.text = "\(passengerLocation)에"
         let locationText = NSMutableAttributedString(string: locationLabel.text ?? "")
-        if let range1 = locationLabel.text?.range(of: "해당 위치") {
+        if let range1 = locationLabel.text?.range(of: passengerLocation) {
             let nsRange1 = NSRange(range1, in: locationLabel.text ?? "")
-            locationText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                        value: UIColor.semantic.accPrimary as Any,
-                                        range: nsRange1)
+            locationText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         locationLabel.attributedText = locationText
 
-        timeLabel.text = "몇 시까지 나가야 해요"
+        timeLabel.text = "\(passengerTime)까지 나가야 해요"
         let timeText = NSMutableAttributedString(string: timeLabel.text ?? "")
-        if let range2 = timeLabel.text?.range(of: "몇 시") {
+        if let range2 = timeLabel.text?.range(of: passengerTime) {
             let nsRange2 = NSRange(range2, in: timeLabel.text ?? "")
-            timeText.addAttribute(NSAttributedString.Key.foregroundColor,
-                                  value: UIColor.semantic.accPrimary as Any,
-                                  range: nsRange2)
+            timeText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange2)
         }
         timeLabel.attributedText = timeText
 
         statusLabel.text = "운전자의 확인을 기다리고 있어요"
+    }
+
+    // crewData를 기반으로 위치 불러오기
+    private func getPassengerLocation(crewData: Crew?) -> String {
+        guard let crewData = crewData
+        else {
+            return "목적지"
+        }
+
+        guard let currentUserIdentifier = KeychainItem.currentUserIdentifier
+        else {
+            return "목적지"
+        }
+
+        let locations = [crewData.startingPoint,
+                         crewData.stopover1,
+                         crewData.stopover2,
+                         crewData.stopover3]
+
+        for location in locations {
+            if let location = location, let crews = location.crews {
+                if crews.contains(currentUserIdentifier) {
+                    // 현재 사용자가 타는 지점을 찾은 경우 해당 지점의 이름 반환
+                    return location.name ?? "목적지"
+                }
+            }
+        }
+        // 만약 없다면
+        return "목적지"
+    }
+
+    // crewData를 기반으로 시간 불러오기
+    private func getPassengerTime(crewData: Crew?) -> String {
+        guard let crewData = crewData
+        else {
+            return "00:00"
+        }
+
+        guard let currentUserIdentifier = KeychainItem.currentUserIdentifier
+        else {
+            return "00:00"
+        }
+
+        let locations = [crewData.startingPoint,
+                         crewData.stopover1,
+                         crewData.stopover2,
+                         crewData.stopover3]
+        for location in locations {
+            if let location = location, let crews = location.crews {
+                if crews.contains(currentUserIdentifier) {
+
+                    return Date.formattedDate(from: location.arrivalTime ?? Date(), dateFormat: "hh:mm")
+                }
+            }
+        }
+        return "00:00"
     }
 }

@@ -58,9 +58,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 // MARK: - UNUserNotificationCenterDelegate
 extension AppDelegate: UNUserNotificationCenterDelegate {
     // 알림 처리
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                willPresent notification: UNNotification) async
-    -> UNNotificationPresentationOptions {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification) async -> UNNotificationPresentationOptions {
         let userInfo = notification.request.content.userInfo
 
         // With swizzling disabled you must let Messaging know about the message, for Analytics
@@ -75,9 +73,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     // 자동 푸시 알림 처리
-    func application(_ application: UIApplication,
-                     didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async
-    -> UIBackgroundFetchResult {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any]) async -> UIBackgroundFetchResult {
         // If you are receiving a notification message while your app is in the background,
         // this callback will not be fired till the user taps on the notification launching the application.
         // TODO: Handle data of notification
@@ -94,8 +90,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
         return UIBackgroundFetchResult.newData
     }
 
-    func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                didReceive response: UNNotificationResponse) async {
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         let userInfo = response.notification.request.content.userInfo
 
         // ...
@@ -106,8 +101,7 @@ extension AppDelegate: UNUserNotificationCenterDelegate {
     }
 
     // APNS (Apple Push Notification Service) 등록을 성공적으로 완료하면 호출되는 메서드
-    func application(_ application: UIApplication,
-                     didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         print("APNS token: \(deviceToken)")
         Messaging.messaging().apnsToken = deviceToken
     }

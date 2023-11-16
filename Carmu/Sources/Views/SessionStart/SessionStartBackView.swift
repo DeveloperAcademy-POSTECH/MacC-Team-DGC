@@ -35,7 +35,6 @@ final class SessionStartBackView: UIView {
 
     private lazy var startLocationLabel: UILabel = {
         let label = UILabel()
-        label.text = "출발지"
         label.font = UIFont.carmuFont.subhead3
         label.textColor = UIColor.semantic.textPrimary
         label.numberOfLines = 0
@@ -44,7 +43,6 @@ final class SessionStartBackView: UIView {
     }()
     private lazy var startCrewMember: UILabel = {
         let label = UILabel()
-        label.text = "배찌 레이"
         label.font = UIFont.carmuFont.body2
         label.textColor = UIColor.semantic.textBody
         return label
@@ -52,7 +50,6 @@ final class SessionStartBackView: UIView {
 
     private lazy var startTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00"
         label.textAlignment = .center
         label.font = UIFont.carmuFont.subhead1
         label.textColor = UIColor.semantic.textPrimary
@@ -72,7 +69,6 @@ final class SessionStartBackView: UIView {
 
     private lazy var endLocationLabel: UILabel = {
         let label = UILabel()
-        label.text = "도착지"
         label.font = UIFont.carmuFont.subhead3
         label.textColor = UIColor.semantic.textPrimary
         label.numberOfLines = 0
@@ -81,7 +77,6 @@ final class SessionStartBackView: UIView {
     }()
     private lazy var endTimeLabel: UILabel = {
         let label = UILabel()
-        label.text = "00:00"
         label.textAlignment = .center
         label.font = UIFont.carmuFont.subhead1
         label.textColor = UIColor.semantic.textPrimary
@@ -103,7 +98,6 @@ final class SessionStartBackView: UIView {
     // 경유지 관련
     private lazy var stopover1LeftView: StopoverInfoLeftView = {
         let view = StopoverInfoLeftView()
-        view.crewMember.text = "테드"
         return view
     }()
 
@@ -114,7 +108,6 @@ final class SessionStartBackView: UIView {
 
     private lazy var stopover2LeftView: StopoverInfoLeftView = {
         let view = StopoverInfoLeftView()
-        view.crewMember.text = "젤리빈 젠"
         return view
     }()
     private lazy var stopover2RightView: StopoverInfoRightView = {
@@ -124,7 +117,6 @@ final class SessionStartBackView: UIView {
 
     private lazy var stopover3LeftView: StopoverInfoLeftView = {
         let view = StopoverInfoLeftView()
-        view.crewMember.text = "우니"
         return view
     }()
     private lazy var stopover3RightView: StopoverInfoRightView = {
@@ -154,12 +146,14 @@ final class SessionStartBackView: UIView {
         return imageView
     }()
 
+    var crewData: Crew?
+
     init() {
         super.init(frame: .zero)
         setupBackView()
         setupConstraints()
         checkStopoverPoint()
-        settingData()
+        settingBackData()
     }
 
     required init?(coder: NSCoder) {
@@ -167,13 +161,36 @@ final class SessionStartBackView: UIView {
     }
 
     // TODO: - 실제 데이터로 변경
-    private func settingData() {
+    func settingBackData() {
+//        guard let crewData = crewData else { return }
+
+//        startLocationLabel.text = crewData.startingPoint?.name ?? "없음"
+        startLocationLabel.text = "출발지"
+        startCrewMember.text = "배찌 레이"
+        startTimeLabel.text = "00:00"
+
+        stopover1LeftView.locationName.text = "경유지11"
+        stopover1LeftView.crewMember.text = "테드"
+        stopover1RightView.arrivalTime.text = "11:11"
+
+        stopover2LeftView.locationName.text = "경유지22"
+        stopover2LeftView.crewMember.text = "젤리빈 젠"
+        stopover2RightView.arrivalTime.text = "22:22"
+
+        stopover3LeftView.locationName.text = "경유지33"
+        stopover3LeftView.crewMember.text = "우니"
+        stopover3RightView.arrivalTime.text = "33:33"
+
+        endLocationLabel.text = "도착지"
+        endTimeLabel.text = "00:00"
+
         totalCrewMemeberLabel.text = "\(dummyCrewData?.crews.count ?? 0)명"
     }
 
     // TODO: - 실제 데이터로 변경
-    private func checkStopoverPoint() {
-        if dummyCrewData?.stopover1 == nil {
+    func checkStopoverPoint() {
+        guard let crewData = dummyCrewData else { return }
+        if crewData.stopover1 == nil {
             return
         } else {
             settingStopoverPoints()
@@ -182,13 +199,13 @@ final class SessionStartBackView: UIView {
 
     // 경유지 관련 설정
     private func settingStopoverPoints() {
-
+        guard let crewData = dummyCrewData else { return }
         // TODO: - 실제 데이터로 변경
-        if dummyCrewData?.stopover1 != nil, dummyCrewData?.stopover2 == nil, dummyCrewData?.stopover3 == nil {
-            oneStopoverPoint()
-        } else if dummyCrewData?.stopover1 != nil, dummyCrewData?.stopover2 != nil, dummyCrewData?.stopover3 == nil {
+        if crewData.stopover1 != nil, crewData.stopover2 == nil, crewData.stopover3 == nil {
+            oneStopoverPoint(crewData: crewData)
+        } else if crewData.stopover1 != nil, crewData.stopover2 != nil, crewData.stopover3 == nil {
             twoStopoverPoints()
-        } else if dummyCrewData?.stopover1 != nil, dummyCrewData?.stopover2 != nil, dummyCrewData?.stopover3 != nil {
+        } else if crewData.stopover1 != nil, crewData.stopover2 != nil, crewData.stopover3 != nil {
             threeStopoverPoints()
         }
     }
@@ -270,9 +287,10 @@ extension SessionStartBackView {
     }
 
     // 경유지1만 있을 때
-    private func oneStopoverPoint() {
+    private func oneStopoverPoint(crewData: Crew?) {
+        guard let crewData = crewData else { return }
 
-        setupOneStopoverUI()
+        setupOneStopoverUI(crewData: crewData)
 
         dotImage1.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -323,13 +341,14 @@ extension SessionStartBackView {
     }
 
     // 경유지들 addSubview
-    private func setupOneStopoverUI() {
+    private func setupOneStopoverUI(crewData: Crew?) {
         addSubview(dotImage1)
         addSubview(stopover1LeftView)
         addSubview(stopover1RightView)
+
     }
     private func setupTwoStopoverUI() {
-        setupOneStopoverUI()
+        setupOneStopoverUI(crewData: crewData)
         addSubview(dotImage2)
         addSubview(stopover2LeftView)
         addSubview(stopover2RightView)

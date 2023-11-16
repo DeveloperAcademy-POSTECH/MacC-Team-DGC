@@ -45,41 +45,13 @@ final class StopoverPointSelectViewController: UIViewController {
 extension StopoverPointSelectViewController {
 
     private func addButtonTarget() {
-        stopoverPointSelectView.nextButton.addTarget(
-            self,
-            action: #selector(nextButtonTapped),
-            for: .touchUpInside
-        )
-        stopoverPointSelectView.stopoverAddButton.button.addTarget(
-            self,
-            action: #selector(addPointButtonTapped),
-            for: .touchUpInside
-        )
-        stopoverPointSelectView.stopover2.xButton.addTarget(
-            self,
-            action: #selector(deletePointButtonTapped),
-            for: .touchUpInside
-        )
-        stopoverPointSelectView.stopover3.xButton.addTarget(
-            self,
-            action: #selector(deletePointButtonTapped),
-            for: .touchUpInside
-        )
-        stopoverPointSelectView.stopover1.button.addTarget(
-            self,
-            action: #selector(findAddressButtonTapped),
-            for: .touchUpInside
-        )
-        stopoverPointSelectView.stopover2.button.addTarget(
-            self,
-            action: #selector(findAddressButtonTapped),
-            for: .touchUpInside
-        )
-        stopoverPointSelectView.stopover3.button.addTarget(
-            self,
-            action: #selector(findAddressButtonTapped),
-            for: .touchUpInside
-        )
+        stopoverPointSelectView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        stopoverPointSelectView.stopoverAddButton.button.addTarget(self, action: #selector(addPointButtonTapped), for: .touchUpInside)
+        stopoverPointSelectView.stopover2.xButton.addTarget(self, action: #selector(deletePointButtonTapped), for: .touchUpInside)
+        stopoverPointSelectView.stopover3.xButton.addTarget(self, action: #selector(deletePointButtonTapped), for: .touchUpInside)
+        stopoverPointSelectView.stopover1.button.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
+        stopoverPointSelectView.stopover2.button.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
+        stopoverPointSelectView.stopover3.button.addTarget(self, action: #selector(findAddressButtonTapped), for: .touchUpInside)
     }
 
     /**
@@ -194,7 +166,7 @@ struct SOPViewControllerRepresentable: UIViewControllerRepresentable {
         return StopoverPointSelectViewController(
             crewData: Crew(
                 crews: [UserIdentifier](),
-                memberStatus: [MemeberStatus]()
+                memberStatus: [MemberStatus]()
             )
         )
     }
