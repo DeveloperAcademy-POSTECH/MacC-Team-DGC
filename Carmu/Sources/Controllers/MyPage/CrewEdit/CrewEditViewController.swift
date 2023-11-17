@@ -10,8 +10,16 @@ import UIKit
 
 import SnapKit
 
+// MARK: - 크루 편집 완료 시 이전 뷰 컨트롤러에 데이터를 넘겨주기 위한 델리게이트 프로토콜
+protocol CrewEditViewDelegate: AnyObject {
+
+    func crewEditDoneButtonTapped(newUserCrewData: Crew?)
+}
+
 // MARK: - 마이페이지(운전자) 크루 편집 뷰 컨트롤러
 final class CrewEditViewController: UIViewController {
+
+    weak var crewEditViewDelegte: CrewEditViewDelegate?
 
     private let crewEditView = CrewEditView()
     private let firebaseManager = FirebaseManager()
@@ -21,13 +29,12 @@ final class CrewEditViewController: UIViewController {
     var stopoverPoints = [Point?]()
 
     init(userCrewData: Crew) {
-        // TODO: - 실제 DB 데이터 받아오도록 수정
-        originalUserCrewData = dummyCrewData
-        newUserCrewData = dummyCrewData
+        originalUserCrewData = userCrewData
+        newUserCrewData = userCrewData
         stopoverPoints = [
-            dummyCrewData?.stopover1,
-            dummyCrewData?.stopover2,
-            dummyCrewData?.stopover3
+            userCrewData.stopover1,
+            userCrewData.stopover2,
+            userCrewData.stopover3
         ]
         super.init(nibName: nil, bundle: nil)
     }
@@ -268,7 +275,6 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
 
         // 시간 설정 모달에서 선택된 값이 반영된다.
         timeSelectModalVC.timeSelectionHandler = { newTimeValue in
-            // TODO: - 새로운 시간값 처리
             sender.setTitle(Date.formattedDate(from: newTimeValue, dateFormat: "aa hh:mm"), for: .normal)
             switch sender.pointType {
             case .start:

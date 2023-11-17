@@ -409,6 +409,7 @@ extension SessionStartViewController {
 
     @objc private func myPageButtonDidTapped() {
         let myPageVC = MyPageViewController()
+        myPageVC.crewData = crewData
         navigationController?.pushViewController(myPageVC, animated: true)
     }
 
