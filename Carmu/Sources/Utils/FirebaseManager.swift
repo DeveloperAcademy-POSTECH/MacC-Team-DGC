@@ -382,6 +382,8 @@ extension FirebaseManager {
 
     /**
      Crew를 수정된 내용으로 업데이트해주는 메서드
+     - 호출되는 곳
+        - CrewEditViewController
      */
     func updateCrew(crewID: String, newCrewData: Crew) {
         let databaseRef = Database.database().reference().child("crew/\(crewID)")
