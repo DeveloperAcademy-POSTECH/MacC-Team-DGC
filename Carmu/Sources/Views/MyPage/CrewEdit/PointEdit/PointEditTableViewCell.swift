@@ -10,10 +10,10 @@ import UIKit
 // MARK: - 셀의 설정 버튼 탭 시 이벤트를 처리하기 위한 델리게이트 프로토콜
 protocol PointEditTableViewCellDelegate: AnyObject {
 
-    func timeEditButtonTapped(sender: UIButton)
-    func addressEditButtonTapped(sender: UIButton, pointType: PointType, pointData: Point)
-    func xButtonTapped(sender: UIButton)
-    func addButtonTapped(sender: UIButton)
+    func timeEditButtonTapped(sender: TimeEditButton)
+    func addressEditButtonTapped(sender: AddressEditButton)
+    func stopoverRemoveButtonTapped(sender: StopoverRemoveButton)
+    func stopoverAddButtonTapped(sender: StopoverAddButton)
 }
 
 // MARK: - 크루 편집 화면에서의 포인트 별 편집 테이블 뷰 셀
@@ -23,24 +23,9 @@ final class PointEditTableViewCell: UITableViewCell {
 
     static let cellIdentifier = "pointEditTableViewCell"
     var pointType: PointType = .start
-    var pointData: Point?
 
     // 주소 설정 버튼
-    lazy var addressEditButton: UIButton = {
-        let addressEditButton = UIButton()
-        addressEditButton.setTitle("주소를 검색해주세요.", for: .normal)
-        addressEditButton.titleLabel?.font = UIFont.carmuFont.subhead2
-        addressEditButton.setTitleColor(UIColor.semantic.textTertiary, for: .normal)
-        addressEditButton.backgroundColor = UIColor.semantic.backgroundDefault
-        addressEditButton.layer.cornerRadius = 16
-        addressEditButton.layer.borderWidth = 1
-        addressEditButton.layer.borderColor = UIColor.semantic.stoke?.cgColor
-        addressEditButton.contentHorizontalAlignment = .leading
-        var config = UIButton.Configuration.plain()
-        config.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 20, bottom: 10, trailing: 20)
-        addressEditButton.configuration = config
-        return addressEditButton
-    }()
+    lazy var addressEditButton = AddressEditButton()
 
     // 시간 타입 라벨
     lazy var timeTypeLabel: UILabel = {
@@ -52,50 +37,26 @@ final class PointEditTableViewCell: UITableViewCell {
     }()
 
     // 시간 설정 버튼
-    lazy var timeEditButton: UIButton = {
-        let timeEditButton = UIButton()
-        timeEditButton.setTitle("오전 08:00", for: .normal)
-        timeEditButton.titleLabel?.font = UIFont.carmuFont.subhead3
-        timeEditButton.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
-        timeEditButton.backgroundColor = UIColor.semantic.backgroundThird
-        timeEditButton.layer.cornerRadius = 4
-        return timeEditButton
-    }()
+    lazy var timeEditButton = TimeEditButton()
 
     // 경유지 삭제 버튼
-    lazy var xButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = UIColor.semantic.stoke
-        button.isHidden = true
-        return button
-    }()
+    lazy var stopoverRemoveButton = StopoverRemoveButton()
 
     // 경유지 추가 버튼 뷰
     lazy var addButtonContainer: UIView = {
         let addButtonContainer = UIView()
-        addButtonContainer.backgroundColor = .red
         addButtonContainer.isHidden = true
         return addButtonContainer
     }()
     // 경유지 추가 버튼
-    lazy var addButton: UIButton = {
-        let addButton = UIButton(type: .system)
-        addButton.setTitle("􀅼 경유지 추가", for: .normal)
-        addButton.titleLabel?.font = UIFont.carmuFont.subhead2
-        addButton.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        addButton.setBackgroundImage(UIImage(color: UIColor.semantic.accPrimary ?? .white), for: .normal)
-        addButton.layer.cornerRadius = 15
-        addButton.layer.masksToBounds = true
-        return addButton
-    }()
+    lazy var stopoverAddButton = StopoverAddButton()
+
     // 제한 안내 문구
     lazy var guideLabel: UILabel = {
         let guideLabel = UILabel()
         guideLabel.text = "경유지는 최대 3개까지 생성할 수 있습니다."
         guideLabel.font = UIFont.carmuFont.body1Long
         guideLabel.textColor = UIColor.semantic.textBody
-        guideLabel.backgroundColor = .purple
         return guideLabel
     }()
 
@@ -104,8 +65,8 @@ final class PointEditTableViewCell: UITableViewCell {
         setupUI()
         timeEditButton.addTarget(self, action: #selector(timeEditButtonTapped), for: .touchUpInside)
         addressEditButton.addTarget(self, action: #selector(addressEditButtonTapped), for: .touchUpInside)
-        xButton.addTarget(self, action: #selector(xButtonTapped), for: .touchUpInside)
-        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        stopoverRemoveButton.addTarget(self, action: #selector(stopoverRemoveButtonTapped), for: .touchUpInside)
+        stopoverAddButton.addTarget(self, action: #selector(stopoverAddButtonTapped), for: .touchUpInside)
     }
 
     required init?(coder: NSCoder) {
@@ -114,11 +75,6 @@ final class PointEditTableViewCell: UITableViewCell {
 
     private func setupUI() {
         selectionStyle = .none // 셀 선택 막음
-
-//        backgroundColor = .red
-//        layer.cornerRadius = 10
-//        contentView.backgroundColor = .yellow
-//        contentView.layer.cornerRadius = 10
 
         contentView.addSubview(timeEditButton)
         timeEditButton.snp.makeConstraints { make in
@@ -143,8 +99,8 @@ final class PointEditTableViewCell: UITableViewCell {
             make.height.equalTo(34)
         }
 
-        contentView.addSubview(xButton)
-        xButton.snp.makeConstraints { make in
+        contentView.addSubview(stopoverRemoveButton)
+        stopoverRemoveButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview()
             make.bottom.equalTo(timeEditButton.snp.top).offset(-7)
             make.width.equalTo(21)
@@ -157,8 +113,8 @@ final class PointEditTableViewCell: UITableViewCell {
             make.centerY.equalToSuperview()
             make.height.equalTo(60)
         }
-        addButtonContainer.addSubview(addButton)
-        addButton.snp.makeConstraints { make in
+        addButtonContainer.addSubview(stopoverAddButton)
+        stopoverAddButton.snp.makeConstraints { make in
             make.leading.top.equalToSuperview()
             make.width.equalTo(107)
             make.height.equalTo(30)
@@ -180,22 +136,21 @@ extension PointEditTableViewCell {
             addressEditButton.isHidden = true
             timeTypeLabel.isHidden = true
             timeEditButton.isHidden = true
-            xButton.isHidden = true
         } else {
             addButtonContainer.isHidden = true
             addressEditButton.isHidden = false
             timeTypeLabel.isHidden = false
             timeEditButton.isHidden = false
-            xButton.isHidden = false
         }
+        setupStopoverRemoveButton(isEnable)
     }
 
-    // X 버튼 활성화 여부 메서드
-    func setupXButton(_ isEnable: Bool) {
+    // 경유지 제거 버튼 활성화 여부 메서드
+    func setupStopoverRemoveButton(_ isEnable: Bool) {
         if isEnable {
-            xButton.isHidden = false
+            stopoverRemoveButton.isHidden = false
         } else {
-            xButton.isHidden = true
+            stopoverRemoveButton.isHidden = true
         }
     }
 
@@ -231,9 +186,30 @@ extension PointEditTableViewCell {
         }
     }
 
+    // 경유지의 기본 레이아웃으로 재구성하는 메서드 (재사용 셀이기 때문에 레이아웃이 바뀔 수 있어서 필요함)
+    func remakeStopoverLayout() {
+        addressEditButton.snp.remakeConstraints { make in
+            make.leading.equalToSuperview()
+            make.trailing.equalTo(timeTypeLabel.snp.leading).offset(-20)
+            make.centerY.equalToSuperview()
+            make.height.equalTo(34)
+        }
+        timeEditButton.snp.remakeConstraints { make in
+            make.trailing.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.width.equalTo(84)
+            make.height.equalTo(30)
+        }
+    }
+
     // [도착 시간]으로 변경
     func setupArrivalLabel() {
         timeTypeLabel.text = "도착"
+    }
+
+    // [출발 시간]으로 변경
+    func setupDepartureLabel() {
+        timeTypeLabel.text = "출발"
     }
 }
 
@@ -241,22 +217,22 @@ extension PointEditTableViewCell {
 extension PointEditTableViewCell {
 
     // 시간 설정 버튼에 액션 연결
-    @objc func timeEditButtonTapped(sender: UIButton) {
+    @objc func timeEditButtonTapped(sender: TimeEditButton) {
         pointEditTableViewCellDelegate?.timeEditButtonTapped(sender: sender)
     }
 
     // 주소 설정 버튼에 액션 연결
-    @objc func addressEditButtonTapped(sender: UIButton) {
-        pointEditTableViewCellDelegate?.addressEditButtonTapped(sender: sender, pointType: pointType, pointData: pointData ?? Point())
+    @objc func addressEditButtonTapped(sender: AddressEditButton) {
+        pointEditTableViewCellDelegate?.addressEditButtonTapped(sender: sender)
     }
 
     // X 경유지 제거 버튼에 대한 액션 연결
-    @objc func xButtonTapped(sender: UIButton) {
-        pointEditTableViewCellDelegate?.xButtonTapped(sender: sender)
+    @objc func stopoverRemoveButtonTapped(sender: StopoverRemoveButton) {
+        pointEditTableViewCellDelegate?.stopoverRemoveButtonTapped(sender: sender)
     }
 
     // 경유지 추가 버튼에 대한 액션 연결
-    @objc func addButtonTapped(sender: UIButton) {
-        pointEditTableViewCellDelegate?.addButtonTapped(sender: sender)
+    @objc func stopoverAddButtonTapped(sender: StopoverAddButton) {
+        pointEditTableViewCellDelegate?.stopoverAddButtonTapped(sender: sender)
     }
 }

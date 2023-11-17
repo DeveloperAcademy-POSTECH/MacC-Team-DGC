@@ -92,6 +92,5 @@ final class CrewEditView: UIView {
             make.leading.equalTo(colorLine.snp.trailing).offset(12)
             make.trailing.equalToSuperview().inset(20)
         }
-        
     }
 }
