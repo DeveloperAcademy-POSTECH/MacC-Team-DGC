@@ -126,7 +126,7 @@ final class MapViewController: UIViewController {
         if let coordinate = crew.destination, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
             latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
         }
-        let paddingInsets = UIEdgeInsets(top: 170, left: 50, bottom: 50, right: 50)
+        let paddingInsets = UIEdgeInsets(top: 170, left: 80, bottom: 50, right: 50)
         let cameraUpdate = NMFCameraUpdate(fit: NMGLatLngBounds(latLngs: latLngs), paddingInsets: paddingInsets)
         mapView.naverMap.moveCamera(cameraUpdate)
     }
