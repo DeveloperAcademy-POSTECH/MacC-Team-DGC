@@ -124,7 +124,6 @@ final class MapView: UIView {
         showPoints()
     }
 
-    // TODO: - 크루의 실제 위경도 입력 받아서 넣어주기
     func showPoints() {
         if let coordinate = crew.startingPoint, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
             startingPoint.position = NMGLatLng(lat: latitude, lng: longitude)
