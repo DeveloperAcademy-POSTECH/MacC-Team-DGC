@@ -32,9 +32,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
 
-        // 첫 화면 설정
-        updateRootViewController()
-
         // NotificationCenter에서 isFirst 변수가 변하는지 감지하는 부분
         NotificationCenter.default.addObserver(
             self,
