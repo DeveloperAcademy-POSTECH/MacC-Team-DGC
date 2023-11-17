@@ -76,11 +76,15 @@ final class CrewInfoCheckViewController: UIViewController {
         }
     }
 
-    // 크루 정보 화면에서 편집된 크루명으로 업데이트
-    private func updateCrewName(newCrewName: String) {
-        print("크루명 업데이트!!!")
-        crewInfoCheckView.crewNameLabel.text = newCrewName
-    }
+//    // 크루 정보 화면에서 편집된 크루명으로 업데이트
+//    private func updateCrewName(newCrewName: String) {
+//        print("크루명 업데이트!!!")
+//        guard let crewID = crewData?.id else {
+//            return
+//        }
+//        firebaseManager.updateCrewName(crewID: crewID, newCrewName: newCrewName)
+//        crewInfoCheckView.crewNameLabel.text = newCrewName
+//    }
 
     // MARK: - 크루 데이터에 맞게 화면 정보 갱신
     private func updateCrewContents(crewData: Crew?) {
@@ -196,10 +200,16 @@ extension CrewInfoCheckViewController {
 extension CrewInfoCheckViewController: NameEditViewControllerDelegate {
 
     /**
-     NameEditViewController에서 닉네임 데이터가 수정되었을 때 호출
+     NameEditViewController에서 크루명 데이터가 수정되었을 때 호출
      */
     func sendNewNameValue(newName: String) {
-        updateCrewName(newCrewName: newName)
+        // 크루 정보 화면에서 편집된 크루명으로 업데이트
+        print("크루명 업데이트!!!")
+        guard let crewID = crewData?.id else {
+            return
+        }
+        firebaseManager.updateCrewName(crewID: crewID, newCrewName: newName)
+        crewInfoCheckView.crewNameLabel.text = newName
     }
 }
 
@@ -207,7 +217,7 @@ extension CrewInfoCheckViewController: NameEditViewControllerDelegate {
 extension CrewInfoCheckViewController: CrewEditViewDelegate {
 
     /**
-     CrewEditViewController 에서 닉네임 데이터가 수정되었을 때 호출
+     CrewEditViewController 에서 크루 데이터가 수정되었을 때 호출
      */
     func crewEditDoneButtonTapped(newUserCrewData: Crew?) {
         self.crewData = newUserCrewData

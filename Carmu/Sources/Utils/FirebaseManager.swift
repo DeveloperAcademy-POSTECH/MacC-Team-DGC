@@ -396,6 +396,16 @@ extension FirebaseManager {
     }
 
     /**
+     DB에서 크루명 업데이트
+     - 호출되는 곳
+        - CreInfoCheckViewController
+     */
+    func updateCrewName(crewID: String, newCrewName: String) {
+        let databaseRef = Database.database().reference().child("crew/\(crewID)/name")
+        databaseRef.setValue(newCrewName)
+    }
+
+    /**
      크루 만들기에서 추가된 탑승자들의 User/crewList에 crewID를 추가하는 메서드
         호출되는 곳
             BoardingPointSelectViewController
