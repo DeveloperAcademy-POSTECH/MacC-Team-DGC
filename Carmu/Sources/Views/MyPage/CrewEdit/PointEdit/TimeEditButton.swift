@@ -15,10 +15,6 @@ final class TimeEditButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-
-    init() {
-        super.init(frame: .zero)
         setTitle("오전 08:00", for: .normal)
         titleLabel?.font = UIFont.carmuFont.subhead3
         setTitleColor(UIColor.semantic.accPrimary, for: .normal)

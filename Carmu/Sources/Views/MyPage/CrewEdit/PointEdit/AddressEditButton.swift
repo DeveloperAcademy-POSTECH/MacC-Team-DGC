@@ -15,10 +15,6 @@ final class AddressEditButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-
-    init() {
-        super.init(frame: .zero)
         setTitle("주소를 입력해주세요", for: .normal)
         titleLabel?.font = UIFont.carmuFont.subhead2
         setTitleColor(.black, for: .normal)
