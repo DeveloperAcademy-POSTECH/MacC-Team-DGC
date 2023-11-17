@@ -77,15 +77,12 @@ final class InviteCodeInputView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupViews()
+        setAutoLayout()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-    }
-
-    override func draw(_ rect: CGRect) {
-        setupViews()
-        setAutoLayout()
     }
 
     private func setupViews() {
@@ -94,6 +91,7 @@ final class InviteCodeInputView: UIView {
         secondLineTitleStack.axis = .horizontal
         secondLineTitleStack.alignment = .center
 
+        print("setupViews")
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
         firstLineTitleStack.addArrangedSubview(titleLabel3)
