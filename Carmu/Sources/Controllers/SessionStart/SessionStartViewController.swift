@@ -573,7 +573,7 @@ extension SessionStartViewController {
         activityIndicator.removeFromSuperview()
     }
 
-    /// 크루의 유무 확인
+    // 크루의 유무 확인
     // MARK: - viewWillAppear ? (데이터가 있는 지 없는 지는 화면에 들어올 때(SessionStartViewController)만 확인하면 됨, 즉각적으로 바뀌진 않음)
     private func checkCrew(crewData: Crew?) {
         if let crewData = crewData {
