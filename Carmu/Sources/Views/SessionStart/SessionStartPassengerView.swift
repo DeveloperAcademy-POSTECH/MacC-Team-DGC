@@ -154,6 +154,8 @@ final class PassengerFrontView: UIView {
         return label
     }()
 
+    var crewData: Crew?
+
     init() {
         super.init(frame: .zero)
         setupFrontView()

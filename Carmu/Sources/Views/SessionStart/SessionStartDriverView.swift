@@ -234,14 +234,14 @@ final class DriverFrontView: UIView {
         }
     }
 
+    // MARK: - 바뀌는 값
     func settingDriverFrontData(crewData: Crew?) {
         guard let crewData = crewData else { return }
         totalCrewMemeberLabel.text = "/ \(crewData.memberStatus?.count ?? 0)"
         todayCrewMemeberLabel.text = "\(todayMemberJoined(crewData: crewData))"
     }
 
-    // TODO: - 실시간으로 어떻게 받아올 지 고민하기
-    private func todayMemberJoined(crewData: Crew?) -> Int {
+    func todayMemberJoined(crewData: Crew?) -> Int {
         guard let crewData = crewData, let memberStatus = crewData.memberStatus else { return 0 }
         // `memberStatus` 배열에서 `.accept` 상태인 요소들만 필터링하여 개수를 반환
         let todayJoiningMember = memberStatus.filter { $0.status == .accept }.count
@@ -265,6 +265,7 @@ extension DriverFrontView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
+        // MARK: - 바뀌는 값
         // crewStatus에서 현재 indexPath.row에 해당하는 크루의 상태 값을 가져옵니다.
         if let memberStatus = crewData?.memberStatus?[indexPath.row] {
             // 운전자가 응답을 하지 않은 상황이면 Zzz..이고, 응답을 했다면 미응답으로 표현합니다.
@@ -285,7 +286,7 @@ extension DriverFrontView: UICollectionViewDataSource {
         }
 
         // 운전자가 당일 운전을 진행할 때 글자 색상 변경
-        if crewData?.sessionStatus == .accept {
+        if crewData?.sessionStatus == .accept || crewData?.sessionStatus == .sessionStart {
             if let crewStatus = crewData?.memberStatus?[indexPath.row] {
                 if crewStatus.status == .accept {  // 크루원이 함께 간다고 했을 때
                     cell.statusLabel.textColor = UIColor.semantic.accPrimary
