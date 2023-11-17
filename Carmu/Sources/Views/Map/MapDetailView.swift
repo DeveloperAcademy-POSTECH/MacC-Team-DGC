@@ -94,7 +94,7 @@ final class MapDetailView: UIView {
 
     private let latenessTitleLabel = {
         let label = UILabel()
-        label.text = "크루원 지각 현황"
+        label.text = "탑승자들 지각 현황"
         label.font = UIFont.carmuFont.subhead2
         label.textColor = UIColor.semantic.textBody
         return label
