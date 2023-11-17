@@ -381,6 +381,21 @@ extension FirebaseManager {
     }
 
     /**
+     Crew를 수정된 내용으로 업데이트해주는 메서드
+     */
+    func updateCrew(crewID: String, newCrewData: Crew) {
+        let databaseRef = Database.database().reference().child("crew/\(crewID)")
+        do {
+            let data = try encoder.encode(newCrewData)
+            let json = try JSONSerialization.jsonObject(with: data)
+            databaseRef.setValue(json)
+            print("Crew UPDATE success!!")
+        } catch {
+            print("Crew UPDATE fail...", error)
+        }
+    }
+
+    /**
      크루 만들기에서 추가된 탑승자들의 User/crewList에 crewID를 추가하는 메서드
         호출되는 곳
             BoardingPointSelectViewController
