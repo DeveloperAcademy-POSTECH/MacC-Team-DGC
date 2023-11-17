@@ -83,8 +83,23 @@ extension CrewEditViewController {
      [완료] 버튼 클릭 시 호출
      */
     @objc private func completeCrewEdit() {
-        // TODO: - 최종적으로 수정된 [크루 데이터]를 파이어베이스 DB에 전달
+        print("💡newUserCrewData: \(newUserCrewData.debugDescription)")
+        guard let crewID = newUserCrewData?.id else { return }
+        guard let newUserCrewData = newUserCrewData else { return }
+        firebaseManager.updateCrew(crewID: crewID, newCrewData: newUserCrewData)
+        showDoneAlert()
         print("크루 편집 완료")
+    }
+
+    // 완료 알럿
+    private func showDoneAlert() {
+        let alert = UIAlertController(title: "크루 수정이 완료되었습니다.", message: nil, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
+            self?.crewEditViewDelegte?.crewEditDoneButtonTapped(newUserCrewData: self?.newUserCrewData)
+            self?.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(okAction)
+        present(alert, animated: true)
     }
 
     /**
