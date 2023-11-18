@@ -234,15 +234,13 @@ final class DriverFrontView: UIView {
         }
     }
 
-    func settingDriverFrontData(crewData: Crew?) {
-        guard let crewData = crewData else { return }
+    func settingDriverFrontData(crewData: Crew) {
         totalCrewMemeberLabel.text = "/ \(crewData.memberStatus?.count ?? 0)"
         todayCrewMemeberLabel.text = "\(todayMemberJoined(crewData: crewData))"
     }
 
-    // TODO: - 실시간으로 어떻게 받아올 지 고민하기
-    private func todayMemberJoined(crewData: Crew?) -> Int {
-        guard let crewData = crewData, let memberStatus = crewData.memberStatus else { return 0 }
+    func todayMemberJoined(crewData: Crew) -> Int {
+        guard let memberStatus = crewData.memberStatus else { return 0 }
         // `memberStatus` 배열에서 `.accept` 상태인 요소들만 필터링하여 개수를 반환
         let todayJoiningMember = memberStatus.filter { $0.status == .accept }.count
 
@@ -285,7 +283,7 @@ extension DriverFrontView: UICollectionViewDataSource {
         }
 
         // 운전자가 당일 운전을 진행할 때 글자 색상 변경
-        if crewData?.sessionStatus == .accept {
+        if crewData?.sessionStatus == .accept || crewData?.sessionStatus == .sessionStart {
             if let crewStatus = crewData?.memberStatus?[indexPath.row] {
                 if crewStatus.status == .accept {  // 크루원이 함께 간다고 했을 때
                     cell.statusLabel.textColor = UIColor.semantic.accPrimary
@@ -317,7 +315,6 @@ extension DriverFrontView: UICollectionViewDataSource {
     }
 }
 
-// TODO: - 실제 데이터 적용하기
 extension DriverFrontView: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

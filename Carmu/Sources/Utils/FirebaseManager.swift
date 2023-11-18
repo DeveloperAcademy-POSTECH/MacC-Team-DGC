@@ -526,7 +526,7 @@ extension FirebaseManager {
                 destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                 inviteCode: crewData["inviteCode"] as? String ?? "",
                 repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
+                sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
                 memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
             )
 
@@ -799,5 +799,38 @@ extension FirebaseManager {
                 }
             }
         }
+    }
+
+    func startObservingCrewData(completion: @escaping (Crew?) -> Void) {
+
+        let crewRef = Database.database().reference().child("crew")
+        crewRef.observe(.childChanged, with: { snapshot in
+
+            if let crewData = snapshot.value as? [String: Any] {
+                var crew = Crew(
+                    id: crewData["id"] as? String ?? "",
+                    name: crewData["name"] as? String ?? "",
+                    captainID: crewData["captainID"] as? UserIdentifier ?? "",
+                    crews: crewData["crews"] as? [UserIdentifier] ?? [""],
+                    startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
+                    destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
+                    inviteCode: crewData["inviteCode"] as? String ?? "",
+                    repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+                    sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
+                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
+                )
+                // 중지지를 확인하고 설정합니다.
+                if let stopover1Data = crewData["stopover1"] as? [String: Any] {
+                    crew.stopover1 = self.convertDataToPoint(stopover1Data)
+                }
+                if let stopover2Data = crewData["stopover2"] as? [String: Any] {
+                    crew.stopover2 = self.convertDataToPoint(stopover2Data)
+                }
+                if let stopover3Data = crewData["stopover3"] as? [String: Any] {
+                    crew.stopover3 = self.convertDataToPoint(stopover3Data)
+                }
+                completion(crew)
+            }
+        })
     }
 }
