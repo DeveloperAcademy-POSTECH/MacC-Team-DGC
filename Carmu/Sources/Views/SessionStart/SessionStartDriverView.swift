@@ -234,15 +234,13 @@ final class DriverFrontView: UIView {
         }
     }
 
-    // MARK: - 바뀌는 값
-    func settingDriverFrontData(crewData: Crew?) {
-        guard let crewData = crewData else { return }
+    func settingDriverFrontData(crewData: Crew) {
         totalCrewMemeberLabel.text = "/ \(crewData.memberStatus?.count ?? 0)"
         todayCrewMemeberLabel.text = "\(todayMemberJoined(crewData: crewData))"
     }
 
-    func todayMemberJoined(crewData: Crew?) -> Int {
-        guard let crewData = crewData, let memberStatus = crewData.memberStatus else { return 0 }
+    func todayMemberJoined(crewData: Crew) -> Int {
+        guard let memberStatus = crewData.memberStatus else { return 0 }
         // `memberStatus` 배열에서 `.accept` 상태인 요소들만 필터링하여 개수를 반환
         let todayJoiningMember = memberStatus.filter { $0.status == .accept }.count
 
@@ -265,7 +263,6 @@ extension DriverFrontView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
 
-        // MARK: - 바뀌는 값
         // crewStatus에서 현재 indexPath.row에 해당하는 크루의 상태 값을 가져옵니다.
         if let memberStatus = crewData?.memberStatus?[indexPath.row] {
             // 운전자가 응답을 하지 않은 상황이면 Zzz..이고, 응답을 했다면 미응답으로 표현합니다.
@@ -318,7 +315,6 @@ extension DriverFrontView: UICollectionViewDataSource {
     }
 }
 
-// TODO: - 실제 데이터 적용하기
 extension DriverFrontView: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -48,15 +48,6 @@ final class SessionStartViewController: UIViewController {
                     self.updateUI(crewData: crewData)
                 }
                 if let crewData = crewData {
-//                    settingData(crewData: crewData)
-//                    // DriverView
-//                    sessionStartDriverView.driverFrontView.settingDriverFrontData(crewData: crewData)
-//                    sessionStartDriverView.driverFrontView.crewData = crewData
-//                    sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
-//                    // PassengerView
-//                    sessionStartPassengerView.passengerFrontView.settingPassengerFrontData(crewData: crewData)
-//                    // BackView
-//                    sessionStartBackView.crewData = crewData
                     updateUI(crewData: crewData)
                 }
             } catch {
@@ -107,7 +98,6 @@ extension SessionStartViewController {
             sessionStartDriverView.driverFrontView.settingDriverFrontData(crewData: crewData)
             sessionStartDriverView.driverFrontView.crewCollectionView.reloadData()
         } else {    // Passenger
-            sessionStartPassengerView.passengerFrontView.crewData = crewData
             sessionStartPassengerView.passengerFrontView.settingPassengerFrontData(crewData: crewData)
 
             if crewData.sessionStatus == .accept {  // 운전자가 운행할 때
@@ -202,7 +192,6 @@ extension SessionStartViewController {
         }
     }
 
-    // MARK: - 바뀌는 값
     private func settingData(crewData: Crew?) {
 
         if isCaptain {
@@ -213,7 +202,6 @@ extension SessionStartViewController {
     }
 
     // 운전자일 때
-    // MARK: - 바뀌는 값 (선언 안해줘도 실행됨)
     private func settingDriverData(crewData: Crew?) {
         guard let crewData = crewData else { return }
         switch crewData.sessionStatus {
@@ -233,7 +221,6 @@ extension SessionStartViewController {
     }
 
     // 동승자일 때
-    // MARK: - 바뀌는 값 (선언 안해줘도 실행됨)
     private func settingPassengerData(crewData: Crew?) {
         guard let crewData = crewData else { return }
         switch crewData.sessionStatus {
@@ -262,9 +249,8 @@ extension SessionStartViewController {
         }
     }
 
-    // 공통으로 사용되는 것
+    // 공통(운전자, 탑승자)으로 사용되는 메서드
     // settingData - .decline
-    // MARK: - 바뀌는 값 (선언 안해줘도 실행됨)
     private func settingDataDecline() {
         sessionStartView.topComment.text = ""
         sessionStartDriverView.layer.opacity = 1.0
@@ -275,7 +261,6 @@ extension SessionStartViewController {
     }
 
     // settingData - .sessionStart
-    // MARK: - 바뀌는 값 (선언 안해줘도 실행됨)
     private func settingDataSessionStart(crewData: Crew?) {
         guard let crewData = crewData else { return }
         sessionStartView.individualButton.isHidden = true
@@ -548,7 +533,6 @@ extension SessionStartViewController {
     }
 
     // 동승자일 때
-    // MARK: - 바뀌는 값
     private func settingIndividualButtonForPassenger(crewData: Crew?) {
         guard let crewData = crewData else { return }
 
@@ -594,7 +578,6 @@ extension SessionStartViewController {
     }
 
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
-    // MARK: - 바뀌는 값
     private func checkingCrewStatus(crewData: Crew?) {
         guard let crewData = crewData else { return }
         guard let memberStatus = crewData.memberStatus else { return }
