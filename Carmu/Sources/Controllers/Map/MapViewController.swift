@@ -51,52 +51,44 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startUpdatingLocation()
-        if !isDriver {
-            firebaseManager.startObservingDriveLocation { latitude, longitude in
-                self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
-            }
-        }
-        showNaverMap()
-        fetchDirections()
-        mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
-        mapView.currentLocationButton.addTarget(self, action: #selector(currentLocationButtonDidTap), for: .touchUpInside)
-        detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
-        detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
-        detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
-        if isDriver {
-            detailView.crewScrollView.setDataSource(dataSource: crew.memberStatus ?? [])
-        }
+        startObservingDriverLocation()
+        setDetailView()
+        setNaverMap()
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        // 출발지, 경유지, 도착지를 모두 포함하도록 맵뷰 초기 범위 설정
         initCameraUpdate()
+        // 탑승자만 현위치 버튼을 표시
         if !isDriver {
             mapView.showCurrentLocationButton()
         }
     }
 
-    @objc private func backButtonDidTap() {
-        dismiss(animated: true)
+    /// [운전자, 탑승자] 실시간 위치 정보를 받아오기 위한 CoreLocation 세팅
+    private func startUpdatingLocation() {
+        // 델리게이트 설정
+        locationManager.delegate = self
+        // 배터리 동작시 가장 높은 수준의 거리 정확도
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        // 백그라운드에서도 위치 정보 업데이트 허용
+        locationManager.allowsBackgroundLocationUpdates = true
+        // 위치 허용 alert 표시
+        locationManager.requestWhenInUseAuthorization()
+        // 위도, 경도 정보 가져오기 시작
+        locationManager.startUpdatingLocation()
     }
 
-    @objc private func currentLocationButtonDidTap() {
-        guard let myCurrentCoordinate = myCurrentCoordinate else { return }
-        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: myCurrentCoordinate)))
-    }
-
-    @objc private func showNoticeLateModal() {
-        present(NoticeLateViewController(), animated: true)
-    }
-
-    @objc private func finishCarpoolButtonDidTap() {
-        guard let pnc = presentingViewController as? UINavigationController else { return }
-        guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
-        dismiss(animated: true) {
-            pvc.showCarpoolFinishedModal()
+    /// [탑승자] 셔틀 탑승자는 운전자의 현재 위치를 실시간으로 추적하여 맵뷰에 반영
+    private func startObservingDriverLocation() {
+        guard !isDriver else { return }
+        firebaseManager.startObservingDriveLocation { latitude, longitude in
+            self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
         }
     }
 
-    private func showNaverMap() {
+    /// [운전자, 탑승자] 운전자, 탑승자별로 다른 하단뷰를 표시
+    private func setDetailView() {
         view.addSubview(detailView)
         detailView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
@@ -105,13 +97,69 @@ final class MapViewController: UIViewController {
 
         detailView.titleLabel.text = crew.name
 
+        // 운전자의 경우 하단뷰에 탑승자 정보 표시
+        if isDriver {
+            detailView.crewScrollView.setDataSource(dataSource: crew.memberStatus ?? [])
+        }
+
+        detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
+        detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
+        detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
+    }
+
+    /// [운전자, 탑승자] Naver 지도(출발, 경유, 도착지 및 운전 경로 등등)를 위한 설정
+    private func setNaverMap() {
         view.addSubview(mapView)
         mapView.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
             make.bottom.equalTo(detailView.snp.top)
         }
+
+        // 운전 경로 표시
+        fetchDirections()
+
+        mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        mapView.currentLocationButton.addTarget(self, action: #selector(currentLocationButtonDidTap), for: .touchUpInside)
     }
 
+    /// [운전자, 탑승자] '포기하기' 버튼 선택시 동작
+    @objc func giveUpButtonDidTap() {
+        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: "탑승을 중도 포기합니다", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
+        let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(giveUpAction)
+        present(alert, animated: true)
+    }
+
+    /// [운전자, 탑승자] '지각 알리기' 버튼 선택시 동작
+    @objc private func showNoticeLateModal() {
+        present(NoticeLateViewController(), animated: true)
+    }
+
+    /// [운전자] '카풀 종료하기' 버튼 선택시 동작
+    @objc private func finishCarpoolButtonDidTap() {
+        guard let pnc = presentingViewController as? UINavigationController else { return }
+        guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
+        dismiss(animated: true) {
+            pvc.showCarpoolFinishedModal()
+        }
+    }
+
+    /// [운전자, 탑승자] '<' 버튼 선택시 동작
+    @objc private func backButtonDidTap() {
+        dismiss(animated: true)
+    }
+
+    /// [탑승자] 현위치 버튼 선택시 동작
+    @objc private func currentLocationButtonDidTap() {
+        guard let myCurrentCoordinate = myCurrentCoordinate else { return }
+        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: myCurrentCoordinate)))
+    }
+
+    /// [운전자, 탑승자] 출발지, 경유지, 도착지를 모두 포함하는 Bound 설정
     private func initCameraUpdate() {
         var latLngs: [NMGLatLng] = []
         if let coordinate = crew.startingPoint, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
@@ -134,19 +182,7 @@ final class MapViewController: UIViewController {
         mapView.naverMap.moveCamera(cameraUpdate)
     }
 
-    private func startUpdatingLocation() {
-        // 델리게이트 설정
-        locationManager.delegate = self
-        // 배터리 동작시 가장 높은 수준의 거리 정확도
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        // 백그라운드에서도 위치 정보 업데이트 허용
-        locationManager.allowsBackgroundLocationUpdates = true
-        // 위치 허용 alert 표시
-        locationManager.requestWhenInUseAuthorization()
-        // 위도, 경도 정보 가져오기 시작
-        locationManager.startUpdatingLocation()
-    }
-
+    /// [운전자, 탑승자] 맵뷰에 셔틀 이동경로 표시
     private func fetchDirections() {
         var urlString = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving"
         if let coordinate = crew.startingPoint, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
@@ -211,17 +247,7 @@ final class MapViewController: UIViewController {
         })
     }
 
-    @objc func giveUpButtonDidTap() {
-        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: "탑승을 중도 포기합니다", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
-        let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
-            self.dismiss(animated: true)
-        }
-        alert.addAction(cancelAction)
-        alert.addAction(giveUpAction)
-        present(alert, animated: true)
-    }
-
+    /// [운전자] 도착지로부터 몇 m 떨어져있는지 반환하는 함수 (200m 이내라면 버튼이 달라짐)
     private func distanceFromDestination(current: CLLocation) -> Double {
         // TODO: - 불필요한 옵셔널로 인한 guard문 삭제, 무효한 데이터이므로 도착지에 도착하지 못하도록 200보다 큰 수로 설정해둠
         guard let coordinate = crew.destination, let latitude = coordinate.latitude, let longitude = coordinate.longitude else {
@@ -235,7 +261,11 @@ final class MapViewController: UIViewController {
 
 extension MapViewController: CLLocationManagerDelegate {
 
-    // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
+    /**
+     [운전자, 탑승자] 실시간 현재 위치를 업데이트
+     운전자의 경우 현재 위치를 맵뷰에 자동차 마커로 표시하고 DB에 현재 위치를 반영, 도착지 주변인 경우 하단뷰에 버튼 변경
+     탑승자의 경우 현재 위치를 동그라미 마커로 표시
+     */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         if isDriver {
