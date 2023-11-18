@@ -105,30 +105,37 @@ extension SessionStartViewController {
                 sessionStartPassengerView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
             }
 
-            switch crewData.sessionStatus {
-            case .waiting:
-                sessionStartView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
-                sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
-            case .accept:
-                sessionStartView.topComment.text = ""
-                sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
-                sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
-                sessionStartView.notifyComment.text = ""
-                sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
-                sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.individualButton.isEnabled = false
+            // 탑승자의 참석 여부에 따른 분기문
+            if firebaseManager.passengerStatus(crewData: crewData) == .accept {
+                sessionStartView.notifyComment.text = "함께가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+                sessionStartView.individualButton.backgroundColor = UIColor.semantic.negative
                 sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.togetherButton.isEnabled = false
-            case .decline:
-                sessionStartView.topComment.text = ""
-                sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.individualButton.isEnabled = false
-                sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-                sessionStartView.togetherButton.isEnabled = false
-            case .sessionStart: break
-                // sessionStart일 때는 해당 버튼이 나타나지 않음
-            case .none: break
+            } else if firebaseManager.passengerStatus(crewData: crewData) == .decline {
+                switch crewData.sessionStatus {
+                case .waiting:
+                    sessionStartView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+                    sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                    sessionStartView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
+                case .accept:
+                    sessionStartView.topComment.text = ""
+                    sessionStartPassengerView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
+                    sessionStartPassengerView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
+                    sessionStartView.notifyComment.text = ""
+                    sessionStartPassengerView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+                    sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                    sessionStartView.individualButton.isEnabled = false
+                    sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+                    sessionStartView.togetherButton.isEnabled = false
+                case .decline:
+                    sessionStartView.topComment.text = ""
+                    sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                    sessionStartView.individualButton.isEnabled = false
+                    sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+                    sessionStartView.togetherButton.isEnabled = false
+                case .sessionStart: break
+                    // sessionStart일 때는 해당 버튼이 나타나지 않음
+                case .none: break
+                }
             }
         }
     }
@@ -484,10 +491,6 @@ extension SessionStartViewController {
         } else {    // 동승자일 때
             // FirebaseManager methods
             firebaseManager.passengerTogetherButtonTapped(crewData: crewData)
-
-            sessionStartView.notifyComment.text = "함께가기를 선택하셨네요!\n운전자에게 알려드릴게요"
-            sessionStartView.individualButton.backgroundColor = UIColor.semantic.negative
-            sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
         }
     }
 

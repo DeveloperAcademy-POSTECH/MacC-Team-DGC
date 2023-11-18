@@ -801,6 +801,17 @@ extension FirebaseManager {
         }
     }
 
+    // 탑승자 기준 본인의 Status를 감지하는 메서드
+    func passengerStatus(crewData: Crew?) -> Status {
+        guard let crewData = crewData else { return .waiting }
+        guard let memberStatus = crewData.memberStatus else { return .waiting }
+
+        for member in memberStatus where member.id == KeychainItem.currentUserIdentifier {
+            return member.status ?? .waiting
+        }
+        return .waiting
+    }
+
     func startObservingCrewData(completion: @escaping (Crew?) -> Void) {
 
         let crewRef = Database.database().reference().child("crew")
