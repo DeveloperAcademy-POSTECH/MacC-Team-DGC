@@ -30,4 +30,14 @@ extension Date {
         dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.date(from: string)
     }
+
+    /**
+     Date -> String (HH:mm 형태)
+     */
+    var toString24HourClock: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        return dateFormatter.string(from: self)
+    }
 }

@@ -681,6 +681,7 @@ extension FirebaseManager {
 
 }
 
+// MARK: - 맵뷰 관련 메서드
 extension FirebaseManager {
 
     func updateDriverCoordinate(coordinate: CLLocationCoordinate2D) {
@@ -699,6 +700,34 @@ extension FirebaseManager {
                 completion(latitude, longitude)
             }
         })
+    }
+
+    /// 내 탑승지 정보 받아오는 메서드
+    func myPickUpLocation(crew: Crew) -> Point? {
+        guard let myUID = KeychainItem.currentUserIdentifier else {
+            return nil
+        }
+        if let location = crew.startingPoint, let crews = location.crews {
+            for crew in crews where crew == myUID {
+                return location
+            }
+        }
+        if let location = crew.stopover1, let crews = location.crews {
+            for crew in crews where crew == myUID {
+                return location
+            }
+        }
+        if let location = crew.stopover2, let crews = location.crews {
+            for crew in crews where crew == myUID {
+                return location
+            }
+        }
+        if let location = crew.stopover2, let crews = location.crews {
+            for crew in crews where crew == myUID {
+                return location
+            }
+        }
+        return nil
     }
 }
 

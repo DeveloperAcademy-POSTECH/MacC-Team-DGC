@@ -100,6 +100,14 @@ final class MapViewController: UIViewController {
         // 운전자의 경우 하단뷰에 탑승자 정보 표시
         if isDriver {
             detailView.crewScrollView.setDataSource(dataSource: crew.memberStatus ?? [])
+        // 동승자의 경우 탑승 위치, 시간 표기
+        } else if let location = firebaseManager.myPickUpLocation(crew: crew) {
+            detailView.pickUpLocationAddressLabel.text = location.detailAddress ?? ""
+            if let date = location.arrivalTime {
+                detailView.pickUpTimeLabel.text = date.toString24HourClock
+            }
+            // TODO: 늦은 시간 설정 후에 다시 설정해주기
+            detailView.lateTimeLabel.text = "(+0분)"
         }
 
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)

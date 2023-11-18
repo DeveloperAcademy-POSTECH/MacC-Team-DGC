@@ -62,7 +62,6 @@ final class MapDetailView: UIView {
 
     lazy var pickUpLocationAddressLabel = {
         let label = UILabel()
-        label.text = "포항 시외버스터미널" // TODO: - 실제 데이터 사용하기
         label.font = UIFont.carmuFont.headline1
         label.textColor = UIColor.semantic.textPrimary
         return label
@@ -78,7 +77,6 @@ final class MapDetailView: UIView {
 
     lazy var pickUpTimeLabel = {
         let label = UILabel()
-        label.text = "9:45" // TODO: - 실제 데이터 사용하기
         label.font = UIFont.carmuFont.headline2
         label.textColor = UIColor.semantic.accPrimary
         return label
@@ -86,7 +84,6 @@ final class MapDetailView: UIView {
 
     lazy var lateTimeLabel = {
         let label = UILabel()
-        label.text = "(+0분)"
         label.font = UIFont.carmuFont.headline2
         label.textColor = UIColor.semantic.textPrimary
         return label
