@@ -23,6 +23,7 @@ struct PointLatLng {
 final class SelectDetailStopoverPointViewController: UIViewController {
 
     private let stopoverPointMapView = SelectDetailStopoverPointView()
+    private let loadingView = LoadingView()
     var addressSelectionHandler: ((AddressDTO) -> Void)?
     private var points: PointLatLng
     private var addressDTO = AddressDTO()
@@ -78,6 +79,12 @@ final class SelectDetailStopoverPointViewController: UIViewController {
         stopoverPointMapView.mapView.addCameraDelegate(delegate: self)
         stopoverPointMapView.backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         stopoverPointMapView.saveButton.addTarget(self, action: #selector(saveButtonAction), for: .touchUpInside)
+
+        view.addSubview(loadingView)
+        loadingView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        loadingView.showLoadingView(showInterval: 1.5)
     }
 
     override func viewDidAppear(_ animated: Bool) {
