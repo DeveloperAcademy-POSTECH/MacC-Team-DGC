@@ -422,13 +422,14 @@ extension FirebaseManager {
     }
 
     /**
-     크루 만들기에서 추가된 크루의 crews, crewStatus에 user의 값을 집어넣는 메서드
+     크루 만들기에서 추가된 크루의 crews, memberStatus에 user의 값을 집어넣는 메서드
          호출되는 곳
              BoardingPointSelectViewController
      */
     func setUserToCrew(_ userID: String, _ crewID: String) {
         let databaseRef = Database.database().reference().child("crew/\(crewID)")
 
+        // TODO: - crews 제거하기
         databaseRef.child("crews").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
@@ -446,18 +447,41 @@ extension FirebaseManager {
             }
         }
 
-        databaseRef.child("memberStatus").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
+        // 해당 유저 정보의 데이터를 입력시킴
+        guard let userDatabasePath = User.databasePathWithUID else { return }
+        readUser(databasePath: userDatabasePath) { userData in
+            guard let userData = userData else { return }
 
-            if var memberStatus = snapshot?.value as? [String: String] {
-                memberStatus[userID] = Status.waiting.rawValue
-                databaseRef.child("memberStatus").setValue(memberStatus)
-            } else {
-                let newCrewStatus = [userID: Status.waiting.rawValue]
-                databaseRef.child("memberStatus").setValue(newCrewStatus)
+            databaseRef.child("memberStatus").getData { error, snapshot in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+
+                if var memberStatus = snapshot?.value as? [[String: Any]] {
+                    // memberStatus 배열이 이미 존재하는 경우
+                    var newMemberStatus: [String: Any] = [:]
+                    newMemberStatus["id"] = userData.id
+                    newMemberStatus["deviceToken"] = userData.deviceToken
+                    newMemberStatus["profileColor"] = userData.profileImageColor.rawValue
+                    newMemberStatus["status"] = Status.waiting.rawValue
+                    newMemberStatus["nickname"] = userData.nickname
+
+                    memberStatus.append(newMemberStatus)
+                    databaseRef.child("memberStatus").setValue(memberStatus)
+                } else {
+                    // memberStatus 배열이 아직 없는 경우
+                    var memberStatus: [[String: Any]] = []
+                    var newMemberStatus: [String: Any] = [:]
+                    newMemberStatus["id"] = userData.id
+                    newMemberStatus["deviceToken"] = userData.deviceToken
+                    newMemberStatus["profileColor"] = userData.profileImageColor.rawValue
+                    newMemberStatus["status"] = Status.waiting.rawValue
+                    newMemberStatus["nickname"] = userData.nickname
+
+                    memberStatus.append(newMemberStatus)
+                    databaseRef.child("memberStatus").setValue(memberStatus)
+                }
             }
         }
     }
