@@ -843,7 +843,7 @@ extension FirebaseManager {
                     sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
                     memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
                 )
-                // 중지지를 확인하고 설정합니다.
+                // 경유지를 확인하고 설정합니다.
                 if let stopover1Data = crewData["stopover1"] as? [String: Any] {
                     crew.stopover1 = self.convertDataToPoint(stopover1Data)
                 }
