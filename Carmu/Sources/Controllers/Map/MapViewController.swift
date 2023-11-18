@@ -63,6 +63,9 @@ final class MapViewController: UIViewController {
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
         detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
+        if isDriver {
+            detailView.crewScrollView.setDataSource(dataSource: crew.memberStatus ?? [])
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {

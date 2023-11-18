@@ -9,7 +9,7 @@ import UIKit
 
 final class CrewScrollView: UIScrollView {
 
-    var dataSource: [UserIdentifier]? {
+    private var dataSource: [MemberStatus]? {
         didSet { bind() }
     }
 
@@ -31,7 +31,7 @@ final class CrewScrollView: UIScrollView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configure() {
+    private func configure() {
         showsHorizontalScrollIndicator = false
         bounces = false
 
@@ -41,24 +41,33 @@ final class CrewScrollView: UIScrollView {
         }
     }
 
-    func bind() {
+    private func bind() {
+        guard let members = dataSource else { return }
+        stackView.removeAllArrangedSubviews()
         // TODO: - 실제 데이터 받아서 처리
-        for time in 0..<8 {
+        for member in members {
             let view = UIView()
             view.snp.makeConstraints { make in
                 make.width.equalTo(48)
             }
 
             let timeLabel = UILabel()
-            timeLabel.text = "+\(time)분"
+            switch member.status {
+            case .decline, .waiting, .sessionStart, .none:
+                timeLabel.text = "포기"
+                timeLabel.textColor = UIColor.semantic.textEnabled
+            case .accept:
+                // TODO: 늦은 시간 설정 필요
+                timeLabel.text = "+\(0)분"
+                timeLabel.textColor = UIColor.semantic.accPrimary
+            }
             timeLabel.font = UIFont.carmuFont.subhead3
-            timeLabel.textColor = UIColor.semantic.negative
             view.addSubview(timeLabel)
             timeLabel.snp.makeConstraints { make in
                 make.top.centerX.equalToSuperview()
             }
 
-            let crewImage = UIImageView(image: UIImage(profileImageColor: .blue))
+            let crewImage = UIImageView(image: UIImage(profileImageColor: ProfileImageColor(rawValue: member.profileColor ?? "") ?? .blue))
             view.addSubview(crewImage)
             crewImage.snp.makeConstraints { make in
                 make.top.equalTo(timeLabel.snp.bottom).offset(4)
@@ -67,7 +76,7 @@ final class CrewScrollView: UIScrollView {
             }
 
             let crewName = UILabel()
-            crewName.text = "홍길동"
+            crewName.text = member.nickname
             crewName.font = UIFont.carmuFont.body3
             crewName.textColor = UIColor.semantic.textTertiary
             view.addSubview(crewName)
@@ -78,5 +87,9 @@ final class CrewScrollView: UIScrollView {
 
             stackView.addArrangedSubview(view)
         }
+    }
+
+    func setDataSource(dataSource: [MemberStatus]) {
+        self.dataSource = dataSource
     }
 }
