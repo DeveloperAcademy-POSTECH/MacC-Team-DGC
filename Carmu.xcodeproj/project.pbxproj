@@ -90,6 +90,8 @@
 		C904D1612AD57AE8008BF5CE /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1602AD57AE8008BF5CE /* Crew.swift */; };
 		C908AE412B03920500C5A743 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908AE402B03920500C5A743 /* LoadingView.swift */; };
 		C908AE432B03923600C5A743 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908AE422B03923600C5A743 /* LoadingViewController.swift */; };
+		C90B6BD12B09D59800F51543 /* CrewNameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */; };
+		C90B6BD32B09D5B700F51543 /* CrewNameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
 		C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB322AC9B6760068273A /* ColorTheme.swift */; };
@@ -223,6 +225,8 @@
 		C904D1602AD57AE8008BF5CE /* Crew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
 		C908AE402B03920500C5A743 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		C908AE422B03923600C5A743 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewNameSettingViewController.swift; sourceTree = "<group>"; };
+		C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewNameSettingView.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -602,6 +606,7 @@
 		C931166A2AF3AB250014E702 /* Driver */ = {
 			isa = PBXGroup;
 			children = (
+				C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */,
 				C95462122AF74BFC004C4F6D /* StartEndPointSelect */,
 				C93116652AF382260014E702 /* StopoverPointCheckViewController.swift */,
 				C9D04C6F2AFB81E1007E615B /* StopoverPointSelect */,
@@ -625,6 +630,7 @@
 		C931166C2AF3AB3F0014E702 /* Driver */ = {
 			isa = PBXGroup;
 			children = (
+				C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */,
 				C95462112AF74BEA004C4F6D /* StartEndPointSelect */,
 				C93116672AF3822D0014E702 /* StopoverPointCheckView.swift */,
 				C9D04C6C2AFB8190007E615B /* StopoverPointSelect */,
@@ -948,6 +954,7 @@
 				164E823D2AF53AB400848BFF /* Point.swift in Sources */,
 				B84006AE2B00B2570009DCD2 /* CrewEditViewController.swift in Sources */,
 				B8F1F2472B0615790056B733 /* TimeEditButton.swift in Sources */,
+				C90B6BD12B09D59800F51543 /* CrewNameSettingViewController.swift in Sources */,
 				C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
 				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
@@ -972,6 +979,7 @@
 				B8726B222AFDBA240084B49C /* CrewInfoCheckViewController.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
+				C90B6BD32B09D5B700F51543 /* CrewNameSettingView.swift in Sources */,
 				B8376E402AF936F4007F1E0A /* CrewInfoPassengerView.swift in Sources */,
 				C9D04C652AF89953007E615B /* RightNavigationBarButton.swift in Sources */,
 				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
