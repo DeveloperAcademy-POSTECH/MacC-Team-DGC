@@ -57,14 +57,14 @@ final class NoticeLateViewController: UIViewController {
 
     @objc private func lateThreeMinutesButtonDidTap() {
         lateMin = "3"
-        firebaseManager.updateMemberLateTime(lateTime: 3, crew: crew)
+        firebaseManager.updateLateTime(lateTime: 3, crew: crew)
         sendLateNotification(lateMin)
         sendToastMessage()
     }
 
     @objc private func lateFiveMinutesButtonDidTap() {
         lateMin = "5"
-        firebaseManager.updateMemberLateTime(lateTime: 5, crew: crew)
+        firebaseManager.updateLateTime(lateTime: 5, crew: crew)
         sendLateNotification(lateMin)
         sendToastMessage()
     }

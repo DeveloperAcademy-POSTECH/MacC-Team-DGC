@@ -819,7 +819,30 @@ extension FirebaseManager {
         ])
     }
 
-    func updateMemberLateTime(lateTime: UInt, crew: Crew) {
+    func updateLateTime(lateTime: UInt, crew: Crew) {
+        let isDriver = KeychainItem.currentUserIdentifier == crew.captainID
+        if isDriver {
+            updateCrewLateTime(lateTime: lateTime, crew: crew)
+        } else {
+            updateMemberLateTime(lateTime: lateTime, crew: crew)
+        }
+    }
+
+    /// [운전자] '지각 알리기' 버튼 눌렀을 때의 동작. Crew의 lateTime을 갱신한다.
+    private func updateCrewLateTime(lateTime: UInt, crew: Crew) {
+        guard let crewID = crew.id else { return }
+
+        let crewReference = Database.database().reference().child("crew/\(crewID)/lateTime")
+        crewReference.observeSingleEvent(of: .value, with: { snapshot in
+            guard let beforeLateTime = snapshot.value as? UInt else {
+                return
+            }
+            crewReference.setValue(beforeLateTime + lateTime)
+        })
+    }
+
+    /// [탑승자] '지각 알리기' 버튼 눌렀을 때의 동작. 해당 MemberStatus의 lateTime을 갱신한다.
+    private func updateMemberLateTime(lateTime: UInt, crew: Crew) {
         guard let myUID = KeychainItem.currentUserIdentifier else { return }
         guard let crewID = crew.id else { return }
 
