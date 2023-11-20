@@ -13,6 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var authStateDidChangeHandle: AuthStateDidChangeListenerHandle?
+    private let firebaseManager = FirebaseManager()
 
     static var isFirst: Bool {
         get {
@@ -46,21 +47,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     private func updateRootViewController() {
-        var rootViewController: UIViewController
-        if Auth.auth().currentUser != nil {
-            if SceneDelegate.isFirst {
-                rootViewController = PositionSelectViewController()
-            } else {
-                rootViewController = SessionStartViewController()
+        var navigationController = UINavigationController(rootViewController: UIViewController())
+        navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+        Task {
+            let hasCrew = await self.firebaseManager.checkHasCrewAsync()
+
+            // UI 업데이트 메인 스레드에서 수행
+            await MainActor.run {
+                if Auth.auth().currentUser != nil {
+                    if SceneDelegate.isFirst && hasCrew {
+                        navigationController = UINavigationController(rootViewController: PositionSelectViewController())
+                    } else {
+                        navigationController = UINavigationController(rootViewController: SessionStartViewController())
+                    }
+                    removeBackButtonTitle()
+                    window?.rootViewController = navigationController
+                } else {
+                    window?.rootViewController = LoginViewController()
+                }
+                self.window?.makeKeyAndVisible()
             }
-            let navigationController = UINavigationController(rootViewController: rootViewController)
-            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
-            removeBackButtonTitle()
-            window?.rootViewController = navigationController
-        } else {
-            window?.rootViewController = LoginViewController()
         }
-        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
