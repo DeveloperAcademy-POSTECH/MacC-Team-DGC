@@ -21,9 +21,12 @@ final class MapViewController: UIViewController {
 
     private let firebaseManager = FirebaseManager()
 
-    private let isDriver = true
     // [동승자] 내 현재 위치
     private var myCurrentCoordinate: CLLocationCoordinate2D?
+
+    private var isDriver: Bool {
+        crew.captainID == KeychainItem.currentUserIdentifier
+    }
 
     private let pathOverlay = {
         let pathOverlay = NMFPath()
@@ -152,7 +155,7 @@ final class MapViewController: UIViewController {
 
     /// [운전자, 탑승자] '지각 알리기' 버튼 선택시 동작
     @objc private func showNoticeLateModal() {
-        present(NoticeLateViewController(), animated: true)
+        present(NoticeLateViewController(crew: crew), animated: true)
     }
 
     /// [운전자] '카풀 종료하기' 버튼 선택시 동작

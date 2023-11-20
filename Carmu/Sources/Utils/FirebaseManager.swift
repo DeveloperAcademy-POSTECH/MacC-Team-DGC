@@ -819,6 +819,26 @@ extension FirebaseManager {
         ])
     }
 
+    func updateMemberLateTime(lateTime: UInt, crew: Crew) {
+        guard let myUID = KeychainItem.currentUserIdentifier else { return }
+
+        let memberStatusReference = Database.database().reference().child("crew/\(crew.id!)/memberStatus")
+        memberStatusReference.observeSingleEvent(of: .value, with: { snapshot in
+            guard let memberStatus = snapshot.value as? [[String: Any]] else {
+                return
+            }
+            for (index, member) in memberStatus.enumerated() {
+                guard let uid = member["id"] as? String, let beforeLateTime = member["lateTime"] as? UInt else {
+                    continue
+                }
+                if uid == myUID {
+                    memberStatusReference.child("\(index)/lateTime").setValue(beforeLateTime + lateTime)
+                    break
+                }
+            }
+        })
+    }
+
     func startObservingMemberStatus(crewID: String?, completion: @escaping ([MemberStatus]) -> Void) {
         guard let crewID = crewID else { return }
         Database.database().reference().child("crew/\(crewID)").observe(.value) { snapshot in
