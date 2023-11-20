@@ -174,6 +174,8 @@ extension SelectDetailPointMapViewController: NMFMapViewCameraDelegate {
                     self.selectDetailPointMapView.detailAddressLabel.text = detailAddress
                     self.selectAddressModel.buildingName = buildingName
                     self.selectAddressModel.detailAddress = detailAddress
+                    self.selectAddressModel.coordinate?.latitude = center.lat
+                    self.selectAddressModel.coordinate?.longitude = center.lng
                     self.selectDetailPointMapView.saveButton.isEnabled = true
                     self.selectDetailPointMapView.saveButton.backgroundColor = UIColor.semantic.accPrimary
                 }
