@@ -821,8 +821,9 @@ extension FirebaseManager {
 
     func updateMemberLateTime(lateTime: UInt, crew: Crew) {
         guard let myUID = KeychainItem.currentUserIdentifier else { return }
+        guard let crewID = crew.id else { return }
 
-        let memberStatusReference = Database.database().reference().child("crew/\(crew.id!)/memberStatus")
+        let memberStatusReference = Database.database().reference().child("crew/\(crewID)/memberStatus")
         memberStatusReference.observeSingleEvent(of: .value, with: { snapshot in
             guard let memberStatus = snapshot.value as? [[String: Any]] else {
                 return
