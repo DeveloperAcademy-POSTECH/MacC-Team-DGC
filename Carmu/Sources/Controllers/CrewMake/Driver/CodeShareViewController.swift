@@ -38,10 +38,12 @@ final class CodeShareViewController: UIViewController {
         }
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        SceneDelegate.updateIsFirstValue(false)
-        SceneDelegate.isCrewCreated = true
-    }
+    private let firebaseManager = FirebaseManager()
+
+//    override func viewDidDisappear(_ animated: Bool) {
+//        SceneDelegate.updateIsFirstValue(false)
+//        SceneDelegate.isCrewCreated = true
+//    }
 }
 
 // MARK: - @objc Method
@@ -82,6 +84,8 @@ extension CodeShareViewController {
             SceneDelegate.isCrewCreated = true
         } else {
             // 초기 화면이 아닐 경우(건너가기 후 그룹코드 입력)
+            navigationController?.popToRootViewController(animated: true)
+            navigationController?.viewControllers.first?.viewDidAppear(true)
         }
     }
 }
