@@ -73,7 +73,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                             navigationController = UINavigationController(rootViewController: SessionStartViewController())
                             navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
                         }
-                        self.removeBackButtonTitle()
+                        navigationController.navigationItem.backButtonTitle = ""
                         self.window?.rootViewController = navigationController
                     } else {
                         self.window?.rootViewController = LoginViewController()
@@ -104,12 +104,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     static func updateIsFirstValue(_ newValue: Bool) {
         SceneDelegate.isFirst = newValue
         NotificationCenter.default.post(name: Notification.Name("IsFirstChanged"), object: nil)
-    }
-
-    // TODO: - 내비게이션 바 버튼 색이 자꾸 .clear로 변하기 때문에 다른 방법 필요
-    private func removeBackButtonTitle() {
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.clear]
-        UIBarButtonItem.appearance().setTitleTextAttributes(attributes, for: .normal)
-        UIBarButtonItem.appearance().setTitleTextAttributes(attributes, for: .highlighted)
     }
 }
