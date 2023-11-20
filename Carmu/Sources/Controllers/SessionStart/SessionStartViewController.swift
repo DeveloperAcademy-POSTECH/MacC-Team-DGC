@@ -495,10 +495,14 @@ extension SessionStartViewController {
     }
 
     @objc private func carpoolStartButtonDidTapped() {
+        // 세션 시작으로 상태 변경
+        crewData?.sessionStatus = .sessionStart
         // FirebaseManager methods
         firebaseManager.carpoolStartButtonTapped(crewData: crewData)
 
-        let mapView = MapViewController()
+        guard let crew = crewData else { return }
+
+        let mapView = MapViewController(crew: crew)
         mapView.modalPresentationStyle = .fullScreen
         present(mapView, animated: true, completion: nil)
     }

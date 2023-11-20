@@ -73,41 +73,80 @@ extension SelectDetailPointMapViewController {
 // MARK: - Custom Method
 extension SelectDetailPointMapViewController {
 
-    private func getAddressAndBuildingName(for coordinate: NMGLatLng, completion: @escaping (String?, String?) -> Void) {
-        let geocoder = CLGeocoder()
-        let location = CLLocation(
-            latitude: coordinate.lat,
-            longitude: coordinate.lng
-        )
+    private func getAddressAndBuildingName(_ latLng: NMGLatLng, completion: @escaping (String, String) -> Void) {
+        let urlString = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&"
+        + "coords=\(latLng.lng),\(latLng.lat)"
+        + "&sourcecrs=epsg:4326&output=json&orders=roadaddr"
 
-        geocoder.reverseGeocodeLocation(location) { placemarks, error in
-            guard error == nil else {
-                print("Error: \(error?.localizedDescription ?? "")")
-                completion(nil, nil)
+        guard let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
+              let url = URL(string: encodedURLString) else {
+            print("유효하지 않은 URL입니다.")
+            return
+        }
+        var request = URLRequest(url: url)
+        request.setValue(Bundle.main.naverMapClientID, forHTTPHeaderField: "X-NCP-APIGW-API-KEY-ID")
+        request.setValue(Bundle.main.naverMapClientSecret, forHTTPHeaderField: "X-NCP-APIGW-API-KEY")
+
+        let task = URLSession.shared.dataTask(with: request) { (data, _, error) in
+            if let error = error {
+                print("에러 발생: \(error)")
                 return
             }
+            guard let data = data, let responseString = String(data: data, encoding: .utf8) else {
+                print("데이터를 받아오지 못함")
+                return
+            }
+            if let jsonData = responseString.data(using: .utf8),
+               let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
+               let resultsArray = jsonObject["results"] as? [[String: Any]] {
 
-            if let placemark = placemarks?.first {
-                var placemarkDsc = placemark.description.components(separatedBy: ", ")
-                if placemarkDsc[0] == placemarkDsc[1] {
-                    placemarkDsc.remove(at: 0)
-                }
-                let buildingName = placemark.areasOfInterest?[0] ?? placemark.name ?? ""
-                let detailAddress = self.filterDetailAddress(placemarkDsc[1])
-
-                completion(buildingName, detailAddress)
-            } else {
-                completion(nil, nil)
+                let parseArray = self.parseAddressData(jsonData: resultsArray)
+                completion(parseArray.0, parseArray.1)
             }
         }
+        task.resume()
     }
 
-    // 상세주소 필터링
-    private func filterDetailAddress(_ words: String) -> String {
-        if let firstPart = words.split(separator: "@").first {
-            return String(firstPart).replacingOccurrences(of: "대한민국 ", with: "")
+    /**
+     Naver API를 통해 받아온 데이터 중 주소와 관련된 데이터만 String으로 가공하여 반환하는 메서드
+     기본적으로 튜플 0 에는 전체 상세 주소가 들어가고, 1에는 상세 주소(지곡로 80)이 들어감.
+     만약 건물명이 있다면, 1에 건물명이 들어간다.
+     */
+    private func parseAddressData(jsonData: [[String: Any]]) -> (String, String) {
+        var countryName = [String]()
+        var detailAddress = [String]()
+        var buildingName = ""
+
+        for result in jsonData {
+            if let region = result["region"] as? [String: Any] {
+                for index in 1...2 {
+                    if let area = region["area\(index)"] as? [String: Any],
+                       let name = area["name"] as? String {
+                        countryName.append(name)
+                    }
+                }
+            }
+
+            if let land = result["land"] as? [String: Any] {
+                let addition0 = land["addition0"] as? [String: Any]
+                detailAddress.append(land["name"] as? String ?? "")
+                detailAddress.append(land["number1"] as? String ?? "")
+
+                if let value = addition0?["value"] as? String {
+                    if value != "" {
+                        buildingName = value
+                    }
+                }
+            }
         }
-        return ""
+
+        let addressFullname = (countryName + detailAddress).joined(separator: " ")
+
+        if buildingName == "" {
+            return (addressFullname, detailAddress.joined(separator: " "))
+        } else {
+            return (addressFullname, buildingName)
+        }
     }
 }
 
@@ -122,13 +161,23 @@ extension SelectDetailPointMapViewController: NMFMapViewCameraDelegate {
             )
         )
 
-        // 주소와 건물명 가져오기
-        getAddressAndBuildingName(for: center) { buildingName, detailAddress in
-            // 주소와 건물명을 업데이트
-            self.selectDetailPointMapView.buildingNameLabel.text = buildingName
-            self.selectDetailPointMapView.detailAddressLabel.text = detailAddress
-            self.selectAddressModel.buildingName = buildingName
-            self.selectAddressModel.detailAddress = detailAddress
+        getAddressAndBuildingName(center) { detailAddress, buildingName in
+            DispatchQueue.main.async {
+                // 네이버 지도 API 정확성 부족으로 인한 예외 처리
+                if detailAddress == "" || buildingName == "" {
+                    self.selectDetailPointMapView.buildingNameLabel.text = "위치를 다시 설정해주세요"
+                    self.selectDetailPointMapView.detailAddressLabel.text = "지도를 옆으로 조금만 옮겨보세요!"
+                    self.selectDetailPointMapView.saveButton.isEnabled = false
+                    self.selectDetailPointMapView.saveButton.backgroundColor = UIColor.semantic.backgroundThird
+                } else {
+                    self.selectDetailPointMapView.buildingNameLabel.text = buildingName
+                    self.selectDetailPointMapView.detailAddressLabel.text = detailAddress
+                    self.selectAddressModel.buildingName = buildingName
+                    self.selectAddressModel.detailAddress = detailAddress
+                    self.selectDetailPointMapView.saveButton.isEnabled = true
+                    self.selectDetailPointMapView.saveButton.backgroundColor = UIColor.semantic.accPrimary
+                }
+            }
         }
     }
 }

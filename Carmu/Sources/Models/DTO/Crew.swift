@@ -16,6 +16,7 @@ import Foundation
  repeatDay: 반복요일 저장 Int 배열(월: 0 ~ 일: 6)
  sessionStatus: 당일 출발 여부
  crewStatus: 크루원의 출석 여부
+ driverCoordinate: 운전자의 위치 정보(위도, 경도)
  */
 struct Crew: Codable {
     var id: String?
@@ -31,6 +32,7 @@ struct Crew: Codable {
     var repeatDay: [Int]?
     var sessionStatus: Status?
     var memberStatus: [MemberStatus]?
+    var driverCoordinate: Coordinate?
 //    var crewStatus: [UserIdentifier: Status]
 }
 
