@@ -33,28 +33,9 @@ final class SessionStartViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
-        Task {
-            do {
-                showActivityIndicator()
-                crewData = try await firebaseManager.getCrewData()
-                hideActivityIndicator()
-                setupUI()
-                setupConstraints()
-                setTargetButton()
-                print("Received crew data: \(String(describing: crewData))")
-                isCaptain = try await firebaseManager.checkCaptain()
-                checkCrew(crewData: crewData)
-                firebaseManager.startObservingCrewData { crewData in
-                    self.updateUI(crewData: crewData)
-                }
-                if let crewData = crewData {
-                    updateUI(crewData: crewData)
-                }
-            } catch {
-                // 어떤 에러가 발생했을 경우
-                print("Error: \(error)")
-            }
-        }
+        setupUI()
+        setupConstraints()
+        setTargetButton()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -62,6 +43,25 @@ final class SessionStartViewController: UIViewController {
         if SceneDelegate.isCrewCreated {
             showGuide()
             SceneDelegate.isCrewCreated = false // 변경을 처리한 후 다시 초기화
+        }
+        Task {
+            do {
+                showActivityIndicator()
+                crewData = try await firebaseManager.getCrewData()
+                hideActivityIndicator()
+                print("Received crew data: \(String(describing: crewData))")
+                if let crewData = crewData {
+                    isCaptain = firebaseManager.checkCaptain(crewData: crewData)
+                    updateUI(crewData: crewData)
+                }
+                checkCrew(crewData: crewData)
+                firebaseManager.startObservingCrewData { crewData in
+                    self.updateUI(crewData: crewData)
+                }
+            } catch {
+                // 어떤 에러가 발생했을 경우
+                print("Error: \(error)")
+            }
         }
     }
 }
@@ -517,6 +517,16 @@ extension SessionStartViewController {
             settingIndividualButtonForPassenger(crewData: crewData)
         }
     }
+
+    @objc private func createCrewButtonTapped() {
+        let viewController = CrewNameSettingViewController()
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+
+    @objc private func inviteCodeButtonTapped() {
+        let viewController = InviteCodeInputViewController()
+        navigationController?.pushViewController(viewController, animated: true)
+    }
 }
 
 // MARK: - individualButton Methods
@@ -582,8 +592,10 @@ extension SessionStartViewController {
         sessionStartView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
         sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
         sessionStartView.carpoolStartButton.addTarget(self, action: #selector(carpoolStartButtonDidTapped), for: .touchUpInside)
-    }
 
+        sessionStartNoCrewView.noCrewFrontView.createCrewButton.addTarget(self, action: #selector(createCrewButtonTapped), for: .touchUpInside)
+        sessionStartNoCrewView.noCrewFrontView.inviteCodeButton.addTarget(self, action: #selector(inviteCodeButtonTapped), for: .touchUpInside)
+    }
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
     private func checkingCrewStatus(crewData: Crew?) {
         guard let crewData = crewData else { return }
