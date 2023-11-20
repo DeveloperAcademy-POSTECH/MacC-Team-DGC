@@ -54,8 +54,8 @@ final class FinalConfirmViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backButtonTitle = ""
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
-        navigationItem.rightBarButtonItem = RightNavigationBarButton(buttonTitle: "수정하기")
 
         additionalSetting()
         view.addSubview(finalConfirmView)

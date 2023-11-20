@@ -65,3 +65,53 @@ extension UIImage {
         }
     }
 }
+
+// MARK: - gif 파일 사용을 위한 extension
+extension UIImage {
+
+    static func gifImageWithName(_ name: String) -> UIImage? {
+        guard let bundleURL = Bundle.main.url(forResource: name, withExtension: "gif") else {
+            return nil
+        }
+        guard let imageData = try? Data(contentsOf: bundleURL) else {
+            return nil
+        }
+        return UIImage.gifImageWithData(imageData)
+    }
+
+    static func gifImageWithData(_ data: Data) -> UIImage? {
+        guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
+            return nil
+        }
+        let count = CGImageSourceGetCount(source)
+        var images = [UIImage]()
+        var gifDuration = 0.0
+
+        for index in 0..<count {
+            if let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) {
+                let durationSeconds = UIImage.getFrameDuration(from: source, at: index)
+                gifDuration += durationSeconds
+                images.append(UIImage(cgImage: cgImage))
+            }
+        }
+
+        let gifImage = UIImage.animatedImage(with: images, duration: gifDuration)
+        return gifImage
+    }
+
+    static func getFrameDuration(from source: CGImageSource, at index: Int) -> Double {
+        var frameDuration = 0.1
+        guard let properties = CGImageSourceCopyPropertiesAtIndex(source, index, nil) as? [String: Any] else {
+            return frameDuration
+        }
+
+        if let gifProperties = properties[kCGImagePropertyGIFDictionary as String] as? [String: Any] {
+            if let delayTime = gifProperties[kCGImagePropertyGIFDelayTime as String] as? Double {
+                frameDuration = delayTime
+            } else {
+                frameDuration = 0.1
+            }
+        }
+        return frameDuration
+    }
+}

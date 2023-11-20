@@ -25,6 +25,7 @@ final class StopoverPointSelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backButtonTitle = ""
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         stopoverPointSelectView.startPointView.text = crewData.startingPoint?.name

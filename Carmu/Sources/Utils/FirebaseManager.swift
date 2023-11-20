@@ -111,6 +111,32 @@ class FirebaseManager {
         }
     }
 
+    func readUserAsync(databasePath: DatabaseReference) async throws -> User? {
+        do {
+            let data = try await databasePath.getData()
+            guard let value = data.value as? [String: Any] else {
+                return nil
+            }
+            let jsonData = try JSONSerialization.data(withJSONObject: value)
+            return try JSONDecoder().decode(User.self, from: jsonData)
+        } catch {
+            throw error
+        }
+    }
+
+    func checkHasCrewAsync() async -> Bool {
+        guard let databasePath = User.databasePathWithUID else {
+            return false
+        }
+
+        do {
+            let user = try await readUserAsync(databasePath: databasePath)
+            return user?.crewID != nil
+        } catch {
+            return false
+        }
+    }
+
     /**
      DB에서 유저의 닉네임 값 업데이트
      - 호출되는 곳
