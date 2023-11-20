@@ -73,6 +73,8 @@
 		BF37D9D92AB939A4005331AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF37D9D72AB939A4005331AD /* LaunchScreen.storyboard */; };
 		BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */; };
 		BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */; };
+		BF59EFD42B070F5500E6ECF8 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */; };
+		BF6CEA412B0AE6DD00584D1B /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */; };
 		BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */; };
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
 		BF801B912AFF36FD005DE2AF /* CrewScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF801B902AFF36FD005DE2AF /* CrewScrollView.swift */; };
@@ -210,6 +212,8 @@
 		BF37D9DA2AB939A4005331AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartViewController.swift; sourceTree = "<group>"; };
 		BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		BF801B902AFF36FD005DE2AF /* CrewScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewScrollView.swift; sourceTree = "<group>"; };
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -486,6 +490,7 @@
 				C92CFB3A2ACBF6C40068273A /* UIImage+Extension.swift */,
 				1695CAE32AD4E62500858071 /* Date+Extension.swift */,
 				C9C7C1202ADE25590016DE13 /* String+Extension.swift */,
+				BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -590,6 +595,7 @@
 				1638B91E2B02FBB300C53D0D /* MemberStatus.swift */,
 				C93116792AF3B69F0014E702 /* SelectAddressDTO.swift */,
 				C931167B2AF3B7070014E702 /* AddressDTO.swift */,
+				BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -970,6 +976,7 @@
 				C95462152AF74D46004C4F6D /* TimeSelectCellView.swift in Sources */,
 				16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
+				BF59EFD42B070F5500E6ECF8 /* UIStackView+Extension.swift in Sources */,
 				165055AF2AFF603D0049EF73 /* StopoverInfoRightView.swift in Sources */,
 				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
 				B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */,
@@ -1002,6 +1009,7 @@
 				B8376E4A2AF9BC51007F1E0A /* NameEditView.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,
 				1638B91F2B02FBB300C53D0D /* MemberStatus.swift in Sources */,
+				BF6CEA412B0AE6DD00584D1B /* Coordinate.swift in Sources */,
 				B84B41852B000EFC007AC36F /* QuestionDetailViewController.swift in Sources */,
 				C908AE432B03923600C5A743 /* LoadingViewController.swift in Sources */,
 				C904D1582AD57942008BF5CE /* Friendship.swift in Sources */,

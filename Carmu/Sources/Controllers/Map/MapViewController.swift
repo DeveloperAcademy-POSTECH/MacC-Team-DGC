@@ -12,28 +12,12 @@ import FirebaseDatabase
 import NMapsMap
 import SnapKit
 
-// Firebase 데이터 받아오기 전까지만 사용하는 더미데이터
-struct Coordinate {
-    let lat: Double
-    let lng: Double
-}
-
-struct Points {
-    let startingPoint = Coordinate(lat: 36.01759520, lng: 129.32206275)
-    let pickupLocation1: Coordinate? = Coordinate(lat: 36.00609523, lng: 129.32232291)
-    let pickupLocation2: Coordinate? = Coordinate(lat: 36.00739176, lng: 129.32907574)
-    let pickupLocation3: Coordinate? = nil
-    let destination = Coordinate(lat: 36.01449161092546, lng: 129.32561818469742)
-}
-// Firebase 데이터 받아오기 전까지만 사용하는 더미데이터
-
 final class MapViewController: UIViewController {
 
-    private lazy var mapView = MapView(points: points)
+    private lazy var mapView = MapView(crew: crew)
     private let detailView = MapDetailView()
 
     private let locationManager = CLLocationManager()
-    private let points = Points()
 
     private let firebaseManager = FirebaseManager()
 
@@ -53,85 +37,35 @@ final class MapViewController: UIViewController {
         return pathOverlay
     }()
 
+    private var crew: Crew
+
+    init(crew: Crew) {
+        self.crew = crew
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         startUpdatingLocation()
-        if !isDriver {
-            firebaseManager.startObservingDriveLocation { latitude, longitude in
-                self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
-            }
-        }
-        showNaverMap()
-        fetchDirections()
-        mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
-        mapView.currentLocationButton.addTarget(self, action: #selector(currentLocationButtonDidTap), for: .touchUpInside)
-        detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
-        detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
-        detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
+        startObservingDriverLocation()
+        setDetailView()
+        setNaverMap()
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        // 출발지, 경유지, 도착지를 모두 포함하도록 맵뷰 초기 범위 설정
         initCameraUpdate()
+        // 탑승자만 현위치 버튼을 표시
         if !isDriver {
             mapView.showCurrentLocationButton()
         }
     }
 
-    @objc private func backButtonDidTap() {
-        dismiss(animated: true)
-    }
-
-    @objc private func currentLocationButtonDidTap() {
-        guard let myCurrentCoordinate = myCurrentCoordinate else { return }
-        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: myCurrentCoordinate)))
-    }
-
-    @objc private func showNoticeLateModal() {
-        present(NoticeLateViewController(), animated: true)
-    }
-
-    @objc private func finishCarpoolButtonDidTap() {
-        guard let pnc = presentingViewController as? UINavigationController else { return }
-        guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
-        dismiss(animated: true) {
-            pvc.showCarpoolFinishedModal()
-        }
-    }
-
-    private func showNaverMap() {
-        view.addSubview(detailView)
-        detailView.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(isDriver ? 312 : 273)
-        }
-
-        detailView.titleLabel.text = "운좋은 카풀팟"
-
-        view.addSubview(mapView)
-        mapView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
-            make.bottom.equalTo(detailView.snp.top)
-        }
-    }
-
-    private func initCameraUpdate() {
-        var latLngs: [NMGLatLng] = []
-        latLngs.append(NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng))
-        latLngs.append(NMGLatLng(lat: points.destination.lat, lng: points.destination.lng))
-        if let coordinate = points.pickupLocation1 {
-            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
-        }
-        if let coordinate = points.pickupLocation2 {
-            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
-        }
-        if let coordinate = points.pickupLocation3 {
-            latLngs.append(NMGLatLng(lat: coordinate.lat, lng: coordinate.lng))
-        }
-        let paddingInsets = UIEdgeInsets(top: 170, left: 50, bottom: 50, right: 50)
-        let cameraUpdate = NMFCameraUpdate(fit: NMGLatLngBounds(latLngs: latLngs), paddingInsets: paddingInsets)
-        mapView.naverMap.moveCamera(cameraUpdate)
-    }
-
+    /// [운전자, 탑승자] 실시간 위치 정보를 받아오기 위한 CoreLocation 세팅
     private func startUpdatingLocation() {
         // 델리게이트 설정
         locationManager.delegate = self
@@ -145,18 +79,134 @@ final class MapViewController: UIViewController {
         locationManager.startUpdatingLocation()
     }
 
+    /// [탑승자] 셔틀 탑승자는 운전자의 현재 위치를 실시간으로 추적하여 맵뷰에 반영
+    private func startObservingDriverLocation() {
+        guard !isDriver else { return }
+        firebaseManager.startObservingDriverCoordinate(crewID: crew.id) { latitude, longitude in
+            self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
+        }
+    }
+
+    /// [운전자, 탑승자] 운전자, 탑승자별로 다른 하단뷰를 표시
+    private func setDetailView() {
+        view.addSubview(detailView)
+        detailView.snp.makeConstraints { make in
+            make.leading.trailing.bottom.equalToSuperview()
+            make.height.equalTo(isDriver ? 312 : 273)
+        }
+
+        detailView.titleLabel.text = crew.name
+
+        // 운전자의 경우 하단뷰에 탑승자 정보 표시
+        if isDriver {
+            detailView.crewScrollView.setDataSource(dataSource: crew.memberStatus ?? [])
+        // 동승자의 경우 탑승 위치, 시간 표기
+        } else if let location = firebaseManager.myPickUpLocation(crew: crew) {
+            detailView.pickUpLocationAddressLabel.text = location.detailAddress ?? ""
+            if let date = location.arrivalTime {
+                detailView.pickUpTimeLabel.text = date.toString24HourClock
+            }
+            // TODO: 늦은 시간 설정 후에 다시 설정해주기
+            detailView.lateTimeLabel.text = "(+0분)"
+        }
+
+        detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
+        detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
+        detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
+    }
+
+    /// [운전자, 탑승자] Naver 지도(출발, 경유, 도착지 및 운전 경로 등등)를 위한 설정
+    private func setNaverMap() {
+        view.addSubview(mapView)
+        mapView.snp.makeConstraints { make in
+            make.leading.top.trailing.equalToSuperview()
+            make.bottom.equalTo(detailView.snp.top)
+        }
+
+        // 운전 경로 표시
+        fetchDirections()
+
+        mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
+        mapView.currentLocationButton.addTarget(self, action: #selector(currentLocationButtonDidTap), for: .touchUpInside)
+    }
+
+    /// [운전자, 탑승자] '포기하기' 버튼 선택시 동작
+    @objc func giveUpButtonDidTap() {
+        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: "탑승을 중도 포기합니다", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
+        let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(giveUpAction)
+        present(alert, animated: true)
+    }
+
+    /// [운전자, 탑승자] '지각 알리기' 버튼 선택시 동작
+    @objc private func showNoticeLateModal() {
+        present(NoticeLateViewController(), animated: true)
+    }
+
+    /// [운전자] '카풀 종료하기' 버튼 선택시 동작
+    @objc private func finishCarpoolButtonDidTap() {
+        guard let pnc = presentingViewController as? UINavigationController else { return }
+        guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
+        dismiss(animated: true) {
+            pvc.showCarpoolFinishedModal()
+        }
+    }
+
+    /// [운전자, 탑승자] '<' 버튼 선택시 동작
+    @objc private func backButtonDidTap() {
+        dismiss(animated: true)
+    }
+
+    /// [탑승자] 현위치 버튼 선택시 동작
+    @objc private func currentLocationButtonDidTap() {
+        guard let myCurrentCoordinate = myCurrentCoordinate else { return }
+        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: myCurrentCoordinate)))
+    }
+
+    /// [운전자, 탑승자] 출발지, 경유지, 도착지를 모두 포함하는 Bound 설정
+    private func initCameraUpdate() {
+        var latLngs: [NMGLatLng] = []
+        if let coordinate = crew.startingPoint, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
+        }
+        if let coordinate = crew.stopover1, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
+        }
+        if let coordinate = crew.stopover2, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
+        }
+        if let coordinate = crew.stopover3, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
+        }
+        if let coordinate = crew.destination, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            latLngs.append(NMGLatLng(lat: latitude, lng: longitude))
+        }
+        let paddingInsets = UIEdgeInsets(top: 170, left: 80, bottom: 50, right: 50)
+        let cameraUpdate = NMFCameraUpdate(fit: NMGLatLngBounds(latLngs: latLngs), paddingInsets: paddingInsets)
+        mapView.naverMap.moveCamera(cameraUpdate)
+    }
+
+    /// [운전자, 탑승자] 맵뷰에 셔틀 이동경로 표시
     private func fetchDirections() {
         var urlString = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving"
-        + "?start=\(points.startingPoint.lng),\(points.startingPoint.lat)"
-        + "&goal=\(points.destination.lng),\(points.destination.lat)"
-        if let stopover1 = points.pickupLocation1 {
-            urlString += "&waypoints=\(stopover1.lng),\(stopover1.lat)"
+        if let coordinate = crew.startingPoint, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "?start=\(longitude),\(latitude)"
         }
-        if let stopover2 = points.pickupLocation2 {
-            urlString += "|\(stopover2.lng),\(stopover2.lat)"
+        if let coordinate = crew.destination, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "&goal=\(longitude),\(latitude)"
         }
-        if let stopover3 = points.pickupLocation3 {
-            urlString += "|\(stopover3.lng),\(stopover3.lat)"
+        if let coordinate = crew.stopover1, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "&waypoints=\(longitude),\(latitude)"
+        }
+        if let coordinate = crew.stopover2, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "|\(longitude),\(latitude)"
+        }
+        if let coordinate = crew.stopover3, let latitude = coordinate.latitude, let longitude = coordinate.longitude {
+            urlString += "|\(longitude),\(latitude)"
         }
         guard let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
               let url = URL(string: encodedURLString) else {
@@ -205,19 +255,13 @@ final class MapViewController: UIViewController {
         })
     }
 
-    @objc func giveUpButtonDidTap() {
-        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: "탑승을 중도 포기합니다", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
-        let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
-            self.dismiss(animated: true)
-        }
-        alert.addAction(cancelAction)
-        alert.addAction(giveUpAction)
-        present(alert, animated: true)
-    }
-
+    /// [운전자] 도착지로부터 몇 m 떨어져있는지 반환하는 함수 (200m 이내라면 버튼이 달라짐)
     private func distanceFromDestination(current: CLLocation) -> Double {
-        let destinationCoordinate = CLLocation(latitude: points.destination.lat, longitude: points.destination.lng)
+        // TODO: - 불필요한 옵셔널로 인한 guard문 삭제, 무효한 데이터이므로 도착지에 도착하지 못하도록 200보다 큰 수로 설정해둠
+        guard let coordinate = crew.destination, let latitude = coordinate.latitude, let longitude = coordinate.longitude else {
+            return 300.0
+        }
+        let destinationCoordinate = CLLocation(latitude: latitude, longitude: longitude)
         let distance = destinationCoordinate.distance(from: current)
         return Double(distance)
     }
@@ -225,14 +269,18 @@ final class MapViewController: UIViewController {
 
 extension MapViewController: CLLocationManagerDelegate {
 
-    // 위치 정보 계속 업데이트 -> 위도 경도 받아옴
+    /**
+     [운전자, 탑승자] 실시간 현재 위치를 업데이트
+     운전자의 경우 현재 위치를 맵뷰에 자동차 마커로 표시하고 DB에 현재 위치를 반영, 도착지 주변인 경우 하단뷰에 버튼 변경
+     탑승자의 경우 현재 위치를 동그라미 마커로 표시
+     */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
         if isDriver {
             // 운전자화면에서 자동차 마커 위치 변경
             mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
             // 운전자인 경우 DB에 위도, 경도 업데이트
-            firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
+            firebaseManager.updateDriverCoordinate(coordinate: location.coordinate, crewID: crew.id)
             // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
             if distanceFromDestination(current: location) <= 200.0 {
                 detailView.showFinishCarpoolButton()
