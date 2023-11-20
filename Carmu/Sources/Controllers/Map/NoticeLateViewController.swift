@@ -57,12 +57,6 @@ final class NoticeLateViewController: UIViewController {
         sendToastMessage()
     }
 
-    @objc private func lateTenMinutesButtonDidTap() {
-        lateMin = "10"
-        sendLateNotification(lateMin)
-        sendToastMessage()
-    }
-
     // Toast 메세지 보내기
     private func sendToastMessage() {
         guard let pvc = presentingViewController as? MapViewController else { return }
