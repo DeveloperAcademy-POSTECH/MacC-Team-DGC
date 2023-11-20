@@ -33,6 +33,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
 
+        // 스플래시 뷰
+        var navigationController = UINavigationController(rootViewController: LaunchScreenViewController())
+        navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+        self.window?.rootViewController = navigationController
+        self.window?.makeKeyAndVisible()
+
         // NotificationCenter에서 isFirst 변수가 변하는지 감지하는 부분
         NotificationCenter.default.addObserver(
             self,
@@ -46,26 +52,34 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
 
+    /**
+     window navigationController rootViewController 변경 메서드
+     */
     private func updateRootViewController() {
         var navigationController = UINavigationController(rootViewController: UIViewController())
         navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
-        Task {
-            let hasCrew = await self.firebaseManager.checkHasCrewAsync()
 
-            // UI 업데이트 메인 스레드에서 수행
-            await MainActor.run {
-                if Auth.auth().currentUser != nil {
-                    if SceneDelegate.isFirst && hasCrew {
-                        navigationController = UINavigationController(rootViewController: PositionSelectViewController())
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            Task {
+                let hasCrew = await self.firebaseManager.checkHasCrewAsync()
+
+                // UI 업데이트 메인 스레드에서 수행
+                await MainActor.run {
+                    if Auth.auth().currentUser != nil {
+                        if SceneDelegate.isFirst && hasCrew {
+                            navigationController = UINavigationController(rootViewController: PositionSelectViewController())
+                            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+                        } else {
+                            navigationController = UINavigationController(rootViewController: SessionStartViewController())
+                            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+                        }
+                        self.removeBackButtonTitle()
+                        self.window?.rootViewController = navigationController
                     } else {
-                        navigationController = UINavigationController(rootViewController: SessionStartViewController())
+                        self.window?.rootViewController = LoginViewController()
                     }
-                    removeBackButtonTitle()
-                    window?.rootViewController = navigationController
-                } else {
-                    window?.rootViewController = LoginViewController()
+                    self.window?.makeKeyAndVisible()
                 }
-                self.window?.makeKeyAndVisible()
             }
         }
     }

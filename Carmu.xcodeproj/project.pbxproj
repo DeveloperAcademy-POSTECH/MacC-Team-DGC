@@ -119,7 +119,9 @@
 		C954621E2AF77D9D004C4F6D /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954621D2AF77D9D004C4F6D /* NextButton.swift */; };
 		C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */; };
 		C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */; };
-		C97EAB522B0B507D00E21B72 /* Loading2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97EAB512B0B507D00E21B72 /* Loading2ViewController.swift */; };
+		C97EAB522B0B507D00E21B72 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97EAB512B0B507D00E21B72 /* LaunchScreenView.swift */; };
+		C97EAB562B0B550D00E21B72 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97EAB552B0B550D00E21B72 /* LaunchScreenViewController.swift */; };
+		C97EAB582B0B848200E21B72 /* launchGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = C97EAB572B0B848200E21B72 /* launchGif.gif */; };
 		C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C1202ADE25590016DE13 /* String+Extension.swift */; };
 		C9D04C652AF89953007E615B /* RightNavigationBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C642AF89953007E615B /* RightNavigationBarButton.swift */; };
 		C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C682AF9D312007E615B /* DayOfWeek.swift */; };
@@ -258,7 +260,9 @@
 		C954621D2AF77D9D004C4F6D /* NextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButton.swift; sourceTree = "<group>"; };
 		C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectButton.swift; sourceTree = "<group>"; };
 		C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
-		C97EAB512B0B507D00E21B72 /* Loading2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Loading2ViewController.swift; sourceTree = "<group>"; };
+		C97EAB512B0B507D00E21B72 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		C97EAB552B0B550D00E21B72 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
+		C97EAB572B0B848200E21B72 /* launchGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = launchGif.gif; path = ../../../../../../../../Downloads/launchGif.gif; sourceTree = "<group>"; };
 		C9C7C1202ADE25590016DE13 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C9D04C642AF89953007E615B /* RightNavigationBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightNavigationBarButton.swift; sourceTree = "<group>"; };
 		C9D04C682AF9D312007E615B /* DayOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
@@ -530,7 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
-				C908AE402B03920500C5A743 /* LoadingView.swift */,
+				C97EAB542B0B52A500E21B72 /* Loading */,
 				C9F43BCC2AF2153100BAA0E3 /* CrewMake */,
 				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
 				BF0C33052AE5217100A6D8FE /* Map */,
@@ -567,6 +571,7 @@
 		C92CFB2B2AC9398B0068273A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C97EAB572B0B848200E21B72 /* launchGif.gif */,
 				C92CFB302AC93C470068273A /* SF-Pro.ttf */,
 			);
 			path = Resources;
@@ -749,7 +754,16 @@
 			isa = PBXGroup;
 			children = (
 				C908AE422B03923600C5A743 /* LoadingViewController.swift */,
-				C97EAB512B0B507D00E21B72 /* Loading2ViewController.swift */,
+				C97EAB552B0B550D00E21B72 /* LaunchScreenViewController.swift */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
+		C97EAB542B0B52A500E21B72 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				C908AE402B03920500C5A743 /* LoadingView.swift */,
+				C97EAB512B0B507D00E21B72 /* LaunchScreenView.swift */,
 			);
 			path = Loading;
 			sourceTree = "<group>";
@@ -867,6 +881,7 @@
 			files = (
 				B8EC761E2ADFEB6300F83E8F /* Secrets.xcconfig in Resources */,
 				BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */,
+				C97EAB582B0B848200E21B72 /* launchGif.gif in Resources */,
 				BF37D9D92AB939A4005331AD /* LaunchScreen.storyboard in Resources */,
 				B8EA07A02AE188CB007501E9 /* SecureKey-Info.plist in Resources */,
 				C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */,
@@ -938,7 +953,7 @@
 				C9D04C6B2AFB7864007E615B /* AddressSelectButtonView.swift in Sources */,
 				C9D04C732AFC65BE007E615B /* StopoverPointAddButtonView.swift in Sources */,
 				B83E23F02AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift in Sources */,
-				C97EAB522B0B507D00E21B72 /* Loading2ViewController.swift in Sources */,
+				C97EAB522B0B507D00E21B72 /* LaunchScreenView.swift in Sources */,
 				165055AD2AFF54C50049EF73 /* StopoverInfoLeftView.swift in Sources */,
 				163422382AFE67A400196EB2 /* RuleDescriptionView.swift in Sources */,
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
@@ -979,6 +994,7 @@
 				C90B6BD12B09D59800F51543 /* CrewNameSettingViewController.swift in Sources */,
 				C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
+				C97EAB562B0B550D00E21B72 /* LaunchScreenViewController.swift in Sources */,
 				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
 				163422362AFE636000196EB2 /* RuleDescriptionViewController.swift in Sources */,

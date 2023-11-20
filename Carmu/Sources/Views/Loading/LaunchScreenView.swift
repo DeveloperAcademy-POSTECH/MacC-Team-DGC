@@ -1,5 +1,5 @@
 //
-//  Loading2ViewController.swift
+//  Loading2View.swift
 //  Carmu
 //
 //  Created by 김동현 on 11/20/23.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class Loading2ViewController: UIViewController {
+final class LaunchScreenView: UIView {
 
     private let sloganImage = {
         let imageView = UIImageView()
@@ -16,17 +16,12 @@ final class Loading2ViewController: UIViewController {
         return imageView
     }()
 
-    private let gifImage = {
-        let image = GifView(gifName: "launchGif")
-        image.contentMode = .scaleAspectFit
-        return image
-    }()
+    private let gifImage = GifView(gifName: "launchGif")
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
-        view.addSubview(gifImage)
-        view.addSubview(sloganImage)
+    init() {
+        super.init(frame: .zero)
+        addSubview(gifImage)
+        addSubview(sloganImage)
 
         gifImage.snp.makeConstraints { make in
             make.center.equalToSuperview()
@@ -39,5 +34,19 @@ final class Loading2ViewController: UIViewController {
             make.width.equalTo(154)
             make.height.equalTo(30)
         }
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+}
+
+// Preview
+import SwiftUI
+
+@available(iOS 13.0.0, *)
+struct Loading2ViewPreview: PreviewProvider {
+    static var previews: some View {
+        Loading2ViewControllerRepresentable()
     }
 }
