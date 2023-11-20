@@ -82,7 +82,7 @@ final class MapViewController: UIViewController {
     /// [탑승자] 셔틀 탑승자는 운전자의 현재 위치를 실시간으로 추적하여 맵뷰에 반영
     private func startObservingDriverLocation() {
         guard !isDriver else { return }
-        firebaseManager.startObservingDriveLocation { latitude, longitude in
+        firebaseManager.startObservingDriverCoordinate(crewID: crew.id) { latitude, longitude in
             self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
         }
     }
@@ -280,7 +280,7 @@ extension MapViewController: CLLocationManagerDelegate {
             // 운전자화면에서 자동차 마커 위치 변경
             mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
             // 운전자인 경우 DB에 위도, 경도 업데이트
-            firebaseManager.updateDriverCoordinate(coordinate: location.coordinate)
+            firebaseManager.updateDriverCoordinate(coordinate: location.coordinate, crewID: crew.id)
             // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
             if distanceFromDestination(current: location) <= 200.0 {
                 detailView.showFinishCarpoolButton()

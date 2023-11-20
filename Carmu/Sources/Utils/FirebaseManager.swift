@@ -512,7 +512,8 @@ extension FirebaseManager {
                 inviteCode: crewData["inviteCode"] as? String ?? "",
                 repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                 sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
-                memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
+                memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? []),
+                driverCoordinate: convertDataToDriverCoordinate(crewData["driverCoordinate"] as? [String: Any] ?? [:])
             )
 
             if crewData["stopover1"] != nil {
@@ -679,21 +680,29 @@ extension FirebaseManager {
         return memberStatusArray
     }
 
+    /// 운전자의 위도, 경도 정보로 변환해주는 메서드
+    func convertDataToDriverCoordinate(_ data: [String: Any]) -> Coordinate {
+        Coordinate(
+            latitude: data["latitude"] as? Double ?? 0.0,
+            longitude: data["longitude"] as? Double ?? 0.0
+        )
+    }
 }
 
 // MARK: - 맵뷰 관련 메서드
 extension FirebaseManager {
 
-    func updateDriverCoordinate(coordinate: CLLocationCoordinate2D) {
-        // TODO: - 가입되어있는 크루로 연결 필요
-        Database.database().reference().child("test/coordinate").setValue([
+    func updateDriverCoordinate(coordinate: CLLocationCoordinate2D, crewID: String?) {
+        guard let crewID = crewID else { return }
+        Database.database().reference().child("crew/\(crewID)/driverCoordinate").setValue([
             "latitude": coordinate.latitude,
             "longitude": coordinate.longitude
         ])
     }
 
-    func startObservingDriveLocation(completion: @escaping (Double, Double) -> Void) {
-        Database.database().reference().child("test").observe(.childChanged, with: { snapshot in
+    func startObservingDriverCoordinate(crewID: String?, completion: @escaping (Double, Double) -> Void) {
+        guard let crewID = crewID else { return }
+        Database.database().reference().child("crew/\(crewID)").observe(.childChanged, with: { snapshot in
             if let messageData = snapshot.value as? [String: Any],
                let latitude = messageData["latitude"] as? Double,
                let longitude = messageData["longitude"] as? Double {
