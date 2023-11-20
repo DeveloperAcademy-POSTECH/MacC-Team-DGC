@@ -783,12 +783,16 @@ extension FirebaseManager {
                let deviceToken = statusData["deviceToken"] as? String,
                let profileColor = statusData["profileColor"] as? String,
                let statusString = statusData["status"] as? String,
-               let statusEnum = Status(rawValue: statusString) {
-                let status = MemberStatus(id: id,
-                                           deviceToken: deviceToken,
-                                           nickname: nickname,
-                                           profileColor: profileColor,
-                                           status: statusEnum)
+               let statusEnum = Status(rawValue: statusString),
+               let lateTime = statusData["lateTime"] as? UInt {
+                let status = MemberStatus(
+                    id: id,
+                    deviceToken: deviceToken,
+                    nickname: nickname,
+                    profileColor: profileColor,
+                    status: statusEnum,
+                    lateTime: lateTime
+                )
                 memberStatusArray.append(status)
             }
         }
@@ -813,6 +817,17 @@ extension FirebaseManager {
             "latitude": coordinate.latitude,
             "longitude": coordinate.longitude
         ])
+    }
+
+    func startObservingMemberStatus(crewID: String?, completion: @escaping ([MemberStatus]) -> Void) {
+        guard let crewID = crewID else { return }
+        Database.database().reference().child("crew/\(crewID)").observe(.value) { snapshot in
+            guard let crewData = snapshot.value as? [String: Any] else {
+                return
+            }
+            let memberStatus = self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
+            completion(memberStatus)
+        }
     }
 
     func startObservingDriverCoordinate(crewID: String?, completion: @escaping (Double, Double) -> Void) {

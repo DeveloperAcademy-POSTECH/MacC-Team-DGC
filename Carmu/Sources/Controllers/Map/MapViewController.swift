@@ -51,6 +51,7 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startUpdatingLocation()
+        startObservingMemberStatus()
         startObservingDriverLocation()
         setDetailView()
         setNaverMap()
@@ -79,9 +80,16 @@ final class MapViewController: UIViewController {
         locationManager.startUpdatingLocation()
     }
 
+    /// [운전자] 셔틀 탑승자의 지각 여부를 실시간으로 관찰하여 변화가 있을 경우 ScrollView에 반영
+    private func startObservingMemberStatus() {
+        guard isDriver else { return }
+        firebaseManager.startObservingMemberStatus(crewID: crew.id) { memberStatus in
+            self.detailView.crewScrollView.setDataSource(dataSource: memberStatus)
+        }
+    }
+
     /// [탑승자] 셔틀 탑승자는 운전자의 현재 위치를 실시간으로 추적하여 맵뷰에 반영
     private func startObservingDriverLocation() {
-        guard !isDriver else { return }
         firebaseManager.startObservingDriverCoordinate(crewID: crew.id) { latitude, longitude in
             self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
         }
