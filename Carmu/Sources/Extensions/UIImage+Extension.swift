@@ -87,9 +87,9 @@ extension UIImage {
         var images = [UIImage]()
         var gifDuration = 0.0
 
-        for i in 0..<count {
-            if let cgImage = CGImageSourceCreateImageAtIndex(source, i, nil) {
-                let durationSeconds = UIImage.getFrameDuration(from: source, at: i)
+        for index in 0..<count {
+            if let cgImage = CGImageSourceCreateImageAtIndex(source, index, nil) {
+                let durationSeconds = UIImage.getFrameDuration(from: source, at: index)
                 gifDuration += durationSeconds
                 images.append(UIImage(cgImage: cgImage))
             }

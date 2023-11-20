@@ -517,8 +517,7 @@
 			isa = PBXGroup;
 			children = (
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
-				C908AE422B03923600C5A743 /* LoadingViewController.swift */,
-				C97EAB512B0B507D00E21B72 /* Loading2ViewController.swift */,
+				C97EAB532B0B50B900E21B72 /* Loading */,
 				C9F43BC72AF214CB00BAA0E3 /* CrewMake */,
 				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
 				BFFA10B02AE60FFA003CE661 /* Map */,
@@ -744,6 +743,15 @@
 				C954621C2AF77D52004C4F6D /* ButtonComponent */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		C97EAB532B0B50B900E21B72 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				C908AE422B03923600C5A743 /* LoadingViewController.swift */,
+				C97EAB512B0B507D00E21B72 /* Loading2ViewController.swift */,
+			);
+			path = Loading;
 			sourceTree = "<group>";
 		};
 		C9D04C6C2AFB8190007E615B /* StopoverPointSelect */ = {
