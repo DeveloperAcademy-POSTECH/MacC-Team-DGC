@@ -11,7 +11,7 @@ final class TimeSelectCellView: UIView {
 
     private let addressLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.semantic.textPrimary
+        label.textColor = UIColor.semantic.textTertiary?.withAlphaComponent(0.4)
         label.font = UIFont.carmuFont.headline1
         return label
     }()

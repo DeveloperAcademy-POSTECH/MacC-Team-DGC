@@ -48,9 +48,6 @@ extension RepeatDaySelectView {
     private func setupViews() {
         secondLineTitleStack.axis = .horizontal
 
-        nextButton.backgroundColor = UIColor.semantic.backgroundThird
-        nextButton.isEnabled = false
-
         secondLineTitleStack.addArrangedSubview(titleLabel2)
         secondLineTitleStack.addArrangedSubview(titleLabel3)
 

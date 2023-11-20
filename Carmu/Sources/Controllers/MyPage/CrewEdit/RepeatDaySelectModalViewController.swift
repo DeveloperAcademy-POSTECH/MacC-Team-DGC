@@ -31,6 +31,7 @@ final class RepeatDaySelectModalViewController: UIViewController {
         }
 
         repeatDaySelectModalView.closeButton.addTarget(self, action: #selector(closeModal), for: .touchUpInside)
+        repeatDaySelectModalView.saveButton.addTarget(self, action: #selector(saveNewRepeatDay), for: .touchUpInside)
 
         repeatDaySelectModalView.dayButtonCollectionView.register(
             DayButtonCollectionViewCell.self,
@@ -47,7 +48,6 @@ final class RepeatDaySelectModalViewController: UIViewController {
 
     // 요일 설정 저장 버튼
     @objc func saveNewRepeatDay() {
-        // TODO: - 파이어베이스 DB 크루 데이터에 반영
         // 델리게이트를 구현한 뷰 컨트롤러에 변경된 값 반영
         delegate?.sendNewRepeatDayValue(newRepeatDay: Array(selectedRepeatDay))
         closeModal()

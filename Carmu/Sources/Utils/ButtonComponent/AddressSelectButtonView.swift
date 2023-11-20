@@ -33,7 +33,7 @@ final class AddressSelectButtonView: UIView, SelectAddressButtonProtocol {
         button.setTitleColor(UIColor.semantic.textBody, for: .normal)
         button.layer.borderColor = UIColor.theme.blue3?.cgColor
         button.layer.borderWidth = 1
-        button.layer.cornerRadius = 15
+        button.layer.cornerRadius = 17
         button.contentHorizontalAlignment = .left
         button.isSpringLoaded = true
         return button
@@ -66,7 +66,9 @@ final class AddressSelectButtonView: UIView, SelectAddressButtonProtocol {
         }
 
         button.snp.makeConstraints { make in
+            make.top.equalTo(label.snp.bottom).offset(12)
             make.bottom.horizontalEdges.equalToSuperview()
+            make.height.equalTo(34)
         }
     }
 

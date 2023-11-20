@@ -16,16 +16,14 @@ final class CrewInfoCheckViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
     var selectedDay: Set<DayOfWeek> = []
 
-    var userCrewData: Crew? // 불러온 유저의 크루 데이터
+    var crewData: Crew? // 불러온 유저의 크루 데이터
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
-        // TODO: - 크루 데이터 DB에서 불러오기
-        if let crewData = dummyCrewData {
-            userCrewData = crewData
-            updateCrewContents(crewData: userCrewData)
+        if let crewData = crewData {
+            updateCrewContents(crewData: crewData)
         }
 
         // 백버튼 텍스트 제거
@@ -171,13 +169,11 @@ extension CrewInfoCheckViewController {
     @objc private func startCrewEdit() {
         print("크루 정보 편집 시작")
         // 내비게이션 타이틀 크루명으로 설정
-        guard let userCrewData = userCrewData else {
-            return
-        }
+        guard let crewData = crewData else { return }
         let crewEditVC = CrewEditViewController(
-            // TODO: - 실제 크루 데이터로 전달하도록 수정
-            userCrewData: userCrewData
+            userCrewData: crewData
         )
+        crewEditVC.crewEditViewDelegte = self
         navigationController?.pushViewController(crewEditVC, animated: true)
     }
 
@@ -204,5 +200,16 @@ extension CrewInfoCheckViewController: NameEditViewControllerDelegate {
      */
     func sendNewNameValue(newName: String) {
         updateCrewName(newCrewName: newName)
+    }
+}
+
+// MARK: - CrewEditViewDelegate 델리게이트 구현
+extension CrewInfoCheckViewController: CrewEditViewDelegate {
+
+    /**
+     CrewEditViewController 에서 닉네임 데이터가 수정되었을 때 호출
+     */
+    func crewEditDoneButtonTapped(newUserCrewData: Crew?) {
+        self.crewData = newUserCrewData
     }
 }

@@ -21,7 +21,7 @@ final class TimeSelectModalViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         timeSelectViewController = presentingViewController as? TimeSelectViewController
-        view.backgroundColor = .systemBackground
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         view.addSubview(timeSelectModalView)
         timeSelectModalView.snp.makeConstraints { make in

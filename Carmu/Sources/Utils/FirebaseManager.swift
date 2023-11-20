@@ -381,6 +381,21 @@ extension FirebaseManager {
     }
 
     /**
+     Crew를 수정된 내용으로 업데이트해주는 메서드
+     */
+    func updateCrew(crewID: String, newCrewData: Crew) {
+        let databaseRef = Database.database().reference().child("crew/\(crewID)")
+        do {
+            let data = try encoder.encode(newCrewData)
+            let json = try JSONSerialization.jsonObject(with: data)
+            databaseRef.setValue(json)
+            print("Crew UPDATE success!!")
+        } catch {
+            print("Crew UPDATE fail...", error)
+        }
+    }
+
+    /**
      크루 만들기에서 추가된 탑승자들의 User/crewList에 crewID를 추가하는 메서드
         호출되는 곳
             BoardingPointSelectViewController
@@ -407,13 +422,14 @@ extension FirebaseManager {
     }
 
     /**
-     크루 만들기에서 추가된 크루의 crews, crewStatus에 user의 값을 집어넣는 메서드
+     크루 만들기에서 추가된 크루의 crews, memberStatus에 user의 값을 집어넣는 메서드
          호출되는 곳
              BoardingPointSelectViewController
      */
     func setUserToCrew(_ userID: String, _ crewID: String) {
         let databaseRef = Database.database().reference().child("crew/\(crewID)")
 
+        // TODO: - crews 제거하기
         databaseRef.child("crews").getData { error, snapshot in
             if let error = error {
                 print(error.localizedDescription)
@@ -431,18 +447,41 @@ extension FirebaseManager {
             }
         }
 
-        databaseRef.child("memberStatus").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
+        // 해당 유저 정보의 데이터를 입력시킴
+        guard let userDatabasePath = User.databasePathWithUID else { return }
+        readUser(databasePath: userDatabasePath) { userData in
+            guard let userData = userData else { return }
 
-            if var memberStatus = snapshot?.value as? [String: String] {
-                memberStatus[userID] = Status.waiting.rawValue
-                databaseRef.child("memberStatus").setValue(memberStatus)
-            } else {
-                let newCrewStatus = [userID: Status.waiting.rawValue]
-                databaseRef.child("memberStatus").setValue(newCrewStatus)
+            databaseRef.child("memberStatus").getData { error, snapshot in
+                if let error = error {
+                    print(error.localizedDescription)
+                    return
+                }
+
+                if var memberStatus = snapshot?.value as? [[String: Any]] {
+                    // memberStatus 배열이 이미 존재하는 경우
+                    var newMemberStatus: [String: Any] = [:]
+                    newMemberStatus["id"] = userData.id
+                    newMemberStatus["deviceToken"] = userData.deviceToken
+                    newMemberStatus["profileColor"] = userData.profileImageColor.rawValue
+                    newMemberStatus["status"] = Status.waiting.rawValue
+                    newMemberStatus["nickname"] = userData.nickname
+
+                    memberStatus.append(newMemberStatus)
+                    databaseRef.child("memberStatus").setValue(memberStatus)
+                } else {
+                    // memberStatus 배열이 아직 없는 경우
+                    var memberStatus: [[String: Any]] = []
+                    var newMemberStatus: [String: Any] = [:]
+                    newMemberStatus["id"] = userData.id
+                    newMemberStatus["deviceToken"] = userData.deviceToken
+                    newMemberStatus["profileColor"] = userData.profileImageColor.rawValue
+                    newMemberStatus["status"] = Status.waiting.rawValue
+                    newMemberStatus["nickname"] = userData.nickname
+
+                    memberStatus.append(newMemberStatus)
+                    databaseRef.child("memberStatus").setValue(memberStatus)
+                }
             }
         }
     }
@@ -511,7 +550,7 @@ extension FirebaseManager {
                 destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                 inviteCode: crewData["inviteCode"] as? String ?? "",
                 repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                sessionStatus: crewData["sessionStatus"] as? Status ?? .waiting,
+                sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
                 memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? []),
                 driverCoordinate: convertDataToDriverCoordinate(crewData["driverCoordinate"] as? [String: Any] ?? [:])
             )
@@ -744,42 +783,127 @@ extension FirebaseManager {
 extension FirebaseManager {
 
     // 따로가요 클릭 시 해당 동승자의 status decline으로 변경
-    func passengerIndividualButton() {
-        Task {
-            do {
-                var crewData = try await getCrewData()
-                guard let crewData = crewData else { return }
-                guard let memberStatus = crewData.memberStatus else { return }
+    func passengerIndividualButtonTapped(crewData: Crew?) {
 
-                for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
-                    if let crewID = crewData.id {
-                        let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
-                        try await statusRef.setValue("decline" as NSString)
+        guard let crewData = crewData else { return }
+        guard let memberStatus = crewData.memberStatus else { return }
+
+        for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+            if let crewID = crewData.id {
+                let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
+                statusRef.setValue(Status.decline.rawValue) { error, _ in
+                    if let error = error {
+                        print("Error occured: ", error)
                     }
                 }
-            } catch {
-                print("Error ", error)
             }
         }
     }
 
     // 함께가요 클릭 시 해당 동승자의 status accept로 변경
-    func passengerTogetherButton() {
-        Task {
-            do {
-                var crewData = try await getCrewData()
-                guard let crewData = crewData else { return }
-                guard let memberStatus = crewData.memberStatus else { return }
+    func passengerTogetherButtonTapped(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        guard let memberStatus = crewData.memberStatus else { return }
 
-                for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
-                    if let crewID = crewData.id {
-                        let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
-                        try await statusRef.setValue("accept" as NSString)
+        for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+            if let crewID = crewData.id {
+                let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
+
+                statusRef.setValue(Status.accept.rawValue) { error, _ in
+                    if let error = error {
+                        print("Error occured: ", error)
                     }
                 }
-            } catch {
-                print("Error ", error)
             }
         }
+    }
+
+    // 따로가요 클릭 시 sessionStatus를 decline으로 변경
+    func driverIndividualButtonTapped(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        print("DRIVER ", crewData)
+        if let crewID = crewData.id {
+            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
+
+            statusRef.setValue(Status.decline.rawValue) { error, _ in
+                if let error = error {
+                    print("Error occured: ", error)
+                }
+            }
+        }
+    }
+
+    // 운행해요 클릭 시 sessionStatus를 accpet으로 변경
+    func driverTogetherButtonTapped(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        print("DRIVER ", crewData)
+        if let crewID = crewData.id {
+            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
+
+            statusRef.setValue(Status.accept.rawValue) { error, _ in
+                if let error = error {
+                    print("Error occured: ", error)
+                }
+            }
+        }
+    }
+
+    // 카풀 운행해요 클릭 시 sessionStatus를 sessionStart로 변경
+    func carpoolStartButtonTapped(crewData: Crew?) {
+        guard let crewData = crewData else { return }
+        print("DRIVER ", crewData)
+        if let crewID = crewData.id {
+            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
+
+            statusRef.setValue(Status.sessionStart.rawValue) { error, _ in
+                if let error = error {
+                    print("Error occured: ", error)
+                }
+            }
+        }
+    }
+
+    // 탑승자 기준 본인의 Status를 감지하는 메서드
+    func passengerStatus(crewData: Crew?) -> Status {
+        guard let crewData = crewData else { return .waiting }
+        guard let memberStatus = crewData.memberStatus else { return .waiting }
+
+        for member in memberStatus where member.id == KeychainItem.currentUserIdentifier {
+            return member.status ?? .waiting
+        }
+        return .waiting
+    }
+
+    func startObservingCrewData(completion: @escaping (Crew?) -> Void) {
+
+        let crewRef = Database.database().reference().child("crew")
+        crewRef.observe(.childChanged, with: { snapshot in
+
+            if let crewData = snapshot.value as? [String: Any] {
+                var crew = Crew(
+                    id: crewData["id"] as? String ?? "",
+                    name: crewData["name"] as? String ?? "",
+                    captainID: crewData["captainID"] as? UserIdentifier ?? "",
+                    crews: crewData["crews"] as? [UserIdentifier] ?? [""],
+                    startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
+                    destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
+                    inviteCode: crewData["inviteCode"] as? String ?? "",
+                    repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+                    sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
+                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
+                )
+                // 경유지를 확인하고 설정합니다.
+                if let stopover1Data = crewData["stopover1"] as? [String: Any] {
+                    crew.stopover1 = self.convertDataToPoint(stopover1Data)
+                }
+                if let stopover2Data = crewData["stopover2"] as? [String: Any] {
+                    crew.stopover2 = self.convertDataToPoint(stopover2Data)
+                }
+                if let stopover3Data = crewData["stopover3"] as? [String: Any] {
+                    crew.stopover3 = self.convertDataToPoint(stopover3Data)
+                }
+                completion(crew)
+            }
+        })
     }
 }

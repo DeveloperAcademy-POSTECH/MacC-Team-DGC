@@ -23,7 +23,12 @@ final class SelectDetailPointMapView: UIView {
 
     let backButton = {
         let backButton = UIButton()
-        backButton.setImage(UIImage(named: "modalXButton"), for: .normal)
+        backButton.setImage(UIImage(named: "navigationBackButton"), for: .normal)
+        backButton.layer.shadowColor = UIColor.theme.black?.cgColor
+        backButton.layer.shadowOffset = CGSize(width: 4, height: 4)
+        backButton.layer.shadowRadius = 8
+        backButton.layer.shadowOpacity = 0.2
+        backButton.layer.masksToBounds = false
         return backButton
     }()
 
@@ -101,7 +106,7 @@ extension SelectDetailPointMapView {
         mapView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(backgroundView.snp.top).offset(10)
+            make.bottom.equalTo(backgroundView.snp.top).offset(20)
         }
 
         explainLabel.snp.makeConstraints { make in
@@ -130,9 +135,8 @@ extension SelectDetailPointMapView {
         }
 
         buildingNameLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(12)
+            make.top.equalToSuperview().inset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.width.greaterThanOrEqualTo(200)
         }
 
         detailAddressLabel.snp.makeConstraints { make in
@@ -155,7 +159,7 @@ extension SelectDetailPointMapView {
 
     func showExplain() {
         self.explainLabel.isHidden = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
             // Set isHidden back to true after 1 second
             self.explainLabel.isHidden = true
         }

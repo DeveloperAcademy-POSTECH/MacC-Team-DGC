@@ -13,7 +13,7 @@ final class CodeShareView: UIView {
 
     private lazy var secondLineTitleStack = UIStackView()
 
-    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀을 같이 하는 사람들에게")
+    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀을 같이할 크루들에게")
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "초대코드를 공유")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "해주세요")
 
@@ -42,9 +42,21 @@ final class CodeShareView: UIView {
 
     let copyButton: UIButton = {
         let button = UIButton()
-        button.setTitle("복사 􀉁", for: .normal)
-        button.titleLabel?.font = UIFont.carmuFont.subhead2
-        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        let copyTextAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.carmuFont.subhead2,
+            .foregroundColor: UIColor.semantic.textSecondary ?? .white
+        ]
+        let copyAttributedString = NSAttributedString(string: "복사 ", attributes: copyTextAttributes)
+        let specialTextAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.carmuFont.body1,
+            .foregroundColor: UIColor.semantic.textSecondary ?? .white
+        ]
+        let specialAttributedString = NSAttributedString(string: "􀉁", attributes: specialTextAttributes)
+        let combinedAttributedString = NSMutableAttributedString()
+        combinedAttributedString.append(copyAttributedString)
+        combinedAttributedString.append(specialAttributedString)
+
+        button.setAttributedTitle(combinedAttributedString, for: .normal)
         button.backgroundColor = UIColor.semantic.accPrimary
         button.setBackgroundImage(UIImage(color: UIColor.semantic.textSecondary ?? .white), for: .highlighted)
         button.layer.cornerRadius = 20
@@ -55,7 +67,7 @@ final class CodeShareView: UIView {
     lazy var messageLabel: UILabel = {
         let label = UILabel()
         label.text = "클립보드에 복사되었습니다"
-        label.font = UIFont.carmuFont.subhead2
+        label.font = UIFont.carmuFont.body2Long
         label.textColor = UIColor.semantic.textSecondary
         label.textAlignment = .center
         label.backgroundColor = UIColor.theme.trans60
@@ -121,7 +133,7 @@ extension CodeShareView {
         codeStackView.snp.makeConstraints { make in
             make.top.equalTo(characterImage.snp.bottom).offset(68)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(36)
+            make.height.equalTo(40)
         }
 
         codeLabel.snp.makeConstraints { make in

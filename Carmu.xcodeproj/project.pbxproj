@@ -26,7 +26,6 @@
 		B8293CC62B028404002472AE /* RepeatDaySelectModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */; };
 		B8293CC82B028863002472AE /* RepeatDaySelectModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CC72B028863002472AE /* RepeatDaySelectModalViewController.swift */; };
 		B8293CCB2B0392FC002472AE /* DayButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CCA2B0392FC002472AE /* DayButtonCollectionViewCell.swift */; };
-		B8293CE22B03AED7002472AE /* TimeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8293CE12B03AED7002472AE /* TimeType.swift */; };
 		B8376E3C2AF936DB007F1E0A /* CrewInfoNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */; };
 		B8376E3E2AF936EB007F1E0A /* CrewInfoDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */; };
 		B8376E402AF936F4007F1E0A /* CrewInfoPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */; };
@@ -60,6 +59,10 @@
 		B8EECE9A2AC96B5F004D310C /* InquiryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE992AC96B5F004D310C /* InquiryViewController.swift */; };
 		B8EECE9C2AC96BE5004D310C /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */; };
 		B8EECEA22ACD6598004D310C /* KeychainItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8EECEA12ACD6598004D310C /* KeychainItem.swift */; };
+		B8F1F2472B0615790056B733 /* TimeEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1F2462B0615790056B733 /* TimeEditButton.swift */; };
+		B8F1F2492B06158F0056B733 /* AddressEditButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1F2482B06158F0056B733 /* AddressEditButton.swift */; };
+		B8F1F24B2B0616E10056B733 /* StopoverRemoveButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1F24A2B0616E10056B733 /* StopoverRemoveButton.swift */; };
+		B8F1F24D2B0619140056B733 /* StopoverAddButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8F1F24C2B0619140056B733 /* StopoverAddButton.swift */; };
 		BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */; };
 		BF0C33022AE50AFB00A6D8FE /* MapDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */; };
 		BF0C33042AE51E7C00A6D8FE /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */; };
@@ -87,6 +90,10 @@
 		C904D1562AD5786A008BF5CE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1552AD5786A008BF5CE /* User.swift */; };
 		C904D1582AD57942008BF5CE /* Friendship.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1572AD57942008BF5CE /* Friendship.swift */; };
 		C904D1612AD57AE8008BF5CE /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1602AD57AE8008BF5CE /* Crew.swift */; };
+		C908AE412B03920500C5A743 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908AE402B03920500C5A743 /* LoadingView.swift */; };
+		C908AE432B03923600C5A743 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908AE422B03923600C5A743 /* LoadingViewController.swift */; };
+		C90B6BD12B09D59800F51543 /* CrewNameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */; };
+		C90B6BD32B09D5B700F51543 /* CrewNameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
 		C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB322AC9B6760068273A /* ColorTheme.swift */; };
@@ -158,7 +165,6 @@
 		B8293CC52B028404002472AE /* RepeatDaySelectModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectModalView.swift; sourceTree = "<group>"; };
 		B8293CC72B028863002472AE /* RepeatDaySelectModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepeatDaySelectModalViewController.swift; sourceTree = "<group>"; };
 		B8293CCA2B0392FC002472AE /* DayButtonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayButtonCollectionViewCell.swift; sourceTree = "<group>"; };
-		B8293CE12B03AED7002472AE /* TimeType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeType.swift; sourceTree = "<group>"; };
 		B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoNoCrewView.swift; sourceTree = "<group>"; };
 		B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoDriverView.swift; sourceTree = "<group>"; };
 		B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoPassengerView.swift; sourceTree = "<group>"; };
@@ -191,6 +197,10 @@
 		B8EECE992AC96B5F004D310C /* InquiryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryViewController.swift; sourceTree = "<group>"; };
 		B8EECE9B2AC96BE5004D310C /* PrivacyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyViewController.swift; sourceTree = "<group>"; };
 		B8EECEA12ACD6598004D310C /* KeychainItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainItem.swift; sourceTree = "<group>"; };
+		B8F1F2462B0615790056B733 /* TimeEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeEditButton.swift; sourceTree = "<group>"; };
+		B8F1F2482B06158F0056B733 /* AddressEditButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressEditButton.swift; sourceTree = "<group>"; };
+		B8F1F24A2B0616E10056B733 /* StopoverRemoveButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverRemoveButton.swift; sourceTree = "<group>"; };
+		B8F1F24C2B0619140056B733 /* StopoverAddButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverAddButton.swift; sourceTree = "<group>"; };
 		BF0AEF9B2ACD7F7600FBB7B8 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		BF0C33012AE50AFB00A6D8FE /* MapDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapDetailView.swift; sourceTree = "<group>"; };
 		BF0C33032AE51E7C00A6D8FE /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
@@ -217,6 +227,10 @@
 		C904D1552AD5786A008BF5CE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C904D1572AD57942008BF5CE /* Friendship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friendship.swift; sourceTree = "<group>"; };
 		C904D1602AD57AE8008BF5CE /* Crew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
+		C908AE402B03920500C5A743 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		C908AE422B03923600C5A743 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewNameSettingViewController.swift; sourceTree = "<group>"; };
+		C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewNameSettingView.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -324,9 +338,12 @@
 		B8293CD72B03AE42002472AE /* PointEdit */ = {
 			isa = PBXGroup;
 			children = (
-				B8293CE12B03AED7002472AE /* TimeType.swift */,
 				B87A22D52B0465BB00D8DC49 /* PointEditTableViewCell.swift */,
 				B87A22D92B051E8000D8DC49 /* PointType.swift */,
+				B8F1F2462B0615790056B733 /* TimeEditButton.swift */,
+				B8F1F2482B06158F0056B733 /* AddressEditButton.swift */,
+				B8F1F24A2B0616E10056B733 /* StopoverRemoveButton.swift */,
+				B8F1F24C2B0619140056B733 /* StopoverAddButton.swift */,
 			);
 			path = PointEdit;
 			sourceTree = "<group>";
@@ -496,6 +513,7 @@
 			isa = PBXGroup;
 			children = (
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
+				C908AE422B03923600C5A743 /* LoadingViewController.swift */,
 				C9F43BC72AF214CB00BAA0E3 /* CrewMake */,
 				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
 				BFFA10B02AE60FFA003CE661 /* Map */,
@@ -508,6 +526,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
+				C908AE402B03920500C5A743 /* LoadingView.swift */,
 				C9F43BCC2AF2153100BAA0E3 /* CrewMake */,
 				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
 				BF0C33052AE5217100A6D8FE /* Map */,
@@ -593,6 +612,7 @@
 		C931166A2AF3AB250014E702 /* Driver */ = {
 			isa = PBXGroup;
 			children = (
+				C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */,
 				C95462122AF74BFC004C4F6D /* StartEndPointSelect */,
 				C93116652AF382260014E702 /* StopoverPointCheckViewController.swift */,
 				C9D04C6F2AFB81E1007E615B /* StopoverPointSelect */,
@@ -616,6 +636,7 @@
 		C931166C2AF3AB3F0014E702 /* Driver */ = {
 			isa = PBXGroup;
 			children = (
+				C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */,
 				C95462112AF74BEA004C4F6D /* StartEndPointSelect */,
 				C93116672AF3822D0014E702 /* StopoverPointCheckView.swift */,
 				C9D04C6C2AFB8190007E615B /* StopoverPointSelect */,
@@ -898,7 +919,6 @@
 				C9F43BDD2AF2C06C00BAA0E3 /* BoardingPointSelectViewController.swift in Sources */,
 				B8376E3C2AF936DB007F1E0A /* CrewInfoNoCrewView.swift in Sources */,
 				B8726B1E2AFDB9990084B49C /* CrewInfoCheckView.swift in Sources */,
-				B8293CE22B03AED7002472AE /* TimeType.swift in Sources */,
 				B87A22D62B0465BB00D8DC49 /* PointEditTableViewCell.swift in Sources */,
 				C9D04C6B2AFB7864007E615B /* AddressSelectButtonView.swift in Sources */,
 				C9D04C732AFC65BE007E615B /* StopoverPointAddButtonView.swift in Sources */,
@@ -909,9 +929,12 @@
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
 				BF0C33022AE50AFB00A6D8FE /* MapDetailView.swift in Sources */,
+				B8F1F24B2B0616E10056B733 /* StopoverRemoveButton.swift in Sources */,
 				C9D8E4DE2AF48172007570EE /* TimeSelectView.swift in Sources */,
 				C92CFB3B2ACBF6C40068273A /* UIImage+Extension.swift in Sources */,
+				C908AE412B03920500C5A743 /* LoadingView.swift in Sources */,
 				C9D8E4EA2AF486B6007570EE /* CodeShareView.swift in Sources */,
+				B8F1F2492B06158F0056B733 /* AddressEditButton.swift in Sources */,
 				B8DD15EE2AD6EE9400685E48 /* CustomVisualEffectView.swift in Sources */,
 				16E42C482AC411A20031486E /* MapViewController.swift in Sources */,
 				1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */,
@@ -936,12 +959,15 @@
 				C93116782AF3B6310014E702 /* DefaultAddressTableViewCell.swift in Sources */,
 				164E823D2AF53AB400848BFF /* Point.swift in Sources */,
 				B84006AE2B00B2570009DCD2 /* CrewEditViewController.swift in Sources */,
+				B8F1F2472B0615790056B733 /* TimeEditButton.swift in Sources */,
+				C90B6BD12B09D59800F51543 /* CrewNameSettingViewController.swift in Sources */,
 				C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
 				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
 				163422362AFE636000196EB2 /* RuleDescriptionViewController.swift in Sources */,
 				C93116742AF3B5320014E702 /* SelectAddressView.swift in Sources */,
+				B8F1F24D2B0619140056B733 /* StopoverAddButton.swift in Sources */,
 				C93116802AF3B7E30014E702 /* SelectDetailPointMapView.swift in Sources */,
 				C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */,
 				1667F61D2AFC622400393111 /* CrewCollectionViewCell.swift in Sources */,
@@ -960,6 +986,7 @@
 				B8726B222AFDBA240084B49C /* CrewInfoCheckViewController.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
+				C90B6BD32B09D5B700F51543 /* CrewNameSettingView.swift in Sources */,
 				B8376E402AF936F4007F1E0A /* CrewInfoPassengerView.swift in Sources */,
 				C9D04C652AF89953007E615B /* RightNavigationBarButton.swift in Sources */,
 				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
@@ -984,6 +1011,7 @@
 				1638B91F2B02FBB300C53D0D /* MemberStatus.swift in Sources */,
 				BF6CEA412B0AE6DD00584D1B /* Coordinate.swift in Sources */,
 				B84B41852B000EFC007AC36F /* QuestionDetailViewController.swift in Sources */,
+				C908AE432B03923600C5A743 /* LoadingViewController.swift in Sources */,
 				C904D1582AD57942008BF5CE /* Friendship.swift in Sources */,
 				B8376E482AF9BBB1007F1E0A /* NameEditViewController.swift in Sources */,
 			);

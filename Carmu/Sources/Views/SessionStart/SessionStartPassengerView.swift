@@ -237,8 +237,7 @@ final class PassengerFrontView: UIView {
         }
     }
 
-    func settingPassengerFrontData(crewData: Crew?) {
-        guard let crewData = crewData else { return }
+    func settingPassengerFrontData(crewData: Crew) {
 
         let passengerLocation = getPassengerLocation(crewData: crewData)
         let passengerTime = getPassengerTime(crewData: crewData)
@@ -263,11 +262,7 @@ final class PassengerFrontView: UIView {
     }
 
     // crewData를 기반으로 위치 불러오기
-    private func getPassengerLocation(crewData: Crew?) -> String {
-        guard let crewData = crewData
-        else {
-            return "목적지"
-        }
+    private func getPassengerLocation(crewData: Crew) -> String {
 
         guard let currentUserIdentifier = KeychainItem.currentUserIdentifier
         else {
@@ -292,11 +287,7 @@ final class PassengerFrontView: UIView {
     }
 
     // crewData를 기반으로 시간 불러오기
-    private func getPassengerTime(crewData: Crew?) -> String {
-        guard let crewData = crewData
-        else {
-            return "00:00"
-        }
+    private func getPassengerTime(crewData: Crew) -> String {
 
         guard let currentUserIdentifier = KeychainItem.currentUserIdentifier
         else {

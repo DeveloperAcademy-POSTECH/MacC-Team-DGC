@@ -57,7 +57,7 @@ final class SelectAddressView: UIView {
             .font: UIFont.carmuFont.body2Long
         ]
         textField.attributedPlaceholder = NSAttributedString(
-            string: "주소지를 검색하세요",
+            string: "출발지 검색",
             attributes: placeholderAttributes
         )
         return textField

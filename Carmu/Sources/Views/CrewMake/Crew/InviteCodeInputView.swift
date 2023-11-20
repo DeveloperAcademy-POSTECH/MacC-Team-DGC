@@ -57,7 +57,7 @@ final class InviteCodeInputView: UIView {
 
     lazy var conformCodeLabel: UILabel = {
         let label = UILabel()
-        label.text = "확인되었습니다. 즐거운 카풀 여정되세요!"
+        label.text = "확인되었습니다. 즐거운 카풀되세요!"
         label.font = UIFont.carmuFont.body1
         label.textColor = UIColor.semantic.textTertiary
         label.isHidden = true
@@ -77,26 +77,21 @@ final class InviteCodeInputView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupViews()
+        setAutoLayout()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-    override func draw(_ rect: CGRect) {
-        setupViews()
-        setAutoLayout()
-    }
-
     private func setupViews() {
-        nextButton.backgroundColor = UIColor.semantic.backgroundThird
-        nextButton.isEnabled = false
-
         firstLineTitleStack.axis = .horizontal
         firstLineTitleStack.alignment = .center
         secondLineTitleStack.axis = .horizontal
         secondLineTitleStack.alignment = .center
 
+        print("setupViews")
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
         firstLineTitleStack.addArrangedSubview(titleLabel3)

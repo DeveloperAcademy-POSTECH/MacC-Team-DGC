@@ -28,11 +28,15 @@ final class RepeatDaySelectModalView: UIView {
     }()
 
     // 모달 닫기 버튼
-    // TODO: - 색 커스텀 방법 찾아보거나 이미지로 바꾸기
     let closeButton: UIButton = {
-        let closeButton = UIButton(type: .close)
-        closeButton.tintColor = .blue
-        closeButton.setTitleColor(.red, for: .normal)
+        let closeButton = UIButton()
+        let symbolConfig = UIImage.SymbolConfiguration(pointSize: 10, weight: .medium, scale: .large)
+        let symbolImgae = UIImage(systemName: "xmark", withConfiguration: symbolConfig)
+        closeButton.setImage(symbolImgae, for: .normal)
+        closeButton.backgroundColor = UIColor.theme.gray5
+        closeButton.tintColor = UIColor.theme.gray8
+        closeButton.layer.cornerRadius = 14
+        closeButton.clipsToBounds = true
         return closeButton
     }()
 
@@ -66,7 +70,7 @@ final class RepeatDaySelectModalView: UIView {
         headerStack.addArrangedSubview(headerLabel)
         headerStack.addArrangedSubview(closeButton)
         closeButton.snp.makeConstraints { make in
-            make.size.equalTo(24)
+            make.size.equalTo(28)
         }
 
         addSubview(saveButton)

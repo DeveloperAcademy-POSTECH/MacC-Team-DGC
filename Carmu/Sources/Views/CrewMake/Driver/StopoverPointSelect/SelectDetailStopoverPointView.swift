@@ -17,19 +17,18 @@ final class SelectDetailStopoverPointView: UIView {
         let view = UIView()
         view.backgroundColor = UIColor.semantic.backgroundDefault
         view.layer.cornerRadius = 20
-        view.layer.masksToBounds = true
-        view.layer.borderWidth = 1
-        view.layer.borderColor = UIColor.semantic.backgroundDefault?.cgColor
-        view.layer.shadowColor = UIColor.theme.blue6?.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowRadius = 8.0
-        view.layer.shadowOpacity = 0.2
+        view.clipsToBounds = true
         return view
     }()
 
     let backButton = {
         let backButton = UIButton()
         backButton.setImage(UIImage(named: "modalXButton"), for: .normal)
+        backButton.layer.shadowColor = UIColor.theme.black?.cgColor
+        backButton.layer.shadowOffset = CGSize(width: 4, height: 4)
+        backButton.layer.shadowRadius = 8
+        backButton.layer.shadowOpacity = 0.2
+        backButton.layer.masksToBounds = false
         return backButton
     }()
 
@@ -137,13 +136,14 @@ final class SelectDetailStopoverPointView: UIView {
 extension SelectDetailStopoverPointView {
 
     private func setupUI() {
+        backgroundView.addSubview(buildingNameLabel)
+        backgroundView.addSubview(detailAddressLabel)
+
         addSubview(mapView)
         addSubview(explainLabel)
         addSubview(backButton)
         addSubview(centerMarkerImage)
         addSubview(backgroundView)
-        addSubview(buildingNameLabel)
-        addSubview(detailAddressLabel)
         addSubview(saveButton)
     }
 
@@ -151,7 +151,7 @@ extension SelectDetailStopoverPointView {
         mapView.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(backgroundView.snp.top)
+            make.bottom.equalTo(backgroundView.snp.top).offset(20)
         }
 
         explainLabel.snp.makeConstraints { make in
@@ -175,13 +175,12 @@ extension SelectDetailStopoverPointView {
 
         backgroundView.snp.makeConstraints { make in
             make.bottom.equalTo(safeAreaLayoutGuide)
-            make.top.equalTo(mapView.snp.bottom)
             make.horizontalEdges.equalToSuperview()
             make.height.equalTo(200)
         }
 
         buildingNameLabel.snp.makeConstraints { make in
-            make.top.equalTo(backgroundView.snp.top).offset(20)
+            make.top.equalToSuperview().inset(24)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 

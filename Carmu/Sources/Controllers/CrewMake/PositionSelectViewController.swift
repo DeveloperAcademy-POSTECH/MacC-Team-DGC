@@ -13,7 +13,7 @@ final class PositionSelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         positionSelectView.selectDriverButton.addTarget(
             self,
@@ -35,13 +35,24 @@ final class PositionSelectViewController: UIViewController {
             make.edges.equalToSuperview()
         }
     }
+
+    // 현재 화면에서만 네비게이션 바 숨김을 위한 처리
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+    }
 }
 
 // MARK: - @objc Method
 extension PositionSelectViewController {
 
     @objc private func driverButtonTapped() {
-        let viewController = StartEndPointSelectViewController()
+        let viewController = CrewNameSettingViewController()
         navigationController?.pushViewController(viewController, animated: true)
     }
 
@@ -51,8 +62,21 @@ extension PositionSelectViewController {
     }
 
     @objc private func skipButtonTapped() {
-        SceneDelegate.updateIsFirstValue(false)
-        UserDefaults.standard.set(false, forKey: "isFirst")
+        let alertController = UIAlertController(
+            title: "아직 크루가 만들어지지 않았어요!",
+            message: "크루를 만들거나 크루에 참여해야\n카뮤를 이용할 수 있습니다.",
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
+        let skipAction = UIAlertAction(title: "건너뛰기", style: .default) { _ in
+            SceneDelegate.updateIsFirstValue(false)
+            UserDefaults.standard.set(false, forKey: "isFirst")
+        }
+
+        alertController.addAction(cancelAction)
+        alertController.addAction(skipAction)
+
+        present(alertController, animated: true, completion: nil)
     }
 }
 

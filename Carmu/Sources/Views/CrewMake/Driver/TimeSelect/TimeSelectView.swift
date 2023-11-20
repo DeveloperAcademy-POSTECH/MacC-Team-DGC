@@ -12,7 +12,7 @@ final class TimeSelectView: UIView {
     private lazy var firstLineTitleStack = UIStackView()
 
     private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "장소들의 ")
-    private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "예정 시간")
+    private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "예정시간")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "을")
     private lazy var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "설정해주세요")
 

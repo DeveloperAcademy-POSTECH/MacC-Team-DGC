@@ -23,6 +23,7 @@ final class MyPageViewController: UIViewController {
 
     private let firebaseManager = FirebaseManager()
 
+    var crewData: Crew? // 불러온 유저의 크루 데이터
     var selectedProfileImageColor: ProfileImageColor = .blue // 프로필 이미지를 표시해주기 위한 ProfileImageColor 값
     var selectedProfileImageColorIdx: Int {
         // 컬렉션 뷰 셀의 인덱스에 대응하도록 ProfileImageColor 값의 인덱스를 반환하는 프로퍼티
@@ -70,6 +71,7 @@ final class MyPageViewController: UIViewController {
         myPageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
         // 크루 유무, 운전자 여부에 따른 화면 처리
         setupCrewInfoView()
 
@@ -165,9 +167,8 @@ extension MyPageViewController {
     }
 
     // 크루 유무 확인
-    // TODO: - 데이터 연결 로직 추가 필요
     private func checkCrew() -> Bool {
-        if dummyCrewData == nil {
+        if crewData == nil {
             return false
         } else {
             return true
@@ -175,9 +176,12 @@ extension MyPageViewController {
     }
 
     // 운전자 여부 확인
-    // TODO: - 데이터 연결 로직 추가 필요
     private func isCaptain() -> Bool {
-        return true // 테스트용 값 설정
+        if crewData?.captainID == KeychainItem.currentUserIdentifier {
+            return true
+        } else {
+            return false
+        }
     }
 
     // 크루 없을 때의 화면 구성
@@ -292,6 +296,7 @@ extension MyPageViewController: UITableViewDelegate {
         if indexPath.row == 0 {
             // [크루 정보 수정하기] 클릭
             let crewInfoCheckVC = CrewInfoCheckViewController()
+            crewInfoCheckVC.crewData = crewData
             navigationController?.pushViewController(crewInfoCheckVC, animated: true)
         }
         // 클릭 후에는 셀의 선택이 해제된다.

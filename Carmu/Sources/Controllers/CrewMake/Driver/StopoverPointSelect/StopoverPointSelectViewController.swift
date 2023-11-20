@@ -12,7 +12,7 @@ final class StopoverPointSelectViewController: UIViewController {
     private let stopoverPointSelectView = StopoverPointSelectView()
     private var stopoverCount = 1
     var crewData: Crew
-    var pointList: [Point] = []
+    var pointList: [Point] = Array(repeating: Point(), count: 3)
 
     init(crewData: Crew) {
         self.crewData = crewData
@@ -25,10 +25,13 @@ final class StopoverPointSelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         stopoverPointSelectView.startPointView.text = crewData.startingPoint?.name
         stopoverPointSelectView.endPointView.text = crewData.destination?.name
+
+        stopoverPointSelectView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        stopoverPointSelectView.nextButton.isEnabled = false
 
         addButtonTarget()
         view.addSubview(stopoverPointSelectView)
@@ -36,10 +39,48 @@ final class StopoverPointSelectViewController: UIViewController {
             make.edges.equalToSuperview()
         }
     }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        // 뒤로 넘어왔을 때 stopoverCount 파악하여 Constraint를 다시 잡아주는 부분
+        switch stopoverCount {
+        case 1:
+            break
+        case 2:
+            stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
+                make.top.equalTo(stopoverPointSelectView.titleLabel5.snp.bottom).offset(30)
+                make.bottom.equalTo(stopoverPointSelectView.stopover3).offset(30)
+                make.leading.equalTo(stopoverPointSelectView).inset(20)
+            }
+            showStopoverButton(sequence: 2, isHidden: false)
+        default:
+            stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
+                make.top.equalTo(stopoverPointSelectView.titleLabel5.snp.bottom).offset(30)
+                make.bottom.equalTo(stopoverPointSelectView.nextButton.snp.top).offset(-30)
+                make.leading.equalTo(stopoverPointSelectView).inset(20)
+            }
+            showStopoverButton(sequence: 2, isHidden: false)
+            showStopoverButton(sequence: 3, isHidden: false)
+            stopoverPointSelectView.stopoverAddButton.isHidden = true
+        }
+    }
 }
 
 // MARK: - custom Method
 extension StopoverPointSelectViewController {
+
+    private func showStopoverButton(sequence: Int, isHidden: Bool) {
+        if sequence == 2 {
+            stopoverPointSelectView.stopover2.label.isHidden = isHidden
+            stopoverPointSelectView.stopover2.button.isHidden = isHidden
+            stopoverPointSelectView.stopover2.xButton.isHidden = isHidden
+        } else {
+            stopoverPointSelectView.stopover3.label.isHidden = isHidden
+            stopoverPointSelectView.stopover3.button.isHidden = isHidden
+            stopoverPointSelectView.stopover3.xButton.isHidden = isHidden
+        }
+    }
 
     private func addButtonTarget() {
         stopoverPointSelectView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
@@ -69,6 +110,8 @@ extension StopoverPointSelectViewController {
 // MARK: - @objc Method
 extension StopoverPointSelectViewController {
 
+    // TODO: - crewData stopover point 배열로 관리하다가 model에 적재 필요.
+    // 뒤로 돌아왔을 때 처리 필요?
     @objc private func addPointButtonTapped() {
         if stopoverCount == 1 {
             stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
@@ -76,9 +119,7 @@ extension StopoverPointSelectViewController {
                 make.bottom.equalTo(stopoverPointSelectView.stopover3).offset(30)
                 make.leading.equalTo(stopoverPointSelectView).inset(20)
             }
-            stopoverPointSelectView.stopover2.label.isHidden = false
-            stopoverPointSelectView.stopover2.button.isHidden = false
-            stopoverPointSelectView.stopover2.xButton.isHidden = false
+            showStopoverButton(sequence: 2, isHidden: false)
             stopoverCount += 1
         } else {
             stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
@@ -87,9 +128,7 @@ extension StopoverPointSelectViewController {
                 make.leading.equalTo(stopoverPointSelectView).inset(20)
             }
             stopoverPointSelectView.stopoverAddButton.isHidden = true
-            stopoverPointSelectView.stopover3.label.isHidden = false
-            stopoverPointSelectView.stopover3.button.isHidden = false
-            stopoverPointSelectView.stopover3.xButton.isHidden = false
+            showStopoverButton(sequence: 3, isHidden: false)
             stopoverCount += 1
         }
     }
@@ -101,21 +140,21 @@ extension StopoverPointSelectViewController {
                 make.bottom.equalTo(stopoverPointSelectView.stopover3).offset(30)
                 make.leading.equalTo(stopoverPointSelectView).inset(20)
             }
-            stopoverPointSelectView.stopover3.label.isHidden = true
-            stopoverPointSelectView.stopover3.button.isHidden = true
-            stopoverPointSelectView.stopover3.xButton.isHidden = true
+            stopoverPointSelectView.stopover3.button.setTitle("     경유지 3 검색", for: .normal)
+            showStopoverButton(sequence: 3, isHidden: true)
             stopoverPointSelectView.stopoverAddButton.isHidden = false
             stopoverCount -= 1
+            crewData.stopover3 = nil
         } else {
             stopoverPointSelectView.colorLine.snp.remakeConstraints { make in
                 make.top.equalTo(stopoverPointSelectView.titleLabel5.snp.bottom).offset(30)
                 make.bottom.equalTo(stopoverPointSelectView.stopover2).offset(30)
                 make.leading.equalToSuperview().inset(20)
             }
-            stopoverPointSelectView.stopover2.label.isHidden = true
-            stopoverPointSelectView.stopover2.button.isHidden = true
-            stopoverPointSelectView.stopover2.xButton.isHidden = true
+            stopoverPointSelectView.stopover2.button.setTitle("     경유지 2 검색", for: .normal)
+            showStopoverButton(sequence: 2, isHidden: true)
             stopoverCount -= 1
+            crewData.stopover2 = nil
         }
     }
 
@@ -128,11 +167,11 @@ extension StopoverPointSelectViewController {
             point.latitude = addressDTO.pointLat
             point.longitude = addressDTO.pointLng
 
-            switch sender.titleLabel?.text {
-            case "     경유지 1 검색":
+            switch sender {
+            case self.stopoverPointSelectView.stopover1.button:
                 self.crewData.stopover1 = point
                 self.pointList.insert(point, at: 0)
-            case "     경유지 2 검색":
+            case self.stopoverPointSelectView.stopover2.button:
                 self.crewData.stopover2 = point
                 self.pointList.insert(point, at: 1)
             default:

@@ -17,7 +17,7 @@ final class InviteCodeInputViewController: UIViewController {
         super.viewDidLoad()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
 
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
         view.addSubview(inviteCodeInputView)
         inviteCodeInputView.codeSearchTextField.returnKeyType = .search
         inviteCodeInputView.codeSearchTextField.delegate = self
@@ -26,17 +26,52 @@ final class InviteCodeInputViewController: UIViewController {
         }
         view.addGestureRecognizer(tapGesture)
 
-        inviteCodeInputView.clearButton.addTarget(self, action: #selector(clearButtonPressed), for: .touchUpInside)
-        inviteCodeInputView.nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
-        inviteCodeInputView.codeSearchTextField.addTarget(self, action: #selector(textFieldDidChange(_:)), for: .editingChanged)
-
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        inviteCodeInputView.clearButton.addTarget(
+            self,
+            action: #selector(clearButtonPressed),
+            for: .touchUpInside
+        )
+        inviteCodeInputView.nextButton.addTarget(
+            self,
+            action: #selector(nextButtonTapped),
+            for: .touchUpInside
+        )
+        inviteCodeInputView.codeSearchTextField.addTarget(
+            self,
+            action: #selector(textFieldDidChange(_:)),
+            for: .editingChanged
+        )
+        inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        inviteCodeInputView.nextButton.isEnabled = false
     }
 
-    deinit {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    override func viewDidAppear(_ animated: Bool) {
+        inviteCodeInputView.codeSearchTextField.becomeFirstResponder()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
 }
 
@@ -45,6 +80,7 @@ extension InviteCodeInputViewController {
 
     @objc private func clearButtonPressed() {
         inviteCodeInputView.codeSearchTextField.text = ""
+        textFieldDidChange(inviteCodeInputView.codeSearchTextField)
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
@@ -52,7 +88,6 @@ extension InviteCodeInputViewController {
 
         // 입력 길이가 8 이상인 경우
         if text.count >= 8 {
-            // TODO: 8자 이상일 때 수행할 액션 추가
             firebaseManager.getCrewByInviteCode(inviteCode: text) { crewData in
                 if let crewData = crewData {
                     self.inviteCodeInputView.conformCodeLabel.isHidden = false
@@ -74,13 +109,12 @@ extension InviteCodeInputViewController {
     }
 
     @objc private func nextButtonTapped() {
-        // TODO: 코드 유효성 텍스트 라벨 표시 로직 추가 필요
         let viewController = BoardingPointSelectViewController(crewData: crewData)
         navigationController?.pushViewController(viewController, animated: true)
     }
 
     @objc private func dismissTextField() {
-        inviteCodeInputView.codeSearchTextField.resignFirstResponder() // 최초 응답자 해제
+        inviteCodeInputView.codeSearchTextField.resignFirstResponder()
     }
 
     @objc private func keyboardWillShow(notification: Notification) {
@@ -88,11 +122,12 @@ extension InviteCodeInputViewController {
         guard let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
-        // 애니메이션을 사용하여 레이아웃 업데이트 → 친구 추가하기 버튼을 위로 올려준다.
+        let bottomInset = view.safeAreaInsets.bottom
+
         UIView.animate(withDuration: 0.3) {
             self.inviteCodeInputView.nextButton.transform = CGAffineTransform(
                 translationX: 0,
-                y: -keyboardFrame.height + 80
+                y: -keyboardFrame.height + bottomInset + 40
             )
         }
     }
@@ -106,7 +141,6 @@ extension InviteCodeInputViewController {
 extension InviteCodeInputViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        // 리턴 키를 누를 때 호출될 메서드
         nextButtonTapped()
         return true
     }
