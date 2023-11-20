@@ -831,6 +831,7 @@ extension FirebaseManager {
     /// [운전자] '지각 알리기' 버튼 눌렀을 때의 동작. Crew의 lateTime을 갱신한다.
     private func updateCrewLateTime(lateTime: UInt, crew: Crew) {
         guard let crewID = crew.id else { return }
+        guard KeychainItem.currentUserIdentifier == crew.captainID else { return }
 
         let crewReference = Database.database().reference().child("crew/\(crewID)/lateTime")
         crewReference.observeSingleEvent(of: .value, with: { snapshot in
