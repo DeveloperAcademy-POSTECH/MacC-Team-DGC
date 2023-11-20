@@ -74,7 +74,7 @@ extension SelectDetailPointMapViewController {
 extension SelectDetailPointMapViewController {
 
     private func getAddressAndBuildingName(_ latLng: NMGLatLng, completion: @escaping (String, String) -> Void) {
-        var urlString = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&"
+        let urlString = "https://naveropenapi.apigw.ntruss.com/map-reversegeocode/v2/gc?request=coordsToaddr&"
         + "coords=\(latLng.lng),\(latLng.lat)"
         + "&sourcecrs=epsg:4326&output=json&orders=roadaddr"
 
@@ -119,7 +119,6 @@ extension SelectDetailPointMapViewController {
 
         for result in jsonData {
             if let region = result["region"] as? [String: Any] {
-                var combinedNames = ""
                 for index in 1...2 {
                     if let area = region["area\(index)"] as? [String: Any],
                        let name = area["name"] as? String {
