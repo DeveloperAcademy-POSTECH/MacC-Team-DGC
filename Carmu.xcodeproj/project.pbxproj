@@ -94,6 +94,7 @@
 		C908AE432B03923600C5A743 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908AE422B03923600C5A743 /* LoadingViewController.swift */; };
 		C90B6BD12B09D59800F51543 /* CrewNameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */; };
 		C90B6BD32B09D5B700F51543 /* CrewNameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */; };
+		C90B6BD72B0B36B800F51543 /* GifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD62B0B36B800F51543 /* GifView.swift */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
 		C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB322AC9B6760068273A /* ColorTheme.swift */; };
@@ -231,6 +232,7 @@
 		C908AE422B03923600C5A743 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
 		C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewNameSettingViewController.swift; sourceTree = "<group>"; };
 		C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewNameSettingView.swift; sourceTree = "<group>"; };
+		C90B6BD62B0B36B800F51543 /* GifView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifView.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -735,6 +737,7 @@
 				B8DD15ED2AD6EE9400685E48 /* CustomVisualEffectView.swift */,
 				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
 				C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */,
+				C90B6BD62B0B36B800F51543 /* GifView.swift */,
 				C954621C2AF77D52004C4F6D /* ButtonComponent */,
 			);
 			path = Utils;
@@ -905,6 +908,7 @@
 				B84006B02B00B2690009DCD2 /* CrewEditView.swift in Sources */,
 				C9D8E4E82AF48650007570EE /* CodeShareViewController.swift in Sources */,
 				C931167A2AF3B69F0014E702 /* SelectAddressDTO.swift in Sources */,
+				C90B6BD72B0B36B800F51543 /* GifView.swift in Sources */,
 				C9D8E4E62AF484F3007570EE /* FinalConfirmViewController.swift in Sources */,
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
