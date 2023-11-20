@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		161128DB2B0B2B3400176657 /* ServerPushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161128DA2B0B2B3400176657 /* ServerPushManager.swift */; };
 		16114ADE2AFB1D9C003325B6 /* SessionStartBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */; };
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
 		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
@@ -148,6 +149,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		161128DA2B0B2B3400176657 /* ServerPushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerPushManager.swift; sourceTree = "<group>"; };
 		16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartBackView.swift; sourceTree = "<group>"; };
 		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		163422332AFDFFFE00196EB2 /* CarpoolPlanLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolPlanLabel.swift; sourceTree = "<group>"; };
@@ -736,6 +738,7 @@
 				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
 				C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */,
 				C954621C2AF77D52004C4F6D /* ButtonComponent */,
+				161128DA2B0B2B3400176657 /* ServerPushManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -951,6 +954,7 @@
 				C93116702AF3ABB20014E702 /* StartEndPointSelectView.swift in Sources */,
 				C954621E2AF77D9D004C4F6D /* NextButton.swift in Sources */,
 				B8293CCB2B0392FC002472AE /* DayButtonCollectionViewCell.swift in Sources */,
+				161128DB2B0B2B3400176657 /* ServerPushManager.swift in Sources */,
 				C9D04C7C2AFE5AAF007E615B /* SelectDetailStopoverPointView.swift in Sources */,
 				B83E23EA2AF34E550048ED9A /* ProfileChangeViewController.swift in Sources */,
 				C9F43BDF2AF2C09500BAA0E3 /* BoardingPointSelectView.swift in Sources */,
