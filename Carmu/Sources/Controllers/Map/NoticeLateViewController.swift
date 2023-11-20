@@ -18,9 +18,6 @@ final class NoticeLateViewController: UIViewController {
     private let functions = Functions.functions()
     private var lateMin = "0"
     private let crew: Crew
-    private var isDriver: Bool {
-        crew.captainID == KeychainItem.currentUserIdentifier
-    }
 
     init(crew: Crew) {
         self.crew = crew
