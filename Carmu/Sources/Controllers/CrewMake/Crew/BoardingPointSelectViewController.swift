@@ -105,7 +105,7 @@ extension BoardingPointSelectViewController {
             SceneDelegate.updateIsFirstValue(false)
         } else {
             // 초기 화면이 아닐 경우(건너가기 후 그룹코드 입력)
-            navigationController?.popToRootViewController(animated: true)
+            navigationController?.popToRootViewController(animated: false)
             navigationController?.viewControllers.first?.viewDidAppear(true)
         }
     }
