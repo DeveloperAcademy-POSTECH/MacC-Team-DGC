@@ -73,6 +73,8 @@
 		BF37D9D92AB939A4005331AD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BF37D9D72AB939A4005331AD /* LaunchScreen.storyboard */; };
 		BF4A12422ABED78400EC1B6D /* SessionStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */; };
 		BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */; };
+		BF59EFD42B070F5500E6ECF8 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */; };
+		BF6CEA412B0AE6DD00584D1B /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */; };
 		BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */; };
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
 		BF801B912AFF36FD005DE2AF /* CrewScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF801B902AFF36FD005DE2AF /* CrewScrollView.swift */; };
@@ -90,6 +92,9 @@
 		C904D1612AD57AE8008BF5CE /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1602AD57AE8008BF5CE /* Crew.swift */; };
 		C908AE412B03920500C5A743 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908AE402B03920500C5A743 /* LoadingView.swift */; };
 		C908AE432B03923600C5A743 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908AE422B03923600C5A743 /* LoadingViewController.swift */; };
+		C90B6BD12B09D59800F51543 /* CrewNameSettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */; };
+		C90B6BD32B09D5B700F51543 /* CrewNameSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */; };
+		C90B6BD72B0B36B800F51543 /* GifView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C90B6BD62B0B36B800F51543 /* GifView.swift */; };
 		C92CFB2A2AC92E420068273A /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB292AC92E420068273A /* UIFont+Extension.swift */; };
 		C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C92CFB302AC93C470068273A /* SF-Pro.ttf */; };
 		C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C92CFB322AC9B6760068273A /* ColorTheme.swift */; };
@@ -114,6 +119,9 @@
 		C954621E2AF77D9D004C4F6D /* NextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954621D2AF77D9D004C4F6D /* NextButton.swift */; };
 		C95462202AF77FF8004C4F6D /* DaySelectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */; };
 		C95C07AE2AE0BB5A007E7589 /* FirebaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */; };
+		C97EAB522B0B507D00E21B72 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97EAB512B0B507D00E21B72 /* LaunchScreenView.swift */; };
+		C97EAB562B0B550D00E21B72 /* LaunchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C97EAB552B0B550D00E21B72 /* LaunchScreenViewController.swift */; };
+		C97EAB582B0B848200E21B72 /* launchGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = C97EAB572B0B848200E21B72 /* launchGif.gif */; };
 		C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9C7C1202ADE25590016DE13 /* String+Extension.swift */; };
 		C9D04C652AF89953007E615B /* RightNavigationBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C642AF89953007E615B /* RightNavigationBarButton.swift */; };
 		C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9D04C682AF9D312007E615B /* DayOfWeek.swift */; };
@@ -208,6 +216,8 @@
 		BF37D9DA2AB939A4005331AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BF4A12412ABED78400EC1B6D /* SessionStartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartViewController.swift; sourceTree = "<group>"; };
 		BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		BF801B902AFF36FD005DE2AF /* CrewScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewScrollView.swift; sourceTree = "<group>"; };
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -223,6 +233,9 @@
 		C904D1602AD57AE8008BF5CE /* Crew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
 		C908AE402B03920500C5A743 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		C908AE422B03923600C5A743 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
+		C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewNameSettingViewController.swift; sourceTree = "<group>"; };
+		C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewNameSettingView.swift; sourceTree = "<group>"; };
+		C90B6BD62B0B36B800F51543 /* GifView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GifView.swift; sourceTree = "<group>"; };
 		C92CFB292AC92E420068273A /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		C92CFB302AC93C470068273A /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		C92CFB322AC9B6760068273A /* ColorTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTheme.swift; sourceTree = "<group>"; };
@@ -247,6 +260,9 @@
 		C954621D2AF77D9D004C4F6D /* NextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NextButton.swift; sourceTree = "<group>"; };
 		C954621F2AF77FF8004C4F6D /* DaySelectButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectButton.swift; sourceTree = "<group>"; };
 		C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseManager.swift; sourceTree = "<group>"; };
+		C97EAB512B0B507D00E21B72 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		C97EAB552B0B550D00E21B72 /* LaunchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenViewController.swift; sourceTree = "<group>"; };
+		C97EAB572B0B848200E21B72 /* launchGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; name = launchGif.gif; path = ../../../../../../../../Downloads/launchGif.gif; sourceTree = "<group>"; };
 		C9C7C1202ADE25590016DE13 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		C9D04C642AF89953007E615B /* RightNavigationBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightNavigationBarButton.swift; sourceTree = "<group>"; };
 		C9D04C682AF9D312007E615B /* DayOfWeek.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayOfWeek.swift; sourceTree = "<group>"; };
@@ -482,6 +498,7 @@
 				C92CFB3A2ACBF6C40068273A /* UIImage+Extension.swift */,
 				1695CAE32AD4E62500858071 /* Date+Extension.swift */,
 				C9C7C1202ADE25590016DE13 /* String+Extension.swift */,
+				BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -504,7 +521,7 @@
 			isa = PBXGroup;
 			children = (
 				B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */,
-				C908AE422B03923600C5A743 /* LoadingViewController.swift */,
+				C97EAB532B0B50B900E21B72 /* Loading */,
 				C9F43BC72AF214CB00BAA0E3 /* CrewMake */,
 				16DBA63D2AC1D07C00315ED7 /* SessionStart */,
 				BFFA10B02AE60FFA003CE661 /* Map */,
@@ -517,7 +534,7 @@
 			isa = PBXGroup;
 			children = (
 				BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */,
-				C908AE402B03920500C5A743 /* LoadingView.swift */,
+				C97EAB542B0B52A500E21B72 /* Loading */,
 				C9F43BCC2AF2153100BAA0E3 /* CrewMake */,
 				BF9BCFFE2ACE4888009DAECD /* SessionStart */,
 				BF0C33052AE5217100A6D8FE /* Map */,
@@ -554,6 +571,7 @@
 		C92CFB2B2AC9398B0068273A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C97EAB572B0B848200E21B72 /* launchGif.gif */,
 				C92CFB302AC93C470068273A /* SF-Pro.ttf */,
 			);
 			path = Resources;
@@ -586,6 +604,7 @@
 				1638B91E2B02FBB300C53D0D /* MemberStatus.swift */,
 				C93116792AF3B69F0014E702 /* SelectAddressDTO.swift */,
 				C931167B2AF3B7070014E702 /* AddressDTO.swift */,
+				BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -602,6 +621,7 @@
 		C931166A2AF3AB250014E702 /* Driver */ = {
 			isa = PBXGroup;
 			children = (
+				C90B6BD02B09D59800F51543 /* CrewNameSettingViewController.swift */,
 				C95462122AF74BFC004C4F6D /* StartEndPointSelect */,
 				C93116652AF382260014E702 /* StopoverPointCheckViewController.swift */,
 				C9D04C6F2AFB81E1007E615B /* StopoverPointSelect */,
@@ -625,6 +645,7 @@
 		C931166C2AF3AB3F0014E702 /* Driver */ = {
 			isa = PBXGroup;
 			children = (
+				C90B6BD22B09D5B700F51543 /* CrewNameSettingView.swift */,
 				C95462112AF74BEA004C4F6D /* StartEndPointSelect */,
 				C93116672AF3822D0014E702 /* StopoverPointCheckView.swift */,
 				C9D04C6C2AFB8190007E615B /* StopoverPointSelect */,
@@ -723,9 +744,28 @@
 				B8DD15ED2AD6EE9400685E48 /* CustomVisualEffectView.swift */,
 				C95C07AD2AE0BB5A007E7589 /* FirebaseManager.swift */,
 				C9F43BCF2AF2186A00BAA0E3 /* CrewMakeUtil.swift */,
+				C90B6BD62B0B36B800F51543 /* GifView.swift */,
 				C954621C2AF77D52004C4F6D /* ButtonComponent */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		C97EAB532B0B50B900E21B72 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				C908AE422B03923600C5A743 /* LoadingViewController.swift */,
+				C97EAB552B0B550D00E21B72 /* LaunchScreenViewController.swift */,
+			);
+			path = Loading;
+			sourceTree = "<group>";
+		};
+		C97EAB542B0B52A500E21B72 /* Loading */ = {
+			isa = PBXGroup;
+			children = (
+				C908AE402B03920500C5A743 /* LoadingView.swift */,
+				C97EAB512B0B507D00E21B72 /* LaunchScreenView.swift */,
+			);
+			path = Loading;
 			sourceTree = "<group>";
 		};
 		C9D04C6C2AFB8190007E615B /* StopoverPointSelect */ = {
@@ -841,6 +881,7 @@
 			files = (
 				B8EC761E2ADFEB6300F83E8F /* Secrets.xcconfig in Resources */,
 				BF0AEF9C2ACD7F7600FBB7B8 /* .swiftlint.yml in Resources */,
+				C97EAB582B0B848200E21B72 /* launchGif.gif in Resources */,
 				BF37D9D92AB939A4005331AD /* LaunchScreen.storyboard in Resources */,
 				B8EA07A02AE188CB007501E9 /* SecureKey-Info.plist in Resources */,
 				C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */,
@@ -893,6 +934,7 @@
 				B84006B02B00B2690009DCD2 /* CrewEditView.swift in Sources */,
 				C9D8E4E82AF48650007570EE /* CodeShareViewController.swift in Sources */,
 				C931167A2AF3B69F0014E702 /* SelectAddressDTO.swift in Sources */,
+				C90B6BD72B0B36B800F51543 /* GifView.swift in Sources */,
 				C9D8E4E62AF484F3007570EE /* FinalConfirmViewController.swift in Sources */,
 				B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */,
 				B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */,
@@ -911,6 +953,7 @@
 				C9D04C6B2AFB7864007E615B /* AddressSelectButtonView.swift in Sources */,
 				C9D04C732AFC65BE007E615B /* StopoverPointAddButtonView.swift in Sources */,
 				B83E23F02AF3F3600048ED9A /* ProfileImageColorCollectionViewCell.swift in Sources */,
+				C97EAB522B0B507D00E21B72 /* LaunchScreenView.swift in Sources */,
 				165055AD2AFF54C50049EF73 /* StopoverInfoLeftView.swift in Sources */,
 				163422382AFE67A400196EB2 /* RuleDescriptionView.swift in Sources */,
 				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
@@ -948,8 +991,10 @@
 				164E823D2AF53AB400848BFF /* Point.swift in Sources */,
 				B84006AE2B00B2570009DCD2 /* CrewEditViewController.swift in Sources */,
 				B8F1F2472B0615790056B733 /* TimeEditButton.swift in Sources */,
+				C90B6BD12B09D59800F51543 /* CrewNameSettingViewController.swift in Sources */,
 				C9D04C692AF9D312007E615B /* DayOfWeek.swift in Sources */,
 				C92CFB332AC9B6760068273A /* ColorTheme.swift in Sources */,
+				C97EAB562B0B550D00E21B72 /* LaunchScreenViewController.swift in Sources */,
 				C9F43BE12AF3430C00BAA0E3 /* StopoverSelectButton.swift in Sources */,
 				C9C7C1212ADE25590016DE13 /* String+Extension.swift in Sources */,
 				163422362AFE636000196EB2 /* RuleDescriptionViewController.swift in Sources */,
@@ -963,6 +1008,7 @@
 				C95462152AF74D46004C4F6D /* TimeSelectCellView.swift in Sources */,
 				16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */,
 				B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */,
+				BF59EFD42B070F5500E6ECF8 /* UIStackView+Extension.swift in Sources */,
 				165055AF2AFF603D0049EF73 /* StopoverInfoRightView.swift in Sources */,
 				C9F43BCB2AF2151500BAA0E3 /* PositionSelectViewController.swift in Sources */,
 				B83E23EC2AF3DBBC0048ED9A /* ProfileImageColor.swift in Sources */,
@@ -972,6 +1018,7 @@
 				B8726B222AFDBA240084B49C /* CrewInfoCheckViewController.swift in Sources */,
 				BF37D9CF2AB939A3005331AD /* SceneDelegate.swift in Sources */,
 				C92CFB352AC9B6830068273A /* SemanticColor.swift in Sources */,
+				C90B6BD32B09D5B700F51543 /* CrewNameSettingView.swift in Sources */,
 				B8376E402AF936F4007F1E0A /* CrewInfoPassengerView.swift in Sources */,
 				C9D04C652AF89953007E615B /* RightNavigationBarButton.swift in Sources */,
 				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
@@ -994,6 +1041,7 @@
 				B8376E4A2AF9BC51007F1E0A /* NameEditView.swift in Sources */,
 				BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */,
 				1638B91F2B02FBB300C53D0D /* MemberStatus.swift in Sources */,
+				BF6CEA412B0AE6DD00584D1B /* Coordinate.swift in Sources */,
 				B84B41852B000EFC007AC36F /* QuestionDetailViewController.swift in Sources */,
 				C908AE432B03923600C5A743 /* LoadingViewController.swift in Sources */,
 				C904D1582AD57942008BF5CE /* Friendship.swift in Sources */,

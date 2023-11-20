@@ -1,52 +1,52 @@
 //
-//  InviteCodeInputViewController.swift
+//  CrewNameSettingViewController.swift
 //  Carmu
 //
-//  Created by 김동현 on 11/1/23.
+//  Created by 김동현 on 11/19/23.
 //
 
 import UIKit
 
-final class InviteCodeInputViewController: UIViewController {
+final class CrewNameSettingViewController: UIViewController {
 
-    private let inviteCodeInputView = InviteCodeInputView()
-    private let firebaseManager = FirebaseManager()
+    private let crewNameSettingView = CrewNameSettingView()
     private var crewData = Crew(crews: [UserIdentifier](), memberStatus: [MemberStatus]())
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.backButtonTitle = ""
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
+
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
-        view.addSubview(inviteCodeInputView)
-        inviteCodeInputView.codeSearchTextField.returnKeyType = .search
-        inviteCodeInputView.codeSearchTextField.delegate = self
-        inviteCodeInputView.snp.makeConstraints { make in
+        view.addSubview(crewNameSettingView)
+        crewNameSettingView.codeSearchTextField.returnKeyType = .search
+        crewNameSettingView.codeSearchTextField.delegate = self
+        crewNameSettingView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         view.addGestureRecognizer(tapGesture)
 
-        inviteCodeInputView.clearButton.addTarget(
+        crewNameSettingView.clearButton.addTarget(
             self,
             action: #selector(clearButtonPressed),
             for: .touchUpInside
         )
-        inviteCodeInputView.nextButton.addTarget(
+        crewNameSettingView.nextButton.addTarget(
             self,
             action: #selector(nextButtonTapped),
             for: .touchUpInside
         )
-        inviteCodeInputView.codeSearchTextField.addTarget(
+        crewNameSettingView.codeSearchTextField.addTarget(
             self,
             action: #selector(textFieldDidChange(_:)),
             for: .editingChanged
         )
-        inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
-        inviteCodeInputView.nextButton.isEnabled = false
+        crewNameSettingView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+        crewNameSettingView.nextButton.isEnabled = false
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        inviteCodeInputView.codeSearchTextField.becomeFirstResponder()
+        crewNameSettingView.codeSearchTextField.becomeFirstResponder()
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -76,45 +76,39 @@ final class InviteCodeInputViewController: UIViewController {
 }
 
 // MARK: - @objc Method
-extension InviteCodeInputViewController {
+extension CrewNameSettingViewController {
 
     @objc private func clearButtonPressed() {
-        inviteCodeInputView.codeSearchTextField.text = ""
-        textFieldDidChange(inviteCodeInputView.codeSearchTextField)
+        crewNameSettingView.codeSearchTextField.text = ""
+        textFieldDidChange(crewNameSettingView.codeSearchTextField)
     }
 
     @objc private func textFieldDidChange(_ textField: UITextField) {
         guard let text = textField.text else { return }
 
-        // 입력 길이가 8 이상인 경우
-        if text.count >= 8 {
-            firebaseManager.getCrewByInviteCode(inviteCode: text) { crewData in
-                if let crewData = crewData {
-                    self.inviteCodeInputView.conformCodeLabel.isHidden = false
-                    self.inviteCodeInputView.rejectCodeLabel.isHidden = true
-                    self.inviteCodeInputView.nextButton.isEnabled = true
-                    self.inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.accPrimary
-                    self.crewData = crewData
-                } else {
-                    self.inviteCodeInputView.conformCodeLabel.isHidden = true
-                    self.inviteCodeInputView.rejectCodeLabel.isHidden = false
-                }
-            }
+        // 입력 길이 8까지 제한
+        if text.count > 0 && text.count <= 8 {
+            self.crewNameSettingView.conformCodeLabel.isHidden = false
+            self.crewNameSettingView.rejectCodeLabel.isHidden = true
+            self.crewNameSettingView.nextButton.isEnabled = true
+            self.crewNameSettingView.nextButton.backgroundColor = UIColor.semantic.accPrimary
         } else {
-            self.inviteCodeInputView.conformCodeLabel.isHidden = true
-            self.inviteCodeInputView.rejectCodeLabel.isHidden = true
-            self.inviteCodeInputView.nextButton.isEnabled = false
-            self.inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+            self.crewNameSettingView.conformCodeLabel.isHidden = true
+            self.crewNameSettingView.rejectCodeLabel.isHidden = false
+            self.crewNameSettingView.nextButton.isEnabled = false
+            self.crewNameSettingView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
         }
     }
 
     @objc private func nextButtonTapped() {
-        let viewController = BoardingPointSelectViewController(crewData: crewData)
+        let viewController = StartEndPointSelectViewController()
+        crewData.name = crewNameSettingView.codeSearchTextField.text
+        viewController.crewData = crewData
         navigationController?.pushViewController(viewController, animated: true)
     }
 
     @objc private func dismissTextField() {
-        inviteCodeInputView.codeSearchTextField.resignFirstResponder()
+        crewNameSettingView.codeSearchTextField.resignFirstResponder()
     }
 
     @objc private func keyboardWillShow(notification: Notification) {
@@ -125,7 +119,7 @@ extension InviteCodeInputViewController {
         let bottomInset = view.safeAreaInsets.bottom
 
         UIView.animate(withDuration: 0.3) {
-            self.inviteCodeInputView.nextButton.transform = CGAffineTransform(
+            self.crewNameSettingView.nextButton.transform = CGAffineTransform(
                 translationX: 0,
                 y: -keyboardFrame.height + bottomInset + 40
             )
@@ -133,12 +127,12 @@ extension InviteCodeInputViewController {
     }
 
     @objc private func keyboardWillHide(notification: Notification) {
-        self.inviteCodeInputView.nextButton.transform = .identity
+        self.crewNameSettingView.nextButton.transform = .identity
     }
 }
 
 // MARK: - TextFieldDelegate Method
-extension InviteCodeInputViewController: UITextFieldDelegate {
+extension CrewNameSettingViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         nextButtonTapped()
@@ -149,10 +143,10 @@ extension InviteCodeInputViewController: UITextFieldDelegate {
 // MARK: - 프리뷰 canvas 세팅
 import SwiftUI
 
-struct ICIViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = InviteCodeInputViewController
-    func makeUIViewController(context: Context) -> InviteCodeInputViewController {
-        return InviteCodeInputViewController()
+struct CNSViewControllerRepresentable: UIViewControllerRepresentable {
+    typealias UIViewControllerType = CrewNameSettingViewController
+    func makeUIViewController(context: Context) -> CrewNameSettingViewController {
+        return CrewNameSettingViewController()
     }
-    func updateUIViewController(_ uiViewController: InviteCodeInputViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: CrewNameSettingViewController, context: Context) {}
 }

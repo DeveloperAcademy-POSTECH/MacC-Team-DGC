@@ -13,6 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     var authStateDidChangeHandle: AuthStateDidChangeListenerHandle?
+    private let firebaseManager = FirebaseManager()
 
     static var isFirst: Bool {
         get {
@@ -32,8 +33,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let window = UIWindow(windowScene: windowScene)
         self.window = window
 
-        // 첫 화면 설정
-        updateRootViewController()
+        // 스플래시 뷰
+        var navigationController = UINavigationController(rootViewController: LaunchScreenViewController())
+        navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+        self.window?.rootViewController = navigationController
+        self.window?.makeKeyAndVisible()
 
         // NotificationCenter에서 isFirst 변수가 변하는지 감지하는 부분
         NotificationCenter.default.addObserver(
@@ -48,22 +52,36 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
     }
 
+    /**
+     window navigationController rootViewController 변경 메서드
+     */
     private func updateRootViewController() {
-        var rootViewController: UIViewController
-        if Auth.auth().currentUser != nil {
-            if SceneDelegate.isFirst {
-                rootViewController = PositionSelectViewController()
-            } else {
-                rootViewController = SessionStartViewController()
+        var navigationController = UINavigationController(rootViewController: UIViewController())
+        navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            Task {
+                let hasCrew = await self.firebaseManager.checkHasCrewAsync()
+
+                // UI 업데이트 메인 스레드에서 수행
+                await MainActor.run {
+                    if Auth.auth().currentUser != nil {
+                        if SceneDelegate.isFirst && hasCrew {
+                            navigationController = UINavigationController(rootViewController: PositionSelectViewController())
+                            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+                        } else {
+                            navigationController = UINavigationController(rootViewController: SessionStartViewController())
+                            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+                        }
+                        navigationController.navigationItem.backButtonTitle = ""
+                        self.window?.rootViewController = navigationController
+                    } else {
+                        self.window?.rootViewController = LoginViewController()
+                    }
+                    self.window?.makeKeyAndVisible()
+                }
             }
-            let navigationController = UINavigationController(rootViewController: rootViewController)
-            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
-            removeBackButtonTitle()
-            window?.rootViewController = navigationController
-        } else {
-            window?.rootViewController = LoginViewController()
         }
-        window?.makeKeyAndVisible()
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -86,12 +104,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     static func updateIsFirstValue(_ newValue: Bool) {
         SceneDelegate.isFirst = newValue
         NotificationCenter.default.post(name: Notification.Name("IsFirstChanged"), object: nil)
-    }
-
-    // TODO: - 내비게이션 바 버튼 색이 자꾸 .clear로 변하기 때문에 다른 방법 필요
-    private func removeBackButtonTitle() {
-        let attributes = [NSAttributedString.Key.foregroundColor: UIColor.clear]
-        UIBarButtonItem.appearance().setTitleTextAttributes(attributes, for: .normal)
-        UIBarButtonItem.appearance().setTitleTextAttributes(attributes, for: .highlighted)
     }
 }

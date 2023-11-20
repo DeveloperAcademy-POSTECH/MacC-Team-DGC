@@ -21,7 +21,7 @@ final class SessionStartNoCrewView: UIView {
     }()
 
     // 앞면 뷰
-    private lazy var noCrewFrontView = NoCrewFrontView()
+    lazy var noCrewFrontView = NoCrewFrontView()
     // 뒷면 뷰
     private lazy var noCrewBackView = NoCrewBackView()
 
@@ -107,7 +107,7 @@ final class NoCrewFrontView: UIView {
 
         return label
     }()
-    private lazy var createCrewButton: UIButton = {
+    lazy var createCrewButton: UIButton = {
         let button = UIButton()
         button.setTitle("크루 만들기", for: .normal)
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
@@ -116,7 +116,7 @@ final class NoCrewFrontView: UIView {
         button.layer.cornerRadius = 30
         return button
     }()
-    private lazy var inviteCodeButton: UIButton = {
+    lazy var inviteCodeButton: UIButton = {
         let button = UIButton()
         button.setTitle("초대코드 입력하기", for: .normal)
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)

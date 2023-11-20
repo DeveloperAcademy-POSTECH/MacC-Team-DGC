@@ -25,6 +25,7 @@ final class CodeShareViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backButtonTitle = ""
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
         addRightBarButton()
 
@@ -38,10 +39,12 @@ final class CodeShareViewController: UIViewController {
         }
     }
 
-    override func viewDidDisappear(_ animated: Bool) {
-        SceneDelegate.updateIsFirstValue(false)
-        SceneDelegate.isCrewCreated = true
-    }
+    private let firebaseManager = FirebaseManager()
+
+//    override func viewDidDisappear(_ animated: Bool) {
+//        SceneDelegate.updateIsFirstValue(false)
+//        SceneDelegate.isCrewCreated = true
+//    }
 }
 
 // MARK: - @objc Method
@@ -82,6 +85,8 @@ extension CodeShareViewController {
             SceneDelegate.isCrewCreated = true
         } else {
             // 초기 화면이 아닐 경우(건너가기 후 그룹코드 입력)
+            navigationController?.popToRootViewController(animated: false)
+            navigationController?.viewControllers.first?.viewDidAppear(true)
         }
     }
 }

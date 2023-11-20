@@ -52,7 +52,7 @@ final class PositionSelectViewController: UIViewController {
 extension PositionSelectViewController {
 
     @objc private func driverButtonTapped() {
-        let viewController = StartEndPointSelectViewController()
+        let viewController = CrewNameSettingViewController()
         navigationController?.pushViewController(viewController, animated: true)
     }
 
