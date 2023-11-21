@@ -43,8 +43,10 @@ final class CrewScrollView: UIScrollView {
 
     private func bind() {
         guard let members = dataSource else { return }
+
+        // 모든 탑승자 제거한 후 다시 세팅
         stackView.removeAllArrangedSubviews()
-        // TODO: - 실제 데이터 받아서 처리
+
         for member in members {
             let view = UIView()
             view.snp.makeConstraints { make in
@@ -57,9 +59,8 @@ final class CrewScrollView: UIScrollView {
                 timeLabel.text = "포기"
                 timeLabel.textColor = UIColor.semantic.textEnabled
             case .accept:
-                // TODO: 늦은 시간 설정 필요
-                timeLabel.text = "+\(0)분"
-                timeLabel.textColor = UIColor.semantic.accPrimary
+                timeLabel.text = "+\(member.lateTime)분"
+                timeLabel.textColor = member.lateTime > 0 ? UIColor.semantic.negative : UIColor.semantic.accPrimary
             }
             timeLabel.font = UIFont.carmuFont.subhead3
             view.addSubview(timeLabel)
