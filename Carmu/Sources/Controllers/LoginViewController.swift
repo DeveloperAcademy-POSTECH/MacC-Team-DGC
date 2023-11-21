@@ -104,16 +104,17 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
 
     // 인증 후 사용자 정보를 DB에 저장하는 메서드
     private func saveToDB(user firebaseUser: FirebaseAuth.User) {
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
         // 파이어베이스에 저장된 유저가 있는지 여부에 따라서 CREATE 혹은 UPDATE
-        firebaseManager.readUser(databasePath: databasePath) { user in
-            guard let user = user else {
-                self.firebaseManager.createUser(user: firebaseUser)
+        Task {
+            guard let databasePath = User.databasePathWithUID else {
                 return
             }
-            self.firebaseManager.updateUser(user: firebaseUser, updatedUser: user)
+            let user = try await firebaseManager.readUserAsync(databasePath: databasePath)
+            guard let user = user else {
+                firebaseManager.createUser(user: firebaseUser)
+                return
+            }
+            firebaseManager.updateUser(user: firebaseUser, updatedUser: user)
         }
     }
 }

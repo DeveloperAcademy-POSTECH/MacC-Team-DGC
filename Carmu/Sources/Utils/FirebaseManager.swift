@@ -89,6 +89,7 @@ class FirebaseManager {
         - LoginViewController
         - MyPageViewController
      */
+    // TODO: - async 코드로 대체되면 삭제
     func readUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
         databasePath.getData { error, snapshot in
             if let error = error {
@@ -111,6 +112,12 @@ class FirebaseManager {
         }
     }
 
+    /**
+     uid값으로 DB에서 저장된 유저 정보 불러오기 (READ)
+     - 호출되는 곳
+        - LoginViewController
+        - MyPageViewController
+     */
     func readUserAsync(databasePath: DatabaseReference) async throws -> User? {
         do {
             let data = try await databasePath.getData()
@@ -118,7 +125,8 @@ class FirebaseManager {
                 return nil
             }
             let jsonData = try JSONSerialization.data(withJSONObject: value)
-            return try JSONDecoder().decode(User.self, from: jsonData)
+            let userData = try JSONDecoder().decode(User.self, from: jsonData)
+            return userData
         } catch {
             throw error
         }
