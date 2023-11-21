@@ -89,36 +89,7 @@ class FirebaseManager {
         - LoginViewController
         - MyPageViewController
      */
-    // TODO: - async 코드로 대체되면 삭제
-    func readUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
-        databasePath.getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                completion(nil)
-                return
-            }
-            guard let value = snapshot?.value as? [String: Any] else {
-                completion(nil)
-                return
-            }
-            do {
-                let data = try JSONSerialization.data(withJSONObject: value)
-                let user = try JSONDecoder().decode(User.self, from: data)
-                completion(user)
-            } catch {
-                print("User decoding error", error)
-                completion(nil)
-            }
-        }
-    }
-
-    /**
-     uid값으로 DB에서 저장된 유저 정보 불러오기 (READ)
-     - 호출되는 곳
-        - LoginViewController
-        - MyPageViewController
-     */
-    func readUserAsync(databasePath: DatabaseReference) async throws -> User? {
+    func readUser(databasePath: DatabaseReference) async throws -> User? {
         do {
             let data = try await databasePath.getData()
             guard let value = data.value as? [String: Any] else {
@@ -138,7 +109,7 @@ class FirebaseManager {
         }
 
         do {
-            let user = try await readUserAsync(databasePath: databasePath)
+            let user = try await readUser(databasePath: databasePath)
             return user?.crewID != nil
         } catch {
             return false
@@ -497,7 +468,7 @@ extension FirebaseManager {
                 return
             }
 
-            let user = try await readUserAsync(databasePath: databasePath)
+            let user = try await readUser(databasePath: databasePath)
             guard let user = user else { return }
             // 크루 데이터에서 필요한 값을 가져와서 newMemberStatus 객체에 설정
             let newMemberStatus: [String: Any] = [
