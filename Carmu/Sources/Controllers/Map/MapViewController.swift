@@ -15,15 +15,18 @@ import SnapKit
 final class MapViewController: UIViewController {
 
     private lazy var mapView = MapView(crew: crew)
-    private let detailView = MapDetailView()
+    private lazy var detailView = MapDetailView(isDriver: isDriver)
 
     private let locationManager = CLLocationManager()
 
     private let firebaseManager = FirebaseManager()
 
-    private let isDriver = true
     // [동승자] 내 현재 위치
     private var myCurrentCoordinate: CLLocationCoordinate2D?
+
+    private var isDriver: Bool {
+        crew.captainID == KeychainItem.currentUserIdentifier
+    }
 
     private let pathOverlay = {
         let pathOverlay = NMFPath()
@@ -51,7 +54,9 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startUpdatingLocation()
+        startObservingMemberStatus()
         startObservingDriverLocation()
+        startObservingCrewLateTime()
         setDetailView()
         setNaverMap()
     }
@@ -79,11 +84,28 @@ final class MapViewController: UIViewController {
         locationManager.startUpdatingLocation()
     }
 
+    /// [운전자] 셔틀 탑승자의 지각 여부를 실시간으로 관찰하여 변화가 있을 경우 ScrollView에 반영
+    private func startObservingMemberStatus() {
+        guard isDriver else { return }
+        firebaseManager.startObservingMemberStatus(crewID: crew.id) { memberStatus in
+            self.detailView.crewScrollView.setDataSource(dataSource: memberStatus)
+        }
+    }
+
     /// [탑승자] 셔틀 탑승자는 운전자의 현재 위치를 실시간으로 추적하여 맵뷰에 반영
     private func startObservingDriverLocation() {
         guard !isDriver else { return }
         firebaseManager.startObservingDriverCoordinate(crewID: crew.id) { latitude, longitude in
             self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
+        }
+    }
+
+    /// [탑승자] 셔틀 탑승자는 운전자가 보내는 지연시간을 실시간으로 추적, 하단뷰에 정보 반영
+    private func startObservingCrewLateTime() {
+        guard !isDriver else { return }
+        firebaseManager.startObservingCrewLateTime(crewID: crew.id) { lateTime in
+            self.crew.lateTime = lateTime
+            self.detailView.setLateTime(crew: self.crew)
         }
     }
 
@@ -103,11 +125,7 @@ final class MapViewController: UIViewController {
         // 동승자의 경우 탑승 위치, 시간 표기
         } else if let location = firebaseManager.myPickUpLocation(crew: crew) {
             detailView.pickUpLocationAddressLabel.text = location.detailAddress ?? ""
-            if let date = location.arrivalTime {
-                detailView.pickUpTimeLabel.text = date.toString24HourClock
-            }
-            // TODO: 늦은 시간 설정 후에 다시 설정해주기
-            detailView.lateTimeLabel.text = "(+0분)"
+            detailView.setLateTime(crew: crew)
         }
 
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
@@ -144,7 +162,7 @@ final class MapViewController: UIViewController {
 
     /// [운전자, 탑승자] '지각 알리기' 버튼 선택시 동작
     @objc private func showNoticeLateModal() {
-        present(NoticeLateViewController(), animated: true)
+        present(NoticeLateViewController(crew: crew), animated: true)
     }
 
     /// [운전자] '카풀 종료하기' 버튼 선택시 동작
