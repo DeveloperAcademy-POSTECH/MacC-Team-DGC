@@ -109,7 +109,7 @@ final class MapDetailView: UIView {
         titleContainer.font = UIFont.carmuFont.headline2
         titleContainer.foregroundColor = UIColor.semantic.textSecondary
 
-        config.attributedTitle = AttributedString("카풀 종료하기", attributes: titleContainer)
+        config.attributedTitle = AttributedString("운행 종료하기", attributes: titleContainer)
         config.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 20, bottom: 13, trailing: 20)
         config.cornerStyle = .capsule
         config.baseBackgroundColor = UIColor.semantic.accPrimary
