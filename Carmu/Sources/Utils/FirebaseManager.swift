@@ -429,21 +429,36 @@ extension FirebaseManager {
             FinalConfirmViewController
      */
     func setCrewToUser(_ userID: String, _ crewID: String) {
-        let databaseRef = Database.database().reference().child("users/\(userID)/crewList")
+        // Firebase 데이터베이스 참조 생성
+        let databaseRef = Database.database().reference().child("users/\(userID)")
 
-        databaseRef.getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-            if var crewList = snapshot?.value as? [String] {
-                crewList.append(crewID)
-                databaseRef.setValue(crewList as NSArray)
+        // 데이터베이스에서 해당 유저의 정보를 가져온 후 업데이트
+        databaseRef.observeSingleEvent(of: .value) { snapshot in
+            if snapshot.exists() {
+                if var userData = snapshot.value as? [String: Any] {
+                    // userData에서 crewList 키의 값을 가져오고, 없으면 빈 배열 생성
+                    var crewList = userData["crewList"] as? [String] ?? []
+
+                    // crewList 배열에 crewID 추가
+                    crewList.append(crewID)
+
+                    // userData에 업데이트된 crewList 값을 설정
+                    userData["crewList"] = crewList
+
+                    // 업데이트된 userData를 다시 Firebase에 저장
+                    databaseRef.setValue(userData) { error, _ in
+                        if let error = error {
+                            print("Error updating crewList for \(userID): \(error.localizedDescription)")
+                        } else {
+                            print("CrewList updated successfully for \(userID).")
+                        }
+                    }
+                } else {
+                    print("Invalid data format for \(userID)")
+                }
             } else {
-                // 아직 크루가 없는 경우 배열을 새로 만들어준다.
-                var newCrew = []
-                newCrew.append(crewID)
-                databaseRef.setValue(newCrew as NSArray)
+                // 데이터가 존재하지 않는 경우
+                print("Data does not exist for \(userID)")
             }
         }
     }
@@ -454,60 +469,65 @@ extension FirebaseManager {
              BoardingPointSelectViewController
      */
     func setUserToCrew(_ userID: String, _ crewID: String) {
+        // Firebase 데이터베이스 참조 생성
         let databaseRef = Database.database().reference().child("crew/\(crewID)")
 
-        // TODO: - crews 제거하기
-        databaseRef.child("crews").getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+
+        // 해당 크루의 데이터를 불러와서 출력
+        readUser(databasePath: databasePath) { user in
+            guard let user = user else {
+                print("Error reading user data.")
                 return
             }
 
-            if var crews = snapshot?.value as? [String] {
-                crews.append(userID)
-                databaseRef.child("crews").setValue(crews as NSArray)
-            } else {
-                // 아직 크루가 없는 경우 배열을 새로 만들어준다.
-                var newCrew = []
-                newCrew.append(userID)
-                databaseRef.child("crews").setValue(newCrew as NSArray)
-            }
-        }
+            // 크루 데이터에서 필요한 값을 가져와서 newMemberStatus 객체에 설정
+            let newMemberStatus: [String: Any] = [
+                "id": userID,
+                "deviceToken": user.deviceToken,
+                "nickname": user.nickname,
+                "profileColor": user.profileImageColor.rawValue,
+                "status": "waiting"
+            ]
 
-        // 해당 유저 정보의 데이터를 입력시킴
-        guard let userDatabasePath = User.databasePathWithUID else { return }
-        readUser(databasePath: userDatabasePath) { userData in
-            guard let userData = userData else { return }
+            // 데이터베이스에서 크루 정보를 가져온 후 업데이트
+            databaseRef.observeSingleEvent(of: .value) { snapshot in
+                if snapshot.exists() {
+                    if var crewData = snapshot.value as? [String: Any] {
+                        // CrewData 내에서 crews 키의 값을 가져오고, 없으면 빈 배열 생성
+                        var crews = crewData["crews"] as? [String] ?? []
 
-            databaseRef.child("memberStatus").getData { error, snapshot in
-                if let error = error {
-                    print(error.localizedDescription)
-                    return
-                }
+                        // crews 배열에 userID 추가
+                        crews.append(userID)
 
-                if var memberStatus = snapshot?.value as? [[String: Any]] {
-                    // memberStatus 배열이 이미 존재하는 경우
-                    var newMemberStatus: [String: Any] = [:]
-                    newMemberStatus["id"] = userData.id
-                    newMemberStatus["deviceToken"] = userData.deviceToken
-                    newMemberStatus["profileColor"] = userData.profileImageColor.rawValue
-                    newMemberStatus["status"] = Status.waiting.rawValue
-                    newMemberStatus["nickname"] = userData.nickname
+                        // crewData에 업데이트된 crews 값을 설정
+                        crewData["crews"] = crews
 
-                    memberStatus.append(newMemberStatus)
-                    databaseRef.child("memberStatus").setValue(memberStatus)
+                        // memberStatus 배열을 가져오고, 없으면 빈 배열 생성
+                        var memberStatusArray = crewData["memberStatus"] as? [[String: Any]] ?? []
+
+                        // 새로운 memberStatus 객체를 배열에 추가
+                        memberStatusArray.append(newMemberStatus)
+
+                        // crewData에 업데이트된 memberStatus 값을 설정
+                        crewData["memberStatus"] = memberStatusArray
+
+                        // 업데이트된 crewData를 다시 Firebase에 저장
+                        databaseRef.setValue(crewData) { error, _ in
+                            if let error = error {
+                                print("Error updating crews: \(error.localizedDescription)")
+                            } else {
+                                print("Crews updated successfully.")
+                            }
+                        }
+                    } else {
+                        print("Invalid crew data format for \(crewID)")
+                    }
                 } else {
-                    // memberStatus 배열이 아직 없는 경우
-                    var memberStatus: [[String: Any]] = []
-                    var newMemberStatus: [String: Any] = [:]
-                    newMemberStatus["id"] = userData.id
-                    newMemberStatus["deviceToken"] = userData.deviceToken
-                    newMemberStatus["profileColor"] = userData.profileImageColor.rawValue
-                    newMemberStatus["status"] = Status.waiting.rawValue
-                    newMemberStatus["nickname"] = userData.nickname
-
-                    memberStatus.append(newMemberStatus)
-                    databaseRef.child("memberStatus").setValue(memberStatus)
+                    // 데이터가 존재하지 않는 경우
+                    print("Crew data does not exist for \(crewID)")
                 }
             }
         }
@@ -519,22 +539,36 @@ extension FirebaseManager {
              BoardingPointSelectViewController
      */
     func setUserToPoint(_ userID: String, _ crewID: String, _ point: String) {
-        let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)/crews")
+        // Firebase 데이터베이스 참조 생성
+        let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)")
+        // 데이터베이스에서 해당 포인트의 크루 정보를 가져온 후 업데이트
+        databaseRef.observeSingleEvent(of: .value) { snapshot in
+            if snapshot.exists() {
+                if var pointData = snapshot.value as? [String: Any] {
+                    // crews 배열 확인
+                    if var crews = pointData["crews"] as? [String] {
+                        // crews 배열에 userID 추가
+                        crews.append(userID)
+                        pointData["crews"] = crews
+                    } else {
+                        // crews 배열이 없으면 새로운 배열 생성 후 userID 추가
+                        pointData["crews"] = [userID]
+                    }
 
-        databaseRef.getData { error, snapshot in
-            if let error = error {
-                print(error.localizedDescription)
-                return
-            }
-
-            if var crews = snapshot?.value as? [String] {
-                crews.append(userID)
-                databaseRef.setValue(crews as NSArray)
+                    // 업데이트된 pointData를 다시 Firebase에 저장
+                    databaseRef.setValue(pointData) { error, _ in
+                        if let error = error {
+                            print("Error updating crews for \(point): \(error.localizedDescription)")
+                        } else {
+                            print("Crews updated successfully for \(point).")
+                        }
+                    }
+                } else {
+                    print("Invalid data format for \(point)")
+                }
             } else {
-                // 아직 크루가 없는 경우 배열을 새로 만들어준다.
-                var newCrew = []
-                newCrew.append(userID)
-                databaseRef.setValue(newCrew as NSArray)
+                // 데이터가 존재하지 않는 경우
+                print("Data does not exist for \(point)")
             }
         }
     }
