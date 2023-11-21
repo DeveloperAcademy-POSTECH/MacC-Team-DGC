@@ -130,7 +130,7 @@ final class MapViewController: UIViewController {
 
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
-        detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
+        detailView.finishShuttleButton.addTarget(self, action: #selector(finishShuttleButtonDidTap), for: .touchUpInside)
     }
 
     /// [운전자, 탑승자] Naver 지도(출발, 경유, 도착지 및 운전 경로 등등)를 위한 설정
@@ -168,7 +168,7 @@ final class MapViewController: UIViewController {
     }
 
     /// [운전자] '운행 종료하기' 버튼 선택시 동작
-    @objc private func finishCarpoolButtonDidTap() {
+    @objc private func finishShuttleButtonDidTap() {
         guard let pnc = presentingViewController as? UINavigationController else { return }
         guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
         dismiss(animated: true) {

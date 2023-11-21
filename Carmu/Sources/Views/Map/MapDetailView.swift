@@ -102,7 +102,7 @@ final class MapDetailView: UIView {
         return view
     }()
 
-    let finishCarpoolButton = {
+    let finishShuttleButton = {
         var config = UIButton.Configuration.filled()
 
         var titleContainer = AttributeContainer()
@@ -235,8 +235,8 @@ final class MapDetailView: UIView {
 
         let padding = 20
 
-        addSubview(finishCarpoolButton)
-        finishCarpoolButton.snp.makeConstraints { make in
+        addSubview(finishShuttleButton)
+        finishShuttleButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(padding)
             make.bottom.equalToSuperview().inset(48)
         }
@@ -245,7 +245,7 @@ final class MapDetailView: UIView {
         crewScrollView.snp.remakeConstraints { make in
             make.top.equalTo(latenessTitleLabel.snp.bottom).offset(12)
             make.leading.trailing.equalToSuperview().inset(padding)
-            make.bottom.equalTo(finishCarpoolButton.snp.top).offset(-padding)
+            make.bottom.equalTo(finishShuttleButton.snp.top).offset(-padding)
         }
     }
 
