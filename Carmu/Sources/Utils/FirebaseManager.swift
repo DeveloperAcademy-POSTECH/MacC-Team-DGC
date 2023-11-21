@@ -997,8 +997,8 @@ extension FirebaseManager {
     func startObservingCrewData(crewID: String, completion: @escaping (Crew?) -> Void) {
 
         let crewRef = Database.database().reference().child("crew/\(crewID)")
-        crewRef.observe(.childChanged, with: { snapshot in
 
+        crewRef.observe(.value, with: { snapshot in
             if let crewData = snapshot.value as? [String: Any] {
                 var crew = Crew(
                     id: crewData["id"] as? String ?? "",
