@@ -13,7 +13,7 @@ final class StopoverPointCheckView: UIView {
 
     private lazy var titleStackView = UIStackView()
 
-    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀의 ")
+    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "셔틀의 ")
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "경유지")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "가 있으신가요?")
 

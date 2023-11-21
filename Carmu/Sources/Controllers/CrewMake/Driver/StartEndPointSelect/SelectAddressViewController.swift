@@ -38,7 +38,7 @@ final class SelectAddressViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
+        view.backgroundColor = UIColor.semantic.backgroundDefault
         view.addSubview(selectAddressView)
 
         selectAddressView.snp.makeConstraints { make in
