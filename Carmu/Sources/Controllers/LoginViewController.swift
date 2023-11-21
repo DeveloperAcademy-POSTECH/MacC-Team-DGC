@@ -21,12 +21,18 @@ final class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
+    
+        loginView.appleSignInButton.addTarget(
+            self,
+            action: #selector(startSignInWithAppleFlow),
+            for: .touchUpInside
+        )
+
         view.addSubview(loginView)
         loginView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-        loginView.appleSignInButton.addTarget(self, action: #selector(startSignInWithAppleFlow), for: .touchUpInside)
     }
 }
 // MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현

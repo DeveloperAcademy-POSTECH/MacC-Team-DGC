@@ -11,43 +11,18 @@ import UIKit
 final class LoginView: UIView {
 
     // MARK: - 앱 로고
-    lazy var appLogoView: UIImageView = {
-        let appLogoView = UIImageView()
-        if let appLogo = UIImage(named: "appLogo") {
-            appLogoView.contentMode = .scaleAspectFit
-            appLogoView.image = appLogo
-        }
-        return appLogoView
-    }()
+    lazy var appLogoView = GifView(gifName: "launchGif")
 
-    lazy var logoUpperLabelStack: UIStackView = {
-        let logoUpperLabelStack = UIStackView()
-        logoUpperLabelStack.axis = .horizontal
-        logoUpperLabelStack.alignment = .center
-        return logoUpperLabelStack
-    }()
-    lazy var logoUpperLabel1: UILabel = {
-        let logoUpperLabel1 = UILabel()
-        logoUpperLabel1.text = "여정"
-        logoUpperLabel1.font = UIFont.carmuFont.body3
-        logoUpperLabel1.textColor = UIColor.theme.blue8
-        return logoUpperLabel1
-    }()
-    lazy var logoUpperLabel2: UILabel = {
-        let logoUpperLabel2 = UILabel()
-        logoUpperLabel2.text = "을 연결하다."
-        logoUpperLabel2.font = UIFont.carmuFont.body3
-        logoUpperLabel2.textColor = UIColor.theme.black
-        return logoUpperLabel2
-    }()
-
-    // MARK: - 앱 이름
-    lazy var appNameLabel: UILabel = {
-        let appNameLabel = UILabel()
-        appNameLabel.text = "Carmu"
-        appNameLabel.font = UIFont.carmuFont.display3
-        appNameLabel.textColor = UIColor.theme.blue3
-        return appNameLabel
+    lazy var sloganLabel: UILabel = {
+        let label = UILabel()
+        label.text = "셔틀, 좀 더 편리하게"
+        label.font = UIFont.carmuFont.subhead3
+        label.textColor = UIColor.semantic.textTertiary
+        label.backgroundColor = UIColor.semantic.backgroundThird
+        label.textAlignment = .center
+        label.layer.cornerRadius = 15
+        label.clipsToBounds = true
+        return label
     }()
 
     // MARK: - 애플 로그인 버튼
@@ -81,30 +56,23 @@ final class LoginView: UIView {
 
     func setupViews() {
         addSubview(appLogoView)
-        addSubview(logoUpperLabelStack)
-        addSubview(appNameLabel)
+        addSubview(sloganLabel)
         addSubview(appleSignInButton)
         addSubview(corpName)
-
-        logoUpperLabelStack.addArrangedSubview(logoUpperLabel1)
-        logoUpperLabelStack.addArrangedSubview(logoUpperLabel2)
     }
 
     func setAutoLayout() {
         appLogoView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(54)
             make.centerY.equalToSuperview()
-            make.height.equalTo(141)
+            make.height.equalTo(54)
         }
 
-        logoUpperLabelStack.snp.makeConstraints { make in
+        sloganLabel.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(appLogoView.snp.top).offset(-16)
-        }
-
-        appNameLabel.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(appLogoView.snp.bottom).offset(20)
+            make.width.equalTo(154)
+            make.height.equalTo(30)
         }
 
         appleSignInButton.snp.makeConstraints { make in
