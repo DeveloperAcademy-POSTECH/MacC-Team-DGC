@@ -15,10 +15,6 @@ final class StopoverAddButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-
-    init() {
-        super.init(frame: .zero)
         setTitle("+ 경유지 추가", for: .normal)
         titleLabel?.font = UIFont.carmuFont.subhead2
         setTitleColor(UIColor.semantic.textSecondary, for: .normal)
