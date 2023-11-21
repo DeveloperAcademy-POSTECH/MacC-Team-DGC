@@ -57,6 +57,7 @@ final class MapViewController: UIViewController {
         startObservingMemberStatus()
         startObservingDriverLocation()
         startObservingCrewLateTime()
+        startObservingSessionStatus()
         setDetailView()
         setNaverMap()
     }
@@ -107,6 +108,23 @@ final class MapViewController: UIViewController {
             self.crew.lateTime = lateTime
             self.detailView.setLateTime(crew: self.crew)
         }
+    }
+
+    private func startObservingSessionStatus() {
+        guard !isDriver else { return }
+        firebaseManager.startObservingSessionStatus(crewID: crew.id) { sessionStatus in
+            guard sessionStatus == .waiting else { return }
+            self.showFinishedAlert()
+        }
+    }
+
+    private func showFinishedAlert() {
+        let alert = UIAlertController(title: "운전자가 셔틀 운행을 종료했습니다", message: "확인을 누르면 대기화면으로 돌아갑니다", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(confirmAction)
+        present(alert, animated: true)
     }
 
     /// [운전자, 탑승자] 운전자, 탑승자별로 다른 하단뷰를 표시

@@ -962,6 +962,15 @@ extension FirebaseManager {
         })
     }
 
+    func startObservingSessionStatus(crewID: String?, completion: @escaping (Status) -> Void) {
+        guard let crewID = crewID else { return }
+        Database.database().reference().child("crew/\(crewID)").observe(.childChanged, with: { snapshot in
+            if snapshot.key == "sessionStatus", let sessionStatus = Status(rawValue: snapshot.value as? String ?? "") {
+                completion(sessionStatus)
+            }
+        })
+    }
+
     /// 내 탑승지 정보 받아오는 메서드
     func myPickUpLocation(crew: Crew) -> Point? {
         guard let myUID = KeychainItem.currentUserIdentifier else {
