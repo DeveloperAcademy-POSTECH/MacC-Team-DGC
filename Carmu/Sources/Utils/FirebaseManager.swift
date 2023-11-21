@@ -358,9 +358,9 @@ extension FirebaseManager {
 extension FirebaseManager {
 
     /**
-     DB의 Crew에 새로운 크루를 추가하는 메서드
-        호출되는 곳
-            FinalConfirmViewController
+    새로운 Crew 추가
+     - 호출되는 곳
+        - FinalConfirmViewController
      */
     func addCrew(crewData: Crew) {
         guard let key = Database.database().reference().child("crew").childByAutoId().key else {
@@ -387,7 +387,7 @@ extension FirebaseManager {
     }
 
     /**
-     Crew를 수정된 내용으로 업데이트해주는 메서드
+     Crew를 수정된 내용으로 업데이트
      - 호출되는 곳
         - CrewEditViewController
      */
@@ -404,9 +404,9 @@ extension FirebaseManager {
     }
 
     /**
-     DB에서 크루명 업데이트
+     Crew의 name(크루명) 업데이트
      - 호출되는 곳
-        - CreInfoCheckViewController
+        - CrewInfoCheckViewController
      */
     func updateCrewName(crewID: String, newCrewName: String) {
         let databaseRef = Database.database().reference().child("crew/\(crewID)/name")
@@ -553,14 +553,15 @@ extension FirebaseManager {
         }
 
     /**
-     DB에서 유저의 Crew 목록(crewList)을 불러오는 메서드
-     - 호출되는 곳
-        - SessionStartViewController
+     DB에서 유저의 크루 id를 불러오는 메서드
+     - 배열 형태지만 유저의 크루는 무조건 1개이기 때문에 first로 첫 번째 원소만 사용
      */
-    func readCrewID(databasePath: DatabaseReference) async throws -> [String]? {
+    func readUserCrewID() async throws -> String? {
+        guard let databasePath = User.databasePathWithUID else { return nil }
         do {
             let snapshot = try await databasePath.child("crewList").getData()
-            return snapshot.value as? [String]
+            guard let crewList = snapshot.value as? [String] else { return nil }
+            return crewList.first ?? nil
         } catch {
             throw error
         }
@@ -571,158 +572,102 @@ extension FirebaseManager {
      - 호출되는 곳
         - SessionStartViewController
      */
-    // 기존의 식 (안되는 것)
+    // TODO: - 변경된 메서드 문제 없으면 테드 확인 후 삭제
+//    // 되긴 되지만 수정이 필요할 것 같은 메서드
 //    func getUserCrew(crewID: String) async throws -> Crew? {
 //        let crewRef = Database.database().reference().child("crew/\(crewID)")
 //
-//        print("CREWREF ---> ", crewRef.url)
 //        do {
 //            let snapshot = try await crewRef.getData()
-//
-//            print("snapSHot --> ", snapshot)
-//
 //            guard let crewData = snapshot.value as? [String: Any] else {
 //                return nil
 //            }
-//            // MARK: - CrewData 값이 이상하게 들어옴
-//            // 처음아닐 때 부터 생성하면 crew자체가 배열로 들어옴.
-//            // but, 생성되어 있으면, crew/(crewID)에 있는 값이 제대로 들어옴
-//            var crew = Crew(
-//                id: crewData["id"] as? String ?? "",
-//                name: crewData["name"] as? String ?? "",
-//                captainID: crewData["captainID"] as? UserIdentifier ?? "",
-//                crews: crewData["crews"] as? [UserIdentifier] ?? [""],
-//                startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
-//                destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
-//                inviteCode: crewData["inviteCode"] as? String ?? "",
-//                repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-//                sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
-//                memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
-//            )
+//            if let nestedCrewData = crewData[crewID] as? [String: Any] {
+//                // 데이터 형식 1: crewData가 딕셔너리 안에 또 다른 딕셔너리가 있는 경우
 //
-//            if crewData["stopover1"] != nil {
-//                crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
-//            }
-//            if crewData["stopover2"] != nil {
-//                crew.stopover2 = self.convertDataToPoint(crewData["stopover2"] as? [String: Any] ?? [:])
-//            }
-//            if crewData["stopover3"] != nil {
-//                crew.stopover3 = self.convertDataToPoint(crewData["stopover3"] as? [String: Any] ?? [:])
-//            }
+//                guard let crewIDValue = nestedCrewData["id"] as? String, crewIDValue == crewID else {
+//                    return nil
+//                }
 //
-//            return crew
+//                // 필요한 데이터를 가져와 Crew 객체를 초기화
+//                var crew = Crew(
+//                    id: crewIDValue,
+//                    name: nestedCrewData["name"] as? String ?? "",
+//                    captainID: nestedCrewData["captainID"] as? UserIdentifier ?? "",
+//                    startingPoint: self.convertDataToPoint(nestedCrewData["startingPoint"] as? [String: Any] ?? [:]),
+//                    destination: self.convertDataToPoint(nestedCrewData["destination"] as? [String: Any] ?? [:]),
+//                    inviteCode: nestedCrewData["inviteCode"] as? String ?? "",
+//                    repeatDay: nestedCrewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+//                    sessionStatus: Status(rawValue: nestedCrewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
+//                    memberStatus: self.convertDataToMemberStatus(nestedCrewData["memberStatus"] as? [[String: Any]] ?? []),
+//                    lateTime: nestedCrewData["lateTime"] as? UInt ?? 0
+//                )
+//
+//                // 나머지 부분은 그대로 유지
+//                if nestedCrewData["stopover1"] != nil {
+//                    crew.stopover1 = self.convertDataToPoint(nestedCrewData["stopover1"] as? [String: Any] ?? [:])
+//                }
+//                if nestedCrewData["stopover2"] != nil {
+//                    crew.stopover2 = self.convertDataToPoint(nestedCrewData["stopover2"] as? [String: Any] ?? [:])
+//                }
+//                if nestedCrewData["stopover3"] != nil {
+//                    crew.stopover3 = self.convertDataToPoint(nestedCrewData["stopover3"] as? [String: Any] ?? [:])
+//                }
+//
+//                return crew
+//            } else {
+//                // 데이터 형식 2: crewData 자체가 바로 Crew 객체인 경우
+//                guard let crewIDValue = crewData["id"] as? String, crewIDValue == crewID else {
+//                    return nil
+//                }
+//
+//                // 필요한 데이터를 가져와 Crew 객체를 초기화
+//                var crew = Crew(
+//                    id: crewIDValue,
+//                    name: crewData["name"] as? String ?? "",
+//                    captainID: crewData["captainID"] as? UserIdentifier ?? "",
+//                    startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
+//                    destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
+//                    inviteCode: crewData["inviteCode"] as? String ?? "",
+//                    repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
+//                    sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
+//                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? []),
+//                    lateTime: crewData["lateTime"] as? UInt ?? 0
+//                )
+//
+//                // 나머지 부분은 그대로 유지
+//                if crewData["stopover1"] != nil {
+//                    crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
+//                }
+//                if crewData["stopover2"] != nil {
+//                    crew.stopover2 = self.convertDataToPoint(crewData["stopover2"] as? [String: Any] ?? [:])
+//                }
+//                if crewData["stopover3"] != nil {
+//                    crew.stopover3 = self.convertDataToPoint(crewData["stopover3"] as? [String: Any] ?? [:])
+//                }
+//
+//                return crew
+//            }
 //        } catch {
 //            throw error
 //        }
 //    }
-
-    // 되긴 되지만 수정이 필요할 것 같은 메서드
-    func getUserCrew(crewID: String) async throws -> Crew? {
+    /**
+     크루ID로 크루 데이터 불러오기
+     - 호출되는곳
+        - SessionStartViewController
+     */
+    func getCrewData(crewID: String) async throws -> Crew? {
         let crewRef = Database.database().reference().child("crew/\(crewID)")
-
         do {
             let snapshot = try await crewRef.getData()
-            guard let crewData = snapshot.value as? [String: Any] else {
-                return nil
-            }
-            if let nestedCrewData = crewData[crewID] as? [String: Any] {
-                // 데이터 형식 1: crewData가 딕셔너리 안에 또 다른 딕셔너리가 있는 경우
-
-                guard let crewIDValue = nestedCrewData["id"] as? String, crewIDValue == crewID else {
-                    return nil
-                }
-
-                // 필요한 데이터를 가져와 Crew 객체를 초기화
-                var crew = Crew(
-                    id: crewIDValue,
-                    name: nestedCrewData["name"] as? String ?? "",
-                    captainID: nestedCrewData["captainID"] as? UserIdentifier ?? "",
-                    startingPoint: self.convertDataToPoint(nestedCrewData["startingPoint"] as? [String: Any] ?? [:]),
-                    destination: self.convertDataToPoint(nestedCrewData["destination"] as? [String: Any] ?? [:]),
-                    inviteCode: nestedCrewData["inviteCode"] as? String ?? "",
-                    repeatDay: nestedCrewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                    sessionStatus: Status(rawValue: nestedCrewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
-                    memberStatus: self.convertDataToMemberStatus(nestedCrewData["memberStatus"] as? [[String: Any]] ?? []),
-                    lateTime: nestedCrewData["lateTime"] as? UInt ?? 0
-                )
-
-                // 나머지 부분은 그대로 유지
-                if nestedCrewData["stopover1"] != nil {
-                    crew.stopover1 = self.convertDataToPoint(nestedCrewData["stopover1"] as? [String: Any] ?? [:])
-                }
-                if nestedCrewData["stopover2"] != nil {
-                    crew.stopover2 = self.convertDataToPoint(nestedCrewData["stopover2"] as? [String: Any] ?? [:])
-                }
-                if nestedCrewData["stopover3"] != nil {
-                    crew.stopover3 = self.convertDataToPoint(nestedCrewData["stopover3"] as? [String: Any] ?? [:])
-                }
-
-                return crew
-            } else {
-                // 데이터 형식 2: crewData 자체가 바로 Crew 객체인 경우
-                guard let crewIDValue = crewData["id"] as? String, crewIDValue == crewID else {
-                    return nil
-                }
-
-                // 필요한 데이터를 가져와 Crew 객체를 초기화
-                var crew = Crew(
-                    id: crewIDValue,
-                    name: crewData["name"] as? String ?? "",
-                    captainID: crewData["captainID"] as? UserIdentifier ?? "",
-                    startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
-                    destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
-                    inviteCode: crewData["inviteCode"] as? String ?? "",
-                    repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                    sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
-                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? []),
-                    lateTime: crewData["lateTime"] as? UInt ?? 0
-                )
-
-                // 나머지 부분은 그대로 유지
-                if crewData["stopover1"] != nil {
-                    crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
-                }
-                if crewData["stopover2"] != nil {
-                    crew.stopover2 = self.convertDataToPoint(crewData["stopover2"] as? [String: Any] ?? [:])
-                }
-                if crewData["stopover3"] != nil {
-                    crew.stopover3 = self.convertDataToPoint(crewData["stopover3"] as? [String: Any] ?? [:])
-                }
-
-                return crew
-            }
+            guard let snapshotValue = snapshot.value as? [String: Any] else { return nil }
+            let jsonData = try JSONSerialization.data(withJSONObject: snapshotValue)
+            let crewData = try JSONDecoder().decode(Crew.self, from: jsonData)
+            print("크루데이터ㅁㄴㅇㄴㅁㅇㄴㅁㅇㄴㅁㄴㅁ: \(crewData)")
+            return crewData
         } catch {
             throw error
-        }
-    }
-
-    /**
-     crew 데이터 불러오기
-
-     사용 예시
-     firebaseManager.getCrewData { crew in
-         if let crew = crew {
-             self.firebaseCrewData = crew
-             print("크루 있음 ", crew)
-         } else {
-             print("크루없음")
-         }
-     }
-     */
-    func getCrewData() async throws -> Crew? {
-        guard let databasePath = User.databasePathWithUID else {
-            return nil
-        }
-
-        do {
-            guard let crewList = try await readCrewID(databasePath: databasePath) else { return nil }
-            guard let crewID = crewList.first else { return nil }
-
-            return try await getUserCrew(crewID: crewID)
-        } catch {
-            // 어떤 에러가 발생했을 경우
-            print("Error: \(error)")
-            return nil
         }
     }
 
@@ -747,6 +692,9 @@ extension FirebaseManager {
         }
     }
 
+    /**
+     초대코드로 크루를 검색
+     */
     func getCrewByInviteCode(inviteCode: String, completion: @escaping (Crew?) -> Void) {
         let crewsRef = Database.database().reference().child("crew")
 

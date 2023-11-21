@@ -34,7 +34,7 @@ struct Crew: Codable {
     var memberStatus: [MemberStatus]?
     var driverCoordinate: Coordinate?
     var lateTime: UInt
-    
+
     init(
         id: String? = nil,
         name: String? = nil,

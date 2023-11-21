@@ -45,22 +45,17 @@ final class SessionStartViewController: UIViewController {
             SceneDelegate.isCrewCreated = false // 변경을 처리한 후 다시 초기화
         }
         Task {
-            do {
-                crewData = try await firebaseManager.getCrewData()
-                print("Received crew data: \(String(describing: crewData))")
+            if let crewID = try await firebaseManager.readUserCrewID() {
+                crewData = try await firebaseManager.getCrewData(crewID: crewID)
                 if let crewData = crewData {
                     isCaptain = firebaseManager.checkCaptain(crewData: crewData)
                     updateUI(crewData: crewData)
                 }
                 checkCrew(crewData: crewData)
-                guard let crewID = crewData?.id else { return }
-                firebaseManager.startObservingCrewData(crewID: crewID) { crewData in
-                    self.crewData = crewData
-                    self.updateUI(crewData: crewData)
+                firebaseManager.startObservingCrewData(crewID: crewID) { updatedCrewData in
+                    self.crewData = updatedCrewData
+                    self.updateUI(crewData: updatedCrewData)
                 }
-            } catch {
-                // 어떤 에러가 발생했을 경우
-                print("Error: \(error)")
             }
         }
     }
