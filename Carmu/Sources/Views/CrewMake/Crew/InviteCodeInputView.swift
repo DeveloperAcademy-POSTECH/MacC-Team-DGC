@@ -10,13 +10,9 @@ import UIKit
 final class InviteCodeInputView: UIView {
 
     private lazy var firstLineTitleStack = UIStackView()
-    private lazy var secondLineTitleStack = UIStackView()
 
-    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "운전자에게 ")
-    private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "공유")
-    private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "받은")
-    private lazy var titleLabel4 = CrewMakeUtil.accPrimaryTitle(titleText: "초대코드")
-    private lazy var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "를 입력해주세요")
+    private lazy var titleLabel1 = CrewMakeUtil.accPrimaryTitle(titleText: "초대코드")
+    private lazy var titleLabel2 = CrewMakeUtil.defalutTitle(titleText: "를 입력해주세요")
 
     // MARK: - 텍스트 필드 배경
     private lazy var codeSearchTextFieldView: UIView = {
@@ -57,7 +53,7 @@ final class InviteCodeInputView: UIView {
 
     lazy var conformCodeLabel: UILabel = {
         let label = UILabel()
-        label.text = "확인되었습니다. 즐거운 카풀되세요!"
+        label.text = "올바른 초대코드입니다."
         label.font = UIFont.carmuFont.body1
         label.textColor = UIColor.semantic.textTertiary
         label.isHidden = true
@@ -88,22 +84,13 @@ final class InviteCodeInputView: UIView {
     private func setupViews() {
         firstLineTitleStack.axis = .horizontal
         firstLineTitleStack.alignment = .center
-        secondLineTitleStack.axis = .horizontal
-        secondLineTitleStack.alignment = .center
 
-        print("setupViews")
         firstLineTitleStack.addArrangedSubview(titleLabel1)
         firstLineTitleStack.addArrangedSubview(titleLabel2)
-        firstLineTitleStack.addArrangedSubview(titleLabel3)
-
-        secondLineTitleStack.addArrangedSubview(titleLabel4)
-        secondLineTitleStack.addArrangedSubview(titleLabel5)
-
         codeSearchTextFieldView.addSubview(codeSearchTextField)
         codeSearchTextFieldView.addSubview(clearButton)
 
         addSubview(firstLineTitleStack)
-        addSubview(secondLineTitleStack)
         addSubview(codeSearchTextFieldView)
         addSubview(conformCodeLabel)
         addSubview(rejectCodeLabel)
@@ -114,16 +101,10 @@ final class InviteCodeInputView: UIView {
         firstLineTitleStack.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
-            make.bottom.equalTo(secondLineTitleStack.snp.top)
-        }
-
-        secondLineTitleStack.snp.makeConstraints { make in
-            make.top.equalTo(firstLineTitleStack.snp.bottom)
-            make.leading.equalToSuperview().inset(20)
         }
 
         codeSearchTextFieldView.snp.makeConstraints { make in
-            make.top.equalTo(secondLineTitleStack.snp.bottom).offset(72)
+            make.top.equalTo(firstLineTitleStack.snp.bottom).offset(106)
             make.horizontalEdges.equalTo(safeAreaLayoutGuide).inset(20)
             make.height.equalTo(40)
         }
