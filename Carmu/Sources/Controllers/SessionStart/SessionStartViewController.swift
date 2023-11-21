@@ -21,6 +21,7 @@ final class SessionStartViewController: UIViewController {
     private lazy var sessionStartBackView = SessionStartBackView()
     private lazy var sessionStartNoCrewView = SessionStartNoCrewView()
     private lazy var firebaseManager = FirebaseManager()
+    private lazy var serverPushManager = ServerPushManager()
 
     var crewData: Crew?
     var isCaptain: Bool = false
@@ -53,6 +54,7 @@ final class SessionStartViewController: UIViewController {
                 }
                 checkCrew(crewData: crewData)
                 firebaseManager.startObservingCrewData { crewData in
+                    self.crewData = crewData
                     self.updateUI(crewData: crewData)
                 }
             } catch {
@@ -492,12 +494,17 @@ extension SessionStartViewController {
     }
 
     @objc private func carpoolStartButtonDidTapped() {
-        // 세션 시작으로 상태 변경
-        crewData?.sessionStatus = .sessionStart
-        // FirebaseManager methods
-        firebaseManager.carpoolStartButtonTapped(crewData: crewData)
 
         guard let crew = crewData else { return }
+        guard let sessionStatus = crew.sessionStatus else { return }
+
+        // accept에서 클릭했을 때 서버 푸시 보내기
+        if sessionStatus == .accept {
+            serverPushManager.pushToAllPassenger(crewData: crew)
+        }
+
+        // FirebaseManager methods
+        firebaseManager.carpoolStartButtonTapped(crewData: crewData)
 
         let mapView = MapViewController(crew: crew)
         mapView.modalPresentationStyle = .fullScreen
