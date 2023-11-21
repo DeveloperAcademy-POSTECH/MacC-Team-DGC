@@ -132,7 +132,8 @@ final class MapViewController: UIViewController {
 
     /// [운전자, 탑승자] '포기하기' 버튼 선택시 동작
     @objc func giveUpButtonDidTap() {
-        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: "탑승을 중도 포기합니다", preferredStyle: .alert)
+        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: nil, preferredStyle: .alert)
+        alert.message = isDriver ? "셔틀 운행을 중도 포기합니다" : "셔틀 탑승을 중도 포기합니다"
         let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
         let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
             self.dismiss(animated: true)
