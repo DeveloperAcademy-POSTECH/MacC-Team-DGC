@@ -17,6 +17,7 @@ import Foundation
  sessionStatus: 당일 출발 여부
  crewStatus: 크루원의 출석 여부
  driverCoordinate: 운전자의 위치 정보(위도, 경도)
+ lateTime: 운전자가
  */
 struct Crew: Codable {
     var id: String?
@@ -33,7 +34,42 @@ struct Crew: Codable {
     var sessionStatus: Status?
     var memberStatus: [MemberStatus]?
     var driverCoordinate: Coordinate?
+    var lateTime: UInt
 //    var crewStatus: [UserIdentifier: Status]
+
+    init(
+        id: String? = nil,
+        name: String? = nil,
+        captainID: UserIdentifier? = nil,
+        crews: [UserIdentifier],
+        startingPoint: Point? = nil,
+        stopover1: Point? = nil,
+        stopover2: Point? = nil,
+        stopover3: Point? = nil,
+        destination: Point? = nil,
+        inviteCode: String? = nil,
+        repeatDay: [Int]? = nil,
+        sessionStatus: Status? = nil,
+        memberStatus: [MemberStatus]? = nil,
+        driverCoordinate: Coordinate? = nil,
+        lateTime: UInt = 0
+    ) {
+        self.id = id
+        self.name = name
+        self.captainID = captainID
+        self.crews = crews
+        self.startingPoint = startingPoint
+        self.stopover1 = stopover1
+        self.stopover2 = stopover2
+        self.stopover3 = stopover3
+        self.destination = destination
+        self.inviteCode = inviteCode
+        self.repeatDay = repeatDay
+        self.sessionStatus = sessionStatus
+        self.memberStatus = memberStatus
+        self.driverCoordinate = driverCoordinate
+        self.lateTime = lateTime
+    }
 }
 
 /**
@@ -112,9 +148,12 @@ var dummyCrewData: Crew? = Crew(
     inviteCode: "0101010",
     repeatDay: [1, 2, 3, 4, 5],
     sessionStatus: .waiting,
-    memberStatus: [MemberStatus(id: "000", nickname: "uni", profileColor: "blue", status: .waiting),
-                 MemberStatus(id: "111", nickname: "rei", profileColor: "red", status: .waiting),
-                 MemberStatus(id: "222", nickname: "bazzi", profileColor: "red", status: .waiting)]
+    memberStatus: [
+        MemberStatus(id: "000", nickname: "uni", profileColor: "blue", status: .waiting, lateTime: 0),
+        MemberStatus(id: "111", nickname: "rei", profileColor: "red", status: .waiting, lateTime: 0),
+        MemberStatus(id: "222", nickname: "bazzi", profileColor: "red", status: .waiting, lateTime: 0)
+    ],
+    lateTime: 0
 //    crewStatus: ["uni": .waiting, "rei": .waiting]
 )
 
