@@ -190,7 +190,7 @@ import SwiftUI
 struct RDSViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = RepeatDaySelectViewController
     func makeUIViewController(context: Context) -> RepeatDaySelectViewController {
-        return RepeatDaySelectViewController(crewData: Crew(crews: [UserIdentifier](), memberStatus: [MemberStatus]()))
+        return RepeatDaySelectViewController(crewData: Crew(memberStatus: [MemberStatus]()))
     }
     func updateUIViewController(_ uiViewController: RepeatDaySelectViewController, context: Context) {}
 }

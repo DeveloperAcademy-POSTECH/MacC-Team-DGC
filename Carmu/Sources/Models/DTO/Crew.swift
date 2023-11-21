@@ -22,7 +22,6 @@ struct Crew: Codable {
     var id: String?
     var name: String?
     var captainID: UserIdentifier?
-    var crews: [UserIdentifier]
     var startingPoint: Point?
     var stopover1: Point?
     var stopover2: Point?
@@ -33,7 +32,6 @@ struct Crew: Codable {
     var sessionStatus: Status?
     var memberStatus: [MemberStatus]?
     var driverCoordinate: Coordinate?
-//    var crewStatus: [UserIdentifier: Status]
 }
 
 /**
@@ -56,16 +54,11 @@ enum Status: String, Codable {
     }
 }
 
-// 더미 데이터
-//    // 데이터가 없을 때
-//    let crewData: Crew? = nil
-
-// 데이터가 있을 때
+// MARK: - Preview를 위한 더미 데이터
 var dummyCrewData: Crew? = Crew(
     id: "1",
     name: "그룹 이름111",
     captainID: "ted",
-    crews: ["uni", "rei", "bazzi"],
     startingPoint: Point(
         name: "포항터미널",
         detailAddress: "경상북도 포항시 남구 중흥로 85",

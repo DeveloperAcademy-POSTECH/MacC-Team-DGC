@@ -492,14 +492,6 @@ extension FirebaseManager {
             databaseRef.observeSingleEvent(of: .value) { snapshot in
                 if snapshot.exists() {
                     if var crewData = snapshot.value as? [String: Any] {
-                        // CrewData 내에서 crews 키의 값을 가져오고, 없으면 빈 배열 생성
-                        var crews = crewData["crews"] as? [String] ?? []
-
-                        // crews 배열에 userID 추가
-                        crews.append(userID)
-
-                        // crewData에 업데이트된 crews 값을 설정
-                        crewData["crews"] = crews
 
                         // memberStatus 배열을 가져오고, 없으면 빈 배열 생성
                         var memberStatusArray = crewData["memberStatus"] as? [[String: Any]] ?? []
@@ -535,39 +527,39 @@ extension FirebaseManager {
              BoardingPointSelectViewController
      */
     func setUserToPoint(_ userID: String, _ crewID: String, _ point: String) {
-        // Firebase 데이터베이스 참조 생성
-        let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)")
-        // 데이터베이스에서 해당 포인트의 크루 정보를 가져온 후 업데이트
-        databaseRef.observeSingleEvent(of: .value) { snapshot in
-            if snapshot.exists() {
-                if var pointData = snapshot.value as? [String: Any] {
-                    // crews 배열 확인
-                    if var crews = pointData["crews"] as? [String] {
-                        // crews 배열에 userID 추가
-                        crews.append(userID)
-                        pointData["crews"] = crews
-                    } else {
-                        // crews 배열이 없으면 새로운 배열 생성 후 userID 추가
-                        pointData["crews"] = [userID]
-                    }
-
-                    // 업데이트된 pointData를 다시 Firebase에 저장
-                    databaseRef.setValue(pointData) { error, _ in
-                        if let error = error {
-                            print("Error updating crews for \(point): \(error.localizedDescription)")
+            // Firebase 데이터베이스 참조 생성
+            let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)")
+            // 데이터베이스에서 해당 포인트의 크루 정보를 가져온 후 업데이트
+            databaseRef.observeSingleEvent(of: .value) { snapshot in
+                if snapshot.exists() {
+                    if var pointData = snapshot.value as? [String: Any] {
+                        // crews 배열 확인
+                        if var crews = pointData["crews"] as? [String] {
+                            // crews 배열에 userID 추가
+                            crews.append(userID)
+                            pointData["crews"] = crews
                         } else {
-                            print("Crews updated successfully for \(point).")
+                            // crews 배열이 없으면 새로운 배열 생성 후 userID 추가
+                            pointData["crews"] = [userID]
                         }
+
+                        // 업데이트된 pointData를 다시 Firebase에 저장
+                        databaseRef.setValue(pointData) { error, _ in
+                            if let error = error {
+                                print("Error updating crews for \(point): \(error.localizedDescription)")
+                            } else {
+                                print("Crews updated successfully for \(point).")
+                            }
+                        }
+                    } else {
+                        print("Invalid data format for \(point)")
                     }
                 } else {
-                    print("Invalid data format for \(point)")
+                    // 데이터가 존재하지 않는 경우
+                    print("Data does not exist for \(point)")
                 }
-            } else {
-                // 데이터가 존재하지 않는 경우
-                print("Data does not exist for \(point)")
             }
         }
-    }
 
     /**
      DB에서 유저의 Crew 목록(crewList)을 불러오는 메서드
@@ -654,7 +646,6 @@ extension FirebaseManager {
                     id: crewIDValue,
                     name: nestedCrewData["name"] as? String ?? "",
                     captainID: nestedCrewData["captainID"] as? UserIdentifier ?? "",
-                    crews: nestedCrewData["crews"] as? [UserIdentifier] ?? [""],
                     startingPoint: self.convertDataToPoint(nestedCrewData["startingPoint"] as? [String: Any] ?? [:]),
                     destination: self.convertDataToPoint(nestedCrewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: nestedCrewData["inviteCode"] as? String ?? "",
@@ -686,7 +677,6 @@ extension FirebaseManager {
                     id: crewIDValue,
                     name: crewData["name"] as? String ?? "",
                     captainID: crewData["captainID"] as? UserIdentifier ?? "",
-                    crews: crewData["crews"] as? [UserIdentifier] ?? [""],
                     startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
                     destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: crewData["inviteCode"] as? String ?? "",
@@ -783,7 +773,6 @@ extension FirebaseManager {
                     id: crewData["id"] as? String ?? "",
                     name: crewData["name"] as? String ?? "",
                     captainID: crewData["captainID"] as? UserIdentifier ?? "",
-                    crews: crewData["crews"] as? [UserIdentifier] ?? [""],
                     startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
                     destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: crewData["inviteCode"] as? String ?? "",
@@ -820,7 +809,6 @@ extension FirebaseManager {
         if let timestamp = data["arrivalTime"] as? TimeInterval {
             point.arrivalTime = Date(timeIntervalSince1970: timestamp)
         }
-
         // crews에 대한 처리
         if let crewsData = data["crews"] as? [UserIdentifier] {
             point.crews = crewsData
@@ -1006,9 +994,9 @@ extension FirebaseManager {
         return .waiting
     }
 
-    func startObservingCrewData(completion: @escaping (Crew?) -> Void) {
+    func startObservingCrewData(crewID: String, completion: @escaping (Crew?) -> Void) {
 
-        let crewRef = Database.database().reference().child("crew")
+        let crewRef = Database.database().reference().child("crew/\(crewID)")
         crewRef.observe(.childChanged, with: { snapshot in
 
             if let crewData = snapshot.value as? [String: Any] {
@@ -1016,7 +1004,6 @@ extension FirebaseManager {
                     id: crewData["id"] as? String ?? "",
                     name: crewData["name"] as? String ?? "",
                     captainID: crewData["captainID"] as? UserIdentifier ?? "",
-                    crews: crewData["crews"] as? [UserIdentifier] ?? [""],
                     startingPoint: self.convertDataToPoint(crewData["startingPoint"] as? [String: Any] ?? [:]),
                     destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: crewData["inviteCode"] as? String ?? "",
