@@ -873,6 +873,17 @@ extension FirebaseManager {
             longitude: data["longitude"] as? Double ?? 0.0
         )
     }
+
+    func resetSessionData(crew: Crew) {
+        guard let crewID = crew.id else { return }
+        let crewReference = Database.database().reference().child("crew/\(crewID)")
+        crewReference.child("lateTime").setValue(0)
+        guard let memberStatus = crew.memberStatus else { return }
+        for (index, _) in memberStatus.enumerated() {
+            crewReference.child("memberStatus/\(index)/lateTime").setValue(0)
+            crewReference.child("memberStatus/\(index)/status").setValue(Status.waiting.rawValue)
+        }
+    }
 }
 
 // MARK: - 맵뷰 관련 메서드

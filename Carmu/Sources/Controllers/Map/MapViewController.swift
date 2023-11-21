@@ -138,6 +138,7 @@ final class MapViewController: UIViewController {
         let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
             self.dismiss(animated: true) {
                 self.updateSessionStatus(to: .waiting)
+                self.firebaseManager.resetSessionData(crew: self.crew)
                 pvc.showCarpoolFinishedModal()
             }
         }
@@ -191,6 +192,7 @@ final class MapViewController: UIViewController {
         let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
         let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
             self.updateSessionStatus(to: .waiting)
+            self.firebaseManager.resetSessionData(crew: self.crew)
             self.dismiss(animated: true)
         }
         alert.addAction(cancelAction)
@@ -209,6 +211,7 @@ final class MapViewController: UIViewController {
         guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
         dismiss(animated: true) {
             self.updateSessionStatus(to: .waiting)
+            self.firebaseManager.resetSessionData(crew: self.crew)
             pvc.showCarpoolFinishedModal()
         }
     }

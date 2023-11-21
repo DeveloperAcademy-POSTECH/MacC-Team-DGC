@@ -60,6 +60,9 @@ final class SessionStartViewController: UIViewController {
                 }
                 if isFinishedLastSession() {
                     firebaseManager.endSession(crew: crewData)
+                    if let crew = crewData {
+                        firebaseManager.resetSessionData(crew: crew)
+                    }
                     showCarpoolFinishedModal()
                 }
             } catch {
