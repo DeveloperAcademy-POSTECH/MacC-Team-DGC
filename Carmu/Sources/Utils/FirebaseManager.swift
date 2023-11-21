@@ -672,6 +672,62 @@ extension FirebaseManager {
     }
 
     /**
+     (동승자가 크루를 나갈 경우) 크루에서 동승자의 정보를 삭제한 뒤 업데이트
+     - memberStatus에서 동승자 정보를 제거
+     - startingPoint, stopover1, stopover2, stopover3 중 동승자의 정보가 있는 곳을 삭제
+     */
+    func deletePassengerInfoFromCrew() async throws {
+        guard let crewID = try await readUserCrewID() else { return }
+        guard var crewData = try await getCrewData(crewID: crewID) else { return }
+        var newMemberStatus = [MemberStatus]()
+        var newPoints = [Point?]()
+        // 해당 동승자의 memberStatus 삭제
+        if var memberStatusArr = crewData.memberStatus {
+            for idx in 0..<memberStatusArr.count {
+                if memberStatusArr[idx].id == KeychainItem.currentUserIdentifier {
+                    memberStatusArr.remove(at: idx)
+                }
+            }
+            newMemberStatus = memberStatusArr
+        }
+        // 해당 동승자가 있는 point에서 동승자 정보 삭제
+        var pointArray = [
+            crewData.startingPoint,
+            crewData.stopover1,
+            crewData.stopover2,
+            crewData.stopover3
+        ]
+        for idx in 0..<pointArray.count {
+            if var crews = pointArray[idx]?.crews {
+                for crewIdx in 0..<crews.count {
+                    if crews[crewIdx] == KeychainItem.currentUserIdentifier {
+                        crews.remove(at: crewIdx)
+                        pointArray[idx]?.crews = crews
+                    }
+                }
+            }
+        }
+        newPoints = pointArray
+
+        crewData.memberStatus = newMemberStatus
+        crewData.startingPoint = newPoints[0]
+        crewData.stopover1 = newPoints[1]
+        crewData.stopover2 = newPoints[2]
+        crewData.stopover3 = newPoints[3]
+        updateCrew(crewID: crewID, newCrewData: crewData)
+        print("크루에서 동승자 정보가 삭제되었습니다!!")
+    }
+
+    /**
+     유저의 정보에서 크루 정보를 삭제
+     */
+    func deleteCrewInfoFromUser() async throws {
+        guard let databasePath = User.databasePathWithUID else { return }
+        try await databasePath.child("crewList").setValue(nil)
+        print("유저의 데이터에서 크루 정보가 삭제되었습니다!!")
+    }
+
+    /**
      유저가 운전자인지 여부를 확인
 
      사용 예시

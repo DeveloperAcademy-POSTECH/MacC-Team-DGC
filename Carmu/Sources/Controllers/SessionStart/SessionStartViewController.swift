@@ -46,18 +46,26 @@ final class SessionStartViewController: UIViewController {
         }
         Task {
             if let crewID = try await firebaseManager.readUserCrewID() {
-                crewData = try await firebaseManager.getCrewData(crewID: crewID)
-                if let crewData = crewData {
+                print("유저의 크루ID: \(crewID)")
+                if let crewData = try await firebaseManager.getCrewData(crewID: crewID) {
+                    print("유저의 크루데이터 :\(crewData)")
+                    self.crewData = crewData
                     isCaptain = firebaseManager.checkCaptain(crewData: crewData)
                     updateUI(crewData: crewData)
+                } else {
+                    print("크루 데이터가 없습니다!!")
                 }
                 checkCrew(crewData: crewData)
                 firebaseManager.startObservingCrewData(crewID: crewID) { updatedCrewData in
                     self.crewData = updatedCrewData
                     self.updateUI(crewData: updatedCrewData)
                 }
+            } else {
+                print("크루ID가 없습니다!!")
+                checkCrew(crewData: crewData)
             }
         }
+        // TODO: - 그룹 나가기 후, 초대코드 입력해서 들어온 뒤 UI 처리
     }
 }
 
