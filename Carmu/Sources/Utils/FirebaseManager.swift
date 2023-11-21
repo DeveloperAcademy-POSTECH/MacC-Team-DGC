@@ -1066,6 +1066,11 @@ extension FirebaseManager {
         updateSessionStatus(to: .sessionStart, crew: crewData)
     }
 
+    func endSession(crew: Crew?) {
+        guard let crew = crew else { return }
+        updateSessionStatus(to: .waiting, crew: crew)
+    }
+
     // 탑승자 기준 본인의 Status를 감지하는 메서드
     func passengerStatus(crewData: Crew?) -> Status {
         guard let crewData = crewData else { return .waiting }

@@ -26,4 +26,9 @@ extension String {
     func capitalized() -> String {
         return prefix(1).uppercased() + dropFirst()
     }
+
+    var toMinutes: UInt {
+        let splitted = self.split(separator: ":").map { UInt($0) ?? 0 }
+        return splitted[0] * 60 + splitted[1]
+    }
 }
