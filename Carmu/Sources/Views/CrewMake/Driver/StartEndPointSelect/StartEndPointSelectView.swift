@@ -11,7 +11,7 @@ final class StartEndPointSelectView: UIView {
 
     private lazy var firstLineTitleStack = UIStackView()
 
-    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀 크루의 ")
+    private lazy var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "셔틀의 ")
     private lazy var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "기본 정보")
     private lazy var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "를")
     private lazy var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "설정해주세요")

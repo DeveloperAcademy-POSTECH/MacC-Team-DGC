@@ -31,7 +31,7 @@ final class CrewNameSettingView: UIView {
         friendSearchTextField.autocapitalizationType = .none
 
         let placeholderAttributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor.semantic.textPrimary as Any,
+            .foregroundColor: UIColor.semantic.textBody as Any,
             .font: UIFont.carmuFont.body2Long
         ]
         friendSearchTextField.attributedPlaceholder = NSAttributedString(

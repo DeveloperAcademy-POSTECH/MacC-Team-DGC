@@ -16,31 +16,35 @@ final class PositionSelectView: UIView {
         skipButton.setTitle("건너뛰기", for: .normal)
         skipButton.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
         skipButton.setTitleColor(UIColor.theme.gray4, for: .highlighted)
-        skipButton.titleLabel?.font = UIFont.carmuFont.subhead3
+        skipButton.titleLabel?.font = UIFont.carmuFont.body3
         return skipButton
     }()
 
-    private var titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "함께하는 ")
-    private var titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "카풀")
-    private var titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "에서의")
-    private var titleLabel4 = CrewMakeUtil.accPrimaryTitle(titleText: "포지션")
-    private var titleLabel5 = CrewMakeUtil.defalutTitle(titleText: "을 설정해주세요")
+    private let firstLineStack = UIStackView()
+    private let secondLineStack = UIStackView()
+
+    private let titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "셔틀을 ")
+    private let titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "계획")
+    private let titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "하거나")
+    private let titleLabel4 = CrewMakeUtil.defalutTitle(titleText: "셔틀에 ")
+    private let titleLabel5 = CrewMakeUtil.accPrimaryTitle(titleText: "합류")
+    private let titleLabel6 = CrewMakeUtil.defalutTitle(titleText: "해주세요")
 
     lazy var selectDriverButton = LargeSelectButton(
-        topTitle: "운전자",
-        bottomTitle: "크루 만들기",
+        topTitle: "기사님",
+        bottomTitle: "셔틀 계획하기",
         imageName: "PositionSelectDriver"
     )
 
     lazy var selectCrewButton = LargeSelectButton(
-        topTitle: "동승자",
-        bottomTitle: "크루 합류하기",
+        topTitle: "탑승자",
+        bottomTitle: "셔틀 합류하기",
         imageName: "PositionSelectCrew"
     )
 
     private var explainLabel1: UILabel = {
         let label = UILabel()
-        label.text = "카풀 크루의 전반적인\n과정을 계획합니다."
+        label.text = "셔틀의 전반적인 과정을\n계획합니다."
         label.textAlignment = .center
         label.numberOfLines = 2
         label.font = UIFont.carmuFont.body1
@@ -50,7 +54,7 @@ final class PositionSelectView: UIView {
 
     private lazy var explainLabel2: UILabel = {
         let label = UILabel()
-        label.text = "운전자에게 초대링크를 받아\n카풀 크루에 합류합니다."
+        label.text = "셔틀 초대링크를 받아\n합류합니다."
         label.textAlignment = .center
         label.numberOfLines = 2
         label.font = UIFont.carmuFont.body1
@@ -72,12 +76,19 @@ final class PositionSelectView: UIView {
     }
 
     private func setupViews() {
+        firstLineStack.axis = .horizontal
+        secondLineStack.axis = .horizontal
+
+        firstLineStack.addArrangedSubview(titleLabel1)
+        firstLineStack.addArrangedSubview(titleLabel2)
+        firstLineStack.addArrangedSubview(titleLabel3)
+        secondLineStack.addArrangedSubview(titleLabel4)
+        secondLineStack.addArrangedSubview(titleLabel5)
+        secondLineStack.addArrangedSubview(titleLabel6)
+
         addSubview(skipButton)
-        addSubview(titleLabel1)
-        addSubview(titleLabel2)
-        addSubview(titleLabel3)
-        addSubview(titleLabel4)
-        addSubview(titleLabel5)
+        addSubview(firstLineStack)
+        addSubview(secondLineStack)
         addSubview(selectDriverButton)
         addSubview(selectCrewButton)
         addSubview(explainLabel1)
@@ -90,32 +101,14 @@ final class PositionSelectView: UIView {
             make.trailing.equalToSuperview().inset(20)
         }
 
-        titleLabel1.snp.makeConstraints { make in
+        firstLineStack.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).inset(78)
             make.leading.equalToSuperview().inset(20)
-            make.bottom.equalTo(titleLabel5.snp.top)
         }
 
-        titleLabel2.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel1)
-            make.leading.equalTo(titleLabel1.snp.trailing)
-            make.bottom.equalTo(titleLabel5.snp.top)
-        }
-
-        titleLabel3.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel2)
-            make.leading.equalTo(titleLabel2.snp.trailing)
-            make.bottom.equalTo(titleLabel5.snp.top)
-        }
-
-        titleLabel4.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel1.snp.bottom)
-            make.leading.equalToSuperview().inset(20)
-        }
-
-        titleLabel5.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel2.snp.bottom)
-            make.leading.equalTo(titleLabel4.snp.trailing)
+        secondLineStack.snp.makeConstraints { make in
+            make.top.equalTo(firstLineStack.snp.bottom)
+            make.leading.equalTo(firstLineStack)
         }
 
         selectDriverButton.snp.makeConstraints { make in

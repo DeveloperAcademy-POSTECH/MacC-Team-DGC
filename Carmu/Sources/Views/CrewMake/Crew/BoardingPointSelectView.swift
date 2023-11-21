@@ -23,7 +23,7 @@ final class BoardingPointSelectView: UIView {
     var customTableView = UIStackView()
     lazy var customTableVieWCell = [StopoverSelectButton]()
 
-    let nextButton = NextButton(buttonTitle: "카풀 합류하기")
+    let nextButton = NextButton(buttonTitle: "셔틀 합류하기")
 
     override init(frame: CGRect) {
         super.init(frame: frame)

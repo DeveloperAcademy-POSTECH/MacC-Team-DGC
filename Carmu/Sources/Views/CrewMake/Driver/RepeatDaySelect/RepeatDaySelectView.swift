@@ -11,7 +11,7 @@ final class RepeatDaySelectView: UIView {
 
     private let secondLineTitleStack = UIStackView()
 
-    private let titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "카풀이 반복되는")
+    private let titleLabel1 = CrewMakeUtil.defalutTitle(titleText: "셔틀이 반복되는")
     private let titleLabel2 = CrewMakeUtil.accPrimaryTitle(titleText: "요일을 설정")
     private let titleLabel3 = CrewMakeUtil.defalutTitle(titleText: "해주세요")
 
