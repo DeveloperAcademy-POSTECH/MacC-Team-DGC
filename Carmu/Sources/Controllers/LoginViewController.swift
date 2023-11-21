@@ -22,7 +22,7 @@ final class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
-    
+
         loginView.appleSignInButton.addTarget(
             self,
             action: #selector(startSignInWithAppleFlow),
