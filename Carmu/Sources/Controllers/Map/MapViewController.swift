@@ -110,6 +110,7 @@ final class MapViewController: UIViewController {
         }
     }
 
+    /// [탑승자] 운전자가 운행을 종료했는지 실시간으로 추적하여 운행이 종료되었다면 얼럿을 띄워주고 맵뷰를 종료하는 메서드
     private func startObservingSessionStatus() {
         guard !isDriver else { return }
         firebaseManager.startObservingSessionStatus(crewID: crew.id) { sessionStatus in
@@ -118,6 +119,7 @@ final class MapViewController: UIViewController {
         }
     }
 
+    /// [탑승자] 운행이 종료되었다는 얼럿을 띄우고 맵뷰를 종료하는 메서드
     private func showFinishedAlert() {
         let alert = UIAlertController(title: "운전자가 셔틀 운행을 종료했습니다", message: "확인을 누르면 대기화면으로 돌아갑니다", preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
