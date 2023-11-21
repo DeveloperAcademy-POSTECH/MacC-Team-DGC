@@ -23,8 +23,6 @@ final class SessionStartViewController: UIViewController {
     private lazy var firebaseManager = FirebaseManager()
     private lazy var serverPushManager = ServerPushManager()
 
-    private let activityIndicator = UIActivityIndicatorView(style: .large)
-
     var crewData: Crew?
     var isCaptain: Bool = false
     var firebaseStart: Point?
@@ -32,7 +30,8 @@ final class SessionStartViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        navigationItem.backButtonTitle = ""
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         setupUI()
         setupConstraints()
@@ -47,9 +46,7 @@ final class SessionStartViewController: UIViewController {
         }
         Task {
             do {
-                showActivityIndicator()
                 crewData = try await firebaseManager.getCrewData()
-                hideActivityIndicator()
                 print("Received crew data: \(String(describing: crewData))")
                 if let crewData = crewData {
                     isCaptain = firebaseManager.checkCaptain(crewData: crewData)
@@ -567,19 +564,6 @@ extension SessionStartViewController {
 
 // MARK: - Action
 extension SessionStartViewController {
-
-    // 대기 화면을 보여주는 메서드
-    private func showActivityIndicator() {
-        activityIndicator.center = view.center
-        view.addSubview(activityIndicator)
-        activityIndicator.startAnimating()
-    }
-
-    // 대기 화면을 숨기는 메서드
-    private func hideActivityIndicator() {
-        activityIndicator.stopAnimating()
-        activityIndicator.removeFromSuperview()
-    }
 
     // 크루의 유무 확인
     // MARK: - viewWillAppear ? (데이터가 있는 지 없는 지는 화면에 들어올 때(SessionStartViewController)만 확인하면 됨, 즉각적으로 바뀌진 않음)

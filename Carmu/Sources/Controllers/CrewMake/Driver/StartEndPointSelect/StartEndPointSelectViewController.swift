@@ -33,6 +33,7 @@ final class StartEndPointSelectViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backButtonTitle = ""
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         startEndPointSelectView.startPointView.button.addTarget(

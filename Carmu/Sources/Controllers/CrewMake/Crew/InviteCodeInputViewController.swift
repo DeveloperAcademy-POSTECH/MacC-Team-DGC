@@ -15,8 +15,8 @@ final class InviteCodeInputViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backButtonTitle = ""
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissTextField))
-
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
         view.addSubview(inviteCodeInputView)
         inviteCodeInputView.codeSearchTextField.returnKeyType = .search
