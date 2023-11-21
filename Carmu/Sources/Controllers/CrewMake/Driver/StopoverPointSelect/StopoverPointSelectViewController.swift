@@ -200,7 +200,6 @@ struct SOPViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> StopoverPointSelectViewController {
         return StopoverPointSelectViewController(
             crewData: Crew(
-                crews: [UserIdentifier](),
                 memberStatus: [MemberStatus]()
             )
         )

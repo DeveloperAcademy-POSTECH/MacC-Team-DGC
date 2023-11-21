@@ -53,7 +53,8 @@ final class SessionStartViewController: UIViewController {
                     updateUI(crewData: crewData)
                 }
                 checkCrew(crewData: crewData)
-                firebaseManager.startObservingCrewData { crewData in
+                guard let crewID = crewData?.id else { return }
+                firebaseManager.startObservingCrewData(crewID: crewID) { crewData in
                     self.crewData = crewData
                     self.updateUI(crewData: crewData)
                 }

@@ -22,7 +22,7 @@ enum PointType: String {
         case .stopover3:
             return 2
         default:
-            return -1
+            return 2
         }
     }
 }

@@ -15,10 +15,6 @@ final class StopoverRemoveButton: UIButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-    }
-
-    init() {
-        super.init(frame: .zero)
         setImage(UIImage(systemName: "xmark"), for: .normal)
         tintColor = UIColor.semantic.stoke
         isHidden = true
