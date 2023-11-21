@@ -604,7 +604,8 @@ extension FirebaseManager {
                     inviteCode: nestedCrewData["inviteCode"] as? String ?? "",
                     repeatDay: nestedCrewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                     sessionStatus: Status(rawValue: nestedCrewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
-                    memberStatus: self.convertDataToMemberStatus(nestedCrewData["memberStatus"] as? [[String: Any]] ?? [])
+                    memberStatus: self.convertDataToMemberStatus(nestedCrewData["memberStatus"] as? [[String: Any]] ?? []),
+                    lateTime: nestedCrewData["lateTime"] as? UInt ?? 0
                 )
 
                 // 나머지 부분은 그대로 유지
@@ -636,7 +637,8 @@ extension FirebaseManager {
                     inviteCode: crewData["inviteCode"] as? String ?? "",
                     repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                     sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
-                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
+                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? []),
+                    lateTime: crewData["lateTime"] as? UInt ?? 0
                 )
 
                 // 나머지 부분은 그대로 유지
@@ -732,7 +734,8 @@ extension FirebaseManager {
                     destination: self.convertDataToPoint(crewData["destination"] as? [String: Any] ?? [:]),
                     inviteCode: crewData["inviteCode"] as? String ?? "",
                     repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
-                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
+                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? []),
+                    lateTime: crewData["lateTime"] as? UInt ?? 0
                 )
                 if crewData["stopover1"] != nil {
                     crew.stopover1 = self.convertDataToPoint(crewData["stopover1"] as? [String: Any] ?? [:])
@@ -886,6 +889,15 @@ extension FirebaseManager {
         })
     }
 
+    func startObservingCrewLateTime(crewID: String?, completion: @escaping (UInt) -> Void) {
+        guard let crewID = crewID else { return }
+        Database.database().reference().child("crew/\(crewID)").observe(.childChanged, with: { snapshot in
+            if snapshot.key == "lateTime", let lateTime = snapshot.value as? UInt {
+                completion(lateTime)
+            }
+        })
+    }
+
     /// 내 탑승지 정보 받아오는 메서드
     func myPickUpLocation(crew: Crew) -> Point? {
         guard let myUID = KeychainItem.currentUserIdentifier else {
@@ -1026,7 +1038,8 @@ extension FirebaseManager {
                     inviteCode: crewData["inviteCode"] as? String ?? "",
                     repeatDay: crewData["repeatDay"] as? [Int] ?? [1, 2, 3, 4, 5],
                     sessionStatus: Status(rawValue: crewData["sessionStatus"] as? String ?? "waiting") ?? .waiting,
-                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? [])
+                    memberStatus: self.convertDataToMemberStatus(crewData["memberStatus"] as? [[String: Any]] ?? []),
+                    lateTime: crewData["lateTime"] as? UInt ?? 0
                 )
                 // 경유지를 확인하고 설정합니다.
                 if let stopover1Data = crewData["stopover1"] as? [String: Any] {
