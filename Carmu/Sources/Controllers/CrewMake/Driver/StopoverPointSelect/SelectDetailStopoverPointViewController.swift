@@ -324,7 +324,6 @@ struct SDSPControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> SelectDetailStopoverPointViewController {
         return SelectDetailStopoverPointViewController(
             crewData: Crew(
-                crews: [UserIdentifier](),
                 memberStatus: [MemberStatus]()
             )
         )

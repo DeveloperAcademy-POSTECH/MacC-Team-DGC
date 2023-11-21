@@ -140,7 +140,6 @@ struct BPSViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> BoardingPointSelectViewController {
         return BoardingPointSelectViewController(
             crewData: Crew(
-                crews: [UserIdentifier](),
                 memberStatus: [MemberStatus]()
             )
         )

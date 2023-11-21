@@ -184,7 +184,7 @@ final class SessionStartBackView: UIView {
         endLocationLabel.text = "도착지"
         endTimeLabel.text = "00:00"
 
-        totalCrewMemeberLabel.text = "\(dummyCrewData?.crews.count ?? 0)명"
+        totalCrewMemeberLabel.text = "0명(변경필요)"
     }
 
     // TODO: - 실제 데이터로 변경
