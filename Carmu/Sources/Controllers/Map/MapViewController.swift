@@ -154,6 +154,7 @@ final class MapViewController: UIViewController {
         alert.message = isDriver ? "셔틀 운행을 중도 포기합니다" : "셔틀 탑승을 중도 포기합니다"
         let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
         let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
+            self.updateSessionStatus(to: .waiting)
             self.dismiss(animated: true)
         }
         alert.addAction(cancelAction)
@@ -166,11 +167,12 @@ final class MapViewController: UIViewController {
         present(NoticeLateViewController(crew: crew), animated: true)
     }
 
-    /// [운전자] '카풀 종료하기' 버튼 선택시 동작
+    /// [운전자] '운행 종료하기' 버튼 선택시 동작
     @objc private func finishCarpoolButtonDidTap() {
         guard let pnc = presentingViewController as? UINavigationController else { return }
         guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
         dismiss(animated: true) {
+            self.updateSessionStatus(to: .waiting)
             pvc.showCarpoolFinishedModal()
         }
     }
@@ -283,6 +285,12 @@ final class MapViewController: UIViewController {
         let destinationCoordinate = CLLocation(latitude: latitude, longitude: longitude)
         let distance = destinationCoordinate.distance(from: current)
         return Double(distance)
+    }
+
+    /// [운전자] '포기하기' 버튼 혹은 '운행 종료하기' 버튼 선택시 sessionStatus를 변경하는 메서드
+    private func updateSessionStatus(to sessionStatus: Status) {
+        crew.sessionStatus = sessionStatus
+        firebaseManager.updateSessionStatus(to: sessionStatus, crew: crew)
     }
 }
 

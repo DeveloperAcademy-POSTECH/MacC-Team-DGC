@@ -1026,49 +1026,31 @@ extension FirebaseManager {
         }
     }
 
+    /// Crew의 sessionStatus를 변경하는 메서드
+    func updateSessionStatus(to sessionStatus: Status, crew: Crew) {
+        guard let crewID = crew.id else { return }
+        Database.database().reference().child("crew/\(crewID)/sessionStatus").setValue(sessionStatus.rawValue)
+    }
+
     // 따로가요 클릭 시 sessionStatus를 decline으로 변경
     func driverIndividualButtonTapped(crewData: Crew?) {
         guard let crewData = crewData else { return }
         print("DRIVER ", crewData)
-        if let crewID = crewData.id {
-            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
-
-            statusRef.setValue(Status.decline.rawValue) { error, _ in
-                if let error = error {
-                    print("Error occured: ", error)
-                }
-            }
-        }
+        updateSessionStatus(to: .decline, crew: crewData)
     }
 
     // 운행해요 클릭 시 sessionStatus를 accpet으로 변경
     func driverTogetherButtonTapped(crewData: Crew?) {
         guard let crewData = crewData else { return }
         print("DRIVER ", crewData)
-        if let crewID = crewData.id {
-            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
-
-            statusRef.setValue(Status.accept.rawValue) { error, _ in
-                if let error = error {
-                    print("Error occured: ", error)
-                }
-            }
-        }
+        updateSessionStatus(to: .accept, crew: crewData)
     }
 
     // 카풀 운행해요 클릭 시 sessionStatus를 sessionStart로 변경
     func carpoolStartButtonTapped(crewData: Crew?) {
         guard let crewData = crewData else { return }
         print("DRIVER ", crewData)
-        if let crewID = crewData.id {
-            let statusRef = Database.database().reference().child("crew/\(crewID)/sessionStatus")
-
-            statusRef.setValue(Status.sessionStart.rawValue) { error, _ in
-                if let error = error {
-                    print("Error occured: ", error)
-                }
-            }
-        }
+        updateSessionStatus(to: .sessionStart, crew: crewData)
     }
 
     // 탑승자 기준 본인의 Status를 감지하는 메서드
