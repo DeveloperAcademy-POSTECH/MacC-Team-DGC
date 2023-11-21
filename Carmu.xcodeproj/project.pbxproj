@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		161128DB2B0B2B3400176657 /* ServerPushManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161128DA2B0B2B3400176657 /* ServerPushManager.swift */; };
+		161128E12B0C384200176657 /* launchGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 161128E02B0C384200176657 /* launchGif.gif */; };
 		16114ADE2AFB1D9C003325B6 /* SessionStartBackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */; };
 		161854A72ADFB76600961D2D /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 161854A62ADFB76600961D2D /* FirebaseMessaging */; };
 		161854AD2AE005F200961D2D /* SessionStartNoCrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */; };
@@ -154,6 +155,7 @@
 
 /* Begin PBXFileReference section */
 		161128DA2B0B2B3400176657 /* ServerPushManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerPushManager.swift; sourceTree = "<group>"; };
+		161128E02B0C384200176657 /* launchGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = launchGif.gif; sourceTree = "<group>"; };
 		16114ADD2AFB1D9C003325B6 /* SessionStartBackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartBackView.swift; sourceTree = "<group>"; };
 		161854AC2AE005F200961D2D /* SessionStartNoCrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartNoCrewView.swift; sourceTree = "<group>"; };
 		163422332AFDFFFE00196EB2 /* CarpoolPlanLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarpoolPlanLabel.swift; sourceTree = "<group>"; };
@@ -574,6 +576,7 @@
 			isa = PBXGroup;
 			children = (
 				C97EAB572B0B848200E21B72 /* launchGif.gif */,
+				161128E02B0C384200176657 /* launchGif.gif */,
 				C92CFB302AC93C470068273A /* SF-Pro.ttf */,
 			);
 			path = Resources;
@@ -890,6 +893,7 @@
 				C92CFB312AC93C470068273A /* SF-Pro.ttf in Resources */,
 				BF37D9D62AB939A4005331AD /* Assets.xcassets in Resources */,
 				B8EC76202ADFEBA200F83E8F /* GoogleService-Info.plist in Resources */,
+				161128E12B0C384200176657 /* launchGif.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
