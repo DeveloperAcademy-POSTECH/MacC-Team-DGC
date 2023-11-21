@@ -36,12 +36,6 @@ final class LoadingView: UIView {
         return imageView
     }()
 
-    private let contentImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        return imageView
-    }()
-
     init() {
         super.init(frame: .zero)
         setupUI()
@@ -58,9 +52,6 @@ extension LoadingView {
 
     private func setupUI() {
         backgroundColor = UIColor.theme.darkblue7
-        contentImageView.image = UIImage(
-            named: "loadingContent\(Int.random(in: 1...4))"
-        )
 
         loadingLabelStack.axis = .horizontal
         loadingLabelStack.addArrangedSubview(loadingLabel)
@@ -68,12 +59,11 @@ extension LoadingView {
 
         addSubview(loadingLabelStack)
         addSubview(characterImage)
-        addSubview(contentImageView)
     }
 
     private func setupConstraints() {
         loadingLabelStack.snp.makeConstraints { make in
-            make.bottom.equalTo(characterImage.snp.top).offset(-80)
+            make.bottom.equalTo(characterImage.snp.top).offset(-50)
             make.centerX.equalToSuperview()
             make.width.equalTo(150)
             make.height.equalTo(34)
@@ -83,12 +73,6 @@ extension LoadingView {
             make.centerX.centerY.equalToSuperview()
             make.width.equalTo(120)
             make.height.equalTo(70)
-        }
-
-        contentImageView.snp.makeConstraints { make in
-            make.top.equalTo(characterImage.snp.bottom).offset(80)
-            make.horizontalEdges.equalToSuperview().inset(20)
-            make.height.equalTo(100)
         }
     }
 }
