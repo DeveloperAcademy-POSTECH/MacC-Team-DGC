@@ -469,20 +469,16 @@ extension FirebaseManager {
              BoardingPointSelectViewController
      */
     func setUserToCrew(_ userID: String, _ crewID: String) {
-        // Firebase 데이터베이스 참조 생성
-        let databaseRef = Database.database().reference().child("crew/\(crewID)")
+        Task {
+            // Firebase 데이터베이스 참조 생성
+            let databaseRef = Database.database().reference().child("crew/\(crewID)")
 
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
-
-        // 해당 크루의 데이터를 불러와서 출력
-        readUser(databasePath: databasePath) { user in
-            guard let user = user else {
-                print("Error reading user data.")
+            guard let databasePath = User.databasePathWithUID else {
                 return
             }
 
+            let user = try await readUserAsync(databasePath: databasePath)
+            guard let user = user else { return }
             // 크루 데이터에서 필요한 값을 가져와서 newMemberStatus 객체에 설정
             let newMemberStatus: [String: Any] = [
                 "id": userID,
