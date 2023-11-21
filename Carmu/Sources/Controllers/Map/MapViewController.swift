@@ -129,6 +129,22 @@ final class MapViewController: UIViewController {
         present(alert, animated: true)
     }
 
+    /// [운전자] 도착지 주변에서 일정 시간이 지났는데 운행을 종료하지 않았을 경우 맵뷰를 종료하는 얼럿을 띄우는 메서드
+    private func showFinishedAlertForDriver() {
+        guard crew.sessionStatus == .sessionStart else { return }
+        guard let pnc = self.presentingViewController as? UINavigationController else { return }
+        guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
+        let alert = UIAlertController(title: "셔틀 운행이 종료되었습니다", message: "확인을 누르면 대기화면으로 돌아갑니다", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true) {
+                self.updateSessionStatus(to: .waiting)
+                pvc.showCarpoolFinishedModal()
+            }
+        }
+        alert.addAction(confirmAction)
+        present(alert, animated: true)
+    }
+
     /// [운전자, 탑승자] 운전자, 탑승자별로 다른 하단뷰를 표시
     private func setDetailView() {
         view.addSubview(detailView)
@@ -328,9 +344,12 @@ extension MapViewController: CLLocationManagerDelegate {
             mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
             // 운전자인 경우 DB에 위도, 경도 업데이트
             firebaseManager.updateDriverCoordinate(coordinate: location.coordinate, crewID: crew.id)
-            // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
+            // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경, 15분 후 셔틀 종료 안내 얼럿
             if distanceFromDestination(current: location) <= 200.0 {
                 detailView.showFinishCarpoolButton()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 900) {
+                    self.showFinishedAlertForDriver()
+                }
             }
         } else {
             mapView.updateMyPositionMarker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
