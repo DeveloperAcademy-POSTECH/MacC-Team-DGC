@@ -30,6 +30,7 @@ final class PositionSelectViewController: UIViewController {
             action: #selector(skipButtonTapped),
             for: .touchUpInside
         )
+
         view.addSubview(positionSelectView)
         positionSelectView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -63,8 +64,8 @@ extension PositionSelectViewController {
 
     @objc private func skipButtonTapped() {
         let alertController = UIAlertController(
-            title: "아직 크루가 만들어지지 않았어요!",
-            message: "크루를 만들거나 크루에 참여해야\n카뮤를 이용할 수 있습니다.",
+            title: "설정이 되지 않았어요!",
+            message: "셔틀을 만들거나 합류해야\n카뮤를 이용할 수 있습니다.",
             preferredStyle: .alert
         )
         let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
