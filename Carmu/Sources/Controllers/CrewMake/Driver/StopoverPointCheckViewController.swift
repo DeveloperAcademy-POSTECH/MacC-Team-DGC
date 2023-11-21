@@ -23,6 +23,7 @@ final class StopoverPointCheckViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.backButtonTitle = ""
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         stopoverPointCheckView.yesStopoverButton.addTarget(self, action: #selector(yesButtonTapped), for: .touchUpInside)

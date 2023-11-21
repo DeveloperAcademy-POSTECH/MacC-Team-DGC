@@ -76,6 +76,7 @@ final class SelectAddressView: UIView {
         let tableView = UITableView()
         tableView.register(SelectAddressTableViewCell.self, forCellReuseIdentifier: "selectAddressCell")
         tableView.register(DefaultAddressTableViewCell.self, forCellReuseIdentifier: "defaultAddressCell")
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "blankCell")
         tableView.separatorStyle = .none
         tableView.showsVerticalScrollIndicator = false
 

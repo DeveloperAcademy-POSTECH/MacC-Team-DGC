@@ -22,11 +22,29 @@ final class SelectAddressTableViewCell: UITableViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupUI()
-        setupConstraints()
     }
 
-    // MARK: - UI Setup function
+    /**
+     셀 하이라이트 시 셀 색상을 변경하는 override Method
+     */
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+            if highlighted {
+                // 셀이 하이라이트 상태일 때 색상
+                cellBackgroundImage.backgroundColor = UIColor.semantic.accPrimary
+                buildingNameLabel.textColor = UIColor.semantic.textSecondary
+                detailAddressLabel.textColor = UIColor.semantic.textSecondary
+            } else {
+                // 셀이 하이라이트 상태가 아닐 때 원래 색상으로 변경
+                cellBackgroundImage.backgroundColor = UIColor.semantic.backgroundAddress
+                buildingNameLabel.textColor = UIColor.semantic.textPrimary
+                detailAddressLabel.textColor = UIColor.semantic.textBody
+            }
+    }
+}
+
+// MARK: - UI Setup function
+extension SelectAddressTableViewCell {
+
     private func setupUI() {
         cellBackgroundImage.backgroundColor = UIColor.semantic.backgroundAddress
         cellBackgroundImage.layer.cornerRadius = 20
@@ -45,18 +63,18 @@ final class SelectAddressTableViewCell: UITableViewCell {
 
     private func setupConstraints() {
         cellBackgroundImage.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0))
-            make.height.equalTo(82)
+            make.edges.equalToSuperview()
+            make.height.equalTo(79)
         }
+
         buildingNameLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(16)
             make.leading.equalToSuperview().inset(20)
         }
 
         detailAddressLabel.snp.makeConstraints { make in
-            make.verticalEdges.equalToSuperview().inset(16)
+            make.top.equalTo(buildingNameLabel.snp.bottom).offset(16)
             make.horizontalEdges.equalToSuperview().inset(20)
-            make.width.greaterThanOrEqualTo(200)
         }
     }
 }

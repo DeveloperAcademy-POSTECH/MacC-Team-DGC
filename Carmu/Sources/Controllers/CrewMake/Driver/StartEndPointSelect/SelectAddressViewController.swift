@@ -237,7 +237,19 @@ extension SelectAddressViewController: UITextFieldDelegate {
 extension SelectAddressViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 94
+        if let results = completerResults, !results.isEmpty {
+            // 검색 결과가 있는 경우
+            if indexPath.row % 2 == 0 {
+                // 짝수 번째 행일 때 (SelectAddressTableViewCell)
+                return 79
+            } else {
+                // 홀수 번째 행일 때 (UITableViewCell)
+                return 10
+            }
+        } else {
+            // 검색 결과가 없는 경우
+            return 79
+        }
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -286,6 +298,7 @@ extension SelectAddressViewController: UITableViewDelegate {
                             .saveButton
                             .setTitle("도착지로 설정", for: .normal)
                     }
+
                     self.navigationController?.pushViewController(detailViewController, animated: true)
                 }
             }
@@ -305,20 +318,33 @@ extension SelectAddressViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let results = completerResults, !results.isEmpty { // 검색 결과가 있는 경우
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: "selectAddressCell"
-            ) as? SelectAddressTableViewCell else {
-                return UITableViewCell()
-            }
-            cell.selectionStyle = .none
+        if let results = completerResults, !results.isEmpty {
+            // 검색 결과가 있는 경우
+            if indexPath.row % 2 == 0 {
+                // 짝수 번째 행일 때 (SelectAddressTableViewCell)
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: "selectAddressCell"
+                ) as? SelectAddressTableViewCell else {
+                    return UITableViewCell()
+                }
 
-            if let suggestion = completerResults?[indexPath.row] {
-                cell.buildingNameLabel.text = suggestion.title
-                cell.detailAddressLabel.text = String.removeCountryAndPostalCode(from: suggestion.subtitle)
+                if let suggestion = completerResults?[indexPath.row] {
+                    cell.buildingNameLabel.text = suggestion.title
+                    cell.detailAddressLabel.text = String.removeCountryAndPostalCode(from: suggestion.subtitle)
+                }
+                return cell
+            } else {
+                // 홀수 번째 행일 때 (UITableViewCell)
+                let cell = tableView.dequeueReusableCell(
+                    withIdentifier: "blankCell",
+                    for: indexPath
+                )
+                cell.selectionStyle = .none
+                cell.isUserInteractionEnabled = false
+                return cell
             }
-            return cell
-        } else { // 검색 결과가 없는 경우
+        } else {
+            // 검색 결과가 없는 경우
             if let cell = tableView.dequeueReusableCell(
                 withIdentifier: "defaultAddressCell",
                 for: indexPath
