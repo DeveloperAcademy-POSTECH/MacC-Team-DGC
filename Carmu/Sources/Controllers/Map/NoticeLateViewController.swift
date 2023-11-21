@@ -17,6 +17,16 @@ final class NoticeLateViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
     private let functions = Functions.functions()
     private var lateMin = "0"
+    private let crew: Crew
+
+    init(crew: Crew) {
+        self.crew = crew
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,18 +57,14 @@ final class NoticeLateViewController: UIViewController {
 
     @objc private func lateThreeMinutesButtonDidTap() {
         lateMin = "3"
+        firebaseManager.updateLateTime(lateTime: 3, crew: crew)
         sendLateNotification(lateMin)
         sendToastMessage()
     }
 
     @objc private func lateFiveMinutesButtonDidTap() {
         lateMin = "5"
-        sendLateNotification(lateMin)
-        sendToastMessage()
-    }
-
-    @objc private func lateTenMinutesButtonDidTap() {
-        lateMin = "10"
+        firebaseManager.updateLateTime(lateTime: 5, crew: crew)
         sendLateNotification(lateMin)
         sendToastMessage()
     }

@@ -14,4 +14,5 @@ struct MemberStatus: Codable {
     var nickname: String?
     var profileColor: String?
     var status: Status?
+    var lateTime: UInt
 }

@@ -118,15 +118,22 @@ final class MapDetailView: UIView {
         return button
     }()
 
-    private let isDriver = true
+    private let isDriver: Bool
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    private var crew: Crew? {
+        didSet {
+            changeTimeLabel()
+        }
+    }
+
+    init(isDriver: Bool) {
+        self.isDriver = isDriver
+        super.init(frame: .zero)
         backgroundColor = UIColor.semantic.backgroundDefault
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func draw(_ rect: CGRect) {
@@ -240,5 +247,18 @@ final class MapDetailView: UIView {
             make.leading.trailing.equalToSuperview().inset(padding)
             make.bottom.equalTo(finishCarpoolButton.snp.top).offset(-padding)
         }
+    }
+
+    private func changeTimeLabel() {
+        guard let crew = crew, let myPickUpLocation = FirebaseManager().myPickUpLocation(crew: crew) else { return }
+        guard let splitted = myPickUpLocation.arrivalTime?.toString24HourClock.split(separator: ":") else { return }
+        let minutes = (UInt(splitted[0]) ?? 0) * 60 + (UInt(splitted[1]) ?? 0) + crew.lateTime
+        pickUpTimeLabel.text = "\(minutes / 60):\(minutes % 60)"
+        pickUpTimeLabel.textColor = crew.lateTime > 0 ? UIColor.semantic.negative : UIColor.semantic.accPrimary
+        lateTimeLabel.text = "(+\(crew.lateTime)분)"
+    }
+
+    func setLateTime(crew: Crew) {
+        self.crew = crew
     }
 }
