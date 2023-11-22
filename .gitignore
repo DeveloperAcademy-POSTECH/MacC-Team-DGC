@@ -139,3 +139,5 @@ GoogleService-Info.plist
 
 # API-KEY plist
 SecureKey-Info.plist
+
+Package.resolved

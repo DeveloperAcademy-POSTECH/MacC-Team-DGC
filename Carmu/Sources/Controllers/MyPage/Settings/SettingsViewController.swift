@@ -98,40 +98,24 @@ final class SettingsViewController: UIViewController {
         authorizationController.performRequests()
     }
 
-    // MARK: - 계정 삭제 수행 시 유저의 친구정보를 삭제하기 위한 메서드
-    private func performDeletingUsersFriendship() {
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
-        // 유저의 friends 배열을 불러온다.
-        firebaseManager.readUserFriendshipList(databasePath: databasePath) { friends in
-            guard let friends = friends else {
-                return
-            }
-            // 해당하는 friendship을 삭제하고, 그 친구의 friends에서도 friendship을 삭제해준다.
-            self.deleteRelatedAllFriendship(friendshipList: friends)
-        }
-    }
-
-    // MARK: - 유저와 관련된 모든 친구 관계를 삭제하는 메서드
     /**
-     - DB의 "friendship"에서 탈퇴하는 유저와 관련된 모든 friendship들을 삭제해줍니다.
-     - 유저와 친구인 유저들의 "friends" 배열에서 해당 friendhip id값을 삭제해줍니다.
-
-     **friendshipList**: 유저의 friends값에 해당하는 friendship id들의 배열
+     계정 삭제 시 크루에서 유저 정보를 삭제해주기 위한 메서드
+     - 크루 데이터 불러오기 👉 운전자/동승자 체크 👉 그에 맞게 크루에서 정보 삭제(or 크루 삭제)
      */
-    private func deleteRelatedAllFriendship(friendshipList: [String]) {
-        let databaseRef = Database.database().reference()
+    private func deleteCrewDataOfUser() async throws {
+        // 크루 데이터 불러오기
+        if let crewID = try await firebaseManager.readUserCrewID() {
+            guard let crewData = try await firebaseManager.getCrewData(crewID: crewID) else { return }
 
-        for friendshipID in friendshipList {
-            firebaseManager.getFriendUid(friendshipID: friendshipID) { friendUID in
-                guard let friendUID = friendUID else {
-                    return
-                }
-                databaseRef.child("friendship/\(friendshipID)").removeValue() // friendship 삭제
-                // 친구의 friends에서 해당 friendship 삭제
-                self.firebaseManager.deleteUserFriendship(uid: friendUID, friendshipID: friendshipID)
+            if firebaseManager.checkCaptain(crewData: crewData) { // 운전자라면
+                print("운전자의 크루 데이터와 크루 삭제 중...")
+                try await firebaseManager.deleteCrewByDriver()
+            } else { // 동승자라면
+                print("동승자의 크루 데이터 삭제 중...")
+                try await firebaseManager.deletePassengerInfoFromCrew()
             }
+        } else {
+            print("소속한 크루가 없기 때문에 삭제 작업을 수행하지 않습니다.")
         }
     }
 }
@@ -242,8 +226,8 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
         Task {
             do {
-                // 유저와 관련된 친구 정보 삭제
-                performDeletingUsersFriendship()
+                // 유저와 관련된 크루 데이터 삭제
+                try await deleteCrewDataOfUser()
                 // Firebase DB에서 유저 정보 삭제
                 try await User.databasePathWithUID?.removeValue()
                 // 애플 서버의 사용자 토큰 삭제
