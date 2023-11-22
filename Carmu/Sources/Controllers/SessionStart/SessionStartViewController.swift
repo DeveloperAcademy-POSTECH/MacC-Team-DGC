@@ -47,6 +47,8 @@ final class SessionStartViewController: UIViewController {
         view.addSubview(memberCardView)
         view.addSubview(noCrewCardView)
 
+        updateView(crewData: crewData)
+
         backgroundView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
         backgroundView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
         backgroundView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
@@ -71,14 +73,15 @@ final class SessionStartViewController: UIViewController {
                     firebaseManager.endSession(crew: crewData)
                     showShuttleFinishedModal()
                 }
-            } else {
-                showNoCrewCardView()
             }
         }
     }
 
     /// crewData에 변경이 있으면 전체 레이아웃을 다시 그림
     private func updateView(crewData: Crew?) {
+        // 타이틀 설정
+        backgroundView.setTitleLabel(crewData: crewData)
+
         if let crewData = crewData {
             showCrewCardView(crewData: crewData)
         } else {
@@ -159,8 +162,6 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     private func showNoCrewCardView() {
-        backgroundView.setTitleLabel(crewData: nil)
-
         backgroundView.notifyComment.isHidden = true
         backgroundView.individualButton.isHidden = true
         backgroundView.togetherButton.isHidden = true
@@ -289,17 +290,6 @@ extension SessionStartViewController {
     private func settingDriverView(crewData: Crew) {
         // 비활성화
         driverCardView.layer.opacity = 0.5
-        // comment
-        let crewName = crewData.name ?? ""
-
-        backgroundView.titleLabel.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
-        // 특정 부분 색상 넣기
-        let topCommentText = NSMutableAttributedString(string: backgroundView.titleLabel.text ?? "")
-        if let range1 = backgroundView.titleLabel.text?.range(of: "\(String(describing: crewName))") {
-            let nsRange1 = NSRange(range1, in: backgroundView.titleLabel.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
-        }
-        backgroundView.titleLabel.attributedText = topCommentText
 
         backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
         let notifyCommentText = NSMutableAttributedString(string: backgroundView.notifyComment.text ?? "")

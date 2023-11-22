@@ -2,6 +2,8 @@ import UIKit
 
 final class SessionStartView: UIView {
 
+    private let firebaseManger = FirebaseManager()
+
     lazy var myPageButton: UIButton = {
         let button = UIButton()
         if let myPageImage = UIImage(named: "myPageButton") {
@@ -96,6 +98,11 @@ extension SessionStartView {
             setTitleLabelNoCrew()
             return
         }
+        if firebaseManger.isDriver(crewData: crewData) {
+            if crewData.sessionStatus == .waiting {
+                setTitleLabelDriverWaiting(crewData: crewData)
+            }
+        }
     }
 
     private func setTitleLabelNoCrew() {
@@ -106,5 +113,17 @@ extension SessionStartView {
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         titleLabel.attributedText = attributedText
+    }
+
+    private func setTitleLabelDriverWaiting(crewData: Crew) {
+        let crewName = crewData.name ?? ""
+        titleLabel.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
+        // 특정 부분 색상 넣기
+        let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
+        if let range1 = titleLabel.text?.range(of: "\(String(describing: crewName))") {
+            let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
+        }
+        titleLabel.attributedText = topCommentText
     }
 }

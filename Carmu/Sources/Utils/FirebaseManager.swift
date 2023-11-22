@@ -456,25 +456,9 @@ extension FirebaseManager {
         try await crewRef.setValue(nil)
     }
 
-    /**
-     유저가 운전자인지 여부를 확인
-
-     사용 예시
-     firebaseManager.isCaptain { isCaptain in
-         if isCaptain {
-             print("캡틴임")
-         } else {
-             print("캡틴 아님")
-         }
-     }
-     */
-    func checkCaptain(crewData: Crew) -> Bool {
-        guard let captainID = crewData.captainID else { return false }
-        if captainID == KeychainItem.currentUserIdentifier {
-            return true
-        } else {
-            return false
-        }
+    /// 내가 운전자인지 확인하는 메서드
+    func isDriver(crewData: Crew) -> Bool {
+        return KeychainItem.currentUserIdentifier == crewData.captainID
     }
 
     /**
