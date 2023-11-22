@@ -20,11 +20,22 @@ final class SessionStartViewController: UIViewController {
     private lazy var sessionStartPassengerView = SessionStartPassengerView()
     private lazy var sessionStartBackView = SessionStartBackView()
     private lazy var sessionStartNoCrewView = SessionStartNoCrewView()
-    private lazy var firebaseManager = FirebaseManager()
+    private let firebaseManager = FirebaseManager()
     private lazy var serverPushManager = ServerPushManager()
 
-    var crewData: Crew?
-    var isCaptain: Bool = false
+    var crewData: Crew? {
+        didSet {
+            if let crewData = crewData {
+                updateUI(crewData: crewData)
+                settingCrewView(crewData: crewData)
+            } else {
+                showNoCrewView()
+            }
+        }
+    }
+    var isCaptain: Bool {
+        KeychainItem.currentUserIdentifier == crewData?.captainID
+    }
     var firebaseStart: Point?
     var firebaseDestination: Point?
 
@@ -56,20 +67,10 @@ final class SessionStartViewController: UIViewController {
             SceneDelegate.showSessionStartGuide = false // 변경을 처리한 후 다시 초기화
         }
         Task {
-            if let crewID = try await firebaseManager.readUserCrewID() {
-                print("유저의 크루ID: \(crewID)")
-                if let crewData = try await firebaseManager.getCrewData(crewID: crewID) {
-                    print("유저의 크루데이터 :\(crewData)")
+            if let crewID = try await firebaseManager.readUserCrewID(),
+               let crewData = try await firebaseManager.getCrewData(crewID: crewID) {
+                firebaseManager.startObservingCrewData(crewID: crewID) { crewData in
                     self.crewData = crewData
-                    isCaptain = firebaseManager.checkCaptain(crewData: crewData)
-                    updateUI(crewData: crewData)
-                    settingCrewView(crewData: crewData)
-                } else {
-                    showNoCrewView()
-                }
-                firebaseManager.startObservingCrewData(crewID: crewID) { updatedCrewData in
-                    self.crewData = updatedCrewData
-                    self.updateUI(crewData: updatedCrewData)
                 }
                 if isFinishedLastSession() {
                     firebaseManager.endSession(crew: crewData)
@@ -79,7 +80,6 @@ final class SessionStartViewController: UIViewController {
                 showNoCrewView()
             }
         }
-        // TODO: - 그룹 나가기 후, 초대코드 입력해서 들어온 뒤 UI 처리
     }
 }
 
@@ -87,9 +87,7 @@ final class SessionStartViewController: UIViewController {
 extension SessionStartViewController {
 
     // UI를 업데이트 시켜줌
-    private func updateUI(crewData: Crew?) {
-        guard let crewData = crewData else { return }
-
+    private func updateUI(crewData: Crew) {
         if isCaptain {
             settingDriverData(crewData: crewData)
         } else {
