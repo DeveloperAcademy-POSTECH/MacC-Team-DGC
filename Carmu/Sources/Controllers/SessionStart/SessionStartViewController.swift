@@ -33,9 +33,20 @@ final class SessionStartViewController: UIViewController {
         navigationItem.backButtonTitle = ""
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
-        setupUI()
-        setupConstraints()
-        setTargetButton()
+        view.addSubview(sessionStartView)
+        sessionStartView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        view.addSubview(sessionStartDriverView)
+        view.addSubview(sessionStartPassengerView)
+        view.addSubview(sessionStartNoCrewView)
+
+        sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
+        sessionStartView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
+        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
+        sessionStartView.carpoolStartButton.addTarget(self, action: #selector(carpoolStartButtonDidTapped), for: .touchUpInside)
+        sessionStartNoCrewView.noCrewFrontView.createCrewButton.addTarget(self, action: #selector(createCrewButtonTapped), for: .touchUpInside)
+        sessionStartNoCrewView.noCrewFrontView.inviteCodeButton.addTarget(self, action: #selector(inviteCodeButtonTapped), for: .touchUpInside)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -73,21 +84,6 @@ final class SessionStartViewController: UIViewController {
             }
         }
         // TODO: - 그룹 나가기 후, 초대코드 입력해서 들어온 뒤 UI 처리
-    }
-}
-
-// MARK: Layout
-extension SessionStartViewController {
-    private func setupUI() {
-        view.addSubview(sessionStartView)
-        view.addSubview(sessionStartDriverView)
-        view.addSubview(sessionStartPassengerView)
-        view.addSubview(sessionStartNoCrewView)
-    }
-    private func setupConstraints() {
-        sessionStartView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
     }
 }
 
@@ -587,16 +583,6 @@ extension SessionStartViewController {
         }
     }
 
-    /// 버튼들 addTarget
-    private func setTargetButton() {
-        sessionStartView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
-        sessionStartView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
-        sessionStartView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
-        sessionStartView.carpoolStartButton.addTarget(self, action: #selector(carpoolStartButtonDidTapped), for: .touchUpInside)
-
-        sessionStartNoCrewView.noCrewFrontView.createCrewButton.addTarget(self, action: #selector(createCrewButtonTapped), for: .touchUpInside)
-        sessionStartNoCrewView.noCrewFrontView.inviteCodeButton.addTarget(self, action: #selector(inviteCodeButtonTapped), for: .touchUpInside)
-    }
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
     private func checkingCrewStatus(crewData: Crew?) {
         guard let crewData = crewData else { return }
