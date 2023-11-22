@@ -11,6 +11,7 @@ final class BoardingPointSelectViewController: UIViewController {
 
     private let boardingPointSelectView = BoardingPointSelectView()
     private let firebaseManager = FirebaseManager()
+    private let serverPushManager = ServerPushManager()
     private var selectedButton: StopoverSelectButton?
     private var selectedPoint: Int?
     var crewData: Crew
@@ -106,6 +107,8 @@ extension BoardingPointSelectViewController {
             if SceneDelegate.isFirst {
                 SceneDelegate.updateIsFirstValue(false)
             } else {
+                // 서버 푸시
+                serverPushManager.sendJoinInfoToDriver(crew: crewData)
                 // 초기 화면이 아닐 경우(건너가기 후 그룹코드 입력)
                 navigationController?.popToRootViewController(animated: false)
                 navigationController?.viewControllers.first?.viewDidAppear(true)
