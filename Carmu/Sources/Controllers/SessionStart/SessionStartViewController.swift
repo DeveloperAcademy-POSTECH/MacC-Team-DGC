@@ -25,11 +25,7 @@ final class SessionStartViewController: UIViewController {
 
     var crewData: Crew? {
         didSet {
-            if let crewData = crewData {
-                showCrewCardView(crewData: crewData)
-            } else {
-                showNoCrewCardView()
-            }
+            updateView(crewData: crewData)
         }
     }
     var isCaptain: Bool {
@@ -78,6 +74,15 @@ final class SessionStartViewController: UIViewController {
             } else {
                 showNoCrewCardView()
             }
+        }
+    }
+
+    /// crewData에 변경이 있으면 전체 레이아웃을 다시 그림
+    private func updateView(crewData: Crew?) {
+        if let crewData = crewData {
+            showCrewCardView(crewData: crewData)
+        } else {
+            showNoCrewCardView()
         }
     }
 }
