@@ -186,3 +186,19 @@ extension SessionStartView {
         return topCommentText
     }
 }
+
+extension SessionStartView {
+
+    func setButton(crewData: Crew?) {
+        guard let crewData = crewData else {
+            setButtonNoCrew()
+            return
+        }
+    }
+
+    private func setButtonNoCrew() {
+        individualButton.isHidden = true
+        togetherButton.isHidden = true
+        shuttleStartButton.isHidden = true
+    }
+}

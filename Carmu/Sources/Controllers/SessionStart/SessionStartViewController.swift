@@ -47,8 +47,6 @@ final class SessionStartViewController: UIViewController {
         view.addSubview(memberCardView)
         view.addSubview(noCrewCardView)
 
-        updateView(crewData: crewData)
-
         backgroundView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
         backgroundView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
         backgroundView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
@@ -59,20 +57,23 @@ final class SessionStartViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
         if SceneDelegate.showSessionStartGuide {
             showGuide()
             SceneDelegate.showSessionStartGuide = false // 변경을 처리한 후 다시 초기화
         }
         Task {
-            if let crewID = try await firebaseManager.readUserCrewID(),
-               let crewData = try await firebaseManager.getCrewData(crewID: crewID) {
-                firebaseManager.startObservingCrewData(crewID: crewID) { crewData in
-                    self.crewData = crewData
-                }
-                if isFinishedLastSession() {
-                    firebaseManager.endSession(crew: crewData)
-                    showShuttleFinishedModal()
-                }
+            guard let crewID = try await firebaseManager.readUserCrewID(),
+                  let crewData = try await firebaseManager.getCrewData(crewID: crewID) else {
+                updateView(crewData: nil)
+                return
+            }
+            firebaseManager.startObservingCrewData(crewID: crewID) { crewData in
+                self.crewData = crewData
+            }
+            if isFinishedLastSession() {
+                firebaseManager.endSession(crew: crewData)
+                showShuttleFinishedModal()
             }
         }
     }
@@ -81,6 +82,8 @@ final class SessionStartViewController: UIViewController {
     private func updateView(crewData: Crew?) {
         // 타이틀 설정
         backgroundView.setTitleLabel(crewData: crewData)
+        // 버튼 설정
+        backgroundView.setButton(crewData: crewData)
 
         if let crewData = crewData {
             showCrewCardView(crewData: crewData)
@@ -161,9 +164,6 @@ extension SessionStartViewController {
 
     private func showNoCrewCardView() {
         backgroundView.notifyComment.isHidden = true
-        backgroundView.individualButton.isHidden = true
-        backgroundView.togetherButton.isHidden = true
-        backgroundView.shuttleStartButton.isHidden = true
 
         driverCardView.isHidden = true
         memberCardView.isHidden = true
