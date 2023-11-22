@@ -202,6 +202,7 @@ extension CrewInfoCheckViewController {
             Task {
                 try await self.firebaseManager.deleteCrewByDriver()
                 print("운전자 셔틀 나가기 처리 완료")
+                self.navigationController?.popViewController(animated: true)
             }
         }
         alert.addAction(back)
