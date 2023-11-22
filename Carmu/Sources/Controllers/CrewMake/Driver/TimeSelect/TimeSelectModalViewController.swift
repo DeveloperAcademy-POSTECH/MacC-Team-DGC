@@ -13,6 +13,7 @@ final class TimeSelectModalViewController: UIViewController {
     var timeSelectionHandler: ((Date) -> Void)?
     private var selectedTime: Date?
     weak var timeSelectViewController: TimeSelectViewController?
+    private var isPickerChanging = false
 
     override var sheetPresentationController: UISheetPresentationController? {
         presentationController as? UISheetPresentationController
@@ -34,6 +35,7 @@ final class TimeSelectModalViewController: UIViewController {
         sheetPresentationController?.delegate = self
         sheetPresentationController?.prefersGrabberVisible = true
         sheetPresentationController?.detents = [.medium()]
+        // 타임 피커의 동작 여부를 감지하는 옵저버 추가
     }
 }
 
@@ -49,8 +51,15 @@ extension TimeSelectModalViewController {
         dismiss(animated: true)
     }
 
+    @objc private func timePickerValueStartChange() {
+        timeSelectModalView.saveButton.isEnabled = true
+        timeSelectModalView.saveButton.backgroundColor = UIColor.semantic.accPrimary
+    }
+
     @objc private func timePickerValueChanged() {
         selectedTime = timeSelectModalView.timePicker.date
+        timeSelectModalView.saveButton.isEnabled = true
+        timeSelectModalView.saveButton.backgroundColor = UIColor.semantic.accPrimary
     }
 }
 
