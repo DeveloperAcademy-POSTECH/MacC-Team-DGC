@@ -228,8 +228,8 @@ final class MapDetailView: UIView {
         }
     }
 
-    func showFinishCarpoolButton() {
-        // '카풀 종료하기' 버튼 표시 전에 기존 버튼들 제거
+    func showFinishShuttleButton() {
+        // '운행 종료하기' 버튼 표시 전에 기존 버튼들 제거
         giveUpButton.removeFromSuperview()
         noticeLateButton.removeFromSuperview()
 
