@@ -476,7 +476,8 @@ extension FirebaseManager {
                 "deviceToken": user.deviceToken,
                 "nickname": user.nickname,
                 "profileColor": user.profileImageColor.rawValue,
-                "status": "waiting"
+                "status": "waiting",
+                "lateTime": 0
             ]
 
             // 데이터베이스에서 크루 정보를 가져온 후 업데이트
@@ -659,13 +660,18 @@ extension FirebaseManager {
      */
     func getCrewData(crewID: String) async throws -> Crew? {
         let crewRef = Database.database().reference().child("crew/\(crewID)")
+        print("crewRef: \(crewRef)")
         do {
             let snapshot = try await crewRef.getData()
             guard let snapshotValue = snapshot.value as? [String: Any] else { return nil }
+            print("snapshotValue: \(snapshotValue)")
             let jsonData = try JSONSerialization.data(withJSONObject: snapshotValue)
+            print("jsonData: \(jsonData)")
             let crewData = try JSONDecoder().decode(Crew.self, from: jsonData)
+            print("crewData ---> \(crewData)")
             return crewData
         } catch {
+            print("ERROR, \(error.localizedDescription)")
             throw error
         }
     }
