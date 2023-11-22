@@ -49,9 +49,9 @@ final class SessionStartView: UIView {
         return button
     }()
 
-    lazy var carpoolStartButton: UIButton = {
+    let shuttleStartButton: UIButton = {
         let button = UIButton()
-        button.setTitle("카풀 운행하기", for: .normal)
+        button.setTitle("셔틀 운행하기", for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.headline2
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
         button.layer.cornerRadius = 30
@@ -80,7 +80,7 @@ extension SessionStartView {
         addSubview(notifyComment)
         addSubview(individualButton)
         addSubview(togetherButton)
-        addSubview(carpoolStartButton)
+        addSubview(shuttleStartButton)
     }
 
     private func setupConstraints() {

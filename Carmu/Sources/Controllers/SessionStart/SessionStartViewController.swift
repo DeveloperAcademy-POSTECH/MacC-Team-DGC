@@ -52,7 +52,7 @@ final class SessionStartViewController: UIViewController {
         backgroundView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
         backgroundView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
         backgroundView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
-        backgroundView.carpoolStartButton.addTarget(self, action: #selector(carpoolStartButtonDidTapped), for: .touchUpInside)
+        backgroundView.shuttleStartButton.addTarget(self, action: #selector(shuttleStartButtonDidTap), for: .touchUpInside)
         noCrewCardView.noCrewFrontView.createCrewButton.addTarget(self, action: #selector(createCrewButtonTapped), for: .touchUpInside)
         noCrewCardView.noCrewFrontView.inviteCodeButton.addTarget(self, action: #selector(inviteCodeButtonTapped), for: .touchUpInside)
     }
@@ -163,7 +163,7 @@ extension SessionStartViewController {
         backgroundView.notifyComment.isHidden = true
         backgroundView.individualButton.isHidden = true
         backgroundView.togetherButton.isHidden = true
-        backgroundView.carpoolStartButton.isHidden = true
+        backgroundView.shuttleStartButton.isHidden = true
 
         driverCardView.isHidden = true
         memberCardView.isHidden = true
@@ -251,9 +251,9 @@ extension SessionStartViewController {
     private func settingDataSessionStart(crewData: Crew) {
         backgroundView.individualButton.isHidden = true
         backgroundView.togetherButton.isHidden = true
-        backgroundView.carpoolStartButton.isHidden = false
+        backgroundView.shuttleStartButton.isHidden = false
         driverCardView.layer.opacity = 1.0
-        backgroundView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
+        backgroundView.shuttleStartButton.setTitle("셔틀 지도보기", for: .normal)
 
         // notifyComment 변경하기
         backgroundView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
@@ -296,7 +296,7 @@ extension SessionStartViewController {
         // button layout
         backgroundView.individualButton.isHidden = false
         backgroundView.togetherButton.isHidden = false
-        backgroundView.carpoolStartButton.isHidden = true
+        backgroundView.shuttleStartButton.isHidden = true
 
         driverCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
@@ -322,7 +322,7 @@ extension SessionStartViewController {
             make.height.equalTo(60)
             make.bottom.equalToSuperview().inset(60)
         }
-        backgroundView.carpoolStartButton.snp.makeConstraints { make in
+        backgroundView.shuttleStartButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
             make.width.lessThanOrEqualTo(350)
@@ -352,7 +352,7 @@ extension SessionStartViewController {
         // button layout
         backgroundView.individualButton.isHidden = false
         backgroundView.togetherButton.isHidden = false
-        backgroundView.carpoolStartButton.isHidden = true
+        backgroundView.shuttleStartButton.isHidden = true
 
         memberCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
@@ -378,7 +378,7 @@ extension SessionStartViewController {
             make.height.equalTo(60)
             make.bottom.equalToSuperview().inset(60)
         }
-        backgroundView.carpoolStartButton.snp.makeConstraints { make in
+        backgroundView.shuttleStartButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
             make.width.lessThanOrEqualTo(350)
@@ -403,7 +403,7 @@ extension SessionStartViewController {
 
             backgroundView.individualButton.isHidden = true
             backgroundView.togetherButton.isHidden = true
-            backgroundView.carpoolStartButton.isHidden = false
+            backgroundView.shuttleStartButton.isHidden = false
 
             // 활성화
             driverCardView.layer.opacity = 1.0
@@ -415,7 +415,7 @@ extension SessionStartViewController {
         }
     }
 
-    @objc private func carpoolStartButtonDidTapped() {
+    @objc private func shuttleStartButtonDidTap() {
         guard let crew = crewData, let sessionStatus = crew.sessionStatus else { return }
 
         // accept에서 클릭했을 때 서버 푸시 보내기
@@ -473,12 +473,12 @@ extension SessionStartViewController {
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
     private func checkingCrewStatus(crewData: Crew) {
         if firebaseManager.isAnyMemberAccepted(crewData: crewData) {
-            backgroundView.carpoolStartButton.isEnabled = true
+            backgroundView.shuttleStartButton.isEnabled = true
             backgroundView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
-            backgroundView.carpoolStartButton.backgroundColor = UIColor.semantic.accPrimary
+            backgroundView.shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
         } else {
-            backgroundView.carpoolStartButton.isEnabled = false
-            backgroundView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
+            backgroundView.shuttleStartButton.isEnabled = false
+            backgroundView.shuttleStartButton.backgroundColor = UIColor.semantic.backgroundThird
         }
     }
 
