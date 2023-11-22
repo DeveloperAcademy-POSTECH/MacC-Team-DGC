@@ -187,6 +187,7 @@ extension SessionStartView {
     }
 }
 
+// MARK: - 하단 버튼 관련
 extension SessionStartView {
 
     func setButton(crewData: Crew?) {
