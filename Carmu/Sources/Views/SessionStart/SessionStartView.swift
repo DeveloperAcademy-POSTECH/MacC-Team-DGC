@@ -126,14 +126,14 @@ extension SessionStartView {
 
     private func setTitleLabelDriverWaiting(crewData: Crew) {
         let crewName = crewData.name ?? ""
-        titleLabel.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
+        titleLabel.text = "\(crewName),\n오늘 운행하시나요?"
         titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
     }
 
     private func setTitleDriverAccept(crewData: Crew) {
         if firebaseManger.isAnyMemberAccepted(crewData: crewData) {
             let crewName = crewData.name ?? ""
-            titleLabel.text = "\(String(describing: crewName)),\n운행을 시작해볼까요?"
+            titleLabel.text = "\(crewName),\n운행을 시작해볼까요?"
             titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
         } else {
             titleLabel.text = "탑승자들의\n응답을 기다립니다"
