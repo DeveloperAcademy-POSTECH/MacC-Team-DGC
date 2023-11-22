@@ -303,31 +303,10 @@ extension SessionStartViewController {
             make.top.lessThanOrEqualTo(backgroundView.myPageButton.snp.bottom).offset(88)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
+
         backgroundView.notifyComment.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(driverCardView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
-        }
-        backgroundView.individualButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
-            make.width.lessThanOrEqualTo(170)
-            make.height.equalTo(60)
-            make.bottom.equalToSuperview().inset(60)
-        }
-        backgroundView.togetherButton.snp.makeConstraints { make in
-            make.leading.equalTo(backgroundView.individualButton.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
-            make.width.equalTo(backgroundView.individualButton.snp.width)
-            make.height.equalTo(60)
-            make.bottom.equalToSuperview().inset(60)
-        }
-        backgroundView.shuttleStartButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
-            make.width.lessThanOrEqualTo(350)
-            make.height.equalTo(60)
-            make.bottom.equalToSuperview().inset(60)
         }
     }
 
@@ -359,31 +338,10 @@ extension SessionStartViewController {
             make.top.lessThanOrEqualTo(backgroundView.myPageButton.snp.bottom).offset(88)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
+
         backgroundView.notifyComment.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(memberCardView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
-        }
-        backgroundView.individualButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
-            make.width.lessThanOrEqualTo(170)
-            make.height.equalTo(60)
-            make.bottom.equalToSuperview().inset(60)
-        }
-        backgroundView.togetherButton.snp.makeConstraints { make in
-            make.leading.equalTo(backgroundView.individualButton.snp.trailing).offset(10)
-            make.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
-            make.width.equalTo(backgroundView.individualButton.snp.width)
-            make.height.equalTo(60)
-            make.bottom.equalToSuperview().inset(60)
-        }
-        backgroundView.shuttleStartButton.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
-            make.width.lessThanOrEqualTo(350)
-            make.height.equalTo(60)
-            make.bottom.equalToSuperview().inset(60)
         }
     }
 }

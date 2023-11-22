@@ -61,36 +61,52 @@ final class SessionStartView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupUI()
-        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
 
-}
-
-// MARK: - Layout
-extension SessionStartView {
-
-    private func setupUI() {
+    override func draw(_ rect: CGRect) {
         addSubview(myPageButton)
-        addSubview(titleLabel)
-        addSubview(notifyComment)
-        addSubview(individualButton)
-        addSubview(togetherButton)
-        addSubview(shuttleStartButton)
-    }
-
-    private func setupConstraints() {
         myPageButton.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide)
             make.trailing.equalToSuperview().inset(20)
         }
+
+        addSubview(titleLabel)
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.top.equalTo(myPageButton.snp.bottom)
+        }
+
+        addSubview(notifyComment)
+
+        let outerPadding = 20
+        let innerPadding = frame.size.width / 2 + 5
+        let bottomPadding = 64
+
+        addSubview(individualButton)
+        individualButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(outerPadding)
+            make.trailing.equalToSuperview().inset(innerPadding)
+            make.bottom.equalToSuperview().inset(bottomPadding)
+            make.height.equalTo(60)
+        }
+
+        addSubview(togetherButton)
+        togetherButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(innerPadding)
+            make.trailing.equalToSuperview().inset(outerPadding)
+            make.bottom.equalToSuperview().inset(bottomPadding)
+            make.height.equalTo(60)
+        }
+
+        addSubview(shuttleStartButton)
+        shuttleStartButton.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview().inset(outerPadding)
+            make.bottom.equalToSuperview().inset(bottomPadding)
+            make.height.equalTo(60)
         }
     }
 }
