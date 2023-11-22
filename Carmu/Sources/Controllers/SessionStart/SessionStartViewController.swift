@@ -162,6 +162,11 @@ extension SessionStartViewController {
         }
         sessionStartView.topComment.attributedText = attributedText
 
+        sessionStartView.notifyComment.isHidden = true
+        sessionStartView.individualButton.isHidden = true
+        sessionStartView.togetherButton.isHidden = true
+        sessionStartView.carpoolStartButton.isHidden = true
+
         sessionStartDriverView.isHidden = true
         sessionStartPassengerView.isHidden = true
         sessionStartNoCrewView.isHidden = false
