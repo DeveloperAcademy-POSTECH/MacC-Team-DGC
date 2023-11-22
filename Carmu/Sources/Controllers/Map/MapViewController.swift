@@ -21,6 +21,8 @@ final class MapViewController: UIViewController {
 
     private let firebaseManager = FirebaseManager()
 
+    private let serverPushManager = ServerPushManager()
+
     // [동승자] 내 현재 위치
     private var myCurrentCoordinate: CLLocationCoordinate2D?
 
@@ -305,6 +307,11 @@ extension MapViewController {
         let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
         let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
             self.locationManager.stopUpdatingLocation()
+            // 서버 푸시
+            if !self.isDriver { // passenger가 클릭했을 때
+                self.serverPushManager.sendGiveupToDriver(crew: self.crew)
+            }
+
             self.updateSessionStatus(to: .waiting)
             self.firebaseManager.resetSessionData(crew: self.crew)
             self.dismiss(animated: true)
