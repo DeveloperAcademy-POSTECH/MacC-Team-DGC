@@ -23,8 +23,8 @@ final class CrewEditViewController: UIViewController {
 
     private let crewEditView = CrewEditView()
     private let firebaseManager = FirebaseManager()
-    var originalUserCrewData: Crew? // 불러온 유저의 크루 데이터
-    var newUserCrewData: Crew? // 기존 크루 데이터 값을 편집하고 저장하기 위한 객체
+    var originalUserCrewData: Crew // 불러온 유저의 크루 데이터
+    var newUserCrewData: Crew // 기존 크루 데이터 값을 편집하고 저장하기 위한 객체
     // 경유지를 담는 배열 (없으면 nil)
     var stopoverPoints = [Point?]()
 
@@ -67,7 +67,7 @@ final class CrewEditViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = originalUserCrewData?.name // 내비게이션 제목 크루 이름으로 설정
+        navigationItem.title = originalUserCrewData.name // 내비게이션 제목 크루 이름으로 설정
     }
 
     // 버튼 타겟 추가
@@ -83,9 +83,8 @@ extension CrewEditViewController {
      [완료] 버튼 클릭 시 호출
      */
     @objc private func completeCrewEdit() {
-        print("💡newUserCrewData: \(newUserCrewData.debugDescription)")
-        guard let crewID = newUserCrewData?.id else { return }
-        guard let newUserCrewData = newUserCrewData else { return }
+        print("💡newUserCrewData: \(newUserCrewData)")
+        guard let crewID = newUserCrewData.id else { return }
         firebaseManager.updateCrew(crewID: crewID, newCrewData: newUserCrewData)
         showDoneAlert()
         print("크루 편집 완료")
@@ -107,7 +106,7 @@ extension CrewEditViewController {
      */
     @objc private func showRepeatDaySelectModal() {
         // 크루에 설정돼있는 반복 요일 데이터를 전달
-        guard let originalRepeatDay = newUserCrewData?.repeatDay else {
+        guard let originalRepeatDay = newUserCrewData.repeatDay else {
             return
         }
         let repeatDaySelectModalVC = RepeatDaySelectModalViewController()
@@ -135,9 +134,9 @@ extension CrewEditViewController: RDSModalViewControllerDelegate {
      RepeatDaySelectModalViewController에서 반복 요일 데이터가 수정되었을 때 호출
      */
     func sendNewRepeatDayValue(newRepeatDay: [Int]) {
-        print("기존 반복 요일 👉 \(String(describing: newUserCrewData?.repeatDay))")
-        newUserCrewData?.repeatDay = newRepeatDay
-        print("갱신된 반복 요일 👉 \(String(describing: newUserCrewData?.repeatDay))")
+        print("기존 반복 요일 👉 \(String(describing: newUserCrewData.repeatDay))")
+        newUserCrewData.repeatDay = newRepeatDay
+        print("갱신된 반복 요일 👉 \(String(describing: newUserCrewData.repeatDay))")
     }
 }
 
@@ -171,10 +170,10 @@ extension CrewEditViewController: UITableViewDataSource {
 
         if indexPath.row == 0 {
             /* 출발지 셀 구성 */
-            cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: newUserCrewData?.startingPoint?.name)
+            cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: newUserCrewData.startingPoint?.name)
             cell.setupDepartureLabel() // [출발] 시간 라벨
             cell.timeEditButton.setTitle(
-                Date.formattedDate(from: newUserCrewData?.startingPoint?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
+                Date.formattedDate(from: newUserCrewData.startingPoint?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                 for: .normal
             )
             cell.setupStopoverRemoveButton(false) // X버튼 비활성화
@@ -201,10 +200,10 @@ extension CrewEditViewController: UITableViewDataSource {
                     }
                 } else {
                     /* 도착지 셀 구성 */
-                    cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: newUserCrewData?.destination?.name)
+                    cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: newUserCrewData.destination?.name)
                     cell.setupArrivalLabel() // [도착] 시간 라벨
                     cell.timeEditButton.setTitle(
-                        Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
+                        Date.formattedDate(from: newUserCrewData.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
                     cell.setupStopoverRemoveButton(false) // x버튼 비활성화
@@ -217,10 +216,10 @@ extension CrewEditViewController: UITableViewDataSource {
             } else {
                 if indexPath.row == nonNilStopoverCount + 2 {
                     /* 도착지 셀 구성 */
-                    cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: newUserCrewData?.destination?.name)
+                    cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: newUserCrewData.destination?.name)
                     cell.setupArrivalLabel() // [도착] 시간 라벨
                     cell.timeEditButton.setTitle(
-                        Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
+                        Date.formattedDate(from: newUserCrewData.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
                         for: .normal
                     )
                     cell.setupStopoverRemoveButton(false) // x버튼 비활성화
@@ -298,9 +297,9 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
             sender.setTitle(Date.formattedDate(from: newTimeValue, dateFormat: "aa hh:mm"), for: .normal)
             switch sender.pointType {
             case .start:
-                self.newUserCrewData?.startingPoint?.arrivalTime = newTimeValue
+                self.newUserCrewData.startingPoint?.arrivalTime = newTimeValue
             case .destination:
-                self.newUserCrewData?.destination?.arrivalTime = newTimeValue
+                self.newUserCrewData.destination?.arrivalTime = newTimeValue
             default:
                 self.stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.arrivalTime = newTimeValue
                 self.updatePointChangeToNewCrewData(stopoverPoints: self.stopoverPoints)
@@ -312,23 +311,24 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
 
     // MARK: - 주소 설정 버튼 클릭 시 호출되는 델리게이트 메서드
     func addressEditButtonTapped(sender: AddressEditButton) {
-        let detailPointMapVC = SelectDetailPointMapViewController()
+        let detailPointMapVC = SelectDetailPointMapViewController() // 출발지, 도착지 상세주소 설정
+//        let detailStopoverPointMapVC = SelectDetailStopoverPointViewController(crewData: newUserCrewData) // 경유지 상세주소 설정
         // 상세주소 설정 뷰컨트롤러에 넘겨줄 기존 주소값
         var originalPointData = SelectAddressDTO(pointName: sender.pointType?.rawValue)
         switch sender.pointType {
         case .start:
-            originalPointData.buildingName = newUserCrewData?.startingPoint?.name
-            originalPointData.detailAddress = newUserCrewData?.startingPoint?.detailAddress
+            originalPointData.buildingName = newUserCrewData.startingPoint?.name
+            originalPointData.detailAddress = newUserCrewData.startingPoint?.detailAddress
             originalPointData.coordinate = CLLocationCoordinate2D(
-                latitude: newUserCrewData?.startingPoint?.latitude ?? 35.634,
-                longitude: newUserCrewData?.startingPoint?.longitude ?? 128.523
+                latitude: newUserCrewData.startingPoint?.latitude ?? 35.634,
+                longitude: newUserCrewData.startingPoint?.longitude ?? 128.523
             )
         case .destination:
-            originalPointData.buildingName = newUserCrewData?.destination?.name
-            originalPointData.detailAddress = newUserCrewData?.destination?.detailAddress
+            originalPointData.buildingName = newUserCrewData.destination?.name
+            originalPointData.detailAddress = newUserCrewData.destination?.detailAddress
             originalPointData.coordinate = CLLocationCoordinate2D(
-                latitude: newUserCrewData?.destination?.latitude ?? 35.634,
-                longitude: newUserCrewData?.destination?.longitude ?? 128.523
+                latitude: newUserCrewData.destination?.latitude ?? 35.634,
+                longitude: newUserCrewData.destination?.longitude ?? 128.523
             )
         default:
             originalPointData.buildingName = stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.name
@@ -343,23 +343,23 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         // 주소 설정 시 테이블뷰 UI 및 newUserCrewData에 반영
         detailPointMapVC.addressSelectionHandler = { newPointData in
             print("변경 전")
-            print("👉startingPoint: \(String(describing: self.newUserCrewData?.startingPoint))")
-            print("👉stopover1: \(String(describing: self.newUserCrewData?.stopover1))")
-            print("👉stopover2: \(String(describing: self.newUserCrewData?.stopover2))")
-            print("👉stopover3: \(String(describing: self.newUserCrewData?.stopover3))")
-            print("👉destination: \(String(describing: self.newUserCrewData?.destination))")
+            print("👉startingPoint: \(String(describing: self.newUserCrewData.startingPoint))")
+            print("👉stopover1: \(String(describing: self.newUserCrewData.stopover1))")
+            print("👉stopover2: \(String(describing: self.newUserCrewData.stopover2))")
+            print("👉stopover3: \(String(describing: self.newUserCrewData.stopover3))")
+            print("👉destination: \(String(describing: self.newUserCrewData.destination))")
             sender.setTitle(newPointData.pointName, for: .normal)
             switch sender.pointType {
             case .start:
-                self.newUserCrewData?.startingPoint?.name = newPointData.pointName
-                self.newUserCrewData?.startingPoint?.detailAddress = newPointData.pointDetailAddress
-                self.newUserCrewData?.startingPoint?.latitude = newPointData.pointLat
-                self.newUserCrewData?.startingPoint?.longitude = newPointData.pointLng
+                self.newUserCrewData.startingPoint?.name = newPointData.pointName
+                self.newUserCrewData.startingPoint?.detailAddress = newPointData.pointDetailAddress
+                self.newUserCrewData.startingPoint?.latitude = newPointData.pointLat
+                self.newUserCrewData.startingPoint?.longitude = newPointData.pointLng
             case .destination:
-                self.newUserCrewData?.destination?.name = newPointData.pointName
-                self.newUserCrewData?.destination?.detailAddress = newPointData.pointDetailAddress
-                self.newUserCrewData?.destination?.latitude = newPointData.pointLat
-                self.newUserCrewData?.destination?.longitude = newPointData.pointLng
+                self.newUserCrewData.destination?.name = newPointData.pointName
+                self.newUserCrewData.destination?.detailAddress = newPointData.pointDetailAddress
+                self.newUserCrewData.destination?.latitude = newPointData.pointLat
+                self.newUserCrewData.destination?.longitude = newPointData.pointLng
             default:
                 self.stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.name = newPointData.pointName
                 self.stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.detailAddress = newPointData.pointDetailAddress
@@ -368,11 +368,11 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
                 self.updatePointChangeToNewCrewData(stopoverPoints: self.stopoverPoints)
             }
             print("변경 후")
-            print("✅startingPoint: \(String(describing: self.newUserCrewData?.startingPoint))")
-            print("✅stopover1: \(String(describing: self.newUserCrewData?.stopover1))")
-            print("✅stopover2: \(String(describing: self.newUserCrewData?.stopover2))")
-            print("✅stopover3: \(String(describing: self.newUserCrewData?.stopover3))")
-            print("✅destination: \(String(describing: self.newUserCrewData?.destination))")
+            print("✅startingPoint: \(String(describing: self.newUserCrewData.startingPoint))")
+            print("✅stopover1: \(String(describing: self.newUserCrewData.stopover1))")
+            print("✅stopover2: \(String(describing: self.newUserCrewData.stopover2))")
+            print("✅stopover3: \(String(describing: self.newUserCrewData.stopover3))")
+            print("✅destination: \(String(describing: self.newUserCrewData.destination))")
         }
         if sender.pointType == .destination {
             detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("도착지로 설정", for: .normal)
@@ -436,9 +436,9 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
 
     // stopoverPoints 배열의 내용에 맞게 stopover1, stopover2, stopover3의 데이터를 변경해주는 메서드
     private func updatePointChangeToNewCrewData(stopoverPoints: [Point?]) {
-        newUserCrewData?.stopover1 = stopoverPoints[0]
-        newUserCrewData?.stopover2 = stopoverPoints[1]
-        newUserCrewData?.stopover3 = stopoverPoints[2]
+        newUserCrewData.stopover1 = stopoverPoints[0]
+        newUserCrewData.stopover2 = stopoverPoints[1]
+        newUserCrewData.stopover3 = stopoverPoints[2]
     }
 }
 

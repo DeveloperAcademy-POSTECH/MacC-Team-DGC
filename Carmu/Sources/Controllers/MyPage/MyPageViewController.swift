@@ -51,7 +51,7 @@ final class MyPageViewController: UIViewController {
             action: #selector(showSettings)
         )
 
-        updateUserInfo()
+        updateUserInfo() // 유저 정보 표시
 
         view.addSubview(myPageView)
         view.addSubview(crewInfoNoCrewView)
@@ -70,6 +70,19 @@ final class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "My Page"
+
+        // 최신 크루 데이터를 받아옴
+        Task {
+            if let crewID = try await firebaseManager.readUserCrewID() {
+                firebaseManager.observeCrewDataSingle(crewID: crewID) { crewData in
+                    self.crewData = crewData
+                }
+            } else {
+                self.crewData = nil
+            }
+            // 크루 유무, 운전자 여부에 따른 화면 처리
+            self.setupCrewInfoView()
+        }
     }
 
     // 버튼에 Target 추가
@@ -157,9 +170,11 @@ extension MyPageViewController {
         let exitAction = UIAlertAction(title: "셔틀 나가기", style: .destructive) { _ in
             Task {
                 print("셔틀 나가기 처리 중...")
-                // TODO: - 동승자/운전자 구분 필요
                 try await self.firebaseManager.deletePassengerInfoFromCrew()
                 print("동승자 셔틀 나가기 처리 완료")
+                // 셔틀 나가기 완료 후 화면 처리
+                self.crewData = nil
+                self.setupCrewInfoView()
             }
         }
         alert.addAction(cancelAction)
@@ -312,8 +327,8 @@ extension MyPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             // [크루 정보 수정하기] 클릭
-            let crewInfoCheckVC = CrewInfoCheckViewController()
-            crewInfoCheckVC.crewData = crewData
+            guard let crewData = crewData else { return }
+            let crewInfoCheckVC = CrewInfoCheckViewController(crewData: crewData)
             navigationController?.pushViewController(crewInfoCheckVC, animated: true)
         }
         // 클릭 후에는 셀의 선택이 해제된다.

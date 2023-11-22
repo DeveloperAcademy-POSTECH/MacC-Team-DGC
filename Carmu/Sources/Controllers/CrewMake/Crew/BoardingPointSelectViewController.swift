@@ -99,18 +99,20 @@ extension BoardingPointSelectViewController {
     }
 
     @objc private func nextButtonTapped() {
-        firebaseManager.setCrewToUser(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
-        firebaseManager.setUserToCrew(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
-        firebaseManager.setUserToPoint(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "", setUserToPoint())
+        Task {
+            try await firebaseManager.setCrewToUser(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
+            try await firebaseManager.setUserToCrew(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "")
+            try await firebaseManager.setUserToPoint(KeychainItem.currentUserIdentifier ?? "", crewData.id ?? "", setUserToPoint())
 
-        if SceneDelegate.isFirst {
-            SceneDelegate.updateIsFirstValue(false)
-        } else {
-            // 서버 푸시
-            serverPushManager.sendJoinInfoToDriver(crew: crewData)
-            // 초기 화면이 아닐 경우(건너가기 후 그룹코드 입력)
-            navigationController?.popToRootViewController(animated: false)
-            navigationController?.viewControllers.first?.viewDidAppear(true)
+            if SceneDelegate.isFirst {
+                SceneDelegate.updateIsFirstValue(false)
+            } else {
+                // 서버 푸시
+                serverPushManager.sendJoinInfoToDriver(crew: crewData)
+                // 초기 화면이 아닐 경우(건너가기 후 그룹코드 입력)
+                navigationController?.popToRootViewController(animated: false)
+                navigationController?.viewControllers.first?.viewDidAppear(true)
+            }
         }
     }
 }
