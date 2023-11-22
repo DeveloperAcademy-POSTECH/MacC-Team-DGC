@@ -51,9 +51,9 @@ final class SessionStartViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if SceneDelegate.isCrewCreated {
+        if SceneDelegate.showSessionStartGuide {
             showGuide()
-            SceneDelegate.isCrewCreated = false // 변경을 처리한 후 다시 초기화
+            SceneDelegate.showSessionStartGuide = false // 변경을 처리한 후 다시 초기화
         }
         Task {
             if let crewID = try await firebaseManager.readUserCrewID() {
