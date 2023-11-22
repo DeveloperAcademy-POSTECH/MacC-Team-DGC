@@ -63,17 +63,16 @@ final class SessionStartViewController: UIViewController {
                     self.crewData = crewData
                     isCaptain = firebaseManager.checkCaptain(crewData: crewData)
                     updateUI(crewData: crewData)
+                    settingCrewView(crewData: crewData)
+                } else {
+                    showNoCrewView()
                 }
-                checkCrew(crewData: crewData)
                 firebaseManager.startObservingCrewData(crewID: crewID) { updatedCrewData in
                     self.crewData = updatedCrewData
                     self.updateUI(crewData: updatedCrewData)
                 }
                 if isFinishedLastSession() {
                     firebaseManager.endSession(crew: crewData)
-                    if let crew = crewData {
-                        firebaseManager.resetSessionData(crew: crew)
-                    }
                     showShuttleFinishedModal()
                 }
             } else {
@@ -510,16 +509,6 @@ extension SessionStartViewController {
 
 // MARK: - Action
 extension SessionStartViewController {
-
-    // 크루의 유무 확인
-    // MARK: - viewWillAppear ? (데이터가 있는 지 없는 지는 화면에 들어올 때(SessionStartViewController)만 확인하면 됨, 즉각적으로 바뀌진 않음)
-    private func checkCrew(crewData: Crew?) {
-        if let crewData = crewData {
-            settingCrewView(crewData: crewData)
-        } else {
-            showNoCrewView()
-        }
-    }
 
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
     private func checkingCrewStatus(crewData: Crew) {
