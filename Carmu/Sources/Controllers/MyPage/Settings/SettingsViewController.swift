@@ -97,43 +97,6 @@ final class SettingsViewController: UIViewController {
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
     }
-
-    // MARK: - 계정 삭제 수행 시 유저의 친구정보를 삭제하기 위한 메서드
-    private func performDeletingUsersFriendship() {
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
-        // 유저의 friends 배열을 불러온다.
-        firebaseManager.readUserFriendshipList(databasePath: databasePath) { friends in
-            guard let friends = friends else {
-                return
-            }
-            // 해당하는 friendship을 삭제하고, 그 친구의 friends에서도 friendship을 삭제해준다.
-            self.deleteRelatedAllFriendship(friendshipList: friends)
-        }
-    }
-
-    // MARK: - 유저와 관련된 모든 친구 관계를 삭제하는 메서드
-    /**
-     - DB의 "friendship"에서 탈퇴하는 유저와 관련된 모든 friendship들을 삭제해줍니다.
-     - 유저와 친구인 유저들의 "friends" 배열에서 해당 friendhip id값을 삭제해줍니다.
-
-     **friendshipList**: 유저의 friends값에 해당하는 friendship id들의 배열
-     */
-    private func deleteRelatedAllFriendship(friendshipList: [String]) {
-        let databaseRef = Database.database().reference()
-
-        for friendshipID in friendshipList {
-            firebaseManager.getFriendUid(friendshipID: friendshipID) { friendUID in
-                guard let friendUID = friendUID else {
-                    return
-                }
-                databaseRef.child("friendship/\(friendshipID)").removeValue() // friendship 삭제
-                // 친구의 friends에서 해당 friendship 삭제
-                self.firebaseManager.deleteUserFriendship(uid: friendUID, friendshipID: friendshipID)
-            }
-        }
-    }
 }
 
 // MARK: - UITableViewDataSource 프로토콜 구현
@@ -242,8 +205,6 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
         Task {
             do {
-                // 유저와 관련된 친구 정보 삭제
-                performDeletingUsersFriendship()
                 // Firebase DB에서 유저 정보 삭제
                 try await User.databasePathWithUID?.removeValue()
                 // 애플 서버의 사용자 토큰 삭제
