@@ -83,13 +83,13 @@ class FirebaseManager {
         }
     }
 
+    // TODO: - async 코드로 대체되면 삭제
     /**
      uid값으로 DB에서 저장된 유저 정보 불러오기 (READ)
      - 호출되는 곳
         - LoginViewController
         - MyPageViewController
      */
-    // TODO: - async 코드로 대체되면 삭제
     func readUser(databasePath: DatabaseReference, completion: @escaping (User?) -> Void) {
         databasePath.getData { error, snapshot in
             if let error = error {
@@ -595,7 +595,7 @@ extension FirebaseManager {
         }
     }
 
-    /**
+    /*
      crewList의 uid로 DB에서 크루 데이터 불러오는 메서드
      - 호출되는 곳
         - SessionStartViewController
@@ -879,7 +879,7 @@ extension FirebaseManager {
         let crewReference = Database.database().reference().child("crew/\(crewID)")
         crewReference.child("lateTime").setValue(0)
         guard let memberStatus = crew.memberStatus else { return }
-        for (index, _) in memberStatus.enumerated() {
+        for index in memberStatus.indices {
             crewReference.child("memberStatus/\(index)/lateTime").setValue(0)
             crewReference.child("memberStatus/\(index)/status").setValue(Status.waiting.rawValue)
         }

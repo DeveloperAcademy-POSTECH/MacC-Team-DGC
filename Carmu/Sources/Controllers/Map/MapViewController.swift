@@ -54,10 +54,8 @@ final class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startUpdatingLocation()
-        startObservingMemberStatus()
-        startObservingDriverLocation()
-        startObservingCrewLateTime()
-        startObservingSessionStatus()
+        startObservingForDriver()
+        startObservingForMember()
         setDetailView()
         setNaverMap()
     }
@@ -86,33 +84,29 @@ final class MapViewController: UIViewController {
     }
 
     /// [운전자] 셔틀 탑승자의 지각 여부를 실시간으로 관찰하여 변화가 있을 경우 ScrollView에 반영
-    private func startObservingMemberStatus() {
+    private func startObservingForDriver() {
         guard isDriver else { return }
         firebaseManager.startObservingMemberStatus(crewID: crew.id) { memberStatus in
             self.detailView.crewScrollView.setDataSource(dataSource: memberStatus)
         }
     }
 
-    /// [탑승자] 셔틀 탑승자는 운전자의 현재 위치를 실시간으로 추적하여 맵뷰에 반영
-    private func startObservingDriverLocation() {
+    /**
+     [탑승자]
+     운전자의 현재 위치를 실시간으로 추적하여 맵뷰에 반영
+     운전자가 보내는 지연시간을 실시간으로 추적, 하단뷰에 정보 반영
+     운전자가 운행을 종료했는지 실시간으로 추적하여 운행이 종료되었다면 얼럿을 띄워주고 맵뷰를 종료하는 메서드
+     */
+    ///
+    private func startObservingForMember() {
         guard !isDriver else { return }
         firebaseManager.startObservingDriverCoordinate(crewID: crew.id) { latitude, longitude in
             self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
         }
-    }
-
-    /// [탑승자] 셔틀 탑승자는 운전자가 보내는 지연시간을 실시간으로 추적, 하단뷰에 정보 반영
-    private func startObservingCrewLateTime() {
-        guard !isDriver else { return }
         firebaseManager.startObservingCrewLateTime(crewID: crew.id) { lateTime in
             self.crew.lateTime = lateTime
             self.detailView.setLateTime(crew: self.crew)
         }
-    }
-
-    /// [탑승자] 운전자가 운행을 종료했는지 실시간으로 추적하여 운행이 종료되었다면 얼럿을 띄워주고 맵뷰를 종료하는 메서드
-    private func startObservingSessionStatus() {
-        guard !isDriver else { return }
         firebaseManager.startObservingSessionStatus(crewID: crew.id) { sessionStatus in
             guard sessionStatus == .waiting else { return }
             self.showFinishedAlert()
@@ -178,48 +172,6 @@ final class MapViewController: UIViewController {
 
         mapView.backButton.addTarget(self, action: #selector(backButtonDidTap), for: .touchUpInside)
         mapView.currentLocationButton.addTarget(self, action: #selector(currentLocationButtonDidTap), for: .touchUpInside)
-    }
-
-    /// [운전자, 탑승자] '포기하기' 버튼 선택시 동작
-    @objc func giveUpButtonDidTap() {
-        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: nil, preferredStyle: .alert)
-        alert.message = isDriver ? "셔틀 운행을 중도 포기합니다" : "셔틀 탑승을 중도 포기합니다"
-        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
-        let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
-            self.updateSessionStatus(to: .waiting)
-            self.firebaseManager.resetSessionData(crew: self.crew)
-            self.dismiss(animated: true)
-        }
-        alert.addAction(cancelAction)
-        alert.addAction(giveUpAction)
-        present(alert, animated: true)
-    }
-
-    /// [운전자, 탑승자] '지각 알리기' 버튼 선택시 동작
-    @objc private func showNoticeLateModal() {
-        present(NoticeLateViewController(crew: crew), animated: true)
-    }
-
-    /// [운전자] '운행 종료하기' 버튼 선택시 동작
-    @objc private func finishShuttleButtonDidTap() {
-        guard let pnc = presentingViewController as? UINavigationController else { return }
-        guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
-        dismiss(animated: true) {
-            self.updateSessionStatus(to: .waiting)
-            self.firebaseManager.resetSessionData(crew: self.crew)
-            pvc.showCarpoolFinishedModal()
-        }
-    }
-
-    /// [운전자, 탑승자] '<' 버튼 선택시 동작
-    @objc private func backButtonDidTap() {
-        dismiss(animated: true)
-    }
-
-    /// [탑승자] 현위치 버튼 선택시 동작
-    @objc private func currentLocationButtonDidTap() {
-        guard let myCurrentCoordinate = myCurrentCoordinate else { return }
-        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: myCurrentCoordinate)))
     }
 
     /// [운전자, 탑승자] 출발지, 경유지, 도착지를 모두 포함하는 Bound 설정
@@ -342,6 +294,53 @@ final class MapViewController: UIViewController {
     }
 }
 
+// MARK: - @objc Method
+extension MapViewController {
+
+    /// [운전자, 탑승자] '포기하기' 버튼 선택시 동작
+    @objc func giveUpButtonDidTap() {
+        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: nil, preferredStyle: .alert)
+        alert.message = isDriver ? "셔틀 운행을 중도 포기합니다" : "셔틀 탑승을 중도 포기합니다"
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
+        let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
+            self.updateSessionStatus(to: .waiting)
+            self.firebaseManager.resetSessionData(crew: self.crew)
+            self.dismiss(animated: true)
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(giveUpAction)
+        present(alert, animated: true)
+    }
+
+    /// [운전자, 탑승자] '지각 알리기' 버튼 선택시 동작
+    @objc private func showNoticeLateModal() {
+        present(NoticeLateViewController(crew: crew), animated: true)
+    }
+
+    /// [운전자] '운행 종료하기' 버튼 선택시 동작
+    @objc private func finishShuttleButtonDidTap() {
+        guard let pnc = presentingViewController as? UINavigationController else { return }
+        guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
+        dismiss(animated: true) {
+            self.updateSessionStatus(to: .waiting)
+            self.firebaseManager.resetSessionData(crew: self.crew)
+            pvc.showCarpoolFinishedModal()
+        }
+    }
+
+    /// [운전자, 탑승자] '<' 버튼 선택시 동작
+    @objc private func backButtonDidTap() {
+        dismiss(animated: true)
+    }
+
+    /// [탑승자] 현위치 버튼 선택시 동작
+    @objc private func currentLocationButtonDidTap() {
+        guard let myCurrentCoordinate = myCurrentCoordinate else { return }
+        mapView.naverMap.moveCamera(NMFCameraUpdate(scrollTo: NMGLatLng(from: myCurrentCoordinate)))
+    }
+}
+
+// MARK: - CoreLocation Method
 extension MapViewController: CLLocationManagerDelegate {
 
     /**
