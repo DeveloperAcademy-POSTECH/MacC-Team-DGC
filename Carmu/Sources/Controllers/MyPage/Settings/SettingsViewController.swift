@@ -97,6 +97,27 @@ final class SettingsViewController: UIViewController {
         authorizationController.presentationContextProvider = self
         authorizationController.performRequests()
     }
+
+    /**
+     계정 삭제 시 크루에서 유저 정보를 삭제해주기 위한 메서드
+     - 크루 데이터 불러오기 👉 운전자/동승자 체크 👉 그에 맞게 크루에서 정보 삭제(or 크루 삭제)
+     */
+    private func deleteCrewDataOfUser() async throws {
+        // 크루 데이터 불러오기
+        if let crewID = try await firebaseManager.readUserCrewID() {
+            guard let crewData = try await firebaseManager.getCrewData(crewID: crewID) else { return }
+
+            if firebaseManager.checkCaptain(crewData: crewData) { // 운전자라면
+                print("운전자의 크루 데이터와 크루 삭제 중...")
+                try await firebaseManager.deleteCrewByDriver()
+            } else { // 동승자라면
+                print("동승자의 크루 데이터 삭제 중...")
+                try await firebaseManager.deletePassengerInfoFromCrew()
+            }
+        } else {
+            print("소속한 크루가 없기 때문에 삭제 작업을 수행하지 않습니다.")
+        }
+    }
 }
 
 // MARK: - UITableViewDataSource 프로토콜 구현
@@ -205,6 +226,8 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
         Task {
             do {
+                // 유저와 관련된 크루 데이터 삭제
+                try await deleteCrewDataOfUser()
                 // Firebase DB에서 유저 정보 삭제
                 try await User.databasePathWithUID?.removeValue()
                 // 애플 서버의 사용자 토큰 삭제
