@@ -16,6 +16,7 @@ import SnapKit
 // MARK: - 서버 푸시 관련 메서드
 final class ServerPushManager {
 
+    private let firebaseManager = FirebaseManager()
     private let functions = Functions.functions()
 
     // 운전자가 탑승자에게 서버 푸시 알림을 보내는 메서드
@@ -37,6 +38,61 @@ final class ServerPushManager {
                         }
                     }
             }
+        }
+    }
+
+    // 운전자가 탑승자에게 지각 알림을 보내는 메서드
+    func sendLateToAllPassenger(lateMin: String, crew: Crew) {
+
+        guard let memberStatus = crew.memberStatus else { return }
+        for member in memberStatus {
+            guard let status = member.status else { return }
+            if let deviceToken = member.deviceToken, status == .accept {
+                functions
+                    .httpsCallable("lateNotificationToPassenger")
+                    .call(["token": deviceToken, "lateMin": lateMin]) { (result, error) in
+                        if let error = error {
+                            print("Error ", error.localizedDescription)
+                        } else {
+                            if let data = (result?.data as? [String: Any]) {
+                                print("Response data --> ", data)
+                            }
+                        }
+                    }
+            }
+        }
+    }
+
+    // 탑승자가 운전자에게 지각 알림을 보내는 메서드
+    func sendLateToDriver(lateMin: String, crew: Crew) {
+        guard let memberStatus = crew.memberStatus else { return }
+        var userNickname = ""
+
+        for member in memberStatus where member.id == KeychainItem.currentUserIdentifier {
+            userNickname = member.nickname ?? ""
+        }
+
+        guard let captainID = crew.captainID else { return }
+
+        Database.database().reference().child("users/\(captainID)").getData { error, snapshot in
+            if let error = error {
+                print("Error ", error.localizedDescription)
+                return
+            }
+            let captainData = snapshot?.value as? [String: Any]
+            guard let captainDeviceToken = captainData?["deviceToken"] else { return }
+
+            let data = ["token": captainDeviceToken, "lateMin": lateMin, "nickname": userNickname]
+
+            self.functions
+                .httpsCallable("lateNotificationToDriver")
+                .call(data) { (_, error) in
+                    if let error = error {
+                        print("error --> ", error.localizedDescription)
+                    } else {
+                        print("Success sending data")
+                    }
+                }
         }
     }
 }
