@@ -143,7 +143,12 @@ extension TimeSelectViewController {
 
         // TODO: - Crew에 정보 입력하는 방식 이후, 타임 피커에 이전 경유지보다 늦은 시간부터 설정하는 로직 구현예정
         if sender.tag > 0 {
+            let lastTime = Date.formattedDate(
+                string: timeSelectView.customTableVieWCell[sender.tag - 1].detailTimeButton.titleLabel?.text ?? "오전 12:00",
+                dateFormat: "aa hh:mm"
+            ) ?? Date()
 
+            detailViewController.timeSelectModalView.timePicker.minimumDate = lastTime
         }
         detailViewController.timeSelectModalView.timePicker.date = Date.formattedDate(
             string: timeSelectView.customTableVieWCell[sender.tag].detailTimeButton.titleLabel?.text ?? "오전 12:00",
