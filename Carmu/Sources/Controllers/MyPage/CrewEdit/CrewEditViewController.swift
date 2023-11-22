@@ -154,6 +154,11 @@ extension CrewEditViewController: UITableViewDataSource {
         }
     }
 
+    private func subhead2AttributedString(title: String?) -> AttributedString {
+        var titleAttr = AttributedString(title ?? "")
+        titleAttr.font = UIFont.carmuFont.subhead2
+        return titleAttr
+    }
     // MARK: - 각 row에 대한 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         // 포인트 편집 셀
@@ -166,7 +171,7 @@ extension CrewEditViewController: UITableViewDataSource {
 
         if indexPath.row == 0 {
             /* 출발지 셀 구성 */
-            cell.addressEditButton.setTitle(newUserCrewData?.startingPoint?.name, for: .normal)
+            cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: newUserCrewData?.startingPoint?.name)
             cell.setupDepartureLabel() // [출발] 시간 라벨
             cell.timeEditButton.setTitle(
                 Date.formattedDate(from: newUserCrewData?.startingPoint?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
@@ -196,7 +201,7 @@ extension CrewEditViewController: UITableViewDataSource {
                     }
                 } else {
                     /* 도착지 셀 구성 */
-                    cell.addressEditButton.setTitle(newUserCrewData?.destination?.name, for: .normal)
+                    cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: newUserCrewData?.destination?.name)
                     cell.setupArrivalLabel() // [도착] 시간 라벨
                     cell.timeEditButton.setTitle(
                         Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
@@ -212,7 +217,7 @@ extension CrewEditViewController: UITableViewDataSource {
             } else {
                 if indexPath.row == nonNilStopoverCount + 2 {
                     /* 도착지 셀 구성 */
-                    cell.addressEditButton.setTitle(newUserCrewData?.destination?.name, for: .normal)
+                    cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: newUserCrewData?.destination?.name)
                     cell.setupArrivalLabel() // [도착] 시간 라벨
                     cell.timeEditButton.setTitle(
                         Date.formattedDate(from: newUserCrewData?.destination?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),
@@ -227,7 +232,7 @@ extension CrewEditViewController: UITableViewDataSource {
                 } else {
                     /* 일반 경유지 셀 구성 */
                     cell.setupStopoverAddButton(false)
-                    cell.addressEditButton.setTitle(stopoverPoints[indexPath.row-1]?.name, for: .normal)
+                    cell.addressEditButton.configuration?.attributedTitle = subhead2AttributedString(title: stopoverPoints[indexPath.row-1]?.name)
                     cell.setupDepartureLabel() // [출발] 시간 라벨
                     cell.timeEditButton.setTitle(
                         Date.formattedDate(from: stopoverPoints[indexPath.row-1]?.arrivalTime ?? Date(), dateFormat: "aa hh:mm"),

@@ -25,7 +25,7 @@ final class SessionFinishViewController: UIViewController {
 
     private let noticeLabel: UILabel = {
         let label = UILabel()
-        label.text = "오늘의 카풀 운행을 마쳤어요\n오늘도 힘내세요!"
+        label.text = "오늘의 셔틀 운행을 마쳤어요\n오늘도 힘내세요!"
         label.font = UIFont.carmuFont.headline1
         label.textColor = UIColor.semantic.textPrimary
         label.numberOfLines = 2

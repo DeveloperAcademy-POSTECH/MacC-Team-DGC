@@ -23,7 +23,7 @@ final class CrewInfoCheckViewController: UIViewController {
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
         if let crewData = crewData {
-            updateCrewContents(crewData: crewData)
+            updateCrewDataUI(crewData: crewData)
         }
 
         // 백버튼 텍스트 제거
@@ -76,14 +76,14 @@ final class CrewInfoCheckViewController: UIViewController {
         }
     }
 
-    // 크루 정보 화면에서 편집된 크루명으로 업데이트
-    private func updateCrewName(newCrewName: String) {
+    // 크루명 UI 업데이트
+    private func updateCrewNameUI(newCrewName: String) {
         print("크루명 업데이트!!!")
         crewInfoCheckView.crewNameLabel.text = newCrewName
     }
 
     // MARK: - 크루 데이터에 맞게 화면 정보 갱신
-    private func updateCrewContents(crewData: Crew?) {
+    private func updateCrewDataUI(crewData: Crew?) {
         guard let crewData = crewData else {
             return
         }
@@ -196,10 +196,16 @@ extension CrewInfoCheckViewController {
 extension CrewInfoCheckViewController: NameEditViewControllerDelegate {
 
     /**
-     NameEditViewController에서 닉네임 데이터가 수정되었을 때 호출
+     NameEditViewController에서 크루명 데이터가 수정되었을 때 호출
      */
     func sendNewNameValue(newName: String) {
-        updateCrewName(newCrewName: newName)
+        // 파이어베이스 DB에 변경된 크루명 반영
+        guard let crewID = crewData?.id else {
+            return
+        }
+        firebaseManager.updateCrewName(crewID: crewID, newCrewName: newName)
+        // 크루명 UI 업데이트
+        updateCrewNameUI(newCrewName: newName)
     }
 }
 
@@ -207,9 +213,11 @@ extension CrewInfoCheckViewController: NameEditViewControllerDelegate {
 extension CrewInfoCheckViewController: CrewEditViewDelegate {
 
     /**
-     CrewEditViewController 에서 닉네임 데이터가 수정되었을 때 호출
+     CrewEditViewController 에서 크루 데이터가 수정되었을 때 호출
      */
     func crewEditDoneButtonTapped(newUserCrewData: Crew?) {
         self.crewData = newUserCrewData
+        // 수정된 크루 데이터에 맞게 UI 업데이트
+        updateCrewDataUI(crewData: newUserCrewData)
     }
 }

@@ -57,6 +57,7 @@ final class MapViewController: UIViewController {
         startObservingMemberStatus()
         startObservingDriverLocation()
         startObservingCrewLateTime()
+        startObservingSessionStatus()
         setDetailView()
         setNaverMap()
     }
@@ -109,6 +110,42 @@ final class MapViewController: UIViewController {
         }
     }
 
+    /// [탑승자] 운전자가 운행을 종료했는지 실시간으로 추적하여 운행이 종료되었다면 얼럿을 띄워주고 맵뷰를 종료하는 메서드
+    private func startObservingSessionStatus() {
+        guard !isDriver else { return }
+        firebaseManager.startObservingSessionStatus(crewID: crew.id) { sessionStatus in
+            guard sessionStatus == .waiting else { return }
+            self.showFinishedAlert()
+        }
+    }
+
+    /// [탑승자] 운행이 종료되었다는 얼럿을 띄우고 맵뷰를 종료하는 메서드
+    private func showFinishedAlert() {
+        let alert = UIAlertController(title: "운전자가 셔틀 운행을 종료했습니다", message: "확인을 누르면 대기화면으로 돌아갑니다", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(confirmAction)
+        present(alert, animated: true)
+    }
+
+    /// [운전자] 도착지 주변에서 일정 시간이 지났는데 운행을 종료하지 않았을 경우 맵뷰를 종료하는 얼럿을 띄우는 메서드
+    private func showFinishedAlertForDriver() {
+        guard crew.sessionStatus == .sessionStart else { return }
+        guard let pnc = self.presentingViewController as? UINavigationController else { return }
+        guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
+        let alert = UIAlertController(title: "셔틀 운행이 종료되었습니다", message: "확인을 누르면 대기화면으로 돌아갑니다", preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true) {
+                self.updateSessionStatus(to: .waiting)
+                self.firebaseManager.resetSessionData(crew: self.crew)
+                pvc.showCarpoolFinishedModal()
+            }
+        }
+        alert.addAction(confirmAction)
+        present(alert, animated: true)
+    }
+
     /// [운전자, 탑승자] 운전자, 탑승자별로 다른 하단뷰를 표시
     private func setDetailView() {
         view.addSubview(detailView)
@@ -130,7 +167,7 @@ final class MapViewController: UIViewController {
 
         detailView.giveUpButton.addTarget(self, action: #selector(giveUpButtonDidTap), for: .touchUpInside)
         detailView.noticeLateButton.addTarget(self, action: #selector(showNoticeLateModal), for: .touchUpInside)
-        detailView.finishCarpoolButton.addTarget(self, action: #selector(finishCarpoolButtonDidTap), for: .touchUpInside)
+        detailView.finishShuttleButton.addTarget(self, action: #selector(finishShuttleButtonDidTap), for: .touchUpInside)
     }
 
     /// [운전자, 탑승자] Naver 지도(출발, 경유, 도착지 및 운전 경로 등등)를 위한 설정
@@ -150,9 +187,12 @@ final class MapViewController: UIViewController {
 
     /// [운전자, 탑승자] '포기하기' 버튼 선택시 동작
     @objc func giveUpButtonDidTap() {
-        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: "탑승을 중도 포기합니다", preferredStyle: .alert)
+        let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: nil, preferredStyle: .alert)
+        alert.message = isDriver ? "셔틀 운행을 중도 포기합니다" : "셔틀 탑승을 중도 포기합니다"
         let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
         let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
+            self.updateSessionStatus(to: .waiting)
+            self.firebaseManager.resetSessionData(crew: self.crew)
             self.dismiss(animated: true)
         }
         alert.addAction(cancelAction)
@@ -165,11 +205,13 @@ final class MapViewController: UIViewController {
         present(NoticeLateViewController(crew: crew), animated: true)
     }
 
-    /// [운전자] '카풀 종료하기' 버튼 선택시 동작
-    @objc private func finishCarpoolButtonDidTap() {
+    /// [운전자] '운행 종료하기' 버튼 선택시 동작
+    @objc private func finishShuttleButtonDidTap() {
         guard let pnc = presentingViewController as? UINavigationController else { return }
         guard let pvc = pnc.topViewController as? SessionStartViewController else { return }
         dismiss(animated: true) {
+            self.updateSessionStatus(to: .waiting)
+            self.firebaseManager.resetSessionData(crew: self.crew)
             pvc.showCarpoolFinishedModal()
         }
     }
@@ -283,6 +325,12 @@ final class MapViewController: UIViewController {
         let distance = destinationCoordinate.distance(from: current)
         return Double(distance)
     }
+
+    /// [운전자] '포기하기' 버튼 혹은 '운행 종료하기' 버튼 선택시 sessionStatus를 변경하는 메서드
+    private func updateSessionStatus(to sessionStatus: Status) {
+        crew.sessionStatus = sessionStatus
+        firebaseManager.updateSessionStatus(to: sessionStatus, crew: crew)
+    }
 }
 
 extension MapViewController: CLLocationManagerDelegate {
@@ -299,9 +347,12 @@ extension MapViewController: CLLocationManagerDelegate {
             mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
             // 운전자인 경우 DB에 위도, 경도 업데이트
             firebaseManager.updateDriverCoordinate(coordinate: location.coordinate, crewID: crew.id)
-            // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경
+            // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경, 15분 후 셔틀 종료 안내 얼럿
             if distanceFromDestination(current: location) <= 200.0 {
                 detailView.showFinishCarpoolButton()
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 900) {
+                    self.showFinishedAlertForDriver()
+                }
             }
         } else {
             mapView.updateMyPositionMarker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)

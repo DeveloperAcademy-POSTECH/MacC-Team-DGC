@@ -59,7 +59,6 @@ struct SPCViewControllerRepresentable: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> StopoverPointCheckViewController {
         return StopoverPointCheckViewController(
             crewData: Crew(
-                crews: [UserIdentifier](),
                 memberStatus: [MemberStatus]()
             )
         )

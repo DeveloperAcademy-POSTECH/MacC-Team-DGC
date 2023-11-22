@@ -10,7 +10,7 @@ import UIKit
 final class StartEndPointSelectViewController: UIViewController {
 
     private let startEndPointSelectView = StartEndPointSelectView()
-    var crewData = Crew(crews: [UserIdentifier](), memberStatus: [MemberStatus]())
+    var crewData = Crew(memberStatus: [MemberStatus]())
 
     private var startPointAddress: String? {
         didSet {

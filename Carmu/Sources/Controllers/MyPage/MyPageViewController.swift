@@ -51,18 +51,7 @@ final class MyPageViewController: UIViewController {
             action: #selector(showSettings)
         )
 
-        // 유저 정보 불러와서 닉네임, 프로필 표시
-        guard let databasePath = User.databasePathWithUID else {
-            return
-        }
-        firebaseManager.readUser(databasePath: databasePath) { userData in
-            guard let userData = userData else {
-                return
-            }
-            self.updateNickname(newNickname: userData.nickname)
-            self.selectedProfileImageColor = userData.profileImageColor
-            self.updateProfileImageView(profileImageColor: self.selectedProfileImageColor)
-        }
+        updateUserInfo()
 
         view.addSubview(myPageView)
         view.addSubview(crewInfoNoCrewView)
@@ -112,6 +101,22 @@ final class MyPageViewController: UIViewController {
     func updateProfileImageView(profileImageColor: ProfileImageColor) {
         print("프로필 이미지 뷰 업데이트!!!")
         myPageView.profileImageView.image = UIImage(myPageImageColor: profileImageColor)
+    }
+
+    // 유저 정보를 불러와서 닉네임, 프로필 표시
+    private func updateUserInfo() {
+        Task {
+            guard let databasePath = User.databasePathWithUID else {
+                return
+            }
+            let user = try await firebaseManager.readUserAsync(databasePath: databasePath)
+            guard let user = user else {
+                return
+            }
+            updateNickname(newNickname: user.nickname)
+            selectedProfileImageColor = user.profileImageColor
+            updateProfileImageView(profileImageColor: selectedProfileImageColor)
+        }
     }
 }
 
