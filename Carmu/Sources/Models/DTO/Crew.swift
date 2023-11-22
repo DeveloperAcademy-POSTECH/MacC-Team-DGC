@@ -17,7 +17,7 @@ import Foundation
  sessionStatus: 당일 출발 여부
  crewStatus: 크루원의 출석 여부
  driverCoordinate: 운전자의 위치 정보(위도, 경도)
- lateTime: 운전자가
+ lateTime: 운전자가 설정하는 세션 지연시간
  */
 struct Crew: Codable {
     var id: String?
@@ -34,7 +34,7 @@ struct Crew: Codable {
     var memberStatus: [MemberStatus]?
     var driverCoordinate: Coordinate?
     var lateTime: UInt
-    
+
     init(
         id: String? = nil,
         name: String? = nil,
