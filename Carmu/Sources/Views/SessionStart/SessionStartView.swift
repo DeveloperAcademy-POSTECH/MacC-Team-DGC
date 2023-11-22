@@ -116,6 +116,10 @@ extension SessionStartView {
             case .none:
                 break
             }
+        } else {
+            if firebaseManger.passengerStatus(crewData: crewData) == .decline {
+                titleLabel.text = ""
+            }
         }
     }
 

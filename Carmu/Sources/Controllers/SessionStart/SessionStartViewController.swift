@@ -137,7 +137,6 @@ extension SessionStartViewController {
                     backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
                     backgroundView.togetherButton.isEnabled = false
                 case .decline:
-                    backgroundView.titleLabel.text = ""
                     backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
                     backgroundView.individualButton.isEnabled = false
                     backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
