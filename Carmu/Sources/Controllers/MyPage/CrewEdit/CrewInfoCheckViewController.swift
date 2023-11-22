@@ -16,15 +16,22 @@ final class CrewInfoCheckViewController: UIViewController {
     private let firebaseManager = FirebaseManager()
     var selectedDay: Set<DayOfWeek> = []
 
-    var crewData: Crew? // 불러온 유저의 크루 데이터
+    var crewData: Crew // 불러온 유저의 크루 데이터
+
+    init(crewData: Crew) {
+        self.crewData = crewData
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.semantic.backgroundDefault
 
-        if let crewData = crewData {
-            updateCrewDataUI(crewData: crewData)
-        }
+        updateCrewDataUI(crewData: crewData)
 
         // 백버튼 텍스트 제거
         navigationController?.navigationBar.topItem?.title = ""
@@ -41,6 +48,16 @@ final class CrewInfoCheckViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "크루 정보"
+
+        // 최신 크루 데이터를 받아서 화면에 반영
+        Task {
+            if let crewID = try await firebaseManager.readUserCrewID() {
+                firebaseManager.observeCrewDataSingle(crewID: crewID) { crewData in
+                    self.crewData = crewData
+                    self.updateCrewDataUI(crewData: crewData)
+                }
+            }
+        }
     }
 
     // 뷰 컨트롤러의 버튼들 관련 세팅
@@ -145,6 +162,7 @@ final class CrewInfoCheckViewController: UIViewController {
             }
             return locationCellArray
         }()
+        crewInfoCheckView.locationCellStack.removeAllArrangedSubviews()
         for locationCell in locationCellArray {
             crewInfoCheckView.locationCellStack.addArrangedSubview(locationCell)
         }
@@ -169,10 +187,7 @@ extension CrewInfoCheckViewController {
     @objc private func startCrewEdit() {
         print("셔틀 정보 편집 시작")
         // 내비게이션 타이틀 크루명으로 설정
-        guard let crewData = crewData else { return }
-        let crewEditVC = CrewEditViewController(
-            userCrewData: crewData
-        )
+        let crewEditVC = CrewEditViewController(userCrewData: crewData)
         crewEditVC.crewEditViewDelegte = self
         navigationController?.pushViewController(crewEditVC, animated: true)
     }
@@ -203,7 +218,7 @@ extension CrewInfoCheckViewController: NameEditViewControllerDelegate {
      */
     func sendNewNameValue(newName: String) {
         // 파이어베이스 DB에 변경된 크루명 반영
-        guard let crewID = crewData?.id else {
+        guard let crewID = crewData.id else {
             return
         }
         firebaseManager.updateCrewName(crewID: crewID, newCrewName: newName)
@@ -219,8 +234,10 @@ extension CrewInfoCheckViewController: CrewEditViewDelegate {
      CrewEditViewController 에서 크루 데이터가 수정되었을 때 호출
      */
     func crewEditDoneButtonTapped(newUserCrewData: Crew?) {
-        self.crewData = newUserCrewData
-        // 수정된 크루 데이터에 맞게 UI 업데이트
-        updateCrewDataUI(crewData: newUserCrewData)
+        if let newUserCrewData = newUserCrewData {
+            self.crewData = newUserCrewData
+            // 수정된 크루 데이터에 맞게 UI 업데이트
+            updateCrewDataUI(crewData: newUserCrewData)
+        }
     }
 }

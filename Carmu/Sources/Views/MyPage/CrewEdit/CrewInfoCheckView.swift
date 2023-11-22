@@ -192,7 +192,7 @@ import SwiftUI
 struct CrewInfoCheckViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = CrewInfoCheckViewController
     func makeUIViewController(context: Context) -> CrewInfoCheckViewController {
-        return CrewInfoCheckViewController()
+        return CrewInfoCheckViewController(crewData: dummyCrewData!)
     }
     func updateUIViewController(_ uiViewController: CrewInfoCheckViewController, context: Context) {
     }

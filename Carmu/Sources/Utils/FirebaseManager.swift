@@ -357,7 +357,7 @@ extension FirebaseManager {
     }
 
     /**
-     크루ID로 크루 데이터 불러오기
+     크루ID로 크루 데이터 불러오기 (getData)
      - 호출되는곳
         - SessionStartViewController
      */
@@ -376,6 +376,28 @@ extension FirebaseManager {
         } catch {
             print("ERROR, \(error.localizedDescription)")
             throw error
+        }
+    }
+
+    /**
+     크루ID로 크루 데이터 불러오기 (observeSingleEvent)
+     - 호출되는 곳
+        - MyPageViewController
+        - CrewInfoCheckViewController
+     */
+    func observeCrewDataSingle(crewID: String, completion: @escaping (Crew) -> Void) {
+        let crewRef = Database.database().reference().child("crew/\(crewID)")
+        print("crewRef: \(crewRef)")
+        crewRef.observeSingleEvent(of: .value) { snapshot in
+            do {
+                if let snapshotValue = snapshot.value as? [String: Any] {
+                    let jsonData = try JSONSerialization.data(withJSONObject: snapshotValue)
+                    let crewData = try JSONDecoder().decode(Crew.self, from: jsonData)
+                    completion(crewData)
+                }
+            } catch {
+                print("ERROR: \(error.localizedDescription)")
+            }
         }
     }
 

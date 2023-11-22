@@ -70,6 +70,15 @@ final class MyPageViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationItem.title = "My Page"
+
+        // 최신 크루 데이터를 받아옴
+        Task {
+            if let crewID = try await firebaseManager.readUserCrewID() {
+                firebaseManager.observeCrewDataSingle(crewID: crewID) { crewData in
+                    self.crewData = crewData
+                }
+            }
+        }
     }
 
     // 버튼에 Target 추가
@@ -312,8 +321,8 @@ extension MyPageViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             // [크루 정보 수정하기] 클릭
-            let crewInfoCheckVC = CrewInfoCheckViewController()
-            crewInfoCheckVC.crewData = crewData
+            guard let crewData = crewData else { return }
+            let crewInfoCheckVC = CrewInfoCheckViewController(crewData: crewData)
             navigationController?.pushViewController(crewInfoCheckVC, animated: true)
         }
         // 클릭 후에는 셀의 선택이 해제된다.
