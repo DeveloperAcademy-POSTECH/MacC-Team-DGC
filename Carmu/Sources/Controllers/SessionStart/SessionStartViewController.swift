@@ -627,9 +627,10 @@ extension SessionStartViewController {
     private func isFinishedLastSession() -> Bool {
         guard isCaptain else { return false }
         guard let crew = crewData, crew.sessionStatus == .sessionStart else { return false }
+        guard let startTime = crew.startingPoint?.arrivalTime?.toString24HourClock.toMinutes else { return false }
         guard let arrivalTime = crew.destination?.arrivalTime?.toString24HourClock.toMinutes else { return false }
         let now = Date().toString24HourClock.toMinutes
-        return now >= arrivalTime + crew.lateTime + 10
+        return now < startTime && now > arrivalTime + crew.lateTime + 10
     }
 }
 
