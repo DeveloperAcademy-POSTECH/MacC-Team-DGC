@@ -13,8 +13,6 @@ final class RuleDescriptionView: UIView {
 
     private lazy var descriptionView: UIView = {
         let view = NoCrewBackView()
-        view.driverDetailLabel.text = "시간 내 응답을 하지 않으면 자동으로\n 운행을 하지 않는다고 알려요"
-        view.passengerDetailLabel.text = "시간 내 응답을 하지 않으면 자동으로\n 탑승을 하지 않는다고 알려요"
         return view
     }()
 
