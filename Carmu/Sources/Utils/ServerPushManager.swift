@@ -128,4 +128,34 @@ final class ServerPushManager {
                 }
         }
     }
+
+    // 크루에 새로 들어왔을 때 운전자에게 알림을 보내는 메서드
+    func sendJoinInfoToDriver(crew: Crew) {
+        Task {
+            do {
+                var userNickname = ""
+                guard let userDatabasePath = User.databasePathWithUID else { return }
+                let user = try await firebaseManager.readUser(databasePath: userDatabasePath)
+                userNickname = user?.nickname ?? ""
+
+                guard let captainID = crew.captainID else { return }
+
+                let snapshot = try await Database.database().reference().child("users/\(captainID)").getData()
+                if let captainData = snapshot.value as? [String: Any],
+                   let captainDeviceToken = captainData["deviceToken"] as? String {
+
+                    let data = ["token": captainDeviceToken, "nickname": userNickname]
+
+                    do {
+                        let result = try await self.functions.httpsCallable("userJoinedNotification").call(data)
+                        print("Success sending data:", result)
+                    } catch {
+                        print("Error calling Firebase Functions:", error.localizedDescription)
+                    }
+                }
+            } catch {
+                print("Error reading user data:", error.localizedDescription)
+            }
+        }
+    }
 }
