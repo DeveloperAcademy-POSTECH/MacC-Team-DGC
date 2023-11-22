@@ -115,7 +115,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             guard let databasePath = User.databasePathWithUID else {
                 return
             }
-            let user = try await firebaseManager.readUserAsync(databasePath: databasePath)
+            let user = try await firebaseManager.readUser(databasePath: databasePath)
             guard let user = user else {
                 firebaseManager.createUser(user: firebaseUser)
                 return

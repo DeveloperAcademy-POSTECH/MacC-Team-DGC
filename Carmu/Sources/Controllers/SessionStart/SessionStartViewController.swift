@@ -45,18 +45,20 @@ final class SessionStartViewController: UIViewController {
             SceneDelegate.isCrewCreated = false // 변경을 처리한 후 다시 초기화
         }
         Task {
-            do {
-                crewData = try await firebaseManager.getCrewData()
-                print("Received crew data: \(String(describing: crewData))")
-                if let crewData = crewData {
+            if let crewID = try await firebaseManager.readUserCrewID() {
+                print("유저의 크루ID: \(crewID)")
+                if let crewData = try await firebaseManager.getCrewData(crewID: crewID) {
+                    print("유저의 크루데이터 :\(crewData)")
+                    self.crewData = crewData
                     isCaptain = firebaseManager.checkCaptain(crewData: crewData)
                     updateUI(crewData: crewData)
+                } else {
+                    print("크루 데이터가 없습니다!!")
                 }
                 checkCrew(crewData: crewData)
-                guard let crewID = crewData?.id else { return }
-                firebaseManager.startObservingCrewData(crewID: crewID) { crewData in
-                    self.crewData = crewData
-                    self.updateUI(crewData: crewData)
+                firebaseManager.startObservingCrewData(crewID: crewID) { updatedCrewData in
+                    self.crewData = updatedCrewData
+                    self.updateUI(crewData: updatedCrewData)
                 }
                 if isFinishedLastSession() {
                     firebaseManager.endSession(crew: crewData)
@@ -65,11 +67,12 @@ final class SessionStartViewController: UIViewController {
                     }
                     showCarpoolFinishedModal()
                 }
-            } catch {
-                // 어떤 에러가 발생했을 경우
-                print("Error: \(error)")
+            } else {
+                print("크루ID가 없습니다!!")
+                checkCrew(crewData: crewData)
             }
         }
+        // TODO: - 그룹 나가기 후, 초대코드 입력해서 들어온 뒤 UI 처리
     }
 }
 

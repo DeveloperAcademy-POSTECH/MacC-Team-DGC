@@ -167,7 +167,7 @@ extension CrewInfoCheckViewController {
 
     // [편집] 버튼 클릭 시 호출
     @objc private func startCrewEdit() {
-        print("크루 정보 편집 시작")
+        print("셔틀 정보 편집 시작")
         // 내비게이션 타이틀 크루명으로 설정
         guard let crewData = crewData else { return }
         let crewEditVC = CrewEditViewController(
@@ -177,14 +177,17 @@ extension CrewInfoCheckViewController {
         navigationController?.pushViewController(crewEditVC, animated: true)
     }
 
-    // [크루 나가기] 버튼 클릭 시 알럿
+    // [셔틀 나가기] 버튼 클릭 시 호출 (운전자)
     @objc private func showCrewExitAlert() {
-        print("크루 나가기 버튼 클릭됨!!")
-        let alert = UIAlertController(title: "크루에서 나가시겠습니까?", message: "크루에 대한 모든 정보가 삭제됩니다.", preferredStyle: .alert)
+        print("셔틀 나가기 버튼 클릭됨!!")
+        let alert = UIAlertController(title: "셔틀에서 나가시겠습니까?", message: "셔틀에 대한 모든 정보가 삭제됩니다.", preferredStyle: .alert)
         let back = UIAlertAction(title: "돌아가기", style: .default)
-        let crewExit = UIAlertAction(title: "크루 나가기", style: .destructive) { _ in
-            // TODO: - 크루 나가기 구현 필요
-            print("크루 나가기!")
+        let crewExit = UIAlertAction(title: "셔틀 나가기", style: .destructive) { _ in
+            print("셔틀 나가기 처리 중...")
+            Task {
+                try await self.firebaseManager.deleteCrewByDriver()
+                print("운전자 셔틀 나가기 처리 완료")
+            }
         }
         alert.addAction(back)
         alert.addAction(crewExit)
