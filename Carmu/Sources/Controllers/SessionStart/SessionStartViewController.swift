@@ -15,7 +15,7 @@ import SnapKit
 
 final class SessionStartViewController: UIViewController {
 
-    private let startView = SessionStartView()
+    private let backgroundView = SessionStartView()
     private let driverCardView = SessionStartDriverView()
     private let memberCardView = SessionStartPassengerView()
     private let noCrewCardView = SessionStartNoCrewView()
@@ -26,10 +26,9 @@ final class SessionStartViewController: UIViewController {
     var crewData: Crew? {
         didSet {
             if let crewData = crewData {
-                updateUI(crewData: crewData)
-                settingCrewView(crewData: crewData)
+                showCrewCardView(crewData: crewData)
             } else {
-                showNoCrewView()
+                showNoCrewCardView()
             }
         }
     }
@@ -44,18 +43,18 @@ final class SessionStartViewController: UIViewController {
         navigationItem.backButtonTitle = ""
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
-        view.addSubview(startView)
-        startView.snp.makeConstraints { make in
+        view.addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
         view.addSubview(driverCardView)
         view.addSubview(memberCardView)
         view.addSubview(noCrewCardView)
 
-        startView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
-        startView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
-        startView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
-        startView.carpoolStartButton.addTarget(self, action: #selector(carpoolStartButtonDidTapped), for: .touchUpInside)
+        backgroundView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
+        backgroundView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
+        backgroundView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
+        backgroundView.carpoolStartButton.addTarget(self, action: #selector(carpoolStartButtonDidTapped), for: .touchUpInside)
         noCrewCardView.noCrewFrontView.createCrewButton.addTarget(self, action: #selector(createCrewButtonTapped), for: .touchUpInside)
         noCrewCardView.noCrewFrontView.inviteCodeButton.addTarget(self, action: #selector(inviteCodeButtonTapped), for: .touchUpInside)
     }
@@ -77,7 +76,7 @@ final class SessionStartViewController: UIViewController {
                     showShuttleFinishedModal()
                 }
             } else {
-                showNoCrewView()
+                showNoCrewCardView()
             }
         }
     }
@@ -87,7 +86,7 @@ final class SessionStartViewController: UIViewController {
 extension SessionStartViewController {
 
     // UI를 업데이트 시켜줌
-    private func updateUI(crewData: Crew) {
+    private func showCrewCardView(crewData: Crew) {
         if isCaptain {
             settingDriverData(crewData: crewData)
         } else {
@@ -110,36 +109,43 @@ extension SessionStartViewController {
 
             // 탑승자의 참석 여부에 따른 분기문
             if firebaseManager.passengerStatus(crewData: crewData) == .accept {
-                startView.notifyComment.text = "함께가기를 선택하셨네요!\n운전자에게 알려드릴게요"
-                startView.individualButton.backgroundColor = UIColor.semantic.negative
-                startView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+                backgroundView.notifyComment.text = "함께가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+                backgroundView.individualButton.backgroundColor = UIColor.semantic.negative
+                backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
             } else if firebaseManager.passengerStatus(crewData: crewData) == .decline {
                 switch crewData.sessionStatus {
                 case .waiting:
-                    startView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
-                    startView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                    startView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
+                    backgroundView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+                    backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                    backgroundView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
                 case .accept:
-                    startView.topComment.text = ""
+                    backgroundView.topComment.text = ""
                     memberCardView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
                     memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
-                    startView.notifyComment.text = ""
+                    backgroundView.notifyComment.text = ""
                     memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = false
-                    startView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                    startView.individualButton.isEnabled = false
-                    startView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-                    startView.togetherButton.isEnabled = false
+                    backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                    backgroundView.individualButton.isEnabled = false
+                    backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+                    backgroundView.togetherButton.isEnabled = false
                 case .decline:
-                    startView.topComment.text = ""
-                    startView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                    startView.individualButton.isEnabled = false
-                    startView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-                    startView.togetherButton.isEnabled = false
+                    backgroundView.topComment.text = ""
+                    backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                    backgroundView.individualButton.isEnabled = false
+                    backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+                    backgroundView.togetherButton.isEnabled = false
                 case .sessionStart: break
                     // sessionStart일 때는 해당 버튼이 나타나지 않음
                 case .none: break
                 }
             }
+        }
+
+        noCrewCardView.isHidden = true
+        if isCaptain {
+            settingDriverView(crewData: crewData)
+        } else {
+            settingPassengerView(crewData: crewData)
         }
     }
 }
@@ -147,23 +153,23 @@ extension SessionStartViewController {
 // MARK: - 크루가 없을 때
 extension SessionStartViewController {
 
-    private func showNoCrewView() {
-        startView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
-        let attributedText = NSMutableAttributedString(string: startView.topComment.text ?? "")
-        if let range1 = startView.topComment.text?.range(of: "카뮤") {
-            let nsRange1 = NSRange(range1, in: startView.topComment.text ?? "")
+    private func showNoCrewCardView() {
+        backgroundView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
+        let attributedText = NSMutableAttributedString(string: backgroundView.topComment.text ?? "")
+        if let range1 = backgroundView.topComment.text?.range(of: "카뮤") {
+            let nsRange1 = NSRange(range1, in: backgroundView.topComment.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
-        if let range2 = startView.topComment.text?.range(of: "카풀 생활") {
-            let nsRange2 = NSRange(range2, in: startView.topComment.text ?? "")
+        if let range2 = backgroundView.topComment.text?.range(of: "카풀 생활") {
+            let nsRange2 = NSRange(range2, in: backgroundView.topComment.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange2)
         }
-        startView.topComment.attributedText = attributedText
+        backgroundView.topComment.attributedText = attributedText
 
-        startView.notifyComment.isHidden = true
-        startView.individualButton.isHidden = true
-        startView.togetherButton.isHidden = true
-        startView.carpoolStartButton.isHidden = true
+        backgroundView.notifyComment.isHidden = true
+        backgroundView.individualButton.isHidden = true
+        backgroundView.togetherButton.isHidden = true
+        backgroundView.carpoolStartButton.isHidden = true
 
         driverCardView.isHidden = true
         memberCardView.isHidden = true
@@ -171,7 +177,7 @@ extension SessionStartViewController {
 
         noCrewCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(startView.topComment.snp.bottom).offset(36)
+            make.top.equalTo(backgroundView.topComment.snp.bottom).offset(36)
             make.bottom.lessThanOrEqualToSuperview().inset(165)
             make.bottom.equalToSuperview().inset(165)
         }
@@ -194,16 +200,6 @@ extension SessionStartViewController {
  */
 extension SessionStartViewController {
 
-    // 크루가 있을 때의 세팅
-    private func settingCrewView(crewData: Crew) {
-        noCrewCardView.isHidden = true
-        if isCaptain {
-            settingDriverView(crewData: crewData)
-        } else {
-            settingPassengerView(crewData: crewData)
-        }
-    }
-
     // 운전자일 때
     private func settingDriverData(crewData: Crew) {
         switch crewData.sessionStatus {
@@ -213,7 +209,7 @@ extension SessionStartViewController {
             driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
         case .decline:
             driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
-            startView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+            backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
             settingDataDecline()
         case .sessionStart:
             settingDataSessionStart(crewData: crewData)
@@ -237,7 +233,7 @@ extension SessionStartViewController {
             memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = false
             memberCardView.passengerFrontView.noDriveComment.text = "오늘은 카풀이 운행되지 않아요"
             memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.negative
-            startView.notifyComment.text = "운전자의 사정으로\n오늘은 카풀이 운행되지 않아요"
+            backgroundView.notifyComment.text = "운전자의 사정으로\n오늘은 카풀이 운행되지 않아요"
             settingDataDecline()
         case .sessionStart:
             memberCardView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
@@ -250,44 +246,44 @@ extension SessionStartViewController {
     // 공통(운전자, 탑승자)으로 사용되는 메서드
     // settingData - .decline
     private func settingDataDecline() {
-        startView.topComment.text = ""
+        backgroundView.topComment.text = ""
         driverCardView.layer.opacity = 1.0
-        startView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-        startView.individualButton.isEnabled = false
-        startView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-        startView.togetherButton.isEnabled = false
+        backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+        backgroundView.individualButton.isEnabled = false
+        backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+        backgroundView.togetherButton.isEnabled = false
     }
 
     // settingData - .sessionStart
     private func settingDataSessionStart(crewData: Crew) {
-        startView.individualButton.isHidden = true
-        startView.togetherButton.isHidden = true
-        startView.carpoolStartButton.isHidden = false
+        backgroundView.individualButton.isHidden = true
+        backgroundView.togetherButton.isHidden = true
+        backgroundView.carpoolStartButton.isHidden = false
         driverCardView.layer.opacity = 1.0
-        startView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
+        backgroundView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
 
         // topComment 변경
-        startView.topComment.text = "\(crewData.name ?? "그룹명")이\n시작되었습니다"
+        backgroundView.topComment.text = "\(crewData.name ?? "그룹명")이\n시작되었습니다"
         // 특정 부분 색상 넣기
-        let topCommentText = NSMutableAttributedString(string: startView.topComment.text ?? "")
-        if let range1 = startView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
-            let nsRange1 = NSRange(range1, in: startView.topComment.text ?? "")
+        let topCommentText = NSMutableAttributedString(string: backgroundView.topComment.text ?? "")
+        if let range1 = backgroundView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
+            let nsRange1 = NSRange(range1, in: backgroundView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
-        startView.topComment.attributedText = topCommentText
+        backgroundView.topComment.attributedText = topCommentText
 
         // notifyComment 변경하기
-        startView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
-        let attributedText = NSMutableAttributedString(string: startView.notifyComment.text ?? "")
-        if let range1 = startView.notifyComment.text?.range(of: "현재 운행중인 카풀") {
-            let nsRange1 = NSRange(range1, in: startView.notifyComment.text ?? "")
+        backgroundView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
+        let attributedText = NSMutableAttributedString(string: backgroundView.notifyComment.text ?? "")
+        if let range1 = backgroundView.notifyComment.text?.range(of: "현재 운행중인 카풀") {
+            let nsRange1 = NSRange(range1, in: backgroundView.notifyComment.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange1)
         }
-        if let range2 = startView.notifyComment.text?.range(of: "카풀 지도보기") {
-            let nsRange2 = NSRange(range2, in: startView.notifyComment.text ?? "")
+        if let range2 = backgroundView.notifyComment.text?.range(of: "카풀 지도보기") {
+            let nsRange2 = NSRange(range2, in: backgroundView.notifyComment.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange2)
         }
-        startView.notifyComment.attributedText = attributedText
+        backgroundView.notifyComment.attributedText = attributedText
     }
 }
 
@@ -301,62 +297,62 @@ extension SessionStartViewController {
         // comment
         let crewName = crewData.name ?? ""
 
-        startView.topComment.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
+        backgroundView.topComment.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
         // 특정 부분 색상 넣기
-        let topCommentText = NSMutableAttributedString(string: startView.topComment.text ?? "")
-        if let range1 = startView.topComment.text?.range(of: "\(String(describing: crewName))") {
-            let nsRange1 = NSRange(range1, in: startView.topComment.text ?? "")
+        let topCommentText = NSMutableAttributedString(string: backgroundView.topComment.text ?? "")
+        if let range1 = backgroundView.topComment.text?.range(of: "\(String(describing: crewName))") {
+            let nsRange1 = NSRange(range1, in: backgroundView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
-        startView.topComment.attributedText = topCommentText
+        backgroundView.topComment.attributedText = topCommentText
 
-        startView.notifyComment.text = "오늘의 카풀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
-        let notifyCommentText = NSMutableAttributedString(string: startView.notifyComment.text ?? "")
-        if let range2 = startView.notifyComment.text?.range(of: "30분 전") {
-            let nsRange2 = NSRange(range2, in: startView.notifyComment.text ?? "")
+        backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
+        let notifyCommentText = NSMutableAttributedString(string: backgroundView.notifyComment.text ?? "")
+        if let range2 = backgroundView.notifyComment.text?.range(of: "30분 전") {
+            let nsRange2 = NSRange(range2, in: backgroundView.notifyComment.text ?? "")
             notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textPrimary as Any, range: nsRange2)
         }
-        startView.notifyComment.attributedText = notifyCommentText
+        backgroundView.notifyComment.attributedText = notifyCommentText
 
-        startView.individualButton.setTitle("운행하지 않아요", for: .normal)
-        startView.togetherButton.setTitle("운행해요", for: .normal)
+        backgroundView.individualButton.setTitle("운행하지 않아요", for: .normal)
+        backgroundView.togetherButton.setTitle("운행해요", for: .normal)
 
         // view layout
         driverCardView.isHidden = false
         memberCardView.isHidden = true
 
         // button layout
-        startView.individualButton.isHidden = false
-        startView.togetherButton.isHidden = false
-        startView.carpoolStartButton.isHidden = true
+        backgroundView.individualButton.isHidden = false
+        backgroundView.togetherButton.isHidden = false
+        backgroundView.carpoolStartButton.isHidden = true
 
         driverCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(startView.myPageButton.snp.bottom).offset(88)
+            make.top.lessThanOrEqualTo(backgroundView.myPageButton.snp.bottom).offset(88)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
-        startView.notifyComment.snp.makeConstraints { make in
+        backgroundView.notifyComment.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(driverCardView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
-        startView.individualButton.snp.makeConstraints { make in
+        backgroundView.individualButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(startView.notifyComment.snp.bottom).offset(20)
+            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
             make.width.lessThanOrEqualTo(170)
             make.height.equalTo(60)
             make.bottom.equalToSuperview().inset(60)
         }
-        startView.togetherButton.snp.makeConstraints { make in
-            make.leading.equalTo(startView.individualButton.snp.trailing).offset(10)
+        backgroundView.togetherButton.snp.makeConstraints { make in
+            make.leading.equalTo(backgroundView.individualButton.snp.trailing).offset(10)
             make.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(startView.notifyComment.snp.bottom).offset(20)
-            make.width.equalTo(startView.individualButton.snp.width)
+            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
+            make.width.equalTo(backgroundView.individualButton.snp.width)
             make.height.equalTo(60)
             make.bottom.equalToSuperview().inset(60)
         }
-        startView.carpoolStartButton.snp.makeConstraints { make in
+        backgroundView.carpoolStartButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(startView.notifyComment.snp.bottom).offset(20)
+            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
             make.width.lessThanOrEqualTo(350)
             make.height.equalTo(60)
             make.bottom.equalToSuperview().inset(60)
@@ -374,56 +370,56 @@ extension SessionStartViewController {
     private func settingPassengerView(crewData: Crew) {
         let crewName = crewData.name ?? ""
 
-        startView.topComment.text = "\(String(describing: crewName))과\n함께 가시나요?"
+        backgroundView.topComment.text = "\(String(describing: crewName))과\n함께 가시나요?"
         // 특정 부분 색상 넣기
-        let topCommentText = NSMutableAttributedString(string: startView.topComment.text ?? "")
-        if let range1 = startView.topComment.text?.range(of: "\(String(describing: crewName))") {
-            let nsRange1 = NSRange(range1, in: startView.topComment.text ?? "")
+        let topCommentText = NSMutableAttributedString(string: backgroundView.topComment.text ?? "")
+        if let range1 = backgroundView.topComment.text?.range(of: "\(String(describing: crewName))") {
+            let nsRange1 = NSRange(range1, in: backgroundView.topComment.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
-        startView.topComment.attributedText = topCommentText
+        backgroundView.topComment.attributedText = topCommentText
 
-        startView.notifyComment.text = ""
+        backgroundView.notifyComment.text = ""
 
-        startView.individualButton.setTitle("따로가요", for: .normal)
-        startView.togetherButton.setTitle("함께가요", for: .normal)
+        backgroundView.individualButton.setTitle("따로가요", for: .normal)
+        backgroundView.togetherButton.setTitle("함께가요", for: .normal)
 
         // view layout
         driverCardView.isHidden = true
         memberCardView.isHidden = false
 
         // button layout
-        startView.individualButton.isHidden = false
-        startView.togetherButton.isHidden = false
-        startView.carpoolStartButton.isHidden = true
+        backgroundView.individualButton.isHidden = false
+        backgroundView.togetherButton.isHidden = false
+        backgroundView.carpoolStartButton.isHidden = true
 
         memberCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(startView.myPageButton.snp.bottom).offset(88)
+            make.top.lessThanOrEqualTo(backgroundView.myPageButton.snp.bottom).offset(88)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
-        startView.notifyComment.snp.makeConstraints { make in
+        backgroundView.notifyComment.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(memberCardView.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
-        startView.individualButton.snp.makeConstraints { make in
+        backgroundView.individualButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(startView.notifyComment.snp.bottom).offset(20)
+            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
             make.width.lessThanOrEqualTo(170)
             make.height.equalTo(60)
             make.bottom.equalToSuperview().inset(60)
         }
-        startView.togetherButton.snp.makeConstraints { make in
-            make.leading.equalTo(startView.individualButton.snp.trailing).offset(10)
+        backgroundView.togetherButton.snp.makeConstraints { make in
+            make.leading.equalTo(backgroundView.individualButton.snp.trailing).offset(10)
             make.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(startView.notifyComment.snp.bottom).offset(20)
-            make.width.equalTo(startView.individualButton.snp.width)
+            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
+            make.width.equalTo(backgroundView.individualButton.snp.width)
             make.height.equalTo(60)
             make.bottom.equalToSuperview().inset(60)
         }
-        startView.carpoolStartButton.snp.makeConstraints { make in
+        backgroundView.carpoolStartButton.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.lessThanOrEqualTo(startView.notifyComment.snp.bottom).offset(20)
+            make.top.lessThanOrEqualTo(backgroundView.notifyComment.snp.bottom).offset(20)
             make.width.lessThanOrEqualTo(350)
             make.height.equalTo(60)
             make.bottom.equalToSuperview().inset(60)
@@ -444,14 +440,14 @@ extension SessionStartViewController {
         if isCaptain {
             firebaseManager.driverTogetherButtonTapped(crewData: crewData)
 
-            startView.individualButton.isHidden = true
-            startView.togetherButton.isHidden = true
-            startView.carpoolStartButton.isHidden = false
+            backgroundView.individualButton.isHidden = true
+            backgroundView.togetherButton.isHidden = true
+            backgroundView.carpoolStartButton.isHidden = false
 
             // 활성화
             driverCardView.layer.opacity = 1.0
 
-            startView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+            backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
 
         } else {
             firebaseManager.passengerTogetherButtonTapped(crewData: crewData)
@@ -499,13 +495,13 @@ extension SessionStartViewController {
         firebaseManager.driverIndividualButtonTapped(crewData: crewData)
 
         // 모든 경우에 같은 화면임
-        startView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+        backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
         driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
         driverCardView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
-        startView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-        startView.individualButton.isEnabled = false
-        startView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-        startView.togetherButton.isEnabled = false
+        backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+        backgroundView.individualButton.isEnabled = false
+        backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+        backgroundView.togetherButton.isEnabled = false
         driverCardView.layer.opacity = 1.0
     }
 }
@@ -523,12 +519,12 @@ extension SessionStartViewController {
         }
 
         if isAnyMemberAccepted {
-            startView.carpoolStartButton.isEnabled = true
-            startView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
-            startView.carpoolStartButton.backgroundColor = UIColor.semantic.accPrimary
+            backgroundView.carpoolStartButton.isEnabled = true
+            backgroundView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
+            backgroundView.carpoolStartButton.backgroundColor = UIColor.semantic.accPrimary
         } else {
-            startView.carpoolStartButton.isEnabled = false
-            startView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
+            backgroundView.carpoolStartButton.isEnabled = false
+            backgroundView.carpoolStartButton.backgroundColor = UIColor.semantic.backgroundThird
         }
     }
 
