@@ -149,18 +149,17 @@ extension MyPageViewController {
         present(profileChangeVC, animated: true)
     }
 
-    // [크루 나가기] 버튼 클릭 시 호출
+    // [셔틀 나가기] 버튼 클릭 시 호출 (동승자)
     @objc private func exitCrewButtonTapped() {
         // 크루 나가기 알럿
         let alert = UIAlertController(title: "셔틀을 나가시겠습니까?", message: "셔틀에 대한 모든 정보가 삭제됩니다.", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
         let exitAction = UIAlertAction(title: "셔틀 나가기", style: .destructive) { _ in
             Task {
-                print("크루 나가기 처리 중...")
+                print("셔틀 나가기 처리 중...")
                 // TODO: - 동승자/운전자 구분 필요
                 try await self.firebaseManager.deletePassengerInfoFromCrew()
-                try await self.firebaseManager.deleteCrewInfoFromUser()
-                print("크루 나가기 처리 완료")
+                print("동승자 셔틀 나가기 처리 완료")
             }
         }
         alert.addAction(cancelAction)

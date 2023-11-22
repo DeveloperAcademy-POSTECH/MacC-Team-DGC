@@ -664,7 +664,6 @@ extension FirebaseManager {
             guard let snapshotValue = snapshot.value as? [String: Any] else { return nil }
             let jsonData = try JSONSerialization.data(withJSONObject: snapshotValue)
             let crewData = try JSONDecoder().decode(Crew.self, from: jsonData)
-            print("크루데이터ㅁㄴㅇㄴㅁㅇㄴㅁㅇㄴㅁㄴㅁ: \(crewData)")
             return crewData
         } catch {
             throw error
@@ -715,16 +714,65 @@ extension FirebaseManager {
         crewData.stopover2 = newPoints[2]
         crewData.stopover3 = newPoints[3]
         updateCrew(crewID: crewID, newCrewData: crewData)
-        print("크루에서 동승자 정보가 삭제되었습니다!!")
+        print("셔틀에서 동승자 정보가 삭제되었습니다!!")
+
+        guard let uid = KeychainItem.currentUserIdentifier else { return }
+        try await deleteCrewInfoFromUser(uid: uid)
+        print("유저의 crewList 정보가 삭제되었습니다!!")
     }
 
     /**
-     유저의 정보에서 크루 정보를 삭제
+     (운전자가 셔틀을 나갈 경우) 운전자와 동승자들의 데이터에서 셔틀 정보를 삭제하고, 셔틀도 삭제해준다.
+     - 크루의 탑승자들의 유저 정보에서 셔틀 정보(crewList)를 삭제
+     - 셔틀 삭제
+     - 운전자의 유저 정보에서 셔틀 정보(crewList) 삭제
      */
-    func deleteCrewInfoFromUser() async throws {
-        guard let databasePath = User.databasePathWithUID else { return }
-        try await databasePath.child("crewList").setValue(nil)
-        print("유저의 데이터에서 크루 정보가 삭제되었습니다!!")
+    func deleteCrewByDriver() async throws {
+        guard let crewID = try await readUserCrewID() else { return }
+        guard let crewData = try await getCrewData(crewID: crewID) else { return }
+        var passengerList = [UserIdentifier]()
+        // 동승자들의 uid 배열 불러오기
+        if let memberStatus = crewData.memberStatus {
+            for member in memberStatus {
+                if let passengerID = member.id {
+                    passengerList.append(passengerID)
+                }
+            }
+        }
+        do {
+            // 동승자들의 크루 정보(crewList) 삭제
+            for passengerID in passengerList {
+                try await deleteCrewInfoFromUser(uid: passengerID)
+                print("동승자의 crewList 정보 삭제")
+            }
+            // 크루 삭제
+            try await deleteCrew(crewID: crewID)
+            print("셔틀이 삭제되었습니다")
+            // 운전자의 크루 정보(crewList) 삭제
+            if let driverID = KeychainItem.currentUserIdentifier {
+                try await deleteCrewInfoFromUser(uid: driverID)
+                print("운전자의 crewList 정보 삭제")
+            }
+        } catch {
+            print("셔틀 삭제 중 오류가 발생했습니다.")
+            throw error
+        }
+    }
+
+    /**
+     유저의 정보에서 셔틀 정보(crewList)를 삭제
+     */
+    func deleteCrewInfoFromUser(uid: String) async throws {
+        let userRef = Database.database().reference().child("users/\(uid)")
+        try await userRef.child("crewList").setValue(nil)
+    }
+
+    /**
+     크루ID에 해댱하는 셔틀 정보를 삭제
+     */
+    func deleteCrew(crewID: String) async throws {
+        let crewRef = Database.database().reference().child("crew/\(crewID)")
+        try await crewRef.setValue(nil)
     }
 
     /**
