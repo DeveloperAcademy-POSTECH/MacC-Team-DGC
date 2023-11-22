@@ -814,4 +814,9 @@ extension FirebaseManager {
             }
         })
     }
+
+    func isAnyMemberAccepted(crewData: Crew) -> Bool {
+        guard let crewMember = crewData.memberStatus else { return false }
+        return crewMember.contains { $0.status == .accept }
+    }
 }

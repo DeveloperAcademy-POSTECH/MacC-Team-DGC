@@ -103,6 +103,8 @@ extension SessionStartView {
                 setTitleLabelDriverWaiting(crewData: crewData)
             } else if crewData.sessionStatus == .decline {
                 titleLabel.text = ""
+            } else if crewData.sessionStatus == .accept {
+                setTitleDriverAccept(crewData: crewData)
             }
         }
     }
@@ -120,12 +122,36 @@ extension SessionStartView {
     private func setTitleLabelDriverWaiting(crewData: Crew) {
         let crewName = crewData.name ?? ""
         titleLabel.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
-        // 특정 부분 색상 넣기
         let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
         if let range1 = titleLabel.text?.range(of: "\(String(describing: crewName))") {
             let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
         titleLabel.attributedText = topCommentText
+    }
+
+    private func setTitleDriverAccept(crewData: Crew) {
+        if firebaseManger.isAnyMemberAccepted(crewData: crewData) {
+            let crewName = crewData.name ?? ""
+            titleLabel.text = "\(String(describing: crewName)),\n운행을 시작해볼까요?"
+            let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
+            if let range1 = titleLabel.text?.range(of: "\(String(describing: crewName))") {
+                let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
+                topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
+            }
+            titleLabel.attributedText = topCommentText
+        } else {
+            titleLabel.text = "탑승자들의\n응답을 기다립니다"
+            let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
+            if let range1 = titleLabel.text?.range(of: "탑승자들") {
+                let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
+                topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
+            }
+            if let range2 = titleLabel.text?.range(of: "응답") {
+                let nsRange2 = NSRange(range2, in: titleLabel.text ?? "")
+                topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange2)
+            }
+            titleLabel.attributedText = topCommentText
+        }
     }
 }
