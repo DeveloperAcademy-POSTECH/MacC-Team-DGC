@@ -65,7 +65,7 @@ final class SessionStartViewController: UIViewController {
                     if let crew = crewData {
                         firebaseManager.resetSessionData(crew: crew)
                     }
-                    showCarpoolFinishedModal()
+                    showShuttleFinishedModal()
                 }
             } else {
                 print("크루ID가 없습니다!!")
@@ -650,7 +650,7 @@ extension SessionStartViewController {
 }
 
 extension SessionStartViewController {
-    func showCarpoolFinishedModal() {
+    func showShuttleFinishedModal() {
         present(SessionFinishViewController(), animated: true)
     }
 }

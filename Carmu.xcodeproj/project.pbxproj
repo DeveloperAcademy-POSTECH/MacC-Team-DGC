@@ -86,7 +86,6 @@
 		BFB18D862B02FB23006858C3 /* SessionFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB18D852B02FB23006858C3 /* SessionFinishViewController.swift */; };
 		BFD765862AF7E16F0074277B /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD765852AF7E16F0074277B /* MapView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
-		BFFA10AF2AE609B8003CE661 /* PickupLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */; };
 		BFFA10B22AE61012003CE661 /* NoticeLateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */; };
 		BFFA10B42AE62FAF003CE661 /* NoticeLateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */; };
 		C904D1562AD5786A008BF5CE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1552AD5786A008BF5CE /* User.swift */; };
@@ -227,7 +226,6 @@
 		BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartView.swift; sourceTree = "<group>"; };
 		BFB18D852B02FB23006858C3 /* SessionFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionFinishViewController.swift; sourceTree = "<group>"; };
 		BFD765852AF7E16F0074277B /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupLocation.swift; sourceTree = "<group>"; };
 		BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateViewController.swift; sourceTree = "<group>"; };
 		BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateView.swift; sourceTree = "<group>"; };
 		C904D1552AD5786A008BF5CE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -332,13 +330,12 @@
 		16E42CDE2AC47E790031486E /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */,
 				C9D04C682AF9D312007E615B /* DayOfWeek.swift */,
+				C92CFB362AC9B6CD0068273A /* Color */,
 				C92CFB3E2ACC24E80068273A /* DTO */,
 				C92CFB372ACBC9090068273A /* Font */,
-				C92CFB362AC9B6CD0068273A /* Color */,
+				BF7F17362B0DAA3200A8F302 /* Network */,
 				B8EECEA12ACD6598004D310C /* KeychainItem.swift */,
-				BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -530,6 +527,19 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
+		BF7F17362B0DAA3200A8F302 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */,
+				C904D1602AD57AE8008BF5CE /* Crew.swift */,
+				1638B91E2B02FBB300C53D0D /* MemberStatus.swift */,
+				164E823C2AF53AB400848BFF /* Point.swift */,
+				B83E23EB2AF3DBBC0048ED9A /* ProfileImageColor.swift */,
+				C904D1552AD5786A008BF5CE /* User.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		BF9BCFE62ACDCBEE009DAECD /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -597,13 +607,8 @@
 		C92CFB3E2ACC24E80068273A /* DTO */ = {
 			isa = PBXGroup;
 			children = (
-				C904D1552AD5786A008BF5CE /* User.swift */,
-				C904D1602AD57AE8008BF5CE /* Crew.swift */,
-				164E823C2AF53AB400848BFF /* Point.swift */,
-				1638B91E2B02FBB300C53D0D /* MemberStatus.swift */,
 				C93116792AF3B69F0014E702 /* SelectAddressDTO.swift */,
 				C931167B2AF3B7070014E702 /* AddressDTO.swift */,
-				BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */,
 			);
 			path = DTO;
 			sourceTree = "<group>";
@@ -920,7 +925,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF0C33042AE51E7C00A6D8FE /* PaddingLabel.swift in Sources */,
-				BFFA10AF2AE609B8003CE661 /* PickupLocation.swift in Sources */,
 				BFFA10B22AE61012003CE661 /* NoticeLateViewController.swift in Sources */,
 				C93116662AF382260014E702 /* StopoverPointCheckViewController.swift in Sources */,
 				C9D8E4E02AF482B9007570EE /* RepeatDaySelectViewController.swift in Sources */,

@@ -128,7 +128,7 @@ final class MapViewController: UIViewController {
             self.dismiss(animated: true) {
                 self.updateSessionStatus(to: .waiting)
                 self.firebaseManager.resetSessionData(crew: self.crew)
-                pvc.showCarpoolFinishedModal()
+                pvc.showShuttleFinishedModal()
             }
         }
         alert.addAction(confirmAction)
@@ -324,7 +324,7 @@ extension MapViewController {
         dismiss(animated: true) {
             self.updateSessionStatus(to: .waiting)
             self.firebaseManager.resetSessionData(crew: self.crew)
-            pvc.showCarpoolFinishedModal()
+            pvc.showShuttleFinishedModal()
         }
     }
 
@@ -357,7 +357,7 @@ extension MapViewController: CLLocationManagerDelegate {
             firebaseManager.updateDriverCoordinate(coordinate: location.coordinate, crewID: crew.id)
             // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경, 15분 후 셔틀 종료 안내 얼럿
             if distanceFromDestination(current: location) <= 200.0 {
-                detailView.showFinishCarpoolButton()
+                detailView.showFinishShuttleButton()
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 900) {
                     self.showFinishedAlertForDriver()
                 }
