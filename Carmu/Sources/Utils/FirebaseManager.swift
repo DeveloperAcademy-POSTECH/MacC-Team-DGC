@@ -160,7 +160,9 @@ extension FirebaseManager {
         newCrew.captainID = captainID
         newCrew.id = key
         newCrew.sessionStatus = Status.waiting
-        setCrewToUser(captainID, key)
+        Task {
+            try await setCrewToUser(captainID, key)
+        }
 
         do {
             let data = try JSONEncoder().encode(newCrew)
@@ -203,143 +205,91 @@ extension FirebaseManager {
 
     /**
      크루 만들기에서 추가된 탑승자들의 User/crewList에 crewID를 추가하는 메서드
-        호출되는 곳
-            BoardingPointSelectViewController
-            FinalConfirmViewController
+     - 호출되는 곳
+        - BoardingPointSelectViewController
      */
-    func setCrewToUser(_ userID: String, _ crewID: String) {
-        // Firebase 데이터베이스 참조 생성
+    func setCrewToUser(_ userID: String, _ crewID: String) async throws {
         let databaseRef = Database.database().reference().child("users/\(userID)")
-
-        // 데이터베이스에서 해당 유저의 정보를 가져온 후 업데이트
-        databaseRef.observeSingleEvent(of: .value) { snapshot in
-            if snapshot.exists() {
-                if var userData = snapshot.value as? [String: Any] {
-                    // userData에서 crewList 키의 값을 가져오고, 없으면 빈 배열 생성
-                    var crewList = userData["crewList"] as? [String] ?? []
-
-                    // crewList 배열에 crewID 추가
-                    crewList.append(crewID)
-
-                    // userData에 업데이트된 crewList 값을 설정
-                    userData["crewList"] = crewList
-
-                    // 업데이트된 userData를 다시 Firebase에 저장
-                    databaseRef.setValue(userData) { error, _ in
-                        if let error = error {
-                            print("Error updating crewList for \(userID): \(error.localizedDescription)")
-                        } else {
-                            print("CrewList updated successfully for \(userID).")
-                        }
-                    }
-                } else {
-                    print("Invalid data format for \(userID)")
-                }
-            } else {
-                // 데이터가 존재하지 않는 경우
-                print("Data does not exist for \(userID)")
-            }
+        let snapshot = try await databaseRef.getData()
+        if var userData = snapshot.value as? [String: Any] {
+            var crewList = userData["crewList"] as? [String] ?? []
+            crewList.append(crewID)
+            userData["crewList"] = crewList
+            try await databaseRef.setValue(userData)
+//            databaseRef.setValue(userData) { error, _ in
+//                if let error = error {
+//                    print("Error updating crewList for \(userID): \(error.localizedDescription)")
+//                } else {
+//                    print("CrewList updated successfully for \(userID).")
+//                }
+//            }
+        } else {
+            print("Data does not exist for \(userID)")
         }
     }
 
     /**
      크루 만들기에서 추가된 크루의 crews, memberStatus에 user의 값을 집어넣는 메서드
-         호출되는 곳
-             BoardingPointSelectViewController
+     - 호출되는 곳
+        - BoardingPointSelectViewController
      */
-    func setUserToCrew(_ userID: String, _ crewID: String) {
-        Task {
-            // Firebase 데이터베이스 참조 생성
-            let databaseRef = Database.database().reference().child("crew/\(crewID)")
+    func setUserToCrew(_ userID: String, _ crewID: String) async throws {
+        let databaseRef = Database.database().reference().child("crew/\(crewID)")
+        guard let databasePath = User.databasePathWithUID else { return }
+        let user = try await readUser(databasePath: databasePath)
+        guard let user = user else { return }
 
-            guard let databasePath = User.databasePathWithUID else {
-                return
-            }
+        // 크루 데이터에서 필요한 값을 가져와서 newMemberStatus 객체에 설정
+        let newMemberStatus = MemberStatus(
+            id: userID,
+            deviceToken: user.deviceToken,
+            nickname: user.nickname,
+            profileColor: user.profileImageColor.rawValue,
+            status: .waiting,
+            lateTime: 0
+        )
 
-            let user = try await readUser(databasePath: databasePath)
-            guard let user = user else { return }
-            // 크루 데이터에서 필요한 값을 가져와서 newMemberStatus 객체에 설정
-            let newMemberStatus: [String: Any] = [
-                "id": userID,
-                "deviceToken": user.deviceToken,
-                "nickname": user.nickname,
-                "profileColor": user.profileImageColor.rawValue,
-                "status": "waiting",
-                "lateTime": 0
-            ]
-
-            // 데이터베이스에서 크루 정보를 가져온 후 업데이트
-            databaseRef.observeSingleEvent(of: .value) { snapshot in
-                if snapshot.exists() {
-                    if var crewData = snapshot.value as? [String: Any] {
-
-                        // memberStatus 배열을 가져오고, 없으면 빈 배열 생성
-                        var memberStatusArray = crewData["memberStatus"] as? [[String: Any]] ?? []
-
-                        // 새로운 memberStatus 객체를 배열에 추가
-                        memberStatusArray.append(newMemberStatus)
-
-                        // crewData에 업데이트된 memberStatus 값을 설정
-                        crewData["memberStatus"] = memberStatusArray
-
-                        // 업데이트된 crewData를 다시 Firebase에 저장
-                        databaseRef.setValue(crewData) { error, _ in
-                            if let error = error {
-                                print("Error updating crews: \(error.localizedDescription)")
-                            } else {
-                                print("Crews updated successfully.")
-                            }
-                        }
-                    } else {
-                        print("Invalid crew data format for \(crewID)")
-                    }
-                } else {
-                    // 데이터가 존재하지 않는 경우
-                    print("Crew data does not exist for \(crewID)")
-                }
-            }
+        // 데이터베이스에서 크루 정보를 가져온 후 업데이트
+        let snapshot = try await databaseRef.getData()
+        guard let snapshotValue = snapshot.value as? [String: Any] else { return }
+        let jsonData = try JSONSerialization.data(withJSONObject: snapshotValue)
+        var crewData = try JSONDecoder().decode(Crew.self, from: jsonData)
+        if var memberStatus = crewData.memberStatus {
+            // memberStatus가 있으면 추가
+            memberStatus.append(newMemberStatus)
+            crewData.memberStatus = memberStatus
+            updateCrew(crewID: crewID, newCrewData: crewData)
+        } else {
+            // memberStatus가 없으면 생성
+            let newMemberStatusArr: [MemberStatus] = [newMemberStatus]
+            let memberStatusData = try JSONEncoder().encode(newMemberStatusArr)
+            let jsonData = try JSONSerialization.jsonObject(with: memberStatusData)
+            try await databaseRef.child("memberStatus").setValue(jsonData)
         }
     }
 
     /**
      크루 만들기에서 추가된 크루 특정 Point의 crews에 userID 값을 집어넣는 메서드
-         호출되는 곳
-             BoardingPointSelectViewController
+     - 호출되는 곳
+        - BoardingPointSelectViewController
      */
-    func setUserToPoint(_ userID: String, _ crewID: String, _ point: String) {
-            // Firebase 데이터베이스 참조 생성
-            let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)")
-            // 데이터베이스에서 해당 포인트의 크루 정보를 가져온 후 업데이트
-            databaseRef.observeSingleEvent(of: .value) { snapshot in
-                if snapshot.exists() {
-                    if var pointData = snapshot.value as? [String: Any] {
-                        // crews 배열 확인
-                        if var crews = pointData["crews"] as? [String] {
-                            // crews 배열에 userID 추가
-                            crews.append(userID)
-                            pointData["crews"] = crews
-                        } else {
-                            // crews 배열이 없으면 새로운 배열 생성 후 userID 추가
-                            pointData["crews"] = [userID]
-                        }
-
-                        // 업데이트된 pointData를 다시 Firebase에 저장
-                        databaseRef.setValue(pointData) { error, _ in
-                            if let error = error {
-                                print("Error updating crews for \(point): \(error.localizedDescription)")
-                            } else {
-                                print("Crews updated successfully for \(point).")
-                            }
-                        }
-                    } else {
-                        print("Invalid data format for \(point)")
-                    }
-                } else {
-                    // 데이터가 존재하지 않는 경우
-                    print("Data does not exist for \(point)")
-                }
-            }
+    func setUserToPoint(_ userID: String, _ crewID: String, _ point: String) async throws {
+        let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)")
+        // 데이터베이스에서 해당 포인트의 크루 정보를 가져온 후 업데이트
+        let snapshot = try await databaseRef.getData()
+        guard var pointData = snapshot.value as? [String: Any] else { return }
+        if var crews = pointData["crews"] as? [String] {
+            // crews 배열에 userID 추가
+            crews.append(userID)
+            pointData["crews"] = crews
+        } else {
+            // crews 배열이 없으면 새로운 배열 생성 후 userID 추가
+            pointData["crews"] = [userID]
         }
+
+        // 업데이트된 pointData를 다시 Firebase에 저장
+        try await databaseRef.setValue(pointData)
+    }
 
     /**
      DB에서 유저의 크루 id를 불러오는 메서드
@@ -357,7 +307,7 @@ extension FirebaseManager {
     }
 
     /**
-     크루ID로 크루 데이터 불러오기
+     크루ID로 크루 데이터 불러오기 (getData)
      - 호출되는곳
         - SessionStartViewController
      */
@@ -376,6 +326,28 @@ extension FirebaseManager {
         } catch {
             print("ERROR, \(error.localizedDescription)")
             throw error
+        }
+    }
+
+    /**
+     크루ID로 크루 데이터 불러오기 (observeSingleEvent)
+     - 호출되는 곳
+        - MyPageViewController
+        - CrewInfoCheckViewController
+     */
+    func observeCrewDataSingle(crewID: String, completion: @escaping (Crew) -> Void) {
+        let crewRef = Database.database().reference().child("crew/\(crewID)")
+        print("crewRef: \(crewRef)")
+        crewRef.observeSingleEvent(of: .value) { snapshot in
+            do {
+                if let snapshotValue = snapshot.value as? [String: Any] {
+                    let jsonData = try JSONSerialization.data(withJSONObject: snapshotValue)
+                    let crewData = try JSONDecoder().decode(Crew.self, from: jsonData)
+                    completion(crewData)
+                }
+            } catch {
+                print("ERROR: \(error.localizedDescription)")
+            }
         }
     }
 

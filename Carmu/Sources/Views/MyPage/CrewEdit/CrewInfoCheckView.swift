@@ -24,7 +24,6 @@ final class CrewInfoCheckView: UIView {
 
     // 크루명 편집하기 버튼
     // TODO: - MyPageView와 중복 -> 재사용 컴포넌트로 분리하기
-    // TODO: - 동작 구현 필요
     let crewNameEditButton: UIButton = {
         let crewNameEditButton = UIButton()
         // 폰트 설정
@@ -102,7 +101,6 @@ final class CrewInfoCheckView: UIView {
 
     // 크루 나가기 버튼
     // TODO: - CrewInfoPassengerView와 중복 -> 재사용 컴포넌트로 분리하기
-    // TODO: - 동작 구현 필요
     let exitCrewButton: UIButton = {
         let exitCrewButton = UIButton()
         let buttonFont = UIFont.carmuFont.subhead1
@@ -192,7 +190,7 @@ import SwiftUI
 struct CrewInfoCheckViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = CrewInfoCheckViewController
     func makeUIViewController(context: Context) -> CrewInfoCheckViewController {
-        return CrewInfoCheckViewController()
+        return CrewInfoCheckViewController(crewData: dummyCrewData!)
     }
     func updateUIViewController(_ uiViewController: CrewInfoCheckViewController, context: Context) {
     }

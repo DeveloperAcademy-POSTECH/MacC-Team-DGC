@@ -54,8 +54,9 @@ final class RuleDescriptionViewController: UIViewController {
 
     lazy var closeInfoButton: UIButton = {
         let button = UIButton()
-        button.setTitle("x", for: .normal)
-        button.setTitleColor(UIColor.theme.gray8, for: .normal)
+        let closeImage = UIImage(systemName: "xmark")
+        button.setImage(closeImage, for: .normal)
+        button.tintColor = UIColor.theme.gray8
         button.backgroundColor = UIColor.theme.gray4
         button.layer.cornerRadius = 14
         return button

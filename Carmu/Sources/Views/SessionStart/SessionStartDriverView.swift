@@ -22,8 +22,8 @@ final class SessionStartDriverView: UIView {
 
     // 앞면 뷰
     lazy var driverFrontView = DriverFrontView()
-    // 뒷면 뷰
-    private lazy var sessionStartBackView = SessionStartBackView()
+    // TODO: - 추후에 변경하기
+    private lazy var sessionStartBackView = NoCrewBackView()
 
     init() {
         super.init(frame: .zero)

@@ -22,8 +22,8 @@ final class SessionStartPassengerView: UIView {
 
     // 앞면 뷰
     lazy var passengerFrontView = PassengerFrontView()
-    // 뒷면 뷰
-    private lazy var sessionStartBackView = SessionStartBackView()
+    // TODO: - 추후에 변경하기
+    private lazy var sessionStartBackView = NoCrewBackView()
 
     init() {
         super.init(frame: .zero)
