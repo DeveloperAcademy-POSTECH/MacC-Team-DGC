@@ -60,6 +60,13 @@ final class SessionStartViewController: UIViewController {
                     self.crewData = updatedCrewData
                     self.updateUI(crewData: updatedCrewData)
                 }
+                if isFinishedLastSession() {
+                    firebaseManager.endSession(crew: crewData)
+                    if let crew = crewData {
+                        firebaseManager.resetSessionData(crew: crew)
+                    }
+                    showCarpoolFinishedModal()
+                }
             } else {
                 print("크루ID가 없습니다!!")
                 checkCrew(crewData: crewData)
@@ -616,6 +623,14 @@ extension SessionStartViewController {
         let ruleDescriptionViewController = RuleDescriptionViewController()
         ruleDescriptionViewController.modalPresentationStyle = .overCurrentContext
         present(ruleDescriptionViewController, animated: true)
+    }
+
+    private func isFinishedLastSession() -> Bool {
+        guard isCaptain else { return false }
+        guard let crew = crewData, crew.sessionStatus == .sessionStart else { return false }
+        guard let arrivalTime = crew.destination?.arrivalTime?.toString24HourClock.toMinutes else { return false }
+        let now = Date().toString24HourClock.toMinutes
+        return now >= arrivalTime + crew.lateTime + 10
     }
 }
 

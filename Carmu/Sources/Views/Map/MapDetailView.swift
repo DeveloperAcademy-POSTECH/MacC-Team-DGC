@@ -102,14 +102,14 @@ final class MapDetailView: UIView {
         return view
     }()
 
-    let finishCarpoolButton = {
+    let finishShuttleButton = {
         var config = UIButton.Configuration.filled()
 
         var titleContainer = AttributeContainer()
         titleContainer.font = UIFont.carmuFont.headline2
         titleContainer.foregroundColor = UIColor.semantic.textSecondary
 
-        config.attributedTitle = AttributedString("카풀 종료하기", attributes: titleContainer)
+        config.attributedTitle = AttributedString("운행 종료하기", attributes: titleContainer)
         config.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 20, bottom: 13, trailing: 20)
         config.cornerStyle = .capsule
         config.baseBackgroundColor = UIColor.semantic.accPrimary
@@ -235,8 +235,8 @@ final class MapDetailView: UIView {
 
         let padding = 20
 
-        addSubview(finishCarpoolButton)
-        finishCarpoolButton.snp.makeConstraints { make in
+        addSubview(finishShuttleButton)
+        finishShuttleButton.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(padding)
             make.bottom.equalToSuperview().inset(48)
         }
@@ -245,7 +245,7 @@ final class MapDetailView: UIView {
         crewScrollView.snp.remakeConstraints { make in
             make.top.equalTo(latenessTitleLabel.snp.bottom).offset(12)
             make.leading.trailing.equalToSuperview().inset(padding)
-            make.bottom.equalTo(finishCarpoolButton.snp.top).offset(-padding)
+            make.bottom.equalTo(finishShuttleButton.snp.top).offset(-padding)
         }
     }
 
