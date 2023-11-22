@@ -257,16 +257,6 @@ extension SessionStartViewController {
         driverCardView.layer.opacity = 1.0
         backgroundView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
 
-        // topComment 변경
-        backgroundView.titleLabel.text = "\(crewData.name ?? "그룹명")이\n시작되었습니다"
-        // 특정 부분 색상 넣기
-        let topCommentText = NSMutableAttributedString(string: backgroundView.titleLabel.text ?? "")
-        if let range1 = backgroundView.titleLabel.text?.range(of: "\(crewData.name ?? "그룹명")") {
-            let nsRange1 = NSRange(range1, in: backgroundView.titleLabel.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
-        }
-        backgroundView.titleLabel.attributedText = topCommentText
-
         // notifyComment 변경하기
         backgroundView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
         let attributedText = NSMutableAttributedString(string: backgroundView.notifyComment.text ?? "")

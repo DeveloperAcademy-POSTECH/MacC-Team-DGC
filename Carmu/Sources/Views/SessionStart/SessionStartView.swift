@@ -99,12 +99,17 @@ extension SessionStartView {
             return
         }
         if firebaseManger.isDriver(crewData: crewData) {
-            if crewData.sessionStatus == .waiting {
+            switch crewData.sessionStatus {
+            case .waiting:
                 setTitleLabelDriverWaiting(crewData: crewData)
-            } else if crewData.sessionStatus == .decline {
+            case .decline:
                 titleLabel.text = ""
-            } else if crewData.sessionStatus == .accept {
+            case .accept:
                 setTitleDriverAccept(crewData: crewData)
+            case .sessionStart:
+                setTitleDriverSessionStart(crewData: crewData)
+            case .none:
+                break
             }
         }
     }
@@ -153,5 +158,16 @@ extension SessionStartView {
             }
             titleLabel.attributedText = topCommentText
         }
+    }
+
+    private func setTitleDriverSessionStart(crewData: Crew) {
+        let crewName = crewData.name ?? ""
+        titleLabel.text = "\(crewName),\n안전 운행하세요"
+        let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
+        if let range1 = titleLabel.text?.range(of: "\(crewName)") {
+            let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
+            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
+        }
+        titleLabel.attributedText = topCommentText
     }
 }
