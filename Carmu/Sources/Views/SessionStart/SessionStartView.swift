@@ -3,6 +3,7 @@ import UIKit
 final class SessionStartView: UIView {
 
     private let firebaseManger = FirebaseManager()
+    private let textColor = UIColor.semantic.accPrimary ?? .blue
 
     lazy var myPageButton: UIButton = {
         let button = UIButton()
@@ -92,6 +93,10 @@ extension SessionStartView {
             make.top.equalTo(myPageButton.snp.bottom)
         }
     }
+}
+
+// MARK: - titleLabel 관련
+extension SessionStartView {
 
     func setTitleLabel(crewData: Crew?) {
         guard let crewData = crewData else {
@@ -116,58 +121,40 @@ extension SessionStartView {
 
     private func setTitleLabelNoCrew() {
         titleLabel.text = "오늘도 카뮤와 함께\n즐거운 하루되세요!"
-        let attributedText = NSMutableAttributedString(string: titleLabel.text ?? "")
-        if let range1 = titleLabel.text?.range(of: "카뮤") {
-            let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
-        }
-        titleLabel.attributedText = attributedText
+        titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: ["카뮤"], color: textColor)
     }
 
     private func setTitleLabelDriverWaiting(crewData: Crew) {
         let crewName = crewData.name ?? ""
         titleLabel.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
-        let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
-        if let range1 = titleLabel.text?.range(of: "\(String(describing: crewName))") {
-            let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
-        }
-        titleLabel.attributedText = topCommentText
+        titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
     }
 
     private func setTitleDriverAccept(crewData: Crew) {
         if firebaseManger.isAnyMemberAccepted(crewData: crewData) {
             let crewName = crewData.name ?? ""
             titleLabel.text = "\(String(describing: crewName)),\n운행을 시작해볼까요?"
-            let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
-            if let range1 = titleLabel.text?.range(of: "\(String(describing: crewName))") {
-                let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
-                topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
-            }
-            titleLabel.attributedText = topCommentText
+            titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
         } else {
             titleLabel.text = "탑승자들의\n응답을 기다립니다"
-            let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
-            if let range1 = titleLabel.text?.range(of: "탑승자들") {
-                let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
-                topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
-            }
-            if let range2 = titleLabel.text?.range(of: "응답") {
-                let nsRange2 = NSRange(range2, in: titleLabel.text ?? "")
-                topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange2)
-            }
-            titleLabel.attributedText = topCommentText
+            titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: ["탑승자들", "응답"], color: textColor)
         }
     }
 
     private func setTitleDriverSessionStart(crewData: Crew) {
         let crewName = crewData.name ?? ""
         titleLabel.text = "\(crewName),\n안전 운행하세요"
+        titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
+    }
+
+    private func setColorToLabel(text: String?, coloredTexts: [String], color: UIColor) -> NSMutableAttributedString {
         let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
-        if let range1 = titleLabel.text?.range(of: "\(crewName)") {
-            let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
+        for coloredText in coloredTexts {
+            if let range = titleLabel.text?.range(of: coloredText) {
+                let nsRange = NSRange(range, in: text ?? "")
+                topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: nsRange)
+            }
         }
-        titleLabel.attributedText = topCommentText
+        return topCommentText
     }
 }
