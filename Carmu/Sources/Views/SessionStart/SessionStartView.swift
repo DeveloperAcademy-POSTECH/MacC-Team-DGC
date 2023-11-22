@@ -101,6 +101,8 @@ extension SessionStartView {
         if firebaseManger.isDriver(crewData: crewData) {
             if crewData.sessionStatus == .waiting {
                 setTitleLabelDriverWaiting(crewData: crewData)
+            } else if crewData.sessionStatus == .decline {
+                titleLabel.text = ""
             }
         }
     }

@@ -242,7 +242,6 @@ extension SessionStartViewController {
     // 공통(운전자, 탑승자)으로 사용되는 메서드
     // settingData - .decline
     private func settingDataDecline() {
-        backgroundView.titleLabel.text = ""
         driverCardView.layer.opacity = 1.0
         backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
         backgroundView.individualButton.isEnabled = false
