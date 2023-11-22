@@ -127,7 +127,6 @@ extension SessionStartViewController {
                     backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
                     backgroundView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
                 case .accept:
-                    backgroundView.titleLabel.text = ""
                     memberCardView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
                     memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
                     backgroundView.notifyComment.text = ""

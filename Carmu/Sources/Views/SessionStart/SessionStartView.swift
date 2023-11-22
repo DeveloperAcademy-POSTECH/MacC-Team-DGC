@@ -119,6 +119,8 @@ extension SessionStartView {
         } else {
             if firebaseManger.passengerStatus(crewData: crewData) == .decline {
                 titleLabel.text = ""
+            } else if crewData.sessionStatus == .sessionStart {
+                setTitleMemberSessionStart(crewData: crewData)
             }
         }
     }
@@ -148,6 +150,12 @@ extension SessionStartView {
     private func setTitleDriverSessionStart(crewData: Crew) {
         let crewName = crewData.name ?? ""
         titleLabel.text = "\(crewName),\n안전 운행하세요"
+        titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
+    }
+
+    private func setTitleMemberSessionStart(crewData: Crew) {
+        let crewName = crewData.name ?? ""
+        titleLabel.text = "\(crewName)이\n시작되었습니다!"
         titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
     }
 
