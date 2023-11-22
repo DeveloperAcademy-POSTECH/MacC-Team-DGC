@@ -121,6 +121,8 @@ extension SessionStartView {
                 titleLabel.text = ""
             } else if crewData.sessionStatus == .sessionStart {
                 setTitleMemberSessionStart(crewData: crewData)
+            } else {
+                setTitleMemberDefault(crewData: crewData)
             }
         }
     }
@@ -156,6 +158,12 @@ extension SessionStartView {
     private func setTitleMemberSessionStart(crewData: Crew) {
         let crewName = crewData.name ?? ""
         titleLabel.text = "\(crewName)이\n시작되었습니다!"
+        titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
+    }
+
+    private func setTitleMemberDefault(crewData: Crew) {
+        let crewName = crewData.name ?? ""
+        titleLabel.text = "\(crewName)과\n함께 가시나요?"
         titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
     }
 
