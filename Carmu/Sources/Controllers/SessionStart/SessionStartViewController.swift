@@ -79,8 +79,7 @@ final class SessionStartViewController: UIViewController {
                     showShuttleFinishedModal()
                 }
             } else {
-                print("크루ID가 없습니다!!")
-                checkCrew(crewData: crewData)
+                showNoCrewView()
             }
         }
         // TODO: - 그룹 나가기 후, 초대코드 입력해서 들어온 뒤 UI 처리
@@ -150,8 +149,7 @@ extension SessionStartViewController {
 // MARK: - 크루가 없을 때
 extension SessionStartViewController {
 
-    // 크루가 없을 때의 뷰 세팅
-    private func settingNoCrewView() {
+    private func showNoCrewView() {
         sessionStartView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
         let attributedText = NSMutableAttributedString(string: sessionStartView.topComment.text ?? "")
         if let range1 = sessionStartView.topComment.text?.range(of: "카뮤") {
@@ -578,8 +576,7 @@ extension SessionStartViewController {
             // 데이터가 로드되었다면, 데이터가 있는 것으로 간주
             settingCrewView(crewData: crewData)
         } else {
-            // 데이터가 아직 로드되지 않았거나 로드 실패한 경우
-            settingNoCrewView()
+            showNoCrewView()
         }
     }
 
