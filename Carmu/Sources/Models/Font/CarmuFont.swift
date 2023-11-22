@@ -16,6 +16,7 @@ struct CarmuFont {
     // Headline 폰트
     let headline1 = UIFont(name: "SFPro-Bold", size: 20) ?? UIFont.systemFont(ofSize: 20)
     let headline2 = UIFont(name: "SFPro-Bold", size: 24) ?? UIFont.systemFont(ofSize: 24)
+    let headline3 = UIFont(name: "SFPro-Bold", size: 16) ?? UIFont.systemFont(ofSize: 16)
 
     // Display 폰트
     let display1 = UIFont(name: "SFPro-Bold", size: 28) ?? UIFont.systemFont(ofSize: 28)

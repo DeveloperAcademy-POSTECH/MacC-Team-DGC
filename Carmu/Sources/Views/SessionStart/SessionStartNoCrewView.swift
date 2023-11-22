@@ -175,7 +175,7 @@ final class NoCrewBackView: UIView {
 
     private lazy var comment: UILabel = {
         let label = UILabel()
-        label.text = "카뮤와 함께 즐겁게 카풀하기 위한 규칙"
+        label.text = "행복한 셔틀을 위한 규칙"
         label.font = UIFont.carmuFont.subhead3
         label.textColor = UIColor.semantic.textPrimary
         label.textAlignment = .center
@@ -191,9 +191,9 @@ final class NoCrewBackView: UIView {
     }()
     private lazy var driverLabel: UILabel = {
         let label = UILabel()
-        label.text = "운전자"
+        label.text = "기사님"
         label.textColor = UIColor.semantic.textPrimary
-        label.font = UIFont.carmuFont.headline1
+        label.font = UIFont.carmuFont.headline3
         label.textAlignment = .center
         return label
     }()
@@ -205,7 +205,7 @@ final class NoCrewBackView: UIView {
     }()
     private lazy var driverInfoLabel: UILabel = {
         let label = UILabel()
-        label.text = "적어도 출발시간 30분 전까지는\n카풀 운행 여부를 알려주세요"
+        label.text = "적어도 출발시간 30분 전까지는\n셔틀 운행 여부를 알려주세요"
         label.font = UIFont.carmuFont.body3
         label.textAlignment = .center
         label.numberOfLines = 0
@@ -215,13 +215,17 @@ final class NoCrewBackView: UIView {
             let nsRange1 = NSRange(range1, in: label.text ?? "")
             attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
+        if let range2 = label.text?.range(of: "셔틀 운행 여부") {
+            let nsRange2 = NSRange(range2, in: label.text ?? "")
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange2)
+        }
         label.attributedText = attributedText
         return label
     }()
 
     lazy var driverDetailLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.text = "시간 내 응답을 하지 않으면 자동으로\n 운행을 하지 않는다고 알려요"
         label.font = UIFont.carmuFont.body1Long
         label.textColor = UIColor.semantic.textBody
         label.numberOfLines = 0
@@ -240,7 +244,7 @@ final class NoCrewBackView: UIView {
         let label = UILabel()
         label.text = "동승자"
         label.textColor = UIColor.semantic.textPrimary
-        label.font = UIFont.carmuFont.headline1
+        label.font = UIFont.carmuFont.headline3
         label.textAlignment = .center
         return label
     }()
@@ -267,7 +271,7 @@ final class NoCrewBackView: UIView {
     }()
     lazy var passengerDetailLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
+        label.text = "시간 내 응답을 하지 않으면 자동으로\n 탑승을 하지 않는다고 알려요"
         label.font = UIFont.carmuFont.body1Long
         label.textColor = UIColor.semantic.textBody
         label.numberOfLines = 0
@@ -303,7 +307,7 @@ final class NoCrewBackView: UIView {
 
     private func setupConstraints() {
         comment.snp.makeConstraints { make in
-            make.top.lessThanOrEqualToSuperview().inset(28)
+            make.top.lessThanOrEqualToSuperview().inset(16)
             make.centerX.equalToSuperview()
         }
         driverConstraints()
@@ -325,17 +329,17 @@ final class NoCrewBackView: UIView {
             make.height.equalTo(driverView)
         }
         driverLabel.snp.makeConstraints { make in
-            make.top.lessThanOrEqualToSuperview().inset(16)
+            make.top.lessThanOrEqualToSuperview().inset(12)
             make.centerX.equalToSuperview()
         }
         driverImage.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(driverLabel.snp.bottom).offset(6)
+            make.top.lessThanOrEqualTo(driverLabel.snp.bottom).offset(4)
             make.centerX.equalToSuperview()
-            make.width.equalTo(60)
-            make.height.equalTo(50)
+            make.width.equalTo(40)
+            make.height.equalTo(36)
         }
         driverInfoLabel.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(driverImage.snp.bottom).offset(6)
+            make.top.lessThanOrEqualTo(driverImage.snp.bottom).offset(4)
             make.centerX.equalToSuperview()
             make.bottom.lessThanOrEqualToSuperview().inset(12)
         }
@@ -347,17 +351,17 @@ final class NoCrewBackView: UIView {
 
     private func passengerConstraints() {
         passengerLabel.snp.makeConstraints { make in
-            make.top.lessThanOrEqualToSuperview().inset(16)
+            make.top.lessThanOrEqualToSuperview().inset(12)
             make.centerX.equalToSuperview()
         }
         passengerImage.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(passengerLabel.snp.bottom).offset(6)
+            make.top.lessThanOrEqualTo(passengerLabel.snp.bottom).offset(4)
             make.centerX.equalToSuperview()
-            make.width.equalTo(60)
-            make.height.equalTo(50)
+            make.width.equalTo(40)
+            make.height.equalTo(36)
         }
         passengerInfoLabel.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(passengerImage.snp.bottom).offset(6)
+            make.top.lessThanOrEqualTo(passengerImage.snp.bottom).offset(4)
             make.centerX.equalToSuperview()
             make.bottom.lessThanOrEqualToSuperview().inset(12)
         }
