@@ -45,7 +45,6 @@
 		B8726B222AFDBA240084B49C /* CrewInfoCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */; };
 		B87A22D62B0465BB00D8DC49 /* PointEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A22D52B0465BB00D8DC49 /* PointEditTableViewCell.swift */; };
 		B87A22DA2B051E8000D8DC49 /* PointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A22D92B051E8000D8DC49 /* PointType.swift */; };
-		B895A1662B0C2ECA007582DE /* launchGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = B895A1652B0C2ECA007582DE /* launchGif.gif */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
 		B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */; };
 		B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */; };
@@ -87,7 +86,6 @@
 		BFB18D862B02FB23006858C3 /* SessionFinishViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFB18D852B02FB23006858C3 /* SessionFinishViewController.swift */; };
 		BFD765862AF7E16F0074277B /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD765852AF7E16F0074277B /* MapView.swift */; };
 		BFE876B82AC809A300573B92 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = BFE876B72AC809A300573B92 /* SnapKit */; };
-		BFFA10AF2AE609B8003CE661 /* PickupLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */; };
 		BFFA10B22AE61012003CE661 /* NoticeLateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */; };
 		BFFA10B42AE62FAF003CE661 /* NoticeLateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */; };
 		C904D1562AD5786A008BF5CE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1552AD5786A008BF5CE /* User.swift */; };
@@ -190,7 +188,6 @@
 		B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoCheckViewController.swift; sourceTree = "<group>"; };
 		B87A22D52B0465BB00D8DC49 /* PointEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointEditTableViewCell.swift; sourceTree = "<group>"; };
 		B87A22D92B051E8000D8DC49 /* PointType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointType.swift; sourceTree = "<group>"; };
-		B895A1652B0C2ECA007582DE /* launchGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = launchGif.gif; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmu.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -230,7 +227,6 @@
 		BF9BCFFF2ACE4893009DAECD /* SessionStartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartView.swift; sourceTree = "<group>"; };
 		BFB18D852B02FB23006858C3 /* SessionFinishViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionFinishViewController.swift; sourceTree = "<group>"; };
 		BFD765852AF7E16F0074277B /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
-		BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupLocation.swift; sourceTree = "<group>"; };
 		BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateViewController.swift; sourceTree = "<group>"; };
 		BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateView.swift; sourceTree = "<group>"; };
 		C904D1552AD5786A008BF5CE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -342,7 +338,6 @@
 				C92CFB372ACBC9090068273A /* Font */,
 				C92CFB362AC9B6CD0068273A /* Color */,
 				B8EECEA12ACD6598004D310C /* KeychainItem.swift */,
-				BFFA10AE2AE609B8003CE661 /* PickupLocation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -925,7 +920,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BF0C33042AE51E7C00A6D8FE /* PaddingLabel.swift in Sources */,
-				BFFA10AF2AE609B8003CE661 /* PickupLocation.swift in Sources */,
 				BFFA10B22AE61012003CE661 /* NoticeLateViewController.swift in Sources */,
 				C93116662AF382260014E702 /* StopoverPointCheckViewController.swift in Sources */,
 				C9D8E4E02AF482B9007570EE /* RepeatDaySelectViewController.swift in Sources */,
