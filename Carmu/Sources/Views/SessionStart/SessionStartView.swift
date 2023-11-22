@@ -104,26 +104,9 @@ extension SessionStartView {
             return
         }
         if firebaseManger.isDriver(crewData: crewData) {
-            switch crewData.sessionStatus {
-            case .waiting:
-                setTitleLabelDriverWaiting(crewData: crewData)
-            case .decline:
-                titleLabel.text = ""
-            case .accept:
-                setTitleDriverAccept(crewData: crewData)
-            case .sessionStart:
-                setTitleDriverSessionStart(crewData: crewData)
-            case .none:
-                break
-            }
+            setTitleForDriver(crewData: crewData)
         } else {
-            if firebaseManger.passengerStatus(crewData: crewData) == .decline {
-                titleLabel.text = ""
-            } else if crewData.sessionStatus == .sessionStart {
-                setTitleMemberSessionStart(crewData: crewData)
-            } else {
-                setTitleMemberDefault(crewData: crewData)
-            }
+            setTitleForMember(crewData: crewData)
         }
     }
 
@@ -132,7 +115,32 @@ extension SessionStartView {
         titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: ["카뮤"], color: textColor)
     }
 
-    private func setTitleLabelDriverWaiting(crewData: Crew) {
+    private func setTitleForDriver(crewData: Crew) {
+        switch crewData.sessionStatus {
+        case .waiting:
+            setTitleDriverWaiting(crewData: crewData)
+        case .decline:
+            titleLabel.text = ""
+        case .accept:
+            setTitleDriverAccept(crewData: crewData)
+        case .sessionStart:
+            setTitleDriverSessionStart(crewData: crewData)
+        case .none:
+            break
+        }
+    }
+
+    private func setTitleForMember(crewData: Crew) {
+        if firebaseManger.passengerStatus(crewData: crewData) == .decline {
+            titleLabel.text = ""
+        } else if crewData.sessionStatus == .sessionStart {
+            setTitleMemberSessionStart(crewData: crewData)
+        } else {
+            setTitleMemberDefault(crewData: crewData)
+        }
+    }
+
+    private func setTitleDriverWaiting(crewData: Crew) {
         let crewName = crewData.name ?? ""
         titleLabel.text = "\(crewName),\n오늘 운행하시나요?"
         titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: textColor)
