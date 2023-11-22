@@ -341,17 +341,6 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     private func settingPassengerView(crewData: Crew) {
-        let crewName = crewData.name ?? ""
-
-        backgroundView.titleLabel.text = "\(String(describing: crewName))과\n함께 가시나요?"
-        // 특정 부분 색상 넣기
-        let topCommentText = NSMutableAttributedString(string: backgroundView.titleLabel.text ?? "")
-        if let range1 = backgroundView.titleLabel.text?.range(of: "\(String(describing: crewName))") {
-            let nsRange1 = NSRange(range1, in: backgroundView.titleLabel.text ?? "")
-            topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
-        }
-        backgroundView.titleLabel.attributedText = topCommentText
-
         backgroundView.notifyComment.text = ""
 
         backgroundView.individualButton.setTitle("따로가요", for: .normal)
