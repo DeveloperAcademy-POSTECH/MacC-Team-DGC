@@ -511,8 +511,7 @@ extension SessionStartViewController {
             serverPushManager.pushToAllPassenger(crewData: crew)
         }
 
-        // FirebaseManager methods
-        firebaseManager.carpoolStartButtonTapped(crewData: crewData)
+        // sessionStatus -> sessionStart는 MapViewController 내부에서 변경
 
         let mapView = MapViewController(crew: crew)
         mapView.modalPresentationStyle = .fullScreen
