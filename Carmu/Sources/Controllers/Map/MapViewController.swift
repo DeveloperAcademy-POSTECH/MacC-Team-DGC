@@ -121,12 +121,7 @@ final class MapViewController: UIViewController {
 
     /// [탑승자] 운행이 종료되었다는 얼럿을 띄우고 맵뷰를 종료하는 메서드
     private func showFinishedAlert() {
-        let alert = UIAlertController(title: "운전자가 셔틀 운행을 종료했습니다", message: "확인을 누르면 대기화면으로 돌아갑니다", preferredStyle: .alert)
-        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-            self.dismiss(animated: true)
-        }
-        alert.addAction(confirmAction)
-        present(alert, animated: true)
+        showDismissAlert(title: "운전자가 셔틀 운행을 종료했습니다", message: "확인을 누르면 대기화면으로 돌아갑니다")
     }
 
     /// [운전자] 도착지 주변에서 일정 시간이 지났는데 운행을 종료하지 않았을 경우 맵뷰를 종료하는 얼럿을 띄우는 메서드
@@ -331,6 +326,20 @@ final class MapViewController: UIViewController {
         crew.sessionStatus = sessionStatus
         firebaseManager.updateSessionStatus(to: sessionStatus, crew: crew)
     }
+
+    /// [운전자, 동승자] 위치 권한 설정이 되어있지 않은 경우 표시하는 얼럿
+    private func showLocationAuthorizationAlert() {
+        showDismissAlert(title: "위치 권한 설정이 필요합니다", message: "설정 → 카뮤앱에서 권한 설정을 해주세요")
+    }
+
+    private func showDismissAlert(title: String?, message: String?) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
+            self.dismiss(animated: true)
+        }
+        alert.addAction(confirmAction)
+        present(alert, animated: true)
+    }
 }
 
 extension MapViewController: CLLocationManagerDelegate {
@@ -357,6 +366,18 @@ extension MapViewController: CLLocationManagerDelegate {
         } else {
             mapView.updateMyPositionMarker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             myCurrentCoordinate = location.coordinate
+        }
+    }
+
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch locationManager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            firebaseManager.updateSessionStatus(to: .sessionStart, crew: crew)
+        case .restricted, .denied:
+            showLocationAuthorizationAlert()
+        case .notDetermined:
+            print("locationManger.authorizationStatus notDetermined")
+        @unknown default: break
         }
     }
 
