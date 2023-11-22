@@ -472,14 +472,7 @@ extension SessionStartViewController {
 
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
     private func checkingCrewStatus(crewData: Crew) {
-        guard let memberStatus = crewData.memberStatus else { return }
-
-        // .accept 상태를 가진 크루원이 있는지 확인
-        let isAnyMemberAccepted = memberStatus.contains { member in
-            return member.status == .accept
-        }
-
-        if isAnyMemberAccepted {
+        if firebaseManager.isAnyMemberAccepted(crewData: crewData) {
             backgroundView.carpoolStartButton.isEnabled = true
             backgroundView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
             backgroundView.carpoolStartButton.backgroundColor = UIColor.semantic.accPrimary
