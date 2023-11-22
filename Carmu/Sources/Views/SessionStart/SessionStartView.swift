@@ -11,7 +11,7 @@ final class SessionStartView: UIView {
         return button
     }()
 
-    lazy var topComment: UILabel = {
+    let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.carmuFont.headline2
         label.textAlignment = .left
@@ -73,7 +73,7 @@ extension SessionStartView {
 
     private func setupUI() {
         addSubview(myPageButton)
-        addSubview(topComment)
+        addSubview(titleLabel)
         addSubview(notifyComment)
         addSubview(individualButton)
         addSubview(togetherButton)
@@ -85,9 +85,26 @@ extension SessionStartView {
             make.top.equalTo(safeAreaLayoutGuide)
             make.trailing.equalToSuperview().inset(20)
         }
-        topComment.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.top.equalTo(myPageButton.snp.bottom)
         }
+    }
+
+    func setTitleLabel(crewData: Crew?) {
+        guard let crewData = crewData else {
+            setTitleLabelNoCrew()
+            return
+        }
+    }
+
+    private func setTitleLabelNoCrew() {
+        titleLabel.text = "오늘도 카뮤와 함께\n즐거운 하루되세요!"
+        let attributedText = NSMutableAttributedString(string: titleLabel.text ?? "")
+        if let range1 = titleLabel.text?.range(of: "카뮤") {
+            let nsRange1 = NSRange(range1, in: titleLabel.text ?? "")
+            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
+        }
+        titleLabel.attributedText = attributedText
     }
 }

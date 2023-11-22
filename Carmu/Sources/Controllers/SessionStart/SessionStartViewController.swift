@@ -119,7 +119,7 @@ extension SessionStartViewController {
                     backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
                     backgroundView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
                 case .accept:
-                    backgroundView.topComment.text = ""
+                    backgroundView.titleLabel.text = ""
                     memberCardView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
                     memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
                     backgroundView.notifyComment.text = ""
@@ -129,7 +129,7 @@ extension SessionStartViewController {
                     backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
                     backgroundView.togetherButton.isEnabled = false
                 case .decline:
-                    backgroundView.topComment.text = ""
+                    backgroundView.titleLabel.text = ""
                     backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
                     backgroundView.individualButton.isEnabled = false
                     backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
@@ -154,17 +154,7 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     private func showNoCrewCardView() {
-        backgroundView.topComment.text = "오늘도 카뮤와 함께\n즐거운 카풀 생활되세요!"
-        let attributedText = NSMutableAttributedString(string: backgroundView.topComment.text ?? "")
-        if let range1 = backgroundView.topComment.text?.range(of: "카뮤") {
-            let nsRange1 = NSRange(range1, in: backgroundView.topComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
-        }
-        if let range2 = backgroundView.topComment.text?.range(of: "카풀 생활") {
-            let nsRange2 = NSRange(range2, in: backgroundView.topComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange2)
-        }
-        backgroundView.topComment.attributedText = attributedText
+        backgroundView.setTitleLabel(crewData: nil)
 
         backgroundView.notifyComment.isHidden = true
         backgroundView.individualButton.isHidden = true
@@ -177,7 +167,7 @@ extension SessionStartViewController {
 
         noCrewCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(backgroundView.topComment.snp.bottom).offset(36)
+            make.top.equalTo(backgroundView.titleLabel.snp.bottom).offset(36)
             make.bottom.lessThanOrEqualToSuperview().inset(165)
             make.bottom.equalToSuperview().inset(165)
         }
@@ -246,7 +236,7 @@ extension SessionStartViewController {
     // 공통(운전자, 탑승자)으로 사용되는 메서드
     // settingData - .decline
     private func settingDataDecline() {
-        backgroundView.topComment.text = ""
+        backgroundView.titleLabel.text = ""
         driverCardView.layer.opacity = 1.0
         backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
         backgroundView.individualButton.isEnabled = false
@@ -263,14 +253,14 @@ extension SessionStartViewController {
         backgroundView.carpoolStartButton.setTitle("카풀 지도보기", for: .normal)
 
         // topComment 변경
-        backgroundView.topComment.text = "\(crewData.name ?? "그룹명")이\n시작되었습니다"
+        backgroundView.titleLabel.text = "\(crewData.name ?? "그룹명")이\n시작되었습니다"
         // 특정 부분 색상 넣기
-        let topCommentText = NSMutableAttributedString(string: backgroundView.topComment.text ?? "")
-        if let range1 = backgroundView.topComment.text?.range(of: "\(crewData.name ?? "그룹명")") {
-            let nsRange1 = NSRange(range1, in: backgroundView.topComment.text ?? "")
+        let topCommentText = NSMutableAttributedString(string: backgroundView.titleLabel.text ?? "")
+        if let range1 = backgroundView.titleLabel.text?.range(of: "\(crewData.name ?? "그룹명")") {
+            let nsRange1 = NSRange(range1, in: backgroundView.titleLabel.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
-        backgroundView.topComment.attributedText = topCommentText
+        backgroundView.titleLabel.attributedText = topCommentText
 
         // notifyComment 변경하기
         backgroundView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
@@ -297,14 +287,14 @@ extension SessionStartViewController {
         // comment
         let crewName = crewData.name ?? ""
 
-        backgroundView.topComment.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
+        backgroundView.titleLabel.text = "\(String(describing: crewName)),\n오늘 운행하시나요?"
         // 특정 부분 색상 넣기
-        let topCommentText = NSMutableAttributedString(string: backgroundView.topComment.text ?? "")
-        if let range1 = backgroundView.topComment.text?.range(of: "\(String(describing: crewName))") {
-            let nsRange1 = NSRange(range1, in: backgroundView.topComment.text ?? "")
+        let topCommentText = NSMutableAttributedString(string: backgroundView.titleLabel.text ?? "")
+        if let range1 = backgroundView.titleLabel.text?.range(of: "\(String(describing: crewName))") {
+            let nsRange1 = NSRange(range1, in: backgroundView.titleLabel.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
-        backgroundView.topComment.attributedText = topCommentText
+        backgroundView.titleLabel.attributedText = topCommentText
 
         backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
         let notifyCommentText = NSMutableAttributedString(string: backgroundView.notifyComment.text ?? "")
@@ -370,14 +360,14 @@ extension SessionStartViewController {
     private func settingPassengerView(crewData: Crew) {
         let crewName = crewData.name ?? ""
 
-        backgroundView.topComment.text = "\(String(describing: crewName))과\n함께 가시나요?"
+        backgroundView.titleLabel.text = "\(String(describing: crewName))과\n함께 가시나요?"
         // 특정 부분 색상 넣기
-        let topCommentText = NSMutableAttributedString(string: backgroundView.topComment.text ?? "")
-        if let range1 = backgroundView.topComment.text?.range(of: "\(String(describing: crewName))") {
-            let nsRange1 = NSRange(range1, in: backgroundView.topComment.text ?? "")
+        let topCommentText = NSMutableAttributedString(string: backgroundView.titleLabel.text ?? "")
+        if let range1 = backgroundView.titleLabel.text?.range(of: "\(String(describing: crewName))") {
+            let nsRange1 = NSRange(range1, in: backgroundView.titleLabel.text ?? "")
             topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange1)
         }
-        backgroundView.topComment.attributedText = topCommentText
+        backgroundView.titleLabel.attributedText = topCommentText
 
         backgroundView.notifyComment.text = ""
 
