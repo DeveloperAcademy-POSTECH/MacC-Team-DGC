@@ -568,7 +568,7 @@ extension FirebaseManager {
         }
     }
 
-    /**
+    /*
      crewList의 uid로 DB에서 크루 데이터 불러오는 메서드
      - 호출되는 곳
         - SessionStartViewController
@@ -908,7 +908,7 @@ extension FirebaseManager {
         let crewReference = Database.database().reference().child("crew/\(crewID)")
         crewReference.child("lateTime").setValue(0)
         guard let memberStatus = crew.memberStatus else { return }
-        for (index, _) in memberStatus.enumerated() {
+        for index in memberStatus.indices {
             crewReference.child("memberStatus/\(index)/lateTime").setValue(0)
             crewReference.child("memberStatus/\(index)/status").setValue(Status.waiting.rawValue)
         }

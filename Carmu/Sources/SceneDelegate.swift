@@ -34,7 +34,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         self.window = window
 
         // 스플래시 뷰
-        var navigationController = UINavigationController(rootViewController: LaunchScreenViewController())
+        let navigationController = UINavigationController(rootViewController: LaunchScreenViewController())
         navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
         self.window?.rootViewController = navigationController
         self.window?.makeKeyAndVisible()
