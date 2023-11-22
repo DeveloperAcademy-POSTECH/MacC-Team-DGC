@@ -66,7 +66,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 // UI 업데이트 메인 스레드에서 수행
                 await MainActor.run {
                     if Auth.auth().currentUser != nil {
-                        if SceneDelegate.isFirst && hasCrew {
+                        if SceneDelegate.isFirst && !hasCrew {
                             navigationController = UINavigationController(rootViewController: PositionSelectViewController())
                             navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
                         } else {
