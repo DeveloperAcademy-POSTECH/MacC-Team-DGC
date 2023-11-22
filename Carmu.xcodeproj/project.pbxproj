@@ -45,7 +45,6 @@
 		B8726B222AFDBA240084B49C /* CrewInfoCheckViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */; };
 		B87A22D62B0465BB00D8DC49 /* PointEditTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A22D52B0465BB00D8DC49 /* PointEditTableViewCell.swift */; };
 		B87A22DA2B051E8000D8DC49 /* PointType.swift in Sources */ = {isa = PBXBuildFile; fileRef = B87A22D92B051E8000D8DC49 /* PointType.swift */; };
-		B895A1662B0C2ECA007582DE /* launchGif.gif in Resources */ = {isa = PBXBuildFile; fileRef = B895A1652B0C2ECA007582DE /* launchGif.gif */; };
 		B8A20E3D2AC0B46E00F0CE91 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3C2AC0B46E00F0CE91 /* FirebaseAnalytics */; };
 		B8A20E3F2AC0B46E00F0CE91 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B8A20E3E2AC0B46E00F0CE91 /* FirebaseAuth */; };
 		B8A20E422AC0BC8900F0CE91 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */; };
@@ -91,7 +90,6 @@
 		BFFA10B22AE61012003CE661 /* NoticeLateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */; };
 		BFFA10B42AE62FAF003CE661 /* NoticeLateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */; };
 		C904D1562AD5786A008BF5CE /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1552AD5786A008BF5CE /* User.swift */; };
-		C904D1582AD57942008BF5CE /* Friendship.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1572AD57942008BF5CE /* Friendship.swift */; };
 		C904D1612AD57AE8008BF5CE /* Crew.swift in Sources */ = {isa = PBXBuildFile; fileRef = C904D1602AD57AE8008BF5CE /* Crew.swift */; };
 		C908AE412B03920500C5A743 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908AE402B03920500C5A743 /* LoadingView.swift */; };
 		C908AE432B03923600C5A743 /* LoadingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C908AE422B03923600C5A743 /* LoadingViewController.swift */; };
@@ -190,7 +188,6 @@
 		B8726B212AFDBA240084B49C /* CrewInfoCheckViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewInfoCheckViewController.swift; sourceTree = "<group>"; };
 		B87A22D52B0465BB00D8DC49 /* PointEditTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointEditTableViewCell.swift; sourceTree = "<group>"; };
 		B87A22D92B051E8000D8DC49 /* PointType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointType.swift; sourceTree = "<group>"; };
-		B895A1652B0C2ECA007582DE /* launchGif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = launchGif.gif; sourceTree = "<group>"; };
 		B8A20E402AC0B9F400F0CE91 /* Carmu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Carmu.entitlements; sourceTree = "<group>"; };
 		B8A20E412AC0BC8900F0CE91 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B8A3EFD82AC5F28100433F5C /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
@@ -234,7 +231,6 @@
 		BFFA10B12AE61012003CE661 /* NoticeLateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateViewController.swift; sourceTree = "<group>"; };
 		BFFA10B32AE62FAF003CE661 /* NoticeLateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeLateView.swift; sourceTree = "<group>"; };
 		C904D1552AD5786A008BF5CE /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		C904D1572AD57942008BF5CE /* Friendship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friendship.swift; sourceTree = "<group>"; };
 		C904D1602AD57AE8008BF5CE /* Crew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crew.swift; sourceTree = "<group>"; };
 		C908AE402B03920500C5A743 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		C908AE422B03923600C5A743 /* LoadingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewController.swift; sourceTree = "<group>"; };
@@ -602,7 +598,6 @@
 			isa = PBXGroup;
 			children = (
 				C904D1552AD5786A008BF5CE /* User.swift */,
-				C904D1572AD57942008BF5CE /* Friendship.swift */,
 				C904D1602AD57AE8008BF5CE /* Crew.swift */,
 				164E823C2AF53AB400848BFF /* Point.swift */,
 				1638B91E2B02FBB300C53D0D /* MemberStatus.swift */,
@@ -1050,7 +1045,6 @@
 				BF6CEA412B0AE6DD00584D1B /* Coordinate.swift in Sources */,
 				B84B41852B000EFC007AC36F /* QuestionDetailViewController.swift in Sources */,
 				C908AE432B03923600C5A743 /* LoadingViewController.swift in Sources */,
-				C904D1582AD57942008BF5CE /* Friendship.swift in Sources */,
 				B8376E482AF9BBB1007F1E0A /* NameEditViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
