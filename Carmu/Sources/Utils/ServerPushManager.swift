@@ -95,4 +95,37 @@ final class ServerPushManager {
                 }
         }
     }
+
+    // 탑승자가 포기하기 클릭했을 때 운전자에게 알림을 보내는 메서드
+    func sendGiveupToDriver(crew: Crew) {
+        guard let memberStatus = crew.memberStatus else { return }
+        var userNickname = ""
+
+        for member in memberStatus where member.id == KeychainItem.currentUserIdentifier {
+            userNickname = member.nickname ?? ""
+        }
+
+        guard let captainID = crew.captainID else { return }
+
+        Database.database().reference().child("users/\(captainID)").getData { error, snapshot in
+            if let error = error {
+                print("Error ", error.localizedDescription)
+                return
+            }
+            let captainData = snapshot?.value as? [String: Any]
+            guard let captainDeviceToken = captainData?["deviceToken"] else { return }
+
+            let data = ["token": captainDeviceToken, "nickname": userNickname]
+
+            self.functions
+                .httpsCallable("giveupNotification")
+                .call(data) { (_, error) in
+                    if let error = error {
+                        print("error --> ", error.localizedDescription)
+                    } else {
+                        print("Success sending data")
+                    }
+                }
+        }
+    }
 }
