@@ -41,7 +41,7 @@ final class CrewInfoNoCrewView: UIView {
         super.init(frame: frame)
         self.layer.cornerRadius = 20
         self.layer.masksToBounds = true
-        self.backgroundColor = .clear
+        self.backgroundColor = UIColor.semantic.backgroundDefault
         setupUI()
         setupConstraints()
     }

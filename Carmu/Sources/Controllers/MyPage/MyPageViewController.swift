@@ -255,15 +255,8 @@ extension MyPageViewController {
         crewInfoPassengerView.snp.makeConstraints { make in
             make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(80)
         }
-
-        crewInfoPassengerView.giftCollectionView.register(
-            GiftCardCollectionViewCell.self,
-            forCellWithReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier
-        )
-        crewInfoPassengerView.giftCollectionView.delegate = self
-        crewInfoPassengerView.giftCollectionView.dataSource = self
     }
 }
 
@@ -342,55 +335,5 @@ extension MyPageViewController: UITableViewDelegate {
         }
         // 클릭 후에는 셀의 선택이 해제된다.
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-// MARK: - UICollectionViewDataSource 델리게이트 구현
-extension MyPageViewController: UICollectionViewDataSource {
-
-    // 컬렉션 뷰의 아이템 개수 설정
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
-
-    // 컬렉션 뷰 구성
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier,
-            for: indexPath
-        ) as? GiftCardCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        cell.giftImageView.image = UIImage(named: dummyImage[indexPath.row])
-        cell.distanceLabel.text = "\(dummydistance[indexPath.row])km"
-        cell.giftNameLabel.text = dummyName[indexPath.row]
-        return cell
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout 델리게이트 구현 (UICollectionViewDelegate는 해당 프로토콜에서 채택 중)
-extension MyPageViewController: UICollectionViewDelegateFlowLayout {
-
-    // 기준 행 또는 열 사이에 들어가는 아이템 사이의 간격
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        return 12
-    }
-
-    // 컬렉션 뷰의 사이즈
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        let cellHeight: CGFloat = crewInfoPassengerView.giftCollectionView.frame.height - 40
-        let cellWidth: CGFloat = crewInfoPassengerView.giftCollectionView.frame.width * 19 / 70
-        return CGSize(width: cellWidth, height: cellHeight)
     }
 }

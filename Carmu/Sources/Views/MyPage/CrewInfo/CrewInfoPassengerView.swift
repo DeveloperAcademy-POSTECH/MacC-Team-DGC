@@ -10,58 +10,74 @@ import UIKit
 // MARK: - 마이페이지 하단 크루 정보 뷰 (동승자)
 final class CrewInfoPassengerView: UIView {
 
-    // TODO: 크루와 함께한 거리 실제 데이터 반영 필요
-    private let label1 = CrewMakeUtil.carmuCustomLabel(
-        text: "내 크루와 함께한 여정은 ",
-        font: UIFont.carmuFont.headline1,
-        textColor: UIColor.semantic.textPrimary ?? .black
-    )
-    private let distanceLabel = CrewMakeUtil.carmuCustomLabel(
-        text: "1234km",
-        font: UIFont.carmuFont.headline1,
-        textColor: UIColor.semantic.accPrimary ?? .blue
-    )
-    private let label2 = CrewMakeUtil.carmuCustomLabel(
-        text: " 입니다",
-        font: UIFont.carmuFont.headline1,
-        textColor: UIColor.semantic.textPrimary ?? .black
-    )
-    private lazy var crewInfoHeaderLabelStack: UIStackView = {
-        let crewInfoHeaderStackView = UIStackView()
-        crewInfoHeaderStackView.axis = .horizontal
-        return crewInfoHeaderStackView
+    // 헤더라벨
+    private let headerLabel: UILabel = {
+        let headerLabel = UILabel()
+        headerLabel.text = "내가 탑승하는 셔틀 현황"
+        headerLabel.font = UIFont.carmuFont.headline1
+        headerLabel.textColor = UIColor.semantic.textPrimary
+        headerLabel.textAlignment = .left
+        return headerLabel
     }()
 
-    private let crewInfoBodyLabel = CrewMakeUtil.carmuCustomLabel(
-        text: "감사의 마음을 아래와 같이 표현해 보면 어떨까요?",
-        font: UIFont.carmuFont.body3Long,
-        textColor: UIColor.semantic.textBody ?? .gray
-    )
-
-    // 선물 추천 뷰
-    private let recommendGiftView: UIView = {
-        let recommendGiftView = UIView()
-        recommendGiftView.backgroundColor = .clear
-        recommendGiftView.layer.cornerRadius = 16
-        recommendGiftView.layer.borderColor = UIColor.semantic.stoke?.cgColor
-        recommendGiftView.layer.borderWidth = 1
-        return recommendGiftView
+    private let container: UIView = {
+        let container = UIView()
+        container.backgroundColor = UIColor.semantic.backgroundDefault
+        container.layer.cornerRadius = 16
+        return container
     }()
 
-    let giftCollectionView: UICollectionView = {
-        let giftCollectionView = UICollectionView(
-            frame: .zero,
-            collectionViewLayout: UICollectionViewFlowLayout()
-        )
-        giftCollectionView.backgroundColor = .clear
-        return giftCollectionView
+    private let mainContentStackView: UIStackView = {
+        let mainContentView = UIStackView()
+        mainContentView.axis = .vertical
+        mainContentView.alignment = .center
+        mainContentView.spacing = 20
+//        mainContentView.backgroundColor = .blue
+        return mainContentView
     }()
 
-    // 크루 나가기 버튼
+    // 캐릭터 이미지
+    private let characterImageView: UIImageView = {
+        let characterImageView = UIImageView()
+        characterImageView.image = UIImage(named: "VariantGradientStroke")
+        characterImageView.contentMode = .scaleAspectFit
+//        characterImageView.backgroundColor = .yellow
+        return characterImageView
+    }()
+
+    // 셔틀 정보 스택
+    private let shuttleInfoStackView: UIStackView = {
+        let shuttleInfoStackView = UIStackView()
+        shuttleInfoStackView.axis = .vertical
+        shuttleInfoStackView.spacing = 8
+        shuttleInfoStackView.alignment = .center
+//        shuttleInfoStackView.backgroundColor = .red
+        return shuttleInfoStackView
+    }()
+
+    // 셔틀 이름
+    private let shuttleNameLabel: UILabel = {
+        let shuttleNameLabel = UILabel()
+        shuttleNameLabel.text = "셔틀 이름"
+        shuttleNameLabel.font = UIFont.carmuFont.headline1
+        shuttleNameLabel.textColor = UIColor.semantic.accPrimary
+        return shuttleNameLabel
+    }()
+
+    // 셔틀 상세정보
+    private let shuttleDetailLabel: UILabel = {
+        let shuttleDetailLabel = UILabel()
+        shuttleDetailLabel.text = "출발지 ~ 도착지"
+        shuttleDetailLabel.font = UIFont.carmuFont.subhead1
+        shuttleDetailLabel.textColor = UIColor.semantic.textTertiary
+        return shuttleDetailLabel
+    }()
+
+    // 셔틀 나가기 버튼
     let exitCrewButton: UIButton = {
         let exitCrewButton = UIButton()
         let buttonFont = UIFont.carmuFont.subhead1
-        var titleAttr = AttributedString(" 크루 나가기")
+        var titleAttr = AttributedString(" 셔틀 나가기")
         titleAttr.font = buttonFont
         let symbolConfiguration = UIImage.SymbolConfiguration(font: buttonFont)
         let symbolImage = UIImage(systemName: "x.circle.fill", withConfiguration: symbolConfiguration)
@@ -95,7 +111,6 @@ final class CrewInfoPassengerView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .clear
         setupUI()
-        setupConstraints()
     }
 
     required init?(coder: NSCoder) {
@@ -103,41 +118,43 @@ final class CrewInfoPassengerView: UIView {
     }
 
     private func setupUI() {
-        addSubview(crewInfoHeaderLabelStack)
-        crewInfoHeaderLabelStack.addArrangedSubview(label1)
-        crewInfoHeaderLabelStack.addArrangedSubview(distanceLabel)
-        crewInfoHeaderLabelStack.addArrangedSubview(label2)
+        addSubview(headerLabel)
+        headerLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
+        }
 
-        addSubview(crewInfoBodyLabel)
-        addSubview(recommendGiftView)
-        recommendGiftView.addSubview(giftCollectionView)
+        addSubview(container)
+        container.snp.makeConstraints { make in
+            make.top.equalTo(headerLabel.snp.bottom).offset(24)
+            make.horizontalEdges.equalToSuperview()
+        }
+
+        container.addSubview(mainContentStackView)
+        mainContentStackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.centerY.equalToSuperview()
+            make.height.equalTo(139)
+        }
+
+        mainContentStackView.addArrangedSubview(characterImageView)
+        mainContentStackView.addArrangedSubview(shuttleInfoStackView)
+        characterImageView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+            make.height.equalTo(67)
+        }
+        shuttleInfoStackView.snp.makeConstraints { make in
+            make.horizontalEdges.equalToSuperview()
+        }
+
+        shuttleInfoStackView.addArrangedSubview(shuttleNameLabel)
+        shuttleInfoStackView.addArrangedSubview(shuttleDetailLabel)
 
         addSubview(exitCrewButton)
-    }
-
-    private func setupConstraints() {
-        crewInfoHeaderLabelStack.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview()
-            make.height.equalTo(28)
-        }
-        crewInfoBodyLabel.snp.makeConstraints { make in
-            make.top.equalTo(crewInfoHeaderLabelStack.snp.bottom)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(28)
-        }
-        recommendGiftView.snp.makeConstraints { make in
-            make.top.equalTo(crewInfoBodyLabel.snp.bottom).offset(13)
-            make.leading.trailing.equalToSuperview()
-            make.height.equalTo(146)
-        }
-        giftCollectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.height.equalTo(146)
-        }
         exitCrewButton.snp.makeConstraints { make in
+            make.top.equalTo(container.snp.bottom).offset(24)
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().inset(80)
+            make.bottom.equalToSuperview()
         }
     }
 }

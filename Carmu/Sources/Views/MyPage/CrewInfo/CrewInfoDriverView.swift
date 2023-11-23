@@ -7,20 +7,20 @@
 
 import UIKit
 
-// MARK: - 마이페이지 하단 크루 정보 뷰 (운전자)
+// MARK: - 마이페이지 하단 셔틀 정보 뷰 (운전자)
 final class CrewInfoDriverView: UIView {
 
-    // 크루 관리 테이블 뷰 제목
+    // 셔틀 관리 테이블 뷰 제목
     private let crewManageTitleLabel: UILabel = {
         let crewManageTitleLabel = UILabel()
-        crewManageTitleLabel.text = "크루 관리"
+        crewManageTitleLabel.text = "셔틀 관리"
         crewManageTitleLabel.font = UIFont.carmuFont.headline1
         crewManageTitleLabel.textColor = UIColor.semantic.textPrimary
         crewManageTitleLabel.textAlignment = .left
         return crewManageTitleLabel
     }()
 
-    // 크루 관리 테이블 뷰
+    // 셔틀 관리 테이블 뷰
     lazy var crewManageTableView: UITableView = {
         let crewManageTableView = UITableView(frame: self.bounds, style: .insetGrouped)
         crewManageTableView.backgroundColor = .clear
@@ -32,7 +32,6 @@ final class CrewInfoDriverView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .clear
         setupUI()
     }
 
