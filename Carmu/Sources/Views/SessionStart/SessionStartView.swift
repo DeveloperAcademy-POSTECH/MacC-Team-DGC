@@ -2,6 +2,9 @@ import UIKit
 
 final class SessionStartView: UIView {
 
+    let driverCardView = SessionStartDriverView()
+    let memberCardView = SessionStartPassengerView()
+    let noCrewCardView = SessionStartNoCrewView()
     private let firebaseManager = FirebaseManager()
     private let titleLabelTintColor = UIColor.semantic.accPrimary ?? .blue
     private let underLabelTintColor = UIColor.semantic.textTertiary ?? .blue
@@ -22,6 +25,8 @@ final class SessionStartView: UIView {
         label.numberOfLines = 0
         return label
     }()
+
+    let cardView = UIView()
 
     let underLabel: UILabel = {
         let label = UILabel()
@@ -84,6 +89,13 @@ final class SessionStartView: UIView {
         underLabel.snp.makeConstraints { make in
             make.bottom.equalToSuperview().inset(142.5)
             make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
+        addSubview(cardView)
+        cardView.snp.makeConstraints { make in
+            make.top.equalTo(myPageButton.snp.bottom).offset(88)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalTo(underLabel.snp.top).offset(-18)
         }
 
         let outerPadding = 20
