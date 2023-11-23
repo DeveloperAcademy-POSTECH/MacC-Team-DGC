@@ -353,12 +353,12 @@ extension SessionStartView {
         individualButton.backgroundColor = UIColor.semantic.backgroundThird
         individualButton.isEnabled = false
 
-        if crewData.sessionStatus == .waiting {
-            togetherButton.backgroundColor = UIColor.semantic.accPrimary
-            togetherButton.isEnabled = true
-        } else {
+        if crewData.sessionStatus == .decline {
             togetherButton.backgroundColor = UIColor.semantic.backgroundThird
             togetherButton.isEnabled = false
+        } else {
+            togetherButton.backgroundColor = UIColor.semantic.accPrimary
+            togetherButton.isEnabled = true
         }
     }
 
