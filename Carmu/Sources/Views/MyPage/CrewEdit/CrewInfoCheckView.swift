@@ -136,7 +136,7 @@ final class CrewInfoCheckView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.semantic.backgroundDefault
+        self.backgroundColor = .clear
         setupUI()
     }
 

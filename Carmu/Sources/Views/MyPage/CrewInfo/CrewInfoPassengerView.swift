@@ -93,6 +93,7 @@ final class CrewInfoPassengerView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .clear
         setupUI()
         setupConstraints()
     }

@@ -32,7 +32,7 @@ final class MyPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundSecond
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         // 내비게이션 바 appearance 설정 (배경색)
         let appearance = UINavigationBarAppearance()
@@ -301,9 +301,18 @@ extension MyPageViewController: UITableViewDataSource {
     // 각 row에 대한 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
+        cell.backgroundColor = UIColor.semantic.backgroundDefault
+        cell.selectionStyle = .none
+        cell.textLabel?.text = "셔틀 정보 수정하기"
+        cell.textLabel?.textColor = UIColor.semantic.textPrimary
         cell.accessoryType = .disclosureIndicator
-        cell.textLabel?.text = "크루 정보 수정하기"
-        cell.tintColor = UIColor.semantic.accPrimary // TODO: - 악세사리버튼 색 수정 안됨
+        cell.tintColor = UIColor.semantic.accPrimary
+        let image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
+        if let width = image?.size.width, let height = image?.size.height {
+            let disclosureImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+            disclosureImageView.image = image
+            cell.accessoryView = disclosureImageView
+        }
         return cell
     }
 }

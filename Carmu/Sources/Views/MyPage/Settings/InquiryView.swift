@@ -179,6 +179,9 @@ final class InquiryView: UIView {
         inquiryTableView.isScrollEnabled = false
         inquiryTableView.sectionFooterHeight = 0
         inquiryTableView.sectionHeaderHeight = 21
+
+        inquiryTableView.backgroundColor = .clear
+        inquiryTableView.separatorColor = UIColor.semantic.stoke
         return inquiryTableView
     }()
 
@@ -196,8 +199,7 @@ final class InquiryView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        // TODO: - 백그라운드 색상 수정 필요
-        self.backgroundColor = UIColor.semantic.backgroundSecond
+        self.backgroundColor = .clear
         setupUI()
     }
 

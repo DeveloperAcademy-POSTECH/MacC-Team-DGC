@@ -30,7 +30,7 @@ final class SettingsViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         navigationController?.navigationBar.topItem?.title = "" // 백버튼 텍스트 제거
 
@@ -140,11 +140,21 @@ extension SettingsViewController: UITableViewDataSource {
     // 각 row에 대한 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
+        cell.backgroundColor = UIColor.semantic.backgroundDefault
+        cell.selectionStyle = .none
+        cell.textLabel?.textColor = UIColor.semantic.textPrimary
 
         switch indexPath.section {
         case 0:
             cell.textLabel?.text = friendAndOthersContents[indexPath.row]
             cell.accessoryType = .disclosureIndicator
+            cell.tintColor = UIColor.semantic.stoke
+            let image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
+            if let width = image?.size.width, let height = image?.size.height {
+                let disclosureImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+                disclosureImageView.image = image
+                cell.accessoryView = disclosureImageView
+            }
         case 1:
             cell.textLabel?.text = accountManagementContents[indexPath.row]
             if indexPath.row == 1 {
@@ -163,6 +173,13 @@ extension SettingsViewController: UITableViewDataSource {
             return nil
         }
         return "계정 관리"
+    }
+
+    // 테이블 뷰 섹션 헤더 제목 색상
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let header = view as? UITableViewHeaderFooterView {
+            header.textLabel?.textColor = UIColor.semantic.textBody
+        }
     }
 }
 

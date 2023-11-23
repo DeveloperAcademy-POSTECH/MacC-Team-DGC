@@ -23,6 +23,7 @@ final class CrewInfoDriverView: UIView {
     // 크루 관리 테이블 뷰
     lazy var crewManageTableView: UITableView = {
         let crewManageTableView = UITableView(frame: self.bounds, style: .insetGrouped)
+        crewManageTableView.backgroundColor = .clear
         crewManageTableView.separatorStyle = .none // 셀 구분선 제거
         crewManageTableView.showsVerticalScrollIndicator = false
         crewManageTableView.isScrollEnabled = false
@@ -31,6 +32,7 @@ final class CrewInfoDriverView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .clear
         setupUI()
     }
 

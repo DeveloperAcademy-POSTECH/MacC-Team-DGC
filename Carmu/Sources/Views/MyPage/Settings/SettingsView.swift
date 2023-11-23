@@ -12,6 +12,8 @@ final class SettingsView: UIView {
     // MARK: - 설정 화면 테이블 뷰
     lazy var settingsTableView: UITableView = {
         let settingsTableView = UITableView(frame: self.bounds, style: .insetGrouped)
+        settingsTableView.backgroundColor = .clear
+        settingsTableView.separatorColor = UIColor.semantic.stoke
         return settingsTableView
     }()
 
@@ -41,6 +43,7 @@ final class SettingsView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .clear
     }
 
     required init?(coder: NSCoder) {

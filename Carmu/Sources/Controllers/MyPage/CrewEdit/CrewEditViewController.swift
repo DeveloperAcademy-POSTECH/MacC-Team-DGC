@@ -46,7 +46,7 @@ final class CrewEditViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         // 백버튼 텍스트 제거
         navigationController?.navigationBar.topItem?.title = ""
