@@ -266,9 +266,7 @@ extension SessionStartView {
         case .accept:
             setBottomButtonMemberAccept(crewData: crewData)
         case .decline:
-            if crewData.sessionStatus == .accept {
-                setBottomButtonMemberDecline(crewData: crewData)
-            }
+            setBottomButtonMemberDecline(crewData: crewData)
         case .sessionStart:
             break
         }
@@ -353,10 +351,15 @@ extension SessionStartView {
         togetherButton.setTitle("함께가요", for: .normal)
 
         individualButton.backgroundColor = UIColor.semantic.backgroundThird
-        togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-
         individualButton.isEnabled = false
-        togetherButton.isEnabled = false
+
+        if crewData.sessionStatus == .waiting {
+            togetherButton.backgroundColor = UIColor.semantic.accPrimary
+            togetherButton.isEnabled = true
+        } else {
+            togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+            togetherButton.isEnabled = false
+        }
     }
 
     private func setBottomButtonMemberAccept(crewData: Crew) {
