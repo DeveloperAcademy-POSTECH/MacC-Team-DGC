@@ -257,14 +257,23 @@ extension SessionStartView {
     }
 
     private func setUnderForMember(crewData: Crew) {
-        if firebaseManger.passengerStatus(crewData: crewData) == .decline {
-            underLabel.text = ""
-        } else if crewData.sessionStatus == .sessionStart {
-            setUnderMemberSessionStart(crewData: crewData)
-        } else if crewData.sessionStatus == .decline {
-            setUnderMemberDecline()
-        } else {
-            setUnderMemberDefault(crewData: crewData)
+        if crewData.sessionStatus == .decline {
+            underLabel.text = "기사님의 사정으로\n오늘은 셔틀이 운행되지 않아요"
+            return
+        }
+        switch firebaseManger.passengerStatus(crewData: crewData) {
+        case .waiting:
+            setUnderMemberWaiting(crewData: crewData)
+        case .accept:
+            if crewData.sessionStatus == .sessionStart {
+                setUnderMemberSessionStart()
+            } else {
+                setUnderMemberAccept()
+            }
+        case .decline:
+            setUnderMemberDecline(crewData: crewData)
+        case .sessionStart:
+            break
         }
     }
 
@@ -291,19 +300,30 @@ extension SessionStartView {
         underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: ["현재 운행중인 셔틀", "셔틀 지도보기"], color: underLabelTintColor, lineHeight: 8)
     }
 
-    private func setUnderMemberSessionStart(crewData: Crew) {
-        let crewName = crewData.name ?? ""
-        underLabel.text = "\(crewName)이\n시작되었습니다!"
-        underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: [crewName], color: underLabelTintColor, lineHeight: 8)
+    private func setUnderMemberWaiting(crewData: Crew) {
+        if crewData.sessionStatus == .sessionStart {
+            underLabel.text = ""
+        } else {
+            underLabel.text = "오늘의 셔틀 탑승 여부를\n탑승시간 20분 전까지 알려주세요!"
+            underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: ["20분 전"], color: underLabelTintColor, lineHeight: 8)
+        }
     }
 
-    private func setUnderMemberDefault(crewData: Crew) {
-        underLabel.text = "오늘의 셔틀 참여여부를\n탑승시간 20분 전까지 알려주세요!"
-        underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: ["20분 전"], color: underLabelTintColor, lineHeight: 8)
+    private func setUnderMemberDecline(crewData: Crew) {
+        if crewData.sessionStatus == .waiting {
+            underLabel.text = "따로가기를 선택하셨네요!\n기사님에게 알려드릴게요"
+        } else {
+            underLabel.text = ""
+        }
     }
 
-    private func setUnderMemberDecline() {
-        underLabel.text = "기사님의 사정으로\n오늘은 셔틀이 운행되지 않아요"
+    private func setUnderMemberAccept() {
+        underLabel.text = "함께가기를 선택하셨네요!\n기사님에게 알려드릴게요"
+    }
+
+    private func setUnderMemberSessionStart() {
+        underLabel.text = "운전자의 위치를 보려면\n셔틀 지도보기를 눌러주세요!"
+        underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: ["셔틀 지도보기"], color: underLabelTintColor, lineHeight: 8)
     }
 
     private func setColorToLabel(text: String?, coloredTexts: [String], color: UIColor, lineHeight: CGFloat) -> NSMutableAttributedString {
