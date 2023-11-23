@@ -22,12 +22,14 @@ struct PointLatLng {
 
 final class SelectDetailStopoverPointViewController: UIViewController {
 
-    private let stopoverPointMapView = SelectDetailStopoverPointView()
+    let stopoverPointMapView = SelectDetailStopoverPointView()
     private let loadingView = LoadingView()
     var addressSelectionHandler: ((AddressDTO) -> Void)?
     private var points: PointLatLng
     private var addressDTO = AddressDTO()
-    private var currentLatLng: NMGLatLng?
+    var currentLatLng: NMGLatLng?
+    var isCrewEdit: Bool = false // 크루 편집 시 넘어온 화면인지 체크
+    var pointType: PointType = .stopover1 // 출발지~경유지~도착지 중 어느 포인트인지
 
     init(crewData: Crew) {
         self.points = PointLatLng(
