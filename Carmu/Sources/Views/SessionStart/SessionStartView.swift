@@ -270,7 +270,7 @@ extension SessionStartView {
     // MARK: - Driver 상황별 텍스트 변경 메서드
     private func setUnderDriverWaiting() {
         notifyComment.text = "오늘의 셔틀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
-        notifyComment.attributedText = setColorToLabel(git text: notifyComment.text, coloredTexts: ["30분 전"], color: UIColor.semantic.textTertiary ?? .blue, lineHeight: 8)
+        notifyComment.attributedText = setColorToLabel(text: notifyComment.text, coloredTexts: ["30분 전"], color: UIColor.semantic.textTertiary ?? .blue, lineHeight: 8)
     }
 
     private func setUnderDriverDecline(crewData: Crew) {
