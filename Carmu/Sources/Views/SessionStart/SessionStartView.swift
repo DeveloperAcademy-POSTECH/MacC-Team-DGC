@@ -259,6 +259,7 @@ extension SessionStartView {
     private func setUnderForMember(crewData: Crew) {
         if crewData.sessionStatus == .decline {
             underLabel.text = "기사님의 사정으로\n오늘은 셔틀이 운행되지 않아요"
+            underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [], color: underLabelTintColor, lineHeight: 8)
             return
         }
         switch firebaseManger.passengerStatus(crewData: crewData) {
@@ -280,11 +281,12 @@ extension SessionStartView {
     // MARK: - Driver 상황별 텍스트 변경 메서드
     private func setUnderDriverWaiting() {
         underLabel.text = "오늘의 셔틀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
-        underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: ["30분 전"], color: underLabelTintColor, lineHeight: 8)
+        underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: ["30분 전"], color: underLabelTintColor)
     }
 
     private func setUnderDriverDecline(crewData: Crew) {
         underLabel.text = "오늘의 카풀 운행 여부를\n전달했어요"
+        underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
     }
 
     private func setUnderDriverAccept(crewData: Crew) {
@@ -293,19 +295,21 @@ extension SessionStartView {
         } else {
             underLabel.text = "오늘의 셔틀 운행 여부를 전달했어요\n탑승 응답을 확인중입니다..."
         }
+        underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
     }
 
     private func setUnderDriverSessionStart(crewData: Crew) {
         underLabel.text = "현재 운행 중인 셔틀이 있습니다\n셔틀 지도보기를 눌러주세요!"
-        underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: ["현재 운행중인 셔틀", "셔틀 지도보기"], color: underLabelTintColor, lineHeight: 8)
+        underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: ["현재 운행중인 셔틀", "셔틀 지도보기"], color: underLabelTintColor)
     }
 
     private func setUnderMemberWaiting(crewData: Crew) {
         if crewData.sessionStatus == .sessionStart {
             underLabel.text = ""
+            underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
         } else {
             underLabel.text = "오늘의 셔틀 탑승 여부를\n탑승시간 20분 전까지 알려주세요!"
-            underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: ["20분 전"], color: underLabelTintColor, lineHeight: 8)
+            underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: ["20분 전"], color: underLabelTintColor)
         }
     }
 
@@ -315,23 +319,24 @@ extension SessionStartView {
         } else {
             underLabel.text = ""
         }
+        underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
     }
 
     private func setUnderMemberAccept() {
         underLabel.text = "함께가기를 선택하셨네요!\n기사님에게 알려드릴게요"
+        underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
     }
 
     private func setUnderMemberSessionStart() {
         underLabel.text = "운전자의 위치를 보려면\n셔틀 지도보기를 눌러주세요!"
-        underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: ["셔틀 지도보기"], color: underLabelTintColor, lineHeight: 8)
+        underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: ["셔틀 지도보기"], color: underLabelTintColor)
     }
 
-    private func setColorToLabel(text: String?, coloredTexts: [String], color: UIColor, lineHeight: CGFloat) -> NSMutableAttributedString {
+    private func setColorAndLineHeightToLabel(text: String?, coloredTexts: [String], color: UIColor, lineHeight: CGFloat = 8.0) -> NSMutableAttributedString {
         let topCommentText = NSMutableAttributedString(string: text ?? "")
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineSpacing = lineHeight
         paragraphStyle.alignment = .center
-        // 행간 조절
 
         for coloredText in coloredTexts {
             if let range = text?.range(of: coloredText) {
