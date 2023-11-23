@@ -19,6 +19,6 @@ extension UIButton {
         isHidden = false
         setTitle(title, for: .normal)
         isEnabled = enabled
-        backgroundColor = enabled ? buttonColor : UIColor.semantic.backgroundThird 
+        backgroundColor = enabled ? buttonColor : UIColor.semantic.backgroundThird
     }
 }
