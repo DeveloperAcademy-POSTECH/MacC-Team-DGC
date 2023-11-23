@@ -146,12 +146,21 @@ extension SessionStartView {
     }
 
     private func setTitleForMember(crewData: Crew) {
-        if firebaseManger.passengerStatus(crewData: crewData) == .decline {
+        switch crewData.sessionStatus {
+        case .decline:
             titleLabel.text = ""
-        } else if crewData.sessionStatus == .sessionStart {
-            setTitleMemberSessionStart(crewData: crewData)
-        } else {
+        case .waiting:
             setTitleMemberDefault(crewData: crewData)
+        case .accept:
+            if firebaseManger.passengerStatus(crewData: crewData) == .decline {
+                titleLabel.text = ""
+            } else {
+                setTitleMemberDefault(crewData: crewData)
+            }
+        case .sessionStart:
+            setTitleMemberSessionStart(crewData: crewData)
+        case .none:
+            break
         }
     }
 
