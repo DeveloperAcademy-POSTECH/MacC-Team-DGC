@@ -82,6 +82,8 @@ final class SessionStartViewController: UIViewController {
     private func updateView(crewData: Crew?) {
         // 타이틀 설정
         backgroundView.setTitleLabel(crewData: crewData)
+        // 언더라벨(구 노티코멘트) 설정
+        backgroundView.setUnderLabel(crewData: crewData)
         // 버튼 설정
         backgroundView.setButton(crewData: crewData)
 
@@ -120,15 +122,16 @@ extension SessionStartViewController {
 
             // 탑승자의 참석 여부에 따른 분기문
             if firebaseManager.passengerStatus(crewData: crewData) == .accept {
-                backgroundView.notifyComment.text = "함께가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+//                backgroundView.notifyComment.text = "함께가기를 선택하셨네요!\n운전자에게 알려드릴게요"
             } else if firebaseManager.passengerStatus(crewData: crewData) == .decline {
                 switch crewData.sessionStatus {
                 case .waiting:
-                    backgroundView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+//                    backgroundView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
+                    break
                 case .accept:
                     memberCardView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
                     memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
-                    backgroundView.notifyComment.text = ""
+//                    backgroundView.notifyComment.text = ""
                     memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = false
                 case .decline: break
                 case .sessionStart: break
@@ -151,7 +154,7 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     private func showNoCrewCardView() {
-        backgroundView.notifyComment.isHidden = true
+//        backgroundView.notifyComment.isHidden = true
 
         driverCardView.isHidden = true
         memberCardView.isHidden = true
@@ -191,7 +194,7 @@ extension SessionStartViewController {
             driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
         case .decline:
             driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
-            backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+//            backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
             settingDataDecline()
         case .sessionStart:
             settingDataSessionStart(crewData: crewData)
@@ -215,7 +218,7 @@ extension SessionStartViewController {
             memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = false
             memberCardView.passengerFrontView.noDriveComment.text = "오늘은 카풀이 운행되지 않아요"
             memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.negative
-            backgroundView.notifyComment.text = "운전자의 사정으로\n오늘은 카풀이 운행되지 않아요"
+//            backgroundView.notifyComment.text = "운전자의 사정으로\n오늘은 카풀이 운행되지 않아요"
             settingDataDecline()
         case .sessionStart:
             memberCardView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
@@ -237,18 +240,18 @@ extension SessionStartViewController {
         driverCardView.layer.opacity = 1.0
         backgroundView.shuttleStartButton.setTitle("셔틀 지도보기", for: .normal)
 
-        // notifyComment 변경하기
-        backgroundView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
-        let attributedText = NSMutableAttributedString(string: backgroundView.notifyComment.text ?? "")
-        if let range1 = backgroundView.notifyComment.text?.range(of: "현재 운행중인 카풀") {
-            let nsRange1 = NSRange(range1, in: backgroundView.notifyComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange1)
-        }
-        if let range2 = backgroundView.notifyComment.text?.range(of: "카풀 지도보기") {
-            let nsRange2 = NSRange(range2, in: backgroundView.notifyComment.text ?? "")
-            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange2)
-        }
-        backgroundView.notifyComment.attributedText = attributedText
+//        // notifyComment 변경하기
+//        backgroundView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
+//        let attributedText = NSMutableAttributedString(string: backgroundView.notifyComment.text ?? "")
+//        if let range1 = backgroundView.notifyComment.text?.range(of: "현재 운행중인 카풀") {
+//            let nsRange1 = NSRange(range1, in: backgroundView.notifyComment.text ?? "")
+//            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange1)
+//        }
+//        if let range2 = backgroundView.notifyComment.text?.range(of: "카풀 지도보기") {
+//            let nsRange2 = NSRange(range2, in: backgroundView.notifyComment.text ?? "")
+//            attributedText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textTertiary as Any, range: nsRange2)
+//        }
+//        backgroundView.notifyComment.attributedText = attributedText
     }
 }
 
@@ -259,14 +262,14 @@ extension SessionStartViewController {
     private func settingDriverView(crewData: Crew) {
         // 비활성화
         driverCardView.layer.opacity = 0.5
-
-        backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
-        let notifyCommentText = NSMutableAttributedString(string: backgroundView.notifyComment.text ?? "")
-        if let range2 = backgroundView.notifyComment.text?.range(of: "30분 전") {
-            let nsRange2 = NSRange(range2, in: backgroundView.notifyComment.text ?? "")
-            notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textPrimary as Any, range: nsRange2)
-        }
-        backgroundView.notifyComment.attributedText = notifyCommentText
+//
+//        backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
+//        let notifyCommentText = NSMutableAttributedString(string: backgroundView.notifyComment.text ?? "")
+//        if let range2 = backgroundView.notifyComment.text?.range(of: "30분 전") {
+//            let nsRange2 = NSRange(range2, in: backgroundView.notifyComment.text ?? "")
+//            notifyCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.textPrimary as Any, range: nsRange2)
+//        }
+//        backgroundView.notifyComment.attributedText = notifyCommentText
 
         // view layout
         driverCardView.isHidden = false
@@ -277,11 +280,11 @@ extension SessionStartViewController {
             make.top.lessThanOrEqualTo(backgroundView.myPageButton.snp.bottom).offset(88)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
-
-        backgroundView.notifyComment.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(driverCardView.snp.bottom).offset(20)
-            make.centerX.equalToSuperview()
-        }
+//
+//        backgroundView.notifyComment.snp.makeConstraints { make in
+//            make.top.lessThanOrEqualTo(driverCardView.snp.bottom).offset(20)
+//            make.centerX.equalToSuperview()
+//        }
     }
 
     func showShuttleFinishedModal() {
@@ -293,7 +296,7 @@ extension SessionStartViewController {
 extension SessionStartViewController {
 
     private func settingPassengerView(crewData: Crew) {
-        backgroundView.notifyComment.text = ""
+//        backgroundView.notifyComment.text = ""
 
         // view layout
         driverCardView.isHidden = true
@@ -305,10 +308,10 @@ extension SessionStartViewController {
             make.bottom.lessThanOrEqualToSuperview().inset(216)
         }
 
-        backgroundView.notifyComment.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(memberCardView.snp.bottom).offset(20)
-            make.centerX.equalToSuperview()
-        }
+//        backgroundView.notifyComment.snp.makeConstraints { make in
+//            make.top.lessThanOrEqualTo(memberCardView.snp.bottom).offset(20)
+//            make.centerX.equalToSuperview()
+//        }
     }
 }
 
@@ -328,7 +331,7 @@ extension SessionStartViewController {
             // 활성화
             driverCardView.layer.opacity = 1.0
 
-            backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+//            backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
 
         } else {
             firebaseManager.passengerTogetherButtonTapped(crewData: crewData)
@@ -376,7 +379,7 @@ extension SessionStartViewController {
         firebaseManager.driverIndividualButtonTapped(crewData: crewData)
 
         // 모든 경우에 같은 화면임
-        backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+//        backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
         driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
         driverCardView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
         driverCardView.layer.opacity = 1.0
@@ -390,7 +393,7 @@ extension SessionStartViewController {
     private func checkingCrewStatus(crewData: Crew) {
         if firebaseManager.isAnyMemberAccepted(crewData: crewData) {
             backgroundView.shuttleStartButton.isEnabled = true
-            backgroundView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
+//            backgroundView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
             backgroundView.shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
         } else {
             backgroundView.shuttleStartButton.isEnabled = false

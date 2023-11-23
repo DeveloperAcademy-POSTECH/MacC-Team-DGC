@@ -81,6 +81,10 @@ final class SessionStartView: UIView {
         }
 
         addSubview(notifyComment)
+        notifyComment.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().inset(142.5)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
 
         let outerPadding = 20
         let innerPadding = frame.size.width / 2 + 5
@@ -192,11 +196,122 @@ extension SessionStartView {
     }
 
     private func setColorToLabel(text: String?, coloredTexts: [String], color: UIColor) -> NSMutableAttributedString {
-        let topCommentText = NSMutableAttributedString(string: titleLabel.text ?? "")
+        let topCommentText = NSMutableAttributedString(string: text ?? "")
+        // 행간 조절
+
         for coloredText in coloredTexts {
-            if let range = titleLabel.text?.range(of: coloredText) {
+            if let range = text?.range(of: coloredText) {
                 let nsRange = NSRange(range, in: text ?? "")
                 topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: nsRange)
+            }
+        }
+        return topCommentText
+    }
+}
+
+// MARK: - under Label 관련
+extension SessionStartView {
+
+    func setUnderLabel(crewData: Crew?) {
+        guard let crewData = crewData else {
+            setUnderLabelNoCrew()
+            return
+        }
+        if firebaseManger.isDriver(crewData: crewData) {
+            setUnderForDriver(crewData: crewData)
+        } else {
+            setUnderForMember(crewData: crewData)
+        }
+    }
+
+    private func setUnderLabelNoCrew() {
+        notifyComment.text = ""
+    }
+
+    private func setUnderForDriver(crewData: Crew) {
+        switch crewData.sessionStatus {
+        case .waiting:
+            setUnderDriverWaiting()
+        case .decline:
+            setUnderDriverDecline(crewData: crewData)
+        case .accept:
+            setUnderDriverAccept(crewData: crewData)
+        case .sessionStart:
+            setUnderDriverSessionStart(crewData: crewData)
+        case .none:
+            break
+        }
+    }
+
+    private func setUnderForMember(crewData: Crew) {
+        if firebaseManger.passengerStatus(crewData: crewData) == .decline {
+            setUnderMemberPassengerStatusDecline()
+        } else if crewData.sessionStatus == .sessionStart {
+            setUnderMemberSessionStart(crewData: crewData)
+        } else if crewData.sessionStatus == .decline {
+            setUnderMemberDecline()
+        } else {
+            setUnderMemberDefault(crewData: crewData)
+        }
+    }
+
+    // MARK: - Driver 상황별 텍스트 변경 메서드
+    private func setUnderDriverWaiting() {
+        notifyComment.text = "오늘의 셔틀 운행 여부를\n출발시간 30분 전까지 알려주세요!"
+        notifyComment.attributedText = setColorToLabel(.text: notifyComment.text, coloredTexts: ["30분 전"], color: UIColor.semantic.textTertiary ?? .blue, lineHeight: 8)
+    }
+
+    private func setUnderDriverDecline(crewData: Crew) {
+        notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
+    }
+
+    private func setUnderDriverAccept(crewData: Crew) {
+        if firebaseManger.isAnyMemberAccepted(crewData: crewData) {
+            notifyComment.text = "현재 탑승 응답한 탑승자들과 셔틀을 시작할까요?"
+        } else {
+            notifyComment.text = "오늘의 셔틀 운행 여부를 전달했어요\n탑승 응답을 확인중입니다..."
+        }
+    }
+
+    private func setUnderDriverSessionStart(crewData: Crew) {
+        notifyComment.text = "현재 운행 중인 셔틀이 있습니다\n셔틀 지도보기를 눌러주세요!"
+        notifyComment.attributedText = setColorToLabel(text: notifyComment.text, coloredTexts: ["현재 운행중인 셔틀", "셔틀 지도보기"], color: UIColor.semantic.textTertiary ?? .blue, lineHeight: 8)
+    }
+
+    // MARK: - Member 상황별 텍스트 변경 메서드
+    private func setUnderMemberPassengerStatusDecline() {
+        notifyComment.text = ""
+    }
+
+    private func setUnderMemberSessionStart(crewData: Crew) {
+        let crewName = crewData.name ?? ""
+        notifyComment.text = "\(crewName)이\n시작되었습니다!"
+        notifyComment.attributedText = setColorToLabel(text: notifyComment.text, coloredTexts: [crewName], color: UIColor.semantic.textTertiary ?? .blue, lineHeight: 8)
+    }
+
+    private func setUnderMemberDefault(crewData: Crew) {
+        notifyComment.text = "오늘의 셔틀 참여여부를\n탑승시간 20분 전까지 알려주세요!"
+        notifyComment.attributedText = setColorToLabel(text: notifyComment.text, coloredTexts: ["20분 전"], color: UIColor.semantic.textTertiary ?? .blue, lineHeight: 8)
+    }
+
+    private func setUnderMemberDecline() {
+        notifyComment.text = "기사님의 사정으로\n오늘은 셔틀이 운행되지 않아요"
+    }
+
+    private func setColorToLabel(text: String?, coloredTexts: [String], color: UIColor, lineHeight: CGFloat) -> NSMutableAttributedString {
+        let topCommentText = NSMutableAttributedString(string: text ?? "")
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = lineHeight
+        paragraphStyle.alignment = .center
+        // 행간 조절
+
+        for coloredText in coloredTexts {
+            if let range = text?.range(of: coloredText) {
+                let nsRange = NSRange(range, in: text ?? "")
+                topCommentText.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: nsRange)
+                topCommentText.addAttribute(
+                    NSAttributedString.Key.paragraphStyle, value: paragraphStyle, range: NSRange(location: 0, length: topCommentText.length)
+                )
             }
         }
         return topCommentText
