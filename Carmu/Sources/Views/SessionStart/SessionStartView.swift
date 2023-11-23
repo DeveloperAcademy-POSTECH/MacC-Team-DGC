@@ -51,7 +51,6 @@ final class SessionStartView: UIView {
 
     let shuttleStartButton: UIButton = {
         let button = UIButton()
-        button.setTitle("셔틀 운행하기", for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.headline2
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
         button.layer.cornerRadius = 30
@@ -213,6 +212,8 @@ extension SessionStartView {
         }
         if firebaseManger.isDriver(crewData: crewData) {
             setBottomButtonForDriver(crewData: crewData)
+        } else {
+            setBottomButtonForMember(crewData: crewData)
         }
     }
 
@@ -233,6 +234,12 @@ extension SessionStartView {
         case .sessionStart:
             setBottomButtonDriverSessionStart(crewData: crewData)
         case .none: break
+        }
+    }
+
+    private func setBottomButtonForMember(crewData: Crew) {
+        if firebaseManger.passengerStatus(crewData: crewData) == .waiting {
+            setBottomButtonMemberWaiting(crewData: crewData)
         }
     }
 
@@ -289,5 +296,20 @@ extension SessionStartView {
         shuttleStartButton.setTitle("셔틀 지도보기", for: .normal)
         shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
         shuttleStartButton.isEnabled = true
+    }
+
+    private func setBottomButtonMemberWaiting(crewData: Crew) {
+        individualButton.isHidden = false
+        togetherButton.isHidden = false
+        shuttleStartButton.isHidden = true
+
+        individualButton.setTitle("따로가요", for: .normal)
+        togetherButton.setTitle("함께가요", for: .normal)
+
+        individualButton.backgroundColor = UIColor.semantic.negative
+        togetherButton.backgroundColor = UIColor.semantic.accPrimary
+
+        individualButton.isEnabled = true
+        togetherButton.isEnabled = true
     }
 }
