@@ -298,7 +298,6 @@ extension MyPageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
         cell.backgroundColor = UIColor.semantic.backgroundDefault
-        cell.selectionStyle = .none
         cell.textLabel?.text = "셔틀 정보 수정하기"
         cell.textLabel?.textColor = UIColor.semantic.textPrimary
         cell.accessoryType = .disclosureIndicator

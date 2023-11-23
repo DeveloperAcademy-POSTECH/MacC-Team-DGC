@@ -141,7 +141,6 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
         cell.backgroundColor = UIColor.semantic.backgroundDefault
-        cell.selectionStyle = .none
         cell.textLabel?.textColor = UIColor.semantic.textPrimary
 
         switch indexPath.section {
