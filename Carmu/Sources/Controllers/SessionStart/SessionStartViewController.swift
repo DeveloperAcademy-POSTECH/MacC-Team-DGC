@@ -100,8 +100,6 @@ extension SessionStartViewController {
 
     // UI를 업데이트 시켜줌
     private func showCrewCardView(crewData: Crew) {
-        noCrewCardView.isHidden = true
-
         if isCaptain {
             showDriverCardView(crewData: crewData)
         } else {
@@ -110,15 +108,22 @@ extension SessionStartViewController {
     }
 
     private func showDriverCardView(crewData: Crew) {
+        noCrewCardView.isHidden = true
+        driverCardView.isHidden = false
+        memberCardView.isHidden = true
+
         switch crewData.sessionStatus {
         case .waiting:
             driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
+            driverCardView.layer.opacity = 0.5
         case .accept:
             driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
+            driverCardView.layer.opacity = 1.0
         case .decline:
             driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
             driverCardView.layer.opacity = 1.0
         case .sessionStart:
+            driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
             driverCardView.layer.opacity = 1.0
         case .none: break
         }
@@ -126,13 +131,6 @@ extension SessionStartViewController {
         driverCardView.driverFrontView.crewData = crewData
         driverCardView.driverFrontView.settingDriverFrontData(crewData: crewData)
         driverCardView.driverFrontView.crewCollectionView.reloadData()
-
-        // 비활성화
-        driverCardView.layer.opacity = 0.5
-
-        // view layout
-        driverCardView.isHidden = false
-        memberCardView.isHidden = true
 
         driverCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
@@ -142,6 +140,10 @@ extension SessionStartViewController {
     }
 
     private func showMemberCardView(crewData: Crew) {
+        noCrewCardView.isHidden = true
+        driverCardView.isHidden = true
+        memberCardView.isHidden = false
+
         switch crewData.sessionStatus {
         case .waiting:
             memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = true
@@ -169,27 +171,13 @@ extension SessionStartViewController {
         if crewData.sessionStatus == .accept {  // 운전자가 운행할 때
             memberCardView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
             memberCardView.passengerFrontView.statusLabel.text = "오늘은 카풀이 운행될 예정이에요"
-        }
 
-        // 탑승자의 참석 여부에 따른 분기문
-        if firebaseManager.passengerStatus(crewData: crewData) == .decline {
-            switch crewData.sessionStatus {
-            case .waiting:
-                break
-            case .accept:
+            if firebaseManager.passengerStatus(crewData: crewData) == .decline {
                 memberCardView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
                 memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
                 memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = false
-            case .decline: break
-            case .sessionStart: break
-                // sessionStart일 때는 해당 버튼이 나타나지 않음
-            case .none: break
             }
         }
-
-        // view layout
-        driverCardView.isHidden = true
-        memberCardView.isHidden = false
 
         memberCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
@@ -221,11 +209,22 @@ extension SessionStartViewController {
         navigationController?.pushViewController(myPageVC, animated: true)
     }
 
+    @objc private func individualButtonDidTapped() {
+        guard let crewData = crewData else { return }
+        if isCaptain {
+            firebaseManager.driverIndividualButtonTapped(crewData: crewData)
+
+            driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
+            driverCardView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
+            driverCardView.layer.opacity = 1.0
+        } else {
+            firebaseManager.passengerIndividualButtonTapped(crewData: crewData)
+        }
+    }
+
     @objc private func togetherButtonDidTapped() {
         if isCaptain {
             firebaseManager.driverTogetherButtonTapped(crewData: crewData)
-
-            driverCardView.layer.opacity = 1.0
         } else {
             firebaseManager.passengerTogetherButtonTapped(crewData: crewData)
         }
@@ -244,19 +243,6 @@ extension SessionStartViewController {
         let mapView = MapViewController(crew: crew)
         mapView.modalPresentationStyle = .fullScreen
         present(mapView, animated: true, completion: nil)
-    }
-
-    @objc private func individualButtonDidTapped() {
-        guard let crewData = crewData else { return }
-        if isCaptain {
-            firebaseManager.driverIndividualButtonTapped(crewData: crewData)
-
-            driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
-            driverCardView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
-            driverCardView.layer.opacity = 1.0
-        } else {
-            firebaseManager.passengerIndividualButtonTapped(crewData: crewData)
-        }
     }
 
     @objc private func createCrewButtonTapped() {
