@@ -85,7 +85,7 @@ final class SessionStartViewController: UIViewController {
         // 언더라벨(구 노티코멘트) 설정
         backgroundView.setUnderLabel(crewData: crewData)
         // 버튼 설정
-        backgroundView.setButton(crewData: crewData)
+        backgroundView.setBottomButton(crewData: crewData)
 
         if let crewData = crewData {
             showCrewCardView(crewData: crewData)
@@ -236,9 +236,7 @@ extension SessionStartViewController {
 
     // settingData - .sessionStart
     private func settingDataSessionStart(crewData: Crew) {
-        backgroundView.shuttleStartButton.isHidden = false
         driverCardView.layer.opacity = 1.0
-        backgroundView.shuttleStartButton.setTitle("셔틀 지도보기", for: .normal)
 
 //        // notifyComment 변경하기
 //        backgroundView.notifyComment.text = "현재 운행중인 카풀이 있습니다.\n카풀 지도보기를 눌러주세요!"
@@ -392,12 +390,6 @@ extension SessionStartViewController {
     // 함께하는 크루원이 한 명 이상일 때 버튼 Enable
     private func checkingCrewStatus(crewData: Crew) {
         if firebaseManager.isAnyMemberAccepted(crewData: crewData) {
-            backgroundView.shuttleStartButton.isEnabled = true
-//            backgroundView.notifyComment.text = "현재 탑승 응답한 크루원들과\n여정을 시작할까요?"
-            backgroundView.shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
-        } else {
-            backgroundView.shuttleStartButton.isEnabled = false
-            backgroundView.shuttleStartButton.backgroundColor = UIColor.semantic.backgroundThird
         }
     }
 
