@@ -18,7 +18,6 @@ final class SessionStartViewController: UIViewController {
     private let backgroundView = SessionStartView()
     private let driverCardView = SessionStartDriverView()
     private let memberCardView = SessionStartPassengerView()
-    private let noCrewCardView = SessionStartNoCrewView()
 
     private let firebaseManager = FirebaseManager()
     private let serverPushManager = ServerPushManager()
@@ -45,14 +44,13 @@ final class SessionStartViewController: UIViewController {
         }
         view.addSubview(driverCardView)
         view.addSubview(memberCardView)
-        view.addSubview(noCrewCardView)
 
         backgroundView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
         backgroundView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
         backgroundView.togetherButton.addTarget(self, action: #selector(togetherButtonDidTapped), for: .touchUpInside)
         backgroundView.shuttleStartButton.addTarget(self, action: #selector(shuttleStartButtonDidTap), for: .touchUpInside)
-        noCrewCardView.noCrewFrontView.createCrewButton.addTarget(self, action: #selector(createCrewButtonTapped), for: .touchUpInside)
-        noCrewCardView.noCrewFrontView.inviteCodeButton.addTarget(self, action: #selector(inviteCodeButtonTapped), for: .touchUpInside)
+        backgroundView.noCrewCardView.noCrewFrontView.createCrewButton.addTarget(self, action: #selector(createCrewButtonTapped), for: .touchUpInside)
+        backgroundView.noCrewCardView.noCrewFrontView.inviteCodeButton.addTarget(self, action: #selector(inviteCodeButtonTapped), for: .touchUpInside)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -80,6 +78,8 @@ final class SessionStartViewController: UIViewController {
 
     /// crewData에 변경이 있으면 전체 레이아웃을 다시 그림
     private func updateView(crewData: Crew?) {
+        // Card View 설정
+        setCardView(crewData: crewData)
         // 타이틀 설정
         backgroundView.setTitleLabel(crewData: crewData)
         // 언더라벨(구 노티코멘트) 설정
@@ -89,8 +89,25 @@ final class SessionStartViewController: UIViewController {
 
         if let crewData = crewData {
             showCrewCardView(crewData: crewData)
-        } else {
-            showNoCrewCardView()
+        }
+    }
+}
+
+// MARK: - Card View 관련 처리 메서드
+extension SessionStartViewController {
+
+    private func setCardView(crewData: Crew?) {
+        guard let crewData = crewData else {
+            setCardNoCrew()
+            return
+        }
+    }
+
+    private func setCardNoCrew() {
+        backgroundView.cardView.subviews.forEach { $0.removeFromSuperview() }
+        backgroundView.cardView.addSubview(backgroundView.noCrewCardView)
+        backgroundView.noCrewCardView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
     }
 }
@@ -108,7 +125,7 @@ extension SessionStartViewController {
     }
 
     private func showDriverCardView(crewData: Crew) {
-        noCrewCardView.isHidden = true
+//        noCrewCardView.isHidden = true
         driverCardView.isHidden = false
         memberCardView.isHidden = true
 
@@ -140,7 +157,7 @@ extension SessionStartViewController {
     }
 
     private func showMemberCardView(crewData: Crew) {
-        noCrewCardView.isHidden = true
+//        noCrewCardView.isHidden = true
         driverCardView.isHidden = true
         memberCardView.isHidden = false
 
@@ -183,19 +200,6 @@ extension SessionStartViewController {
             make.leading.trailing.equalToSuperview().inset(20)
             make.top.lessThanOrEqualTo(backgroundView.myPageButton.snp.bottom).offset(88)
             make.bottom.lessThanOrEqualToSuperview().inset(216)
-        }
-    }
-
-    private func showNoCrewCardView() {
-        driverCardView.isHidden = true
-        memberCardView.isHidden = true
-        noCrewCardView.isHidden = false
-
-        noCrewCardView.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(20)
-            make.top.equalTo(backgroundView.titleLabel.snp.bottom).offset(36)
-            make.bottom.lessThanOrEqualToSuperview().inset(165)
-            make.bottom.equalToSuperview().inset(165)
         }
     }
 }

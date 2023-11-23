@@ -2,6 +2,9 @@ import UIKit
 
 final class SessionStartView: UIView {
 
+    let driverCardView = SessionStartDriverView()
+    let memberCardView = SessionStartPassengerView()
+    let noCrewCardView = SessionStartNoCrewView()
     private let firebaseManger = FirebaseManager()
     private let titleLabelTintColor = UIColor.semantic.accPrimary ?? .blue
     private let underLabelTintColor = UIColor.semantic.textTertiary ?? .blue
@@ -22,6 +25,8 @@ final class SessionStartView: UIView {
         label.numberOfLines = 0
         return label
     }()
+
+    let cardView = UIView()
 
     let underLabel: UILabel = {
         let label = UILabel()
@@ -86,6 +91,13 @@ final class SessionStartView: UIView {
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
+        addSubview(cardView)
+        cardView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(24)
+            make.horizontalEdges.equalToSuperview().inset(20)
+            make.bottom.equalTo(underLabel.snp.top).offset(-18)
+        }
+
         let outerPadding = 20
         let innerPadding = frame.size.width / 2 + 5
         let bottomPadding = 64
@@ -112,6 +124,25 @@ final class SessionStartView: UIView {
             make.bottom.equalToSuperview().inset(bottomPadding)
             make.height.equalTo(60)
         }
+    }
+}
+
+extension SessionStartView {
+
+    func setCardView(crewData: Crew?) {
+        guard let crewData = crewData else {
+            setTitleLabelNoCrew()
+            return
+        }
+    }
+
+    private func setCardViewNoCrew() {
+        subviews.forEach { subview in
+            subview.removeFromSuperview()
+        }
+        let cardView = SessionStartNoCrewView()
+        cardView.addSubview(cardView)
+
     }
 }
 
