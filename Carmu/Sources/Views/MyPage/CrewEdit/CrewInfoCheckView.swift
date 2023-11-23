@@ -22,14 +22,14 @@ final class CrewInfoCheckView: UIView {
         return crewNameLabel
     }()
 
-    // 크루명 편집하기 버튼
+    // 셔틀명 편집하기 버튼
     // TODO: - MyPageView와 중복 -> 재사용 컴포넌트로 분리하기
     let crewNameEditButton: UIButton = {
         let crewNameEditButton = UIButton()
         // 폰트 설정
         let buttonFont = UIFont.systemFont(ofSize: 12)
         // 버튼 텍스트 설정
-        var titleAttr = AttributedString("크루명 편집하기 ")
+        var titleAttr = AttributedString("셔틀명 편집하기 ")
         titleAttr.font = buttonFont
         // SF Symbol 설정
         let symbolConfiguration = UIImage.SymbolConfiguration(font: buttonFont)
@@ -99,12 +99,12 @@ final class CrewInfoCheckView: UIView {
         return locationCellStack
     }()
 
-    // 크루 나가기 버튼
+    // 셔틀 나가기 버튼
     // TODO: - CrewInfoPassengerView와 중복 -> 재사용 컴포넌트로 분리하기
     let exitCrewButton: UIButton = {
         let exitCrewButton = UIButton()
         let buttonFont = UIFont.carmuFont.subhead1
-        var titleAttr = AttributedString(" 크루 나가기")
+        var titleAttr = AttributedString(" 셔틀 나가기")
         titleAttr.font = buttonFont
         let symbolConfiguration = UIImage.SymbolConfiguration(font: buttonFont)
         let symbolImage = UIImage(systemName: "x.circle.fill", withConfiguration: symbolConfiguration)
@@ -136,7 +136,7 @@ final class CrewInfoCheckView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.semantic.backgroundDefault
+        self.backgroundColor = .clear
         setupUI()
     }
 

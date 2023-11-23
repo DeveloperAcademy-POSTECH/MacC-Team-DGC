@@ -22,12 +22,14 @@ struct PointLatLng {
 
 final class SelectDetailStopoverPointViewController: UIViewController {
 
-    private let stopoverPointMapView = SelectDetailStopoverPointView()
+    let stopoverPointMapView = SelectDetailStopoverPointView()
     private let loadingView = LoadingView()
     var addressSelectionHandler: ((AddressDTO) -> Void)?
     private var points: PointLatLng
     private var addressDTO = AddressDTO()
-    private var currentLatLng: NMGLatLng?
+    var currentLatLng: NMGLatLng?
+    var isCrewEdit: Bool = false // 크루 편집 시 넘어온 화면인지 체크
+    var pointType: PointType = .stopover1 // 출발지~경유지~도착지 중 어느 포인트인지
 
     init(crewData: Crew) {
         self.points = PointLatLng(
@@ -88,7 +90,7 @@ final class SelectDetailStopoverPointViewController: UIViewController {
     }
 
     override func viewDidAppear(_ animated: Bool) {
-        mapBoundSetting()
+        mapBoundSettingCheck(isEdit: isCrewEdit)
         stopoverPointMapView.showExplain()
     }
 }
@@ -101,7 +103,6 @@ extension SelectDetailStopoverPointViewController {
     }
 
     @objc private func saveButtonAction() {
-        // TODO: 데이터 전달 구현
         addressDTO.pointName = stopoverPointMapView.buildingNameLabel.text
         addressDTO.pointDetailAddress = stopoverPointMapView.detailAddressLabel.text
         addressDTO.pointLat = currentLatLng?.lat
@@ -122,8 +123,17 @@ extension SelectDetailStopoverPointViewController {
         fetchDirections()
     }
 
+    // 크루 편집 여부에 따라 카메라 업데이트를 다르게 처리
+    func mapBoundSettingCheck(isEdit: Bool = false) {
+        if isEdit {
+            mapBoundSettingForEdit(pointType: pointType)
+        } else {
+            mapBoundSetting()
+        }
+    }
     /**
      출발, 도착, 경유지를 한 화면에 표시할 수 있는 영역을 보이도록 CameraUpdate 하는 메서드
+     -  bounds의 중앙으로 잡아주는 경우 (기본)
      */
     private func mapBoundSetting() {
         let bounds = mapBoundsForPoints(points: points)
@@ -138,6 +148,63 @@ extension SelectDetailStopoverPointViewController {
                 self.stopoverPointMapView.detailAddressLabel.text = detailAddress
             }
         }
+    }
+    /**
+     - 해당하는 기존 포인트 위치로 카메라 업데이트 (크루 편집 시)
+     */
+    private func mapBoundSettingForEdit(pointType: PointType) {
+        let cameraUpdate: NMFCameraUpdate
+        switch pointType {
+        case .start:
+            cameraUpdate = NMFCameraUpdate(scrollTo: points.startingPoint)
+            getAddressAndBuildingName(points.startingPoint) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
+        case .destination:
+            cameraUpdate = NMFCameraUpdate(scrollTo: points.destination)
+            getAddressAndBuildingName(points.destination) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
+        case .stopover1:
+            guard let pickupLocation1 = points.pickupLocation1 else { return }
+            cameraUpdate = NMFCameraUpdate(scrollTo: pickupLocation1)
+            getAddressAndBuildingName(pickupLocation1) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
+        case .stopover2:
+            guard let pickupLocation2 = points.pickupLocation2 else { return }
+            cameraUpdate = NMFCameraUpdate(scrollTo: pickupLocation2)
+            getAddressAndBuildingName(pickupLocation2) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
+        case .stopover3:
+            guard let pickupLocation3 = points.pickupLocation3 else { return }
+            cameraUpdate = NMFCameraUpdate(scrollTo: pickupLocation3)
+            getAddressAndBuildingName(pickupLocation3) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
+        }
+        stopoverPointMapView.mapView.moveCamera(cameraUpdate)
     }
 
     private func mapBoundsForPoints(points: PointLatLng) -> NMGLatLngBounds {

@@ -50,7 +50,7 @@ final class CrewEditView: UIView {
     // 경로 편집 테이블 뷰
     let pointEditTableView: UITableView = {
         let pointEditTableView = UITableView()
-        pointEditTableView.backgroundColor = .gray
+        pointEditTableView.backgroundColor = .clear
         pointEditTableView.separatorStyle = .none
         pointEditTableView.isScrollEnabled = false
         return pointEditTableView
@@ -61,7 +61,7 @@ final class CrewEditView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.semantic.backgroundDefault
+        self.backgroundColor = .clear
         setupUI()
     }
 

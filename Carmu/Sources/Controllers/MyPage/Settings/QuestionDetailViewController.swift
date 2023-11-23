@@ -13,7 +13,7 @@ final class QuestionDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         navigationController?.navigationBar.topItem?.title = "" // 백버튼 텍스트 제거
 

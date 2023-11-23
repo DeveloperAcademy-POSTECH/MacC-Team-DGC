@@ -80,8 +80,7 @@ final class QuestionDetailView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        // TODO: - 백그라운드 색상 수정 필요
-        self.backgroundColor = UIColor.semantic.backgroundSecond
+        self.backgroundColor = .clear
         setupUI()
     }
 

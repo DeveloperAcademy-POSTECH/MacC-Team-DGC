@@ -20,7 +20,7 @@ final class TimeSelectModalView: UIView {
 
     private let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "해당 위치의 출발 또는 도착 예정 시간을 변경합니다"
+        label.text = "이전 장소보다 더 늦은 시간이어야 설정할 수 있어요."
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor.gray
         label.numberOfLines = 0

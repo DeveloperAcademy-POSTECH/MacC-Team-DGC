@@ -8,6 +8,7 @@
 import MapKit
 import UIKit
 
+import NMapsMap
 import SnapKit
 
 // MARK: - 크루 편집 완료 시 이전 뷰 컨트롤러에 데이터를 넘겨주기 위한 델리게이트 프로토콜
@@ -45,7 +46,7 @@ final class CrewEditViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         // 백버튼 텍스트 제거
         navigationController?.navigationBar.topItem?.title = ""
@@ -309,36 +310,19 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         present(timeSelectModalVC, animated: true)
     }
 
-    // MARK: - 주소 설정 버튼 클릭 시 호출되는 델리게이트 메서드
+    // MARK: - 주소 편집 버튼 클릭 시 호출되는 델리게이트 메서드
     func addressEditButtonTapped(sender: AddressEditButton) {
-        let detailPointMapVC = SelectDetailPointMapViewController() // 출발지, 도착지 상세주소 설정
-//        let detailStopoverPointMapVC = SelectDetailStopoverPointViewController(crewData: newUserCrewData) // 경유지 상세주소 설정
-        // 상세주소 설정 뷰컨트롤러에 넘겨줄 기존 주소값
-        var originalPointData = SelectAddressDTO(pointName: sender.pointType?.rawValue)
+        let detailPointMapVC = SelectDetailStopoverPointViewController(crewData: newUserCrewData)
+        detailPointMapVC.isCrewEdit = true
+        detailPointMapVC.pointType = sender.pointType ?? .stopover1
         switch sender.pointType {
         case .start:
-            originalPointData.buildingName = newUserCrewData.startingPoint?.name
-            originalPointData.detailAddress = newUserCrewData.startingPoint?.detailAddress
-            originalPointData.coordinate = CLLocationCoordinate2D(
-                latitude: newUserCrewData.startingPoint?.latitude ?? 35.634,
-                longitude: newUserCrewData.startingPoint?.longitude ?? 128.523
-            )
+            detailPointMapVC.stopoverPointMapView.saveButton.setTitle("출발지로 설정", for: .normal)
         case .destination:
-            originalPointData.buildingName = newUserCrewData.destination?.name
-            originalPointData.detailAddress = newUserCrewData.destination?.detailAddress
-            originalPointData.coordinate = CLLocationCoordinate2D(
-                latitude: newUserCrewData.destination?.latitude ?? 35.634,
-                longitude: newUserCrewData.destination?.longitude ?? 128.523
-            )
+            detailPointMapVC.stopoverPointMapView.saveButton.setTitle("도착지로 설정", for: .normal)
         default:
-            originalPointData.buildingName = stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.name
-            originalPointData.detailAddress = stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.detailAddress
-            originalPointData.coordinate = CLLocationCoordinate2D(
-                latitude: stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.latitude ?? 35.634,
-                longitude: stopoverPoints[sender.pointType?.stopoverIdx ?? -1]?.longitude ?? 128.523
-            )
+            break
         }
-        detailPointMapVC.selectAddressModel = originalPointData
 
         // 주소 설정 시 테이블뷰 UI 및 newUserCrewData에 반영
         detailPointMapVC.addressSelectionHandler = { newPointData in
@@ -373,13 +357,6 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
             print("✅stopover2: \(String(describing: self.newUserCrewData.stopover2))")
             print("✅stopover3: \(String(describing: self.newUserCrewData.stopover3))")
             print("✅destination: \(String(describing: self.newUserCrewData.destination))")
-        }
-        if sender.pointType == .destination {
-            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("도착지로 설정", for: .normal)
-        } else if sender.pointType == .start {
-            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("출발지로 설정", for: .normal)
-        } else {
-            detailPointMapVC.selectDetailPointMapView.saveButton.setTitle("경유지로 설정", for: .normal)
         }
         present(detailPointMapVC, animated: true)
     }

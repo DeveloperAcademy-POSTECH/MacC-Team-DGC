@@ -16,7 +16,7 @@ final class InquiryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         navigationController?.navigationBar.topItem?.title = "" // 백버튼 텍스트 제거
 
@@ -92,6 +92,8 @@ extension InquiryViewController: UITableViewDataSource {
     // 테이블 뷰 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
+        cell.backgroundColor = UIColor.semantic.backgroundDefault
+        cell.textLabel?.textColor = UIColor.semantic.textPrimary
 
         cell.textLabel?.text = inquiryContents[indexPath.row]
         if indexPath.row == 1 {
@@ -107,6 +109,13 @@ extension InquiryViewController: UITableViewDataSource {
     // 테이블 뷰 헤더 타이틀 구성
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return "1:1 문의하기"
+    }
+
+    // 테이블 뷰 섹션 헤더 제목 색상
+    func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
+        if let header = view as? UITableViewHeaderFooterView {
+            header.textLabel?.textColor = UIColor.semantic.textBody
+        }
     }
 }
 
