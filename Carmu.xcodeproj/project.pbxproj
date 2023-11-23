@@ -53,7 +53,6 @@
 		B8D73ABF2AD2914200D211DE /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73ABE2AD2914200D211DE /* SettingsView.swift */; };
 		B8D73AC12AD29D6E00D211DE /* PrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */; };
 		B8D73AC32AD2FBE600D211DE /* InquiryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8D73AC22AD2FBE600D211DE /* InquiryView.swift */; };
-		B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */; };
 		B8DD15EE2AD6EE9400685E48 /* CustomVisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B8DD15ED2AD6EE9400685E48 /* CustomVisualEffectView.swift */; };
 		B8EA07A02AE188CB007501E9 /* SecureKey-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B8EA079F2AE188CB007501E9 /* SecureKey-Info.plist */; };
 		B8EC761E2ADFEB6300F83E8F /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = B8EC761D2ADFEB6300F83E8F /* Secrets.xcconfig */; };
@@ -194,7 +193,6 @@
 		B8D73ABE2AD2914200D211DE /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		B8D73AC02AD29D6E00D211DE /* PrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyView.swift; sourceTree = "<group>"; };
 		B8D73AC22AD2FBE600D211DE /* InquiryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryView.swift; sourceTree = "<group>"; };
-		B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiftCardCollectionViewCell.swift; sourceTree = "<group>"; };
 		B8DD15ED2AD6EE9400685E48 /* CustomVisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomVisualEffectView.swift; sourceTree = "<group>"; };
 		B8EA079F2AE188CB007501E9 /* SecureKey-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "SecureKey-Info.plist"; sourceTree = "<group>"; };
 		B8EC761D2ADFEB6300F83E8F /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
@@ -359,7 +357,6 @@
 				B8376E3B2AF936DB007F1E0A /* CrewInfoNoCrewView.swift */,
 				B8376E3D2AF936EB007F1E0A /* CrewInfoDriverView.swift */,
 				B8376E3F2AF936F4007F1E0A /* CrewInfoPassengerView.swift */,
-				B8DD15EB2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift */,
 			);
 			path = CrewInfo;
 			sourceTree = "<group>";
@@ -960,7 +957,6 @@
 				C97EAB522B0B507D00E21B72 /* LaunchScreenView.swift in Sources */,
 				165055AD2AFF54C50049EF73 /* StopoverInfoLeftView.swift in Sources */,
 				163422382AFE67A400196EB2 /* RuleDescriptionView.swift in Sources */,
-				B8DD15EC2AD6CFBF00685E48 /* GiftCardCollectionViewCell.swift in Sources */,
 				BF9BCFFD2ACE458D009DAECD /* MyPageView.swift in Sources */,
 				C9F43BD02AF2186A00BAA0E3 /* CrewMakeUtil.swift in Sources */,
 				BF0C33022AE50AFB00A6D8FE /* MapDetailView.swift in Sources */,
