@@ -32,6 +32,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         let window = UIWindow(windowScene: windowScene)
         self.window = window
+        window.overrideUserInterfaceStyle = .light
 
         // 스플래시 뷰
         let navigationController = UINavigationController(rootViewController: LaunchScreenViewController())
