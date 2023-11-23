@@ -223,12 +223,16 @@ extension SessionStartView {
     }
 
     private func setBottomButtonForDriver(crewData: Crew) {
-        if crewData.sessionStatus == .waiting {
+        switch crewData.sessionStatus {
+        case .waiting:
             setBottomButtonDriverWaiting(crewData: crewData)
-        } else if crewData.sessionStatus == .decline {
+        case .decline:
             setBottomButtonDriverDecline(crewData: crewData)
-        } else if crewData.sessionStatus == .accept {
+        case .accept:
             setBottomButtonDriverAccept(crewData: crewData)
+        case .sessionStart:
+            setBottomButtonDriverSessionStart(crewData: crewData)
+        case .none: break
         }
     }
 
@@ -275,5 +279,15 @@ extension SessionStartView {
             shuttleStartButton.backgroundColor = UIColor.semantic.backgroundThird
             shuttleStartButton.isEnabled = false
         }
+    }
+
+    private func setBottomButtonDriverSessionStart(crewData: Crew) {
+        individualButton.isHidden = true
+        togetherButton.isHidden = true
+        shuttleStartButton.isHidden = false
+
+        shuttleStartButton.setTitle("셔틀 지도보기", for: .normal)
+        shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
+        shuttleStartButton.isEnabled = true
     }
 }
