@@ -21,6 +21,7 @@
 		165055AD2AFF54C50049EF73 /* StopoverInfoLeftView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165055AC2AFF54C50049EF73 /* StopoverInfoLeftView.swift */; };
 		165055AF2AFF603D0049EF73 /* StopoverInfoRightView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165055AE2AFF603D0049EF73 /* StopoverInfoRightView.swift */; };
 		1667F61D2AFC622400393111 /* CrewCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */; };
+		16953BED2B0EF57900D65A1F /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16953BEC2B0EF57900D65A1F /* UIButton+Extension.swift */; };
 		1695CAE42AD4E62500858071 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1695CAE32AD4E62500858071 /* Date+Extension.swift */; };
 		16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */; };
 		16AC35172AF3B7280069FAB1 /* SessionStartPassengerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */; };
@@ -163,6 +164,7 @@
 		165055AC2AFF54C50049EF73 /* StopoverInfoLeftView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverInfoLeftView.swift; sourceTree = "<group>"; };
 		165055AE2AFF603D0049EF73 /* StopoverInfoRightView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StopoverInfoRightView.swift; sourceTree = "<group>"; };
 		1667F61C2AFC622400393111 /* CrewCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewCollectionViewCell.swift; sourceTree = "<group>"; };
+		16953BEC2B0EF57900D65A1F /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		1695CAE32AD4E62500858071 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		16A84F772AD7E0F600C28F5F /* SessionStartDriverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartDriverView.swift; sourceTree = "<group>"; };
 		16AC35162AF3B7280069FAB1 /* SessionStartPassengerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionStartPassengerView.swift; sourceTree = "<group>"; };
@@ -496,6 +498,7 @@
 				1695CAE32AD4E62500858071 /* Date+Extension.swift */,
 				C9C7C1202ADE25590016DE13 /* String+Extension.swift */,
 				BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */,
+				16953BEC2B0EF57900D65A1F /* UIButton+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1027,6 +1030,7 @@
 				B8376E402AF936F4007F1E0A /* CrewInfoPassengerView.swift in Sources */,
 				C9D04C652AF89953007E615B /* RightNavigationBarButton.swift in Sources */,
 				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
+				16953BED2B0EF57900D65A1F /* UIButton+Extension.swift in Sources */,
 				16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */,
 				C931166E2AF3AB980014E702 /* StartEndPointSelectViewController.swift in Sources */,
 				C9D04C7E2AFE5BFD007E615B /* SelectDetailStopoverPointViewController.swift in Sources */,
