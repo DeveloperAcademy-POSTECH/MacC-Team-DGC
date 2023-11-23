@@ -115,6 +115,7 @@ extension InquiryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
             header.textLabel?.textColor = UIColor.semantic.textBody
+            header.textLabel?.font = UIFont.carmuFont.body2
         }
     }
 }
