@@ -247,8 +247,21 @@ extension SessionStartView {
     }
 
     private func setBottomButtonForMember(crewData: Crew) {
-        if firebaseManger.passengerStatus(crewData: crewData) == .waiting {
-            setBottomButtonMemberWaiting(crewData: crewData)
+        if crewData.sessionStatus == .decline {
+            setBottomButtonMemberDecline(crewData: crewData)
+        } else {
+            switch firebaseManger.passengerStatus(crewData: crewData) {
+            case .waiting:
+                setBottomButtonMemberWaiting(crewData: crewData)
+            case .accept:
+                break
+            case .decline:
+                if crewData.sessionStatus == .accept {
+                    setBottomButtonMemberDecline(crewData: crewData)
+                }
+            case .sessionStart:
+                break
+            }
         }
     }
 
@@ -320,5 +333,20 @@ extension SessionStartView {
 
         individualButton.isEnabled = true
         togetherButton.isEnabled = true
+    }
+
+    private func setBottomButtonMemberDecline(crewData: Crew) {
+        individualButton.isHidden = false
+        togetherButton.isHidden = false
+        shuttleStartButton.isHidden = true
+
+        individualButton.setTitle("따로가요", for: .normal)
+        togetherButton.setTitle("함께가요", for: .normal)
+
+        individualButton.backgroundColor = UIColor.semantic.backgroundThird
+        togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+
+        individualButton.isEnabled = false
+        togetherButton.isEnabled = false
     }
 }
