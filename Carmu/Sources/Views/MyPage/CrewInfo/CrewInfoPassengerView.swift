@@ -56,7 +56,7 @@ final class CrewInfoPassengerView: UIView {
     }()
 
     // 셔틀 이름
-    private let shuttleNameLabel: UILabel = {
+    let shuttleNameLabel: UILabel = {
         let shuttleNameLabel = UILabel()
         shuttleNameLabel.text = "셔틀 이름"
         shuttleNameLabel.font = UIFont.carmuFont.headline1
@@ -65,7 +65,7 @@ final class CrewInfoPassengerView: UIView {
     }()
 
     // 셔틀 상세정보
-    private let shuttleDetailLabel: UILabel = {
+    let shuttleDetailLabel: UILabel = {
         let shuttleDetailLabel = UILabel()
         shuttleDetailLabel.text = "출발지 ~ 도착지"
         shuttleDetailLabel.font = UIFont.carmuFont.subhead1

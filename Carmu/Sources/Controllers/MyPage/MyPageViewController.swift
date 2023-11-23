@@ -257,6 +257,9 @@ extension MyPageViewController {
             make.leading.trailing.equalToSuperview().inset(20)
             make.bottom.equalToSuperview().inset(80)
         }
+
+        crewInfoPassengerView.shuttleNameLabel.text = crewData?.name
+        crewInfoPassengerView.shuttleDetailLabel.text = "\(crewData?.startingPoint?.name ?? "출발지")    ➡️    \(crewData?.destination?.name ?? "도착지")"
     }
 }
 
