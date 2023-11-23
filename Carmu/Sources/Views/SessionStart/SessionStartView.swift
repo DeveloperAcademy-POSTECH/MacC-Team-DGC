@@ -2,7 +2,7 @@ import UIKit
 
 final class SessionStartView: UIView {
 
-    private let firebaseManger = FirebaseManager()
+    private let firebaseManager = FirebaseManager()
     private let titleLabelTintColor = UIColor.semantic.accPrimary ?? .blue
     private let underLabelTintColor = UIColor.semantic.textTertiary ?? .blue
 
@@ -123,7 +123,7 @@ extension SessionStartView {
             setTitleLabelNoCrew()
             return
         }
-        if firebaseManger.isDriver(crewData: crewData) {
+        if firebaseManager.isDriver(crewData: crewData) {
             setTitleForDriver(crewData: crewData)
         } else {
             setTitleForMember(crewData: crewData)
@@ -157,13 +157,13 @@ extension SessionStartView {
         case .waiting:
             setTitleMemberDefault(crewData: crewData)
         case .accept:
-            if firebaseManger.passengerStatus(crewData: crewData) == .decline {
+            if firebaseManager.passengerStatus(crewData: crewData) == .decline {
                 titleLabel.text = ""
             } else {
                 setTitleMemberDefault(crewData: crewData)
             }
         case .sessionStart:
-            if firebaseManger.passengerStatus(crewData: crewData) == .accept {
+            if firebaseManager.passengerStatus(crewData: crewData) == .accept {
                 setTitleMemberSessionStart(crewData: crewData)
             } else {
                 titleLabel.text = ""
@@ -180,7 +180,7 @@ extension SessionStartView {
     }
 
     private func setTitleDriverAccept(crewData: Crew) {
-        if firebaseManger.isAnyMemberAccepted(crewData: crewData) {
+        if firebaseManager.isAnyMemberAccepted(crewData: crewData) {
             let crewName = crewData.name ?? ""
             titleLabel.text = "\(crewName),\n운행을 시작해볼까요?"
             titleLabel.attributedText = setColorToLabel(text: titleLabel.text, coloredTexts: [crewName], color: titleLabelTintColor)
@@ -230,7 +230,7 @@ extension SessionStartView {
             setUnderLabelNoCrew()
             return
         }
-        if firebaseManger.isDriver(crewData: crewData) {
+        if firebaseManager.isDriver(crewData: crewData) {
             setUnderForDriver(crewData: crewData)
         } else {
             setUnderForMember(crewData: crewData)
@@ -262,7 +262,7 @@ extension SessionStartView {
             underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [], color: underLabelTintColor, lineHeight: 8)
             return
         }
-        switch firebaseManger.passengerStatus(crewData: crewData) {
+        switch firebaseManager.passengerStatus(crewData: crewData) {
         case .waiting:
             setUnderMemberWaiting(crewData: crewData)
         case .accept:
@@ -290,7 +290,7 @@ extension SessionStartView {
     }
 
     private func setUnderDriverAccept(crewData: Crew) {
-        if firebaseManger.isAnyMemberAccepted(crewData: crewData) {
+        if firebaseManager.isAnyMemberAccepted(crewData: crewData) {
             underLabel.text = "현재 탑승 응답한 탑승자들과 셔틀을 시작할까요?"
         } else {
             underLabel.text = "오늘의 셔틀 운행 여부를 전달했어요\n탑승 응답을 확인중입니다..."
@@ -358,7 +358,7 @@ extension SessionStartView {
             setBottomButtonNoCrew()
             return
         }
-        if firebaseManger.isDriver(crewData: crewData) {
+        if firebaseManager.isDriver(crewData: crewData) {
             setBottomButtonForDriver(crewData: crewData)
         } else {
             setBottomButtonForMember(crewData: crewData)
@@ -391,7 +391,7 @@ extension SessionStartView {
             return
         }
         if crewData.sessionStatus == .sessionStart {
-            if firebaseManger.passengerStatus(crewData: crewData) == .accept {
+            if firebaseManager.passengerStatus(crewData: crewData) == .accept {
                 setBottomButtonMemberSessionStart(crewData: crewData)
             } else {
                 setBottomButtonMemberDecline(crewData: crewData)
@@ -399,7 +399,7 @@ extension SessionStartView {
             return
         }
 
-        switch firebaseManger.passengerStatus(crewData: crewData) {
+        switch firebaseManager.passengerStatus(crewData: crewData) {
         case .waiting:
             setBottomButtonMemberWaiting(crewData: crewData)
         case .accept:
@@ -426,7 +426,7 @@ extension SessionStartView {
     private func setBottomButtonDriverAccept(crewData: Crew) {
         individualButton.hideButton()
         togetherButton.hideButton()
-        if firebaseManger.isAnyMemberAccepted(crewData: crewData) {
+        if firebaseManager.isAnyMemberAccepted(crewData: crewData) {
             shuttleStartButton.showButton(title: "셔틀 운행하기", buttonColor: UIColor.semantic.accPrimary)
         } else {
             shuttleStartButton.showButton(title: "셔틀 운행하기", enabled: false)
