@@ -294,8 +294,8 @@ extension SessionStartView {
             underLabel.text = "현재 탑승 응답한 탑승자들과 셔틀을 시작할까요?"
         } else {
             underLabel.text = "오늘의 셔틀 운행 여부를 전달했어요\n탑승 응답을 확인중입니다..."
+            underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
         }
-        underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
     }
 
     private func setUnderDriverSessionStart(crewData: Crew) {
@@ -306,7 +306,6 @@ extension SessionStartView {
     private func setUnderMemberWaiting(crewData: Crew) {
         if crewData.sessionStatus == .sessionStart {
             underLabel.text = ""
-            underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
         } else {
             underLabel.text = "오늘의 셔틀 탑승 여부를\n탑승시간 20분 전까지 알려주세요!"
             underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: ["20분 전"], color: underLabelTintColor)
@@ -316,10 +315,10 @@ extension SessionStartView {
     private func setUnderMemberDecline(crewData: Crew) {
         if crewData.sessionStatus == .waiting {
             underLabel.text = "따로가기를 선택하셨네요!\n기사님에게 알려드릴게요"
+            underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
         } else {
             underLabel.text = ""
         }
-        underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
     }
 
     private func setUnderMemberAccept() {
