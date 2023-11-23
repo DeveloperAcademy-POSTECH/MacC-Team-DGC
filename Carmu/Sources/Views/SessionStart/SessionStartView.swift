@@ -388,117 +388,58 @@ extension SessionStartView {
     }
 
     private func setBottomButtonDriverWaiting(crewData: Crew) {
-        individualButton.isHidden = false
-        togetherButton.isHidden = false
-        shuttleStartButton.isHidden = true
-
-        individualButton.setTitle("운행하지 않아요", for: .normal)
-        togetherButton.setTitle("운행해요", for: .normal)
-
-        individualButton.backgroundColor = UIColor.semantic.negative
-        togetherButton.backgroundColor = UIColor.semantic.accPrimary
-
-        individualButton.isEnabled = true
-        togetherButton.isEnabled = true
+        individualButton.showButton(title: "운행하지 않아요", buttonColor: UIColor.semantic.negative)
+        togetherButton.showButton(title: "운행해요", buttonColor: UIColor.semantic.accPrimary)
+        shuttleStartButton.hideButton()
     }
 
     private func setBottomButtonDriverDecline(crewData: Crew) {
-        individualButton.isHidden = false
-        togetherButton.isHidden = false
-        shuttleStartButton.isHidden = true
-
-        individualButton.setTitle("운행하지 않아요", for: .normal)
-        togetherButton.setTitle("운행해요", for: .normal)
-
-        individualButton.backgroundColor = UIColor.semantic.backgroundThird
-        togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-
-        individualButton.isEnabled = false
-        togetherButton.isEnabled = false
+        individualButton.showButton(title: "운행하지 않아요", enabled: false)
+        togetherButton.showButton(title: "운행해요", enabled: false)
+        shuttleStartButton.hideButton()
     }
 
     private func setBottomButtonDriverAccept(crewData: Crew) {
-        individualButton.isHidden = true
-        togetherButton.isHidden = true
-        shuttleStartButton.isHidden = false
-        shuttleStartButton.setTitle("셔틀 운행하기", for: .normal)
-
+        individualButton.hideButton()
+        togetherButton.hideButton()
         if firebaseManger.isAnyMemberAccepted(crewData: crewData) {
-            shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
-            shuttleStartButton.isEnabled = true
+            shuttleStartButton.showButton(title: "셔틀 운행하기", buttonColor: UIColor.semantic.accPrimary)
         } else {
-            shuttleStartButton.backgroundColor = UIColor.semantic.backgroundThird
-            shuttleStartButton.isEnabled = false
+            shuttleStartButton.showButton(title: "셔틀 운행하기", enabled: false)
         }
     }
 
     private func setBottomButtonDriverSessionStart(crewData: Crew) {
-        individualButton.isHidden = true
-        togetherButton.isHidden = true
-        shuttleStartButton.isHidden = false
-
-        shuttleStartButton.setTitle("셔틀 지도보기", for: .normal)
-        shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
-        shuttleStartButton.isEnabled = true
+        individualButton.hideButton()
+        togetherButton.hideButton()
+        shuttleStartButton.showButton(title: "셔틀 지도보기", buttonColor: UIColor.semantic.accPrimary)
     }
 
     private func setBottomButtonMemberWaiting(crewData: Crew) {
-        individualButton.isHidden = false
-        togetherButton.isHidden = false
-        shuttleStartButton.isHidden = true
-
-        individualButton.setTitle("따로가요", for: .normal)
-        togetherButton.setTitle("함께가요", for: .normal)
-
-        individualButton.backgroundColor = UIColor.semantic.negative
-        togetherButton.backgroundColor = UIColor.semantic.accPrimary
-
-        individualButton.isEnabled = true
-        togetherButton.isEnabled = true
+        individualButton.showButton(title: "따로가요", buttonColor: UIColor.semantic.negative)
+        togetherButton.showButton(title: "함께가요", buttonColor: UIColor.semantic.accPrimary)
+        shuttleStartButton.hideButton()
     }
 
     private func setBottomButtonMemberDecline(crewData: Crew) {
-        individualButton.isHidden = false
-        togetherButton.isHidden = false
-        shuttleStartButton.isHidden = true
-
-        individualButton.setTitle("따로가요", for: .normal)
-        togetherButton.setTitle("함께가요", for: .normal)
-
-        individualButton.backgroundColor = UIColor.semantic.backgroundThird
-        individualButton.isEnabled = false
-
+        individualButton.showButton(title: "따로가요", enabled: false)
         if crewData.sessionStatus == .decline {
-            togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-            togetherButton.isEnabled = false
+            togetherButton.showButton(title: "함께가요", enabled: false)
         } else {
-            togetherButton.backgroundColor = UIColor.semantic.accPrimary
-            togetherButton.isEnabled = true
+            togetherButton.showButton(title: "함께가요", buttonColor: UIColor.semantic.accPrimary)
         }
+        shuttleStartButton.hideButton()
     }
 
     private func setBottomButtonMemberAccept(crewData: Crew) {
-        individualButton.isHidden = false
-        togetherButton.isHidden = false
-        shuttleStartButton.isHidden = true
-
-        individualButton.setTitle("따로가요", for: .normal)
-        togetherButton.setTitle("함께가요", for: .normal)
-
-        individualButton.backgroundColor = UIColor.semantic.negative
-        togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-
-        individualButton.isEnabled = true
-        togetherButton.isEnabled = false
+        individualButton.showButton(title: "따로가요", buttonColor: UIColor.semantic.negative)
+        togetherButton.showButton(title: "함께가요", enabled: false)
+        shuttleStartButton.hideButton()
     }
 
     private func setBottomButtonMemberSessionStart(crewData: Crew) {
-        individualButton.isHidden = true
-        togetherButton.isHidden = true
-        shuttleStartButton.isHidden = false
-
-        shuttleStartButton.setTitle("셔틀 지도보기", for: .normal)
-        shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
-        shuttleStartButton.isEnabled = true
+        individualButton.hideButton()
+        togetherButton.hideButton()
+        shuttleStartButton.showButton(title: "셔틀 지도보기", buttonColor: UIColor.semantic.accPrimary)
     }
 }

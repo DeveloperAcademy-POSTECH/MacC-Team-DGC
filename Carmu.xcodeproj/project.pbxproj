@@ -77,6 +77,7 @@
 		BF4A12472ABED8E900EC1B6D /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */; };
 		BF59EFD42B070F5500E6ECF8 /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */; };
 		BF6CEA412B0AE6DD00584D1B /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */; };
+		BF71356A2B0F21B600ABE312 /* UIButton+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7135692B0F21B600ABE312 /* UIButton+Extension.swift */; };
 		BF7DF9C32ACA6D49001178AF /* Bundle+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */; };
 		BF7DF9C62ACA6E21001178AF /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = BF7DF9C52ACA6E21001178AF /* NMapsMap */; };
 		BF801B912AFF36FD005DE2AF /* CrewScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF801B902AFF36FD005DE2AF /* CrewScrollView.swift */; };
@@ -219,6 +220,7 @@
 		BF4A12462ABED8E900EC1B6D /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		BF6CEA402B0AE6DD00584D1B /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		BF7135692B0F21B600ABE312 /* UIButton+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extension.swift"; sourceTree = "<group>"; };
 		BF7DF9C22ACA6D49001178AF /* Bundle+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extension.swift"; sourceTree = "<group>"; };
 		BF801B902AFF36FD005DE2AF /* CrewScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrewScrollView.swift; sourceTree = "<group>"; };
 		BF9BCFE72ACDCBFF009DAECD /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -496,6 +498,7 @@
 				1695CAE32AD4E62500858071 /* Date+Extension.swift */,
 				C9C7C1202ADE25590016DE13 /* String+Extension.swift */,
 				BF59EFD32B070F5500E6ECF8 /* UIStackView+Extension.swift */,
+				BF7135692B0F21B600ABE312 /* UIButton+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1027,6 +1030,7 @@
 				B8376E402AF936F4007F1E0A /* CrewInfoPassengerView.swift in Sources */,
 				C9D04C652AF89953007E615B /* RightNavigationBarButton.swift in Sources */,
 				BF9BD0002ACE4893009DAECD /* SessionStartView.swift in Sources */,
+				BF71356A2B0F21B600ABE312 /* UIButton+Extension.swift in Sources */,
 				16A84F782AD7E0F600C28F5F /* SessionStartDriverView.swift in Sources */,
 				C931166E2AF3AB980014E702 /* StartEndPointSelectViewController.swift in Sources */,
 				C9D04C7E2AFE5BFD007E615B /* SelectDetailStopoverPointViewController.swift in Sources */,
