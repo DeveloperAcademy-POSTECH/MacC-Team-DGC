@@ -28,9 +28,6 @@ final class SessionStartViewController: UIViewController {
             updateView(crewData: crewData)
         }
     }
-    var isCaptain: Bool {
-        KeychainItem.currentUserIdentifier == crewData?.captainID
-    }
     var firebaseStart: Point?
     var firebaseDestination: Point?
 
@@ -100,7 +97,7 @@ extension SessionStartViewController {
 
     // UI를 업데이트 시켜줌
     private func showCrewCardView(crewData: Crew) {
-        if isCaptain {
+        if firebaseManager.isDriver(crewData: crewData) {
             showDriverCardView(crewData: crewData)
         } else {
             showMemberCardView(crewData: crewData)
@@ -211,7 +208,7 @@ extension SessionStartViewController {
 
     @objc private func individualButtonDidTapped() {
         guard let crewData = crewData else { return }
-        if isCaptain {
+        if firebaseManager.isDriver(crewData: crewData) {
             firebaseManager.driverIndividualButtonTapped(crewData: crewData)
 
             driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
@@ -223,7 +220,7 @@ extension SessionStartViewController {
     }
 
     @objc private func togetherButtonDidTapped() {
-        if isCaptain {
+        if firebaseManager.isDriver(crewData: crewData) {
             firebaseManager.driverTogetherButtonTapped(crewData: crewData)
         } else {
             firebaseManager.passengerTogetherButtonTapped(crewData: crewData)
@@ -270,7 +267,7 @@ extension SessionStartViewController {
 
     // 이전 세션이 종료되었는지 확인하는 메서드
     private func isFinishedLastSession() -> Bool {
-        guard isCaptain,
+        guard firebaseManager.isDriver(crewData: crewData),
               let crew = crewData, crew.sessionStatus == .sessionStart,
               let startTime = crew.startingPoint?.arrivalTime?.toString24HourClock.toMinutes,
               let arrivalTime = crew.destination?.arrivalTime?.toString24HourClock.toMinutes else {

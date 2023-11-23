@@ -457,8 +457,8 @@ extension FirebaseManager {
     }
 
     /// 내가 운전자인지 확인하는 메서드
-    func isDriver(crewData: Crew) -> Bool {
-        return KeychainItem.currentUserIdentifier == crewData.captainID
+    func isDriver(crewData: Crew?) -> Bool {
+        return KeychainItem.currentUserIdentifier == crewData?.captainID
     }
 
     /**
