@@ -83,7 +83,7 @@ final class SessionStartViewController: UIViewController {
         // 타이틀 설정
         backgroundView.setTitleLabel(crewData: crewData)
         // 버튼 설정
-        backgroundView.setButton(crewData: crewData)
+        backgroundView.setBottomButton(crewData: crewData)
 
         if let crewData = crewData {
             showCrewCardView(crewData: crewData)

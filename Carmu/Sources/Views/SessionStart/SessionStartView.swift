@@ -206,29 +206,31 @@ extension SessionStartView {
 // MARK: - 하단 버튼 관련
 extension SessionStartView {
 
-    func setButton(crewData: Crew?) {
+    func setBottomButton(crewData: Crew?) {
         guard let crewData = crewData else {
-            setButtonNoCrew()
+            setBottomButtonNoCrew()
             return
         }
-
         if firebaseManger.isDriver(crewData: crewData) {
-            setButtonForDriver(crewData: crewData)
+            setBottomButtonForDriver(crewData: crewData)
         }
     }
 
-    private func setButtonNoCrew() {
+    private func setBottomButtonNoCrew() {
         individualButton.isHidden = true
         togetherButton.isHidden = true
         shuttleStartButton.isHidden = true
     }
 
-    private func setButtonForDriver(crewData: Crew) {
+    private func setBottomButtonForDriver(crewData: Crew) {
         if crewData.sessionStatus == .waiting {
-            setButtonDriverWaiting(crewData: crewData)
+            setBottomButtonDriverWaiting(crewData: crewData)
+        } else if crewData.sessionStatus == .decline {
+            setBottomButtonDriverDecline(crewData: crewData)
         }
     }
-    private func setButtonDriverWaiting(crewData: Crew) {
+
+    private func setBottomButtonDriverWaiting(crewData: Crew) {
         individualButton.isHidden = false
         togetherButton.isHidden = false
         shuttleStartButton.isHidden = true
@@ -236,12 +238,25 @@ extension SessionStartView {
         individualButton.setTitle("운행하지 않아요", for: .normal)
         togetherButton.setTitle("운행해요", for: .normal)
 
-        individualButton.tintColor = UIColor.semantic.textSecondary
         individualButton.backgroundColor = UIColor.semantic.negative
-        togetherButton.tintColor = UIColor.semantic.textSecondary
         togetherButton.backgroundColor = UIColor.semantic.accPrimary
 
         individualButton.isEnabled = true
         togetherButton.isEnabled = true
+    }
+
+    private func setBottomButtonDriverDecline(crewData: Crew) {
+        individualButton.isHidden = false
+        togetherButton.isHidden = false
+        shuttleStartButton.isHidden = true
+
+        individualButton.setTitle("운행하지 않아요", for: .normal)
+        togetherButton.setTitle("운행해요", for: .normal)
+
+        individualButton.backgroundColor = UIColor.semantic.backgroundThird
+        togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+
+        individualButton.isEnabled = false
+        togetherButton.isEnabled = false
     }
 }
