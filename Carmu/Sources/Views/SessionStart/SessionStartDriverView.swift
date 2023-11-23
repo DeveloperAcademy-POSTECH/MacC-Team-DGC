@@ -83,7 +83,7 @@ final class DriverFrontView: UIView {
     private lazy var comment: UILabel = {
         let label = UILabel()
 
-        let firstLine = NSMutableAttributedString(string: "오늘 함께할 크루원들", attributes: [
+        let firstLine = NSMutableAttributedString(string: "오늘 함께할 탑승자들", attributes: [
             .font: UIFont.carmuFont.headline1,
             .foregroundColor: UIColor.semantic.textPrimary as Any
         ])
@@ -150,7 +150,7 @@ final class DriverFrontView: UIView {
     }()
     private lazy var noDriveComment: UILabel = {
         let label = UILabel()
-        label.text = "오늘은 카풀을 운행하지 않아요"
+        label.text = "오늘은 셔틀을 운행하지 않아요"
         label.font = UIFont.carmuFont.subhead3
         label.textColor = UIColor.semantic.negative
         label.textAlignment = .center
@@ -181,13 +181,11 @@ final class DriverFrontView: UIView {
         addSubview(totalCrewMemeberLabel)
         addSubview(todayCrewMemeberLabel)
         addSubview(crewView)
-
+        addSubview(crewCollectionView)
         addSubview(noDriveViewForDriver)
         noDriveViewForDriver.addSubview(noDriveImage)
         noDriveViewForDriver.addSubview(noDriveComment)
         noDriveViewForDriver.addSubview(carpoolPlanLabel)
-
-        addSubview(crewCollectionView)
         crewCollectionView.dataSource = self
         crewCollectionView.delegate = self
         crewCollectionView.register(CrewCollectionViewCell.self, forCellWithReuseIdentifier: CrewCollectionViewCell.cellIdentifier)

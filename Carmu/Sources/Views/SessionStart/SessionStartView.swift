@@ -93,7 +93,7 @@ final class SessionStartView: UIView {
 
         addSubview(cardView)
         cardView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(24)
+            make.top.equalTo(myPageButton.snp.bottom).offset(88)
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(underLabel.snp.top).offset(-18)
         }
@@ -124,25 +124,6 @@ final class SessionStartView: UIView {
             make.bottom.equalToSuperview().inset(bottomPadding)
             make.height.equalTo(60)
         }
-    }
-}
-
-extension SessionStartView {
-
-    func setCardView(crewData: Crew?) {
-        guard let crewData = crewData else {
-            setTitleLabelNoCrew()
-            return
-        }
-    }
-
-    private func setCardViewNoCrew() {
-        subviews.forEach { subview in
-            subview.removeFromSuperview()
-        }
-        let cardView = SessionStartNoCrewView()
-        cardView.addSubview(cardView)
-
     }
 }
 
