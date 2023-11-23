@@ -158,7 +158,11 @@ extension SessionStartView {
                 setTitleMemberDefault(crewData: crewData)
             }
         case .sessionStart:
-            setTitleMemberSessionStart(crewData: crewData)
+            if firebaseManger.passengerStatus(crewData: crewData) == .accept {
+                setTitleMemberSessionStart(crewData: crewData)
+            } else {
+                titleLabel.text = ""
+            }
         case .none:
             break
         }
