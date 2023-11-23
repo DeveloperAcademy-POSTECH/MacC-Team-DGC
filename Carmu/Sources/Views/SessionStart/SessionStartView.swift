@@ -227,6 +227,8 @@ extension SessionStartView {
             setBottomButtonDriverWaiting(crewData: crewData)
         } else if crewData.sessionStatus == .decline {
             setBottomButtonDriverDecline(crewData: crewData)
+        } else if crewData.sessionStatus == .accept {
+            setBottomButtonDriverAccept(crewData: crewData)
         }
     }
 
@@ -258,5 +260,20 @@ extension SessionStartView {
 
         individualButton.isEnabled = false
         togetherButton.isEnabled = false
+    }
+
+    private func setBottomButtonDriverAccept(crewData: Crew) {
+        individualButton.isHidden = true
+        togetherButton.isHidden = true
+        shuttleStartButton.isHidden = false
+        shuttleStartButton.setTitle("셔틀 운행하기", for: .normal)
+
+        if firebaseManger.isAnyMemberAccepted(crewData: crewData) {
+            shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
+            shuttleStartButton.isEnabled = true
+        } else {
+            shuttleStartButton.backgroundColor = UIColor.semantic.backgroundThird
+            shuttleStartButton.isEnabled = false
+        }
     }
 }
