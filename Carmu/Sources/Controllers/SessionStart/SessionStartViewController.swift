@@ -119,12 +119,16 @@ extension SessionStartViewController {
             if firebaseManager.passengerStatus(crewData: crewData) == .accept {
                 sessionStartView.notifyComment.text = "함께가기를 선택하셨네요!\n운전자에게 알려드릴게요"
                 sessionStartView.individualButton.backgroundColor = UIColor.semantic.negative
+                sessionStartView.individualButton.isEnabled = true
                 sessionStartView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+                sessionStartView.togetherButton.isEnabled = false
             } else if firebaseManager.passengerStatus(crewData: crewData) == .decline {
                 switch crewData.sessionStatus {
                 case .waiting:
                     sessionStartView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
                     sessionStartView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
+                    sessionStartView.togetherButton.isEnabled = true
+                    sessionStartView.individualButton.isEnabled = false
                     sessionStartView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
                 case .accept:
                     sessionStartView.topComment.text = ""

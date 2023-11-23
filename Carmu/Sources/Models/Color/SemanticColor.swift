@@ -29,9 +29,11 @@ struct SemanticColor {
     let textTertiary = UIColor.theme.blue8
 
     let negative = UIColor.theme.red7
+    let negativePressed = UIColor.theme.red9
     let error = UIColor.theme.red7
 
     let accPrimary = UIColor.theme.blue6
+    let accPrimaryPressed = UIColor.theme.blue7
     let accSecondary = UIColor.theme.acua5
 
     let stoke = UIColor.theme.blue3

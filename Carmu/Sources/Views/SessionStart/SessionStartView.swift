@@ -32,8 +32,10 @@ final class SessionStartView: UIView {
         let button = UIButton()
         button.backgroundColor = UIColor.semantic.negative
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.setBackgroundColor(UIColor.semantic.negativePressed ?? .systemRed, forState: .highlighted)
         button.titleLabel?.font = UIFont.carmuFont.headline1
         button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
         return button
     }()
 
@@ -41,8 +43,10 @@ final class SessionStartView: UIView {
         let button = UIButton()
         button.backgroundColor = UIColor.semantic.accPrimary
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.setBackgroundColor(UIColor.semantic.accPrimaryPressed ?? .systemRed, forState: .highlighted)
         button.titleLabel?.font = UIFont.carmuFont.headline1
         button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
         return button
     }()
 
@@ -51,8 +55,10 @@ final class SessionStartView: UIView {
         button.setTitle("카풀 운행하기", for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.headline2
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.setBackgroundColor(UIColor.semantic.accPrimaryPressed ?? .systemRed, forState: .highlighted)
         button.layer.cornerRadius = 30
         button.backgroundColor = UIColor.semantic.accPrimary
+        button.layer.masksToBounds = true
         return button
     }()
 
