@@ -6,7 +6,7 @@ final class SessionStartView: UIView {
     private let titleLabelTintColor = UIColor.semantic.accPrimary ?? .blue
     private let underLabelTintColor = UIColor.semantic.textTertiary ?? .blue
 
-    lazy var myPageButton: UIButton = {
+    let myPageButton: UIButton = {
         let button = UIButton()
         if let myPageImage = UIImage(named: "myPageButton") {
             let resizedImage = myPageImage.resizedImage(targetSize: CGSize(width: 48, height: 48))
@@ -32,7 +32,7 @@ final class SessionStartView: UIView {
         return label
     }()
 
-    lazy var individualButton: UIButton = {
+    let individualButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.semantic.negative
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
@@ -41,7 +41,7 @@ final class SessionStartView: UIView {
         return button
     }()
 
-    lazy var togetherButton: UIButton = {
+    let togetherButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor.semantic.accPrimary
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
@@ -258,7 +258,7 @@ extension SessionStartView {
 
     private func setUnderForMember(crewData: Crew) {
         if firebaseManger.passengerStatus(crewData: crewData) == .decline {
-            setUnderMemberPassengerStatusDecline()
+            underLabel.text = ""
         } else if crewData.sessionStatus == .sessionStart {
             setUnderMemberSessionStart(crewData: crewData)
         } else if crewData.sessionStatus == .decline {
@@ -289,11 +289,6 @@ extension SessionStartView {
     private func setUnderDriverSessionStart(crewData: Crew) {
         underLabel.text = "현재 운행 중인 셔틀이 있습니다\n셔틀 지도보기를 눌러주세요!"
         underLabel.attributedText = setColorToLabel(text: underLabel.text, coloredTexts: ["현재 운행중인 셔틀", "셔틀 지도보기"], color: underLabelTintColor, lineHeight: 8)
-    }
-
-    // MARK: - Member 상황별 텍스트 변경 메서드
-    private func setUnderMemberPassengerStatusDecline() {
-        underLabel.text = ""
     }
 
     private func setUnderMemberSessionStart(crewData: Crew) {
