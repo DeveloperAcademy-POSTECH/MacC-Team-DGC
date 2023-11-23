@@ -211,11 +211,37 @@ extension SessionStartView {
             setButtonNoCrew()
             return
         }
+
+        if firebaseManger.isDriver(crewData: crewData) {
+            setButtonForDriver(crewData: crewData)
+        }
     }
 
     private func setButtonNoCrew() {
         individualButton.isHidden = true
         togetherButton.isHidden = true
         shuttleStartButton.isHidden = true
+    }
+
+    private func setButtonForDriver(crewData: Crew) {
+        if crewData.sessionStatus == .waiting {
+            setButtonDriverWaiting(crewData: crewData)
+        }
+    }
+    private func setButtonDriverWaiting(crewData: Crew) {
+        individualButton.isHidden = false
+        togetherButton.isHidden = false
+        shuttleStartButton.isHidden = true
+
+        individualButton.setTitle("운행하지 않아요", for: .normal)
+        togetherButton.setTitle("운행해요", for: .normal)
+
+        individualButton.tintColor = UIColor.semantic.textSecondary
+        individualButton.backgroundColor = UIColor.semantic.negative
+        togetherButton.tintColor = UIColor.semantic.textSecondary
+        togetherButton.backgroundColor = UIColor.semantic.accPrimary
+
+        individualButton.isEnabled = true
+        togetherButton.isEnabled = true
     }
 }

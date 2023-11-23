@@ -121,28 +121,16 @@ extension SessionStartViewController {
             // 탑승자의 참석 여부에 따른 분기문
             if firebaseManager.passengerStatus(crewData: crewData) == .accept {
                 backgroundView.notifyComment.text = "함께가기를 선택하셨네요!\n운전자에게 알려드릴게요"
-                backgroundView.individualButton.backgroundColor = UIColor.semantic.negative
-                backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
             } else if firebaseManager.passengerStatus(crewData: crewData) == .decline {
                 switch crewData.sessionStatus {
                 case .waiting:
                     backgroundView.notifyComment.text = "따로가기를 선택하셨네요!\n운전자에게 알려드릴게요"
-                    backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                    backgroundView.togetherButton.backgroundColor = UIColor.semantic.accPrimary
                 case .accept:
                     memberCardView.passengerFrontView.noDriveComment.text = "오늘은 카풀에 참여하지 않으시군요!\n내일 봐요!"
                     memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.textPrimary
                     backgroundView.notifyComment.text = ""
                     memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = false
-                    backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                    backgroundView.individualButton.isEnabled = false
-                    backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-                    backgroundView.togetherButton.isEnabled = false
-                case .decline:
-                    backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-                    backgroundView.individualButton.isEnabled = false
-                    backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-                    backgroundView.togetherButton.isEnabled = false
+                case .decline: break
                 case .sessionStart: break
                     // sessionStart일 때는 해당 버튼이 나타나지 않음
                 case .none: break
@@ -241,16 +229,10 @@ extension SessionStartViewController {
     // settingData - .decline
     private func settingDataDecline() {
         driverCardView.layer.opacity = 1.0
-        backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-        backgroundView.individualButton.isEnabled = false
-        backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-        backgroundView.togetherButton.isEnabled = false
     }
 
     // settingData - .sessionStart
     private func settingDataSessionStart(crewData: Crew) {
-        backgroundView.individualButton.isHidden = true
-        backgroundView.togetherButton.isHidden = true
         backgroundView.shuttleStartButton.isHidden = false
         driverCardView.layer.opacity = 1.0
         backgroundView.shuttleStartButton.setTitle("셔틀 지도보기", for: .normal)
@@ -286,17 +268,9 @@ extension SessionStartViewController {
         }
         backgroundView.notifyComment.attributedText = notifyCommentText
 
-        backgroundView.individualButton.setTitle("운행하지 않아요", for: .normal)
-        backgroundView.togetherButton.setTitle("운행해요", for: .normal)
-
         // view layout
         driverCardView.isHidden = false
         memberCardView.isHidden = true
-
-        // button layout
-        backgroundView.individualButton.isHidden = false
-        backgroundView.togetherButton.isHidden = false
-        backgroundView.shuttleStartButton.isHidden = true
 
         driverCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
@@ -321,17 +295,9 @@ extension SessionStartViewController {
     private func settingPassengerView(crewData: Crew) {
         backgroundView.notifyComment.text = ""
 
-        backgroundView.individualButton.setTitle("따로가요", for: .normal)
-        backgroundView.togetherButton.setTitle("함께가요", for: .normal)
-
         // view layout
         driverCardView.isHidden = true
         memberCardView.isHidden = false
-
-        // button layout
-        backgroundView.individualButton.isHidden = false
-        backgroundView.togetherButton.isHidden = false
-        backgroundView.shuttleStartButton.isHidden = true
 
         memberCardView.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(20)
@@ -358,10 +324,6 @@ extension SessionStartViewController {
     @objc private func togetherButtonDidTapped() {
         if isCaptain {
             firebaseManager.driverTogetherButtonTapped(crewData: crewData)
-
-            backgroundView.individualButton.isHidden = true
-            backgroundView.togetherButton.isHidden = true
-            backgroundView.shuttleStartButton.isHidden = false
 
             // 활성화
             driverCardView.layer.opacity = 1.0
@@ -417,10 +379,6 @@ extension SessionStartViewController {
         backgroundView.notifyComment.text = "오늘의 카풀 운행 여부를\n전달했어요"
         driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
         driverCardView.driverFrontView.crewCollectionView.isHidden = true   // 컬렉션뷰 가리고 오늘 가지 않는다는 뷰 보여주기
-        backgroundView.individualButton.backgroundColor = UIColor.semantic.backgroundThird
-        backgroundView.individualButton.isEnabled = false
-        backgroundView.togetherButton.backgroundColor = UIColor.semantic.backgroundThird
-        backgroundView.togetherButton.isEnabled = false
         driverCardView.layer.opacity = 1.0
     }
 }
