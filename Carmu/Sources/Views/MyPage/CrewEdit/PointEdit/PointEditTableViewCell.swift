@@ -62,6 +62,9 @@ final class PointEditTableViewCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        selectionStyle = .none // 셀 선택 막음
+        backgroundColor = .clear
+        contentView.backgroundColor = .clear
         setupUI()
         timeEditButton.addTarget(self, action: #selector(timeEditButtonTapped), for: .touchUpInside)
         addressEditButton.addTarget(self, action: #selector(addressEditButtonTapped), for: .touchUpInside)
@@ -74,7 +77,6 @@ final class PointEditTableViewCell: UITableViewCell {
     }
 
     private func setupUI() {
-        selectionStyle = .none // 셀 선택 막음
 
         contentView.addSubview(timeEditButton)
         timeEditButton.snp.makeConstraints { make in

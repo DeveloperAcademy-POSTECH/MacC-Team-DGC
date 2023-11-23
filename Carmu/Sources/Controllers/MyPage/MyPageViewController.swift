@@ -32,7 +32,7 @@ final class MyPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundSecond
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         // 내비게이션 바 appearance 설정 (배경색)
         let appearance = UINavigationBarAppearance()
@@ -255,15 +255,11 @@ extension MyPageViewController {
         crewInfoPassengerView.snp.makeConstraints { make in
             make.top.equalTo(myPageView.userInfoView.snp.bottom).offset(60)
             make.leading.trailing.equalToSuperview().inset(20)
-            make.bottom.equalToSuperview()
+            make.bottom.equalToSuperview().inset(80)
         }
 
-        crewInfoPassengerView.giftCollectionView.register(
-            GiftCardCollectionViewCell.self,
-            forCellWithReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier
-        )
-        crewInfoPassengerView.giftCollectionView.delegate = self
-        crewInfoPassengerView.giftCollectionView.dataSource = self
+        crewInfoPassengerView.shuttleNameLabel.text = crewData?.name
+        crewInfoPassengerView.shuttleDetailLabel.text = "\(crewData?.startingPoint?.name ?? "출발지")    ➡️    \(crewData?.destination?.name ?? "도착지")"
     }
 }
 
@@ -301,9 +297,17 @@ extension MyPageViewController: UITableViewDataSource {
     // 각 row에 대한 셀 구성
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "defaultCell", for: indexPath)
+        cell.backgroundColor = UIColor.semantic.backgroundDefault
+        cell.textLabel?.text = "셔틀 정보 수정하기"
+        cell.textLabel?.textColor = UIColor.semantic.textPrimary
         cell.accessoryType = .disclosureIndicator
-        cell.textLabel?.text = "크루 정보 수정하기"
-        cell.tintColor = UIColor.semantic.accPrimary // TODO: - 악세사리버튼 색 수정 안됨
+        cell.tintColor = UIColor.semantic.accPrimary
+        let image = UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysTemplate)
+        if let width = image?.size.width, let height = image?.size.height {
+            let disclosureImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+            disclosureImageView.image = image
+            cell.accessoryView = disclosureImageView
+        }
         return cell
     }
 }
@@ -333,55 +337,5 @@ extension MyPageViewController: UITableViewDelegate {
         }
         // 클릭 후에는 셀의 선택이 해제된다.
         tableView.deselectRow(at: indexPath, animated: true)
-    }
-}
-
-// MARK: - UICollectionViewDataSource 델리게이트 구현
-extension MyPageViewController: UICollectionViewDataSource {
-
-    // 컬렉션 뷰의 아이템 개수 설정
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
-    }
-
-    // 컬렉션 뷰 구성
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: GiftCardCollectionViewCell.cellIdentifier,
-            for: indexPath
-        ) as? GiftCardCollectionViewCell else {
-            return UICollectionViewCell()
-        }
-        cell.giftImageView.image = UIImage(named: dummyImage[indexPath.row])
-        cell.distanceLabel.text = "\(dummydistance[indexPath.row])km"
-        cell.giftNameLabel.text = dummyName[indexPath.row]
-        return cell
-    }
-}
-
-// MARK: - UICollectionViewDelegateFlowLayout 델리게이트 구현 (UICollectionViewDelegate는 해당 프로토콜에서 채택 중)
-extension MyPageViewController: UICollectionViewDelegateFlowLayout {
-
-    // 기준 행 또는 열 사이에 들어가는 아이템 사이의 간격
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        minimumInteritemSpacingForSectionAt section: Int
-    ) -> CGFloat {
-        return 12
-    }
-
-    // 컬렉션 뷰의 사이즈
-    func collectionView(
-        _ collectionView: UICollectionView,
-        layout collectionViewLayout: UICollectionViewLayout,
-        sizeForItemAt indexPath: IndexPath
-    ) -> CGSize {
-        let cellHeight: CGFloat = crewInfoPassengerView.giftCollectionView.frame.height - 40
-        let cellWidth: CGFloat = crewInfoPassengerView.giftCollectionView.frame.width * 19 / 70
-        return CGSize(width: cellWidth, height: cellHeight)
     }
 }

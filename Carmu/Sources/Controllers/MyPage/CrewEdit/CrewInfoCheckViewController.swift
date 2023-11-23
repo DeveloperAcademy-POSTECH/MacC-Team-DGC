@@ -29,7 +29,7 @@ final class CrewInfoCheckViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.semantic.backgroundDefault
+        view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
 
         updateCrewDataUI(crewData: crewData)
 
@@ -47,7 +47,7 @@ final class CrewInfoCheckViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationItem.title = "크루 정보"
+        navigationItem.title = "셔틀 정보"
 
         // 최신 크루 데이터를 받아서 화면에 반영
         Task {
@@ -172,14 +172,14 @@ final class CrewInfoCheckViewController: UIViewController {
 // MARK: - @objc 메서드
 extension CrewInfoCheckViewController {
 
-    // 크루명 편집 버튼 클릭 시 호출
+    // 셔틀명 편집 버튼 클릭 시 호출
     @objc private func showCrewNameEditView() {
         let crewNameEditVC = NameEditViewController(nowName: crewInfoCheckView.crewNameLabel.text ?? "", isCrewNameEditView: true)
         crewNameEditVC.delegate = self
         crewNameEditVC.modalPresentationStyle = .overCurrentContext
         // nameEditView의 화면 요소를 크루명에 맞게 수정
-        crewNameEditVC.nameEditView.nameEditTextField.placeholder = "크루명을 입력하세요"
-        crewNameEditVC.nameEditView.textFieldEditTitle.text = "크루명 편집하기"
+        crewNameEditVC.nameEditView.nameEditTextField.placeholder = "셔틀명을 입력하세요"
+        crewNameEditVC.nameEditView.textFieldEditTitle.text = "셔틀명 편집하기"
         present(crewNameEditVC, animated: false)
     }
 
