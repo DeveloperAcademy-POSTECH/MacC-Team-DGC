@@ -118,7 +118,7 @@ final class ServerPushManager {
             let data = ["token": captainDeviceToken, "nickname": userNickname]
 
             self.functions
-                .httpsCallable("giveupNotification")
+                .httpsCallable("giveupNotificationToDriver")
                 .call(data) { (_, error) in
                     if let error = error {
                         print("error --> ", error.localizedDescription)
@@ -126,6 +126,27 @@ final class ServerPushManager {
                         print("Success sending data")
                     }
                 }
+        }
+    }
+
+    // 운전자가 포기하기 클릭했을 떄 탑승자들에게 알림을 보내는 메서드
+    func sendGiveupToPassenger(crew: Crew) {
+        guard let memberStatus = crew.memberStatus else { return }
+        for member in memberStatus {
+            guard let status = member.status else { return }
+            if let deviceToken = member.deviceToken, status == .accept {
+                functions
+                    .httpsCallable("giveupNotificationToPassenger")
+                    .call(["token": deviceToken]) { (result, error) in
+                        if let error = error {
+                            print("Error calling Firebase Functions: \(error.localizedDescription)")
+                        } else {
+                            if let data = (result?.data as? [String: Any]) {
+                                print("Response data --> ", data)
+                            }
+                        }
+                    }
+            }
         }
     }
 
