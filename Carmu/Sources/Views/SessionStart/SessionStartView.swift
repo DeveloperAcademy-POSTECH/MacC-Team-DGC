@@ -249,19 +249,28 @@ extension SessionStartView {
     private func setBottomButtonForMember(crewData: Crew) {
         if crewData.sessionStatus == .decline {
             setBottomButtonMemberDecline(crewData: crewData)
-        } else {
-            switch firebaseManger.passengerStatus(crewData: crewData) {
-            case .waiting:
-                setBottomButtonMemberWaiting(crewData: crewData)
-            case .accept:
-                setBottomButtonMemberAccept(crewData: crewData)
-            case .decline:
-                if crewData.sessionStatus == .accept {
-                    setBottomButtonMemberDecline(crewData: crewData)
-                }
-            case .sessionStart:
-                break
+            return
+        }
+        if crewData.sessionStatus == .sessionStart {
+            if firebaseManger.passengerStatus(crewData: crewData) == .accept {
+                setBottomButtonMemberSessionStart(crewData: crewData)
+            } else {
+                setBottomButtonMemberDecline(crewData: crewData)
             }
+            return
+        }
+
+        switch firebaseManger.passengerStatus(crewData: crewData) {
+        case .waiting:
+            setBottomButtonMemberWaiting(crewData: crewData)
+        case .accept:
+            setBottomButtonMemberAccept(crewData: crewData)
+        case .decline:
+            if crewData.sessionStatus == .accept {
+                setBottomButtonMemberDecline(crewData: crewData)
+            }
+        case .sessionStart:
+            break
         }
     }
 
@@ -363,5 +372,15 @@ extension SessionStartView {
 
         individualButton.isEnabled = true
         togetherButton.isEnabled = false
+    }
+
+    private func setBottomButtonMemberSessionStart(crewData: Crew) {
+        individualButton.isHidden = true
+        togetherButton.isHidden = true
+        shuttleStartButton.isHidden = false
+
+        shuttleStartButton.setTitle("셔틀 지도보기", for: .normal)
+        shuttleStartButton.backgroundColor = UIColor.semantic.accPrimary
+        shuttleStartButton.isEnabled = true
     }
 }
