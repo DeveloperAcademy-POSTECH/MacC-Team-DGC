@@ -157,17 +157,52 @@ extension SelectDetailStopoverPointViewController {
         switch pointType {
         case .start:
             cameraUpdate = NMFCameraUpdate(scrollTo: points.startingPoint)
+            getAddressAndBuildingName(points.startingPoint) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
         case .destination:
             cameraUpdate = NMFCameraUpdate(scrollTo: points.destination)
+            getAddressAndBuildingName(points.destination) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
         case .stopover1:
             guard let pickupLocation1 = points.pickupLocation1 else { return }
             cameraUpdate = NMFCameraUpdate(scrollTo: pickupLocation1)
+            getAddressAndBuildingName(pickupLocation1) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
         case .stopover2:
             guard let pickupLocation2 = points.pickupLocation2 else { return }
             cameraUpdate = NMFCameraUpdate(scrollTo: pickupLocation2)
+            getAddressAndBuildingName(pickupLocation2) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
         case .stopover3:
             guard let pickupLocation3 = points.pickupLocation3 else { return }
             cameraUpdate = NMFCameraUpdate(scrollTo: pickupLocation3)
+            getAddressAndBuildingName(pickupLocation3) { buildingName, detailAddress in
+                // 주소와 건물명을 업데이트
+                DispatchQueue.main.async {
+                    self.stopoverPointMapView.buildingNameLabel.text = buildingName
+                    self.stopoverPointMapView.detailAddressLabel.text = detailAddress
+                }
+            }
         }
         stopoverPointMapView.mapView.moveCamera(cameraUpdate)
     }
