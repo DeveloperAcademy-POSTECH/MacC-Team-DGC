@@ -254,7 +254,7 @@ extension SessionStartView {
             case .waiting:
                 setBottomButtonMemberWaiting(crewData: crewData)
             case .accept:
-                break
+                setBottomButtonMemberAccept(crewData: crewData)
             case .decline:
                 if crewData.sessionStatus == .accept {
                     setBottomButtonMemberDecline(crewData: crewData)
@@ -347,6 +347,21 @@ extension SessionStartView {
         togetherButton.backgroundColor = UIColor.semantic.backgroundThird
 
         individualButton.isEnabled = false
+        togetherButton.isEnabled = false
+    }
+
+    private func setBottomButtonMemberAccept(crewData: Crew) {
+        individualButton.isHidden = false
+        togetherButton.isHidden = false
+        shuttleStartButton.isHidden = true
+
+        individualButton.setTitle("따로가요", for: .normal)
+        togetherButton.setTitle("함께가요", for: .normal)
+
+        individualButton.backgroundColor = UIColor.semantic.negative
+        togetherButton.backgroundColor = UIColor.semantic.backgroundThird
+
+        individualButton.isEnabled = true
         togetherButton.isEnabled = false
     }
 }
