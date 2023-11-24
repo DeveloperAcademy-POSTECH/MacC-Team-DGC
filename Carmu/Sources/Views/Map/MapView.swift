@@ -79,7 +79,7 @@ final class MapView: UIView {
     }()
 
     lazy var toastLabel = {
-        let toastLabel = UILabel(frame: CGRect(x: frame.size.width / 2 + 20, y: 48, width: 350, height: 60))
+        let toastLabel = UILabel(frame: CGRect(x: frame.size.width / 2 + 18, y: 48, width: 350, height: 60))
         toastLabel.backgroundColor = UIColor.black.withAlphaComponent(0.6)
         toastLabel.textColor = UIColor.white
         toastLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
