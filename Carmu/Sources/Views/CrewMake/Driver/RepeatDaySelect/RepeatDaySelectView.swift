@@ -89,10 +89,18 @@ extension RepeatDaySelectView {
             make.width.equalTo(60)
         }
 
-        dayTableView.snp.makeConstraints { make in
-            make.top.equalTo(weekdayButton.snp.bottom).offset(24)
-            make.bottom.equalTo(nextButton.snp.top).offset(-40)
-            make.horizontalEdges.equalToSuperview().inset(20)
+        if UIScreen.main.bounds.height <= 667 {
+            dayTableView.snp.makeConstraints { make in
+                make.top.equalTo(weekdayButton.snp.bottom).offset(24)
+                make.bottom.equalTo(nextButton.snp.top).offset(-40)
+                make.horizontalEdges.equalToSuperview().inset(20)
+            }
+        } else {
+            dayTableView.snp.makeConstraints { make in
+                make.top.equalTo(weekdayButton.snp.bottom).offset(24)
+                make.height.equalTo(308)
+                make.horizontalEdges.equalToSuperview().inset(20)
+            }
         }
 
         nextButton.snp.makeConstraints { make in

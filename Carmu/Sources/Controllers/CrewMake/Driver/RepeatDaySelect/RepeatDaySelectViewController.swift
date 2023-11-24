@@ -161,6 +161,14 @@ extension RepeatDaySelectViewController: UITableViewDataSource {
 // MARK: - TableViewDelegate Method
 extension RepeatDaySelectViewController: UITableViewDelegate {
 
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if UIScreen.main.bounds.height <= 667 {
+            return repeatDaySelectView.dayTableView.bounds.size.height / 7
+        } else {
+            return 44
+        }
+    }
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) else { return }
         if let selectedDay = DayOfWeek(rawValue: indexPath.row) {
