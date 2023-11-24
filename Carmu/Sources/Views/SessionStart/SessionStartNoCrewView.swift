@@ -81,12 +81,15 @@ extension SessionStartNoCrewView {
 // MARK: - 앞면 뷰
 final class NoCrewFrontView: UIView {
 
+    private let deviceHeight = UIScreen.main.bounds.height
+
     private lazy var frontImage: UIImageView = {
         let image = UIImage(named: "NoCrewBlinker")
         let imageView = UIImageView(image: image)
         imageView.contentMode = .scaleAspectFit
         return imageView
     }()
+
     private lazy var comment: UILabel = {
         let label = UILabel()
 
@@ -107,22 +110,24 @@ final class NoCrewFrontView: UIView {
 
         return label
     }()
+
     lazy var createCrewButton: UIButton = {
         let button = UIButton()
         button.setTitle("크루 만들기", for: .normal)
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        button.titleLabel?.font = UIFont.carmuFont.headline1
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
         button.backgroundColor = UIColor.semantic.accPrimary
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = deviceHeight == 667 ? 15 : 30
         return button
     }()
+
     lazy var inviteCodeButton: UIButton = {
         let button = UIButton()
         button.setTitle("초대코드 입력하기", for: .normal)
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .bold)
+        button.titleLabel?.font = UIFont.carmuFont.subhead3
         button.backgroundColor = UIColor.semantic.accPrimary
-        button.layer.cornerRadius = 30
+        button.layer.cornerRadius = deviceHeight == 667 ? 15 : 30
         return button
     }()
 
@@ -149,23 +154,26 @@ final class NoCrewFrontView: UIView {
             make.centerX.equalToSuperview()
             make.height.equalTo(70)
         }
+
         comment.snp.makeConstraints { make in
-            make.top.lessThanOrEqualTo(frontImage.snp.bottom).offset(20)
+            make.top.equalTo(frontImage.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
+
         createCrewButton.snp.makeConstraints { make in
             make.top.equalTo(comment.snp.bottom).offset(24)
             make.centerX.equalToSuperview()
             make.width.equalTo(170)
-            make.height.equalTo(60)
+            make.height.equalTo(deviceHeight == 667 ? 30 : 60)
         }
+
         inviteCodeButton.snp.makeConstraints { make in
             make.top.lessThanOrEqualTo(createCrewButton.snp.bottom).offset(12)
             make.bottom.greaterThanOrEqualToSuperview().inset(24)
             make.bottom.lessThanOrEqualToSuperview().inset(60).priority(.high)
             make.centerX.equalToSuperview()
             make.width.equalTo(170)
-            make.height.equalTo(60)
+            make.height.equalTo(deviceHeight == 667 ? 30 : 60)
         }
     }
 }
