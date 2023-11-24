@@ -310,6 +310,8 @@ extension MapViewController {
             // 서버 푸시
             if !self.isDriver { // passenger가 클릭했을 때
                 self.serverPushManager.sendGiveupToDriver(crew: self.crew)
+            } else {    // 운전자가 클릭했을 때
+                self.serverPushManager.sendGiveupToPassenger(crew: self.crew)
             }
 
             self.updateSessionStatus(to: .waiting)

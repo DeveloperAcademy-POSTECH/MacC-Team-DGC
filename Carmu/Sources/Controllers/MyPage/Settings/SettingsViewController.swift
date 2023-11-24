@@ -107,7 +107,7 @@ final class SettingsViewController: UIViewController {
         if let crewID = try await firebaseManager.readUserCrewID() {
             guard let crewData = try await firebaseManager.getCrewData(crewID: crewID) else { return }
 
-            if firebaseManager.checkCaptain(crewData: crewData) { // 운전자라면
+            if firebaseManager.isDriver(crewData: crewData) { // 운전자라면
                 print("운전자의 크루 데이터와 크루 삭제 중...")
                 try await firebaseManager.deleteCrewByDriver()
             } else { // 동승자라면
