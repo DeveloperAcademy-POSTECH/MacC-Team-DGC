@@ -711,10 +711,10 @@ extension FirebaseManager {
         }
 
         for (index, member) in memberStatus.enumerated() {
-            guard member.id == KeychainItem.currentUserIdentifier else {
-                continue
+            if member.id == KeychainItem.currentUserIdentifier {
+                Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status").setValue(status)
+                break
             }
-            Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status").setValue(status)
         }
     }
 
@@ -828,8 +828,10 @@ extension FirebaseManager {
 
             if let memberStatus = crewData.memberStatus {
                 for (index, member) in memberStatus.enumerated() {
-                    guard member.id == KeychainItem.currentUserIdentifier else { return }
-                    try await Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/deviceToken").setValue(newToken)
+                    if member.id == KeychainItem.currentUserIdentifier {
+                        try await Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/deviceToken") .setValue(newToken)
+                        break
+                    }
                 }
             }
         }
