@@ -8,15 +8,14 @@
 import UIKit
 
 // MARK: - 자주 묻는 질문 뷰
-// TODO: - 개인정보 처리방침 뷰와 똑같음 (재사용 뷰로 분리 필요)
 final class QuestionDetailView: UIView {
 
-    // 상단 메인 문구 (질문)
-    private let mainLabel: UILabel = {
-        let mainLabel = UILabel()
-        mainLabel.numberOfLines = 0
-        mainLabel.font = UIFont.carmuFont.headline2
-        mainLabel.textColor = UIColor.semantic.textPrimary
+    // 상단 질문 문구
+    let questionLabel: UILabel = {
+        let questionLabel = UILabel()
+        questionLabel.numberOfLines = 0
+        questionLabel.font = UIFont.carmuFont.headline2
+        questionLabel.textColor = UIColor.semantic.textPrimary
         let mainLabelText = "많은 사람들과 카풀을 하고 있는데, 크루는 하나 이상 만들 수는 없나요?"
         let attributedText = NSMutableAttributedString(string: mainLabelText)
         if let range1 = mainLabelText.range(of: "카풀") {
@@ -35,8 +34,8 @@ final class QuestionDetailView: UIView {
                 range: nsRange2
             )
         }
-        mainLabel.attributedText = attributedText
-        return mainLabel
+        questionLabel.attributedText = attributedText
+        return questionLabel
     }()
 
     // 상단 서브 문구
@@ -57,13 +56,20 @@ final class QuestionDetailView: UIView {
     }()
 
     // 답변 내용
-    private let answerContent: UILabel = {
-        let privacyContent = UILabel()
-        privacyContent.text = "간략한 답변\n상세 변명 어쩌구..."
-        privacyContent.textColor = UIColor.semantic.textPrimary
-        privacyContent.numberOfLines = 0
-        // TODO: - NSMutableAttributedString 활용해서 내용 채우기
-        return privacyContent
+    let answerTitle: UILabel = {
+        let answerTitle = UILabel()
+        answerTitle.text = "답변 제목"
+        answerTitle.font = UIFont.carmuFont.subhead3
+        answerTitle.textColor = UIColor.semantic.textPrimary
+        return answerTitle
+    }()
+    let answerDescription: UILabel = {
+        let answerDescription = UILabel()
+        answerDescription.text = "답변 내용"
+        answerDescription.font = UIFont.carmuFont.body3Long
+        answerDescription.textColor = UIColor.semantic.textPrimary
+        answerDescription.numberOfLines = 0
+        return answerDescription
     }()
 
     // 로고
@@ -89,15 +95,15 @@ final class QuestionDetailView: UIView {
     }
 
     func setupUI() {
-        addSubview(mainLabel)
-        mainLabel.snp.makeConstraints { make in
+        addSubview(questionLabel)
+        questionLabel.snp.makeConstraints { make in
             make.horizontalEdges.equalToSuperview().inset(20)
             make.top.equalTo(safeAreaLayoutGuide).offset(40)
         }
 
         addSubview(subLabel)
         subLabel.snp.makeConstraints { make in
-            make.top.equalTo(mainLabel.snp.bottom).offset(8)
+            make.top.equalTo(questionLabel.snp.bottom).offset(8)
             make.horizontalEdges.equalToSuperview().inset(20)
         }
 
@@ -114,28 +120,16 @@ final class QuestionDetailView: UIView {
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(appLogo.snp.bottom).offset(-40)
         }
-        answerContentView.addSubview(answerContent)
-        answerContent.snp.makeConstraints { make in
+        answerContentView.addSubview(answerTitle)
+        answerContentView.addSubview(answerDescription)
+        answerTitle.snp.makeConstraints { make in
             make.top.equalToSuperview().inset(32)
             make.horizontalEdges.equalToSuperview().inset(20)
+            make.height.equalTo(22)
         }
-    }
-}
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct QuestionDetailVCRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = QuestionDetailViewController
-    func makeUIViewController(context: Context) -> QuestionDetailViewController {
-        return QuestionDetailViewController()
-    }
-    func updateUIViewController(_ uiViewController: QuestionDetailViewController, context: Context) {
-    }
-}
-@available(iOS 13.0.0, *)
-struct QuestionDetailViewPreview: PreviewProvider {
-    static var previews: some View {
-        QuestionDetailVCRepresentable()
+        answerDescription.snp.makeConstraints { make in
+            make.top.equalTo(answerTitle.snp.bottom).offset(8)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
     }
 }

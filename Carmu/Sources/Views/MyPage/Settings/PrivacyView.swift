@@ -55,14 +55,12 @@ final class PrivacyView: UIView {
         return privacyContentView
     }()
 
-    // 개인정보 처리방침 내용
-    private let privacyContent: UILabel = {
-        let privacyContent = UILabel()
-        privacyContent.text = "제 1조 1항\n개인정보라 함은 oooo이다."
-        privacyContent.textColor = UIColor.semantic.textPrimary
-        privacyContent.numberOfLines = 0
-        // TODO: - NSMutableAttributedString 활용해서 내용 채우기
-        return privacyContent
+    // 개인정보 처리방침 링크 연결 버튼
+    let privacyButton: UIButton = {
+        let privacyButton = UIButton()
+        privacyButton.setTitle("개인정보 처리방침 보러가기", for: .normal)
+        privacyButton.setTitleColor(UIColor.semantic.accPrimary, for: .normal)
+        return privacyButton
     }()
 
     // 로고
@@ -113,28 +111,10 @@ final class PrivacyView: UIView {
             make.horizontalEdges.equalToSuperview().inset(20)
             make.bottom.equalTo(appLogo.snp.bottom).offset(-40)
         }
-        privacyContentView.addSubview(privacyContent)
-        privacyContent.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(32)
-            make.horizontalEdges.equalToSuperview().inset(20)
+
+        privacyContentView.addSubview(privacyButton)
+        privacyButton.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
-    }
-}
-
-// MARK: - 프리뷰 canvas 세팅
-import SwiftUI
-
-struct PrivacyViewControllerRepresentable: UIViewControllerRepresentable {
-    typealias UIViewControllerType = PrivacyViewController
-    func makeUIViewController(context: Context) -> PrivacyViewController {
-        return PrivacyViewController()
-    }
-    func updateUIViewController(_ uiViewController: PrivacyViewController, context: Context) {
-    }
-}
-@available(iOS 13.0.0, *)
-struct PrivacyViewPreview: PreviewProvider {
-    static var previews: some View {
-        PrivacyViewControllerRepresentable()
     }
 }

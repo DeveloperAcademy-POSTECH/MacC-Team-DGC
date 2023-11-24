@@ -10,6 +10,9 @@ import UIKit
 // MARK: - 문의하기 뷰
 final class InquiryView: UIView {
 
+    let scrollView = UIScrollView()
+    private let contentsView = UIView()
+
     // 상단 메인 문구
     private let mainLabel: UILabel = {
         let mainLabel = UILabel()
@@ -29,6 +32,14 @@ final class InquiryView: UIView {
         return subLabel
     }()
 
+    private let faqLabel: UILabel = {
+        let faqLabel = UILabel()
+        faqLabel.text = "FAQ"
+        faqLabel.font = UIFont.carmuFont.body2
+        faqLabel.textColor = UIColor.semantic.textBody
+        return faqLabel
+    }()
+
     // 질문 스택 뷰
     private let questionsStackView: UIStackView = {
         let questionsStackView = UIStackView()
@@ -41,7 +52,7 @@ final class InquiryView: UIView {
     // 질문 1
     let question1Button: UIButton = {
         let question1Button = UIButton()
-        let question1Text = "자주 묻는 질문, 하나\n크루는 하나 이상 만들 수는 없나요?"
+        let question1Text = "자주 묻는 질문, 하나\n셔틀은 하나 이상 만들 수는 없나요?"
 
         // 텍스트 줄 간격 값
         let paragraphStyle = NSMutableParagraphStyle()
@@ -86,7 +97,7 @@ final class InquiryView: UIView {
     // 질문 2
     let question2Button: UIButton = {
         let question2Button = UIButton()
-        let question2Text = "자주 묻는 질문, 둘\n크루는 하나 이상 만들 수는 없나요?"
+        let question2Text = "자주 묻는 질문, 둘\n참여여부 응답 시간 규칙을 변경할 수 있나요?"
 
         // 텍스트 줄 간격 값
         let paragraphStyle = NSMutableParagraphStyle()
@@ -131,7 +142,7 @@ final class InquiryView: UIView {
     // 질문 3
     let question3Button: UIButton = {
         let question3Button = UIButton()
-        let question3Text = "자주 묻는 질문, 셋\n크루는 하나 이상 만들 수는 없나요?"
+        let question3Text = "자주 묻는 질문, 셋\n앱을 사용하다가 지각했어요. 보상이 가능한가요?"
 
         // 텍스트 줄 간격 값
         let paragraphStyle = NSMutableParagraphStyle()
@@ -208,27 +219,6 @@ final class InquiryView: UIView {
     }
 
     func setupUI() {
-        addSubview(mainLabel)
-        mainLabel.snp.makeConstraints { make in
-            make.top.equalTo(safeAreaLayoutGuide).inset(40)
-            make.horizontalEdges.equalToSuperview().inset(20)
-        }
-
-        addSubview(subLabel)
-        subLabel.snp.makeConstraints { make in
-            make.top.equalTo(mainLabel.snp.bottom).offset(8)
-            make.horizontalEdges.equalToSuperview().inset(20)
-        }
-
-        addSubview(questionsStackView)
-        questionsStackView.snp.makeConstraints { make in
-            make.top.equalTo(subLabel.snp.bottom).offset(40)
-            make.horizontalEdges.equalToSuperview().inset(20)
-        }
-        questionsStackView.addArrangedSubview(question1Button)
-        questionsStackView.addArrangedSubview(question2Button)
-        questionsStackView.addArrangedSubview(question3Button)
-
         addSubview(appLogo)
         appLogo.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
@@ -236,12 +226,62 @@ final class InquiryView: UIView {
             make.height.equalTo(18)
         }
 
-        addSubview(inquiryTableView)
-        // TODO: - insetGrouped의 좌우 inset값이 20이 되도록 맞춰주기
+        contentsView.addSubview(mainLabel)
+        contentsView.addSubview(subLabel)
+        contentsView.addSubview(faqLabel)
+        contentsView.addSubview(questionsStackView)
+        contentsView.addSubview(inquiryTableView)
+        scrollView.addSubview(contentsView)
+        addSubview(scrollView)
+
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(safeAreaLayoutGuide).inset(40)
+            make.width.equalToSuperview()
+            make.bottom.equalTo(appLogo.snp.top).offset(-30)
+        }
+
+        contentsView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.width.equalToSuperview()
+            make.height.equalTo(600)
+        }
+
+        mainLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+        subLabel.snp.makeConstraints { make in
+            make.top.equalTo(mainLabel.snp.bottom).offset(8)
+            make.horizontalEdges.equalToSuperview().inset(20)
+        }
+
+        faqLabel.snp.makeConstraints { make in
+            make.top.equalTo(subLabel.snp.bottom).offset(32)
+            make.leading.equalToSuperview().inset(32)
+        }
+
+        questionsStackView.snp.makeConstraints { make in
+            make.top.equalTo(faqLabel.snp.bottom).offset(4)
+            make.width.equalToSuperview().inset(20)
+            make.centerX.equalToSuperview()
+        }
+        questionsStackView.addArrangedSubview(question1Button)
+        questionsStackView.addArrangedSubview(question2Button)
+        questionsStackView.addArrangedSubview(question3Button)
+        question1Button.snp.makeConstraints { make in
+            make.height.equalTo(90)
+        }
+        question2Button.snp.makeConstraints { make in
+            make.height.equalTo(90)
+        }
+        question3Button.snp.makeConstraints { make in
+            make.height.equalTo(90)
+        }
+
         inquiryTableView.snp.makeConstraints { make in
-            make.top.equalTo(questionsStackView.snp.bottom).offset(40)
+            make.top.equalTo(questionsStackView.snp.bottom).offset(32)
             make.horizontalEdges.equalToSuperview()
-            make.bottom.equalTo(appLogo.snp.top).offset(-39)
+            make.bottom.equalToSuperview()
         }
     }
 }

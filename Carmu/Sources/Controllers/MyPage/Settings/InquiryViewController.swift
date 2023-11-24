@@ -25,9 +25,9 @@ final class InquiryViewController: UIViewController {
             make.edges.equalToSuperview()
         }
 
-        inquiryView.question1Button.addTarget(self, action: #selector(moveToQuestionDetailView), for: .touchUpInside)
-        inquiryView.question2Button.addTarget(self, action: #selector(moveToQuestionDetailView), for: .touchUpInside)
-        inquiryView.question3Button.addTarget(self, action: #selector(moveToQuestionDetailView), for: .touchUpInside)
+        inquiryView.question1Button.addTarget(self, action: #selector(moveToQuestion1DetailView), for: .touchUpInside)
+        inquiryView.question2Button.addTarget(self, action: #selector(moveToQuestion2DetailView), for: .touchUpInside)
+        inquiryView.question3Button.addTarget(self, action: #selector(moveToQuestion3DetailView), for: .touchUpInside)
 
         inquiryView.inquiryTableView.register(UITableViewCell.self, forCellReuseIdentifier: "defaultCell")
         inquiryView.inquiryTableView.dataSource = self
@@ -40,9 +40,19 @@ final class InquiryViewController: UIViewController {
     }
 
     // 자주 묻는 질문 클릭 시 질문 상세 뷰로 이동
-    // TODO: - 질문 별로 다른 내용 전달되도록 수정 필요
-    @objc private func moveToQuestionDetailView() {
+    @objc private func moveToQuestion1DetailView() {
         let questionDetailVC = QuestionDetailViewController()
+        questionDetailVC.questionNum = 1
+        navigationController?.pushViewController(questionDetailVC, animated: true)
+    }
+    @objc private func moveToQuestion2DetailView() {
+        let questionDetailVC = QuestionDetailViewController()
+        questionDetailVC.questionNum = 2
+        navigationController?.pushViewController(questionDetailVC, animated: true)
+    }
+    @objc private func moveToQuestion3DetailView() {
+        let questionDetailVC = QuestionDetailViewController()
+        questionDetailVC.questionNum = 3
         navigationController?.pushViewController(questionDetailVC, animated: true)
     }
 
@@ -115,6 +125,7 @@ extension InquiryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int) {
         if let header = view as? UITableViewHeaderFooterView {
             header.textLabel?.textColor = UIColor.semantic.textBody
+            header.textLabel?.font = UIFont.carmuFont.body2
         }
     }
 }
