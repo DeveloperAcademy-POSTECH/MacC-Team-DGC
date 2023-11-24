@@ -60,6 +60,8 @@ final class MapViewController: UIViewController {
         startObservingForMember()
         setDetailView()
         setNaverMap()
+        view.addSubview(mapView.toastLabel)
+        mapView.toastLabel.alpha = 0.0
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -258,8 +260,6 @@ final class MapViewController: UIViewController {
     func showToast(_ message: String, withDuration: Double, delay: Double) {
         mapView.toastLabel.text = message
         mapView.toastLabel.alpha = 1.0  // 처음에 alpha를 1로 설정
-
-        view.addSubview(mapView.toastLabel)
 
         // 애니메이션 적용
         UIView.animate(withDuration: withDuration, delay: delay, options: .curveEaseOut, animations: {
