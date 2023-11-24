@@ -465,7 +465,7 @@ extension SessionStartView {
 
     private func setBottomButtonMemberDecline(crewData: Crew) {
         individualButton.showButton(title: "따로가요", enabled: false)
-        if crewData.sessionStatus == .decline {
+        if crewData.sessionStatus == .decline || crewData.sessionStatus == .sessionStart {
             togetherButton.showButton(title: "함께가요", enabled: false)
         } else {
             togetherButton.showButton(title: "함께가요", buttonColor: UIColor.semantic.accPrimary)
