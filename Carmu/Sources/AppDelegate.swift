@@ -14,6 +14,8 @@ import NMapsMap
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+    private let firebaseManager = FirebaseManager()
+
     // gcmMessageIDKey 설정
     let gcmMessageIDKey = "gcm.Message_ID"
 
@@ -131,25 +133,26 @@ extension AppDelegate: MessagingDelegate {
         } catch {
             print("키체인에 FCMToken을 저장하지 못했습니다.")
         }
-    }
 
-    // MARK: - 현재는 사용하지 않으나, 추후에 로그아웃과 같은 예상치 못한 상황에서 필요할 수도 있기 때문에 주석으로 처리해놓았습니다.
-    //    // Firebase FCM 토큰 저장
-    //    func saveFCMToken() {
-    //        print("Save()")
-    //        if let fcmToken = Messaging.messaging().fcmToken {
-    //            UserDefaults.standard.set(fcmToken, forKey: "FCMToken")
-    //            UserDefaults.standard.synchronize()
-    //            print("FCMToken ", fcmToken)
-    //        }
-    //    }
-    //
-    //    // Firebase FCM 토큰 불러오기
-    //    func loadFCMToken() {
-    //        print("load")
-    //        if let savedToken = UserDefaults.standard.string(forKey: "FCMToken") {
-    //            // 저장된 토큰을 사용하여 필요한 작업 수행
-    //            print("Loaded FCM token: \(savedToken)")
-    //        }
-    //    }
+        // 디바이스 토큰 세팅해주기
+        settingDeviceToken(fcmToken: fcmToken)
+    }
+}
+
+// MARK: - Actions
+extension AppDelegate {
+
+    // 파이어베이스의 디바이스 토큰과 기기의 디바이스 토큰값이 다르면 기기의 디바이스 토큰값으로 변경하는 메서드
+    private func settingDeviceToken(fcmToken: String) {
+        Task {
+            guard let databasePath = User.databasePathWithUID else { return }
+            let user = try await firebaseManager.readUser(databasePath: databasePath)
+            guard let deviceToken = user?.deviceToken else { return }
+            // 만약 디바이스 토큰값이 일치하지 않는다면 변경해줍니다.
+            if fcmToken != deviceToken {
+                firebaseManager.updateDeviceTokenInUser(newToken: fcmToken)
+                firebaseManager.updateDeviceTokenInCrews(newToken: fcmToken)
+            }
+        }
+    }
 }

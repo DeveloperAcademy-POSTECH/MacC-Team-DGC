@@ -711,10 +711,10 @@ extension FirebaseManager {
         }
 
         for (index, member) in memberStatus.enumerated() {
-            guard member.id == KeychainItem.currentUserIdentifier else {
-                continue
+            if member.id == KeychainItem.currentUserIdentifier {
+                Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status").setValue(status)
+                break
             }
-            Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status").setValue(status)
         }
     }
 
@@ -808,5 +808,32 @@ extension FirebaseManager {
     func isAnyMemberAccepted(crewData: Crew) -> Bool {
         guard let crewMember = crewData.memberStatus else { return false }
         return crewMember.contains { $0.status == .accept }
+    }
+}
+
+// MARK: - AppDelegate 관련 메서드
+extension FirebaseManager {
+
+    // users의 디바이스 토큰값 변경
+    func updateDeviceTokenInUser(newToken: String) {
+        guard let databasePath = User.databasePathWithUID else { return }
+        databasePath.child("deviceToken").setValue(newToken as NSString)
+    }
+
+    // crews의 디바이스 토큰값 변경
+    func updateDeviceTokenInCrews(newToken: String) {
+        Task {
+            guard let crewID = try await readUserCrewID() else { return }
+            guard let crewData = try await getCrewData(crewID: crewID) else { return }
+
+            if let memberStatus = crewData.memberStatus {
+                for (index, member) in memberStatus.enumerated() {
+                    if member.id == KeychainItem.currentUserIdentifier {
+                        try await Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/deviceToken") .setValue(newToken)
+                        break
+                    }
+                }
+            }
+        }
     }
 }
