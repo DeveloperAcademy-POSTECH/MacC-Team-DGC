@@ -314,8 +314,13 @@ extension MapViewController {
                 self.serverPushManager.sendGiveupToPassenger(crew: self.crew)
             }
 
-            self.updateSessionStatus(to: .waiting)
-            self.firebaseManager.resetSessionData(crew: self.crew)
+            if self.isDriver {
+                self.updateSessionStatus(to: .waiting)
+                self.firebaseManager.resetSessionData(crew: self.crew)
+            } else {
+                // TODO: - MemberStatus를 giveUp으로 변경
+                self.firebaseManager.updateMemberStatus(crewData: self.crew, status: .decline)
+            }
             self.dismiss(animated: true)
         }
         alert.addAction(cancelAction)
