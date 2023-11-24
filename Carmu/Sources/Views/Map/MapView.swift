@@ -84,7 +84,7 @@ final class MapView: UIView {
         toastLabel.textColor = UIColor.white
         toastLabel.font = UIFont.boldSystemFont(ofSize: 16.0)
         toastLabel.textAlignment = .center
-        toastLabel.alpha = 1.0
+        toastLabel.alpha = 0.0
         toastLabel.layer.cornerRadius = 16
         toastLabel.clipsToBounds = true
         return toastLabel

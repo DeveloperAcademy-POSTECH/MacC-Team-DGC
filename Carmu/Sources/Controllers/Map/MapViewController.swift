@@ -61,7 +61,6 @@ final class MapViewController: UIViewController {
         setDetailView()
         setNaverMap()
         view.addSubview(mapView.toastLabel)
-        mapView.toastLabel.alpha = 0.0
     }
 
     override func viewDidAppear(_ animated: Bool) {
