@@ -702,40 +702,30 @@ extension FirebaseManager {
 // MARK: - SessionStartView Actions
 extension FirebaseManager {
 
+    /// 나(키체인에 등록된 UserIdenfier)의 MemberStatus를 변경해주는 메서드
+    func updateMemberStatus(crewData: Crew?, status: Status) {
+        guard let crewData = crewData,
+              let crewID = crewData.id,
+              let memberStatus = crewData.memberStatus else {
+            return
+        }
+
+        for (index, member) in memberStatus.enumerated() {
+            guard member.id == KeychainItem.currentUserIdentifier else {
+                continue
+            }
+            Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status").setValue(status)
+        }
+    }
+
     // 따로가요 클릭 시 해당 동승자의 status decline으로 변경
     func passengerIndividualButtonTapped(crewData: Crew?) {
-
-        guard let crewData = crewData else { return }
-        guard let memberStatus = crewData.memberStatus else { return }
-
-        for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
-            if let crewID = crewData.id {
-                let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
-                statusRef.setValue(Status.decline.rawValue) { error, _ in
-                    if let error = error {
-                        print("Error occured: ", error)
-                    }
-                }
-            }
-        }
+        updateMemberStatus(crewData: crewData, status: .decline)
     }
 
     // 함께가요 클릭 시 해당 동승자의 status accept로 변경
     func passengerTogetherButtonTapped(crewData: Crew?) {
-        guard let crewData = crewData else { return }
-        guard let memberStatus = crewData.memberStatus else { return }
-
-        for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
-            if let crewID = crewData.id {
-                let statusRef = Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status")
-
-                statusRef.setValue(Status.accept.rawValue) { error, _ in
-                    if let error = error {
-                        print("Error occured: ", error)
-                    }
-                }
-            }
-        }
+        updateMemberStatus(crewData: crewData, status: .accept)
     }
 
     /// Crew의 sessionStatus를 변경하는 메서드
