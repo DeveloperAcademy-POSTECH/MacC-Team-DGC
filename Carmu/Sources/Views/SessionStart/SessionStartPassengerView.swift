@@ -257,8 +257,6 @@ final class PassengerFrontView: UIView {
             timeText.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor.semantic.accPrimary as Any, range: nsRange2)
         }
         timeLabel.attributedText = timeText
-
-        statusLabel.text = "운전자의 확인을 기다리고 있어요"
     }
 
     // crewData를 기반으로 위치 불러오기

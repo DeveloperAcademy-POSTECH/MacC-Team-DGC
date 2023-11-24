@@ -23,7 +23,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             UserDefaults.standard.set(newValue, forKey: "isFirst")
         }
     }
-    static var isCrewCreated = false
+    static var showSessionStartGuide = false
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = scene as? UIWindowScene else {
@@ -70,11 +70,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                     if Auth.auth().currentUser != nil {
                         if SceneDelegate.isFirst && !hasCrew {
                             navigationController = UINavigationController(rootViewController: PositionSelectViewController())
-                            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
                         } else {
                             navigationController = UINavigationController(rootViewController: SessionStartViewController())
-                            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
                         }
+                        navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
                         navigationController.navigationItem.backButtonTitle = ""
                         self.window?.rootViewController = navigationController
                     } else {

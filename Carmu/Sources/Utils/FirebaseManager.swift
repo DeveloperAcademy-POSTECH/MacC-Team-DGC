@@ -456,25 +456,9 @@ extension FirebaseManager {
         try await crewRef.setValue(nil)
     }
 
-    /**
-     유저가 운전자인지 여부를 확인
-
-     사용 예시
-     firebaseManager.isCaptain { isCaptain in
-         if isCaptain {
-             print("캡틴임")
-         } else {
-             print("캡틴 아님")
-         }
-     }
-     */
-    func checkCaptain(crewData: Crew) -> Bool {
-        guard let captainID = crewData.captainID else { return false }
-        if captainID == KeychainItem.currentUserIdentifier {
-            return true
-        } else {
-            return false
-        }
+    /// 내가 운전자인지 확인하는 메서드
+    func isDriver(crewData: Crew?) -> Bool {
+        return KeychainItem.currentUserIdentifier == crewData?.captainID
     }
 
     /**
@@ -784,6 +768,7 @@ extension FirebaseManager {
     func endSession(crew: Crew?) {
         guard let crew = crew else { return }
         updateSessionStatus(to: .waiting, crew: crew)
+        resetSessionData(crew: crew)
     }
 
     // 탑승자 기준 본인의 Status를 감지하는 메서드
@@ -828,5 +813,10 @@ extension FirebaseManager {
                 completion(crew)
             }
         })
+    }
+
+    func isAnyMemberAccepted(crewData: Crew) -> Bool {
+        guard let crewMember = crewData.memberStatus else { return false }
+        return crewMember.contains { $0.status == .accept }
     }
 }
