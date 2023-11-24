@@ -60,6 +60,7 @@ final class MapViewController: UIViewController {
         startObservingForMember()
         setDetailView()
         setNaverMap()
+        view.addSubview(mapView.toastLabel)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -257,11 +258,11 @@ final class MapViewController: UIViewController {
     // Toast 알림 띄워주기
     func showToast(_ message: String, withDuration: Double, delay: Double) {
         mapView.toastLabel.text = message
-        view.addSubview(mapView.toastLabel)
+        mapView.toastLabel.alpha = 1.0  // 처음에 alpha를 1로 설정
+
+        // 애니메이션 적용
         UIView.animate(withDuration: withDuration, delay: delay, options: .curveEaseOut, animations: {
-            self.mapView.toastLabel.alpha = 0.0
-        }, completion: {(_) in
-            self.mapView.toastLabel.removeFromSuperview()
+            self.mapView.toastLabel.alpha = 0.0  // 애니메이션 중간에 alpha를 0으로 조정하여 투명해지게 함
         })
     }
 
@@ -314,8 +315,13 @@ extension MapViewController {
                 self.serverPushManager.sendGiveupToPassenger(crew: self.crew)
             }
 
-            self.updateSessionStatus(to: .waiting)
-            self.firebaseManager.resetSessionData(crew: self.crew)
+            if self.isDriver {
+                self.updateSessionStatus(to: .waiting)
+                self.firebaseManager.resetSessionData(crew: self.crew)
+            } else {
+                // TODO: - MemberStatus를 giveUp으로 변경
+                self.firebaseManager.updateMemberStatus(crewData: self.crew, status: .decline)
+            }
             self.dismiss(animated: true)
         }
         alert.addAction(cancelAction)
