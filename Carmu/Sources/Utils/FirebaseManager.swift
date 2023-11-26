@@ -359,16 +359,11 @@ extension FirebaseManager {
     func deletePassengerInfoFromCrew() async throws {
         guard let crewID = try await readUserCrewID() else { return }
         guard var crewData = try await getCrewData(crewID: crewID) else { return }
-        var newMemberStatus = [MemberStatus]()
+
         var newPoints = [Point?]()
         // 해당 동승자의 memberStatus 삭제
-        if var memberStatusArr = crewData.memberStatus {
-            for idx in 0..<memberStatusArr.count {
-                if memberStatusArr[idx].id == KeychainItem.currentUserIdentifier {
-                    memberStatusArr.remove(at: idx)
-                }
-            }
-            newMemberStatus = memberStatusArr
+        let newMemberStatus = crewData.memberStatus?.filter { memberStatus in
+            memberStatus.id != KeychainItem.currentUserIdentifier
         }
         // 해당 동승자가 있는 point에서 동승자 정보 삭제
         var pointArray = [
