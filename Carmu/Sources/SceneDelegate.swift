@@ -14,6 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     var authStateDidChangeHandle: AuthStateDidChangeListenerHandle?
     private let firebaseManager = FirebaseManager()
+    private var crewData: Crew?
 
     static var isFirst: Bool {
         get {
@@ -61,27 +62,27 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         var navigationController = UINavigationController(rootViewController: UIViewController())
         navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            Task {
-                let hasCrew = await self.firebaseManager.checkHasCrewAsync()
-
-                // UI 업데이트 메인 스레드에서 수행
-                await MainActor.run {
-                    if Auth.auth().currentUser != nil {
-                        if SceneDelegate.isFirst && !hasCrew {
-                            navigationController = UINavigationController(rootViewController: PositionSelectViewController())
-                        } else {
-                            navigationController = UINavigationController(rootViewController: SessionStartViewController())
-                        }
-                        navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
-                        navigationController.navigationItem.backButtonTitle = ""
-                        self.window?.rootViewController = navigationController
-                    } else {
-                        self.window?.rootViewController = LoginViewController()
-                    }
-                    self.window?.makeKeyAndVisible()
-                }
+        Task {
+            if let crewID = try await firebaseManager.readUserCrewID(),
+               let crewData = try await firebaseManager.getCrewData(crewID: crewID) {
+                self.crewData = crewData
             }
+        }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            if Auth.auth().currentUser != nil {
+                if SceneDelegate.isFirst && self.crewData == nil {
+                    navigationController = UINavigationController(rootViewController: PositionSelectViewController())
+                } else {
+                    navigationController = UINavigationController(rootViewController: SessionStartViewController(crewData: self.crewData))
+                }
+                navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
+                navigationController.navigationItem.backButtonTitle = ""
+                self.window?.rootViewController = navigationController
+            } else {
+                self.window?.rootViewController = LoginViewController()
+            }
+            self.window?.makeKeyAndVisible()
         }
     }
 

@@ -29,6 +29,15 @@ final class SessionStartViewController: UIViewController {
     var firebaseStart: Point?
     var firebaseDestination: Point?
 
+    init(crewData: Crew? = nil) {
+        self.crewData = crewData
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.backButtonTitle = ""
@@ -38,6 +47,8 @@ final class SessionStartViewController: UIViewController {
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        updateView(crewData: crewData)
 
         backgroundView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
         backgroundView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
