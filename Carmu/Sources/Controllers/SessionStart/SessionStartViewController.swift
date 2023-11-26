@@ -16,8 +16,6 @@ import SnapKit
 final class SessionStartViewController: UIViewController {
 
     private let backgroundView = SessionStartView()
-//    private let memberCardView = SessionStartPassengerView()
-
     private let firebaseManager = FirebaseManager()
     private let serverPushManager = ServerPushManager()
 
@@ -26,8 +24,15 @@ final class SessionStartViewController: UIViewController {
             updateView(crewData: crewData)
         }
     }
-    var firebaseStart: Point?
-    var firebaseDestination: Point?
+
+    init(crewData: Crew? = nil) {
+        self.crewData = crewData
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +43,8 @@ final class SessionStartViewController: UIViewController {
         backgroundView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
+        updateView(crewData: crewData)
 
         backgroundView.myPageButton.addTarget(self, action: #selector(myPageButtonDidTapped), for: .touchUpInside)
         backgroundView.individualButton.addTarget(self, action: #selector(individualButtonDidTapped), for: .touchUpInside)
@@ -57,7 +64,7 @@ final class SessionStartViewController: UIViewController {
         Task {
             guard let crewID = try await firebaseManager.readUserCrewID(),
                   let crewData = try await firebaseManager.getCrewData(crewID: crewID) else {
-                updateView(crewData: nil)
+                crewData = nil
                 return
             }
             firebaseManager.startObservingCrewData(crewID: crewID) { crewData in
@@ -122,14 +129,11 @@ extension SessionStartViewController {
         case .waiting:
             backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
             backgroundView.driverCardView.layer.opacity = 0.5
-        case .accept:
+        case .accept, .sessionStart:
             backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
             backgroundView.driverCardView.layer.opacity = 1.0
         case .decline:
             backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
-            backgroundView.driverCardView.layer.opacity = 1.0
-        case .sessionStart:
-            backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
             backgroundView.driverCardView.layer.opacity = 1.0
         case .none: break
         }
