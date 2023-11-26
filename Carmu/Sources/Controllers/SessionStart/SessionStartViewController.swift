@@ -16,8 +16,6 @@ import SnapKit
 final class SessionStartViewController: UIViewController {
 
     private let backgroundView = SessionStartView()
-//    private let memberCardView = SessionStartPassengerView()
-
     private let firebaseManager = FirebaseManager()
     private let serverPushManager = ServerPushManager()
 
@@ -26,8 +24,6 @@ final class SessionStartViewController: UIViewController {
             updateView(crewData: crewData)
         }
     }
-    var firebaseStart: Point?
-    var firebaseDestination: Point?
 
     init(crewData: Crew? = nil) {
         self.crewData = crewData
