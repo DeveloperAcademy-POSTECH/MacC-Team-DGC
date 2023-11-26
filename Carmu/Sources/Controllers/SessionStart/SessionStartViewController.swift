@@ -64,7 +64,7 @@ final class SessionStartViewController: UIViewController {
         Task {
             guard let crewID = try await firebaseManager.readUserCrewID(),
                   let crewData = try await firebaseManager.getCrewData(crewID: crewID) else {
-                updateView(crewData: nil)
+                crewData = nil
                 return
             }
             firebaseManager.startObservingCrewData(crewID: crewID) { crewData in
