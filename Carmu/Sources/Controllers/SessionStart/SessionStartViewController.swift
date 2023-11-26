@@ -129,14 +129,11 @@ extension SessionStartViewController {
         case .waiting:
             backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
             backgroundView.driverCardView.layer.opacity = 0.5
-        case .accept:
+        case .accept, .sessionStart:
             backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
             backgroundView.driverCardView.layer.opacity = 1.0
         case .decline:
             backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
-            backgroundView.driverCardView.layer.opacity = 1.0
-        case .sessionStart:
-            backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
             backgroundView.driverCardView.layer.opacity = 1.0
         case .none: break
         }
