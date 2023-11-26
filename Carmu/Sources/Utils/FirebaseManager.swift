@@ -710,11 +710,8 @@ extension FirebaseManager {
             return
         }
 
-        for (index, member) in memberStatus.enumerated() {
-            if member.id == KeychainItem.currentUserIdentifier {
-                Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status").setValue(status)
-                break
-            }
+        for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+            Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/status").setValue(status.rawValue)
         }
     }
 
