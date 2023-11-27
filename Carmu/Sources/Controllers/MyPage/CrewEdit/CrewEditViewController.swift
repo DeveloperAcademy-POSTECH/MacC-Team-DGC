@@ -363,11 +363,32 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
 
     // MARK: - X 경유지 제거 버튼에 대한 액션 연결
     func stopoverRemoveButtonTapped(sender: StopoverRemoveButton) {
-        print("업데이트 전")
-        for (idx, point) in stopoverPoints.enumerated() {
-            print("👉 stopoverPoint\(idx+1): \(String(describing: point))")
+        switch sender.pointType {
+        case .stopover1:
+            if hasPassengers(for: .stopover1) {
+                cantRemoveStopoverAlert()
+                return
+            } else {
+                break
+            }
+        case .stopover2:
+            if hasPassengers(for: .stopover2) {
+                cantRemoveStopoverAlert()
+                return
+            } else {
+                break
+            }
+        case .stopover3:
+            if hasPassengers(for: .stopover3) {
+                cantRemoveStopoverAlert()
+                return
+            } else {
+                break
+            }
+        default:
+            return
         }
-        print("경유지 제거 버튼 클릭")
+
         if sender.pointType == .stopover3 {
             stopoverPoints[2] = nil
         } else if sender.pointType == .stopover2 {
@@ -380,9 +401,32 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         }
         updatePointChangeToNewCrewData(stopoverPoints: stopoverPoints) // 변경된 경유지 정보를 newUserCrewData에 업데이트
         crewEditView.pointEditTableView.reloadData()
-        print("업데이트 후")
-        for (idx, point) in stopoverPoints.enumerated() {
-            print("✅ stopoverPoint\(idx+1): \(String(describing: point))")
+    }
+
+    // MARK: - 경유지 삭제 불가 Alert 생성
+    private func cantRemoveStopoverAlert() {
+        let alert = UIAlertController(title: "경고", message: nil, preferredStyle: .alert)
+        alert.message = "탑승자가 한 명이라도 있을 경우 경유지를 삭제할 수 없어요!"
+        let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+
+    // MARK: - 해당 경유지에 크루 있는지 확인
+    /**
+     크루가 있으면 true를 반환
+     없으면 false를 반환
+     */
+    private func hasPassengers(for pointType: PointType) -> Bool {
+        switch pointType {
+        case .stopover1:
+            return stopoverPoints[0]?.crews != nil
+        case .stopover2:
+            return stopoverPoints[1]?.crews != nil
+        case .stopover3:
+            return stopoverPoints[2]?.crews != nil
+        default:
+            return false
         }
     }
 
