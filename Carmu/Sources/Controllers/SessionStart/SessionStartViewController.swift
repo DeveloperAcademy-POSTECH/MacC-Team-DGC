@@ -25,6 +25,12 @@ final class SessionStartViewController: UIViewController {
         }
     }
 
+    var isValidDay: Bool {
+        guard let repeatDay = crewData?.repeatDay else { return false }
+        guard let today = DayOfWeek.stringToInt(Date().toDay) else { return false }
+        return repeatDay.contains(today)
+    }
+
     init(crewData: Crew? = nil) {
         self.crewData = crewData
         super.init(nibName: nil, bundle: nil)
@@ -124,6 +130,11 @@ extension SessionStartViewController {
             make.edges.equalToSuperview()
         }
 
+        guard isValidDay else {
+            setCardDriverDecline()
+            return
+        }
+
         // 운행하지 않아요 카드를 보여주거나 숨기는 부분
         switch crewData.sessionStatus {
         case .waiting:
@@ -133,10 +144,14 @@ extension SessionStartViewController {
             backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = true
             backgroundView.driverCardView.layer.opacity = 1.0
         case .decline:
-            backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
-            backgroundView.driverCardView.layer.opacity = 1.0
+            setCardDriverDecline()
         case .none: break
         }
+    }
+
+    private func setCardDriverDecline() {
+        backgroundView.driverCardView.driverFrontView.noDriveViewForDriver.isHidden = false
+        backgroundView.driverCardView.layer.opacity = 1.0
     }
 
     private func setCardForMember(crewData: Crew) {
@@ -146,6 +161,11 @@ extension SessionStartViewController {
         backgroundView.cardView.addSubview(backgroundView.memberCardView)
         backgroundView.memberCardView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
+        }
+
+        guard isValidDay else {
+            setCardMemberDecline()
+            return
         }
 
         // 운행하지 않아요 카드를 보여주거나 숨기는 부분
@@ -166,16 +186,20 @@ extension SessionStartViewController {
                 backgroundView.memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = false
             }
         case .decline:
-            backgroundView.memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = false
-            backgroundView.memberCardView.passengerFrontView.noDriveComment.text = "오늘은 셔틀이 운행되지 않아요"
-            backgroundView.memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.negative
-            backgroundView.driverCardView.layer.opacity = 1.0
+            setCardMemberDecline()
         case .sessionStart:
             backgroundView.memberCardView.passengerFrontView.statusImageView.image = UIImage(named: "DriverBlinker")
             backgroundView.memberCardView.passengerFrontView.statusLabel.text = "오늘은 셔틀이 운행될 예정이에요"
             backgroundView.driverCardView.layer.opacity = 1.0
         case .none: break
         }
+    }
+
+    private func setCardMemberDecline() {
+        backgroundView.memberCardView.passengerFrontView.noDriveViewForPassenger.isHidden = false
+        backgroundView.memberCardView.passengerFrontView.noDriveComment.text = "오늘은 셔틀이 운행되지 않아요"
+        backgroundView.memberCardView.passengerFrontView.noDriveComment.textColor = UIColor.semantic.negative
+        backgroundView.driverCardView.layer.opacity = 1.0
     }
 }
 

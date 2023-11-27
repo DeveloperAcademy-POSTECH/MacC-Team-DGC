@@ -23,6 +23,15 @@ final class CrewNameSettingView: UIView {
         return friendSearchTextFieldView
     }()
 
+    private let subtitleLabel: UILabel = {
+        let label = UILabel()
+        label.text = "이름에 \"셔틀\"이라는 수식어가 붙습니다"
+        label.font = UIFont.carmuFont.body2
+        label.textColor = UIColor.semantic.textBody
+        label.numberOfLines = 0
+        return label
+    }()
+
     lazy var codeSearchTextField: UITextField = {
         let friendSearchTextField = UITextField()
         friendSearchTextField.textAlignment = .left
@@ -35,7 +44,7 @@ final class CrewNameSettingView: UIView {
             .font: UIFont.carmuFont.body2Long
         ]
         friendSearchTextField.attributedPlaceholder = NSAttributedString(
-            string: "예) 행복유치원 셔틀",
+            string: "예) 행복유치원",
             attributes: placeholderAttributes
         )
 
@@ -61,7 +70,7 @@ final class CrewNameSettingView: UIView {
 
     lazy var rejectCodeLabel: UILabel = {
         let label = UILabel()
-        label.text = "그룹 이름은 8자 이내여야 합니다."
+        label.text = "그룹 이름은 7자 이내여야 합니다."
         label.font = UIFont.carmuFont.body1
         label.textColor = UIColor.semantic.textNewCrew
         label.isHidden = true
@@ -91,6 +100,7 @@ final class CrewNameSettingView: UIView {
         codeSearchTextFieldView.addSubview(clearButton)
 
         addSubview(firstLineTitleStack)
+        addSubview(subtitleLabel)
         addSubview(codeSearchTextFieldView)
         addSubview(conformCodeLabel)
         addSubview(rejectCodeLabel)
@@ -101,6 +111,11 @@ final class CrewNameSettingView: UIView {
         firstLineTitleStack.snp.makeConstraints { make in
             make.top.equalTo(safeAreaLayoutGuide).inset(36)
             make.leading.equalToSuperview().inset(20)
+        }
+
+        subtitleLabel.snp.makeConstraints { make in
+            make.top.equalTo(firstLineTitleStack.snp.bottom).offset(12)
+            make.horizontalEdges.equalToSuperview().inset(20)
         }
 
         codeSearchTextFieldView.snp.makeConstraints { make in

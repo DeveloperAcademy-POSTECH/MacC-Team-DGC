@@ -20,6 +20,7 @@ final class NameEditView: UIView {
         nameEditTextField.clearButtonMode = .always
         nameEditTextField.borderStyle = .none
         nameEditTextField.font = UIFont.carmuFont.headline1
+        nameEditTextField.enablesReturnKeyAutomatically = true
 
         if let placeholder = nameEditTextField.placeholder {
             nameEditTextField.attributedPlaceholder = NSAttributedString(
