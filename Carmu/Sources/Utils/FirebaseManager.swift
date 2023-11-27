@@ -277,22 +277,35 @@ extension FirebaseManager {
      */
     func setUserToPoint(_ userID: String, _ crewID: String, _ point: String) async throws {
         let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)")
-        // 데이터베이스에서 해당 포인트의 크루 정보를 가져온 후 업데이트
-        let snapshot = try await databaseRef.getData()
-        guard var pointData = snapshot.value as? [String: Any] else { return }
-        if var crews = pointData["crews"] as? [String] {
-            // crews 배열에 userID 추가
-            crews.append(userID)
-            pointData["crews"] = crews
-        } else {
-            // crews 배열이 없으면 새로운 배열 생성 후 userID 추가
-            pointData["crews"] = [userID]
+
+        // observeSingleEvent를 사용하여 한 번만 데이터를 읽어옵니다.
+        try await withCheckedThrowingContinuation { continuation in
+            databaseRef.observeSingleEvent(of: .value) { snapshot in
+                guard var pointData = snapshot.value as? [String: Any] else {
+                    continuation.resume()
+                    return
+                }
+
+                if var crews = pointData["crews"] as? [String] {
+                    // crews 배열에 userID 추가
+                    crews.append(userID)
+                    pointData["crews"] = crews
+                } else {
+                    // crews 배열이 없으면 새로운 배열 생성 후 userID 추가
+                    pointData["crews"] = [userID]
+                }
+
+                // setValue를 사용하여 업데이트된 데이터를 Firebase에 저장
+                databaseRef.setValue(pointData) { error, _ in
+                    if let error = error {
+                        continuation.resume(throwing: error)
+                    } else {
+                        continuation.resume()
+                    }
+                }
+            }
         }
-
-        // 업데이트된 pointData를 다시 Firebase에 저장
-        try await databaseRef.setValue(pointData)
     }
-
     /**
      DB에서 유저의 크루 id를 불러오는 메서드
      - 배열 형태지만 유저의 크루는 무조건 1개이기 때문에 first로 첫 번째 원소만 사용
@@ -362,29 +375,25 @@ extension FirebaseManager {
         guard let crewID = try await readUserCrewID() else { return }
         guard var crewData = try await getCrewData(crewID: crewID) else { return }
 
-        var newPoints = [Point?]()
         // 해당 동승자의 memberStatus 삭제
         let newMemberStatus = crewData.memberStatus?.filter { memberStatus in
             memberStatus.id != KeychainItem.currentUserIdentifier
         }
         // 해당 동승자가 있는 point에서 동승자 정보 삭제
-        var pointArray = [
+        var newPoints = [Point?]()
+        var points = [
             crewData.startingPoint,
             crewData.stopover1,
             crewData.stopover2,
             crewData.stopover3
         ]
-        for idx in 0..<pointArray.count {
-            if var crews = pointArray[idx]?.crews {
-                for crewIdx in 0..<crews.count {
-                    if crews[crewIdx] == KeychainItem.currentUserIdentifier {
-                        crews.remove(at: crewIdx)
-                        pointArray[idx]?.crews = crews
-                    }
-                }
+        for idx in 0..<points.count {
+            if var crews = points[idx]?.crews {
+                crews = crews.filter { $0 != KeychainItem.currentUserIdentifier }
+                points[idx]?.crews = crews
             }
         }
-        newPoints = pointArray
+        newPoints = points
 
         crewData.memberStatus = newMemberStatus
         crewData.startingPoint = newPoints[0]
