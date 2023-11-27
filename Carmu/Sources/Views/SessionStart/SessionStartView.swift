@@ -141,11 +141,22 @@ extension SessionStartView {
             setTitleLabelNoCrew()
             return
         }
+        guard isValidDay(crewData: crewData) else {
+            titleLabel.text = ""
+            return
+        }
         if firebaseManager.isDriver(crewData: crewData) {
             setTitleForDriver(crewData: crewData)
         } else {
             setTitleForMember(crewData: crewData)
         }
+    }
+
+    private func isValidDay(crewData: Crew) -> Bool {
+        guard let repeatDay = crewData.repeatDay, let today = DayOfWeek.stringToInt(Date().toDay) else {
+            return false
+        }
+        return repeatDay.contains(today)
     }
 
     private func setTitleLabelNoCrew() {
@@ -246,6 +257,10 @@ extension SessionStartView {
     func setUnderLabel(crewData: Crew?) {
         guard let crewData = crewData else {
             setUnderLabelNoCrew()
+            return
+        }
+        guard isValidDay(crewData: crewData) else {
+            underLabel.text = "오늘은 운행하지 않는 날이에요"
             return
         }
         if firebaseManager.isDriver(crewData: crewData) {
@@ -390,6 +405,10 @@ extension SessionStartView {
     }
 
     private func setBottomButtonForDriver(crewData: Crew) {
+        guard isValidDay(crewData: crewData) else {
+            setBottomButtonDriverDecline(crewData: crewData)
+            return
+        }
         switch crewData.sessionStatus {
         case .waiting:
             setBottomButtonDriverWaiting(crewData: crewData)
@@ -404,6 +423,12 @@ extension SessionStartView {
     }
 
     private func setBottomButtonForMember(crewData: Crew) {
+        guard isValidDay(crewData: crewData) else {
+            individualButton.showButton(title: "따로가요", enabled: false)
+            togetherButton.showButton(title: "함께가요", enabled: false)
+            shuttleStartButton.hideButton()
+            return
+        }
         if crewData.sessionStatus == .decline {
             setBottomButtonMemberDecline(crewData: crewData)
             return

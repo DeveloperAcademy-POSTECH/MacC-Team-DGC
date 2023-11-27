@@ -43,7 +43,11 @@ final class NameEditViewController: UIViewController {
 
     init(nowName: String, isCrewNameEditView: Bool) {
         super.init(nibName: nil, bundle: nil)
-        nameEditView.nameEditTextField.text = nowName
+        if nowName.count > 5 {
+            nameEditView.nameEditTextField.text = ""
+        } else {
+            nameEditView.nameEditTextField.text = nowName
+        }
         self.isCrewNameEditView = isCrewNameEditView
     }
 
@@ -93,15 +97,16 @@ extension NameEditViewController {
         guard let newName = nameEditView.nameEditTextField.text else {
             return
         }
+        if newName == "" { return }
 
         if isCrewNameEditView { // 크루명 수정일 경우
             print("크루명 수정!!")
-            // TODO: - 파이어베이스 DB에 크루명 업데이트
 
         } else { // 유저 닉네임 수정일 경우
             print("유저 닉네임 수정!!")
             // 파이어베이스 DB에 닉네임 업데이트
             firebaseManager.updateUserNickname(newNickname: newName)
+
         }
 
         delegate?.sendNewNameValue(newName: newName) // 델리게이트를 구현한 뷰 컨트롤러에 변경된 값 반영
@@ -115,5 +120,14 @@ extension NameEditViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         performNameChange()
         return true
+    }
+
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        guard let text = textField.text else {
+            return true
+        }
+
+        let newLength = text.count + string.count - range.length
+        return newLength < 8
     }
 }

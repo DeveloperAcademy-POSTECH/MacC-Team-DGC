@@ -122,6 +122,7 @@ class FirebaseManager {
             return
         }
         databasePath.child("nickname").setValue(newNickname as NSString)
+        updateMemberNicknameInCrew(nickname: newNickname)
     }
 
     /**
@@ -135,6 +136,7 @@ class FirebaseManager {
         }
         let profileImageColorValue = imageColor.rawValue
         databasePath.child("profileImageColor").setValue(profileImageColorValue as NSString)
+        updateMemberProfileImageColorInCrew(profileImageColor: imageColor)
     }
 
     /**
@@ -373,16 +375,11 @@ extension FirebaseManager {
     func deletePassengerInfoFromCrew() async throws {
         guard let crewID = try await readUserCrewID() else { return }
         guard var crewData = try await getCrewData(crewID: crewID) else { return }
-        var newMemberStatus = [MemberStatus]()
+
         var newPoints = [Point?]()
         // 해당 동승자의 memberStatus 삭제
-        if var memberStatusArr = crewData.memberStatus {
-            for idx in 0..<memberStatusArr.count {
-                if memberStatusArr[idx].id == KeychainItem.currentUserIdentifier {
-                    memberStatusArr.remove(at: idx)
-                }
-            }
-            newMemberStatus = memberStatusArr
+        let newMemberStatus = crewData.memberStatus?.filter { memberStatus in
+            memberStatus.id != KeychainItem.currentUserIdentifier
         }
         // 해당 동승자가 있는 point에서 동승자 정보 삭제
         var pointArray = [
@@ -844,6 +841,30 @@ extension FirebaseManager {
                         break
                     }
                 }
+            }
+        }
+    }
+
+    private func updateMemberNicknameInCrew(nickname: String) {
+        Task {
+            guard let crewID = try await readUserCrewID(),
+                  let crewData = try await getCrewData(crewID: crewID),
+                  let memberStatus = crewData.memberStatus else { return }
+
+            for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+                try await Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/nickname").setValue(nickname)
+            }
+        }
+    }
+
+    private func updateMemberProfileImageColorInCrew(profileImageColor: ProfileImageColor) {
+        Task {
+            guard let crewID = try await readUserCrewID(),
+                  let crewData = try await getCrewData(crewID: crewID),
+                  let memberStatus = crewData.memberStatus else { return }
+
+            for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+                try await Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/profileImageColor").setValue(profileImageColor.rawValue)
             }
         }
     }

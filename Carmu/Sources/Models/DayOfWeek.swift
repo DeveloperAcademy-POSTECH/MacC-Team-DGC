@@ -32,3 +32,18 @@ enum DayOfWeek: Int {
         }
     }
 }
+
+extension DayOfWeek {
+    static func stringToInt(_ string: String) -> Int? {
+        switch string {
+        case "월": return 0
+        case "화": return 1
+        case "수": return 2
+        case "목": return 3
+        case "금": return 4
+        case "토": return 5
+        case "일": return 6
+        default: return nil
+        }
+    }
+}
