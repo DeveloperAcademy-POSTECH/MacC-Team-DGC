@@ -289,7 +289,6 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         let timeSelectModalVC = TimeSelectModalViewController()
         // 시간 설정 모달에 넘겨줄 기존 시간값
         let originalTimeValue = Date.formattedDate(string: sender.titleLabel?.text ?? "오전 08:00", dateFormat: "aa hh:mm") ?? Date()
-        // TODO: - Crew에 정보 입력하는 방식 이후, 타임 피커에 이전 경유지보다 늦은 시간부터 설정하는 로직 구현예정
         // 시간 설정 모달에 기존의 값을 반영
         timeSelectModalVC.timeSelectModalView.timePicker.date = originalTimeValue
 
@@ -332,7 +331,7 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
             print("👉stopover2: \(String(describing: self.newUserCrewData.stopover2))")
             print("👉stopover3: \(String(describing: self.newUserCrewData.stopover3))")
             print("👉destination: \(String(describing: self.newUserCrewData.destination))")
-            sender.setTitle(newPointData.pointName, for: .normal)
+            sender.configuration?.attributedTitle = self.subhead2AttributedString(title: newPointData.pointName)
             switch sender.pointType {
             case .start:
                 self.newUserCrewData.startingPoint?.name = newPointData.pointName
@@ -437,13 +436,14 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
             print("👉 stopoverPoint\(idx+1): \(String(describing: point))")
         }
         print("경유지 추가 버튼 클릭")
+        let centerLatLng = calculateCenterLatLng(crewData: newUserCrewData)
         switch sender.pointType {
         case .stopover1:
-            stopoverPoints[0] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: 35.634, longitude: 128.523, arrivalTime: Date())
+            stopoverPoints[0] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: centerLatLng.0, longitude: centerLatLng.1, arrivalTime: Date())
         case .stopover2:
-            stopoverPoints[1] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: 35.634, longitude: 128.523, arrivalTime: Date())
+            stopoverPoints[1] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: centerLatLng.0, longitude: centerLatLng.1, arrivalTime: Date())
         case .stopover3:
-            stopoverPoints[2] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: 35.634, longitude: 128.523, arrivalTime: Date())
+            stopoverPoints[2] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: centerLatLng.0, longitude: centerLatLng.1, arrivalTime: Date())
         default:
             break
         }
@@ -460,6 +460,26 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         newUserCrewData.stopover1 = stopoverPoints[0]
         newUserCrewData.stopover2 = stopoverPoints[1]
         newUserCrewData.stopover3 = stopoverPoints[2]
+    }
+
+    // 현재 크루에 포함되어있는 경유지들에 대해서 중간 좌표값을 계산해주는 메서드
+    private func calculateCenterLatLng(crewData: Crew) -> (Double, Double) {
+        let points = [
+            crewData.startingPoint,
+            crewData.stopover1,
+            crewData.stopover2,
+            crewData.stopover3,
+            crewData.destination
+        ]
+        let nonNilPoints = points.compactMap { $0 }
+        var centerLat: Double = 0
+        var centerLng: Double = 0
+        for point in nonNilPoints {
+            centerLat += point.latitude ?? 0
+            centerLng += point.longitude ?? 0
+        }
+        let nonNilCnt = Double(nonNilPoints.count)
+        return (centerLat/nonNilCnt, centerLng/nonNilCnt)
     }
 }
 
