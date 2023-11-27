@@ -30,13 +30,9 @@ class FirebaseManager {
             return
         }
 
-        guard let fcmToken = KeychainItem.currentUserDeviceToken else {
-            return
-        }
-        print("FCMToken -> ", fcmToken)
         let user = User(
             id: firebaseUser.uid,
-            deviceToken: fcmToken,
+            deviceToken: KeychainItem.currentUserDeviceToken ?? "",
             nickname: nickname,
             email: email,
             profileImageColor: .blue // 기본 프로필
