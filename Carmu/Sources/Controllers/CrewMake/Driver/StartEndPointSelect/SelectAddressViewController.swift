@@ -49,11 +49,6 @@ final class SelectAddressViewController: UIViewController {
         selectAddressView.clearButton.addTarget(self, action: #selector(clearButtonPressed), for: .touchUpInside)
         selectAddressView.addressSearchTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
 
-        self.searchCompleter = MKLocalSearchCompleter()
-        self.searchCompleter?.delegate = self
-        self.searchCompleter?.resultTypes = .query
-        self.searchCompleter?.region = koreaBounds
-
         selectAddressView.addressSearchTextField.delegate = self
         selectAddressView.tableViewComponent.delegate = self
         selectAddressView.tableViewComponent.dataSource = self
@@ -68,6 +63,11 @@ final class SelectAddressViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        searchCompleter = MKLocalSearchCompleter()
+        searchCompleter?.delegate = self
+        searchCompleter?.resultTypes = .query
+        searchCompleter?.region = koreaBounds
+
         // 뷰가 나타남과 동시에 텍스트 필드 on
         selectAddressView.addressSearchTextField.becomeFirstResponder()
         isKeyboardActive = true

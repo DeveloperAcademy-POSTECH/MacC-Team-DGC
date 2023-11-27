@@ -99,7 +99,6 @@ extension SelectDetailPointMapViewController {
             if let jsonData = responseString.data(using: .utf8),
                let jsonObject = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any],
                let resultsArray = jsonObject["results"] as? [[String: Any]] {
-
                 let parseArray = self.parseAddressData(jsonData: resultsArray)
                 completion(parseArray.0, parseArray.1)
             }
@@ -164,7 +163,7 @@ extension SelectDetailPointMapViewController: NMFMapViewCameraDelegate {
         getAddressAndBuildingName(center) { detailAddress, buildingName in
             DispatchQueue.main.async {
                 // 네이버 지도 API 정확성 부족으로 인한 예외 처리
-                if detailAddress == "" || buildingName == "" {
+                if detailAddress == "" {
                     self.selectDetailPointMapView.buildingNameLabel.text = "위치를 다시 설정해주세요"
                     self.selectDetailPointMapView.detailAddressLabel.text = "지도를 옆으로 조금만 옮겨보세요!"
                     self.selectDetailPointMapView.saveButton.isEnabled = false
