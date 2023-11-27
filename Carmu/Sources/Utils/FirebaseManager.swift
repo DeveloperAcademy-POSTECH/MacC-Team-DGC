@@ -140,6 +140,7 @@ class FirebaseManager {
         }
         let profileImageColorValue = imageColor.rawValue
         databasePath.child("profileImageColor").setValue(profileImageColorValue as NSString)
+        updateMemberProfileImageColorInCrew(profileImageColor: imageColor)
     }
 }
 
@@ -838,6 +839,18 @@ extension FirebaseManager {
 
             for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
                 try await Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/nickname").setValue(nickname)
+            }
+        }
+    }
+
+    private func updateMemberProfileImageColorInCrew(profileImageColor: ProfileImageColor) {
+        Task {
+            guard let crewID = try await readUserCrewID(),
+                  let crewData = try await getCrewData(crewID: crewID),
+                  let memberStatus = crewData.memberStatus else { return }
+
+            for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+                try await Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/profileImageColor").setValue(profileImageColor.rawValue)
             }
         }
     }
