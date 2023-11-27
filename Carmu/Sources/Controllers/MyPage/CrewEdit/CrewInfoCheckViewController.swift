@@ -218,13 +218,14 @@ extension CrewInfoCheckViewController: NameEditViewControllerDelegate {
      NameEditViewController에서 크루명 데이터가 수정되었을 때 호출
      */
     func sendNewNameValue(newName: String) {
+        let addShuttleText = newName + " 셔틀"
         // 파이어베이스 DB에 변경된 크루명 반영
         guard let crewID = crewData.id else {
             return
         }
-        firebaseManager.updateCrewName(crewID: crewID, newCrewName: newName)
+        firebaseManager.updateCrewName(crewID: crewID, newCrewName: addShuttleText)
         // 크루명 UI 업데이트
-        updateCrewNameUI(newCrewName: newName)
+        updateCrewNameUI(newCrewName: addShuttleText)
     }
 }
 
