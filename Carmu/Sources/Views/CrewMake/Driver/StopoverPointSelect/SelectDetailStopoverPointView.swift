@@ -196,26 +196,27 @@ extension SelectDetailStopoverPointView {
         }
     }
 
-    func showPoints(points: PointLatLng) {
+    func showPoints(points: PointLatLng, isValueSetted: [Bool]) {
         startingPoint.position = NMGLatLng(lat: points.startingPoint.lat, lng: points.startingPoint.lng)
         startingPoint.anchor = CGPoint(x: 0.5, y: 0.5)
         startingPoint.mapView = mapView
-
-        if let coordinate = points.pickupLocation1 {
+        
+        // 추가만 하고 아직 주소값이 설정되지 않은 경유지는 마커 표시하지 않음
+        if let coordinate = points.pickupLocation1, isValueSetted[0] == true {
             pickupLocation1.hidden = false
             pickupLocation1.position = coordinate
             pickupLocation1.anchor = CGPoint(x: 0.5, y: 0.5)
             pickupLocation1.mapView = mapView
         }
 
-        if let coordinate = points.pickupLocation2 {
+        if let coordinate = points.pickupLocation2, isValueSetted[1] == true {
             pickupLocation2.hidden = false
             pickupLocation2.position = coordinate
             pickupLocation2.anchor = CGPoint(x: 0.5, y: 0.5)
             pickupLocation2.mapView = mapView
         }
 
-        if let coordinate = points.pickupLocation3 {
+        if let coordinate = points.pickupLocation3, isValueSetted[2] == true {
             pickupLocation3.hidden = false
             pickupLocation3.position = coordinate
             pickupLocation3.anchor = CGPoint(x: 0.5, y: 0.5)

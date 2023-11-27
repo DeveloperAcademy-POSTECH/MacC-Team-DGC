@@ -30,6 +30,7 @@ final class SelectDetailStopoverPointViewController: UIViewController {
     var currentLatLng: NMGLatLng?
     var isCrewEdit: Bool = false // 크루 편집 시 넘어온 화면인지 체크
     var pointType: PointType = .stopover1 // 출발지~경유지~도착지 중 어느 포인트인지
+    var isValueSetted = [false, false, false] // 경유지1,2,3에 상세주소 값이 들어가있는지 확인하기 위한 배열 (false면 값이 들어가 있지 않은 상태)
 
     init(crewData: Crew) {
         self.points = PointLatLng(
@@ -48,18 +49,28 @@ final class SelectDetailStopoverPointViewController: UIViewController {
                 lat: crewData.stopover1?.latitude ?? 37.234,
                 lng: crewData.stopover1?.longitude ?? 132.232
             )
+            // 경유지가 추가만 되고 아직 주소는 설정되지 않은 곳인지 확인
+            if crewData.stopover1?.name != "주소를 검색해주세요" {
+                isValueSetted[0] = true
+            }
         }
         if crewData.stopover2 != nil {
             self.points.pickupLocation2 = NMGLatLng(
                 lat: crewData.stopover2?.latitude ?? 37.234,
                 lng: crewData.stopover2?.longitude ?? 132.232
             )
+            if crewData.stopover2?.name != "주소를 검색해주세요" {
+                isValueSetted[1] = true
+            }
         }
         if crewData.stopover3 != nil {
             self.points.pickupLocation3 = NMGLatLng(
                 lat: crewData.stopover3?.latitude ?? 37.234,
                 lng: crewData.stopover3?.longitude ?? 132.232
             )
+            if crewData.stopover3?.name != "주소를 검색해주세요" {
+                isValueSetted[2] = true
+            }
         }
         super.init(nibName: nil, bundle: nil)
     }
@@ -119,7 +130,7 @@ extension SelectDetailStopoverPointViewController {
      출발, 도착 마커 표시, 경로 표시, 중간 좌표  지점 건물명, 상세주소 최초 업데이트
      */
     private func navigationSetting() {
-        stopoverPointMapView.showPoints(points: points)
+        stopoverPointMapView.showPoints(points: points, isValueSetted: isValueSetted)
         fetchDirections()
     }
 
@@ -228,13 +239,14 @@ extension SelectDetailStopoverPointViewController {
         var urlString = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving"
         + "?start=\(points.startingPoint.lng),\(points.startingPoint.lat)"
         + "&goal=\(points.destination.lng),\(points.destination.lat)"
-        if let stopover1 = points.pickupLocation1 {
+        // 추가만 하고 아직 주소값이 설정되지 않은 경유지는 경로에 표시하지 않음
+        if let stopover1 = points.pickupLocation1, isValueSetted[0] == true {
             urlString += "&waypoints=\(stopover1.lng),\(stopover1.lat)"
         }
-        if let stopover2 = points.pickupLocation2 {
+        if let stopover2 = points.pickupLocation2, isValueSetted[1] == true {
             urlString += "|\(stopover2.lng),\(stopover2.lat)"
         }
-        if let stopover3 = points.pickupLocation3 {
+        if let stopover3 = points.pickupLocation3, isValueSetted[2] == true {
             urlString += "|\(stopover3.lng),\(stopover3.lat)"
         }
         guard let encodedURLString = urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed),
