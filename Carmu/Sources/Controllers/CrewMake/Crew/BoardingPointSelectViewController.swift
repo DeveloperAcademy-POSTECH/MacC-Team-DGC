@@ -28,7 +28,6 @@ final class BoardingPointSelectViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.layer.insertSublayer(CrewMakeUtil.backGroundLayer(view), at: 0)
-
         boardingPointSelectView.customTableVieWCell = {
             var buttons: [StopoverSelectButton] = []
             var timeAddressTuple: [(String?, Date)] = []

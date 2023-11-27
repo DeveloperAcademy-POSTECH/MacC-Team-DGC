@@ -275,22 +275,35 @@ extension FirebaseManager {
      */
     func setUserToPoint(_ userID: String, _ crewID: String, _ point: String) async throws {
         let databaseRef = Database.database().reference().child("crew/\(crewID)/\(point)")
-        // 데이터베이스에서 해당 포인트의 크루 정보를 가져온 후 업데이트
-        let snapshot = try await databaseRef.getData()
-        guard var pointData = snapshot.value as? [String: Any] else { return }
-        if var crews = pointData["crews"] as? [String] {
-            // crews 배열에 userID 추가
-            crews.append(userID)
-            pointData["crews"] = crews
-        } else {
-            // crews 배열이 없으면 새로운 배열 생성 후 userID 추가
-            pointData["crews"] = [userID]
+
+        // observeSingleEvent를 사용하여 한 번만 데이터를 읽어옵니다.
+        try await withCheckedThrowingContinuation { continuation in
+            databaseRef.observeSingleEvent(of: .value) { snapshot in
+                guard var pointData = snapshot.value as? [String: Any] else {
+                    continuation.resume()
+                    return
+                }
+
+                if var crews = pointData["crews"] as? [String] {
+                    // crews 배열에 userID 추가
+                    crews.append(userID)
+                    pointData["crews"] = crews
+                } else {
+                    // crews 배열이 없으면 새로운 배열 생성 후 userID 추가
+                    pointData["crews"] = [userID]
+                }
+
+                // setValue를 사용하여 업데이트된 데이터를 Firebase에 저장
+                databaseRef.setValue(pointData) { error, _ in
+                    if let error = error {
+                        continuation.resume(throwing: error)
+                    } else {
+                        continuation.resume()
+                    }
+                }
+            }
         }
-
-        // 업데이트된 pointData를 다시 Firebase에 저장
-        try await databaseRef.setValue(pointData)
     }
-
     /**
      DB에서 유저의 크루 id를 불러오는 메서드
      - 배열 형태지만 유저의 크루는 무조건 1개이기 때문에 first로 첫 번째 원소만 사용
