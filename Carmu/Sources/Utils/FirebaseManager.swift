@@ -375,29 +375,25 @@ extension FirebaseManager {
         guard let crewID = try await readUserCrewID() else { return }
         guard var crewData = try await getCrewData(crewID: crewID) else { return }
 
-        var newPoints = [Point?]()
         // 해당 동승자의 memberStatus 삭제
         let newMemberStatus = crewData.memberStatus?.filter { memberStatus in
             memberStatus.id != KeychainItem.currentUserIdentifier
         }
         // 해당 동승자가 있는 point에서 동승자 정보 삭제
-        var pointArray = [
+        var newPoints = [Point?]()
+        var points = [
             crewData.startingPoint,
             crewData.stopover1,
             crewData.stopover2,
             crewData.stopover3
         ]
-        for idx in 0..<pointArray.count {
-            if var crews = pointArray[idx]?.crews {
-                for crewIdx in 0..<crews.count {
-                    if crews[crewIdx] == KeychainItem.currentUserIdentifier {
-                        crews.remove(at: crewIdx)
-                        pointArray[idx]?.crews = crews
-                    }
-                }
+        for idx in 0..<points.count {
+            if var crews = points[idx]?.crews {
+                crews = crews.filter { $0 != KeychainItem.currentUserIdentifier }
+                points[idx]?.crews = crews
             }
         }
-        newPoints = pointArray
+        newPoints = points
 
         crewData.memberStatus = newMemberStatus
         crewData.startingPoint = newPoints[0]
