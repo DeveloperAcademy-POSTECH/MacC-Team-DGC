@@ -64,13 +64,9 @@ class FirebaseManager {
         guard let email = firebaseUser.email else {
             return
         }
-        // 디바이스 토큰값 갱신
-        guard let fcmToken = KeychainItem.currentUserDeviceToken else {
-            return
-        }
         var newUserValue = updatedUser
         newUserValue.email = email
-        newUserValue.deviceToken = fcmToken
+        newUserValue.deviceToken = KeychainItem.currentUserDeviceToken ?? ""
         let user = newUserValue
 
         do {
@@ -139,6 +135,24 @@ class FirebaseManager {
         }
         let profileImageColorValue = imageColor.rawValue
         databasePath.child("profileImageColor").setValue(profileImageColorValue as NSString)
+    }
+
+    /**
+     DB에서 유저 데이터 삭제
+     - 호출되는 곳
+        - SettingsViewController
+     */
+    func deleteUser() async throws {
+        print("유저 데이터 삭제 중...")
+        guard let databasePath = User.databasePathWithUID else {
+            return
+        }
+        do {
+            try await databasePath.setValue(nil)
+            print("유저 데이터가 삭제되었습니다!!")
+        } catch {
+            print("유저 데이터 삭제 중 오류 발생")
+        }
     }
 }
 
