@@ -102,6 +102,7 @@ extension NameEditViewController {
             print("유저 닉네임 수정!!")
             // 파이어베이스 DB에 닉네임 업데이트
             firebaseManager.updateUserNickname(newNickname: newName)
+
         }
 
         delegate?.sendNewNameValue(newName: newName) // 델리게이트를 구현한 뷰 컨트롤러에 변경된 값 반영
