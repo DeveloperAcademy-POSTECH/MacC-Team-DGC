@@ -58,7 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /**
      window navigationController rootViewController 변경 메서드
      */
-    private func updateRootViewController() {
+    func updateRootViewController() {
         var navigationController = UINavigationController(rootViewController: UIViewController())
         navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
 
