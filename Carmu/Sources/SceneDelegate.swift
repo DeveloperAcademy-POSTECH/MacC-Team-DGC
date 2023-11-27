@@ -32,9 +32,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
 
         let window = UIWindow(windowScene: windowScene)
-        self.window = window
         // 라이트모드 고정
         window.overrideUserInterfaceStyle = .light
+        self.window = window
 
         // 스플래시 뷰
         let navigationController = UINavigationController(rootViewController: LaunchScreenViewController())
@@ -58,7 +58,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     /**
      window navigationController rootViewController 변경 메서드
      */
-    private func updateRootViewController() {
+    func updateRootViewController() {
         var navigationController = UINavigationController(rootViewController: UIViewController())
         navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
 

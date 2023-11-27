@@ -69,26 +69,23 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             }
             // 파이어베이스의 user identifier(uid)를 키체인에 저장
             if let userIdentifier = authResult?.user.uid {
+                print("키체인에 UID를 저장하는 중...")
                 self.saveUserInKeychain(userIdentifier)
+                print("키체인에 UID를 저장했습니다!!!")
             }
             // Firebase DB에 유저 정보 추가
             if let currentUser = Auth.auth().currentUser {
                 self.saveToDB(user: currentUser)
             }
 
-            // 로그인 성공 후 PositionSelectViewController()로 이동
-            let positionSelectVC = PositionSelectViewController()
-            let navigationController = UINavigationController(rootViewController: positionSelectVC)
-            navigationController.navigationBar.tintColor = UIColor.semantic.accPrimary
-
-            // present() 애니메이션 커스텀 (오른쪽->왼쪽)
-            let transition = CATransition()
-            transition.duration = 0.3
-            transition.type = CATransitionType.push
-            transition.subtype = CATransitionSubtype.fromRight
-            self.view.window?.layer.add(transition, forKey: kCATransition)
-            navigationController.modalPresentationStyle = .fullScreen
-            self.present(navigationController, animated: true)
+            // 온보딩을 진행했는지 여부에 대한 isFirst값에 따라서 넘어가는 화면이 달라진다.
+            if UserDefaults.standard.object(forKey: "isFirst") as? Bool ?? true {
+                let positionSelectVC = PositionSelectViewController()
+                self.navigationController?.pushViewController(positionSelectVC, animated: true)
+            } else {
+                let sessionStartVC = SessionStartViewController()
+                self.navigationController?.pushViewController(sessionStartVC, animated: true)
+            }
         }
     }
 
@@ -116,11 +113,14 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
                 return
             }
             let user = try await firebaseManager.readUser(databasePath: databasePath)
-            guard let user = user else {
+            if let user = user {
+                print("user 데이터 있음: \(user)")
+                firebaseManager.updateUser(user: firebaseUser, updatedUser: user)
+            } else {
+                print("user 데이터 없음: \(String(describing: user))")
                 firebaseManager.createUser(user: firebaseUser)
-                return
             }
-            firebaseManager.updateUser(user: firebaseUser, updatedUser: user)
+            print("Firebase DB에 유저 정보가 추가/업데이트 되었습니다!!!")
         }
     }
 }

@@ -59,9 +59,8 @@ final class SettingsViewController: UIViewController {
             do {
                 // 로그아웃 수행
                 try firebaseAuth.signOut()
-                // 키체인에 저장된 User Identifier와 fcmToken을 삭제해준다.
+                // 키체인에 저장된 User Identifier를 삭제해준다.
                 KeychainItem.deleteUserDataFromKeychain(account: "userIdentifier")
-                KeychainItem.deleteUserDataFromKeychain(account: "FCMToken")
             } catch let signOutError as NSError {
                 print("로그아웃 에러: \(signOutError)")
             }
@@ -103,19 +102,23 @@ final class SettingsViewController: UIViewController {
      - 크루 데이터 불러오기 👉 운전자/동승자 체크 👉 그에 맞게 크루에서 정보 삭제(or 크루 삭제)
      */
     private func deleteCrewDataOfUser() async throws {
-        // 크루 데이터 불러오기
-        if let crewID = try await firebaseManager.readUserCrewID() {
-            guard let crewData = try await firebaseManager.getCrewData(crewID: crewID) else { return }
+        do {
+            // 크루 데이터 불러오기
+            if let crewID = try await firebaseManager.readUserCrewID() {
+                guard let crewData = try await firebaseManager.getCrewData(crewID: crewID) else { return }
 
-            if firebaseManager.isDriver(crewData: crewData) { // 운전자라면
-                print("운전자의 크루 데이터와 크루 삭제 중...")
-                try await firebaseManager.deleteCrewByDriver()
-            } else { // 동승자라면
-                print("동승자의 크루 데이터 삭제 중...")
-                try await firebaseManager.deletePassengerInfoFromCrew()
+                if firebaseManager.isDriver(crewData: crewData) { // 운전자라면
+                    print("운전자의 크루 데이터와 크루 삭제 중...")
+                    try await firebaseManager.deleteCrewByDriver()
+                } else { // 동승자라면
+                    print("동승자의 크루 데이터 삭제 중...")
+                    try await firebaseManager.deletePassengerInfoFromCrew()
+                }
+            } else {
+                print("소속한 크루가 없기 때문에 삭제 작업을 수행하지 않습니다.")
             }
-        } else {
-            print("소속한 크루가 없기 때문에 삭제 작업을 수행하지 않습니다.")
+        } catch {
+            print("유저와 관련된 크루 정보 삭제 중 오류 발생")
         }
     }
 }
@@ -245,23 +248,20 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
                 // 유저와 관련된 크루 데이터 삭제
                 try await deleteCrewDataOfUser()
                 // Firebase DB에서 유저 정보 삭제
-                try await User.databasePathWithUID?.removeValue()
+                try await firebaseManager.deleteUser()
+                // 키체인에 저장된 User Identifier를 삭제해준다.
+                KeychainItem.deleteUserDataFromKeychain(account: "userIdentifier")
+                print("회원탈퇴 처리 중...")
                 // 애플 서버의 사용자 토큰 삭제
                 try await Auth.auth().revokeToken(withAuthorizationCode: authCodeString)
+                print("애플 로그인 정보가 삭제되었습니다!!, \(String(describing: Auth.auth().currentUser))")
                 // 파이어베이스 서버의 계정 삭제
                 try await Auth.auth().currentUser?.delete()
-                // 키체인에 저장된 User Identifier와 fcmToken을 삭제해준다.
-                KeychainItem.deleteUserDataFromKeychain(account: "userIdentifier")
-                KeychainItem.deleteUserDataFromKeychain(account: "FCMToken")
-                // 최초 화면으로 돌아가기
-                if let windowScene = UIApplication.shared.connectedScenes
-                    .compactMap({ $0 as? UIWindowScene })
-                    .first(where: { $0.activationState == .foregroundActive }),
-                   let window = windowScene.windows.first {
-                    window.rootViewController = LoginViewController()
-                    window.makeKeyAndVisible()
-                    print("계정이 삭제되었습니다!!")
-                }
+                print("유저의 파이어베이스 Authentication 정보가 삭제되었습니다!!, \(String(describing: Auth.auth().currentUser))")
+                UserDefaults.standard.set(true, forKey: "isFirst") // isFirst값 초기화
+                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.updateRootViewController()
+            } catch {
+                print("회원탈퇴 처리 중 오류 발생")
             }
         }
     }
