@@ -87,7 +87,7 @@ extension CrewNameSettingViewController {
         guard let text = textField.text else { return }
 
         // 입력 길이 8까지 제한
-        if text.count > 0 && text.count <= 8 {
+        if text.count > 0 && text.count <= 7 {
             self.crewNameSettingView.conformCodeLabel.isHidden = false
             self.crewNameSettingView.rejectCodeLabel.isHidden = true
             self.crewNameSettingView.nextButton.isEnabled = true
@@ -102,7 +102,7 @@ extension CrewNameSettingViewController {
 
     @objc private func nextButtonTapped() {
         let viewController = StartEndPointSelectViewController()
-        crewData.name = crewNameSettingView.codeSearchTextField.text
+        crewData.name = (crewNameSettingView.codeSearchTextField.text ?? "") + " 셔틀"
         viewController.crewData = crewData
         navigationController?.pushViewController(viewController, animated: true)
     }
@@ -135,8 +135,8 @@ extension CrewNameSettingViewController {
 extension CrewNameSettingViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        nextButtonTapped()
-        return true
+        dismissTextField()
+        return false
     }
 }
 
