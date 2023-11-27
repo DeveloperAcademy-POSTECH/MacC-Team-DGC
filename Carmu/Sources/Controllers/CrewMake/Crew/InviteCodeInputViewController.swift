@@ -12,6 +12,7 @@ final class InviteCodeInputViewController: UIViewController {
     private let inviteCodeInputView = InviteCodeInputView()
     private let firebaseManager = FirebaseManager()
     private var crewData = Crew(memberStatus: [MemberStatus]())
+    var isCrewExist = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,9 +96,11 @@ extension InviteCodeInputViewController {
                     self.inviteCodeInputView.nextButton.isEnabled = true
                     self.inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.accPrimary
                     self.crewData = crewData
+                    self.isCrewExist = true
                 } else {
                     self.inviteCodeInputView.conformCodeLabel.isHidden = true
                     self.inviteCodeInputView.rejectCodeLabel.isHidden = false
+                    self.isCrewExist = false
                 }
             }
         } else {
@@ -105,6 +108,7 @@ extension InviteCodeInputViewController {
             self.inviteCodeInputView.rejectCodeLabel.isHidden = true
             self.inviteCodeInputView.nextButton.isEnabled = false
             self.inviteCodeInputView.nextButton.backgroundColor = UIColor.semantic.backgroundThird
+            self.isCrewExist = false
         }
     }
 
@@ -141,8 +145,12 @@ extension InviteCodeInputViewController {
 extension InviteCodeInputViewController: UITextFieldDelegate {
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        nextButtonTapped()
-        return true
+        if isCrewExist {
+            nextButtonTapped()
+            return true
+        } else {
+            return false
+        }
     }
 }
 

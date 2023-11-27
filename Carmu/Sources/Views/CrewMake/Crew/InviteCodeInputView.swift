@@ -16,31 +16,32 @@ final class InviteCodeInputView: UIView {
 
     // MARK: - 텍스트 필드 배경
     private lazy var codeSearchTextFieldView: UIView = {
-        let friendSearchTextFieldView = UIView()
-        friendSearchTextFieldView.layer.cornerRadius = 20
-        friendSearchTextFieldView.layer.borderWidth = 1.0
-        friendSearchTextFieldView.layer.borderColor = UIColor.theme.blue3?.cgColor
-        return friendSearchTextFieldView
+        let codeSearchTextFieldView = UIView()
+        codeSearchTextFieldView.layer.cornerRadius = 20
+        codeSearchTextFieldView.layer.borderWidth = 1.0
+        codeSearchTextFieldView.layer.borderColor = UIColor.theme.blue3?.cgColor
+        return codeSearchTextFieldView
     }()
 
     // MARK: - 텍스트 필드
     lazy var codeSearchTextField: UITextField = {
-        let friendSearchTextField = UITextField()
-        friendSearchTextField.textAlignment = .left
-        friendSearchTextField.font = UIFont.carmuFont.body2Long
-        friendSearchTextField.textColor = UIColor.semantic.textPrimary
-        friendSearchTextField.autocapitalizationType = .none
+        let codeSearchTextField = UITextField()
+        codeSearchTextField.textAlignment = .left
+        codeSearchTextField.font = UIFont.carmuFont.body2Long
+        codeSearchTextField.textColor = UIColor.semantic.textPrimary
+        codeSearchTextField.autocapitalizationType = .none
+        codeSearchTextField.enablesReturnKeyAutomatically = true
 
         let placeholderAttributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor.semantic.textPrimary as Any,
             .font: UIFont.carmuFont.body2Long
         ]
-        friendSearchTextField.attributedPlaceholder = NSAttributedString(
+        codeSearchTextField.attributedPlaceholder = NSAttributedString(
             string: "초대코드를 입력하세요",
             attributes: placeholderAttributes
         )
 
-        return friendSearchTextField
+        return codeSearchTextField
     }()
 
     // MARK: - 텍스트 필드 clear 버튼
