@@ -40,4 +40,16 @@ extension Date {
         dateFormatter.locale = Locale(identifier: "ko_KR")
         return dateFormatter.string(from: self)
     }
+
+    /**
+     요일을 반환
+     ex) "월", "화", "수", "목", "금", "토", "일"
+     */
+    var toDay: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEEE"
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.timeZone = .autoupdatingCurrent
+        return dateFormatter.string(from: self)
+    }
 }
