@@ -437,13 +437,14 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
             print("👉 stopoverPoint\(idx+1): \(String(describing: point))")
         }
         print("경유지 추가 버튼 클릭")
+        let centerLatLng = calculateCenterLatLng(crewData: newUserCrewData)
         switch sender.pointType {
         case .stopover1:
-            stopoverPoints[0] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: 35.634, longitude: 128.523, arrivalTime: Date())
+            stopoverPoints[0] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: centerLatLng.0, longitude: centerLatLng.1, arrivalTime: Date())
         case .stopover2:
-            stopoverPoints[1] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: 35.634, longitude: 128.523, arrivalTime: Date())
+            stopoverPoints[1] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: centerLatLng.0, longitude: centerLatLng.1, arrivalTime: Date())
         case .stopover3:
-            stopoverPoints[2] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: 35.634, longitude: 128.523, arrivalTime: Date())
+            stopoverPoints[2] = Point(name: "주소를 검색해주세요", detailAddress: "상세주소", latitude: centerLatLng.0, longitude: centerLatLng.1, arrivalTime: Date())
         default:
             break
         }
@@ -460,6 +461,26 @@ extension CrewEditViewController: PointEditTableViewCellDelegate {
         newUserCrewData.stopover1 = stopoverPoints[0]
         newUserCrewData.stopover2 = stopoverPoints[1]
         newUserCrewData.stopover3 = stopoverPoints[2]
+    }
+
+    // 현재 크루에 포함되어있는 경유지들에 대해서 중간 좌표값을 계산해주는 메서드
+    private func calculateCenterLatLng(crewData: Crew) -> (Double, Double) {
+        let points = [
+            crewData.startingPoint,
+            crewData.stopover1,
+            crewData.stopover2,
+            crewData.stopover3,
+            crewData.destination
+        ]
+        let nonNilPoints = points.compactMap { $0 }
+        var centerLat: Double = 0
+        var centerLng: Double = 0
+        for point in nonNilPoints {
+            centerLat += point.latitude ?? 0
+            centerLng += point.longitude ?? 0
+        }
+        let nonNilCnt = Double(nonNilPoints.count)
+        return (centerLat/nonNilCnt, centerLng/nonNilCnt)
     }
 }
 
