@@ -126,6 +126,7 @@ class FirebaseManager {
             return
         }
         databasePath.child("nickname").setValue(newNickname as NSString)
+        updateMemberNicknameInCrew(nickname: newNickname)
     }
 
     /**
@@ -825,6 +826,18 @@ extension FirebaseManager {
                         break
                     }
                 }
+            }
+        }
+    }
+
+    private func updateMemberNicknameInCrew(nickname: String) {
+        Task {
+            guard let crewID = try await readUserCrewID(),
+                  let crewData = try await getCrewData(crewID: crewID),
+                  let memberStatus = crewData.memberStatus else { return }
+
+            for (index, member) in memberStatus.enumerated() where member.id == KeychainItem.currentUserIdentifier {
+                try await Database.database().reference().child("crew/\(crewID)/memberStatus/\(index)/nickname").setValue(nickname)
             }
         }
     }
