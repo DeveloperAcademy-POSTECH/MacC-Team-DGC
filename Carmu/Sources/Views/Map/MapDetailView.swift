@@ -11,6 +11,8 @@ import SnapKit
 
 final class MapDetailView: UIView {
 
+    let firebaseManager = FirebaseManager()
+
     let titleLabel: UILabel = {
         let label = PaddingLabel(padding: UIEdgeInsets(top: 8, left: 20, bottom: 8, right: 20))
         label.backgroundColor = UIColor.semantic.backgroundSecond
@@ -118,17 +120,14 @@ final class MapDetailView: UIView {
         return button
     }()
 
-    private let isDriver: Bool
-
     private var crew: Crew? {
         didSet {
             changeTimeLabel()
         }
     }
 
-    init(isDriver: Bool) {
-        self.isDriver = isDriver
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         backgroundColor = UIColor.semantic.backgroundDefault
     }
 
@@ -139,7 +138,7 @@ final class MapDetailView: UIView {
     override func draw(_ rect: CGRect) {
         showTitleLabel()
         showBottomButtons()
-        if isDriver {
+        if firebaseManager.isDriver(crewData: crew) {
             showDetailForDriver()
         } else {
             showDetailForCrew()

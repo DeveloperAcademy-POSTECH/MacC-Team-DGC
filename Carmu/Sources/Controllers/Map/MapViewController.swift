@@ -15,7 +15,7 @@ import SnapKit
 final class MapViewController: UIViewController {
 
     private lazy var mapView = MapView(crew: crew)
-    private lazy var detailView = MapDetailView(isDriver: isDriver)
+    private lazy var detailView = MapDetailView()
 
     private let locationManager = CLLocationManager()
 
@@ -25,10 +25,6 @@ final class MapViewController: UIViewController {
 
     // [동승자] 내 현재 위치
     private var myCurrentCoordinate: CLLocationCoordinate2D?
-
-    private var isDriver: Bool {
-        crew.captainID == KeychainItem.currentUserIdentifier
-    }
 
     private let pathOverlay = {
         let pathOverlay = NMFPath()
@@ -67,7 +63,7 @@ final class MapViewController: UIViewController {
         // 출발지, 경유지, 도착지를 모두 포함하도록 맵뷰 초기 범위 설정
         initCameraUpdate()
         // 탑승자만 현위치 버튼을 표시
-        if !isDriver {
+        if !firebaseManager.isDriver(crewData: crew) {
             mapView.showCurrentLocationButton()
         }
     }
@@ -88,7 +84,7 @@ final class MapViewController: UIViewController {
 
     /// [운전자] 셔틀 탑승자의 지각 여부를 실시간으로 관찰하여 변화가 있을 경우 ScrollView에 반영
     private func startObservingForDriver() {
-        guard isDriver else { return }
+        guard firebaseManager.isDriver(crewData: crew) else { return }
         firebaseManager.startObservingMemberStatus(crewID: crew.id) { memberStatus in
             self.detailView.crewScrollView.setDataSource(dataSource: memberStatus)
         }
@@ -102,7 +98,7 @@ final class MapViewController: UIViewController {
      */
     ///
     private func startObservingForMember() {
-        guard !isDriver else { return }
+        guard !firebaseManager.isDriver(crewData: crew) else { return }
         firebaseManager.startObservingDriverCoordinate(crewID: crew.id) { latitude, longitude in
             self.mapView.updateCarMarker(latitide: latitude, longitude: longitude)
         }
@@ -144,13 +140,13 @@ final class MapViewController: UIViewController {
         view.addSubview(detailView)
         detailView.snp.makeConstraints { make in
             make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(isDriver ? 312 : 273)
+            make.height.equalTo(firebaseManager.isDriver(crewData: crew) ? 312 : 273)
         }
 
         detailView.titleLabel.text = crew.name
 
         // 운전자의 경우 하단뷰에 탑승자 정보 표시
-        if isDriver {
+        if firebaseManager.isDriver(crewData: crew) {
             detailView.crewScrollView.setDataSource(dataSource: crew.memberStatus ?? [])
         // 동승자의 경우 탑승 위치, 시간 표기
         } else if let location = firebaseManager.myPickUpLocation(crew: crew) {
@@ -304,18 +300,18 @@ extension MapViewController {
     /// [운전자, 탑승자] '포기하기' 버튼 선택시 동작
     @objc func giveUpButtonDidTap() {
         let alert = UIAlertController(title: "정말 포기하시겠습니까?", message: nil, preferredStyle: .alert)
-        alert.message = isDriver ? "셔틀 운행을 중도 포기합니다" : "셔틀 탑승을 중도 포기합니다"
+        alert.message = firebaseManager.isDriver(crewData: crew) ? "셔틀 운행을 중도 포기합니다" : "셔틀 탑승을 중도 포기합니다"
         let cancelAction = UIAlertAction(title: "돌아가기", style: .cancel)
         let giveUpAction = UIAlertAction(title: "포기하기", style: .destructive) { _ in
             self.locationManager.stopUpdatingLocation()
             // 서버 푸시
-            if !self.isDriver { // passenger가 클릭했을 때
+            if !self.firebaseManager.isDriver(crewData: self.crew) { // passenger가 클릭했을 때
                 self.serverPushManager.sendGiveupToDriver(crew: self.crew)
             } else {    // 운전자가 클릭했을 때
                 self.serverPushManager.sendGiveupToPassenger(crew: self.crew)
             }
 
-            if self.isDriver {
+            if self.firebaseManager.isDriver(crewData: self.crew) {
                 self.updateSessionStatus(to: .waiting)
                 self.firebaseManager.resetSessionData(crew: self.crew)
             } else {
@@ -368,7 +364,7 @@ extension MapViewController: CLLocationManagerDelegate {
      */
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first else { return }
-        if isDriver {
+        if firebaseManager.isDriver(crewData: crew) {
             // 운전자화면에서 자동차 마커 위치 변경
             mapView.updateCarMarker(latitide: location.coordinate.latitude, longitude: location.coordinate.longitude)
             // 운전자인 경우 DB에 위도, 경도 업데이트

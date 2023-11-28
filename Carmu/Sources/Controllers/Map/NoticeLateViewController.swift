@@ -58,8 +58,8 @@ final class NoticeLateViewController: UIViewController {
     @objc private func lateThreeMinutesButtonDidTap() {
         lateMin = "3"
         firebaseManager.updateLateTime(lateTime: 3, crew: crew)
-        let isDriver = KeychainItem.currentUserIdentifier == crew.captainID
-        if isDriver {
+
+        if firebaseManager.isDriver(crewData: crew) {
             serverPushManager.sendLateToAllPassenger(lateMin: lateMin, crew: crew)
         } else {
             serverPushManager.sendLateToDriver(lateMin: lateMin, crew: crew)
@@ -71,8 +71,7 @@ final class NoticeLateViewController: UIViewController {
         lateMin = "5"
         firebaseManager.updateLateTime(lateTime: 5, crew: crew)
 
-        let isDriver = KeychainItem.currentUserIdentifier == crew.captainID
-        if isDriver {
+        if firebaseManager.isDriver(crewData: crew) {
             serverPushManager.sendLateToAllPassenger(lateMin: lateMin, crew: crew)
         } else {
             serverPushManager.sendLateToDriver(lateMin: lateMin, crew: crew)
