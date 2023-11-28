@@ -9,6 +9,25 @@ import UIKit
 
 final class SettingsView: UIView {
 
+    // 로그아웃/회원탈퇴 처리 시 액티비티 인디케이터 뷰
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.color = UIColor.semantic.accPrimary
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.isHidden = true
+        return activityIndicator
+    }()
+    lazy var activityIndicatorLabel: UILabel = {
+        let activityIndicatorLabel = UILabel()
+        activityIndicatorLabel.text = "로그아웃 중..."
+        activityIndicatorLabel.textAlignment = .center
+        activityIndicatorLabel.font = UIFont.carmuFont.subhead3
+        activityIndicatorLabel.textColor = UIColor.semantic.textBody
+        activityIndicatorLabel.isHidden = true
+        return activityIndicatorLabel
+    }()
+
     // MARK: - 설정 화면 테이블 뷰
     lazy var settingsTableView: UITableView = {
         let settingsTableView = UITableView(frame: self.bounds, style: .insetGrouped)
@@ -71,6 +90,16 @@ final class SettingsView: UIView {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(appVersionLabel.snp.top).offset(-12)
             make.height.equalTo(18)
+        }
+
+        addSubview(activityIndicator)
+        addSubview(activityIndicatorLabel)
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
+        activityIndicatorLabel.snp.makeConstraints { make in
+            make.top.equalTo(activityIndicator.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
         }
     }
 }

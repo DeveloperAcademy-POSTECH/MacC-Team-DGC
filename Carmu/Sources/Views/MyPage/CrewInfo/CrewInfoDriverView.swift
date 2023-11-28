@@ -49,7 +49,7 @@ final class CrewInfoDriverView: UIView {
         addSubview(crewManageTableView)
         crewManageTableView.snp.makeConstraints { make in
             make.top.equalTo(crewManageTitleLabel.snp.bottom).offset(16)
-            make.leading.trailing.equalToSuperview()
+            make.horizontalEdges.equalToSuperview()
             make.bottom.equalToSuperview()
         }
     }

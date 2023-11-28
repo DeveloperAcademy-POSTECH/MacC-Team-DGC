@@ -34,12 +34,26 @@ final class LoginViewController: UIViewController {
             make.edges.equalToSuperview()
         }
     }
+
+    private func showLoginLoading() {
+        print("로그인 대기 중...")
+        loginView.isUserInteractionEnabled = false // 터치 이벤트 제한
+        loginView.activityIndicator.startAnimating()
+        loginView.activityIndicatorLabel.isHidden = false
+    }
+    private func hideLoginLoading() {
+        print("로그인 대기 종료")
+        loginView.isUserInteractionEnabled = true // 터치 이벤트 제한 해제
+        loginView.activityIndicator.stopAnimating()
+        loginView.activityIndicatorLabel.isHidden = true
+    }
 }
 // MARK: - Authorization 처리 관련 델리게이트 프로토콜 구현
 extension LoginViewController: ASAuthorizationControllerDelegate {
 
     // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        showLoginLoading()
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
             fatalError("Credential을 찾을 수 없습니다.")
         }
@@ -85,6 +99,10 @@ extension LoginViewController: ASAuthorizationControllerDelegate {
             } else {
                 let sessionStartVC = SessionStartViewController()
                 self.navigationController?.pushViewController(sessionStartVC, animated: true)
+            }
+            // SceneDelegate의 updateRootViewController가 실행되며 대기하는 3초동안 기다린 후 activity indicator 숨김
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                self.hideLoginLoading()
             }
         }
     }

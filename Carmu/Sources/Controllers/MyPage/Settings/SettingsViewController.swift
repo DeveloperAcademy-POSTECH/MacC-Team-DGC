@@ -55,12 +55,16 @@ final class SettingsViewController: UIViewController {
         let signOutAlert = UIAlertController(title: "로그아웃", message: "정말 로그아웃 하시겠습니까?", preferredStyle: .alert)
         let signOutCancel = UIAlertAction(title: "취소", style: .cancel)
         let signOutOK = UIAlertAction(title: "확인", style: .destructive) { _ in
+            self.showActivityIndicatorLoading(process: "로그아웃")
             let firebaseAuth = Auth.auth()
             do {
                 // 로그아웃 수행
                 try firebaseAuth.signOut()
                 // 키체인에 저장된 User Identifier를 삭제해준다.
                 KeychainItem.deleteUserDataFromKeychain(account: "userIdentifier")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    self.hideActivityIndicatorLoading()
+                }
             } catch let signOutError as NSError {
                 print("로그아웃 에러: \(signOutError)")
             }
@@ -120,6 +124,20 @@ final class SettingsViewController: UIViewController {
         } catch {
             print("유저와 관련된 크루 정보 삭제 중 오류 발생")
         }
+    }
+
+    private func showActivityIndicatorLoading(process: String) {
+        print("\(process) 대기 중...")
+        settingsView.isUserInteractionEnabled = false // 터치 이벤트 제한
+        settingsView.activityIndicator.startAnimating()
+        settingsView.activityIndicatorLabel.text = "\(process) 중..."
+        settingsView.activityIndicatorLabel.isHidden = false
+    }
+    private func hideActivityIndicatorLoading() {
+        print("대기 종료")
+        settingsView.isUserInteractionEnabled = true // 터치 이벤트 제한 해제
+        settingsView.activityIndicator.stopAnimating()
+        settingsView.activityIndicatorLabel.isHidden = true
     }
 }
 
@@ -228,6 +246,7 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
 
     // MARK: - 인증 성공 시 authorization을 리턴하는 메소드
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        showActivityIndicatorLoading(process: "회원 탈퇴")
         guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
             fatalError("Credential을 찾을 수 없습니다.")
         }
@@ -259,7 +278,10 @@ extension SettingsViewController: ASAuthorizationControllerDelegate {
                 try await Auth.auth().currentUser?.delete()
                 print("유저의 파이어베이스 Authentication 정보가 삭제되었습니다!!, \(String(describing: Auth.auth().currentUser))")
                 UserDefaults.standard.set(true, forKey: "isFirst") // isFirst값 초기화
-                (UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate)?.updateRootViewController()
+                // SceneDelegate의 updateRootViewController가 실행되며 대기하는 3초동안 기다린 후 activity indicator 숨김
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                    self.hideActivityIndicatorLoading()
+                }
             } catch {
                 print("회원탈퇴 처리 중 오류 발생")
             }

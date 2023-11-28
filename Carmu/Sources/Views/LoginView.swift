@@ -10,6 +10,25 @@ import UIKit
 
 final class LoginView: UIView {
 
+    // 로그인 처리 시 액티비티 인디케이터 뷰
+    lazy var activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = UIActivityIndicatorView.Style.large
+        activityIndicator.color = UIColor.semantic.backgroundThird
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.isHidden = true
+        return activityIndicator
+    }()
+    lazy var activityIndicatorLabel: UILabel = {
+        let activityIndicatorLabel = UILabel()
+        activityIndicatorLabel.text = "로그인 중..."
+        activityIndicatorLabel.textAlignment = .center
+        activityIndicatorLabel.font = UIFont.carmuFont.subhead3
+        activityIndicatorLabel.textColor = UIColor.semantic.textBody
+        activityIndicatorLabel.isHidden = true
+        return activityIndicatorLabel
+    }()
+
     // MARK: - 앱 로고
     lazy var appLogoView = GifView(gifName: "launchGif")
 
@@ -59,6 +78,8 @@ final class LoginView: UIView {
         addSubview(sloganLabel)
         addSubview(appleSignInButton)
         addSubview(corpName)
+        addSubview(activityIndicator)
+        addSubview(activityIndicatorLabel)
     }
 
     func setAutoLayout() {
@@ -84,6 +105,15 @@ final class LoginView: UIView {
         corpName.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.bottom.equalTo(safeAreaLayoutGuide).inset(16)
+        }
+
+        activityIndicator.snp.makeConstraints { make in
+            make.top.equalTo(appLogoView.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+        }
+        activityIndicatorLabel.snp.makeConstraints { make in
+            make.top.equalTo(activityIndicator.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
         }
     }
 }
