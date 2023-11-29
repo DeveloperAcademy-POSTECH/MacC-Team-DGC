@@ -80,6 +80,15 @@ final class InquiryViewController: UIViewController {
         sendMailErrorAlert.addAction(errorConfirm)
         self.present(sendMailErrorAlert, animated: true)
     }
+
+    // 앱스토어 리뷰 남기기 버튼 클릭 시
+    private func moveToAppStoreReview(appId: String) {
+        let url = "itms-apps://itunes.apple.com/app/\(appId)?action=write-review"
+        if let url = URL(string: url),
+           UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url)
+        }
+    }
 }
 
 // MARK: - 메일 보내기 관련 델리게이트 구현
@@ -139,8 +148,8 @@ extension InquiryViewController: UITableViewDelegate {
             print("이메일 문의하기")
             showEmailInquiryView()
         } else {
-            // TODO: - 평점 남기러 가기 구현하기
             print("평점 남기러 가기")
+            moveToAppStoreReview(appId: Bundle.main.appID)
         }
         // 클릭 후에는 셀의 선택이 해제된다.
         tableView.deselectRow(at: indexPath, animated: true)
