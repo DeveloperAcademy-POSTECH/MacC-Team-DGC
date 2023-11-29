@@ -15,7 +15,7 @@ final class CrewInfoCheckView: UIView {
     // 상단 크루 이름
     let crewNameLabel: UILabel = {
         let crewNameLabel = CrewMakeUtil.carmuCustomLabel(
-            text: "운좋은 카풀팟",
+            text: "행복유치원 셔틀",
             font: UIFont.carmuFont.display1,
             textColor: UIColor.semantic.textPrimary ?? .black
         )

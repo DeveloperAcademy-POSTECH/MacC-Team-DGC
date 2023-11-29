@@ -93,7 +93,7 @@ extension CrewEditViewController {
 
     // 완료 알럿
     private func showDoneAlert() {
-        let alert = UIAlertController(title: "크루 수정이 완료되었습니다.", message: nil, preferredStyle: .alert)
+        let alert = UIAlertController(title: "셔틀 수정이 완료되었습니다.", message: nil, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default) { [weak self] _ in
             self?.crewEditViewDelegte?.crewEditDoneButtonTapped(newUserCrewData: self?.newUserCrewData)
             self?.navigationController?.popViewController(animated: true)

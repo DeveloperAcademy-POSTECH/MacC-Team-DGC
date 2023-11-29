@@ -93,11 +93,11 @@ final class NoCrewFrontView: UIView {
     private lazy var comment: UILabel = {
         let label = UILabel()
 
-        let attributedText = NSMutableAttributedString(string: "아직 참여중인\n여정이 없어요", attributes: [
+        let attributedText = NSMutableAttributedString(string: "아직 참여중인\n셔틀이 없어요", attributes: [
             .font: UIFont.carmuFont.headline1
         ])
 
-        let body1LongText = NSMutableAttributedString(string: "\n\n여정을 만들어 보세요!", attributes: [
+        let body1LongText = NSMutableAttributedString(string: "\n\n셔틀을 만들어 보세요!", attributes: [
             .font: UIFont.carmuFont.body1Long,
             .foregroundColor: UIColor.semantic.textTertiary as Any
         ])
@@ -113,7 +113,7 @@ final class NoCrewFrontView: UIView {
 
     lazy var createCrewButton: UIButton = {
         let button = UIButton()
-        button.setTitle("크루 만들기", for: .normal)
+        button.setTitle("셔틀 만들기", for: .normal)
         button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
         button.titleLabel?.font = UIFont.carmuFont.subhead3
         button.backgroundColor = UIColor.semantic.accPrimary

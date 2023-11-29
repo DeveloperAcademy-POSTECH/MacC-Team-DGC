@@ -318,7 +318,7 @@ extension SessionStartView {
     }
 
     private func setUnderDriverDecline(crewData: Crew) {
-        underLabel.text = "오늘의 카풀 운행 여부를\n전달했어요"
+        underLabel.text = "오늘의 셔틀 운행 여부를\n전달했어요"
         underLabel.attributedText = setColorAndLineHeightToLabel(text: underLabel.text, coloredTexts: [" "], color: underLabelTintColor)
     }
 

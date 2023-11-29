@@ -29,7 +29,7 @@ final class CrewInfoNoCrewView: UIView {
     // 크루 없음 라벨
     private let noCrewLabel: UILabel = {
         let noCrewLabel = UILabel()
-        noCrewLabel.text = "아직 참여중인\n크루가 없어요"
+        noCrewLabel.text = "아직 참여중인\n셔틀이 없어요"
         noCrewLabel.numberOfLines = 0
         noCrewLabel.font = UIFont.carmuFont.headline1
         noCrewLabel.textColor = UIColor.semantic.textPrimary

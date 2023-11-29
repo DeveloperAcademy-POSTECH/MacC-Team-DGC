@@ -16,22 +16,14 @@ final class QuestionDetailView: UIView {
         questionLabel.numberOfLines = 0
         questionLabel.font = UIFont.carmuFont.headline2
         questionLabel.textColor = UIColor.semantic.textPrimary
-        let mainLabelText = "많은 사람들과 카풀을 하고 있는데, 크루는 하나 이상 만들 수는 없나요?"
+        let mainLabelText = "새로운 셔틀에 동참하려 해요\n셔틀은 하나 이상 만들 수는 없나요?"
         let attributedText = NSMutableAttributedString(string: mainLabelText)
-        if let range1 = mainLabelText.range(of: "카풀") {
+        if let range1 = mainLabelText.range(of: "하나 이상") {
             let nsRange1 = NSRange(range1, in: mainLabelText)
             attributedText.addAttribute(
                 NSAttributedString.Key.foregroundColor,
                 value: UIColor.semantic.accPrimary ?? .systemBlue,
                 range: nsRange1
-            )
-        }
-        if let range2 = mainLabelText.range(of: "하나 이상") {
-            let nsRange2 = NSRange(range2, in: mainLabelText)
-            attributedText.addAttribute(
-                NSAttributedString.Key.foregroundColor,
-                value: UIColor.semantic.accPrimary ?? .systemBlue,
-                range: nsRange2
             )
         }
         questionLabel.attributedText = attributedText
@@ -41,7 +33,7 @@ final class QuestionDetailView: UIView {
     // 상단 서브 문구
     private let subLabel: UILabel = {
         let subLabel = UILabel()
-        subLabel.text = "상세한 문의사항이 있으시다면 1:1 문의하기로 문의주세요!"
+        subLabel.text = "상세한 문의사항은 1:1 문의하기로 문의주세요"
         subLabel.font = UIFont.carmuFont.body2Long
         subLabel.textColor = UIColor.semantic.textBody
         return subLabel

@@ -16,9 +16,9 @@ final class PrivacyView: UIView {
         mainLabel.numberOfLines = 0
         mainLabel.font = UIFont.carmuFont.headline2
         mainLabel.textColor = UIColor.semantic.textPrimary
-        let mainLabelText = "당신의 카풀생활이\n오래갈 수 있도록 Carmu."
+        let mainLabelText = "당신의 셔틀이\n좀 더 편리하도록 Carmu."
         let attributedText = NSMutableAttributedString(string: mainLabelText)
-        if let range1 = mainLabelText.range(of: "카풀생활") {
+        if let range1 = mainLabelText.range(of: "셔틀") {
             let nsRange1 = NSRange(range1, in: mainLabelText)
             attributedText.addAttribute(
                 NSAttributedString.Key.foregroundColor,

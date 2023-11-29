@@ -31,7 +31,7 @@ final class SessionFinishViewController: UIViewController {
         label.numberOfLines = 2
         label.textAlignment = .center
         let attributedStr = NSMutableAttributedString(string: label.text ?? "")
-        let range = (label.text as? NSString ?? "").range(of: "카풀 운행")
+        let range = (label.text as? NSString ?? "").range(of: "셔틀 운행")
         attributedStr.addAttribute(.foregroundColor, value: UIColor.semantic.accPrimary ?? UIColor.blue, range: range)
         label.attributedText = attributedStr
         return label
