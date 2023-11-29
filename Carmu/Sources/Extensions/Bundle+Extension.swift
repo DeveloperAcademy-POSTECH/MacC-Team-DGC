@@ -30,4 +30,15 @@ extension Bundle {
         }
         return value
     }
+
+    var appID: String {
+        guard let filePath = Bundle.main.path(forResource: "SecureKey-Info", ofType: "plist") else {
+            fatalError("Couldn't find file 'SecureKey-Info.plist'.")
+        }
+        let plist = NSDictionary(contentsOfFile: filePath)
+        guard let value = plist?.object(forKey: "AppID") as? String else {
+            fatalError("Couldn't find key 'AppID' in 'SecureKey-Info.plist'.")
+        }
+        return value
+    }
 }
