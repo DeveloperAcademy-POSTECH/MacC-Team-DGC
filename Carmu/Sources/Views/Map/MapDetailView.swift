@@ -23,34 +23,24 @@ final class MapDetailView: UIView {
     }()
 
     let giveUpButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-
-        var titleContainer = AttributeContainer()
-        titleContainer.font = UIFont.carmuFont.headline2
-        titleContainer.foregroundColor = UIColor.semantic.textSecondary
-
-        config.attributedTitle = AttributedString("포기하기", attributes: titleContainer)
-        config.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20)
-        config.cornerStyle = .capsule
-        config.baseBackgroundColor = UIColor.semantic.negative
-
-        let button = UIButton(configuration: config)
+        let button = UIButton()
+        button.backgroundColor = UIColor.semantic.negative
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.setBackgroundColor(UIColor.semantic.negativePressed ?? .systemRed, forState: .highlighted)
+        button.titleLabel?.font = UIFont.carmuFont.headline1
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
         return button
     }()
 
     let noticeLateButton: UIButton = {
-        var config = UIButton.Configuration.filled()
-
-        var titleContainer = AttributeContainer()
-        titleContainer.font = UIFont.carmuFont.headline2
-        titleContainer.foregroundColor = UIColor.semantic.textSecondary
-
-        config.attributedTitle = AttributedString("지각 알리기", attributes: titleContainer)
-        config.contentInsets = NSDirectionalEdgeInsets(top: 16, leading: 20, bottom: 16, trailing: 20)
-        config.cornerStyle = .capsule
-        config.baseBackgroundColor = UIColor.semantic.accPrimary
-
-        let button = UIButton(configuration: config)
+        let button = UIButton()
+        button.backgroundColor = UIColor.semantic.accPrimary
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.setBackgroundColor(UIColor.semantic.accPrimaryPressed ?? .systemRed, forState: .highlighted)
+        button.titleLabel?.font = UIFont.carmuFont.headline1
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
         return button
     }()
 
@@ -105,18 +95,13 @@ final class MapDetailView: UIView {
     }()
 
     let finishShuttleButton = {
-        var config = UIButton.Configuration.filled()
-
-        var titleContainer = AttributeContainer()
-        titleContainer.font = UIFont.carmuFont.headline2
-        titleContainer.foregroundColor = UIColor.semantic.textSecondary
-
-        config.attributedTitle = AttributedString("운행 종료하기", attributes: titleContainer)
-        config.contentInsets = NSDirectionalEdgeInsets(top: 13, leading: 20, bottom: 13, trailing: 20)
-        config.cornerStyle = .capsule
-        config.baseBackgroundColor = UIColor.semantic.accPrimary
-
-        let button = UIButton(configuration: config)
+        let button = UIButton()
+        button.backgroundColor = UIColor.semantic.accPrimary
+        button.setTitleColor(UIColor.semantic.textSecondary, for: .normal)
+        button.setBackgroundColor(UIColor.semantic.accPrimaryPressed ?? .systemRed, forState: .highlighted)
+        button.titleLabel?.font = UIFont.carmuFont.headline2
+        button.layer.cornerRadius = 30
+        button.layer.masksToBounds = true
         return button
     }()
 
@@ -126,8 +111,9 @@ final class MapDetailView: UIView {
         }
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(crew: Crew) {
+        self.crew = crew
+        super.init(frame: .zero)
         backgroundColor = UIColor.semantic.backgroundDefault
     }
 
@@ -137,7 +123,8 @@ final class MapDetailView: UIView {
 
     override func draw(_ rect: CGRect) {
         showTitleLabel()
-        showBottomButtons()
+        initBottomButton()
+        changeBottomButton()
         if firebaseManager.isDriver(crewData: crew) {
             showDetailForDriver()
         } else {
@@ -207,16 +194,18 @@ final class MapDetailView: UIView {
         }
     }
 
-    private func showBottomButtons() {
+    private func initBottomButton() {
         let bottomPadding = 48
         let outsidePadding = 20
         let insidePadding = frame.size.width / 2 + 5
+        let height = 60
 
         addSubview(giveUpButton)
         giveUpButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(outsidePadding)
             make.trailing.equalToSuperview().inset(insidePadding)
             make.bottom.equalToSuperview().inset(bottomPadding)
+            make.height.equalTo(height)
         }
 
         addSubview(noticeLateButton)
@@ -224,27 +213,26 @@ final class MapDetailView: UIView {
             make.leading.equalToSuperview().inset(insidePadding)
             make.trailing.equalToSuperview().inset(outsidePadding)
             make.bottom.equalToSuperview().inset(bottomPadding)
+            make.height.equalTo(height)
         }
-    }
-
-    func showFinishShuttleButton() {
-        // '운행 종료하기' 버튼 표시 전에 기존 버튼들 제거
-        giveUpButton.removeFromSuperview()
-        noticeLateButton.removeFromSuperview()
-
-        let padding = 20
 
         addSubview(finishShuttleButton)
         finishShuttleButton.snp.makeConstraints { make in
-            make.horizontalEdges.equalToSuperview().inset(padding)
-            make.bottom.equalToSuperview().inset(48)
+            make.horizontalEdges.equalToSuperview().inset(outsidePadding)
+            make.bottom.equalToSuperview().inset(bottomPadding)
+            make.height.equalTo(height)
         }
+    }
 
-        // 스크롤뷰 제약조건 '카풀 종료하기' 버튼에 맞춰 재정의
-        crewScrollView.snp.remakeConstraints { make in
-            make.top.equalTo(latenessTitleLabel.snp.bottom).offset(12)
-            make.leading.trailing.equalToSuperview().inset(padding)
-            make.bottom.equalTo(finishShuttleButton.snp.top).offset(-padding)
+    func changeBottomButton(isDriverArriaved: Bool = false) {
+        if isDriverArriaved {
+            giveUpButton.hideButton()
+            noticeLateButton.hideButton()
+            finishShuttleButton.showButton(title: "운행 종료하기", buttonColor: UIColor.semantic.accPrimary)
+        } else {
+            giveUpButton.showButton(title: "포기하기", buttonColor: UIColor.semantic.negative)
+            noticeLateButton.showButton(title: "지각 알리기", buttonColor: UIColor.semantic.accPrimary)
+            finishShuttleButton.hideButton()
         }
     }
 

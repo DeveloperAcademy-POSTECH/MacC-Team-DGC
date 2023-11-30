@@ -15,7 +15,7 @@ import SnapKit
 final class MapViewController: UIViewController {
 
     private lazy var mapView = MapView(crew: crew)
-    private lazy var detailView = MapDetailView()
+    private lazy var detailView = MapDetailView(crew: crew)
 
     private let locationManager = CLLocationManager()
 
@@ -370,12 +370,13 @@ extension MapViewController: CLLocationManagerDelegate {
             // 운전자인 경우 DB에 위도, 경도 업데이트
             firebaseManager.updateDriverCoordinate(coordinate: location.coordinate, crewID: crew.id)
             // 도착지로부터 200m 이내인 경우 하단 레이아웃 변경, 15분 후 셔틀 종료 안내 얼럿
-            if distanceFromDestination(current: location) <= 200.0 {
-                detailView.showFinishShuttleButton()
+            let isArrived = distanceFromDestination(current: location) <= 200.0
+            if isArrived {
                 DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + 900) {
                     self.showFinishedAlertForDriver()
                 }
             }
+            detailView.changeBottomButton(isDriverArriaved: isArrived)
         } else {
             mapView.updateMyPositionMarker(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             myCurrentCoordinate = location.coordinate
