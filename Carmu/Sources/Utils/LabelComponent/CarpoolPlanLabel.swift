@@ -20,7 +20,7 @@ final class CarpoolPlanLabel: UILabel {
     }
 
     private func commonInit() {
-        text = "셔틀 계획 보러가기 >"
+        text = "셔틀 규칙 보러가기 >"
         font = UIFont.carmuFont.body1Long
         textColor = UIColor.semantic.accPrimary
     }
