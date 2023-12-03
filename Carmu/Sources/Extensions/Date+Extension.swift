@@ -52,4 +52,8 @@ extension Date {
         dateFormatter.timeZone = .autoupdatingCurrent
         return dateFormatter.string(from: self)
     }
+
+    func withAddedMinutes(minutes: UInt) -> Date {
+        addingTimeInterval(Double(minutes) * 60)
+    }
 }

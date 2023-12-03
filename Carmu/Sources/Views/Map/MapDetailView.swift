@@ -237,10 +237,10 @@ final class MapDetailView: UIView {
     }
 
     private func changeTimeLabel() {
-        guard let crew = crew, let myPickUpLocation = FirebaseManager().myPickUpLocation(crew: crew) else { return }
-        guard let splitted = myPickUpLocation.arrivalTime?.toString24HourClock.split(separator: ":") else { return }
-        let minutes = (UInt(splitted[0]) ?? 0) * 60 + (UInt(splitted[1]) ?? 0) + crew.lateTime
-        pickUpTimeLabel.text = "\(minutes / 60):\(minutes % 60)"
+        guard let crew = crew,
+              let myPickUpLocation = FirebaseManager().myPickUpLocation(crew: crew),
+              let time = myPickUpLocation.arrivalTime else { return }
+        pickUpTimeLabel.text = time.withAddedMinutes(minutes: crew.lateTime).toString24HourClock
         pickUpTimeLabel.textColor = crew.lateTime > 0 ? UIColor.semantic.negative : UIColor.semantic.accPrimary
         lateTimeLabel.text = "(+\(crew.lateTime)분)"
     }
