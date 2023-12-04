@@ -287,7 +287,9 @@ final class MapViewController: UIViewController {
     private func showDismissAlert(title: String?, message: String?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let confirmAction = UIAlertAction(title: "확인", style: .default) { _ in
-            self.dismiss(animated: true)
+            self.dismiss(animated: true) {
+                self.locationManager.stopUpdatingLocation()
+            }
         }
         alert.addAction(confirmAction)
         present(alert, animated: true)
