@@ -122,6 +122,9 @@ final class MapView: UIView {
         }
 
         showPoints()
+        if let coordinate = crew.driverCoordinate {
+            updateCarMarker(latitide: coordinate.latitude, longitude: coordinate.longitude)
+        }
     }
 
     func showPoints() {

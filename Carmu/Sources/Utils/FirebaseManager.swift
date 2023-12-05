@@ -659,11 +659,15 @@ extension FirebaseManager {
 
     func startObservingDriverCoordinate(crewID: String?, completion: @escaping (Double, Double) -> Void) {
         guard let crewID = crewID else { return }
-        Database.database().reference().child("crew/\(crewID)").observe(.childChanged, with: { snapshot in
-            if let messageData = snapshot.value as? [String: Any],
-               let latitude = messageData["latitude"] as? Double,
-               let longitude = messageData["longitude"] as? Double {
-                completion(latitude, longitude)
+
+        Database.database().reference().child("crew/\(crewID)/driverCoordinate").observe(.value, with: { snapshot in
+            do {
+                guard let snapshotValue = snapshot.value as? [String: Any] else { return }
+                let jsonData = try JSONSerialization.data(withJSONObject: snapshotValue)
+                let coordinate = try JSONDecoder().decode(Coordinate.self, from: jsonData)
+                completion(coordinate.latitude, coordinate.longitude)
+            } catch {
+                print("Error decoding data: \(error.localizedDescription)")
             }
         })
     }
