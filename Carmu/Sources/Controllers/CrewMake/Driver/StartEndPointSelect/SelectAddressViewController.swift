@@ -32,8 +32,7 @@ final class SelectAddressViewController: UIViewController {
     }
     private let koreaBounds = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 36.34, longitude: 127.77),
-        latitudinalMeters: 200000,
-        longitudinalMeters: 200000
+        span: MKCoordinateSpan(latitudeDelta: 2, longitudeDelta: 2)
     )
 
     override func viewDidLoad() {
